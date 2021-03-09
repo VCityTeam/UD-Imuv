@@ -1,7 +1,7 @@
 {
-  "name": "demostable",
+  "name": "demofull",
   "version": "1.0.0",
-  "description": "demo stable of udv widgets",
+  "description": "demo full of udv widgets",
   "main": "./src/bootstrap.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
