@@ -12,7 +12,7 @@ const $3DTemporalTileset = Widgets.$3DTemporalTileset
 import * as itowns from "itowns";
 import * as THREE from "three";
 import proj4 from "proj4";
-import jquery from "jquery"; //save as a dev dep because do not belong to UDV package
+const jquery = require("jquery");
 
 
 /**

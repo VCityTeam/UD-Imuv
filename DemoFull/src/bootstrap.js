@@ -1,6 +1,6 @@
 /** @format */
 
-import {Widgets, Components} from 'udv';
+import { Widgets, Components } from 'udv';
 import { BaseDemo } from './ScaffoldHelpers/BaseDemo';
 import './style.css';
 
@@ -136,7 +136,11 @@ baseDemo.loadConfigFile('./demo-config.json').then(() => {
   }
 
   ////// LINKS MODULES
-  if (documentModule && cityObjectModule && baseDemo.config.widgets.linkModule) {
+  if (
+    documentModule &&
+    cityObjectModule &&
+    baseDemo.config.widgets.linkModule
+  ) {
     const linkModule = new Widgets.LinkModule(
       documentModule,
       cityObjectModule,
