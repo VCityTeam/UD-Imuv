@@ -14,7 +14,7 @@ import * as THREE from "three";
 import proj4 from "proj4";
 const jquery = require("jquery");
 
-
+import './BaseDemo.css';
 /**
  * Represents the base HTML content of a demo for UD-Viz and provides methods to
  * dynamically add module views.

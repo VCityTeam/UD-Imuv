@@ -2,7 +2,6 @@
 
 import { Widgets, Components } from 'udv';
 import { BaseDemo } from './ScaffoldHelpers/BaseDemo';
-import './style.css';
 
 const baseDemo = new BaseDemo();
 baseDemo.appendTo(document.body);
