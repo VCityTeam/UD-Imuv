@@ -57,7 +57,7 @@ module.exports = (env) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        title: 'DemoFull dev',
+        title: 'Demo debug',
         filename: 'index.html',
       }),
     ],

@@ -1,12 +1,12 @@
 {
   "name": "demofull",
   "version": "1.0.0",
-  "description": "demo full of udv widgets",
+  "description": "demo of udv widgets",
   "main": "./src/bootstrap.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "build-dev": "cross-env NODE_ENV=development webpack",
-    "dev": "cross-env NODE_ENV=development webpack serve"
+    "build-debug": "cross-env NODE_ENV=development webpack",
+    "debug": "cross-env NODE_ENV=development webpack serve"
   },
   "author": "",
   "license": "ISC",
@@ -15,7 +15,7 @@
     "jquery": "^1.0.0",
     "proj4": "^2.6.2",
     "three": "^0.122.0",
-    "udv": "file:../../UD-Viz/"
+    "ud-viz": "^2.28.2"
   },
   "devDependencies": {
     "child-process-promise": "^2.2.1",
