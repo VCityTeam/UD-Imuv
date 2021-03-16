@@ -1,0 +1,8 @@
+{
+  "thread": {
+    "fps": 40,
+    "script": "./assets/scripts/thread.js"
+  },
+  "port": 8080,
+  "folder": "./"
+}

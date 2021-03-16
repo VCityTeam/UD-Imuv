@@ -2,12 +2,12 @@ echo -n "Project name: "
 read name
 
 PS3="Choose a template number: "
-options=(widget)
+options=(widget, gameServer)
 select template in "${options[@]}";
 do
   echo -e "you picked $template ($REPLY)"
-  if [ "$template" == "widget" ]
-  then
+  if [[ " ${options[@]} " =~ " $template " ]]; then
+    # whatever you want to do when array contains value
     echo -e "Init new project $name with template $template"
     break;
   else
@@ -26,4 +26,3 @@ rm -rf UD-Viz-demo-scaffold/
 
 cd ""$name
 npm i
-npm run debug

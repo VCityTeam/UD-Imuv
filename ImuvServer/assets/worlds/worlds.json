@@ -1,0 +1,23 @@
+[
+  {
+    "type": "World",
+    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+    "name": "Default World",
+    "origin": { "lat": 0, "lng": 0, "alt": 0 },
+    "gameObject": {
+      "name": "Default World",
+      "type": "GameObject",
+      "static": true,
+      "outdated": true,
+      "uuid": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
+      "parentUUID": null,
+      "components": [],
+      "children": [],
+      "transform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
+  }
+]

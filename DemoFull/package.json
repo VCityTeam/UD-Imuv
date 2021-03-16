@@ -1,5 +1,5 @@
 {
-  "name": "demofull",
+  "name": "app_name",
   "version": "1.0.0",
   "description": "demo of udv widgets",
   "main": "./src/bootstrap.js",

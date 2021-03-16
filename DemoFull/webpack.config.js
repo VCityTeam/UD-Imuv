@@ -43,8 +43,8 @@ module.exports = (env) => {
     devtool: devTool,
     output: {
       path: outputPath,
-      filename: 'demofull.js',
-      library: 'demofull',
+      filename: 'app_name.js',
+      library: 'app_name',
       libraryTarget: 'umd',
       umdNamedDefine: true,
     },
