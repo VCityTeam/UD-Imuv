@@ -8,8 +8,7 @@ const workerThreads = require('worker_threads');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
 
-//Import like this from node_modules because server cant build all sources of udv
-const udvShared = require('../../node_modules/ud-viz/src/Game/Shared/Shared');
+const udvShared = require('ud-viz/src/Game/Shared/Shared');
 const Data = udvShared.Data;
 const Command = udvShared.Command;
 const GameObject = udvShared.GameObject;

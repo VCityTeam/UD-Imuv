@@ -1,7 +1,6 @@
 /** @format */
 
-//Import like this from node_modules because server cant build all sources of udv
-const udvShared = require('../../node_modules/ud-viz/src/Game/Shared/Shared');
+const udvShared = require('ud-viz/src/Game/Shared/Shared');
 const Data = udvShared.Data;
 const Command = udvShared.Command;
 const WorldState = udvShared.WorldState;

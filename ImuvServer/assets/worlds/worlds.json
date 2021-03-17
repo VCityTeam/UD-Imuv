@@ -2,17 +2,139 @@
   {
     "type": "World",
     "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-    "name": "Default World",
-    "origin": { "lat": 0, "lng": 0, "alt": 0 },
+    "name": "Flying Campus World",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "gameObject": {
-      "name": "Default World",
+      "name": "Flying Campus Map",
       "type": "GameObject",
       "static": true,
       "outdated": true,
       "uuid": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
       "parentUUID": null,
-      "components": [],
-      "children": [],
+      "components": [
+        {
+          "uuid": "5A407D42-0B89-43B7-BF19-604A54C067D7",
+          "type": "RenderComponent",
+          "idModel": "flying_campus"
+        },
+        {
+          "uuid": "A18CF9CD-CDE7-42FD-A88B-FCE457155FB5",
+          "idScripts": ["map"],
+          "data": {
+            "heightmap_path": "./assets/worlds/heightmap/heightmap_1.png",
+            "heightmap_geometry": {
+              "bounding_box": {
+                "min": { "x": 0, "y": 0, "z": 0 },
+                "max": {
+                  "x": 135.21171951293945,
+                  "y": 172.97806549072266,
+                  "z": 109.83682773461547
+                }
+              },
+              "heightmap_min": 45.03309937119234,
+              "heightmap_max": 73.59067458219236
+            }
+          },
+          "type": "ScriptComponent"
+        },
+        {
+          "uuid": "AB1A5804-7951-4B0D-B183-87D0FD5A51A2",
+          "type": "BodyComponent",
+          "shapes": []
+        }
+      ],
+      "children": [
+        {
+          "name": "avatar",
+          "type": "GameObject",
+          "static": false,
+          "outdated": false,
+          "uuid": "11FEFF31-F1C9-4DE3-86F4-7CF17AF6242F",
+          "parentUUID": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
+          "components": [
+            {
+              "uuid": "6A5D0B6B-4997-45E1-9ED3-6EDEA8FE4752",
+              "type": "BodyComponent",
+              "shapes": [
+                {
+                  "type": "Circle",
+                  "center": { "x": 0, "y": 0 },
+                  "radius": 0.5
+                }
+              ]
+            },
+            {
+              "uuid": "023B7A0D-2EBA-4448-8302-7F44F63911F7",
+              "type": "RenderComponent",
+              "idModel": "avatar"
+            },
+            {
+              "uuid": "BBFC34ED-3296-4403-88A0-E9CAC1E06BA9",
+              "idScripts": ["avatar"],
+              "type": "ScriptComponent"
+            }
+          ],
+          "children": [],
+          "transform": {
+            "position": {
+              "x": 33.713603786071914,
+              "y": 34.69851522840198,
+              "z": 62.279634988815886
+            },
+            "rotation": {
+              "x": 0.3141592653589793,
+              "y": 0,
+              "z": 2.526960292819986
+            },
+            "scale": { "x": 1, "y": 1, "z": 1 }
+          }
+        },
+        {
+          "name": "avatar",
+          "type": "GameObject",
+          "static": false,
+          "outdated": false,
+          "uuid": "2002E29A-4107-4857-88C1-4D296CA16CC8",
+          "parentUUID": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
+          "components": [
+            {
+              "uuid": "4D3FF947-2777-491B-B0DD-0AA4FAB51442",
+              "type": "BodyComponent",
+              "shapes": [
+                {
+                  "type": "Circle",
+                  "center": { "x": 0, "y": 0 },
+                  "radius": 0.5
+                }
+              ]
+            },
+            {
+              "uuid": "DFB3A409-0CE2-484D-B2A7-2BDD842E83D2",
+              "type": "RenderComponent",
+              "idModel": "avatar"
+            },
+            {
+              "uuid": "15094885-BD3C-4C09-BC6B-9952FE02BD24",
+              "idScripts": ["avatar"],
+              "type": "ScriptComponent"
+            }
+          ],
+          "children": [],
+          "transform": {
+            "position": {
+              "x": 60.67331335479742,
+              "y": 92.55855507060676,
+              "z": 71.35086476172177
+            },
+            "rotation": {
+              "x": 0.3141592653589793,
+              "y": 0,
+              "z": 3.376268964101488
+            },
+            "scale": { "x": 1, "y": 1, "z": 1 }
+          }
+        }
+      ],
       "transform": {
         "position": { "x": 0, "y": 0, "z": 0 },
         "rotation": { "x": 0, "y": 0, "z": 0 },

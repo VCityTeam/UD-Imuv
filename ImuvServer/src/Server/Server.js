@@ -8,8 +8,7 @@ const socketio = require('socket.io');
 const WorldThread = require('./WorldThread');
 const User = require('./User');
 
-//Import like this from node_modules because server cant build all sources of udv
-const udvShared = require('../../node_modules/ud-viz/src/Game/Shared/Shared');
+const udvShared = require('ud-viz/src/Game/Shared/Shared');
 
 const ServerModule = class Server {
   constructor(config) {

@@ -18,12 +18,13 @@
     "gm": "^1.23.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
-    "ud-viz": "^2.28.4"
+    "ud-viz": "file:../../UD-Viz"
   },
   "devDependencies": {
     "child-process-promise": "^2.2.1",
     "nodemon": "^2.0.7",
-    "webpack": "^3.0.0",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.5.0",
     "webpack-node-externals": "^2.5.2"
   }
 }

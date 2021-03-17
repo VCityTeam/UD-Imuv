@@ -39,7 +39,7 @@ module.exports = (env) => {
 
   return {
     mode,
-    entry: path.resolve(__dirname, './src/bootstrap.js'),
+    entry: [path.resolve(__dirname, './src/bootstrap.js')],
     devtool: devTool,
     output: {
       path: outputPath,

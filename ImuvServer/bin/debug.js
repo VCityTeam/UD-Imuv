@@ -8,10 +8,11 @@ const printExec = function (result) {
   console.log('stderr: \n', result.stderr);
 };
 
+console.log('Build\n');
 exec('npm run build')
   .then(printExec)
   .then(function () {
-    console.log('Launch bundle');
+    console.log('Launch bundle\n');
     var child = spawn('node', ['./index.js']);
     child.stdout.on('data', (data) => {
       console.log(`child stdout:\n${data}`);
