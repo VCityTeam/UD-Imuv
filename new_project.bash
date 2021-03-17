@@ -2,7 +2,7 @@ echo -n "Project name: "
 read name
 
 PS3="Choose a template number: "
-options=("widget" "gameServer")
+options=("widget" "gameServer" "game")
 select template in "${options[@]}";
 do
   echo -e "you picked $template ($REPLY)"
