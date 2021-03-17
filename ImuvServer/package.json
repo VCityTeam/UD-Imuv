@@ -18,7 +18,7 @@
     "gm": "^1.23.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
-    "ud-viz": "file:../../UD-Viz"
+    "ud-viz": "^2.29.0"
   },
   "devDependencies": {
     "child-process-promise": "^2.2.1",
