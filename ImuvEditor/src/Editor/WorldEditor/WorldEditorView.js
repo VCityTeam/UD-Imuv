@@ -4,8 +4,6 @@ import './WorldEditor.css';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/RenderComponent';
 import { GameView } from 'ud-viz/src/Game/Client/GameView/GameView';
 
-const THREE = require('three');
-
 export class WorldEditorView {
   constructor(config, assetsManager) {
     this.config = config;
