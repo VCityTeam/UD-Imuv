@@ -1,7 +1,27 @@
 # UD-Viz-demo
-Demonstrations provided with UDSV
+Demonstrations illustating some usages of the [UD-Viz JS library](https://github.com/VCityTeam/UD-Viz/).
 
+The following sub-directories are independent applications
+```
+DemoFull: client application (working with vanilla http server)
+ImuvEditor: client application (working with vanilla http server)
+Imuv: client application (working with the ImuvServer )
+ImuvServer: a node application (providing an http server and expecting Imuv client connections)
+```
 
+The simple (using a vanilla http server) client applications can be locally (on your desktop)
+started in the following way
+```
+cd DemoFull
+npm install
+npm run debug      # integrates building
+```
+and then use your favorite (web) browser to open
+`http://localhost:8000/`.
+
+If you wish to launch the application on a different port
+
+### FIXME: the following content is to be updated/deleted/scattered/anihilated/<you-name-it>
 Notes:
  * If you want to change the listening port use
    ```bash
