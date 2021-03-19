@@ -1,4 +1,4 @@
-echo -n "Project name: "
+echo -n "Folder name: "
 read name
 
 PS3="Choose a template number: "

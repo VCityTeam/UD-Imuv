@@ -84,10 +84,10 @@ const ServerModule = class Server {
     this.io = socketio(this.server);
 
     //cb
-    this.registerCallbacks();
+    this.initCallback();
   }
 
-  registerCallbacks() {
+  initCallback() {
     //server callbacks
     this.io.on('connection', this.registerClient.bind(this));
   }
