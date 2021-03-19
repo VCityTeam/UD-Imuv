@@ -10,12 +10,14 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies":{
     "@egjs/hammerjs": "^2.0.17",
     "jquery": "^1.0.0",
     "keycharm": "^0.4.0",
+    "proj4": "^2.7.0",
+    "three": "0.125.2",
     "timsort": "^0.3.0",
-    "ud-viz": "^2.29.0",
+    "ud-viz": "file:../../UD-Viz",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },
