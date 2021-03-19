@@ -19,6 +19,10 @@ li:hover {
   background-color: blueviolet;
 }
 
+.parentUI_Editor {
+  display: unset;
+}
+
 .root_Editor {
   height: 100%;
   background-color: chartreuse;

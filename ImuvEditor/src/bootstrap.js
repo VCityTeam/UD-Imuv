@@ -9,7 +9,7 @@ const AppModule = class App {
   constructor() {
     this.editor = null;
 
-    //DEBUG
+    //DEBUG 
     window.UDVDebugger = new UDVDebugger(document.body);
   }
 

@@ -34,20 +34,24 @@ export class Editor {
   }
 
   initUI() {
+    const parentUI = document.createElement('div');
+    parentUI.classList.add('parentUI_Editor');
+    this.rootHtml.appendChild(parentUI); 
+  
     //open a world
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
-    this.rootHtml.appendChild(input);
+    parentUI.appendChild(input);
     this.input = input; //ref
 
     const worldsList = document.createElement('ul');
-    this.rootHtml.appendChild(worldsList);
+    parentUI.appendChild(worldsList);
     this.worldsList = worldsList;
 
     //flex parent
     const parentFlex = document.createElement('div');
     parentFlex.style.display = 'flex';
-    this.rootHtml.appendChild(parentFlex);
+    parentUI.appendChild(parentFlex);
 
     //switch view
     const switchView = document.createElement('div');
