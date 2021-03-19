@@ -15,14 +15,5 @@ module.exports = () => {
       libraryTarget: 'umd',
       umdNamedDefine: true,
     },
-    resolve: { mainFields: ['module', 'jsnext:main', 'browser', 'main'] },
-    module: {
-      rules: [
-        {
-          test: require('path').resolve(__dirname, 'node_modules'),
-          resolve: { mainFields: ['module', 'jsnext:main', 'browser', 'main'] },
-        },
-      ],
-    },
   };
 };

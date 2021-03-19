@@ -1,8 +1,8 @@
-echo -n "Project name: "
+echo -n "Folder name: "
 read name
 
 PS3="Choose a template number: "
-options=("widget" "gameServer" "game")
+options=("widget" "gameServer" "gameClient" "gameEditor")
 select template in "${options[@]}";
 do
   echo -e "you picked $template ($REPLY)"

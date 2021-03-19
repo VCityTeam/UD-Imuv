@@ -1,5 +1,6 @@
 **/idea/
 **/node_modules/
+**/TODO.txt
 **/package-lock.json
 **/dist
 **/lib
