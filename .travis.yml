@@ -8,6 +8,18 @@ node_js:
 
 jobs:
   include:
-    - stage: testImuv
+    - stage: DemoFull
       script:
-        - cd Imuv && npm install
+        - cd DemoFull && npm install && npm build
+    - stage: Imuv
+      script:
+        - cd Imuv && npm install && npm build
+    - stage: ImuvEditor
+      script:
+        - cd ImuvEditor && npm install && npm build
+    - stage: ImuvServer
+      script:
+        - cd ImuvServer && npm install && npm build
+    - stage: SimpleServer
+      script:
+        - cd SimpleServer && npm install && npm build
