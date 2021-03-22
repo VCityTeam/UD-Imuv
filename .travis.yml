@@ -16,4 +16,4 @@ jobs:
   include:
     - stage: testImuv
       script:
-        - cd Imuv && npm i
+        - cd Imuv && npm install
