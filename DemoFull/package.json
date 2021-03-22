@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.125.2",
+    "three": "0.125.2",
     "@egjs/hammerjs": "^2.0.17",
     "jquery": "^1.0.0",
     "keycharm": "^0.4.0",
