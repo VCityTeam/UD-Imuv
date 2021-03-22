@@ -16,4 +16,4 @@ jobs:
   include:
     - stage: testDemoFull
       script:
-        - cd DemoFull && npm run build
+        - cd DemoFull && npm i && npm run build
