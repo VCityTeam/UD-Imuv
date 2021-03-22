@@ -5,12 +5,9 @@ const debugBuild = mode === 'development';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let outputPath;
-let devTool;
 if (debugBuild) {
-  devTool = 'source-map';
   outputPath = path.resolve(__dirname, 'dist/debug');
 } else {
-  devTool = 'none';
   outputPath = path.resolve(__dirname, 'dist/release');
 }
 
@@ -46,10 +43,9 @@ module.exports = (env) => {
       })
     );
 
-  return {
+  const config = {
     mode,
     entry: [path.resolve(__dirname, './src/bootstrap.js')],
-    devtool: devTool,
     output: {
       path: outputPath,
       filename: 'app_name.js',
@@ -66,4 +62,8 @@ module.exports = (env) => {
     },
     plugins: plugins,
   };
+
+  if (debugBuild) config.devtool = 'source-map';
+
+  return config;
 };
