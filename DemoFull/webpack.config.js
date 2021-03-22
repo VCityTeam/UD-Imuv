@@ -37,6 +37,15 @@ module.exports = (env) => {
     },
   ];
 
+  const plugins = [];
+  if (debugBuild)
+    plugins.push(
+      new HtmlWebpackPlugin({
+        title: 'Demo debug',
+        filename: 'index.html',
+      })
+    );
+
   return {
     mode,
     entry: [path.resolve(__dirname, './src/bootstrap.js')],
@@ -55,11 +64,6 @@ module.exports = (env) => {
       port: 8000,
       hot: true,
     },
-    plugins: [
-      new HtmlWebpackPlugin({
-        title: 'Demo debug',
-        filename: 'index.html',
-      }),
-    ],
+    plugins: plugins,
   };
 };
