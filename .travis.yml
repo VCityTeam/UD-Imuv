@@ -1,3 +1,5 @@
+# @format
+
 os: linux
 dist: focal
 language: node_js
@@ -12,10 +14,6 @@ install:
 
 jobs:
   include:
-    - stage: test
+    - stage: testDemoFull
       script:
-        - npm run test
-  # - stage: lint
-  #   script:
-  #     - ./node_modules/eslint/bin/eslint.js --version
-  #     - npm run lint
+        - cd DemoFull && npm run build
