@@ -13,7 +13,7 @@ exec('npm run build-debug')
   .then(printExec)
   .then(function () {
     console.log('Launch bundle\n');
-    var child = spawn('node', ['./index.js']);
+    var child = spawn('node', ['./index.js', '../DemoFull', '8000']);
     child.stdout.on('data', (data) => {
       console.log(`child stdout:\n${data}`);
     });
