@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "simple_server",
   "version": "1.0.0",
-  "description": "application hosting a udv game",
+  "description": "application to create a simple server",
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
@@ -10,17 +10,12 @@
     "clear-node": "sudo killall -9 node"
   },
   "keywords": [
-    "game"
+    "server"
   ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "gm": "^1.23.1",
-    "pngjs": "^6.0.0",
-    "socket.io": "^4.0.0",
-    "three": "0.125.2",
-    "ud-viz": "^2.29.0"
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
