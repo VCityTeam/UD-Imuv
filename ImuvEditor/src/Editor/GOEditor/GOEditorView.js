@@ -32,7 +32,7 @@ export class GOEditorView {
     this.assetsManager = assetsManager;
 
     //model
-    this.model = null;
+    this.model = new GOEditorModel(assetsManager);
 
     this.pause = false;
 
@@ -40,7 +40,8 @@ export class GOEditorView {
 
     //camera
 
-    this.camera = new THREE.OrthographicCamera(0, 0, 0, 0, 0, 10000);
+    this.camera = new THREE.OrthographicCamera(0, 0, 0, 0, -3000, 3000);
+    this.camera.up.set( 0, 0, 1 );
 
     //renderer
     this.renderer = new THREE.WebGLRenderer({ canvas: canvas });
@@ -49,7 +50,10 @@ export class GOEditorView {
     this.renderer.setPixelRatio(window.devicePixelRatio);
 
     //controls
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(
+      this.camera,
+      this.renderer.domElement
+    );
 
     //other view
     this.heightMapView = null;
@@ -60,6 +64,20 @@ export class GOEditorView {
     this.checkboxGizmo = null;
     this.addHeightmap = null;
     this.addBody = null;
+  }
+
+  updateCamera() {
+    const bbox = this.model.getBoundingBox();
+    if (!bbox) return;
+    const w = bbox.max.x - bbox.min.x;
+    const h = bbox.max.y - bbox.min.y;
+    const max = Math.max(w, h);
+    this.camera.left = -max;
+    this.camera.right = max;
+    this.camera.top = max;
+    this.camera.bottom = -max;
+
+    this.camera.updateProjectionMatrix();
   }
 
   setPause(value) {
@@ -91,10 +109,10 @@ export class GOEditorView {
     const cameraPos = new THREE.Vector3(center.x, center.y, bbox.max.z);
     this.camera.position.copy(cameraPos);
 
-    this.camera.top = this.camera.updateProjectionMatrix();
+    this.updateCamera();
   }
 
-  tick() {
+  tick() { 
     requestAnimationFrame(this.tick.bind(this));
 
     if (this.pause || !this.model) return;
@@ -105,16 +123,8 @@ export class GOEditorView {
   onResize() {
     const w = this.rootHtml.clientWidth - this.ui.clientWidth;
     const h = this.rootHtml.clientHeight - this.rootHtml.offsetTop;
-
-    const aspect = w / h;
-    const size = 300;
-    this.camera.left = -size;
-    this.camera.right = size;
-    this.camera.top = size / aspect;
-    this.camera.bottom = -size / aspect;
-
-    this.camera.updateProjectionMatrix();
     this.renderer.setSize(w, h);
+    this.updateCamera();
   }
 
   getModel() {
@@ -206,7 +216,6 @@ export class GOEditorView {
   }
 
   onGameObject(gameobject) {
-    this.model = new GOEditorModel(this.assetsManager);
     this.model.initScene();
     this.model.setGameObject(gameobject);
     this.focusGameObject();
