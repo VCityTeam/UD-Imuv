@@ -1,4 +1,15 @@
 {
+  "scripts": {
+    "avatar": {
+      "path": "../ImuvEditor/assets/scripts/Avatar.js"
+    },
+    "map": {
+      "path": "../ImuvEditor/assets/scripts/Map.js"
+    },
+    "gameManager": {
+      "path": "../ImuvEditor/assets/scripts/GameManager.js"
+    }
+  },
   "thread": {
     "fps": 40,
     "script": "./assets/scripts/thread.js"
