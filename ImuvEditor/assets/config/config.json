@@ -6,6 +6,9 @@
       },
       "map": {
         "path": "./assets/scripts/Map.js"
+      },
+      "gameManager": {
+        "path": "./assets/scripts/GameManager.js"
       }
     },
     "models": {

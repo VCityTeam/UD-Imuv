@@ -89,7 +89,6 @@ const MapModule = class Map {
 
   load() {
     const isServerSide = arguments[1];
-
     if (!isServerSide) {
       return this.loadLocal.apply(this, arguments);
     } else {
