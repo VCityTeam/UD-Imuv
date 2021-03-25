@@ -2,7 +2,8 @@
 
 import './WorldEditor.css';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/RenderComponent';
-import { GameView } from 'ud-viz/src/Game/Client/GameView/GameView';
+import { Game, GameView, Components } from 'ud-viz';
+const File = Components.SystemUtils.File;
 
 export class WorldEditorView {
   constructor(config, assetsManager) {
@@ -31,9 +32,11 @@ export class WorldEditorView {
     //html
     this.input = null;
     this.worldsList = null;
+    this.worldsList = null;
     this.canvasCollision = null;
     this.stopButton = null;
     this.imgHeightmap = null;
+    this.saveButton = null;
   }
 
   setPause(value) {
@@ -75,7 +78,128 @@ export class WorldEditorView {
 
   initCallbacks() {
     const _this = this;
+
+    //input
+    this.input.addEventListener(
+      'change',
+      this.readSingleFile.bind(this),
+      false
+    );
+
     this.stopButton.onclick = this.stopGame.bind(this);
+
+    this.saveButton.onclick = function () {
+      if (!_this.currentWorld) return;
+
+      //path remain
+      _this.currentWorld.getGameObject().traverse(function (g) {
+        const s = g.getScripts();
+
+        //dont change path
+        if (s && s['map']) {
+          const path = s['map'].conf.heightmap_path;
+          const index = path.indexOf('/assets');
+          s['map'].conf.heightmap_path =
+            _this.pathDirectory + path.slice(index);
+        }
+      });
+
+      //change in world array
+      _this.worldsJSON.forEach(function (w) {
+        if (w.uuid == _this.currentWorld.getUUID()) {
+          const clone = _this.currentWorld.clone();
+          
+          debugger
+          
+          //remove avatar before saving
+          clone.getGameObject().traverse(function (g) {
+            if (g.name == 'avatar') {
+              g.removeFromParent();
+            }
+          });
+          w = clone.toJSON();
+        }
+      });
+
+      //download array
+      File.downloadObjectAsJson(_this.worldsJSON, 'worlds');
+    };
+  }
+
+  readSingleFile(e) {
+    try {
+      var file = e.target.files[0];
+      if (!file) {
+        return;
+      }
+      const _this = this;
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        const json = JSON.parse(e.target.result);
+        console.log('Worlds = ', json);
+        _this.onWorlds(json);
+      };
+
+      reader.readAsText(file);
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  updateUI() {
+    //clean worlds list and rebuild it
+    const list = this.worldsList;
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+    const _this = this;
+    this.worldsJSON.forEach(function (w) {
+      const li = document.createElement('li');
+      li.innerHTML = w.name;
+      li.onclick = _this.onWorldJSON.bind(_this, w);
+      list.appendChild(li);
+    });
+
+    //update heightmap
+    if (this.gameView && !this.imgHeightmap.src) {
+      const world = this.gameView.getWorld();
+      if (world) {
+        world.getGameObject().traverse(function (g) {
+          const s = g.getScripts();
+          if (s && s['map']) {
+            const path = s['map'].conf.heightmap_path;
+            _this.imgHeightmap.src = path;
+          }
+        });
+      }
+    }
+  }
+
+  onWorldJSON(json) {
+    const world = new Game.Shared.World(json, { isServerSide: false });
+    const _this = this;
+
+    world.getGameObject().initAssets(this.assetsManager, Game.Shared);
+
+    //remain path of heightmap
+    world.getGameObject().traverse(function (g) {
+      const s = g.getScripts();
+      if (s && s['map']) {
+        const path = s['map'].conf.heightmap_path;
+        const index = path.indexOf('/assets');
+        _this.pathDirectory = path.slice(0, index);
+        s['map'].conf.heightmap_path = '..' + path.slice(index);
+      }
+    });
+    this.currentWorld = world;
+
+    this.onWorld(world);
+  }
+
+  onWorlds(json) {
+    if (!json) throw new Error('wrong json');
+    this.worldsJSON = json;
+    this.updateUI();
   }
 
   stopGame() {
@@ -86,6 +210,16 @@ export class WorldEditorView {
   }
 
   initUI() {
+    //open a world
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    this.ui.appendChild(input);
+    this.input = input; //ref
+
+    const worldsList = document.createElement('ul');
+    this.ui.appendChild(worldsList);
+    this.worldsList = worldsList;
+
     //preview
     const canvasCollision = document.createElement('canvas');
     canvasCollision.classList.add('canvas_preview');
@@ -101,6 +235,12 @@ export class WorldEditorView {
     const imgDiv = document.createElement('img');
     this.ui.appendChild(imgDiv);
     this.imgHeightmap = imgDiv;
+
+    const saveButton = document.createElement('div');
+    saveButton.classList.add('button_Editor');
+    saveButton.innerHTML = 'Download';
+    this.ui.appendChild(saveButton);
+    this.saveButton = saveButton;
   }
 
   load() {
@@ -120,14 +260,6 @@ export class WorldEditorView {
     this.stopGame();
 
     const _this = this;
-    newWorld.getGameObject().traverse(function (g) {
-      const s = g.getScripts();
-      //TODO ce code connait Map.js le mettre ailleurs ou non ?
-      if (s && s['map']) {
-        const path = s['map'].data.heightmap_path;
-        _this.imgHeightmap.src = path;
-      }
-    });
 
     this.gameView = new GameView({
       assetsManager: this.assetsManager,
@@ -138,9 +270,12 @@ export class WorldEditorView {
 
     this.gameView.load().then(function () {
       const htmlView = _this.gameView.html();
+      //TODO no css inline
       htmlView.style.display = 'inline-block';
       htmlView.style.position = 'absolute';
       _this.rootHtml.appendChild(htmlView);
     });
+
+    this.updateUI();
   }
 }

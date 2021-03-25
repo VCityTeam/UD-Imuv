@@ -47,7 +47,7 @@ export class GOEditorModel {
     this.gizmo.visible = value;
   }
 
-  setGameObject(g) {
+  setGameObject(g, manager) {
     if (this.gameObject) {
       this.scene.remove(this.gameObject.getObject3D());
       this.scene.remove(this.gizmo);

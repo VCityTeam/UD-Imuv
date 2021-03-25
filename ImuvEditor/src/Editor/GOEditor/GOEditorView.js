@@ -1,5 +1,5 @@
 /** @format */
-import { THREE, OrbitControls } from 'ud-viz';
+import { THREE, OrbitControls, Game } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
 import { BodyView } from './Body/BodyView';
@@ -56,10 +56,12 @@ export class GOEditorView {
     this.bodyView = null;
 
     //html
+    this.input = null;
     this.opacitySlider = null;
     this.checkboxGizmo = null;
     this.addHeightmap = null;
     this.addBody = null;
+    this.saveGOButton = null;
   }
 
   setPause(value) {
@@ -135,6 +137,13 @@ export class GOEditorView {
 
     window.addEventListener('resize', this.onResize.bind(this));
 
+    //input
+    this.input.addEventListener(
+      'change',
+      this.readSingleFile.bind(this),
+      false
+    );
+
     //checkbox
     this.checkboxGizmo.oninput = function (event) {
       if (!_this.model) return;
@@ -173,9 +182,27 @@ export class GOEditorView {
       _this.bodyView.init();
       _this.ui.appendChild(_this.bodyView.html());
     };
+
+    this.saveGOButton.onclick = function () {
+      if (_this.model && _this.model.getGameObject()) {
+        const go = _this.model.getGameObject();
+        const goJSON = go.toJSON(true); //TODO remove true by changing the default value
+      }
+    };
   }
 
   initUI() {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    this.ui.appendChild(input);
+    this.input = input; //ref
+
+    const saveGOButton = document.createElement('div');
+    saveGOButton.classList.add('button_Editor');
+    saveGOButton.innerHTML = 'Save Gameobject';
+    this.ui.appendChild(saveGOButton);
+    this.saveGOButton = saveGOButton;
+
     //opacity object slider label
     const labelOpacity = document.createElement('div');
     labelOpacity.innerHTML = 'GameObject opacity';
@@ -214,7 +241,9 @@ export class GOEditorView {
     this.addBody = addBody;
   }
 
-  onGameObject(gameobject) {
+  onGameObjectJSON(json) {
+    const gameobject = new Game.Shared.GameObject(json);
+    gameobject.initAssets(this.assetsManager,Game.Shared)
     this.model.initScene();
     this.model.setGameObject(gameobject);
     this.focusGameObject();
@@ -233,6 +262,26 @@ export class GOEditorView {
   updateUI() {
     this.opacitySlider.oninput({ target: this.opacitySlider }); //force update opacity
     this.checkboxGizmo.oninput({ target: this.checkboxGizmo });
+  }
+
+  readSingleFile(e) {
+    try {
+      var file = e.target.files[0];
+      if (!file) {
+        return;
+      }
+      const _this = this;
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        const json = JSON.parse(e.target.result);
+        console.log('PREFAB = ', json);
+        _this.onGameObjectJSON(json);
+      };
+
+      reader.readAsText(file);
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   load() {
