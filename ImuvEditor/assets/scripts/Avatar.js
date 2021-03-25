@@ -4,14 +4,18 @@ const AvatarModule = class Avatar {
   constructor(conf, udvShared) {
     this.conf = conf;
     this.commands = {};
-    this.udvShared = udvShared;
+    this.externalModule = udvShared;
     //init commands
-    for (let type in udvShared.Command.TYPE) {
-      this.commands[udvShared.Command.TYPE[type]] = [];
+    const Command = this.externalModule.Command
+    for (let type in Command.TYPE) {
+      this.commands[Command.TYPE[type]] = [];
     }
   }
 
   fetchCommands(commands, gameObject) {
+
+    const Command = this.externalModule.Command
+
     //get commands sign by its user
     let addMoveTo = false;
     for (let i = commands.length - 1; i >= 0; i--) {
@@ -22,15 +26,15 @@ const AvatarModule = class Avatar {
         //can do this because on decremente
         commands.splice(i, 1);
 
-        if (type == this.udvShared.Command.TYPE.MOVE_TO) addMoveTo = true;
+        if (type == Command.TYPE.MOVE_TO) addMoveTo = true;
       }
     }
 
     //filter
-    const moveToCmds = this.commands[this.udvShared.Command.TYPE.MOVE_TO];
-    const forwardCmds = this.commands[this.udvShared.Command.TYPE.MOVE_FORWARD];
+    const moveToCmds = this.commands[Command.TYPE.MOVE_TO];
+    const forwardCmds = this.commands[Command.TYPE.MOVE_FORWARD];
     const backwardCmds = this.commands[
-      this.udvShared.Command.TYPE.MOVE_BACKWARD
+      Command.TYPE.MOVE_BACKWARD
     ];
 
     if (addMoveTo) {
@@ -56,19 +60,22 @@ const AvatarModule = class Avatar {
     const AVATAR_SPEED_ROTATION_Z = 0.00005;
     const AVATAR_SPEED_ROTATION_X = 0.00005;
 
+    const Command = this.externalModule.Command
+    const THREE = this.externalModule.THREE
+
     for (let type in this.commands) {
       const cmds = this.commands[type];
       if (cmds.length) {
         const cmd = cmds[0];
         let cmdFinished = true;
         switch (cmd.getType()) {
-          case this.udvShared.Command.TYPE.MOVE_TO:
+          case Command.TYPE.MOVE_TO:
             const target = cmd.getData().target;
             const pos = gameObject.transform.position;
-            const dir = new this.udvShared.THREE.Vector2(
+            const dir = new THREE.Vector2(
               target.x,
               target.y
-            ).sub(new this.udvShared.THREE.Vector2(pos.x, pos.y));
+            ).sub(new THREE.Vector2(pos.x, pos.y));
             const amount = AVATAR_SPEED_MOVE * dt;
             if (dir.length() >= amount) {
               cmdFinished = false;
@@ -79,50 +86,50 @@ const AvatarModule = class Avatar {
               cmdFinished = true;
             }
             break;
-          case this.udvShared.Command.TYPE.RUN:
+          case Command.TYPE.RUN:
             gameObject.move(
               gameObject.computeForwardVector().setLength(dt * AVATAR_SPEED_RUN)
             );
             break;
-          case this.udvShared.Command.TYPE.MOVE_FORWARD:
+          case Command.TYPE.MOVE_FORWARD:
             gameObject.move(
               gameObject
                 .computeForwardVector()
                 .setLength(dt * AVATAR_SPEED_MOVE)
             );
             break;
-          case this.udvShared.Command.TYPE.MOVE_LEFT:
+          case Command.TYPE.MOVE_LEFT:
             gameObject.move(
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(
-                  new this.udvShared.THREE.Vector3(0, 0, 1),
+                  new THREE.Vector3(0, 0, 1),
                   Math.PI * 0.5
                 )
                 .setLength(dt * AVATAR_SPEED_MOVE)
             );
             break;
-          case this.udvShared.Command.TYPE.MOVE_RIGHT:
+          case Command.TYPE.MOVE_RIGHT:
             gameObject.move(
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(
-                  new this.udvShared.THREE.Vector3(0, 0, 1),
+                  new THREE.Vector3(0, 0, 1),
                   -Math.PI * 0.5
                 )
                 .setLength(dt * AVATAR_SPEED_MOVE)
             );
             break;
-          case this.udvShared.Command.TYPE.MOVE_BACKWARD:
+          case Command.TYPE.MOVE_BACKWARD:
             gameObject.move(
               gameObject
                 .computeBackwardVector()
                 .setLength(dt * AVATAR_SPEED_MOVE)
             );
             break;
-          case this.udvShared.Command.TYPE.ROTATE:
+          case Command.TYPE.ROTATE:
             const vectorJSON = cmd.getData().vector;
-            const vector = new this.udvShared.THREE.Vector3(
+            const vector = new THREE.Vector3(
               vectorJSON.x * AVATAR_SPEED_ROTATION_X,
               vectorJSON.y,
               vectorJSON.z * AVATAR_SPEED_ROTATION_Z
