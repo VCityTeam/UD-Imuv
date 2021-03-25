@@ -1,20 +1,21 @@
 /** @format */
 
-const AvatarModule = class Avatar {
-  constructor(conf, udvShared) {
+//scripts are commonJs module witout dependency all game context is pass as udvGameShared
+//this is due to the fact that the code is import as a string then eval() in code by the (Script/Asssets)Manager
+module.exports = class Avatar {
+  constructor(conf, udvGameShared) {
     this.conf = conf;
     this.commands = {};
-    this.externalModule = udvShared;
+    this.udvGameShared = udvGameShared;
     //init commands
-    const Command = this.externalModule.Command
+    const Command = this.udvGameShared.Command;
     for (let type in Command.TYPE) {
       this.commands[Command.TYPE[type]] = [];
     }
   }
 
   fetchCommands(commands, gameObject) {
-
-    const Command = this.externalModule.Command
+    const Command = this.udvGameShared.Command;
 
     //get commands sign by its user
     let addMoveTo = false;
@@ -33,9 +34,7 @@ const AvatarModule = class Avatar {
     //filter
     const moveToCmds = this.commands[Command.TYPE.MOVE_TO];
     const forwardCmds = this.commands[Command.TYPE.MOVE_FORWARD];
-    const backwardCmds = this.commands[
-      Command.TYPE.MOVE_BACKWARD
-    ];
+    const backwardCmds = this.commands[Command.TYPE.MOVE_BACKWARD];
 
     if (addMoveTo) {
       //remove all commands which are not compatible
@@ -60,8 +59,8 @@ const AvatarModule = class Avatar {
     const AVATAR_SPEED_ROTATION_Z = 0.00005;
     const AVATAR_SPEED_ROTATION_X = 0.00005;
 
-    const Command = this.externalModule.Command
-    const THREE = this.externalModule.THREE
+    const Command = this.udvGameShared.Command;
+    const THREE = this.udvGameShared.THREE;
 
     for (let type in this.commands) {
       const cmds = this.commands[type];
@@ -72,10 +71,9 @@ const AvatarModule = class Avatar {
           case Command.TYPE.MOVE_TO:
             const target = cmd.getData().target;
             const pos = gameObject.transform.position;
-            const dir = new THREE.Vector2(
-              target.x,
-              target.y
-            ).sub(new THREE.Vector2(pos.x, pos.y));
+            const dir = new THREE.Vector2(target.x, target.y).sub(
+              new THREE.Vector2(pos.x, pos.y)
+            );
             const amount = AVATAR_SPEED_MOVE * dt;
             if (dir.length() >= amount) {
               cmdFinished = false;
@@ -102,10 +100,7 @@ const AvatarModule = class Avatar {
             gameObject.move(
               gameObject
                 .computeForwardVector()
-                .applyAxisAngle(
-                  new THREE.Vector3(0, 0, 1),
-                  Math.PI * 0.5
-                )
+                .applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI * 0.5)
                 .setLength(dt * AVATAR_SPEED_MOVE)
             );
             break;
@@ -113,10 +108,7 @@ const AvatarModule = class Avatar {
             gameObject.move(
               gameObject
                 .computeForwardVector()
-                .applyAxisAngle(
-                  new THREE.Vector3(0, 0, 1),
-                  -Math.PI * 0.5
-                )
+                .applyAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
                 .setLength(dt * AVATAR_SPEED_MOVE)
             );
             break;
@@ -171,7 +163,3 @@ const AvatarModule = class Avatar {
     }
   }
 };
-
-AvatarModule.ID = 'avatar';
-
-module.exports = AvatarModule;

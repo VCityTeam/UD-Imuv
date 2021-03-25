@@ -1,9 +1,9 @@
 /** @format */
 
 const GameManagerModule = class GameManager {
-  constructor(conf, udvShared) {
+  constructor(conf, udvGameShared) {
     this.conf = conf;
-    this.udvShared = udvShared;
+    this.udvGameShared = udvGameShared;
   }
 
   load() {
@@ -14,7 +14,5 @@ const GameManagerModule = class GameManager {
     });
   }
 };
-
-GameManagerModule.ID = 'gameManager';
 
 module.exports = GameManagerModule;

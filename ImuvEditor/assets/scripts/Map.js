@@ -1,7 +1,7 @@
 /** @format */
 
 const MapModule = class Map {
-  constructor(conf, udvShared) {
+  constructor(conf, udvGameShared) {
     this.conf = conf;
     this.heightmapSize = null; //size of the heightmap
     this.heightValues = []; //values extract from heightmap
@@ -157,5 +157,4 @@ const MapModule = class Map {
   }
 };
 
-MapModule.ID = 'map';
 module.exports = MapModule;
