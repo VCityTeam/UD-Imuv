@@ -72,8 +72,7 @@ class ScriptManager {
       for (let idScript in config) {
         fs.readFile(config[idScript].path, 'utf8', (err, data) => {
           if (err) {
-            console.error(err);
-            return;
+            reject();
           }
           scripts[idScript] = eval(data);
 
