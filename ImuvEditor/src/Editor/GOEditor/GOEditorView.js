@@ -1,6 +1,5 @@
 /** @format */
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-const THREE = require('three');
+import { THREE, OrbitControls } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
 import { BodyView } from './Body/BodyView';

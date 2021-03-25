@@ -1,6 +1,6 @@
 /** @format */
 
-const THREE = require('three');
+import { THREE } from 'ud-viz';
 
 export class GOEditorModel {
   constructor(assetsManager) {

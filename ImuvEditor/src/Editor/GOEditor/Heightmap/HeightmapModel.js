@@ -1,6 +1,7 @@
 /** @format */
 
-const THREE = require('three');
+import { THREE } from 'ud-viz';
+
 const ScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/ScriptComponent');
 
 export class HeightmapModel {

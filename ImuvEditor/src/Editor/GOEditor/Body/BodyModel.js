@@ -1,6 +1,7 @@
 /** @format */
 
-const THREE = require('three');
+import { THREE } from 'ud-viz';
+
 const BodyComponent = require('ud-viz/src/Game/Shared/GameObject/Components/BodyComponent');
 
 import * as ShapeController from '../../Components/ShapeController';

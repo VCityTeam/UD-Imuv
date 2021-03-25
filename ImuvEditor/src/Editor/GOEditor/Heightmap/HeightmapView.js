@@ -2,7 +2,8 @@
 
 import { HeightmapModel } from './HeightmapModel';
 
-const THREE = require('three');
+import { THREE } from 'ud-viz';
+
 
 import './Heightmap.css';
 import '../../Editor.css';

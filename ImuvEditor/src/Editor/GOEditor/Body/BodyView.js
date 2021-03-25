@@ -2,7 +2,8 @@
 
 import { BodyModel } from './BodyModel';
 import * as ShapeController from '../../Components/ShapeController';
-const THREE = require('three');
+import { THREE } from 'ud-viz';
+
 
 import './Body.css';
 import '../../Editor.css';

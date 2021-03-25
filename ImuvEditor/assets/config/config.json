@@ -1,5 +1,10 @@
 {
   "assetsManager": {
+    "scripts": {
+      "Test": {
+        "path": "./assets/scripts/Test.js"
+      }
+    },
     "models": {
       "avatar": {
         "path": "./assets/models/avatar.glb",

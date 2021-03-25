@@ -1,6 +1,6 @@
 /** @format */
 
-const THREE = require('three');
+import { THREE } from 'ud-viz';
 
 const world2RefBB = function (point, bb) {
   const result = new THREE.Vector2();
