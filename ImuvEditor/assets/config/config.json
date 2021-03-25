@@ -1,8 +1,11 @@
 {
   "assetsManager": {
     "scripts": {
-      "Test": {
-        "path": "./assets/scripts/Test.js"
+      "avatar": {
+        "path": "./assets/scripts/Avatar.js"
+      },
+      "map": {
+        "path": "./assets/scripts/Map.js"
       }
     },
     "models": {

@@ -55,11 +55,11 @@ export class GOEditorModel {
 
     this.gameObject = g;
     if (g) {
-      const object = g.computeObject3D(this.assetsManager);
+      const object = g.getObject3D();
       this.boundingBox = new THREE.Box3().setFromObject(object);
       object.add(new THREE.BoxHelper(object));
       const scale = this.boundingBox.max.distanceTo(this.boundingBox.min) / 40;
-      this.gizmo = this.assetsManager.fetch('gizmo');
+      this.gizmo = this.assetsManager.fetchModel('gizmo');
       this.gizmo.scale.set(scale, scale, scale);
 
       //add to scene

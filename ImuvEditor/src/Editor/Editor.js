@@ -36,8 +36,8 @@ export class Editor {
   initUI() {
     const parentUI = document.createElement('div');
     parentUI.classList.add('parentUI_Editor');
-    this.rootHtml.appendChild(parentUI); 
-  
+    this.rootHtml.appendChild(parentUI);
+
     //open a world
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -137,9 +137,9 @@ export class Editor {
         const s = g.getScripts();
         //TODO ce code connait Map.js le mettre ailleurs
         if (s && s['map']) {
-          const path = s['map'].data.heightmap_path;
+          const path = s['map'].conf.heightmap_path;
           const index = path.indexOf('/assets');
-          s['map'].data.heightmap_path =
+          s['map'].conf.heightmap_path =
             _this.pathDirectory + path.slice(index);
         }
       });
@@ -196,20 +196,19 @@ export class Editor {
   onWorldJSON(json) {
     const world = new Game.Shared.World(json, { isServerSide: false });
     const _this = this;
-    world.gameObject.traverse(function (g) {
+    world.getGameObject().traverse(function (g) {
       const s = g.getScripts();
       //TODO ce code connait Map.js le mettre ailleurs
       if (s && s['map']) {
-        const path = s['map'].data.heightmap_path;
+        const path = s['map'].conf.heightmap_path;
         const index = path.indexOf('/assets');
         _this.pathDirectory = path.slice(0, index);
-        s['map'].data.heightmap_path = '..' + path.slice(index);
+        s['map'].conf.heightmap_path = '..' + path.slice(index);
       }
     });
     this.currentWorld = world;
 
     this.worldView.onWorld(world);
-    this.goView.onGameObject(world.getGameObject().clone());
   }
 
   load() {

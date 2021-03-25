@@ -18,19 +18,6 @@ export class App {
     });
   }
 
-  loadScript(filePath) {
-    return new Promise((resolve, reject) => {
-      jquery.get(
-        filePath,
-        function (data) {
-          const testClass = eval(data);
-          const test = new testClass();
-        },
-        'text'
-      );
-    });
-  }
-
   loadConfigFile(filePath) {
     return new Promise((resolve, reject) => {
       jquery.ajax({

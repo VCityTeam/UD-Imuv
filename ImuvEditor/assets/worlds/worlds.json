@@ -20,7 +20,7 @@
         {
           "uuid": "A18CF9CD-CDE7-42FD-A88B-FCE457155FB5",
           "idScripts": ["map"],
-          "data": {
+          "conf": {
             "heightmap_path": "./assets/worlds/heightmap/heightmap_1.png",
             "heightmap_geometry": {
               "bounding_box": {
@@ -43,98 +43,7 @@
           "shapes": []
         }
       ],
-      "children": [
-        {
-          "name": "avatar",
-          "type": "GameObject",
-          "static": false,
-          "outdated": false,
-          "uuid": "11FEFF31-F1C9-4DE3-86F4-7CF17AF6242F",
-          "parentUUID": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
-          "components": [
-            {
-              "uuid": "6A5D0B6B-4997-45E1-9ED3-6EDEA8FE4752",
-              "type": "BodyComponent",
-              "shapes": [
-                {
-                  "type": "Circle",
-                  "center": { "x": 0, "y": 0 },
-                  "radius": 0.5
-                }
-              ]
-            },
-            {
-              "uuid": "023B7A0D-2EBA-4448-8302-7F44F63911F7",
-              "type": "RenderComponent",
-              "idModel": "avatar"
-            },
-            {
-              "uuid": "BBFC34ED-3296-4403-88A0-E9CAC1E06BA9",
-              "idScripts": ["avatar"],
-              "type": "ScriptComponent"
-            }
-          ],
-          "children": [],
-          "transform": {
-            "position": {
-              "x": 33.713603786071914,
-              "y": 34.69851522840198,
-              "z": 62.279634988815886
-            },
-            "rotation": {
-              "x": 0.3141592653589793,
-              "y": 0,
-              "z": 2.526960292819986
-            },
-            "scale": { "x": 1, "y": 1, "z": 1 }
-          }
-        },
-        {
-          "name": "avatar",
-          "type": "GameObject",
-          "static": false,
-          "outdated": false,
-          "uuid": "2002E29A-4107-4857-88C1-4D296CA16CC8",
-          "parentUUID": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
-          "components": [
-            {
-              "uuid": "4D3FF947-2777-491B-B0DD-0AA4FAB51442",
-              "type": "BodyComponent",
-              "shapes": [
-                {
-                  "type": "Circle",
-                  "center": { "x": 0, "y": 0 },
-                  "radius": 0.5
-                }
-              ]
-            },
-            {
-              "uuid": "DFB3A409-0CE2-484D-B2A7-2BDD842E83D2",
-              "type": "RenderComponent",
-              "idModel": "avatar"
-            },
-            {
-              "uuid": "15094885-BD3C-4C09-BC6B-9952FE02BD24",
-              "idScripts": ["avatar"],
-              "type": "ScriptComponent"
-            }
-          ],
-          "children": [],
-          "transform": {
-            "position": {
-              "x": 60.67331335479742,
-              "y": 92.55855507060676,
-              "z": 71.35086476172177
-            },
-            "rotation": {
-              "x": 0.3141592653589793,
-              "y": 0,
-              "z": 3.376268964101488
-            },
-            "scale": { "x": 1, "y": 1, "z": 1 }
-          }
-        }
-      ],
+      "children": [],
       "transform": {
         "position": { "x": 0, "y": 0, "z": 0 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
