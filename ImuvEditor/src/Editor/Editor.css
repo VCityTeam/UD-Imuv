@@ -17,7 +17,7 @@ li {
   margin: 0%;
 }
 
-ul{
+ul {
   margin: 0%;
 }
 
@@ -34,9 +34,13 @@ li:hover {
   background-color: chartreuse;
 }
 
+.hidden {
+  display: none;
+}
+
 .button_Editor {
+  min-width: 75px;
   background-color: blue;
-  width: 100%;
   height: 20px;
   display: flex;
   justify-content: center;
@@ -48,7 +52,6 @@ li:hover {
   -webkit-touch-callout: none;
   -khtml-user-select: none;
   user-select: none;
-  margin: 1px;
   font-size: small;
 }
 

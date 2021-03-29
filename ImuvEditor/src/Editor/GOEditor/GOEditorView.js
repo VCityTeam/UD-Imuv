@@ -210,6 +210,9 @@ export class GOEditorView {
     checkboxGizmo.setAttribute('type', 'checkbox');
     this.ui.appendChild(checkboxGizmo);
     this.checkboxGizmo = checkboxGizmo;
+
+    //jsoneditor
+    this.ui.appendChild(this.jsonEditorView.html());
   }
 
   onGameObjectJSON(json) {
@@ -220,6 +223,9 @@ export class GOEditorView {
     this.focusGameObject();
     this.updateUI();
     this.onResize();
+
+    //json
+    this.jsonEditorView.onJSON(json);
   }
 
   updateUI() {

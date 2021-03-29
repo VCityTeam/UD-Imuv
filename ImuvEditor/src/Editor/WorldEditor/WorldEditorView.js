@@ -2,7 +2,7 @@
 
 import './WorldEditor.css';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/RenderComponent';
-import { Game, GameView, Components } from 'ud-viz';
+import { Game, Components } from 'ud-viz';
 const File = Components.SystemUtils.File;
 
 export class WorldEditorView {
@@ -261,7 +261,7 @@ export class WorldEditorView {
 
     const _this = this;
 
-    this.gameView = new GameView({
+    this.gameView = new Game.GameView({
       assetsManager: this.assetsManager,
       isLocal: true,
       config: this.config,

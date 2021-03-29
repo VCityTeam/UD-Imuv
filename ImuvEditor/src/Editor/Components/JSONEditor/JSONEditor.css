@@ -1,0 +1,17 @@
+/** @format */
+
+.root_JSONEditor {
+  background-color: coral;
+}
+
+.object_JSONEditor {
+  background-color: cyan;
+  padding: 2px;
+  display: flex;
+}
+
+.ui_object_JSONEditor {
+  background-color: darkblue;
+  display: inline-flex;
+  color: white;
+}
