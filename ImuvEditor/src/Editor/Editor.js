@@ -13,7 +13,7 @@ export class Editor {
     this.rootHtml.classList.add('root_Editor');
 
     //assets
-    this.assetsManager = new Game.Client.AssetsManager();
+    this.assetsManager = new Game.Components.AssetsManager();
 
     //views
     this.goView = new GOEditorView(config, this.assetsManager);
