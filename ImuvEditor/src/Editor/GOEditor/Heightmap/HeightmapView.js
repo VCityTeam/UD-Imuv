@@ -16,7 +16,7 @@ export class HeightMapView {
 
     //heightmap model
     if (!goView.model) throw new Error('no model');
-    this.model = new HeightmapModel(goView.model);
+    this.model = new HeightmapModel(goView.model);//TODO mettre getter sur model
 
     //html
     this.sliderPlanTop = null;

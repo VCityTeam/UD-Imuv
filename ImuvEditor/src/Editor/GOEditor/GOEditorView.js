@@ -3,6 +3,7 @@ import { THREE, OrbitControls, Game } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
 import { BodyView } from './Body/BodyView';
+import { JSONEditorView } from '../Components/JSONEditor/JSONEditor';
 
 import './GOEditor.css';
 import '../Editor.css';
@@ -55,12 +56,13 @@ export class GOEditorView {
     this.heightMapView = null;
     this.bodyView = null;
 
+    //json view
+    this.jsonEditorView = new JSONEditorView(this);
+
     //html
     this.input = null;
     this.opacitySlider = null;
     this.checkboxGizmo = null;
-    this.addHeightmap = null;
-    this.addBody = null;
     this.saveGOButton = null;
   }
 
@@ -166,23 +168,6 @@ export class GOEditorView {
       });
     };
 
-    //add heightmap
-    this.addHeightmap.onclick = function (event) {
-      if (!_this.model || _this.heightMapView || !_this.model.getGameObject())
-        return;
-      _this.heightMapView = new HeightMapView(_this);
-      _this.heightMapView.init();
-      _this.ui.appendChild(_this.heightMapView.html());
-    };
-
-    this.addBody.onclick = function () {
-      if (!_this.model || _this.bodyView || !_this.model.getGameObject())
-        return;
-      _this.bodyView = new BodyView(_this);
-      _this.bodyView.init();
-      _this.ui.appendChild(_this.bodyView.html());
-    };
-
     this.saveGOButton.onclick = function () {
       if (_this.model && _this.model.getGameObject()) {
         const go = _this.model.getGameObject();
@@ -199,7 +184,7 @@ export class GOEditorView {
 
     const saveGOButton = document.createElement('div');
     saveGOButton.classList.add('button_Editor');
-    saveGOButton.innerHTML = 'Save Gameobject';
+    saveGOButton.innerHTML = 'Save';
     this.ui.appendChild(saveGOButton);
     this.saveGOButton = saveGOButton;
 
@@ -225,36 +210,14 @@ export class GOEditorView {
     checkboxGizmo.setAttribute('type', 'checkbox');
     this.ui.appendChild(checkboxGizmo);
     this.checkboxGizmo = checkboxGizmo;
-
-    //add heightmap information
-    const addHeightmap = document.createElement('div');
-    addHeightmap.innerHTML = 'Heightmap';
-    addHeightmap.classList.add('button_Editor');
-    this.ui.appendChild(addHeightmap);
-    this.addHeightmap = addHeightmap;
-
-    //add body information
-    const addBody = document.createElement('div');
-    addBody.innerHTML = 'Body';
-    addBody.classList.add('button_Editor');
-    this.ui.appendChild(addBody);
-    this.addBody = addBody;
   }
 
   onGameObjectJSON(json) {
     const gameobject = new Game.Shared.GameObject(json);
-    gameobject.initAssets(this.assetsManager,Game.Shared)
+    gameobject.initAssets(this.assetsManager, Game.Shared);
     this.model.initScene();
     this.model.setGameObject(gameobject);
     this.focusGameObject();
-    if (this.heightMapView) {
-      this.heightMapView.dispose();
-      this.heightMapView = null;
-    }
-    if (this.bodyView) {
-      this.bodyView.dispose();
-      this.bodyView = null;
-    }
     this.updateUI();
     this.onResize();
   }
