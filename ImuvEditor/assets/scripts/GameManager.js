@@ -1,6 +1,6 @@
 /** @format */
 
-const GameManagerModule = class GameManager {
+module.exports = class GameManager {
   constructor(conf, udvGameShared) {
     this.conf = conf;
     this.udvGameShared = udvGameShared;
@@ -14,5 +14,3 @@ const GameManagerModule = class GameManager {
     });
   }
 };
-
-module.exports = GameManagerModule;

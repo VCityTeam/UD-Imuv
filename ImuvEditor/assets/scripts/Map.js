@@ -1,6 +1,6 @@
 /** @format */
 
-const MapModule = class Map {
+module.exports = class Map {
   constructor(conf, udvGameShared) {
     this.conf = conf;
     this.heightmapSize = null; //size of the heightmap
@@ -156,5 +156,3 @@ const MapModule = class Map {
     );
   }
 };
-
-module.exports = MapModule;
