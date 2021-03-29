@@ -1,5 +1,5 @@
 /** @format */
-import { THREE, OrbitControls, Game } from 'ud-viz';
+import { THREE, OrbitControls, Game, Components } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
 import { BodyView } from './Body/BodyView';
@@ -8,6 +8,8 @@ import { JSONEditorView } from '../Components/JSONEditor/JSONEditor';
 import './GOEditor.css';
 import '../Editor.css';
 import { GOEditorModel } from './GOEditorModel';
+
+const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 
 export class GOEditorView {
   constructor(config, assetsManager) {
@@ -64,6 +66,8 @@ export class GOEditorView {
     this.opacitySlider = null;
     this.checkboxGizmo = null;
     this.saveGOButton = null;
+    this.focusGOButton = null;
+    this.newGOButton = null;
   }
 
   setPause(value) {
@@ -88,6 +92,7 @@ export class GOEditorView {
 
   focusGameObject() {
     const bbox = this.model.getBoundingBox();
+    if (!bbox) return;
 
     //set target
     const center = bbox.max.clone().lerp(bbox.min, 0.5);
@@ -172,8 +177,35 @@ export class GOEditorView {
       if (_this.model && _this.model.getGameObject()) {
         const go = _this.model.getGameObject();
         const goJSON = go.toJSON(true); //TODO remove true by changing the default value
+        Components.SystemUtils.File.downloadObjectAsJson(goJSON, goJSON.name);
       }
     };
+
+    this.focusGOButton.onclick = this.focusGameObject.bind(this);
+
+    this.newGOButton.onclick = function () {
+      const emptyGOJSON = {
+        name: 'My GameObject',
+        static: false,
+        components: [],
+        children: [],
+      };
+      _this.onOpenNewJSON(emptyGOJSON);
+    };
+
+    this.jsonEditorView.on('onchange', function (event) {
+      const buffer = _this.model.getGameObject();
+      const old = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
+      try {
+        const newString = _this.jsonEditorView.computeCurrentString();
+        localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, newString);
+        _this.onGameObjectJSON(JSON.parse(newString));
+      } catch (e) {
+        console.error(e);
+        localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, old);
+        if (buffer) _this.onGameObjectJSON(buffer.toJSON(true));
+      }
+    });
   }
 
   initUI() {
@@ -187,6 +219,12 @@ export class GOEditorView {
     saveGOButton.innerHTML = 'Save';
     this.ui.appendChild(saveGOButton);
     this.saveGOButton = saveGOButton;
+
+    const focusGOButton = document.createElement('div');
+    focusGOButton.classList.add('button_Editor');
+    focusGOButton.innerHTML = 'Focus';
+    this.ui.appendChild(focusGOButton);
+    this.focusGOButton = focusGOButton;
 
     //opacity object slider label
     const labelOpacity = document.createElement('div');
@@ -211,21 +249,23 @@ export class GOEditorView {
     this.ui.appendChild(checkboxGizmo);
     this.checkboxGizmo = checkboxGizmo;
 
+    //new go
+    const newGOButton = document.createElement('div');
+    newGOButton.classList.add('button_Editor');
+    newGOButton.innerHTML = 'New';
+    this.ui.appendChild(newGOButton);
+    this.newGOButton = newGOButton;
+
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());
   }
 
   onGameObjectJSON(json) {
+    console.log('onGameObject => ', json);
     const gameobject = new Game.Shared.GameObject(json);
     gameobject.initAssets(this.assetsManager, Game.Shared);
-    this.model.initScene();
     this.model.setGameObject(gameobject);
-    this.focusGameObject();
     this.updateUI();
-    this.onResize();
-
-    //json
-    this.jsonEditorView.onJSON(json);
   }
 
   updateUI() {
@@ -233,6 +273,17 @@ export class GOEditorView {
     this.checkboxGizmo.oninput({ target: this.checkboxGizmo });
   }
 
+  onOpenNewJSON(json) {
+    this.onGameObjectJSON(json);
+    this.focusGameObject();
+
+    //json
+    this.jsonEditorView.onJSON(json);
+
+    this.onResize();
+  }
+
+  //TODO mettre cette function dans udv.Components.SysteUtils.File
   readSingleFile(e) {
     try {
       var file = e.target.files[0];
@@ -244,7 +295,7 @@ export class GOEditorView {
       reader.onload = function (e) {
         const json = JSON.parse(e.target.result);
         console.log('PREFAB = ', json);
-        _this.onGameObjectJSON(json);
+        _this.onOpenNewJSON(json);
       };
 
       reader.readAsText(file);
@@ -262,6 +313,18 @@ export class GOEditorView {
       _this.tick();
 
       _this.initCallbacks();
+
+      _this.model.initScene();
+
+      const oldJsonString = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
+      if (oldJsonString != undefined) {
+        try {
+          _this.onOpenNewJSON(JSON.parse(oldJsonString));
+        } catch (e) {
+          alert('cant reload previous work');
+          console.error(e);
+        }
+      }
 
       resolve();
     });

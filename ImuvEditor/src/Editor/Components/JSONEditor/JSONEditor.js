@@ -1,5 +1,4 @@
 /** @format */
-
 import './JSONEditor.css';
 
 const OFFSET_LEFT = 20;
@@ -17,19 +16,39 @@ export class JSONEditorView {
     this.rootHtml.classList.add('root_JSONEditor');
 
     this.currentJSON = null;
+
+    this.onchange = null;
   }
 
   html() {
     return this.rootHtml;
   }
 
+  //CLZAN ME
+  on(key, cb) {
+    this.onchange = cb;
+  }
+
+  addListener(el, key) {
+    const _this = this;
+    const old = el[key];
+    el[key] = function () {
+      old.apply(el, arguments);
+      if (_this.onchange) _this.onchange();
+    };
+  }
+
   updateUI() {
+    const _this = this;
+
     //clean
     while (this.rootHtml.firstChild) {
       this.rootHtml.removeChild(this.rootHtml.firstChild);
     }
 
-    const createHtmlValue = function (key, value) {
+    const createHtmlValue = function (json, key) {
+      const value = json[key];
+
       const result = document.createElement('div');
 
       //label
@@ -38,23 +57,43 @@ export class JSONEditorView {
       result.appendChild(label);
 
       //value
-      let input;
+      const input = document.createElement('input');
+      const isArray = json instanceof Array;
       if (typeof value == 'string' || value === null) {
-        input = document.createElement('input');
         input.type = 'text';
         input.value = value;
+        input.onchange = function (event) {
+          if (isArray) {
+            json.push(this.value);
+          } else {
+            json[key] = this.value;
+          }
+        };
       } else if (typeof value == 'boolean') {
-        input = document.createElement('input');
         input.type = 'checkbox';
         input.checked = value;
+        input.onchange = function (event) {
+          if (isArray) {
+            json.push(this.checked);
+          } else {
+            json[key] = this.checked;
+          }
+        };
       } else if (typeof value == 'number') {
-        input = document.createElement('input');
         input.type = 'number';
         input.value = value;
+        input.onchange = function (event) {
+          if (isArray) {
+            json.push(this.value);
+          } else {
+            json[key] = this.value;
+          }
+        };
       } else {
-        input = document.createElement('div');
         input.innerHTML = 'default';
       }
+
+      _this.addListener(input, 'onchange');
 
       result.appendChild(input);
       result.classList.add('object_JSONEditor');
@@ -66,17 +105,23 @@ export class JSONEditorView {
 
       //callbacks
       removeButton.onclick = function (event) {
-        result.remove();
+        delete json[key];
+        _this.onchange();
+        result.remove(); //remove ui
       };
 
       return result;
     };
 
-    const createHtmlObject = function (keyParent, object, offsetLeft = 0) {
+    const createHtmlObject = function (
+      parent,
+      keyParent,
+      object,
+      offsetLeft = 0
+    ) {
       const result = document.createElement('div');
 
       //INITUI
-
       const ui = document.createElement('div');
       ui.classList.add('ui_object_JSONEditor');
       result.appendChild(ui);
@@ -91,14 +136,18 @@ export class JSONEditorView {
       const selectValueAdd = document.createElement('select');
       ui.appendChild(selectValueAdd);
 
-      const addOption = {};
       for (let type in VALUES_TYPE) {
         const add = document.createElement('option');
         add.value = VALUES_TYPE[type];
         add.innerHTML = VALUES_TYPE[type];
         selectValueAdd.appendChild(add);
-        addOption[type] = add;
       }
+
+      //add
+      const addButton = document.createElement('div');
+      addButton.classList.add('button_Editor');
+      addButton.innerHTML = 'add';
+      ui.appendChild(addButton);
 
       //remove
       const removeButton = document.createElement('div');
@@ -117,10 +166,10 @@ export class JSONEditorView {
 
         if (o instanceof Object) {
           valuesParent.appendChild(
-            createHtmlObject(key, o, offsetLeft + OFFSET_LEFT)
+            createHtmlObject(object, key, o, offsetLeft + OFFSET_LEFT)
           );
         } else {
-          valuesParent.appendChild(createHtmlValue(key, o));
+          valuesParent.appendChild(createHtmlValue(object, key));
         }
       }
 
@@ -137,13 +186,111 @@ export class JSONEditorView {
       };
 
       removeButton.onclick = function (event) {
+        if (parent) {
+          if (parent instanceof Array) {
+            parent.splice(keyParent, 1);
+          } else {
+            delete parent[keyParent];
+          }
+        } else {
+          _this.currentJSON = null;
+        }
+        _this.onchange();
         result.remove();
+      };
+
+      addButton.onclick = function (event) {
+        const type = selectValueAdd.selectedOptions[0].value;
+
+        const msgKey = 'Key ?';
+        const key = window.prompt(msgKey);
+        if (object[key] != undefined || key == null) {
+          return;
+        }
+        let htmlCreated;
+
+        switch (type) {
+          case VALUES_TYPE.STRING:
+            object[key] = '';
+            htmlCreated = createHtmlValue(object, key);
+            break;
+          case VALUES_TYPE.NUMBER:
+            object[key] = 0;
+            htmlCreated = createHtmlValue(object, key);
+            break;
+          case VALUES_TYPE.BOOLEAN:
+            object[key] = true;
+            htmlCreated = createHtmlValue(object, key);
+            break;
+          case VALUES_TYPE.OBJECT:
+            object[key] = {};
+            htmlCreated = createHtmlObject(
+              object,
+              key,
+              object[key],
+              offsetLeft + OFFSET_LEFT
+            );
+            break;
+          default:
+            console.error('error');
+        }
+
+        valuesParent.appendChild(htmlCreated);
+        valuesParent.classList.remove('hidden');
+        if (htmlCreated.onchange) {
+          htmlCreated.onchange().bind(htmlCreated);
+        } else {
+          _this.onchange();
+        }
       };
 
       return result;
     };
 
-    this.rootHtml.appendChild(createHtmlObject('GameObject', this.currentJSON));
+    //update html
+    this.rootHtml.appendChild(
+      createHtmlObject(null, 'GameObject', this.currentJSON)
+    );
+
+    //update callbacks
+    this.on('onchange', this.onchange);
+  }
+
+  computeCurrentString() {
+    const parseIndex = function (json) {
+      if (!(json instanceof Object)) return json;
+
+      let isArray = json instanceof Array;
+
+      if (!isArray) {
+        for (let key in json) {
+          isArray = true;
+          if (isNaN(key)) {
+            isArray = false;
+            break;
+          }
+        }
+      }
+
+      if (isArray) {
+        const parsedJson = [];
+        for (let index in json) {
+          if (!json[index]) continue;
+          parsedJson.push(json[index]);
+        }
+        json = parsedJson;
+      }
+
+      for (let key in json) {
+        json[key] = parseIndex(json[key]);
+      }
+
+      return json;
+    };
+
+    const deepCopy = JSON.parse(JSON.stringify(this.currentJSON));
+
+    return JSON.stringify(parseIndex(deepCopy));
   }
 
   onJSON(goJson) {
