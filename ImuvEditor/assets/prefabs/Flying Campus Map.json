@@ -1,1 +1,0 @@
-{"name":"My GameObject","type":"GameObject","static":false,"uuid":"0DA3CE68-E495-414B-97DC-C94FF9B6D079","parentUUID":null,"components":[{"uuid":"A4ADACE4-5E57-4432-8FED-391181FA2262","type":"RenderComponent","idModel":"flying_campus"}],"children":[],"transform":{"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"scale":{"x":1,"y":1,"z":1}}}

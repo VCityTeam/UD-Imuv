@@ -212,36 +212,32 @@ export class JSONEditorView {
         switch (type) {
           case VALUES_TYPE.STRING:
             object[key] = '';
-            htmlCreated = createHtmlValue(object, key);
+            valuesParent.appendChild(createHtmlValue(object, key));
             break;
           case VALUES_TYPE.NUMBER:
             object[key] = 0;
-            htmlCreated = createHtmlValue(object, key);
+            valuesParent.appendChild(createHtmlValue(object, key));
             break;
           case VALUES_TYPE.BOOLEAN:
             object[key] = true;
-            htmlCreated = createHtmlValue(object, key);
+            valuesParent.appendChild(createHtmlValue(object, key));
             break;
           case VALUES_TYPE.OBJECT:
             object[key] = {};
-            htmlCreated = createHtmlObject(
-              object,
-              key,
-              object[key],
-              offsetLeft + OFFSET_LEFT
+            valuesParent.appendChild(
+              createHtmlObject(
+                object,
+                key,
+                object[key],
+                offsetLeft + OFFSET_LEFT
+              )
             );
             break;
           default:
             console.error('error');
         }
-
-        valuesParent.appendChild(htmlCreated);
         valuesParent.classList.remove('hidden');
-        if (htmlCreated.onchange) {
-          htmlCreated.onchange().bind(htmlCreated);
-        } else {
-          _this.onchange();
-        }
+        _this.onchange();
       };
 
       return result;

@@ -1,12 +1,12 @@
 /** @format */
 
-.root_GOEditorView {
+.root_GOEditor {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-.ui_GOEditorView {
+.ui_GOEditor {
   display: inline-block;
   height: 100%;
   background-color: burlywood;
@@ -15,7 +15,7 @@
   padding: 5px;
 }
 
-.canvas_GOEditorView {
+.canvas_GOEditor {
   display: inline-block;
   position: absolute;
 }

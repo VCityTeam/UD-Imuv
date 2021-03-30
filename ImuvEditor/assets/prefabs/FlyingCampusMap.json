@@ -7,7 +7,7 @@
   "components": [
     {
       "uuid": "5A407D42-0B89-43B7-BF19-604A54C067D7",
-      "type": "RenderComponent",
+      "type": "Render",
       "idModel": "flying_campus"
     },
     {
@@ -28,11 +28,11 @@
           "heightmap_max": 73.59067458219236
         }
       },
-      "type": "ScriptComponent"
+      "type": "Script"
     },
     {
       "uuid": "AB1A5804-7951-4B0D-B183-87D0FD5A51A2",
-      "type": "BodyComponent",
+      "type": "Body",
       "shapes": []
     }
   ],

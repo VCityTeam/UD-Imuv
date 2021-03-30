@@ -53,6 +53,7 @@ li:hover {
   -khtml-user-select: none;
   user-select: none;
   font-size: small;
+  margin: 2px;
 }
 
 .button_Editor:hover {

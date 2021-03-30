@@ -1,5 +1,10 @@
 {
   "assetsManager": {
+    "prefabs": {
+      "flying_campus": {
+        "path": "./assets/prefabs/FlyingCampusMap.json"
+      }
+    },
     "scripts": {
       "avatar": {
         "path": "./assets/scripts/Avatar.js"

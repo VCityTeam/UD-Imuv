@@ -1,8 +1,7 @@
 /** @format */
 
 import './WorldEditor.css';
-import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/RenderComponent';
-import { Game, Components } from 'ud-viz';
+import { Game, Components, THREE } from 'ud-viz';
 const File = Components.SystemUtils.File;
 
 export class WorldEditorView {
@@ -53,9 +52,10 @@ export class WorldEditorView {
     if (!this.gameView || this.pause) return;
     const world = this.gameView.getWorld();
     if (!world) return;
-    const go = world.getGameObject();
-    if (!go.getObject3D()) return;
-    const bb = go.getComponent(RenderComponent.TYPE).computeBoundingBox();
+    const go = world.getGameObject();    
+    const obj = go.getObject3D();
+    if (!obj) return;
+    const bb = new THREE.Box3().setFromObject(obj);
 
     const w = bb.max.x - bb.min.x;
     const h = bb.max.y - bb.min.y;
@@ -91,26 +91,13 @@ export class WorldEditorView {
     this.saveButton.onclick = function () {
       if (!_this.currentWorld) return;
 
-      //path remain
-      _this.currentWorld.getGameObject().traverse(function (g) {
-        const s = g.getScripts();
-
-        //dont change path
-        if (s && s['map']) {
-          const path = s['map'].conf.heightmap_path;
-          const index = path.indexOf('/assets');
-          s['map'].conf.heightmap_path =
-            _this.pathDirectory + path.slice(index);
-        }
-      });
-
       //change in world array
       _this.worldsJSON.forEach(function (w) {
         if (w.uuid == _this.currentWorld.getUUID()) {
           const clone = _this.currentWorld.clone();
-          
-          debugger
-          
+
+          debugger;
+
           //remove avatar before saving
           clone.getGameObject().traverse(function (g) {
             if (g.name == 'avatar') {
@@ -167,7 +154,10 @@ export class WorldEditorView {
         world.getGameObject().traverse(function (g) {
           const s = g.getScripts();
           if (s && s['map']) {
-            const path = s['map'].conf.heightmap_path;
+            //consider assets are in ./
+            let path = s['map'].conf.heightmap_path;
+            const index = path.indexOf('/assets');
+            path = './' + path.slice(index);
             _this.imgHeightmap.src = path;
           }
         });
@@ -177,20 +167,9 @@ export class WorldEditorView {
 
   onWorldJSON(json) {
     const world = new Game.Shared.World(json, { isServerSide: false });
-    const _this = this;
 
-    world.getGameObject().initAssets(this.assetsManager, Game.Shared);
+    world.getGameObject().initAssetsComponents(this.assetsManager, Game.Shared);
 
-    //remain path of heightmap
-    world.getGameObject().traverse(function (g) {
-      const s = g.getScripts();
-      if (s && s['map']) {
-        const path = s['map'].conf.heightmap_path;
-        const index = path.indexOf('/assets');
-        _this.pathDirectory = path.slice(0, index);
-        s['map'].conf.heightmap_path = '..' + path.slice(index);
-      }
-    });
     this.currentWorld = world;
 
     this.onWorld(world);
@@ -274,8 +253,7 @@ export class WorldEditorView {
       htmlView.style.display = 'inline-block';
       htmlView.style.position = 'absolute';
       _this.rootHtml.appendChild(htmlView);
+      _this.updateUI();
     });
-
-    this.updateUI();
   }
 }

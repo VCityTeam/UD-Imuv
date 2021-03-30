@@ -5,41 +5,16 @@
     "name": "Flying Campus World",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "gameObject": {
-      "name": "Flying Campus Map",
+      "name": "GameManager",
       "type": "GameObject",
-      "static": true,
-      "uuid": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
+      "uuid": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
       "parentUUID": null,
       "components": [
         {
-          "uuid": "5A407D42-0B89-43B7-BF19-604A54C067D7",
-          "type": "RenderComponent",
-          "idModel": "flying_campus"
-        },
-        {
-          "uuid": "A18CF9CD-CDE7-42FD-A88B-FCE457155FB5",
-          "idScripts": ["map"],
-          "conf": {
-            "heightmap_path": "../ImuvEditor/assets/worlds/heightmap/heightmap_1.png",
-            "heightmap_geometry": {
-              "bounding_box": {
-                "min": { "x": 0, "y": 0, "z": 0 },
-                "max": {
-                  "x": 135.21171951293945,
-                  "y": 172.97806549072266,
-                  "z": 109.83682773461547
-                }
-              },
-              "heightmap_min": 45.03309937119234,
-              "heightmap_max": 73.59067458219236
-            }
-          },
-          "type": "ScriptComponent"
-        },
-        {
-          "uuid": "AB1A5804-7951-4B0D-B183-87D0FD5A51A2",
-          "type": "BodyComponent",
-          "shapes": []
+          "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
+          "idScripts": ["gameManager"],
+          "conf": {},
+          "type": "Script"
         }
       ],
       "children": [],

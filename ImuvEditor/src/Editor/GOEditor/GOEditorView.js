@@ -17,16 +17,16 @@ export class GOEditorView {
 
     //where ui is append
     this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_GOEditorView');
+    this.rootHtml.classList.add('root_GOEditor');
 
     //where html goes
     this.ui = document.createElement('div');
-    this.ui.classList.add('ui_GOEditorView');
+    this.ui.classList.add('ui_GOEditor');
     this.rootHtml.appendChild(this.ui);
 
     //where to render
     const canvas = document.createElement('canvas');
-    canvas.classList.add('canvas_GOEditorView');
+    canvas.classList.add('canvas_GOEditor');
     this.canvas = canvas;
     this.rootHtml.appendChild(canvas);
 
@@ -62,12 +62,12 @@ export class GOEditorView {
     this.jsonEditorView = new JSONEditorView(this);
 
     //html
-    this.input = null;
-    this.opacitySlider = null;
-    this.checkboxGizmo = null;
-    this.saveGOButton = null;
-    this.focusGOButton = null;
-    this.newGOButton = null;
+    this.input = null; //open a new json
+    this.opacitySlider = null; //set opacity go material
+    this.checkboxGizmo = null; //display or not gizmo
+    this.saveGOButton = null; //save the current go as json
+    this.focusGOButton = null; //camera focus current go if render comp
+    this.newGOButton = null; //reset scene with new go
   }
 
   setPause(value) {
@@ -186,7 +186,6 @@ export class GOEditorView {
     this.newGOButton.onclick = function () {
       const emptyGOJSON = {
         name: 'My GameObject',
-        static: false,
         components: [],
         children: [],
       };
@@ -263,7 +262,7 @@ export class GOEditorView {
   onGameObjectJSON(json) {
     console.log('onGameObject => ', json);
     const gameobject = new Game.Shared.GameObject(json);
-    gameobject.initAssets(this.assetsManager, Game.Shared);
+    gameobject.initAssetsComponents(this.assetsManager, Game.Shared);
     this.model.setGameObject(gameobject);
     this.updateUI();
   }
@@ -321,7 +320,6 @@ export class GOEditorView {
         try {
           _this.onOpenNewJSON(JSON.parse(oldJsonString));
         } catch (e) {
-          alert('cant reload previous work');
           console.error(e);
         }
       }

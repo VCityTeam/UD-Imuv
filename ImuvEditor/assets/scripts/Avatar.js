@@ -3,19 +3,23 @@
 //scripts are commonJs module witout dependency all game context is pass as udvGameShared
 //this is due to the fact that the code is import as a string then eval() in code by the (Script/Asssets)Manager
 module.exports = class Avatar {
-  constructor(conf, udvGameShared) {
+  constructor(conf) {
     this.conf = conf;
     this.commands = {};
-    this.udvGameShared = udvGameShared;
+  }
+
+  init() {
+    const gCtx = arguments[1];
+
     //init commands
-    const Command = this.udvGameShared.Command;
+    const Command = gCtx.UDVShared.Command;
     for (let type in Command.TYPE) {
       this.commands[Command.TYPE[type]] = [];
     }
   }
 
-  fetchCommands(commands, gameObject) {
-    const Command = this.udvGameShared.Command;
+  fetchCommands(commands, gameObject, gCtx) {
+    const Command = gCtx.UDVShared.Command;
 
     //get commands sign by its user
     let addMoveTo = false;
@@ -49,7 +53,7 @@ module.exports = class Avatar {
     }
   }
 
-  applyCommands(gameObject, dt) {
+  applyCommands(gameObject, dt, gCtx) {
     //TODO create function in gameobject to get a nice API
     gameObject.outdated = false;
 
@@ -59,8 +63,8 @@ module.exports = class Avatar {
     const AVATAR_SPEED_ROTATION_Z = 0.00005;
     const AVATAR_SPEED_ROTATION_X = 0.00005;
 
-    const Command = this.udvGameShared.Command;
-    const THREE = this.udvGameShared.THREE;
+    const Command = gCtx.UDVShared.Command;
+    const THREE = gCtx.UDVShared.THREE;
 
     for (let type in this.commands) {
       const cmds = this.commands[type];
@@ -71,8 +75,8 @@ module.exports = class Avatar {
           case Command.TYPE.MOVE_TO:
             const target = cmd.getData().target;
             const pos = gameObject.transform.position;
-            const dir = new THREE.Vector2(target.x, target.y).sub(
-              new THREE.Vector2(pos.x, pos.y)
+            const dir = new THREE.Vector3(target.x, target.y).sub(
+              new THREE.Vector3(pos.x, pos.y)
             );
             const amount = AVATAR_SPEED_MOVE * dt;
             if (dir.length() >= amount) {
@@ -148,18 +152,9 @@ module.exports = class Avatar {
 
   tick() {
     const gameObject = arguments[0];
-    const commands = arguments[1];
-    const dt = arguments[2];
+    const gCtx = arguments[1];
 
-    this.fetchCommands(commands, gameObject);
-    this.applyCommands(gameObject, dt);
-
-    const mapGO = gameObject.computeRoot(); //root is the map of the game
-    const scripts = mapGO.getScripts();
-    if (scripts) {
-      const script = scripts['map'];
-      if (!script) throw new Error('no script map on root object');
-      script.updateElevation(mapGO, gameObject);
-    }
+    this.fetchCommands(gCtx.commands, gameObject, gCtx);
+    this.applyCommands(gameObject, gCtx.dt, gCtx);
   }
 };

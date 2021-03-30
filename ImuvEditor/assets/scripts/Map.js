@@ -1,22 +1,27 @@
 /** @format */
 
 module.exports = class Map {
-  constructor(conf, udvGameShared) {
+  constructor(conf) {
     this.conf = conf;
     this.heightmapSize = null; //size of the heightmap
     this.heightValues = []; //values extract from heightmap
   }
 
   loadLocal() {
+    const _this = this;
     return new Promise((resolve, reject) => {
       const gameObject = arguments[0];
       const conf = this.conf;
 
       const img = document.createElement('img');
-      img.src = conf.heightmap_path;
+
+      //consider assets are in ./
+      let path = conf.heightmap_path;
+      const index = path.indexOf('/assets');
+      path = './' + path.slice(index);
+      img.src = path;
 
       //callback of the img
-      const _this = this;
 
       img.onload = function () {
         _this.heightmapSize = { width: img.width, height: img.height };
@@ -48,10 +53,11 @@ module.exports = class Map {
   }
 
   loadServer() {
+    const modules = arguments[3];
     return new Promise((resolve, reject) => {
       const gameObject = arguments[0];
-      const gm = arguments[2];
-      const PNG = arguments[3];
+      const gm = modules.gm;
+      const PNG = modules.PNG;
 
       const conf = this.conf;
 
@@ -88,7 +94,9 @@ module.exports = class Map {
   }
 
   load() {
-    const isServerSide = arguments[1];
+    const gCtx = arguments[1];
+    const isServerSide = arguments[2];
+    const modules = arguments[3];
     if (!isServerSide) {
       return this.loadLocal.apply(this, arguments);
     } else {
@@ -96,10 +104,10 @@ module.exports = class Map {
     }
   }
 
-  updateElevation(mapGO, gameObject) {
-    const getHeightValue = function (data, x, y, size, values) {
+  updateElevation(gameObject) {
+    const getHeightValue = function (conf, x, y, size, values) {
       //console.log(data)
-      const bbox = data.heightmap_geometry.bounding_box;
+      const bbox = conf.heightmap_geometry.bounding_box;
 
       const pixelWorldUnit = {
         width: (bbox.max.x - bbox.min.x) / size.width,
@@ -111,7 +119,6 @@ module.exports = class Map {
         y: (bbox.max.y - bbox.min.y - y) / pixelWorldUnit.height, //y is inverse
       };
 
-      //weight with neighboor pixel
       const indexMin = {
         i: Math.floor(coordHeightmap.x),
         j: Math.floor(coordHeightmap.y),
@@ -136,7 +143,7 @@ module.exports = class Map {
 
         let result;
         if (out) {
-          result = data.heightmap_geometry.heightmap_min;
+          result = conf.heightmap_geometry.heightmap_min;
         } else {
           result = values[i + j * size.width];
         }
