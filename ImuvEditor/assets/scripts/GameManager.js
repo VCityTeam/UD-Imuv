@@ -17,7 +17,7 @@ module.exports = class GameManager {
     const _this = this;
     return new Promise((resolve, reject) => {
       console.log('GameManager load', arguments);
-      _this.map = gCtx.assetsManager.fetchPrefab('flying_campus');
+      _this.map = gCtx.assetsManager.fetchPrefab('room_expo');
       gCtx.world.addGameObject(_this.map, gCtx, go, function () {
         resolve();
       });

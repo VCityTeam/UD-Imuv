@@ -32,7 +32,7 @@ export class WorldEditorView {
     this.input = null;
     this.worldsList = null;
     this.worldsList = null;
-    this.canvasCollision = null;
+    this.canvasPreview = null;
     this.stopButton = null;
     this.imgHeightmap = null;
     this.saveButton = null;
@@ -46,13 +46,13 @@ export class WorldEditorView {
     return this.rootHtml;
   }
 
-  renderCanvasCollision() {
-    requestAnimationFrame(this.renderCanvasCollision.bind(this));
+  renderCanvas() {
+    requestAnimationFrame(this.renderCanvas.bind(this));
 
     if (!this.gameView || this.pause) return;
     const world = this.gameView.getWorld();
     if (!world) return;
-    const go = world.getGameObject();    
+    const go = world.getGameObject();
     const obj = go.getObject3D();
     if (!obj) return;
     const bb = new THREE.Box3().setFromObject(obj);
@@ -60,17 +60,22 @@ export class WorldEditorView {
     const w = bb.max.x - bb.min.x;
     const h = bb.max.y - bb.min.y;
 
-    this.canvasCollision.width = w;
-    this.canvasCollision.height = h;
+    this.canvasPreview.width = w;
+    this.canvasPreview.height = h;
 
-    const ctx = this.canvasCollision.getContext('2d');
+    const ctx = this.canvasPreview.getContext('2d');
+    ctx.scale = 10;
+
     ctx.clearRect(
       0,
       0,
-      this.canvasCollision.width,
-      this.canvasCollision.height
+      this.canvasPreview.width,
+      this.canvasPreview.height
     );
-    ctx.strokeStyle = '#FFFFFF';
+
+    ctx.drawImage(this.imgHeightmap, 0, 0, w, h);
+
+    ctx.strokeStyle = 'red';
     ctx.beginPath();
     world.getCollisions().draw(ctx);
     ctx.stroke();
@@ -200,10 +205,10 @@ export class WorldEditorView {
     this.worldsList = worldsList;
 
     //preview
-    const canvasCollision = document.createElement('canvas');
-    canvasCollision.classList.add('canvas_preview');
-    this.ui.appendChild(canvasCollision);
-    this.canvasCollision = canvasCollision;
+    const canvasPreview = document.createElement('canvas');
+    canvasPreview.classList.add('canvas_preview');
+    this.ui.appendChild(canvasPreview);
+    this.canvasPreview = canvasPreview;
 
     const stopButton = document.createElement('div');
     stopButton.innerHTML = 'Stop Game';
@@ -229,7 +234,7 @@ export class WorldEditorView {
 
       _this.initCallbacks();
 
-      _this.renderCanvasCollision();
+      _this.renderCanvas();
 
       resolve();
     });

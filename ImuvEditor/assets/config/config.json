@@ -1,6 +1,9 @@
 {
   "assetsManager": {
     "prefabs": {
+      "room_expo": {
+        "path": "./assets/prefabs/room_expo map.json"
+      },
       "flying_campus": {
         "path": "./assets/prefabs/FlyingCampusMap.json"
       }

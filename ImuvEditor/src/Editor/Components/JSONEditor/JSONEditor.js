@@ -3,10 +3,10 @@ import './JSONEditor.css';
 
 const OFFSET_LEFT = 20;
 const VALUES_TYPE = {
+  OBJECT: 'Object',
   STRING: 'String',
   NUMBER: 'Number',
   BOOLEAN: 'Boolean',
-  OBJECT: 'Object',
 };
 
 export class JSONEditorView {

@@ -2,12 +2,13 @@
 import { THREE, OrbitControls, Game, Components } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
-import { BodyView } from './Body/BodyView';
+
 import { JSONEditorView } from '../Components/JSONEditor/JSONEditor';
 
 import './GOEditor.css';
 import '../Editor.css';
 import { GOEditorModel } from './GOEditorModel';
+import RenderComponentModule from 'ud-viz/src/Game/Shared/GameObject/Components/RenderComponent';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 
@@ -56,7 +57,6 @@ export class GOEditorView {
 
     //other view
     this.heightMapView = null;
-    this.bodyView = null;
 
     //json view
     this.jsonEditorView = new JSONEditorView(this);
@@ -68,6 +68,7 @@ export class GOEditorView {
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
+    this.addHeightmapButton = null;
   }
 
   setPause(value) {
@@ -185,26 +186,78 @@ export class GOEditorView {
 
     this.newGOButton.onclick = function () {
       const emptyGOJSON = {
+        uuid: THREE.MathUtils.generateUUID(),
         name: 'My GameObject',
+        static: false,
+        type: Game.Shared.GameObject.TYPE,
         components: [],
         children: [],
       };
       _this.onOpenNewJSON(emptyGOJSON);
     };
 
-    this.jsonEditorView.on('onchange', function (event) {
-      const buffer = _this.model.getGameObject();
-      const old = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
-      try {
-        const newString = _this.jsonEditorView.computeCurrentString();
-        localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, newString);
-        _this.onGameObjectJSON(JSON.parse(newString));
-      } catch (e) {
-        console.error(e);
-        localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, old);
-        if (buffer) _this.onGameObjectJSON(buffer.toJSON(true));
+    let hView;
+    this.addHeightmapButton.onclick = function () {
+      if (hView) return;
+
+      const go = _this.model.getGameObject();
+
+      if (!go) return;
+
+      const r = go.getComponent(RenderComponentModule.TYPE);
+
+      if (!r) {
+        alert('no render component impossible to add heightmap');
+        return;
       }
-    });
+
+      //add view
+      const wrapper = document.createElement('div');
+
+      hView = new HeightMapView(_this);
+
+      const deleteButton = document.createElement('div');
+      deleteButton.classList.add('button_Editor');
+      deleteButton.innerHTML = 'delete';
+      wrapper.appendChild(deleteButton);
+
+      const bindButton = document.createElement('div');
+      bindButton.classList.add('button_Editor');
+      bindButton.innerHTML = 'bind';
+      wrapper.appendChild(bindButton);
+
+      wrapper.appendChild(hView.html());
+
+      _this.jsonEditorView.onJSON(go.toJSON(true));
+
+      _this.ui.appendChild(wrapper);
+
+      deleteButton.onclick = function () {
+        wrapper.remove();
+        hView.dispose();
+        hView = null;
+      };
+
+      bindButton.onclick = function () {
+        _this.jsonEditorView.onJSON(go.toJSON(true));
+      };
+    };
+
+    this.jsonEditorView.on('onchange', this.jsonOnChange.bind(this));
+  }
+
+  jsonOnChange() {
+    const buffer = this.model.getGameObject();
+    const old = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
+    try {
+      const newString = this.jsonEditorView.computeCurrentString();
+      localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, newString);
+      this.onGameObjectJSON(JSON.parse(newString));
+    } catch (e) {
+      console.error(e);
+      localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, old);
+      if (buffer) this.onGameObjectJSON(buffer.toJSON(true));
+    }
   }
 
   initUI() {
@@ -255,6 +308,13 @@ export class GOEditorView {
     this.ui.appendChild(newGOButton);
     this.newGOButton = newGOButton;
 
+    //new heightmap add button
+    const addHeightmapButton = document.createElement('div');
+    addHeightmapButton.classList.add('button_Editor');
+    addHeightmapButton.innerHTML = 'Add Heightmap Script Component';
+    this.ui.appendChild(addHeightmapButton);
+    this.addHeightmapButton = addHeightmapButton;
+
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());
   }
@@ -278,6 +338,7 @@ export class GOEditorView {
 
     //json
     this.jsonEditorView.onJSON(json);
+    this.jsonOnChange(); //update localstorage
 
     this.onResize();
   }
