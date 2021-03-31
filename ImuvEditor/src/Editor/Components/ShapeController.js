@@ -31,10 +31,12 @@ const Circle = class CircleClass {
   mouseUp(point) {
     this.isEdited = false;
   }
+
   mouseMove(point) {
     if (!this.isEdited || !this.center || !point) return;
     this.radius = this.center.distanceTo(point);
   }
+
   mouseDown(point) {
     if (!point) return;
     this.isEdited = true;

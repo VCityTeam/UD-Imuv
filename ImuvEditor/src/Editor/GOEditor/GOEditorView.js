@@ -2,6 +2,7 @@
 import { THREE, OrbitControls, Game, Components } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
+import { BodyView } from './Body/BodyView';
 
 import { JSONEditorView } from '../Components/JSONEditor/JSONEditor';
 
@@ -68,7 +69,8 @@ export class GOEditorView {
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
-    this.addHeightmapButton = null;
+    this.addHeightmapButton = null; //add heightmap json in current go
+    this.addBodyButton = null; //add body json in current go
   }
 
   setPause(value) {
@@ -243,6 +245,46 @@ export class GOEditorView {
       };
     };
 
+    let bView;
+    this.addBodyButton.onclick = function () {
+      if (bView) return;
+
+      const go = _this.model.getGameObject();
+
+      if (!go) return;
+
+      //add view
+      const wrapper = document.createElement('div');
+
+      bView = new BodyView(_this);
+
+      const deleteButton = document.createElement('div');
+      deleteButton.classList.add('button_Editor');
+      deleteButton.innerHTML = 'delete';
+      wrapper.appendChild(deleteButton);
+
+      const bindButton = document.createElement('div');
+      bindButton.classList.add('button_Editor');
+      bindButton.innerHTML = 'bind';
+      wrapper.appendChild(bindButton);
+
+      wrapper.appendChild(bView.html());
+
+      _this.jsonEditorView.onJSON(go.toJSON(true));
+
+      _this.ui.appendChild(wrapper);
+
+      deleteButton.onclick = function () {
+        wrapper.remove();
+        bView.dispose();
+        bView = null;
+      };
+
+      bindButton.onclick = function () {
+        _this.jsonEditorView.onJSON(go.toJSON(true));
+      };
+    };
+
     this.jsonEditorView.on('onchange', this.jsonOnChange.bind(this));
   }
 
@@ -314,6 +356,13 @@ export class GOEditorView {
     addHeightmapButton.innerHTML = 'Add Heightmap Script Component';
     this.ui.appendChild(addHeightmapButton);
     this.addHeightmapButton = addHeightmapButton;
+
+    //new body add button
+    const addBodyButton = document.createElement('div');
+    addBodyButton.classList.add('button_Editor');
+    addBodyButton.innerHTML = 'Add Body Component';
+    this.ui.appendChild(addBodyButton);
+    this.addBodyButton = addBodyButton;
 
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());

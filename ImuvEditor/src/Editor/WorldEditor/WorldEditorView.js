@@ -57,28 +57,54 @@ export class WorldEditorView {
     if (!obj) return;
     const bb = new THREE.Box3().setFromObject(obj);
 
-    const w = bb.max.x - bb.min.x;
-    const h = bb.max.y - bb.min.y;
+    const wWorld = bb.max.x - bb.min.x;
+    const hWorld = bb.max.y - bb.min.y;
+    if (!wWorld || !hWorld) return;
 
-    this.canvasPreview.width = w;
-    this.canvasPreview.height = h;
+    //update heightmap src
+
+    if (!this.imgHeightmap) {
+      const _this = this;
+
+      world.getGameObject().traverse(function (g) {
+        const s = g.getScripts();
+        if (s && s['map']) {
+          //consider assets are in ./
+          let path = s['map'].conf.heightmap_path;
+          const index = path.indexOf('/assets');
+          path = './' + path.slice(index);
+
+          //create html element
+          _this.imgHeightmap = document.createElement('img');
+          _this.imgHeightmap.src = path;
+        }
+      });
+    }
+
+    const wCanvas = this.canvasPreview.width;
+    const hCanvas = this.canvasPreview.height;
 
     const ctx = this.canvasPreview.getContext('2d');
-    ctx.scale = 10;
 
-    ctx.clearRect(
-      0,
-      0,
-      this.canvasPreview.width,
-      this.canvasPreview.height
-    );
+    //clear rect
+    ctx.clearRect(0, 0, wCanvas, hCanvas);
 
-    ctx.drawImage(this.imgHeightmap, 0, 0, w, h);
+    //draw heightmap
+    if (this.imgHeightmap) {
+      ctx.save();
+      ctx.transform(1, 0, 0, -1, 0, hCanvas);
+      ctx.drawImage(this.imgHeightmap, 0, 0, wCanvas, hCanvas);
+      ctx.restore();
+    }
 
-    ctx.strokeStyle = 'red';
+    //draw collison body
     ctx.beginPath();
+    ctx.save();
+    ctx.scale(wCanvas / wWorld, hCanvas / hWorld);
     world.getCollisions().draw(ctx);
+    ctx.strokeStyle = 'red';
     ctx.stroke();
+    ctx.restore();
   }
 
   initCallbacks() {
@@ -151,23 +177,6 @@ export class WorldEditorView {
       li.onclick = _this.onWorldJSON.bind(_this, w);
       list.appendChild(li);
     });
-
-    //update heightmap
-    if (this.gameView && !this.imgHeightmap.src) {
-      const world = this.gameView.getWorld();
-      if (world) {
-        world.getGameObject().traverse(function (g) {
-          const s = g.getScripts();
-          if (s && s['map']) {
-            //consider assets are in ./
-            let path = s['map'].conf.heightmap_path;
-            const index = path.indexOf('/assets');
-            path = './' + path.slice(index);
-            _this.imgHeightmap.src = path;
-          }
-        });
-      }
-    }
   }
 
   onWorldJSON(json) {
@@ -216,10 +225,6 @@ export class WorldEditorView {
     this.ui.appendChild(stopButton);
     this.stopButton = stopButton;
 
-    const imgDiv = document.createElement('img');
-    this.ui.appendChild(imgDiv);
-    this.imgHeightmap = imgDiv;
-
     const saveButton = document.createElement('div');
     saveButton.classList.add('button_Editor');
     saveButton.innerHTML = 'Download';
@@ -241,6 +246,9 @@ export class WorldEditorView {
   }
 
   onWorld(newWorld) {
+    //reset
+    this.imgHeightmap = null;
+
     this.stopGame();
 
     const _this = this;

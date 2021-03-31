@@ -115,7 +115,7 @@ WorldThreadModule.routine = function (serverConfig) {
         modules: { gm: gm, PNG: PNG },
       });
 
-      world.getGameObject().initAssets(manager, udvShared, true);
+      world.getGameObject().initAssetsComponents(manager, udvShared, true);
 
       world.load(function () {
         console.log(world.name, ' loaded');
@@ -157,7 +157,7 @@ WorldThreadModule.routine = function (serverConfig) {
 
     const onAddGameObject = function (goJson) {
       const newGO = new GameObject(goJson);
-      newGO.initAssets(manager, udvShared, true);
+      newGO.initAssetsComponents(manager, udvShared, true);
       world.addGameObject(newGO);
     };
 

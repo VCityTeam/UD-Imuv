@@ -4,7 +4,6 @@ import { BodyModel } from './BodyModel';
 import * as ShapeController from '../../Components/ShapeController';
 import { THREE } from 'ud-viz';
 
-
 import './Body.css';
 import '../../Editor.css';
 
@@ -32,6 +31,8 @@ export class BodyView {
     this.polygonButton = null;
     this.shapesList = null;
     this.currentShapeAnchor = null;
+
+    this.init();
   }
 
   html() {
@@ -39,7 +40,7 @@ export class BodyView {
   }
 
   init() {
-    this.model.initScene();
+    this.model.init();
 
     this.initUI();
 
@@ -200,9 +201,14 @@ export class BodyView {
         -1 + (2 * event.offsetX) / canvas.clientWidth,
         1 - (2 * event.offsetY) / canvas.clientHeight
       );
+      // console.log(mouse);
 
       //2. set the picking ray from the camera position and mouse coordinates
-      _this.raycaster.setFromCamera(mouse, _this.goView.getCamera());
+      const camera = _this.goView.getCamera();
+      const oldNear = camera.near;
+      camera.near = 0;
+      _this.raycaster.setFromCamera(mouse, camera);
+      camera.near = oldNear;
 
       //3. compute intersections
       const intersects = _this.raycaster.intersectObject(
@@ -217,7 +223,7 @@ export class BodyView {
         return null;
       }
     };
-    canvas.onmousedown = function (event) {
+    canvas.onpointerdown = function (event) {
       if (event.button != 0) return; //only left click
       const currentShape = _this.model.getCurrentShape();
       if (!currentShape) return;
@@ -228,7 +234,7 @@ export class BodyView {
         _this.model.updatePlanTexture();
       }
     };
-    canvas.onmousemove = function (event) {
+    canvas.onpointermove = function (event) {
       const currentShape = _this.model.getCurrentShape();
       if (!currentShape) return;
 
@@ -242,7 +248,7 @@ export class BodyView {
       currentShape.mouseMove(point);
       if (point) _this.model.updatePlanTexture();
     };
-    canvas.onmouseup = function (event) {
+    canvas.onpointerup = function (event) {
       _this.goView.enableControls(true);
       const currentShape = _this.model.getCurrentShape();
       if (!currentShape) return;

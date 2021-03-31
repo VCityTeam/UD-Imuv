@@ -26,6 +26,11 @@ export class BodyModel {
     this.currentShape = null;
   }
 
+  init() {
+    this.initScene();
+    this.initBody();
+  }
+
   addCurrentShape() {
     this.shapes.push(this.currentShape.clone());
     this.setCurrentShape(null);
@@ -136,10 +141,7 @@ export class BodyModel {
     const heightO = bbox.max.y - bbox.min.y;
 
     const planGeometry = new THREE.PlaneGeometry(widthO, heightO);
-    this.plan = new THREE.Mesh(
-      planGeometry,
-      new THREE.MeshBasicMaterial({ color: 'yellow' })
-    );
+    this.plan = new THREE.Mesh(planGeometry, new THREE.MeshBasicMaterial());
     this.plan.position.copy(center);
     this.getScene().add(this.plan);
     this.plan.renderOrder = -1; //on top of gameobject object3D
@@ -180,8 +182,8 @@ export class BodyModel {
     this.plan.material = new THREE.MeshBasicMaterial({
       side: THREE.DoubleSide,
       color: 'white',
-      transparent: true,
-      opacity: 0.5,
+      // transparent: true,
+      // opacity: 0.5,
       map: textureShape,
     });
   }
