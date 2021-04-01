@@ -2,7 +2,7 @@
 
 import { THREE } from 'ud-viz';
 
-const ScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/ScriptComponent');
+const ScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/Script');
 
 export class HeightmapModel {
   constructor(gameObjectModel) {

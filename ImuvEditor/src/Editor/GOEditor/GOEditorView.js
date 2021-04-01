@@ -9,7 +9,7 @@ import { JSONEditorView } from '../Components/JSONEditor/JSONEditor';
 import './GOEditor.css';
 import '../Editor.css';
 import { GOEditorModel } from './GOEditorModel';
-import RenderComponentModule from 'ud-viz/src/Game/Shared/GameObject/Components/RenderComponent';
+import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 
@@ -206,7 +206,7 @@ export class GOEditorView {
 
       if (!go) return;
 
-      const r = go.getComponent(RenderComponentModule.TYPE);
+      const r = go.getComponent(RenderComponent.TYPE);
 
       if (!r) {
         alert('no render component impossible to add heightmap');
