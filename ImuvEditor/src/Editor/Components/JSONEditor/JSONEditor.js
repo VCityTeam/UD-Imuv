@@ -1,7 +1,7 @@
 /** @format */
 import './JSONEditor.css';
 
-const OFFSET_LEFT = 20;
+const OFFSET_LEFT = 40;
 const VALUES_TYPE = {
   OBJECT: 'Object',
   STRING: 'String',
@@ -112,12 +112,7 @@ export class JSONEditorView {
       return result;
     };
 
-    const createHtmlObject = function (
-      parent,
-      keyParent,
-      object,
-      offsetLeft = 0
-    ) {
+    const createHtmlObject = function (parent, keyParent, object) {
       const result = document.createElement('div');
 
       //INITUI
@@ -156,7 +151,7 @@ export class JSONEditorView {
 
       const valuesParent = document.createElement('div');
       valuesParent.classList.add('hidden');
-      valuesParent.style.marginLeft = offsetLeft + 'px';
+      valuesParent.style.marginLeft = OFFSET_LEFT + 'px';
       result.appendChild(valuesParent);
 
       //key value
@@ -164,9 +159,7 @@ export class JSONEditorView {
         const o = object[key];
 
         if (o instanceof Object) {
-          valuesParent.appendChild(
-            createHtmlObject(object, key, o, offsetLeft + OFFSET_LEFT)
-          );
+          valuesParent.appendChild(createHtmlObject(object, key, o));
         } else {
           valuesParent.appendChild(createHtmlValue(object, key));
         }
