@@ -382,13 +382,13 @@ export class GOEditorView {
   }
 
   onOpenNewJSON(json) {
-    this.onGameObjectJSON(json);
-    this.focusGameObject();
+    // this.onGameObjectJSON(json);
 
     //json
     this.jsonEditorView.onJSON(json);
     this.jsonOnChange(); //update localstorage
 
+    this.focusGameObject();
     this.onResize();
   }
 

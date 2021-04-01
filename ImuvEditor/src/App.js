@@ -1,11 +1,13 @@
 /** @format */
 
 import { Editor } from './Editor/Editor.js';
-import { jquery } from 'ud-viz';
+import { jquery, Game } from 'ud-viz';
 
 export class App {
   constructor() {
     this.editor = null;
+
+    window.UDVDebugger = new Game.UDVDebugger(document.body);
   }
 
   start(path) {
