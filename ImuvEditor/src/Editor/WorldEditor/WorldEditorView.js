@@ -31,7 +31,6 @@ export class WorldEditorView {
     //html
     this.input = null;
     this.worldsList = null;
-    this.worldsList = null;
     this.canvasPreview = null;
     this.stopButton = null;
     this.imgHeightmap = null;

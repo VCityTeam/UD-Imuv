@@ -24,8 +24,7 @@ export class JSONEditorView {
     return this.rootHtml;
   }
 
-  //CLZAN ME
-  on(key, cb) {
+  onChange(cb) {
     this.onchange = cb;
   }
 
@@ -249,7 +248,7 @@ export class JSONEditorView {
     );
 
     //update callbacks
-    this.on('onchange', this.onchange);
+    this.onchange();
   }
 
   computeCurrentString() {

@@ -10,8 +10,10 @@ import './GOEditor.css';
 import '../Editor.css';
 import { GOEditorModel } from './GOEditorModel';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
+import ScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/Script';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
+const LOCAL_STORAGE_FLAG_PREFABS = 'GOEditor_bufferPrefabs';
 
 export class GOEditorView {
   constructor(config, assetsManager) {
@@ -62,15 +64,21 @@ export class GOEditorView {
     //json view
     this.jsonEditorView = new JSONEditorView(this);
 
+    //prefabs
+    this.prefabs = {};
+
     //html
-    this.input = null; //open a new json
+    this.input = null; //open a new prefab json
+    this.prefabsList = null; //list prefabs openend
     this.opacitySlider = null; //set opacity go material
     this.checkboxGizmo = null; //display or not gizmo
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
     this.addHeightmapButton = null; //add heightmap json in current go
-    this.addColliderButton = null; //add body json in current go
+    this.addColliderButton = null; //add collider json in current go
+    this.addRenderButton = null; //add render json in current go
+    this.addScriptButton = null; //add Script json in current go
   }
 
   setPause(value) {
@@ -220,7 +228,7 @@ export class GOEditorView {
 
       const deleteButton = document.createElement('div');
       deleteButton.classList.add('button_Editor');
-      deleteButton.innerHTML = 'delete';
+      deleteButton.innerHTML = 'close';
       wrapper.appendChild(deleteButton);
 
       const bindButton = document.createElement('div');
@@ -260,7 +268,7 @@ export class GOEditorView {
 
       const deleteButton = document.createElement('div');
       deleteButton.classList.add('button_Editor');
-      deleteButton.innerHTML = 'delete';
+      deleteButton.innerHTML = 'close';
       wrapper.appendChild(deleteButton);
 
       const bindButton = document.createElement('div');
@@ -281,14 +289,48 @@ export class GOEditorView {
       };
 
       bindButton.onclick = function () {
-        _this.jsonEditorView.onJSON(go.toJSON(true));
+        _this.jsonEditorView.onJSON(_this.model.getGameObject().toJSON(true));
       };
     };
 
-    this.jsonEditorView.on('onchange', this.jsonOnChange.bind(this));
+    this.addRenderButton.onclick = function () {
+      const go = _this.model.getGameObject();
+
+      if (!go) return;
+
+      const r = go.getComponent(RenderComponent.TYPE);
+
+      if (r) return;
+
+      go.setComponent(
+        RenderComponent.TYPE,
+        new RenderComponent(go, { idModel: 'cube' })
+      );
+
+      _this.jsonEditorView.onJSON(go.toJSON(true));
+      _this.focusGameObject();
+    };
+
+    this.addScriptButton.onclick = function () {
+      const go = _this.model.getGameObject();
+
+      if (!go) return;
+
+      const r = go.getComponent(ScriptModule.TYPE);
+
+      if (r) return;
+
+      go.setComponent(ScriptModule.TYPE, new ScriptModule(go, {}));
+
+      _this.jsonEditorView.onJSON(go.toJSON(true));
+      // _this.focusGameObject();
+    };
+
+    this.jsonEditorView.onChange(this.jsonOnChange.bind(this));
   }
 
   jsonOnChange() {
+    console.log('json change');
     const buffer = this.model.getGameObject();
     const old = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
     try {
@@ -307,6 +349,10 @@ export class GOEditorView {
     input.setAttribute('type', 'file');
     this.ui.appendChild(input);
     this.input = input; //ref
+
+    const prefabsList = document.createElement('ul');
+    this.ui.appendChild(prefabsList);
+    this.prefabsList = prefabsList;
 
     const saveGOButton = document.createElement('div');
     saveGOButton.classList.add('button_Editor');
@@ -357,12 +403,26 @@ export class GOEditorView {
     this.ui.appendChild(addHeightmapButton);
     this.addHeightmapButton = addHeightmapButton;
 
-    //new body add button
+    //new collider add button
     const addColliderButton = document.createElement('div');
     addColliderButton.classList.add('button_Editor');
     addColliderButton.innerHTML = 'Add Collider Component';
     this.ui.appendChild(addColliderButton);
     this.addColliderButton = addColliderButton;
+
+    //add render
+    const addRenderButton = document.createElement('div');
+    addRenderButton.classList.add('button_Editor');
+    addRenderButton.innerHTML = 'Add Render Component';
+    this.ui.appendChild(addRenderButton);
+    this.addRenderButton = addRenderButton;
+
+    //add Script
+    const addScriptButton = document.createElement('div');
+    addScriptButton.classList.add('button_Editor');
+    addScriptButton.innerHTML = 'Add Script Component';
+    this.ui.appendChild(addScriptButton);
+    this.addScriptButton = addScriptButton;
 
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());
@@ -377,19 +437,70 @@ export class GOEditorView {
   }
 
   updateUI() {
-    this.opacitySlider.oninput({ target: this.opacitySlider }); //force update opacity
-    this.checkboxGizmo.oninput({ target: this.checkboxGizmo });
+    if (this.model.getGameObject()) {
+      this.opacitySlider.oninput({ target: this.opacitySlider }); //force update opacity
+      this.checkboxGizmo.oninput({ target: this.checkboxGizmo });
+    }
+
+    //clean prefabs list and rebuild it
+    const list = this.prefabsList;
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+
+    const _this = this;
+    for (let name in this.prefabs) {
+      const li = document.createElement('li');
+      li.innerHTML = name;
+      li.onclick = function () {
+        _this.jsonEditorView.onJSON(_this.prefabs[name]);
+        _this.focusGameObject();
+      };
+      list.appendChild(li);
+    }
   }
 
   onOpenNewJSON(json) {
-    // this.onGameObjectJSON(json);
-
     //json
     this.jsonEditorView.onJSON(json);
-    this.jsonOnChange(); //update localstorage
 
     this.focusGameObject();
     this.onResize();
+  }
+
+  onOpenNewPrefab(json) {
+    this.prefabs[json.name] = json;
+    //store localstorage
+    localStorage.setItem(LOCAL_STORAGE_FLAG_PREFABS, this.pack(this.prefabs));
+    this.updateUI();
+  }
+
+  //TODO mettre in component udviz
+  pack(jsonArray) {
+    const separator = '&';
+    let result = '';
+    for (let key in jsonArray) {
+      result += JSON.stringify(jsonArray[key]);
+      result += separator;
+    }
+
+    //remove seprator at the end
+    if (result.endsWith(separator)) {
+      result = result.slice(0, result.length - separator.length);
+    }
+    return result;
+  }
+
+  unpack(string) {
+    const separator = '&';
+    const prefabs = string.split(separator);
+    const result = {};
+    prefabs.forEach(function (p) {
+      const json = JSON.parse(p);
+      result[json.name] = json;
+    });
+
+    return result;
   }
 
   //TODO mettre cette function dans udv.Components.SysteUtils.File
@@ -404,7 +515,7 @@ export class GOEditorView {
       reader.onload = function (e) {
         const json = JSON.parse(e.target.result);
         console.log('PREFAB = ', json);
-        _this.onOpenNewJSON(json);
+        _this.onOpenNewPrefab(json);
       };
 
       reader.readAsText(file);
@@ -425,16 +536,30 @@ export class GOEditorView {
 
       _this.model.initScene();
 
-      const oldJsonString = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
-      if (oldJsonString != undefined) {
-        try {
-          _this.onOpenNewJSON(JSON.parse(oldJsonString));
-        } catch (e) {
-          console.error(e);
-        }
-      }
+      _this.initFromLocalStorage();
 
       resolve();
     });
+  }
+
+  initFromLocalStorage() {
+    const oldJsonString = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
+    if (oldJsonString != undefined) {
+      try {
+        this.onOpenNewJSON(JSON.parse(oldJsonString));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    const oldPrefabs = localStorage.getItem(LOCAL_STORAGE_FLAG_PREFABS);
+    if (oldPrefabs != undefined) {
+      try {
+        this.prefabs = this.unpack(oldPrefabs);
+        this.updateUI();
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 }

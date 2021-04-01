@@ -6,9 +6,15 @@
       },
       "flying_campus": {
         "path": "./assets/prefabs/FlyingCampusMap.json"
+      },
+      "portal": {
+        "path": "./assets/prefabs/portal.json"
       }
     },
     "scripts": {
+      "portal": {
+        "path": "./assets/scripts/Portal.js"
+      },
       "avatar": {
         "path": "./assets/scripts/Avatar.js"
       },
