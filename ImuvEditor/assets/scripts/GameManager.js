@@ -6,6 +6,19 @@ module.exports = class GameManager {
     //go
     this.map = null;
   }
+
+  getSpawnTransform() {
+    if (this.conf.spawnTransform) {
+      return this.conf.spawnTransform;
+    } else {
+      return {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1, y: 1, z: 1 },
+      };
+    }
+  }
+
   init() {
     const go = arguments[0];
     const gCtx = arguments[1];
@@ -14,6 +27,10 @@ module.exports = class GameManager {
     const map = gCtx.assetsManager.fetchPrefab(this.conf.mapPrefabId);
     gCtx.world.addGameObject(map, gCtx, go, function () {
       _this.map = map; //assign only onload
+    });
+
+    gCtx.world.on('portalEvent', function () {
+      console.log('function that can be register from whoever access world');
     });
   }
 

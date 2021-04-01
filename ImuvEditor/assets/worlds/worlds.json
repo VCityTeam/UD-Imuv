@@ -39,7 +39,14 @@
         {
           "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
           "idScripts": ["gameManager"],
-          "conf": { "mapPrefabId": "flying_campus" },
+          "conf": {
+            "mapPrefabId": "flying_campus",
+            "spawnTransform": {
+              "position": { "x": 105, "y": 141, "z": 0 },
+              "rotation": { "x": 0.176, "y": 0, "z": 3.06 },
+              "scale": { "x": 1, "y": 1, "z": 1 }
+            }
+          },
           "type": "Script"
         }
       ],

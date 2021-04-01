@@ -199,7 +199,6 @@ export class JSONEditorView {
         if (object[key] != undefined || key == null) {
           return;
         }
-        let htmlCreated;
 
         switch (type) {
           case VALUES_TYPE.STRING:
@@ -217,12 +216,7 @@ export class JSONEditorView {
           case VALUES_TYPE.OBJECT:
             object[key] = {};
             valuesParent.appendChild(
-              createHtmlObject(
-                object,
-                key,
-                object[key],
-                offsetLeft + OFFSET_LEFT
-              )
+              createHtmlObject(object, key, object[key])//TODO remove third param
             );
             break;
           default:

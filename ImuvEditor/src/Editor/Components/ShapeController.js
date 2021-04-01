@@ -96,10 +96,10 @@ const Circle = class CircleClass {
     return this;
   }
 
-  toJSON() {
+  toJSON(offset) {
     return {
       type: Circle.TYPE,
-      center: { x: this.center.x, y: this.center.y },
+      center: { x: this.center.x - offset.x, y: this.center.y - offset.y },
       radius: this.radius,
     };
   }
@@ -195,11 +195,11 @@ const Polygon = class PolygonClass {
     return this;
   }
 
-  toJSON() {
+  toJSON(offset = new THREE.Vector2()) {
     const points = [];
 
     this.points.forEach(function (p) {
-      points.push({ x: p.x, y: p.y });
+      points.push({ x: p.x - offset.x, y: p.y - offset.y });
     });
 
     return { type: Polygon.TYPE, points: points };

@@ -8,7 +8,10 @@
         "path": "./assets/prefabs/FlyingCampusMap.json"
       },
       "portal": {
-        "path": "./assets/prefabs/portal.json"
+        "path": "./assets/prefabs/Portal.json"
+      },
+      "avatar":{
+        "path": "./assets/prefabs/Avatar.json"
       }
     },
     "scripts": {

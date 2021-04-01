@@ -1,0 +1,21 @@
+{
+  "name": "avatar",
+  "type": "GameObject",
+  "components": [
+    {
+      "type": "Collider",
+      "shapes": [
+        {
+          "type": "Circle",
+          "center": { "x": 0, "y": 0 },
+          "radius": 0.5
+        }
+      ]
+    },
+    { "type": "Render", "idModel": "avatar" },
+    {
+      "type": "Script",
+      "idScripts": ["avatar"]
+    }
+  ]
+}

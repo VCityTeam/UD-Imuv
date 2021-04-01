@@ -9,7 +9,13 @@ module.exports = class Avatar {
   }
 
   init() {
+    const go = arguments[0];
     const gCtx = arguments[1];
+
+    //spawnddd
+    const gm = go.computeRoot(); //root is gm
+    const script = gm.getScripts()['gameManager'];
+    go.setTransformFromJSON(script.getSpawnTransform());
 
     //init commands
     const Command = gCtx.UDVShared.Command;
@@ -161,7 +167,18 @@ module.exports = class Avatar {
   onCollision() {
     const go = arguments[0];
     const result = arguments[1];
-    go.transform.position.x -= result.overlap * result.overlap_x;
-    go.transform.position.y -= result.overlap * result.overlap_y;
+    const gCtx = arguments[2];
+
+    const colliderGO = result.b.getGameObject();
+    const collider = colliderGO.getComponent('Collider');
+
+    //TODO faire autrement enlevant le flag static sur portal peut etre
+    const portalScript = colliderGO.getScripts()['portal'];
+    if (portalScript) gCtx.world.notify('portalEvent');
+
+    if (collider.isBody()) {
+      go.transform.position.x -= result.overlap * result.overlap_x;
+      go.transform.position.y -= result.overlap * result.overlap_y;
+    }
   }
 };

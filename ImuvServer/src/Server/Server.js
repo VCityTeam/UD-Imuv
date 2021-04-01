@@ -103,7 +103,7 @@ const ServerModule = class Server {
 
     //register the client
     const thread = this.worldToThread[uuidWorld];
-    const avatarJSON = udvShared.Data.createAvatarJSON();
+    const avatarJSON = udvShared.Data.createAvatarJSON();//CLEAN ME do it with the prefab manager
     const user = new User(socket, uuidWorld, avatarJSON.uuid, thread);
     this.users[user.getUUID()] = user;
     thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, avatarJSON);

@@ -29,7 +29,7 @@ export class ColliderModel {
   init() {
     this.initScene();
     this.initCollider();
-  } 
+  }
 
   addCurrentShape() {
     this.shapes.push(this.currentShape.clone());
@@ -104,8 +104,10 @@ export class ColliderModel {
   shapesToJSON() {
     const result = [];
 
+    const position = this.gameObjectModel.getGameObject().getPosition();
     this.shapes.forEach(function (shape) {
-      result.push(shape.toJSON());
+      const json = shape.toJSON(position);
+      result.push(json);
     });
 
     return result;

@@ -433,6 +433,7 @@ export class GOEditorView {
     const gameobject = new Game.Shared.GameObject(json);
     gameobject.initAssetsComponents(this.assetsManager, Game.Shared);
     this.model.setGameObject(gameobject);
+    //TODO notifier hView et bView to updater leur modele
     this.updateUI();
   }
 
