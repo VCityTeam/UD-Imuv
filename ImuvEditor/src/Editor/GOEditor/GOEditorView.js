@@ -2,7 +2,7 @@
 import { THREE, OrbitControls, Game, Components } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
-import { BodyView } from './Body/BodyView';
+import { ColliderView } from './Collider/ColliderView';
 
 import { JSONEditorView } from '../Components/JSONEditor/JSONEditor';
 
@@ -70,7 +70,7 @@ export class GOEditorView {
     this.focusGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
     this.addHeightmapButton = null; //add heightmap json in current go
-    this.addBodyButton = null; //add body json in current go
+    this.addColliderButton = null; //add body json in current go
   }
 
   setPause(value) {
@@ -246,7 +246,7 @@ export class GOEditorView {
     };
 
     let bView;
-    this.addBodyButton.onclick = function () {
+    this.addColliderButton.onclick = function () {
       if (bView) return;
 
       const go = _this.model.getGameObject();
@@ -256,7 +256,7 @@ export class GOEditorView {
       //add view
       const wrapper = document.createElement('div');
 
-      bView = new BodyView(_this);
+      bView = new ColliderView(_this);
 
       const deleteButton = document.createElement('div');
       deleteButton.classList.add('button_Editor');
@@ -358,11 +358,11 @@ export class GOEditorView {
     this.addHeightmapButton = addHeightmapButton;
 
     //new body add button
-    const addBodyButton = document.createElement('div');
-    addBodyButton.classList.add('button_Editor');
-    addBodyButton.innerHTML = 'Add Body Component';
-    this.ui.appendChild(addBodyButton);
-    this.addBodyButton = addBodyButton;
+    const addColliderButton = document.createElement('div');
+    addColliderButton.classList.add('button_Editor');
+    addColliderButton.innerHTML = 'Add Collider Component';
+    this.ui.appendChild(addColliderButton);
+    this.addColliderButton = addColliderButton;
 
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());

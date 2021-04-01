@@ -157,4 +157,11 @@ module.exports = class Avatar {
     this.fetchCommands(gCtx.commands, gameObject, gCtx);
     this.applyCommands(gameObject, gCtx.dt, gCtx);
   }
+
+  onCollision() {
+    const go = arguments[0];
+    const result = arguments[1];
+    go.transform.position.x -= result.overlap * result.overlap_x;
+    go.transform.position.y -= result.overlap * result.overlap_y;
+  }
 };

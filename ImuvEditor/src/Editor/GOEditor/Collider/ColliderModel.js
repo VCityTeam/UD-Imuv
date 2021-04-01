@@ -2,13 +2,13 @@
 
 import { THREE } from 'ud-viz';
 
-const BodyComponent = require('ud-viz/src/Game/Shared/GameObject/Components/Body');
+const ColliderComponent = require('ud-viz/src/Game/Shared/GameObject/Components/Collider');
 
 import * as ShapeController from '../../Components/ShapeController';
 
 const CANVAS_TEXTURE_SIZE = 2046;
 
-export class BodyModel {
+export class ColliderModel {
   constructor(gameObjectModel) {
     this.gameObjectModel = gameObjectModel;
 
@@ -28,8 +28,8 @@ export class BodyModel {
 
   init() {
     this.initScene();
-    this.initBody();
-  }
+    this.initCollider();
+  } 
 
   addCurrentShape() {
     this.shapes.push(this.currentShape.clone());
@@ -64,20 +64,20 @@ export class BodyModel {
 
   bindShapesGO() {
     const gameobject = this.gameObjectModel.getGameObject();
-    const body = gameobject.getComponent(BodyComponent.TYPE);
+    const body = gameobject.getComponent(ColliderComponent.TYPE);
     if (!body) throw new Error();
     body.setShapesJSON(this.shapesToJSON());
   }
 
-  initBody() {
+  initCollider() {
     //check if there is already a body component if not create one
     const gameobject = this.gameObjectModel.getGameObject();
-    const body = gameobject.getComponent(BodyComponent.TYPE);
+    const body = gameobject.getComponent(ColliderComponent.TYPE);
     if (!body) {
       gameobject.setComponent(
-        BodyComponent.TYPE,
-        new BodyComponent(gameobject, {
-          type: BodyComponent.TYPE,
+        ColliderComponent.TYPE,
+        new ColliderComponent(gameobject, {
+          type: ColliderComponent.TYPE,
           shapes: [],
         })
       );
@@ -146,7 +146,7 @@ export class BodyModel {
     this.getScene().add(this.plan);
     this.plan.renderOrder = -1; //on top of gameobject object3D
 
-    this.initBody();
+    this.initCollider();
     this.updatePlanTexture();
   }
 

@@ -1,24 +1,24 @@
 /** @format */
 
-import { BodyModel } from './BodyModel';
+import { ColliderModel } from './ColliderModel';
 import * as ShapeController from '../../Components/ShapeController';
 import { THREE } from 'ud-viz';
 
-import './Body.css';
+import './Collider.css';
 import '../../Editor.css';
 
-export class BodyView {
+export class ColliderView {
   constructor(goView) {
     //parent
     this.goView = goView;
 
     //root ui
     this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_BodyView');
+    this.rootHtml.classList.add('root_ColliderView');
 
-    //Body model
+    //Collider model
     if (!goView.model) throw new Error('no model');
-    this.model = new BodyModel(goView.model);
+    this.model = new ColliderModel(goView.model);
 
     //raycaster
     this.raycaster = new THREE.Raycaster();
