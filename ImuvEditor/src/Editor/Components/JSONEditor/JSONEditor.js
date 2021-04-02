@@ -1,6 +1,8 @@
 /** @format */
 import './JSONEditor.css';
 
+import { Components } from 'ud-viz';
+
 const OFFSET_LEFT = 40;
 const VALUES_TYPE = {
   OBJECT: 'Object',
@@ -58,9 +60,9 @@ export class JSONEditorView {
       //value
       const input = document.createElement('input');
       const isArray = json instanceof Array;
-      if (typeof value == 'string' || value === null) {
-        input.type = 'text';
-        input.value = value;
+      if (Components.SystemUtils.Type.isNumeric(value)) {
+        input.type = 'number';
+        input.value = parseFloat(value);
         input.onchange = function (event) {
           if (isArray) {
             json.push(this.value);
@@ -78,8 +80,8 @@ export class JSONEditorView {
             json[key] = this.checked;
           }
         };
-      } else if (typeof value == 'number') {
-        input.type = 'number';
+      } else if (typeof value == 'string' || value === null) {
+        input.type = 'text';
         input.value = value;
         input.onchange = function (event) {
           if (isArray) {
@@ -216,7 +218,7 @@ export class JSONEditorView {
           case VALUES_TYPE.OBJECT:
             object[key] = {};
             valuesParent.appendChild(
-              createHtmlObject(object, key, object[key])//TODO remove third param
+              createHtmlObject(object, key, object[key]) //TODO remove third param
             );
             break;
           default:

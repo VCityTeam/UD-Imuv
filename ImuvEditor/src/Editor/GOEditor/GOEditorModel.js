@@ -51,6 +51,7 @@ export class GOEditorModel {
     if (this.gameObject) {
       this.scene.remove(this.gameObject.getObject3D());
       this.scene.remove(this.gizmo);
+      this.scene.remove(this.boxHelper);
     }
 
     this.gameObject = g;
@@ -59,7 +60,6 @@ export class GOEditorModel {
 
       if (object) {
         this.boundingBox = new THREE.Box3().setFromObject(object);
-        object.add(new THREE.BoxHelper(object));
         const scale =
           this.boundingBox.max.distanceTo(this.boundingBox.min) / 40;
         this.gizmo = this.assetsManager.fetchModel('gizmo');
@@ -68,6 +68,8 @@ export class GOEditorModel {
         //add to scene
         this.scene.add(this.gizmo); //show origin
         this.scene.add(object);
+        this.boxHelper = new THREE.BoxHelper(object);
+        this.scene.add(this.boxHelper);
       }
     }
   }
