@@ -1,8 +1,8 @@
 {
   "name": "avatar",
   "type": "GameObject",
-  "components": [
-    {
+  "components": {
+    "Collider": {
       "type": "Collider",
       "shapes": [
         {
@@ -12,10 +12,10 @@
         }
       ]
     },
-    { "type": "Render", "idModel": "avatar" },
-    {
+    "Render": { "type": "Render", "idModel": "avatar" },
+    "Script": {
       "type": "Script",
       "idScripts": ["avatar"]
     }
-  ]
+  }
 }

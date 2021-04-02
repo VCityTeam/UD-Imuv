@@ -22,9 +22,6 @@ export class Editor {
     //id current world
     this.currentWorld = null;
 
-    //internal
-    this.pathDirectory = '';
-
     //html
     this.switchView = null;
   }
@@ -36,7 +33,7 @@ export class Editor {
 
     //flex parent
     const parentFlex = document.createElement('div');
-    parentFlex.style.display = 'flex';
+    parentFlex.style.display = 'flex';//TODO in css
     parentUI.appendChild(parentFlex);
 
     //switch view

@@ -28,15 +28,10 @@ module.exports = class GameManager {
     gCtx.world.addGameObject(map, gCtx, go, function () {
       _this.map = map; //assign only onload
     });
-
-    gCtx.world.on('portalEvent', function () {
-      console.log('function that can be register from whoever access world');
-    });
   }
 
   tick() {
     const go = arguments[0];
-    const gCtx = arguments[1];
 
     //elevation non static object
     if (this.map) {

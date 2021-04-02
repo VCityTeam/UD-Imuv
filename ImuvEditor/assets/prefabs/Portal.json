@@ -4,13 +4,13 @@
   "static": true,
   "uuid": "E0EB2D14-8AEF-422A-AC71-C188B0CA63FA",
   "parentUUID": null,
-  "components": [
-    {
+  "components": {
+    "Render": {
       "uuid": "081CCCA6-DFE5-4BF2-A753-E9E0B32B6FCB",
       "type": "Render",
       "idModel": "cube"
     },
-    {
+    "Collider": {
       "uuid": "AD0E34B6-BCD0-4F46-91F1-97786A4CB30B",
       "type": "Collider",
       "shapes": [
@@ -26,17 +26,17 @@
       ],
       "body": false
     },
-    {
+    "Script": {
       "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
       "idScripts": ["portal"],
-      "conf": {},
+      "conf": { "worldDestUUID": "default" },
       "type": "Script"
     }
-  ],
+  },
   "children": [],
   "transform": {
-    "position": { "x": 107, "y": 141, "z": 75 },
-    "rotation": { "x": 0.176, "y": 0, "z": 3.06 },
+    "position": { "x": 0, "y": 0, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
     "scale": { "x": 1, "y": 1, "z": 1 }
   }
 }

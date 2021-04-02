@@ -15,6 +15,7 @@ module.exports = class Map {
 
       const img = document.createElement('img');
 
+      //TODO mettre in Component
       //consider assets are in ./
       let path = conf.heightmap_path;
       const index = path.indexOf('/assets');
@@ -43,7 +44,7 @@ module.exports = class Map {
           heightValue = heightValue * (hMax - hMin) + hMin;
           _this.heightValues.push(heightValue);
         }
-        console.log(gameObject.name, ' load heightmap');
+        console.log(gameObject.name, 'loaded');
 
         resolve();
       };
@@ -94,9 +95,7 @@ module.exports = class Map {
   }
 
   load() {
-    const gCtx = arguments[1];
     const isServerSide = arguments[2];
-    const modules = arguments[3];
     if (!isServerSide) {
       return this.loadLocal.apply(this, arguments);
     } else {

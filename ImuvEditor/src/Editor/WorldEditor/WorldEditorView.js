@@ -126,8 +126,6 @@ export class WorldEditorView {
         if (w.uuid == _this.currentWorld.getUUID()) {
           const clone = _this.currentWorld.clone();
 
-          debugger;
-
           //remove avatar before saving
           clone.getGameObject().traverse(function (g) {
             if (g.name == 'avatar') {
@@ -145,12 +143,12 @@ export class WorldEditorView {
 
   readSingleFile(e) {
     try {
-      var file = e.target.files[0];
+      const file = e.target.files[0];
       if (!file) {
         return;
       }
       const _this = this;
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.onload = function (e) {
         const json = JSON.parse(e.target.result);
         console.log('Worlds = ', json);
@@ -266,6 +264,13 @@ export class WorldEditorView {
       htmlView.style.position = 'absolute';
       _this.rootHtml.appendChild(htmlView);
       _this.updateUI();
+    });
+
+    //register
+    newWorld.on('portal', function (params) {
+      const avatar = params[0];
+      const worldToGoUUID = params[1];
+      console.log(avatar, ' tp to ', worldToGoUUID);
     });
   }
 }

@@ -429,7 +429,7 @@ export class GOEditorView {
   }
 
   onGameObjectJSON(json) {
-    Components.SystemUtils.JSONUtils.parseInt(json);
+    Components.SystemUtils.JSONUtils.parseNumeric(json);
     console.log('onGameObject => ', json);
     const gameobject = new Game.Shared.GameObject(json);
     gameobject.initAssetsComponents(this.assetsManager, Game.Shared);

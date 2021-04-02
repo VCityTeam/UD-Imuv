@@ -3,6 +3,7 @@
 import { Editor } from './Editor/Editor.js';
 import { jquery, Game } from 'ud-viz';
 
+//TODO déplacer dans Components udviz
 export class App {
   constructor() {
     this.editor = null;

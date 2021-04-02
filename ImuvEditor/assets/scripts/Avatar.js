@@ -172,9 +172,8 @@ module.exports = class Avatar {
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
 
-    //TODO faire autrement enlevant le flag static sur portal peut etre
-    const portalScript = colliderGO.getScripts()['portal'];
-    if (portalScript) gCtx.world.notify('portalEvent');
+    const scriptPortal = colliderGO.getScripts()['portal'];
+    if (scriptPortal) scriptPortal.onAvatar(go, gCtx.world);
 
     if (collider.isBody()) {
       go.transform.position.x -= result.overlap * result.overlap_x;

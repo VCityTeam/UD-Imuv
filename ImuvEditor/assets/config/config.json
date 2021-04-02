@@ -5,12 +5,12 @@
         "path": "./assets/prefabs/room_expo map.json"
       },
       "flying_campus": {
-        "path": "./assets/prefabs/FlyingCampusMap.json"
+        "path": "./assets/prefabs/Flying Campus Map.json"
       },
       "portal": {
         "path": "./assets/prefabs/Portal.json"
       },
-      "avatar":{
+      "avatar": {
         "path": "./assets/prefabs/Avatar.json"
       }
     },
