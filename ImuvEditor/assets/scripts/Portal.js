@@ -6,7 +6,6 @@ module.exports = class GameManager {
   }
 
   onAvatar(avatarGo, world) {
-    console.log('portal collide ', avatarGo);
-    world.notify('portal', [avatarGo, this.conf.worldDestUUID]);
+    world.notify('portalEvent', [avatarGo, this.conf.worldDestUUID]);
   }
 };

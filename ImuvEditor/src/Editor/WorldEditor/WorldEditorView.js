@@ -267,10 +267,24 @@ export class WorldEditorView {
     });
 
     //register
-    newWorld.on('portal', function (params) {
+    newWorld.on('portalEvent', function (params) {
       const avatar = params[0];
       const worldToGoUUID = params[1];
-      console.log(avatar, ' tp to ', worldToGoUUID);
+
+      let worldDest;
+      for (let index = 0; index < _this.worldsJSON.length; index++) {
+        const element = _this.worldsJSON[index];
+        if (element.uuid == worldToGoUUID) {
+          worldDest = element;
+          break;
+        }
+      }
+
+      if (!worldDest) {
+        console.warn('no world dest ', worldToGoUUID);
+      } else {
+        _this.onWorldJSON(worldDest);
+      }
     });
   }
 }
