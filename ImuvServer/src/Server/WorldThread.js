@@ -9,7 +9,7 @@ const gm = require('gm');
 const PNG = require('pngjs').PNG;
 
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Data = udvShared.Data;
+const Data = udvShared.Components.Data;
 const Command = udvShared.Command;
 const GameObject = udvShared.GameObject;
 const World = udvShared.World;
@@ -60,17 +60,20 @@ WorldThreadModule.MSG_TYPES = {
 };
 
 //server manager load script
-class ScriptManager {
+class AssetsManagerServer {
   constructor() {
     this.scripts = {};
+    this.prefabs = {};
   }
 
   loadFromConfig(config) {
     const scripts = this.scripts;
-    return new Promise((resolve, reject) => {
+    const prefabs = this.prefabs;
+
+    const scriptsPromise = new Promise((resolve, reject) => {
       let count = 0;
-      for (let idScript in config) {
-        fs.readFile(config[idScript].path, 'utf8', (err, data) => {
+      for (let idScript in config.scripts) {
+        fs.readFile(config.scripts[idScript].path, 'utf8', (err, data) => {
           if (err) {
             reject();
           }
@@ -78,18 +81,49 @@ class ScriptManager {
 
           count++;
 
-          if (count == Object.keys(config).length) {
+          if (count == Object.keys(config.scripts).length) {
             console.log('Scripts loaded ', scripts);
             resolve();
           }
         });
       }
     });
+
+    const prefabsPromise = new Promise((resolve, reject) => {
+      let count = 0;
+      for (let idPrefab in config.prefabs) {
+        fs.readFile(config.prefabs[idPrefab].path, 'utf8', (err, data) => {
+          if (err) {
+            reject();
+          }
+          prefabs[idPrefab] = JSON.parse(data);
+
+          count++;
+
+          if (count == Object.keys(config.prefabs).length) {
+            console.log('Prefabs loaded ', prefabs);
+            resolve();
+          }
+        });
+      }
+    });
+
+    return Promise.all([scriptsPromise, prefabsPromise]);
   }
 
   fetchScript(idScript) {
     if (!this.scripts[idScript]) console.error('no script with id ', idScript);
     return this.scripts[idScript];
+  }
+
+  fetchPrefab(idprefab) {
+    if (!this.prefabs[idprefab]) console.error('no prefab with id ', idprefab);
+    return new GameObject(this.prefabs[idprefab]);
+  }
+
+  fetchPrefabJSON(idprefab) {
+    if (!this.prefabs[idprefab]) console.error('no prefab with id ', idprefab);
+    return JSON.parse(JSON.stringify(this.prefabs[idprefab]));
   }
 }
 
@@ -100,92 +134,95 @@ WorldThreadModule.routine = function (serverConfig) {
 
   const parentPort = workerThreads.parentPort;
 
+  const gCtx = {
+    assetsManager: new AssetsManagerServer(),
+    dt: 0,
+    commands: [],
+    world: null,
+    UDVShared: udvShared,
+  };
+
   //load scripts
-  const manager = new ScriptManager();
-  manager.loadFromConfig(serverConfig.scripts).then(function () {
-    //Variables
-    let lastTimeTick = 0;
-    let world; //the world being simulated
-    const commands = [];
+  gCtx.assetsManager
+    .loadFromConfig(serverConfig.assetsManager)
+    .then(function () {
+      //Variables
+      let lastTimeTick = 0;
 
-    //Callbacks
-    const onInit = function (worldJSON) {
-      world = new World(worldJSON, {
-        isServerSide: true,
-        modules: { gm: gm, PNG: PNG },
-      });
+      //Callbacks
+      const onInit = function (worldJSON) {
+        gCtx.world = new World(worldJSON, {
+          isServerSide: true,
+          modules: { gm: gm, PNG: PNG },
+        });
 
-      world.getGameObject().initAssetsComponents(manager, udvShared, true);
+        gCtx.world.load(function () {
+          console.log(gCtx.world.name, ' loaded');
 
-      world.load(function () {
-        console.log(world.name, ' loaded');
+          //loop
+          const tick = function () {
+            const now = Date.now();
+            if (!lastTimeTick) {
+              gCtx.dt = 0;
+            } else {
+              gCtx.dt = now - lastTimeTick;
+            }
+            lastTimeTick = now;
 
-        //loop
-        const tick = function () {
-          let dt;
-          const now = Date.now();
-          if (!lastTimeTick) {
-            dt = 0;
-          } else {
-            dt = now - lastTimeTick;
-          }
-          lastTimeTick = now;
+            gCtx.world.tick(gCtx); //tick with user commands
+            gCtx.commands.length = 0; //clear commands
 
-          world.tick(commands, dt); //tick with user commands
-          commands.length = 0; //clear commands
+            const currentState = gCtx.world.computeWorldState();
 
-          const currentState = world.computeWorldState();
-
-          //post worldstate to main thread
-          const message = {
-            msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
-            data: currentState.toJSON(),
+            //post worldstate to main thread
+            const message = {
+              msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
+              data: currentState.toJSON(),
+            };
+            parentPort.postMessage(Data.pack(message));
           };
-          parentPort.postMessage(Data.pack(message));
-        };
-        const fps = serverConfig.thread.fps;
-        if (!fps) throw new Error('no fps');
-        setInterval(tick, 1000 / fps);
+          const fps = serverConfig.thread.fps;
+          if (!fps) throw new Error('no fps');
+          setInterval(tick, 1000 / fps);
+        }, gCtx);
+      };
+
+      const onCommands = function (cmdsJSON) {
+        cmdsJSON.forEach(function (cmdJSON) {
+          gCtx.commands.push(new Command(cmdJSON));
+        });
+      };
+
+      const onAddGameObject = function (goJson) {
+        const newGO = new GameObject(goJson);
+        gCtx.world.addGameObject(newGO, gCtx, null, null);
+      };
+
+      const onRemoveGameObject = function (uuid) {
+        gCtx.world.removeGameObject(uuid);
+      };
+
+      //listening parentPort
+      parentPort.on('message', (msgPacked) => {
+        const msg = Data.unpack(msgPacked);
+        switch (msg.msgType) {
+          case WorldThreadModule.MSG_TYPES.INIT:
+            onInit(msg.data);
+            break;
+          case WorldThreadModule.MSG_TYPES.COMMANDS:
+            onCommands(msg.data);
+            break;
+          case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT:
+            onAddGameObject(msg.data);
+            break;
+          case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
+            onRemoveGameObject(msg.data);
+            break;
+          default:
+            console.log('default msg ', msg.data);
+        }
       });
-    };
-
-    const onCommands = function (cmdsJSON) {
-      cmdsJSON.forEach(function (cmdJSON) {
-        commands.push(new Command(cmdJSON));
-      });
-    };
-
-    const onAddGameObject = function (goJson) {
-      const newGO = new GameObject(goJson);
-      newGO.initAssetsComponents(manager, udvShared, true);
-      world.addGameObject(newGO);
-    };
-
-    const onRemoveGameObject = function (uuid) {
-      world.removeGameObject(uuid);
-    };
-
-    //listening parentPort
-    parentPort.on('message', (msgPacked) => {
-      const msg = Data.unpack(msgPacked);
-      switch (msg.msgType) {
-        case WorldThreadModule.MSG_TYPES.INIT:
-          onInit(msg.data);
-          break;
-        case WorldThreadModule.MSG_TYPES.COMMANDS:
-          onCommands(msg.data);
-          break;
-        case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT:
-          onAddGameObject(msg.data);
-          break;
-        case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
-          onRemoveGameObject(msg.data);
-          break;
-        default:
-          console.log('default msg ', msg.data);
-      }
     });
-  });
 };
 
 module.exports = WorldThreadModule;

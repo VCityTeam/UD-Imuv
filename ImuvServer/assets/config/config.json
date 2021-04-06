@@ -1,13 +1,32 @@
 {
-  "scripts": {
-    "avatar": {
-      "path": "../ImuvEditor/assets/scripts/Avatar.js"
+  "assetsManager": {
+    "scripts": {
+      "avatar": {
+        "path": "../ImuvEditor/assets/scripts/Avatar.js"
+      },
+      "map": {
+        "path": "../ImuvEditor/assets/scripts/Map.js"
+      },
+      "gameManager": {
+        "path": "../ImuvEditor/assets/scripts/GameManager.js"
+      },
+      "portal": {
+        "path": "../ImuvEditor/assets/scripts/Portal.js"
+      }
     },
-    "map": {
-      "path": "../ImuvEditor/assets/scripts/Map.js"
-    },
-    "gameManager": {
-      "path": "../ImuvEditor/assets/scripts/GameManager.js"
+    "prefabs": {
+      "room_expo": {
+        "path": "../ImuvEditor/assets/prefabs/Room Expo Map.json"
+      },
+      "flying_campus": {
+        "path": "../ImuvEditor/assets/prefabs/Flying Campus Map.json"
+      },
+      "portal": {
+        "path": "../ImuvEditor/assets/prefabs/Portal.json"
+      },
+      "avatar": {
+        "path": "../ImuvEditor/assets/prefabs/Avatar.json"
+      }
     }
   },
   "thread": {

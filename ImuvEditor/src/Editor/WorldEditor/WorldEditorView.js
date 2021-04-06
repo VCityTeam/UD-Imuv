@@ -179,8 +179,6 @@ export class WorldEditorView {
   onWorldJSON(json) {
     const world = new Game.Shared.World(json, { isServerSide: false });
 
-    world.getGameObject().initAssetsComponents(this.assetsManager, Game.Shared);
-
     this.currentWorld = world;
 
     this.onWorld(world);
