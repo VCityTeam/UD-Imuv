@@ -249,7 +249,7 @@ export class GOEditorView {
       };
 
       bindButton.onclick = function () {
-        _this.jsonEditorView.onJSON(go.toJSON(true));
+        _this.jsonEditorView.onJSON(_this.model.getGameObject().toJSON(true));
       };
     };
 
