@@ -14,7 +14,7 @@ const Command = udvShared.Command;
 const GameObject = udvShared.GameObject;
 const World = udvShared.World;
 
-const fs = require('fs');
+const AssetsManagerServer = require('./AssetsManagerServer');
 
 const WorldThreadModule = class WorldThread {
   constructor(path) {
@@ -59,74 +59,6 @@ WorldThreadModule.MSG_TYPES = {
   REMOVE_GAMEOBJECT: 'remove_gameobject',
 };
 
-//server manager load script
-class AssetsManagerServer {
-  constructor() {
-    this.scripts = {};
-    this.prefabs = {};
-  }
-
-  loadFromConfig(config) {
-    const scripts = this.scripts;
-    const prefabs = this.prefabs;
-
-    const scriptsPromise = new Promise((resolve, reject) => {
-      let count = 0;
-      for (let idScript in config.scripts) {
-        fs.readFile(config.scripts[idScript].path, 'utf8', (err, data) => {
-          if (err) {
-            reject();
-          }
-          scripts[idScript] = eval(data);
-
-          count++;
-
-          if (count == Object.keys(config.scripts).length) {
-            console.log('Scripts loaded ', scripts);
-            resolve();
-          }
-        });
-      }
-    });
-
-    const prefabsPromise = new Promise((resolve, reject) => {
-      let count = 0;
-      for (let idPrefab in config.prefabs) {
-        fs.readFile(config.prefabs[idPrefab].path, 'utf8', (err, data) => {
-          if (err) {
-            reject();
-          }
-          prefabs[idPrefab] = JSON.parse(data);
-
-          count++;
-
-          if (count == Object.keys(config.prefabs).length) {
-            console.log('Prefabs loaded ', prefabs);
-            resolve();
-          }
-        });
-      }
-    });
-
-    return Promise.all([scriptsPromise, prefabsPromise]);
-  }
-
-  fetchScript(idScript) {
-    if (!this.scripts[idScript]) console.error('no script with id ', idScript);
-    return this.scripts[idScript];
-  }
-
-  fetchPrefab(idprefab) {
-    if (!this.prefabs[idprefab]) console.error('no prefab with id ', idprefab);
-    return new GameObject(this.prefabs[idprefab]);
-  }
-
-  fetchPrefabJSON(idprefab) {
-    if (!this.prefabs[idprefab]) console.error('no prefab with id ', idprefab);
-    return JSON.parse(JSON.stringify(this.prefabs[idprefab]));
-  }
-}
-
 WorldThreadModule.routine = function (serverConfig) {
   if (workerThreads.isMainThread) {
     throw new Error('Its not a worker');
@@ -158,6 +90,10 @@ WorldThreadModule.routine = function (serverConfig) {
 
         gCtx.world.load(function () {
           console.log(gCtx.world.name, ' loaded');
+
+          gCtx.world.on('portalEvent', function () {
+            console.log('portal event');
+          });
 
           //loop
           const tick = function () {
@@ -195,7 +131,7 @@ WorldThreadModule.routine = function (serverConfig) {
 
       const onAddGameObject = function (goJson) {
         const newGO = new GameObject(goJson);
-        gCtx.world.addGameObject(newGO, gCtx, null, null);
+        gCtx.world.addGameObject(newGO, gCtx, gCtx.world.getGameObject(), null);
       };
 
       const onRemoveGameObject = function (uuid) {

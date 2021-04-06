@@ -19,7 +19,12 @@
     }
   },
   "game": {
-    "shadowMapSize": 2046
+    "shadowMapSize": 2046,
+    "fog": {
+      "near": 5,
+      "far": 100
+    },
+    "skyColor": { "r": 0.4, "g": 0.6, "b": 0.8 }
   },
   "itowns": {
     "radiusExtent": 1000,

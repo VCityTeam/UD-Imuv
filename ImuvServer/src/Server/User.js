@@ -1,7 +1,7 @@
 /** @format */
 
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Data = udvShared.Data;
+const Data = udvShared.Components.Data;
 const Command = udvShared.Command;
 const WorldState = udvShared.WorldState;
 
@@ -16,7 +16,7 @@ const UserModule = class User {
     this.avatarID = avatarID;
 
     //to know if just joined or not
-    this.firstState = null;
+    this.lastState = null;
 
     this.init();
   }
@@ -32,16 +32,17 @@ const UserModule = class User {
   sendWorldState(stateJSON) {
     let state = new WorldState(stateJSON);
 
-    if (!this.firstState) {
-      this.firstState = state;
+    if (!this.lastState) {
       this.socket.emit(Data.WEBSOCKET.MSG_TYPES.JOIN_SERVER, {
         state: stateJSON,
         avatarID: this.getAvatarID(),
       });
     } else {
-      const diffJSON = state.toDiff(this.firstState);
+      const diffJSON = state.toDiff(this.lastState);
       this.socket.emit(Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF, diffJSON);
     }
+
+    this.lastState = state;
   }
 
   getThread() {
@@ -62,6 +63,7 @@ const UserModule = class User {
         command.setAvatarID(_this.getAvatarID());
         commands.push(command);
       });
+
       _this.thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
     });
   }

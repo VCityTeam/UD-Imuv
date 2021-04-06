@@ -6,10 +6,10 @@ const jquery = require('jquery');
 const AppModule = class App {
   constructor() {
     this.gameView = null;
-    this.assetsManager = new Game.Client.AssetsManager();
+    this.assetsManager = new Game.Components.AssetsManager();
 
     //DEBUG
-    window.UDVDebugger = new Game.Client.UDVDebugger(document.body);
+    window.UDVDebugger = new Game.UDVDebugger(document.body);
   }
 
   start(path) {
@@ -21,11 +21,11 @@ const AppModule = class App {
         return _this.assetsManager.loadFromConfig(clientConfig.assetsManager);
       })
       .then(function () {
-        _this.gameView = new Game.Client.GameView({
+        _this.gameView = new Game.GameView({
           isLocal: false,
           assetsManager: _this.assetsManager,
-          webSocketService: new Game.Client.WebSocketService(),
-          worldStateInterpolator: new Game.Client.WorldStateInterpolator(
+          webSocketService: new Game.Components.WebSocketService(),
+          worldStateInterpolator: new Game.Components.WorldStateInterpolator(
             clientConfig.worldStateInterpolator
           ),
           config: clientConfig,
