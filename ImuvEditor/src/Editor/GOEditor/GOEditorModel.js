@@ -1,6 +1,6 @@
 /** @format */
 
-import { THREE } from 'ud-viz';
+import { THREE, Game } from 'ud-viz';
 
 export class GOEditorModel {
   constructor(assetsManager) {
@@ -22,16 +22,7 @@ export class GOEditorModel {
   }
 
   initScene() {
-    //lights
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    directionalLight.position.set(0, 0, 20000);
-    directionalLight.updateMatrixWorld();
-    this.scene.add(directionalLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    ambientLight.position.set(0, 0, 3000);
-    directionalLight.updateMatrixWorld();
-    this.scene.add(ambientLight);
+    Game.Components.THREEUtils.addLights(this.scene);
   }
 
   getBoundingBox() {

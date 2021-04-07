@@ -11,6 +11,7 @@ import '../Editor.css';
 import { GOEditorModel } from './GOEditorModel';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
 import ScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/Script';
+import { THREEUtils } from 'ud-viz/src/Game/Components/THREEUtils';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 const LOCAL_STORAGE_FLAG_PREFABS = 'GOEditor_bufferPrefabs';
@@ -50,10 +51,11 @@ export class GOEditorView {
     this.camera.up.set(0, 0, 1);
 
     //renderer
-    this.renderer = new THREE.WebGLRenderer({ canvas: canvas });
-    //clear color
-    this.renderer.setClearColor(0x6699cc, 1);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: true,
+    });
+    THREEUtils.initRenderer(this.renderer, new THREE.Color(0.4, 0.6, 0.8));
 
     //controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -330,7 +332,6 @@ export class GOEditorView {
   }
 
   jsonOnChange() {
-    console.log('json change');
     const buffer = this.model.getGameObject();
     const old = localStorage.getItem(LOCAL_STORAGE_FLAG_JSON);
     try {
