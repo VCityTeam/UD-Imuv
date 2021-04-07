@@ -25,7 +25,7 @@ const Circle = class CircleClass {
   }
 
   clone() {
-    return new Circle().fromJSON(this.toJSON());
+    return new Circle().fromJSON(this.toJSON(new THREE.Vector2()));
   }
 
   mouseUp(point) {
@@ -114,7 +114,7 @@ const Polygon = class PolygonClass {
   }
 
   clone() {
-    return new Polygon().fromJSON(this.toJSON());
+    return new Polygon().fromJSON(this.toJSON(new THREE.Vector2()));
   }
 
   toString() {

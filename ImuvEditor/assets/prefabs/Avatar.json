@@ -8,14 +8,25 @@
         {
           "type": "Circle",
           "center": { "x": 0, "y": 0 },
-          "radius": 0.5
+          "radius": 0.3244298395697931
         }
-      ]
+      ],
+      "body": true
     },
-    "Render": { "type": "Render", "idModel": "avatar" },
+    "Render": {
+      "type": "Render",
+      "idModel": "avatar"
+    },
     "Script": {
-      "type": "Script",
-      "idScripts": ["avatar"]
+      "idScripts": ["avatar"],
+      "conf": {},
+      "type": "Script"
     }
+  },
+  "children": [],
+  "transform": {
+    "position": { "x": 0, "y": 0, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
+    "scale": { "x": 1, "y": 1, "z": 1 }
   }
 }

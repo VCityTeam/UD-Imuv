@@ -89,8 +89,6 @@ WorldThreadModule.routine = function (serverConfig) {
         });
 
         gCtx.world.load(function () {
-          console.log(gCtx.world.name, ' loaded');
-
           gCtx.world.on('portalEvent', function () {
             console.log('portal event');
           });
