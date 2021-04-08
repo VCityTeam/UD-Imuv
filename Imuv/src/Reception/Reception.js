@@ -112,7 +112,7 @@ export class ReceptionView {
     newsContent.innerHTML = aboutString;
     contentDiv.appendChild(newsContent);
 
-    //serives
+    //services
     const servicesAnchor = document.createElement('div');
     servicesAnchor.classList.add('box_Reception');
     servicesAnchor.innerHTML = 'Services';
