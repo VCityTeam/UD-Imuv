@@ -15,7 +15,8 @@
     },
     "Render": {
       "type": "Render",
-      "idModel": "avatar"
+      "idModel": "avatar",
+      "name": "avatar_name"
     },
     "Script": {
       "idScripts": ["avatar"],
