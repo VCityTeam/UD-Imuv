@@ -176,7 +176,7 @@ export class GOEditorView {
       if (!_this.model) return;
 
       const ratio = parseFloat(event.target.value) / 100;
-      const o = _this.model.getGameObject().getObject3D();
+      const o = _this.model.getGameObject().computeObject3D();
       if (!o) return;
       o.traverse(function (child) {
         if (child.material) {

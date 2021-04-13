@@ -47,7 +47,7 @@ export class GOEditorModel {
 
     this.gameObject = g;
     if (g) {
-      const object = g.getObject3D();
+      const object = g.computeObject3D();
 
       if (object) {
         this.boundingBox = new THREE.Box3().setFromObject(object);
