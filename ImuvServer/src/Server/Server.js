@@ -7,8 +7,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const WorldThread = require('./WorldThread');
 const User = require('./User');
-
-const udvShared = require('ud-viz/src/Game/Shared/Shared');
+const AssetsManagerServer = require('./AssetsManagerServer');
 
 const ServerModule = class Server {
   constructor(config) {
@@ -29,6 +28,9 @@ const ServerModule = class Server {
 
     //map world to thread
     this.worldToThread = {};
+
+    //manager
+    this.assetsManager = new AssetsManagerServer();
   }
 
   initWorlds(worldsJSON) {
@@ -67,24 +69,33 @@ const ServerModule = class Server {
 
   //create app express and listen to config.PORT
   start() {
-    //express
-    this.app = express();
-    //serve
-    this.app.use(express.static(this.config.folder)); //what folder is served
+    const _this = this;
 
-    //http server
-    const port = this.config.port;
-    const folder = this.config.folder;
-    this.server = this.app.listen(port, function (err) {
-      if (err) console.log('Error in server setup');
-      console.log('Server listening on Port', port, ' folder ' + folder);
+    this.load().then(function () {
+
+      //express
+      _this.app = express();
+      //serve
+      _this.app.use(express.static(_this.config.folder)); //what folder is served
+
+      //http server
+      const port = _this.config.port;
+      const folder = _this.config.folder;
+      _this.server = _this.app.listen(port, function (err) {
+        if (err) console.log('Error in server setup');
+        console.log('Server listening on Port', port, ' folder ' + folder);
+      });
+
+      //websocket
+      _this.io = socketio(_this.server);
+
+      //cb
+      _this.initCallback();
     });
+  }
 
-    //websocket
-    this.io = socketio(this.server);
-
-    //cb
-    this.initCallback();
+  load() {
+    return this.assetsManager.loadFromConfig(this.config.assetsManager);
   }
 
   initCallback() {
@@ -103,10 +114,10 @@ const ServerModule = class Server {
 
     //register the client
     const thread = this.worldToThread[uuidWorld];
-    const avatarJSON = udvShared.Data.createAvatarJSON();
-    const user = new User(socket, uuidWorld, avatarJSON.uuid, thread);
+    const avatar = this.assetsManager.fetchPrefab('avatar');
+    const user = new User(socket, uuidWorld, avatar.getUUID(), thread);
     this.users[user.getUUID()] = user;
-    thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, avatarJSON);
+    thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, avatar.toJSON(true));
 
     const _this = this;
     socket.on('disconnect', () => {

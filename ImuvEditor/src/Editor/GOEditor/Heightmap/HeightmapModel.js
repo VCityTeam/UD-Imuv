@@ -1,7 +1,8 @@
 /** @format */
 
-const THREE = require('three');
-const ScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/ScriptComponent');
+import { THREE } from 'ud-viz';
+
+const ScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/Script');
 
 export class HeightmapModel {
   constructor(gameObjectModel) {
@@ -42,6 +43,15 @@ export class HeightmapModel {
     });
   }
 
+  init() {
+    this.initScene();
+    this.initHeightmap();
+
+    const bbox = this.getBoundingBox();
+    this.movePlanTop(bbox.max.z);
+    this.movePlanBottom(bbox.min.z);
+  }
+
   computeHeightmapMaterial() {
     this.heightmapMaterial.uniforms.max.value = this.maxPosition().z;
     this.heightmapMaterial.uniforms.min.value = this.minPosition().z;
@@ -52,7 +62,7 @@ export class HeightmapModel {
     const gameobject = this.gameObjectModel.getGameObject();
     const script = gameobject.getComponent(ScriptComponent.TYPE);
     if (!script) throw new Error();
-    script.data.heightmap_geometry = this.computeGeoJSON();
+    script.conf.heightmap_geometry = this.computeGeoJSON();
   }
 
   initHeightmap() {
@@ -65,15 +75,15 @@ export class HeightmapModel {
         new ScriptComponent(gameobject, {
           type: ScriptComponent.TYPE,
           idScripts: ['map'],
-          data: {
+          conf: {
             heightmap_path: defaultpath,
             heightmap_geometry: this.computeGeoJSON(),
           },
         })
       );
     } else {
-      if (!script.data) script.data = { heightmap_path: defaultpath };
-      script.data.heightmap_geometry = this.computeGeoJSON();
+      if (!script.conf) script.conf = { heightmap_path: defaultpath };
+      script.conf.heightmap_geometry = this.computeGeoJSON();
     }
   }
 
@@ -145,9 +155,6 @@ export class HeightmapModel {
     //move pos
     this.planBottom.position.copy(center);
     this.planTop.position.copy(center);
-
-    this.movePlanTop(bbox.max.z);
-    this.movePlanBottom(bbox.min.z);
   }
 
   movePlanTop(z) {

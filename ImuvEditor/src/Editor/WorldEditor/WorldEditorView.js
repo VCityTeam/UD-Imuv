@@ -1,8 +1,8 @@
 /** @format */
 
 import './WorldEditor.css';
-import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/RenderComponent';
-import { GameView } from 'ud-viz/src/Game/Client/GameView/GameView';
+import { Game, Components, THREE } from 'ud-viz';
+const File = Components.SystemUtils.File;
 
 export class WorldEditorView {
   constructor(config, assetsManager) {
@@ -31,9 +31,10 @@ export class WorldEditorView {
     //html
     this.input = null;
     this.worldsList = null;
-    this.canvasCollision = null;
+    this.canvasPreview = null;
     this.stopButton = null;
     this.imgHeightmap = null;
+    this.saveButton = null;
   }
 
   setPause(value) {
@@ -44,38 +45,149 @@ export class WorldEditorView {
     return this.rootHtml;
   }
 
-  renderCanvasCollision() {
-    requestAnimationFrame(this.renderCanvasCollision.bind(this));
+  renderCanvas() {
+    requestAnimationFrame(this.renderCanvas.bind(this));
 
     if (!this.gameView || this.pause) return;
     const world = this.gameView.getWorld();
     if (!world) return;
     const go = world.getGameObject();
-    if (!go.getObject3D()) return;
-    const bb = go.getComponent(RenderComponent.TYPE).computeBoundingBox();
+    const obj = go.getObject3D();
+    if (!obj) return;
+    const bb = new THREE.Box3().setFromObject(obj);
 
-    const w = bb.max.x - bb.min.x;
-    const h = bb.max.y - bb.min.y;
+    const wWorld = bb.max.x - bb.min.x;
+    const hWorld = bb.max.y - bb.min.y;
+    if (!wWorld || !hWorld) return;
 
-    this.canvasCollision.width = w;
-    this.canvasCollision.height = h;
+    //update heightmap src
 
-    const ctx = this.canvasCollision.getContext('2d');
-    ctx.clearRect(
-      0,
-      0,
-      this.canvasCollision.width,
-      this.canvasCollision.height
-    );
-    ctx.strokeStyle = '#FFFFFF';
+    if (!this.imgHeightmap) {
+      const _this = this;
+
+      world.getGameObject().traverse(function (g) {
+        const s = g.getScripts();
+        if (s && s['map']) {
+          //consider assets are in ./
+          let path = s['map'].conf.heightmap_path;
+          const index = path.indexOf('/assets');
+          path = './' + path.slice(index);
+
+          //create html element
+          _this.imgHeightmap = document.createElement('img');
+          _this.imgHeightmap.src = path;
+        }
+      });
+    }
+
+    const wCanvas = this.canvasPreview.width;
+    const hCanvas = this.canvasPreview.height;
+
+    const ctx = this.canvasPreview.getContext('2d');
+
+    //clear rect
+    ctx.clearRect(0, 0, wCanvas, hCanvas);
+
+    //draw heightmap
+    if (this.imgHeightmap) {
+      ctx.save();
+      ctx.transform(1, 0, 0, -1, 0, hCanvas);
+      ctx.drawImage(this.imgHeightmap, 0, 0, wCanvas, hCanvas);
+      ctx.restore();
+    }
+
+    //draw collison body
     ctx.beginPath();
+    ctx.save();
+    ctx.scale(wCanvas / wWorld, hCanvas / hWorld);
     world.getCollisions().draw(ctx);
+    ctx.strokeStyle = 'red';
     ctx.stroke();
+    ctx.restore();
   }
 
   initCallbacks() {
     const _this = this;
+
+    //input
+    this.input.addEventListener(
+      'change',
+      this.readSingleFile.bind(this),
+      false
+    );
+
     this.stopButton.onclick = this.stopGame.bind(this);
+
+    this.saveButton.onclick = function () {
+      if (!_this.currentWorld) return;
+
+      //change in world array
+      _this.worldsJSON.forEach(function (w) {
+        if (w.uuid == _this.currentWorld.getUUID()) {
+          const clone = _this.currentWorld.clone();
+
+          //remove avatar before saving
+          clone.getGameObject().traverse(function (g) {
+            if (g.name == 'avatar') {
+              g.removeFromParent();
+            }
+          });
+          w = clone.toJSON();
+        }
+      });
+
+      //download array
+      File.downloadObjectAsJson(_this.worldsJSON, 'worlds');
+    };
+  }
+
+  readSingleFile(e) {
+    try {
+      const file = e.target.files[0];
+      if (!file) {
+        return;
+      }
+      const _this = this;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const json = JSON.parse(e.target.result);
+        console.log('Worlds = ', json);
+        _this.onWorlds(json);
+      };
+
+      reader.readAsText(file);
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  updateUI() {
+    //clean worlds list and rebuild it
+    const list = this.worldsList;
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+    const _this = this;
+    this.worldsJSON.forEach(function (w) {
+      const li = document.createElement('li');
+      li.innerHTML = w.name;
+      li.onclick = _this.onWorldJSON.bind(_this, w);
+      list.appendChild(li);
+    });
+  }
+
+  onWorldJSON(json) {
+    const world = new Game.Shared.World(json, { isServerSide: false });
+
+    this.currentWorld = world;
+
+    this.onWorld(world);
+  }
+
+  onWorlds(json) {
+    if (!json) throw new Error('wrong json');
+    this.worldsJSON = json;
+    this.updateUI();
   }
 
   stopGame() {
@@ -86,11 +198,21 @@ export class WorldEditorView {
   }
 
   initUI() {
+    //open a world
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    this.ui.appendChild(input);
+    this.input = input; //ref
+
+    const worldsList = document.createElement('ul');
+    this.ui.appendChild(worldsList);
+    this.worldsList = worldsList;
+
     //preview
-    const canvasCollision = document.createElement('canvas');
-    canvasCollision.classList.add('canvas_preview');
-    this.ui.appendChild(canvasCollision);
-    this.canvasCollision = canvasCollision;
+    const canvasPreview = document.createElement('canvas');
+    canvasPreview.classList.add('canvas_preview');
+    this.ui.appendChild(canvasPreview);
+    this.canvasPreview = canvasPreview;
 
     const stopButton = document.createElement('div');
     stopButton.innerHTML = 'Stop Game';
@@ -98,9 +220,11 @@ export class WorldEditorView {
     this.ui.appendChild(stopButton);
     this.stopButton = stopButton;
 
-    const imgDiv = document.createElement('img');
-    this.ui.appendChild(imgDiv);
-    this.imgHeightmap = imgDiv;
+    const saveButton = document.createElement('div');
+    saveButton.classList.add('button_Editor');
+    saveButton.innerHTML = 'Download';
+    this.ui.appendChild(saveButton);
+    this.saveButton = saveButton;
   }
 
   load() {
@@ -110,26 +234,21 @@ export class WorldEditorView {
 
       _this.initCallbacks();
 
-      _this.renderCanvasCollision();
+      _this.renderCanvas();
 
       resolve();
     });
   }
 
   onWorld(newWorld) {
+    //reset
+    this.imgHeightmap = null;
+
     this.stopGame();
 
     const _this = this;
-    newWorld.getGameObject().traverse(function (g) {
-      const s = g.getScripts();
-      //TODO ce code connait Map.js le mettre ailleurs ou non ?
-      if (s && s['map']) {
-        const path = s['map'].data.heightmap_path;
-        _this.imgHeightmap.src = path;
-      }
-    });
 
-    this.gameView = new GameView({
+    this.gameView = new Game.GameView({
       assetsManager: this.assetsManager,
       isLocal: true,
       config: this.config,
@@ -138,9 +257,32 @@ export class WorldEditorView {
 
     this.gameView.load().then(function () {
       const htmlView = _this.gameView.html();
+      //TODO no css inline
       htmlView.style.display = 'inline-block';
       htmlView.style.position = 'absolute';
       _this.rootHtml.appendChild(htmlView);
+      _this.updateUI();
+    });
+
+    //register
+    newWorld.on('portalEvent', function (params) {
+      const avatar = params[0];
+      const worldToGoUUID = params[1];
+
+      let worldDest;
+      for (let index = 0; index < _this.worldsJSON.length; index++) {
+        const element = _this.worldsJSON[index];
+        if (element.uuid == worldToGoUUID) {
+          worldDest = element;
+          break;
+        }
+      }
+
+      if (!worldDest) {
+        console.warn('no world dest ', worldToGoUUID);
+      } else {
+        _this.onWorldJSON(worldDest);
+      }
     });
   }
 }

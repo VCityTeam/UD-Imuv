@@ -3,7 +3,7 @@
 try {
   const gameServer = require('./dist/server.js');
   const config = require('./assets/config/config.json');
-  const worldsJSON = require('./assets/worlds/worlds.json');
+  const worldsJSON = require('../ImuvEditor/assets/worlds/worlds.json');
 
   //instanciate server
   const server = new gameServer.Server(config);

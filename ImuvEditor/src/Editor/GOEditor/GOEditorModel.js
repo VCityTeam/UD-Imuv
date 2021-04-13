@@ -1,6 +1,6 @@
 /** @format */
 
-const THREE = require('three');
+import { THREE, Game } from 'ud-viz';
 
 export class GOEditorModel {
   constructor(assetsManager) {
@@ -22,16 +22,7 @@ export class GOEditorModel {
   }
 
   initScene() {
-    //lights
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    directionalLight.position.set(0, 0, 20000);
-    directionalLight.updateMatrixWorld();
-    this.scene.add(directionalLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    ambientLight.position.set(0, 0, 3000);
-    directionalLight.updateMatrixWorld();
-    this.scene.add(ambientLight);
+    Game.Components.THREEUtils.addLights(this.scene);
   }
 
   getBoundingBox() {
@@ -51,20 +42,26 @@ export class GOEditorModel {
     if (this.gameObject) {
       this.scene.remove(this.gameObject.getObject3D());
       this.scene.remove(this.gizmo);
+      this.scene.remove(this.boxHelper);
     }
 
     this.gameObject = g;
     if (g) {
-      const object = g.computeObject3D(this.assetsManager);
-      this.boundingBox = new THREE.Box3().setFromObject(object);
-      object.add(new THREE.BoxHelper(object));
-      const scale = this.boundingBox.max.distanceTo(this.boundingBox.min) / 40;
-      this.gizmo = this.assetsManager.fetch('gizmo');
-      this.gizmo.scale.set(scale, scale, scale);
+      const object = g.getObject3D();
 
-      //add to scene
-      this.scene.add(this.gizmo); //show origin
-      this.scene.add(object);
+      if (object) {
+        this.boundingBox = new THREE.Box3().setFromObject(object);
+        const scale =
+          this.boundingBox.max.distanceTo(this.boundingBox.min) / 40;
+        this.gizmo = this.assetsManager.fetchModel('gizmo');
+        this.gizmo.scale.set(scale, scale, scale);
+
+        //add to scene
+        this.scene.add(this.gizmo); //show origin
+        this.scene.add(object);
+        this.boxHelper = new THREE.BoxHelper(object);
+        this.scene.add(this.boxHelper);
+      }
     }
   }
 }

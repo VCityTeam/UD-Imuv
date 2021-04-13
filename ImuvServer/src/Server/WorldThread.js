@@ -9,10 +9,12 @@ const gm = require('gm');
 const PNG = require('pngjs').PNG;
 
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Data = udvShared.Data;
+const Data = udvShared.Components.Data;
 const Command = udvShared.Command;
 const GameObject = udvShared.GameObject;
 const World = udvShared.World;
+
+const AssetsManagerServer = require('./AssetsManagerServer');
 
 const WorldThreadModule = class WorldThread {
   constructor(path) {
@@ -64,83 +66,97 @@ WorldThreadModule.routine = function (serverConfig) {
 
   const parentPort = workerThreads.parentPort;
 
-  //Variables
-  let lastTimeTick = 0;
-  let world; //the world being simulated
-  const commands = [];
+  const gCtx = {
+    assetsManager: new AssetsManagerServer(),
+    dt: 0,
+    commands: [],
+    world: null,
+    UDVShared: udvShared,
+  };
 
-  //Callbacks
-  const onInit = function (worldJSON) {
-    world = new World(worldJSON, {
-      isServerSide: true,
-      modules: { gm: gm, PNG: PNG },
-    });
-    world.load(function () {
-      console.log(world.name, ' loaded');
+  //load scripts
+  gCtx.assetsManager
+    .loadFromConfig(serverConfig.assetsManager)
+    .then(function () {
+      //Variables
+      let lastTimeTick = 0;
 
-      //loop
-      const tick = function () {
-        let dt;
-        const now = Date.now();
-        if (!lastTimeTick) {
-          dt = 0;
-        } else {
-          dt = now - lastTimeTick;
-        }
-        lastTimeTick = now;
+      //Callbacks
+      const onInit = function (worldJSON) {
+        gCtx.world = new World(worldJSON, {
+          isServerSide: true,
+          modules: { gm: gm, PNG: PNG },
+        });
 
-        world.tick(commands, dt); //tick with user commands
-        commands.length = 0; //clear commands
+        gCtx.world.load(function () {
+          gCtx.world.on('portalEvent', function () {
+            console.log('portal event');
+          });
 
-        const currentState = world.computeWorldState();
+          //loop
+          const tick = function () {
+            const now = Date.now();
+            if (!lastTimeTick) {
+              gCtx.dt = 0;
+            } else {
+              gCtx.dt = now - lastTimeTick;
+            }
+            lastTimeTick = now;
 
-        //post worldstate to main thread
-        const message = {
-          msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
-          data: currentState.toJSON(),
-        };
-        parentPort.postMessage(Data.pack(message));
+            gCtx.world.tick(gCtx); //tick with user commands
+            gCtx.commands.length = 0; //clear commands
+
+            const currentState = gCtx.world.computeWorldState();
+
+            //post worldstate to main thread
+            const message = {
+              msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
+              data: currentState.toJSON(),
+            };
+            parentPort.postMessage(Data.pack(message));
+          };
+          const fps = serverConfig.thread.fps;
+          if (!fps) throw new Error('no fps');
+          setInterval(tick, 1000 / fps);
+        }, gCtx);
       };
-      const fps = serverConfig.thread.fps;
-      if (!fps) throw new Error('no fps');
-      setInterval(tick, 1000 / fps);
+
+      const onCommands = function (cmdsJSON) {
+        cmdsJSON.forEach(function (cmdJSON) {
+          gCtx.commands.push(new Command(cmdJSON));
+        });
+      };
+
+      const onAddGameObject = function (goJson) {
+        const newGO = new GameObject(goJson);
+        gCtx.world.addGameObject(newGO, gCtx, gCtx.world.getGameObject(), null);
+      };
+
+      const onRemoveGameObject = function (uuid) {
+        gCtx.world.removeGameObject(uuid);
+      };
+
+      //listening parentPort
+      parentPort.on('message', (msgPacked) => {
+        const msg = Data.unpack(msgPacked);
+        switch (msg.msgType) {
+          case WorldThreadModule.MSG_TYPES.INIT:
+            onInit(msg.data);
+            break;
+          case WorldThreadModule.MSG_TYPES.COMMANDS:
+            onCommands(msg.data);
+            break;
+          case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT:
+            onAddGameObject(msg.data);
+            break;
+          case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
+            onRemoveGameObject(msg.data);
+            break;
+          default:
+            console.log('default msg ', msg.data);
+        }
+      });
     });
-  };
-
-  const onCommands = function (cmdsJSON) {
-    cmdsJSON.forEach(function (cmdJSON) {
-      commands.push(new Command(cmdJSON));
-    });
-  };
-
-  const onAddGameObject = function (goJson) {
-    world.addGameObject(new GameObject(goJson));
-  };
-
-  const onRemoveGameObject = function (uuid) {
-    world.removeGameObject(uuid);
-  };
-
-  //listening parentPort
-  parentPort.on('message', (msgPacked) => {
-    const msg = Data.unpack(msgPacked);
-    switch (msg.msgType) {
-      case WorldThreadModule.MSG_TYPES.INIT:
-        onInit(msg.data);
-        break;
-      case WorldThreadModule.MSG_TYPES.COMMANDS:
-        onCommands(msg.data);
-        break;
-      case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT:
-        onAddGameObject(msg.data);
-        break;
-      case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
-        onRemoveGameObject(msg.data);
-        break;
-      default:
-        console.log('default msg ', msg.data);
-    }
-  });
 };
 
 module.exports = WorldThreadModule;

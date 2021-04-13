@@ -2,7 +2,7 @@
 
 import { HeightmapModel } from './HeightmapModel';
 
-const THREE = require('three');
+import { THREE } from 'ud-viz';
 
 import './Heightmap.css';
 import '../../Editor.css';
@@ -15,7 +15,7 @@ export class HeightMapView {
 
     //heightmap model
     if (!goView.model) throw new Error('no model');
-    this.model = new HeightmapModel(goView.model);
+    this.model = new HeightmapModel(goView.model); //TODO mettre getter sur model
 
     //html
     this.sliderPlanTop = null;
@@ -24,6 +24,12 @@ export class HeightMapView {
     this.canvasPreview = null;
     this.selectMapSize = null;
     this.downloadButton = null;
+
+    this.init();
+  }
+
+  getModel() {
+    return this.model;
   }
 
   html() {
@@ -31,7 +37,7 @@ export class HeightMapView {
   }
 
   init() {
-    this.model.initScene();
+    this.model.init();
 
     this.initUI();
 

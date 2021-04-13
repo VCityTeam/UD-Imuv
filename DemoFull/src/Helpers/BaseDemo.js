@@ -1,18 +1,13 @@
 /** @format */
 
 //Components
-import { Widgets, Components, itowns } from 'ud-viz';
+import { Widgets, Components, itowns, proj4, THREE, jquery } from 'ud-viz';
 const ModuleView = Components.ModuleView;
 const TilesManager = Components.TilesManager;
 const LayerManager = Components.LayerManager;
 const $3DTemporalBatchTable = Widgets.$3DTemporalBatchTable;
 const $3DTemporalBoundingVolume = Widgets.$3DTemporalBoundingVolume;
 const $3DTemporalTileset = Widgets.$3DTemporalTileset;
-
-
-import * as THREE from 'three';
-import proj4 from 'proj4';
-const jquery = require('jquery');
 
 import './BaseDemo.css';
 
@@ -707,7 +702,7 @@ export class BaseDemo {
     // ********* INIT ITOWNS VIEW
     // Define projection used in iTowns viewer (taken from
     // https://epsg.io/3946, Proj4js section)
-    proj4.defs(
+    proj4.default.defs(
       'EPSG:3946',
       '+proj=lcc +lat_1=45.25 +lat_2=46.75' +
         ' +lat_0=46 +lon_0=3 +x_0=1700000 +y_0=5200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
