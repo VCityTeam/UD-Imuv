@@ -62,8 +62,12 @@ module.exports = class Map {
 
       const conf = this.conf;
 
-      const heightmap = gm(conf.heightmap_path);
-      console.log(conf.heightmap_path);
+      const path = require('path');
+      const hPath = path.resolve(__dirname, conf.heightmap_path);
+      console.log(hPath);
+
+      const heightmap = gm(hPath);
+      // console.log(conf.heightmap_path);
 
       const _this = this;
 
@@ -152,7 +156,6 @@ module.exports = class Map {
       return getPixelHeight(indexMin.i, indexMin.j, 1);
     };
 
-    //update height of its children
     gameObject.transform.position.z = getHeightValue(
       this.conf,
       gameObject.transform.position.x,
