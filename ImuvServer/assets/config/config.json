@@ -2,30 +2,30 @@
   "assetsManager": {
     "scripts": {
       "avatar": {
-        "path": "../ImuvEditor/assets/scripts/Avatar.js"
+        "path": "./assets/scripts/Avatar.js"
       },
       "map": {
-        "path": "../ImuvEditor/assets/scripts/Map.js"
+        "path": "./assets/scripts/Map.js"
       },
       "gameManager": {
-        "path": "../ImuvEditor/assets/scripts/GameManager.js"
+        "path": "./assets/scripts/GameManager.js"
       },
       "portal": {
-        "path": "../ImuvEditor/assets/scripts/Portal.js"
+        "path": "./assets/scripts/Portal.js"
       }
     },
     "prefabs": {
       "room_expo": {
-        "path": "../ImuvEditor/assets/prefabs/Room Expo Map.json"
+        "path": "./assets/prefabs/Room Expo Map.json"
       },
       "flying_campus": {
-        "path": "../ImuvEditor/assets/prefabs/Flying Campus Map.json"
+        "path": "./assets/prefabs/Flying Campus Map.json"
       },
       "portal": {
-        "path": "../ImuvEditor/assets/prefabs/Portal.json"
+        "path": "./assets/prefabs/Portal.json"
       },
       "avatar": {
-        "path": "../ImuvEditor/assets/prefabs/Avatar.json"
+        "path": "./assets/prefabs/Avatar.json"
       }
     }
   },
