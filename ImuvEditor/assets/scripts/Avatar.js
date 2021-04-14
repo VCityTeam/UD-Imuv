@@ -12,7 +12,7 @@ module.exports = class Avatar {
     const go = arguments[0];
     const gCtx = arguments[1];
 
-    //spawnddd
+    //spawn
     const gm = go.computeRoot(); //root is gm
     const script = gm.getScripts()['gameManager'];
     go.setTransformFromJSON(script.getSpawnTransform());

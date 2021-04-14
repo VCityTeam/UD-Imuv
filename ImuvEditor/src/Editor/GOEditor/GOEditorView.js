@@ -199,11 +199,12 @@ export class GOEditorView {
           const name = child.name.toLowerCase();
           const tag = text.toLowerCase();
 
+          console.log(name);
+
           if (name.includes(tag)) child.visible = visible;
         });
       }
     };
-
 
     this.makeVisibleButton.onclick = applyVisibility.bind(this, true);
     this.makeInvisibleButton.onclick = applyVisibility.bind(this, false);
