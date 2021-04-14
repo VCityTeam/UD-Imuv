@@ -1,5 +1,4 @@
 /** @format */
-const path = require('path');
 
 module.exports = class Map {
   constructor(conf) {
@@ -63,6 +62,7 @@ module.exports = class Map {
 
       const conf = this.conf;
 
+      const path = require('path');
       const hPath = path.resolve(__dirname, conf.heightmap_path);
       console.log(hPath);
 
