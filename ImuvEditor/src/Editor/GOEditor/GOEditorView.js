@@ -74,6 +74,10 @@ export class GOEditorView {
     this.prefabsList = null; //list prefabs openend
     this.opacitySlider = null; //set opacity go material
     this.checkboxGizmo = null; //display or not gizmo
+    this.inputTag = null; //trigger name of meshes
+    this.makeVisibleButton = null; //make the triggered meshes visible
+    this.makeInvisibleButton = null; //make the triggered meshes invisible
+    this.resetVisibility = null; //all meshes are visible
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
@@ -176,7 +180,7 @@ export class GOEditorView {
       if (!_this.model) return;
 
       const ratio = parseFloat(event.target.value) / 100;
-      const o = _this.model.getGameObject().getObject3D();
+      const o = _this.model.getGameObject().fetchObject3D();
       if (!o) return;
       o.traverse(function (child) {
         if (child.material) {
@@ -184,6 +188,34 @@ export class GOEditorView {
           child.material.opacity = ratio;
         }
       });
+    };
+
+    const applyVisibility = function (visible) {
+      const text = _this.inputTag.value;
+      if (_this.model && _this.model.getGameObject()) {
+        const object3D = _this.model.getGameObject().fetchObject3D();
+        if (!object3D) return;
+        object3D.traverse(function (child) {
+          const name = child.name.toLowerCase();
+          const tag = text.toLowerCase();
+
+          console.log(name);
+
+          if (name.includes(tag)) child.visible = visible;
+        });
+      }
+    };
+
+    this.makeVisibleButton.onclick = applyVisibility.bind(this, true);
+    this.makeInvisibleButton.onclick = applyVisibility.bind(this, false);
+    this.resetVisibility.onclick = function () {
+      if (_this.model && _this.model.getGameObject()) {
+        const object3D = _this.model.getGameObject().fetchObject3D();
+        if (!object3D) return;
+        object3D.traverse(function (child) {
+          child.visible = true;
+        });
+      }
     };
 
     this.saveGOButton.onclick = function () {
@@ -389,6 +421,29 @@ export class GOEditorView {
     checkboxGizmo.setAttribute('type', 'checkbox');
     this.ui.appendChild(checkboxGizmo);
     this.checkboxGizmo = checkboxGizmo;
+
+    const inputTag = document.createElement('input');
+    inputTag.type = 'text';
+    this.ui.appendChild(inputTag);
+    this.inputTag = inputTag;
+
+    const makeVisibleButton = document.createElement('div');
+    makeVisibleButton.classList.add('button_Editor');
+    makeVisibleButton.innerHTML = 'Visible';
+    this.ui.appendChild(makeVisibleButton);
+    this.makeVisibleButton = makeVisibleButton;
+
+    const makeInvisibleButton = document.createElement('div');
+    makeInvisibleButton.classList.add('button_Editor');
+    makeInvisibleButton.innerHTML = 'Invisible';
+    this.ui.appendChild(makeInvisibleButton);
+    this.makeInvisibleButton = makeInvisibleButton;
+
+    const resetVisibility = document.createElement('div');
+    resetVisibility.classList.add('button_Editor');
+    resetVisibility.innerHTML = 'Reset Visibility';
+    this.ui.appendChild(resetVisibility);
+    this.resetVisibility = resetVisibility;
 
     //new go
     const newGOButton = document.createElement('div');

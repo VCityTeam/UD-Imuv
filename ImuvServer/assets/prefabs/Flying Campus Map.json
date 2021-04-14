@@ -1,0 +1,99 @@
+{
+  "name": "Flying Campus Map",
+  "type": "GameObject",
+  "static": true,
+  "outdated": false,
+  "uuid": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
+  "parentUUID": null,
+  "components": {
+    "Render": {
+      "uuid": "5A407D42-0B89-43B7-BF19-604A54C067D7",
+      "name": null,
+      "type": "Render",
+      "idModel": "flying_campus"
+    },
+    "Script": {
+      "uuid": "A18CF9CD-CDE7-42FD-A88B-FCE457155FB5",
+      "idScripts": ["map"],
+      "conf": {
+        "heightmap_path": "./assets/worlds/heightmap/heightmap_1.png",
+        "heightmap_geometry": {
+          "bounding_box": {
+            "min": { "x": 0, "y": 0, "z": 7.105427357601002e-15 },
+            "max": {
+              "x": 164.3664379119873,
+              "y": 197.7640548865038,
+              "z": 112.78629635141081
+            }
+          },
+          "heightmap_min": 39.47520372299379,
+          "heightmap_max": 112.78629635141081
+        }
+      },
+      "type": "Script"
+    },
+    "Collider": {
+      "uuid": "AB1A5804-7951-4B0D-B183-87D0FD5A51A2",
+      "type": "Collider",
+      "shapes": [
+        {
+          "type": "Circle",
+          "center": { "x": 33.61684875901751, "y": 27.227763959730012 },
+          "radius": 3.7752627015210676
+        }
+      ],
+      "body": false
+    }
+  },
+  "children": [
+    {
+      "name": "Portal",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "01B9EDE2-6465-45FC-BB0C-31236CE095E9",
+      "parentUUID": "AA875FE5-9CA9-4705-AD2E-61D7ACB25484",
+      "components": {
+        "Render": {
+          "uuid": "081CCCA6-DFE5-4BF2-A753-E9E0B32B6FCB",
+          "name": null,
+          "type": "Render",
+          "idModel": "cube"
+        },
+        "Collider": {
+          "uuid": "AD0E34B6-BCD0-4F46-91F1-97786A4CB30B",
+          "type": "Collider",
+          "shapes": [
+            {
+              "type": "Polygon",
+              "points": [
+                { "x": 0.5592024528742741, "y": -0.4794168756611725 },
+                { "x": 0.601072089984541, "y": 0.5857008114866176 },
+                { "x": -0.5864246564925679, "y": 0.7331423280742229 },
+                { "x": -0.5510686241833582, "y": -0.5612616251936515 }
+              ]
+            }
+          ],
+          "body": false
+        },
+        "Script": {
+          "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
+          "idScripts": ["portal"],
+          "conf": { "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D" },
+          "type": "Script"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 109, "y": 123, "z": 72 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
+  ],
+  "transform": {
+    "position": { "x": 0, "y": 0, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
+    "scale": { "x": 1, "y": 1, "z": 1 }
+  }
+}

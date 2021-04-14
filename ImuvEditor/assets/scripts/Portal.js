@@ -1,6 +1,6 @@
 /** @format */
 
-module.exports = class GameManager {
+module.exports = class Portal {
   constructor(conf) {
     this.conf = conf;
   }

@@ -52,7 +52,7 @@ export class WorldEditorView {
     const world = this.gameView.getWorld();
     if (!world) return;
     const go = world.getGameObject();
-    const obj = go.getObject3D();
+    const obj = go.fetchObject3D();
     if (!obj) return;
     const bb = new THREE.Box3().setFromObject(obj);
 

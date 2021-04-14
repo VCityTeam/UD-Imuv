@@ -1,0 +1,71 @@
+[
+  {
+    "type": "World",
+    "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+    "name": "Flying Campus World",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "gameObject": {
+      "name": "GameManager",
+      "static": true,
+      "type": "GameObject",
+      "uuid": "C9E1F773-4249-4BE5-A744-438207962D64",
+      "parentUUID": null,
+      "components": {
+        "Script": {
+          "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
+          "idScripts": ["gameManager"],
+          "conf": {
+            "mapPrefabId": "flying_campus",
+            "spawnTransform": {
+              "position": { "x": 105, "y": 141, "z": 0 },
+              "rotation": { "x": 0.176, "y": 0, "z": 3.06 },
+              "scale": { "x": 1, "y": 1, "z": 1 }
+            }
+          },
+          "type": "Script"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
+  },
+  {
+    "type": "World",
+    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+    "name": "Room Expo World",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "gameObject": {
+      "name": "GameManager",
+      "type": "GameObject",
+      "uuid": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
+      "parentUUID": null,
+      "static": true,
+      "components": {
+        "Script": {
+          "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
+          "idScripts": ["gameManager"],
+          "conf": {
+            "mapPrefabId": "room_expo",
+            "spawnTransform": {
+              "position": { "x": 31, "y": 20, "z": 0 },
+              "rotation": { "x": 0.142, "y": 0, "z": 2.232 },
+              "scale": { "x": 1, "y": 1, "z": 1 }
+            }
+          },
+          "type": "Script"
+        }
+      },
+
+      "children": [],
+      "transform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
+  }
+]
