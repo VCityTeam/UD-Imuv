@@ -24,7 +24,8 @@ jobs:
       script:
         - cd SimpleServer && npm install && npm build
     - stage: trigger downstream
-      script: |
+      script:
+      - |
         echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
         if [[ ($TRAVIS_BRANCH == master) &&
               ($TRAVIS_PULL_REQUEST == false) ]] ; then
