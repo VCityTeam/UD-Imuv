@@ -30,12 +30,14 @@ jobs:
       script:
       - |
         echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-        which curl
         curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
-        sh trigger-travis.sh VCityTeam UD-Viz-demo-docker $TRAVIS_ACCESS_TOKEN
+        ls -al trigger-travis.sh
         if [[ ($TRAVIS_BRANCH == master) && ($TRAVIS_PULL_REQUEST == false) ]] ; then
+          echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
           curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
+          echo "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
           sh trigger-travis.sh VCityTeam UD-Viz-demo-docker $TRAVIS_ACCESS_TOKEN
+          echo "ccccccccccccccccccccccccccccccccccccccccccc"
         else
           echo "trigger-travis.sh did not run"
         fi
