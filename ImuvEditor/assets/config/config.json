@@ -12,6 +12,9 @@
       },
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
+      },
+      "frame": {
+        "path": "./assets/prefabs/Frame.json"
       }
     },
     "scripts": {

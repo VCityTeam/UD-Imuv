@@ -1,0 +1,26 @@
+{
+  "name": "Frame",
+  "type": "GameObject",
+  "static": true,
+  "outdated": false,
+  "components": {
+    "Render": {
+      "uuid": "E55B8A5A-0EF3-40ED-BE1F-57286C12CEF3",
+      "name": null,
+      "type": "Render",
+      "media": {
+        "text": {
+          "label": "Ceci est un texte un peu plus long pour voir comment ca se passe",
+          "width": 3,
+          "height": 1
+        }
+      }
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": { "x": 0, "y": 0, "z": 0 },
+    "rotation": { "x": 0, "y": 1.6, "z": 1.6 },
+    "scale": { "x": 1, "y": 1, "z": 1 }
+  }
+}

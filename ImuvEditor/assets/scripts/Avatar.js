@@ -141,8 +141,8 @@ module.exports = class Avatar {
             const rotation = gameObject.getTransform().rotation;
             rotation.y = 0;
             //borne between 0 => 2pi
-            const angle1 = Math.PI / 10; //TODO valeur en config
-            const angle2 = Math.PI * 2 - Math.PI / 20;
+            const angle1 = Math.PI / 5; //TODO valeur en config
+            const angle2 = Math.PI * 2 - Math.PI / 10;
             if (rotation.x > Math.PI) {
               rotation.x = Math.max(rotation.x, angle2);
             } else {
