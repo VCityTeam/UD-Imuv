@@ -199,7 +199,7 @@ export class GOEditorView {
           const name = child.name.toLowerCase();
           const tag = text.toLowerCase();
 
-          console.log(name);
+          // console.log(name);
 
           if (name.includes(tag)) child.visible = visible;
         });

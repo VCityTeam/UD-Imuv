@@ -1,9 +1,11 @@
 /** @format */
 import './JSONEditor.css';
 
-import { Components } from 'ud-viz';
+import { Components, THREE } from 'ud-viz';
+import Type from 'ud-viz/src/Components/SystemUtils/Type';
+import JSONUtils from 'ud-viz/src/Components/SystemUtils/JSONUtils';
 
-const OFFSET_LEFT = 40;
+const OFFSET_LEFT = 20;
 const VALUES_TYPE = {
   OBJECT: 'Object',
   STRING: 'String',
@@ -151,6 +153,12 @@ export class JSONEditorView {
       removeButton.innerHTML = 'remove';
       ui.appendChild(removeButton);
 
+      //copy
+      const copyButton = document.createElement('div');
+      copyButton.classList.add('button_Editor');
+      copyButton.innerHTML = 'Copy';
+      ui.appendChild(copyButton);
+
       const valuesParent = document.createElement('div');
       valuesParent.classList.add('hidden');
       valuesParent.style.marginLeft = OFFSET_LEFT + 'px';
@@ -179,6 +187,26 @@ export class JSONEditorView {
         }
       };
 
+      copyButton.onclick = function () {
+        if (Type.isNumeric(keyParent)) {
+          //key
+          const newKey = Math.round(parseFloat(keyParent) + 1);
+          const copyObject = JSON.parse(JSON.stringify(object));
+
+          JSONUtils.parse(copyObject, function (j, k) {
+            if (k == 'uuid') j[k] = THREE.MathUtils.generateUUID();
+          });
+
+          parent[newKey] = copyObject;
+
+          result.appendChild(
+            createHtmlObject(parent, newKey, copyObject) //TODO remove third param
+          );
+          result.classList.remove('hidden');
+          _this.onchange();
+        }
+      };
+
       removeButton.onclick = function (event) {
         if (parent) {
           if (parent instanceof Array) {
@@ -201,6 +229,8 @@ export class JSONEditorView {
         if (object[key] != undefined || key == null) {
           return;
         }
+
+        //TODO with event api notify GOEditorView when prefabId
 
         switch (type) {
           case VALUES_TYPE.STRING:
