@@ -33,7 +33,7 @@ const UserModule = class User {
     let state = new WorldState(stateJSON);
 
     if (!this.lastState) {
-      this.socket.emit(Data.WEBSOCKET.MSG_TYPES.JOIN_SERVER, {
+      this.socket.emit(Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
         avatarID: this.getAvatarID(),
       });
