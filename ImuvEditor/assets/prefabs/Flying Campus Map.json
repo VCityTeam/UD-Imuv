@@ -17,7 +17,7 @@
       "uuid": "A18CF9CD-CDE7-42FD-A88B-FCE457155FB5",
       "idScripts": ["map"],
       "conf": {
-        "heightmap_path": "./assets/worlds/heightmap/heightmap_1.png",
+        "heightmap_path": "./assets/heightmap/heightmap_1.png",
         "heightmap_geometry": {
           "bounding_box": {
             "min": { "x": 0, "y": 0, "z": 7.105427357601002e-15 },

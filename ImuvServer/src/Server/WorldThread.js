@@ -57,6 +57,7 @@ WorldThreadModule.MSG_TYPES = {
   WORLDSTATE: 'state',
   ADD_GAMEOBJECT: 'add_gameobject',
   REMOVE_GAMEOBJECT: 'remove_gameobject',
+  AVATAR_PORTAL: 'avatar_portal',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -89,8 +90,16 @@ WorldThreadModule.routine = function (serverConfig) {
         });
 
         gCtx.world.load(function () {
-          gCtx.world.on('portalEvent', function () {
-            console.log('portal event');
+          //world event
+          gCtx.world.on('portalEvent', function (args) {
+            const avatarGO = args[0];
+            const uuidDest = args[1];
+
+            const message = {
+              msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
+              data: { avatarUUID: avatarGO.getUUID(), worldUUID: uuidDest },
+            };
+            parentPort.postMessage(Data.pack(message));
           });
 
           //loop
@@ -115,6 +124,7 @@ WorldThreadModule.routine = function (serverConfig) {
             };
             parentPort.postMessage(Data.pack(message));
           };
+
           const fps = serverConfig.thread.fps;
           if (!fps) throw new Error('no fps');
           setInterval(tick, 1000 / fps);
