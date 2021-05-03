@@ -62,12 +62,12 @@ module.exports = class Map {
 
       const conf = this.conf;
 
+      const index = conf.heightmap_path.indexOf('assets');
+      const newPath = '../../ImuvEditor/' + conf.heightmap_path.slice(index);
       const path = require('path');
-      const hPath = path.resolve(__dirname, conf.heightmap_path);
+      const hPath = path.resolve(__dirname, newPath);
       console.log(hPath);
-
       const heightmap = gm(hPath);
-      // console.log(conf.heightmap_path);
 
       const _this = this;
 
