@@ -9,6 +9,7 @@
     "Render": {
       "uuid": "5A407D42-0B89-43B7-BF19-604A54C067D7",
       "name": null,
+      "media": null,
       "type": "Render",
       "idModel": "flying_campus"
     },
@@ -42,7 +43,7 @@
           "radius": 3.7752627015210676
         }
       ],
-      "body": false
+      "body": true
     }
   },
   "children": [
@@ -57,6 +58,7 @@
         "Render": {
           "uuid": "081CCCA6-DFE5-4BF2-A753-E9E0B32B6FCB",
           "name": null,
+          "media": null,
           "type": "Render",
           "idModel": "cube"
         },
@@ -85,7 +87,7 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 109, "y": 123, "z": 72 },
+        "position": { "x": 39, "y": 144, "z": 80 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
