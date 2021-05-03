@@ -46,6 +46,9 @@ const ServerModule = class Server {
       //mapping between world and thread
       _this.worldToThread[worldJSON.uuid] = thread;
 
+      //callbacks
+
+      //worldstate
       thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (data) {
         const worldstateJSON = data;
 
@@ -55,12 +58,39 @@ const ServerModule = class Server {
           user.sendWorldState(worldstateJSON);
         });
       });
+
+      //avatar portal
+      thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
+        const avatarUUID = data.avatarUUID;
+        const worldUUID = data.worldUUID;
+        _this.placeAvatarInWorld(avatarUUID, worldUUID);
+      });
     });
   }
 
+  placeAvatarInWorld(avatarUUID, worldUUID) {
+    //find user with avatar uuid
+    let user = null;
+    for (let id in this.users) {
+      const u = this.users[id];
+      if (u.getAvatarID() == avatarUUID) {
+        user = u;
+        break;
+      }
+    }
+
+    if (!user) throw new Error('no user with avatar id ', avatarUUID);
+
+    const thread = this.worldToThread[worldUUID];
+
+    if (!thread) throw new Error('no thread with world uuid ', worldUUID);
+
+    user.init(thread);
+  }
+
   computeUsers(thread) {
-    var result = [];
-    for (var idUser in this.users) {
+    let result = [];
+    for (let idUser in this.users) {
       const u = this.users[idUser];
       if (u.getThread() == thread) result.push(u);
     }
@@ -72,7 +102,6 @@ const ServerModule = class Server {
     const _this = this;
 
     this.load().then(function () {
-
       //express
       _this.app = express();
       //serve
@@ -90,7 +119,7 @@ const ServerModule = class Server {
       _this.io = socketio(_this.server);
 
       //cb
-      _this.initCallback();
+      _this.io.on('connection', _this.registerClient.bind(_this));
     });
   }
 
@@ -98,32 +127,33 @@ const ServerModule = class Server {
     return this.assetsManager.loadFromConfig(this.config.assetsManager);
   }
 
-  initCallback() {
-    //server callbacks
-    this.io.on('connection', this.registerClient.bind(this));
-  }
-
   registerClient(socket) {
+    console.log('Register client => ', socket.id);
+
+    //register the client
+
     //entry
     let uuidWorld = this.config.entryWorld;
     if (!(uuidWorld && this.worldToThread[uuidWorld] != undefined)) {
       uuidWorld = Object.keys(this.worldToThread)[0];
     }
 
-    console.log('Register client => ', socket.id);
-
-    //register the client
-    const thread = this.worldToThread[uuidWorld];
     const avatar = this.assetsManager.fetchPrefab('avatar');
-    const user = new User(socket, uuidWorld, avatar.getUUID(), thread);
+    const user = new User(socket, uuidWorld, avatar);
     this.users[user.getUUID()] = user;
-    thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, avatar.toJSON(true));
+
+    this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
 
     const _this = this;
     socket.on('disconnect', () => {
       console.log('Unregister client => ', socket.id);
-      thread.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarID());
-      delete _this.users[user.getUUID()];
+      const u = _this.users[socket.id];
+
+      u.getThread().post(
+        WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
+        user.getAvatarID()
+      );
+      delete _this.users[socket.id];
     });
   }
 };

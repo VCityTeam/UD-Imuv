@@ -20,10 +20,13 @@ export class GameApp {
         return _this.assetsManager.loadFromConfig(clientConfig.assetsManager);
       })
       .then(function () {
+        const webSocketService = new Game.Components.WebSocketService();
+        webSocketService.connectToServer();
+
         _this.gameView = new Game.GameView({
           isLocal: false,
           assetsManager: _this.assetsManager,
-          webSocketService: new Game.Components.WebSocketService(),
+          webSocketService: webSocketService,
           worldStateInterpolator: new Game.Components.WorldStateInterpolator(
             clientConfig.worldStateInterpolator
           ),
