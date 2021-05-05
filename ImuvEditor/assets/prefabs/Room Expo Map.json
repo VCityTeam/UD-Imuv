@@ -48,20 +48,16 @@
           "name": null,
           "media": null,
           "type": "Render",
-          "idModel": "cube"
+          "idModel": "spiral_spawn"
         },
         "Collider": {
           "uuid": "AD0E34B6-BCD0-4F46-91F1-97786A4CB30B",
           "type": "Collider",
           "shapes": [
             {
-              "type": "Polygon",
-              "points": [
-                { "x": 0.5592024528742741, "y": -0.4794168756611725 },
-                { "x": 0.601072089984541, "y": 0.5857008114866176 },
-                { "x": -0.5864246564925679, "y": 0.7331423280742229 },
-                { "x": -0.5510686241833582, "y": -0.5612616251936515 }
-              ]
+              "type": "Circle",
+              "center": { "x": 0, "y": 0 },
+              "radius": 1.689427617937126
             }
           ],
           "body": false
@@ -75,7 +71,7 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 19, "y": 15, "z": 4 },
+        "position": { "x": 19, "y": 15, "z": 5 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
@@ -93,9 +89,9 @@
           "name": null,
           "media": {
             "video": {
-              "path": "./assets/videos/imuv1.ogv",
+              "path": "./assets/videos/Turn_around_avril2021.webm",
               "width": 3,
-              "height": 1,
+              "height": 1.7,
               "size": { "width": 1920, "height": 1080 }
             }
           },

@@ -30,6 +30,10 @@ module.exports = class GameManager {
     });
   }
 
+  getMap() {
+    return this.map;
+  }
+
   tick() {
     const go = arguments[0];
 

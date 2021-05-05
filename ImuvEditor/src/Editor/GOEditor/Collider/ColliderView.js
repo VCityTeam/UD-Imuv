@@ -179,6 +179,7 @@ export class ColliderView {
 
   dispose() {
     this.rootHtml.parentElement.removeChild(this.rootHtml);
+    this.model.dispose()
   }
 
   initCallbacks() {
