@@ -33,17 +33,4 @@ module.exports = class GameManager {
   getMap() {
     return this.map;
   }
-
-  tick() {
-    const go = arguments[0];
-
-    //elevation non static object
-    if (this.map) {
-      const script = this.map.getScripts()['map'];
-      go.traverse(function (g) {
-        if (g.isStatic()) return false; //do no stop propagation
-        script.updateElevation(g);
-      });
-    }
-  }
 };

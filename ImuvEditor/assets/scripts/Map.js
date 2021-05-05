@@ -146,9 +146,11 @@ module.exports = class Map {
 
         let result;
         if (out) {
-          result = conf.heightmap_geometry.heightmap_min;
+          result = -1; //if negative means out
         } else {
           result = values[i + j * size.width];
+          if (Math.abs(result - conf.heightmap_geometry.heightmap_min) < 0.0001)
+            result = -1; //negative => out
         }
         return weight * result;
       };
@@ -156,12 +158,19 @@ module.exports = class Map {
       return getPixelHeight(indexMin.i, indexMin.j, 1);
     };
 
-    gameObject.transform.position.z = getHeightValue(
+    const elevation = getHeightValue(
       this.conf,
       gameObject.transform.position.x,
       gameObject.transform.position.y,
       this.heightmapSize,
       this.heightValues
     );
+
+    if (elevation > 0) {
+      gameObject.transform.position.z = elevation;
+      return true;
+    } else {
+      return false;
+    }
   }
 };
