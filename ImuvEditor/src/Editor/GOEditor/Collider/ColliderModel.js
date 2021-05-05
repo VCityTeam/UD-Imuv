@@ -152,6 +152,10 @@ export class ColliderModel {
     this.updatePlanTexture();
   }
 
+  dispose() {
+    this.getScene().remove(this.plan);
+  }
+
   computeOffsetBB() {
     const bb = this.getBoundingBox().clone();
     const offset = new THREE.Vector3(5, 5, 5);

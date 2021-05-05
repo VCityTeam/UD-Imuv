@@ -33,9 +33,6 @@ export class GameApp {
           config: clientConfig,
         });
         return _this.gameView.load();
-      })
-      .then(function () {
-        document.body.appendChild(_this.gameView.html());
       });
   }
 
