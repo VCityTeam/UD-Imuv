@@ -75,9 +75,6 @@ export class GOEditorView {
     this.opacitySlider = null; //set opacity go material
     this.checkboxGizmo = null; //display or not gizmo
     this.inputTag = null; //trigger name of meshes
-    this.makeVisibleButton = null; //make the triggered meshes visible
-    this.makeInvisibleButton = null; //make the triggered meshes invisible
-    this.resetVisibility = null; //all meshes are visible
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
@@ -201,22 +198,16 @@ export class GOEditorView {
 
           // console.log(name);
 
-          if (name.includes(tag)) child.visible = visible;
+          if (tag != '' && name.includes(tag)) {
+            child.visible = visible;
+          } else {
+            child.visible = !visible;
+          }
         });
       }
     };
 
-    this.makeVisibleButton.onclick = applyVisibility.bind(this, true);
-    this.makeInvisibleButton.onclick = applyVisibility.bind(this, false);
-    this.resetVisibility.onclick = function () {
-      if (_this.model && _this.model.getGameObject()) {
-        const object3D = _this.model.getGameObject().fetchObject3D();
-        if (!object3D) return;
-        object3D.traverse(function (child) {
-          child.visible = true;
-        });
-      }
-    };
+    this.inputTag.onchange = applyVisibility.bind(this, false);
 
     this.saveGOButton.onclick = function () {
       if (_this.model && _this.model.getGameObject()) {
@@ -370,6 +361,7 @@ export class GOEditorView {
       const newString = this.jsonEditorView.computeCurrentString();
       localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, newString);
       this.onGameObjectJSON(JSON.parse(newString));
+      this.inputTag.onchange(); //rest visibility
     } catch (e) {
       console.error(e);
       localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, old);
@@ -426,24 +418,6 @@ export class GOEditorView {
     inputTag.type = 'text';
     this.ui.appendChild(inputTag);
     this.inputTag = inputTag;
-
-    const makeVisibleButton = document.createElement('div');
-    makeVisibleButton.classList.add('button_Editor');
-    makeVisibleButton.innerHTML = 'Visible';
-    this.ui.appendChild(makeVisibleButton);
-    this.makeVisibleButton = makeVisibleButton;
-
-    const makeInvisibleButton = document.createElement('div');
-    makeInvisibleButton.classList.add('button_Editor');
-    makeInvisibleButton.innerHTML = 'Invisible';
-    this.ui.appendChild(makeInvisibleButton);
-    this.makeInvisibleButton = makeInvisibleButton;
-
-    const resetVisibility = document.createElement('div');
-    resetVisibility.classList.add('button_Editor');
-    resetVisibility.innerHTML = 'Reset Visibility';
-    this.ui.appendChild(resetVisibility);
-    this.resetVisibility = resetVisibility;
 
     //new go
     const newGOButton = document.createElement('div');
