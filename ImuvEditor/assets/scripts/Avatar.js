@@ -64,19 +64,32 @@ module.exports = class Avatar {
     gameObject.outdated = false;
 
     //TODO mettre valeur fichier de conf
-    const AVATAR_SPEED_MOVE = 0.01;
-    const AVATAR_SPEED_RUN = 0.02;
-    const AVATAR_SPEED_ROTATION_Z = 0.00005;
-    const AVATAR_SPEED_ROTATION_X = 0.00005;
+    const AVATAR_SPEED_MOVE = 0.005;
+    const AVATAR_SPEED_RUN = 0.01;
+    const AVATAR_SPEED_ROTATION_Z = 0.00004;
+    const AVATAR_SPEED_ROTATION_X = 0.00004;
 
     const Command = gCtx.UDVShared.Command;
     const THREE = gCtx.UDVShared.THREE;
+
+    const gmGo = gameObject.computeRoot();
+    const scriptGM = gmGo.getScripts()['gameManager'];
+    if (!scriptGM) throw new Error('no gm script');
+    const mapGo = scriptGM.getMap();
+    if (!mapGo) return; //no map => no commands
+    const scriptMap = mapGo.getScripts()['map'];
+    if (!scriptMap) throw new Error('no map script');
+
+    let elevationComputed = false;
 
     for (let type in this.commands) {
       const cmds = this.commands[type];
       if (cmds.length) {
         const cmd = cmds[0];
         let cmdFinished = true;
+
+        const oldPosition = gameObject.getPosition().clone();
+
         switch (cmd.getType()) {
           case Command.TYPE.MOVE_TO:
             const target = cmd.getData().target;
@@ -151,9 +164,19 @@ module.exports = class Avatar {
             break;
           default:
         }
+
+        //update elevation
+        const isOut = !scriptMap.updateElevation(gameObject);
+        elevationComputed = true;
+        if (isOut) {
+          gameObject.setPosition(oldPosition);
+        }
+
         if (cmdFinished) cmds.shift(); //remove it
       }
     }
+
+    if (!elevationComputed) scriptMap.updateElevation(gameObject);
   }
 
   tick() {
