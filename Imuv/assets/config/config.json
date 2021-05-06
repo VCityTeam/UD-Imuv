@@ -15,10 +15,15 @@
       "room_expo": {
         "path": "./assets/models/Room_Expo_INSIDE.glb",
         "anchor": "min"
+      },
+      "spiral_spawn": {
+        "path": "./assets/models/Spirale_spawn.glb",
+        "anchor": "center_min"
       }
     }
   },
   "game": {
+    "fps": 30,
     "shadowMapSize": 2046,
     "fog": {
       "near": 5,
