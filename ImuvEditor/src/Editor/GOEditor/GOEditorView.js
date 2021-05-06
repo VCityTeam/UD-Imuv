@@ -1,5 +1,11 @@
 /** @format */
-import { THREE, OrbitControls, Game, Components } from 'ud-viz';
+import {
+  THREE,
+  OrbitControls,
+  PointerLockControls,
+  Game,
+  Components,
+} from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
 import { ColliderView } from './Collider/ColliderView';
@@ -74,6 +80,7 @@ export class GOEditorView {
     this.prefabsList = null; //list prefabs openend
     this.opacitySlider = null; //set opacity go material
     this.checkboxGizmo = null; //display or not gizmo
+    this.switchControls = null; //switch controls
     this.inputTag = null; //trigger name of meshes
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
@@ -121,7 +128,9 @@ export class GOEditorView {
     requestAnimationFrame(this.tick.bind(this));
 
     if (this.pause || !this.model) return;
-    this.controls.update();
+
+    if (this.controls.update) this.controls.update();
+
     this.renderer.render(this.model.getScene(), this.camera);
   }
 
@@ -164,6 +173,24 @@ export class GOEditorView {
       this.readSingleFile.bind(this),
       false
     );
+
+    this.switchControls.onclick = function () {
+      _this.controls.dispose();
+      if (_this.controls instanceof OrbitControls) {
+        console.log('PointerLockControls');
+        _this.renderer.domElement.requestPointerLock();
+        _this.controls = new PointerLockControls(
+          _this.camera,
+          _this.renderer.domElement
+        );
+      } else {
+        console.log('OrbitControls');
+        _this.controls = new OrbitControls(
+          _this.camera,
+          _this.renderer.domElement
+        );
+      }
+    };
 
     //checkbox
     this.checkboxGizmo.oninput = function (event) {
@@ -413,6 +440,18 @@ export class GOEditorView {
     checkboxGizmo.setAttribute('type', 'checkbox');
     this.ui.appendChild(checkboxGizmo);
     this.checkboxGizmo = checkboxGizmo;
+
+    //switch controls
+    const switchControls = document.createElement('div');
+    switchControls.classList.add('button_Editor');
+    switchControls.innerHTML = 'Switch Controls';
+    this.ui.appendChild(switchControls);
+    this.switchControls = switchControls;
+
+    //label checkbox
+    const objectVisibilityLabel = document.createElement('div');
+    objectVisibilityLabel.innerHTML = 'Object Tag Visibility';
+    this.ui.appendChild(objectVisibilityLabel);
 
     const inputTag = document.createElement('input');
     inputTag.type = 'text';
