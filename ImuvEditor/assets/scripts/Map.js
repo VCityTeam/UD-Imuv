@@ -44,8 +44,6 @@ module.exports = class Map {
           heightValue = heightValue * (hMax - hMin) + hMin;
           _this.heightValues.push(heightValue);
         }
-        console.log(gameObject.name, 'loaded');
-
         resolve();
       };
 
@@ -66,7 +64,7 @@ module.exports = class Map {
       const newPath = '../../ImuvEditor/' + conf.heightmap_path.slice(index);
       const path = require('path');
       const hPath = path.resolve(__dirname, newPath);
-      console.log(hPath);
+      // console.log(hPath);
       const heightmap = gm(hPath);
 
       const _this = this;
@@ -90,7 +88,6 @@ module.exports = class Map {
               heightValue = heightValue * (hMax - hMin) + hMin;
               _this.heightValues.push(heightValue);
             }
-            console.log(gameObject.name, 'loaded');
             resolve();
           });
         });
