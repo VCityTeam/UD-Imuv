@@ -51,6 +51,7 @@
     }
   },
   "game": {
+    "fps": 30,
     "shadowMapSize": 2046,
     "fog": {
       "near": 10,
