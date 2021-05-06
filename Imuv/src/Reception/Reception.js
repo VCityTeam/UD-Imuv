@@ -1,6 +1,6 @@
 /** @format */
 
-import { GameApp } from '../GameApp';
+import { MenuAuthView } from '../MenuAuth/MenuAuth';
 
 import './Reception.css';
 
@@ -132,8 +132,8 @@ export class ReceptionView {
 
     this.joinButton.onclick = function () {
       _this.dispose();
-      const gameApp = new GameApp();
-      gameApp.start('./assets/config/config.json');
+      const menuAuth = new MenuAuthView();
+      document.body.appendChild(menuAuth.html());
     };
   }
 

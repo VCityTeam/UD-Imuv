@@ -1,0 +1,74 @@
+/** @format */
+
+body {
+  margin: 0px;
+}
+
+.root_MenuAuth {
+  width: 100%;
+  height: 100%;
+  /* background-color: red; */
+  font-family: sans-serif;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background_MenuAuth {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.logo_MenuAuth {
+  position: absolute;
+  padding: 20px;
+  top: 0px;
+  left: 0px;
+}
+
+.parentButtons_MenuAuth {
+  position: absolute;
+}
+
+.button_MenuAuth {
+  background-color: hotpink;
+  font-size: xx-large;
+  padding: 15px;
+  border: solid 4px black;
+  color: yellow;
+  text-decoration-color: yellow;
+  margin: 20px;
+  text-align: center;
+}
+
+.button_MenuAuth:hover {
+  background-color: magenta;
+  cursor: pointer;
+}
+
+.parentInput_MenuAuth {
+  text-align: center;
+  margin: 20px;
+}
+
+.parentCentered_MenuAuth {
+  background: white;
+  border-radius: 5px;
+  border: solid 1px;
+}
+
+.post_MenuAuth {
+  border: solid 1px;
+  background: hotpink;
+  margin: 5px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+
+.post_MenuAuth:hover {
+  background: magenta;
+  cursor: pointer;
+}
