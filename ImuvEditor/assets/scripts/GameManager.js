@@ -19,14 +19,17 @@ module.exports = class GameManager {
     }
   }
 
-  init() {
-    const go = arguments[0];
-    const gCtx = arguments[1];
+  load() {
     const _this = this;
+    return new Promise((resolve, reject) => {
+      const go = arguments[0];
+      const gCtx = arguments[1];
 
-    const map = gCtx.assetsManager.fetchPrefab(this.conf.mapPrefabId);
-    gCtx.world.addGameObject(map, gCtx, go, function () {
-      _this.map = map; //assign only onload
+      const map = gCtx.assetsManager.fetchPrefab(_this.conf.mapPrefabId);
+      gCtx.world.addGameObject(map, gCtx, go, function () {
+        _this.map = map;
+        resolve();
+      });
     });
   }
 

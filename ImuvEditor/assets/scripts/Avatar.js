@@ -187,12 +187,13 @@ module.exports = class Avatar {
     this.applyCommands(gameObject, gCtx.dt, gCtx);
   }
 
-  onCollision() {
+  onEnterCollision() {
     const go = arguments[0];
     const result = arguments[1];
     const gCtx = arguments[2];
 
     const colliderGO = result.b.getGameObject();
+
     const collider = colliderGO.getComponent('Collider');
 
     const scriptPortal = colliderGO.getScripts()['portal'];
@@ -202,5 +203,21 @@ module.exports = class Avatar {
       go.transform.position.x -= result.overlap * result.overlap_x;
       go.transform.position.y -= result.overlap * result.overlap_y;
     }
+  }
+
+  isColliding() {
+    const go = arguments[0];
+    const result = arguments[1];
+    const colliderGO = result.b.getGameObject();
+    const collider = colliderGO.getComponent('Collider');
+
+    if (collider.isBody()) {
+      go.transform.position.x -= result.overlap * result.overlap_x;
+      go.transform.position.y -= result.overlap * result.overlap_y;
+    }
+  }
+
+  onLeaveCollision() {
+    // console.log('on leave');
   }
 };

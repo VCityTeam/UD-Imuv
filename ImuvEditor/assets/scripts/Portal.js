@@ -6,6 +6,12 @@ module.exports = class Portal {
   }
 
   onAvatar(avatarGo, world) {
-    world.notify('portalEvent', [avatarGo, this.conf.worldDestUUID]);
+    debugger;
+
+    world.notify('portalEvent', [
+      avatarGo,
+      this.conf.worldDestUUID,
+      this.conf.portalUUID,
+    ]);
   }
 };

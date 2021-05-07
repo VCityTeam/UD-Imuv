@@ -65,7 +65,10 @@
         "Script": {
           "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
           "idScripts": ["portal"],
-          "conf": { "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF" },
+          "conf": {
+            "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+            "portalUUID": "01B9EDE2-6465-45FC-BB0C-31236CE095E9"
+          },
           "type": "Script"
         }
       },
