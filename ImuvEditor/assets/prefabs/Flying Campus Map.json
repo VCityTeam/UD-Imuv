@@ -239,7 +239,10 @@
         "Script": {
           "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
           "idScripts": ["portal"],
-          "conf": { "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D" },
+          "conf": {
+            "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+            "portalUUID": "08DB39F6-E077-4B0E-8480-C89A16D6369F"
+          },
           "type": "Script"
         }
       },

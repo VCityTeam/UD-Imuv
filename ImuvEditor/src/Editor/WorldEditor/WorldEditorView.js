@@ -171,17 +171,69 @@ export class WorldEditorView {
     this.worldsJSON.forEach(function (w) {
       const li = document.createElement('li');
       li.innerHTML = w.name;
-      li.onclick = _this.onWorldJSON.bind(_this, w);
+      li.onclick = _this.onWorldJSON.bind(_this, w, null);
       list.appendChild(li);
     });
   }
 
-  onWorldJSON(json) {
-    const world = new Game.Shared.World(json, { isServerSide: false });
+  onWorldJSON(json, pUUID) {
+    const newWorld = new Game.Shared.World(json, { isServerSide: false });
 
-    this.currentWorld = world;
+    this.currentWorld = newWorld;
 
-    this.onWorld(world);
+    //reset
+    this.imgHeightmap = null;
+
+    this.stopGame();
+
+    const _this = this;
+
+    this.gameView = new Game.GameView({
+      htmlParent: this.rootHtml,
+      assetsManager: this.assetsManager,
+      isLocal: true,
+      config: this.config,
+    });
+    this.gameView.setWorld(newWorld);
+
+    this.gameView.load().then(function () {
+      const htmlView = _this.gameView.html();
+      //TODO no css inline
+      htmlView.style.display = 'inline-block';
+      htmlView.style.position = 'absolute';
+      _this.updateUI();
+
+      if (pUUID) {
+        //place avatar (hack style)
+        const w = _this.gameView.getWorld();
+        const g = w.getGameObject();
+        const portal = g.find(pUUID);
+        const avatar = g.find(_this.gameView.avatarUUID);
+        avatar.setTransformFromJSON(portal.getTransform());
+      }
+    });
+
+    //register
+    newWorld.on('portalEvent', function (params) {
+      const avatar = params[0];
+      const worldToGoUUID = params[1];
+      const portalUUID = params[2];
+
+      let worldDest;
+      for (let index = 0; index < _this.worldsJSON.length; index++) {
+        const element = _this.worldsJSON[index];
+        if (element.uuid == worldToGoUUID) {
+          worldDest = element;
+          break;
+        }
+      }
+
+      if (!worldDest) {
+        console.warn('no world dest ', worldToGoUUID);
+      } else {
+        _this.onWorldJSON(worldDest, portalUUID);
+      }
+    });
   }
 
   onWorlds(json) {
@@ -237,52 +289,6 @@ export class WorldEditorView {
       _this.renderCanvas();
 
       resolve();
-    });
-  }
-
-  onWorld(newWorld) {
-    //reset
-    this.imgHeightmap = null;
-
-    this.stopGame();
-
-    const _this = this;
-
-    this.gameView = new Game.GameView({
-      assetsManager: this.assetsManager,
-      isLocal: true,
-      config: this.config,
-    });
-    this.gameView.setWorld(newWorld);
-
-    this.gameView.load().then(function () {
-      const htmlView = _this.gameView.html();
-      //TODO no css inline
-      htmlView.style.display = 'inline-block';
-      htmlView.style.position = 'absolute';
-      _this.rootHtml.appendChild(htmlView);
-      _this.updateUI();
-    });
-
-    //register
-    newWorld.on('portalEvent', function (params) {
-      const avatar = params[0];
-      const worldToGoUUID = params[1];
-
-      let worldDest;
-      for (let index = 0; index < _this.worldsJSON.length; index++) {
-        const element = _this.worldsJSON[index];
-        if (element.uuid == worldToGoUUID) {
-          worldDest = element;
-          break;
-        }
-      }
-
-      if (!worldDest) {
-        console.warn('no world dest ', worldToGoUUID);
-      } else {
-        _this.onWorldJSON(worldDest);
-      }
     });
   }
 }
