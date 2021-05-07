@@ -17,18 +17,18 @@
       "uuid": "32E7C5F2-269F-47A8-BC69-50840B5965AA",
       "idScripts": ["map"],
       "conf": {
-        "heightmap_path": "./assets/heightmap/h2.png",
+        "heightmap_path": "./assets/heightmap/room_expo.png",
         "heightmap_geometry": {
           "bounding_box": {
-            "min": { "x": 0, "y": -8.881784197001252e-16, "z": 0 },
+            "min": { "x": -4.440892098500626e-16, "y": 0, "z": 0 },
             "max": {
-              "x": 40.15444921597625,
-              "y": 30.140597965531317,
-              "z": 16.910828668858446
+              "x": 53.21786689758301,
+              "y": 42.72092153620724,
+              "z": 17.701411840017023
             }
           },
           "heightmap_min": 0,
-          "heightmap_max": 14.205096081841095
+          "heightmap_max": 17.701411840017023
         }
       },
       "type": "Script"

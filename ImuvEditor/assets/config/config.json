@@ -41,7 +41,7 @@
         "anchor": "min"
       },
       "room_expo": {
-        "path": "./assets/models/Room_Expo_INSIDE.glb",
+        "path": "./assets/models/Room_Expo.glb",
         "anchor": "min"
       },
       "spiral_spawn": {
