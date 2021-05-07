@@ -134,6 +134,10 @@ export class ReceptionView {
       _this.dispose();
       const menuAuth = new MenuAuthView();
       document.body.appendChild(menuAuth.html());
+      menuAuth.setOnClose(function () {
+        menuAuth.dispose();
+        document.body.appendChild(_this.html());
+      });
     };
   }
 
