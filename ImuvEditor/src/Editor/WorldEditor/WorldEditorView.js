@@ -204,12 +204,12 @@ export class WorldEditorView {
       _this.updateUI();
 
       if (pUUID) {
-        //place avatar (hack style)
-        const w = _this.gameView.getWorld();
-        const g = w.getGameObject();
+        //place avatar (hack style local)
+        const g = newWorld.getGameObject();
         const portal = g.find(pUUID);
         const avatar = g.find(_this.gameView.avatarUUID);
         avatar.setTransformFromJSON(portal.getTransform());
+        newWorld.updateCollisionBuffer();
       }
     });
 
