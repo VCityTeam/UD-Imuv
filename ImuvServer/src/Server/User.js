@@ -7,21 +7,23 @@ const WorldState = udvShared.WorldState;
 const WorldThread = require('./WorldThread');
 
 const UserModule = class User {
-  constructor(socket, worldUUID, avatar) {
+  constructor(uuid, socket, worldUUID, data) {
+    this.uuid = uuid;
     this.socket = socket;
     this.worldUUID = worldUUID;
-    this.avatar = avatar;
 
     //to know if just joined or not
     this.lastState = null;
+
+    this.data = data;
   }
 
   getAvatarID() {
-    return this.avatar.getUUID();
+    return this.data.avatar.getUUID();
   }
 
   getAvatar() {
-    return this.avatar;
+    return this.data.avatar;
   }
 
   sendWorldState(stateJSON) {
@@ -79,7 +81,7 @@ const UserModule = class User {
   }
 
   getUUID() {
-    return this.socket.id;
+    return this.uuid;
   }
 };
 

@@ -44,7 +44,7 @@ const ServerModule = class Server {
     this.io;
 
     //clients
-    this.users = {};
+    this.currentUsers = {};
 
     //worlds json
     this.worldsJSON = null;
@@ -97,8 +97,8 @@ const ServerModule = class Server {
   placeAvatarInWorld(avatarUUID, worldUUID, portalUUID) {
     //find user with avatar uuid
     let user = null;
-    for (let id in this.users) {
-      const u = this.users[id];
+    for (let id in this.currentUsers) {
+      const u = this.currentUsers[id];
       if (u.getAvatarID() == avatarUUID) {
         user = u;
         break;
@@ -134,8 +134,8 @@ const ServerModule = class Server {
 
   computeUsers(thread) {
     let result = [];
-    for (let idUser in this.users) {
-      const u = this.users[idUser];
+    for (let idUser in this.currentUsers) {
+      const u = this.currentUsers[idUser];
       if (u.getThread() == thread) result.push(u);
     }
     return result;
@@ -172,20 +172,18 @@ const ServerModule = class Server {
   }
 
   onConnection(socket) {
-    socket.on(Data.WEBSOCKET.MSG_TYPES.SIGN_UP, function (data) {
-      console.log('sign up ', data);
+    const _this = this;
 
-      const email = data.email;
+    socket.on(Data.WEBSOCKET.MSG_TYPES.SIGN_UP, function (data) {
       const nameUser = data.nameUser;
       const password = data.password;
+      const email = data.email;
 
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
-
           const usersJSONPath = './assets/data/users.json';
 
           fs.readFile(usersJSONPath, 'utf8', (err, data) => {
@@ -221,42 +219,63 @@ const ServerModule = class Server {
           });
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, errorMessage);
+          socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
         });
     });
-  }
 
-  registerClient(socket) {
-    console.log('Register client => ', socket.id);
+    socket.on(Data.WEBSOCKET.MSG_TYPES.SIGN_IN, function (data) {
+      const password = data.password;
+      const email = data.email;
 
-    //register the client
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          const usersJSONPath = './assets/data/users.json';
 
-    //entry
-    let uuidWorld = this.config.entryWorld;
-    if (!(uuidWorld && this.worldToThread[uuidWorld] != undefined)) {
-      uuidWorld = Object.keys(this.worldToThread)[0];
-    }
+          fs.readFile(usersJSONPath, 'utf8', (err, data) => {
+            if (err) {
+              reject();
+            }
 
-    const avatar = this.assetsManager.fetchPrefab('avatar');
-    const user = new User(socket, uuidWorld, avatar);
-    this.users[user.getUUID()] = user;
+            const usersJSON = JSON.parse(data);
+            const extraData = usersJSON[user.uid];
 
-    this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+            console.log(extraData.nameUser + ' is connected');
 
-    const _this = this;
-    socket.on('disconnect', () => {
-      console.log('Unregister client => ', socket.id);
-      const u = _this.users[socket.id];
-      delete _this.users[socket.id];
-      const thread = u.getThread();
+            //entry
+            let uuidWorld = _this.config.entryWorld;
+            if (!(uuidWorld && _this.worldToThread[uuidWorld] != undefined)) {
+              uuidWorld = Object.keys(_this.worldToThread)[0];
+            }
 
-      if (thread)
-        thread.post(
-          WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
-          user.getAvatarID()
-        );
+            //TODO create avatar menu
+            const avatar = _this.assetsManager.fetchPrefab('avatar');
+            extraData.avatar = avatar;
+
+            const u = new User(user.uid, socket, uuidWorld, extraData);
+
+            //register the client
+            _this.currentUsers[u.getUUID()] = u;
+            _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+
+            socket.on('disconnect', () => {
+              console.log('Unregister client => ', socket.id);
+              const u = _this.currentUsers[u.getUUID()];
+              delete _this.currentUsers[u.getUUID()];
+              const thread = u.getThread();
+              if (thread)
+                thread.post(
+                  WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
+                  u.getAvatarID()
+                );
+            });
+          });
+        })
+        .catch((error) => {
+          socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
+        });
     });
   }
 };
