@@ -5,6 +5,8 @@ import './MenuAuth.css';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import { GameApp } from '../GameApp';
+
 export class MenuAuthView {
   constructor() {
     this.rootHtml = document.createElement('div');
@@ -105,6 +107,12 @@ export class MenuAuthView {
         _this.rootHtml.appendChild(_this.parentButtons);
       });
     };
+
+    this.confidentialButton.onclick = function () {
+      _this.dispose();
+      const gameApp = new GameApp();
+      gameApp.start('./assets/config/config.json');
+    };
   }
 
   dispose() {
@@ -172,11 +180,7 @@ class SignUpView {
     );
     this.inputMail = createInput('Mail', parentInputs);
     this.inputMailConfirm = createInput('Confirmez mail', parentInputs);
-    this.inputPassword = createInput(
-      'Mot de passe',
-      parentInputs,
-      'password'
-    );
+    this.inputPassword = createInput('Mot de passe', parentInputs, 'password');
 
     this.signUpButton = document.createElement('div');
     this.signUpButton.classList.add('button_MenuAuth');

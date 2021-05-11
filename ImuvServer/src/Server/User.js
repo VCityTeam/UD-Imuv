@@ -78,13 +78,6 @@ const UserModule = class User {
 
       _this.thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
     });
-
-    //add avatar in the new world
-    if (!this.thread) console.log(this);
-    this.thread.post(
-      WorldThread.MSG_TYPES.ADD_GAMEOBJECT,
-      this.avatar.toJSON(true)
-    );
   }
 
   getUUID() {

@@ -94,10 +94,15 @@ WorldThreadModule.routine = function (serverConfig) {
           gCtx.world.on('portalEvent', function (args) {
             const avatarGO = args[0];
             const uuidDest = args[1];
+            const portalUUID = args[2];
 
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
-              data: { avatarUUID: avatarGO.getUUID(), worldUUID: uuidDest },
+              data: {
+                avatarUUID: avatarGO.getUUID(),
+                worldUUID: uuidDest,
+                portalUUID: portalUUID,
+              },
             };
             parentPort.postMessage(Data.pack(message));
           });
@@ -137,9 +142,23 @@ WorldThreadModule.routine = function (serverConfig) {
         });
       };
 
-      const onAddGameObject = function (goJson) {
+      const onAddGameObject = function (data) {
+        const goJson = data.gameObject;
+        const portalUUID = data.portalUUID;
         const newGO = new GameObject(goJson);
-        gCtx.world.addGameObject(newGO, gCtx, gCtx.world.getGameObject(), null);
+
+        gCtx.world.addGameObject(
+          newGO,
+          gCtx,
+          gCtx.world.getGameObject(),
+          function () {
+            if (portalUUID) {
+              const portal = gCtx.world.getGameObject().find(portalUUID);
+              newGO.setTransformFromJSON(portal.getTransform());
+              gCtx.world.updateCollisionBuffer();
+            }
+          }
+        );
       };
 
       const onRemoveGameObject = function (uuid) {
