@@ -12,23 +12,25 @@ const Data = require('ud-viz/src/Game/Shared/Components/Data');
 const firebase = require('firebase/app');
 require('firebase/auth');
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: 'AIzaSyCKMd8dIyrDWjUxuLAps9Gix782nK9Bu_o',
-  authDomain: 'imuv-da2d9.firebaseapp.com',
-  projectId: 'imuv-da2d9',
-  storageBucket: 'imuv-da2d9.appspot.com',
-  messagingSenderId: '263590659720',
-  appId: '1:263590659720:web:ae6f9ba09907c746ab813d',
-  measurementId: 'G-RRJ79PGETS',
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-console.log('firebase initialzed');
+const fs = require('fs');
 
 const ServerModule = class Server {
   constructor(config) {
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: 'AIzaSyCKMd8dIyrDWjUxuLAps9Gix782nK9Bu_o',
+      authDomain: 'imuv-da2d9.firebaseapp.com',
+      projectId: 'imuv-da2d9',
+      storageBucket: 'imuv-da2d9.appspot.com',
+      messagingSenderId: '263590659720',
+      appId: '1:263590659720:web:ae6f9ba09907c746ab813d',
+      measurementId: 'G-RRJ79PGETS',
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    console.log('firebase initialized');
+
     //config
     this.config = config;
 
@@ -75,7 +77,6 @@ const ServerModule = class Server {
       //worldstate
       thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (data) {
         const worldstateJSON = data;
-
         const users = _this.computeUsers(thread); //compute clients concerned
         users.forEach(function (user) {
           if (!worldstateJSON) throw new Error('no worldstateJSON');
@@ -110,7 +111,7 @@ const ServerModule = class Server {
 
     if (!thread) throw new Error('no thread with world uuid ', worldUUID);
 
-    user.init(thread);
+    user.initThread(thread);
 
     //add avatar in the new world
     const avatar = user.getAvatar();
@@ -182,9 +183,42 @@ const ServerModule = class Server {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          // Signed in
+          // Signed up
           const user = userCredential.user;
-          console.log('connected to firebase');
+
+          const usersJSONPath = './assets/data/users.json';
+
+          fs.readFile(usersJSONPath, 'utf8', (err, data) => {
+            if (err) {
+              reject();
+            }
+            const usersJSON = JSON.parse(data);
+            console.log(user);
+            const uuid = user.uid;
+
+            //TODO password is sent via websocket wss not sure if this is safe
+            //extra info on users are stocked here
+            usersJSON[uuid] = {
+              uuid: uuid,
+              nameUser: nameUser,
+            };
+
+            socket.emit(
+              Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+              'account created'
+            );
+
+            fs.writeFile(
+              usersJSONPath,
+              JSON.stringify(usersJSON),
+              {
+                encoding: 'utf8',
+                flag: 'w',
+                mode: 0o666,
+              },
+              function () {}
+            );
+          });
         })
         .catch((error) => {
           const errorCode = error.code;

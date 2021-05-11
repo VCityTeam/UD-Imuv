@@ -4,14 +4,12 @@ const udvShared = require('ud-viz/src/Game/Shared/Shared');
 const Data = udvShared.Components.Data;
 const Command = udvShared.Command;
 const WorldState = udvShared.WorldState;
-
 const WorldThread = require('./WorldThread');
 
 const UserModule = class User {
   constructor(socket, worldUUID, avatar) {
     this.socket = socket;
     this.worldUUID = worldUUID;
-
     this.avatar = avatar;
 
     //to know if just joined or not
@@ -46,7 +44,7 @@ const UserModule = class User {
     return this.thread;
   }
 
-  init(thread) {
+  initThread(thread) {
     if (!thread) throw new Error('no thread to init user');
 
     const _this = this;
@@ -67,10 +65,10 @@ const UserModule = class User {
     //cmds are now sent to the new thread
     this.socket.on(Data.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
       const commands = [];
+
       //parse
       cmdsJSON.forEach(function (cmdJSON) {
         const command = new Command(cmdJSON);
-        //sign command
         command.setUserID(_this.getUUID());
         command.setAvatarID(_this.getAvatarID());
         commands.push(command);
