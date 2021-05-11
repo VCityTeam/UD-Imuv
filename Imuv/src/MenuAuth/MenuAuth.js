@@ -176,10 +176,7 @@ class SignUpView {
     parentInputs.classList.add('parentCentered_MenuAuth');
     this.rootHtml.appendChild(parentInputs);
 
-    this.inputNameUser = createInput(
-      "Nom d'utilisateur (not implemented)",
-      parentInputs
-    );
+    this.inputNameUser = createInput("Nom d'utilisateur", parentInputs);
     this.inputMail = createInput('Mail', parentInputs);
     this.inputMailConfirm = createInput('Confirmez mail', parentInputs);
     this.inputPassword = createInput('Mot de passe', parentInputs, 'password');
@@ -272,26 +269,21 @@ class SignInView {
     const _this = this;
 
     this.signInButton.onclick = function () {
+      console.log('hola quetal');
+
       const email = _this.inputMail.value;
       const password = _this.inputPassword.value;
 
-      console.log('Sign in');
-
-      // firebase
-      //   .auth()
-      //   .signInWithEmailAndPassword(email, password)
-      //   .then((userCredential) => {
-      //     // Signed in
-      //     let user = userCredential.user;
-      //     console.log('connected to firebase');
-      //     // ...
-      //   })
-      //   .catch((error) => {
-      //     let errorCode = error.code;
-      //     let errorMessage = error.message;
-      //     alert(errorMessage);
-      //   });
+      _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.SIGN_IN, {
+        email: email,
+        password: password, //TODO Iam sure this is not safe at all but for the deadline...
+      });
     };
+
+    this.webSocketService.on(Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD, function () {
+      _this.dispose();
+      //WIP game app and so on ...
+    });
   }
 
   dispose() {
