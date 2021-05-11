@@ -1,22 +1,15 @@
 /** @format */
 
 import { ReceptionView } from './Reception/Reception';
+import { WebSocketService } from 'ud-viz/src/Game/Components/WebSocketService';
+import Data from 'ud-viz/src/Game/Shared/Components/Data';
 
-import firebase from 'firebase/app';
+const webSocketService = new WebSocketService();
+webSocketService.connectToServer();
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: 'AIzaSyCKMd8dIyrDWjUxuLAps9Gix782nK9Bu_o',
-  authDomain: 'imuv-da2d9.firebaseapp.com',
-  projectId: 'imuv-da2d9',
-  storageBucket: 'imuv-da2d9.appspot.com',
-  messagingSenderId: '263590659720',
-  appId: '1:263590659720:web:ae6f9ba09907c746ab813d',
-  measurementId: 'G-RRJ79PGETS',
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+webSocketService.on(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, function (message) {
+  alert(message);
+});
 
-const reception = new ReceptionView();
+const reception = new ReceptionView(webSocketService);
 document.body.appendChild(reception.html());

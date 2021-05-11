@@ -2,15 +2,15 @@
 
 import './MenuAuth.css';
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
 import { GameApp } from '../GameApp';
+import Data from 'ud-viz/src/Game/Shared/Components/Data';
 
 export class MenuAuthView {
-  constructor() {
+  constructor(webSocketService) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_MenuAuth');
+
+    this.webSocketService = webSocketService;
 
     //html
     this.backgroundImg = null;
@@ -88,7 +88,7 @@ export class MenuAuthView {
 
     this.signUpButton.onclick = function () {
       _this.parentButtons.remove();
-      const signUpView = new SignUpView();
+      const signUpView = new SignUpView(_this.webSocketService);
       document.body.appendChild(signUpView.html());
 
       signUpView.setOnClose(function () {
@@ -99,7 +99,7 @@ export class MenuAuthView {
 
     this.signInButton.onclick = function () {
       _this.parentButtons.remove();
-      const signInView = new SignInView();
+      const signInView = new SignInView(_this.webSocketService);
       document.body.appendChild(signInView.html());
 
       signInView.setOnClose(function () {
@@ -141,7 +141,7 @@ const createInput = function (name, root, type = 'text') {
 };
 
 class SignUpView {
-  constructor() {
+  constructor(webSocketService) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_MenuAuth');
 
@@ -152,6 +152,8 @@ class SignUpView {
     this.inputMailConfirm = null;
     this.inputPassword = null;
     this.signUpButton = null;
+
+    this.webSocketService = webSocketService;
 
     this.init();
   }
@@ -171,7 +173,7 @@ class SignUpView {
     this.rootHtml.appendChild(this.closeButton);
 
     const parentInputs = document.createElement('div');
-    parentInputs.classList.add('parentInputs_MenuAuth');
+    parentInputs.classList.add('parentCentered_MenuAuth');
     this.rootHtml.appendChild(parentInputs);
 
     this.inputNameUser = createInput(
@@ -193,25 +195,20 @@ class SignUpView {
 
     this.signUpButton.onclick = function () {
       const email = _this.inputMail.value;
+      const confirmEmail = _this.inputMailConfirm.value;
       const password = _this.inputPassword.value;
+      const nameUser = _this.inputNameUser.value;
 
-      console.log('Sign up');
+      if (email != confirmEmail) {
+        alert('email are not the same');
+        return;
+      }
 
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log('connected to firebase');
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert(errorMessage);
-          // ..
-        });
+      _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.SIGN_UP, {
+        email: email,
+        password: password, //TODO Iam sure this is not safe at all but for the deadline...
+        nameUser: nameUser,
+      });
     };
   }
 
@@ -225,7 +222,7 @@ class SignUpView {
 }
 
 class SignInView {
-  constructor() {
+  constructor(webSocketService) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_MenuAuth');
 
@@ -234,6 +231,8 @@ class SignInView {
     this.inputMail = null;
     this.inputPassword = null;
     this.signInButton = null;
+
+    this.webSocketService = webSocketService;
 
     this.init();
   }
@@ -278,20 +277,20 @@ class SignInView {
 
       console.log('Sign in');
 
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Signed in
-          let user = userCredential.user;
-          console.log('connected to firebase');
-          // ...
-        })
-        .catch((error) => {
-          let errorCode = error.code;
-          let errorMessage = error.message;
-          alert(errorMessage);
-        });
+      // firebase
+      //   .auth()
+      //   .signInWithEmailAndPassword(email, password)
+      //   .then((userCredential) => {
+      //     // Signed in
+      //     let user = userCredential.user;
+      //     console.log('connected to firebase');
+      //     // ...
+      //   })
+      //   .catch((error) => {
+      //     let errorCode = error.code;
+      //     let errorMessage = error.message;
+      //     alert(errorMessage);
+      //   });
     };
   }
 
