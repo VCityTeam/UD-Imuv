@@ -26,6 +26,9 @@ const ServerModule = class Server {
     //clients
     this.users = {};
 
+    //worlds json
+    this.worldsJSON = null;
+
     //map world to thread
     this.worldToThread = {};
 
@@ -36,6 +39,9 @@ const ServerModule = class Server {
   initWorlds(worldsJSON) {
     //instanciate Worlds with config
     const _this = this;
+
+    this.worldsJSON = worldsJSON;
+
     worldsJSON.forEach(function (worldJSON) {
       //create a worldThread
       const thread = new WorldThread(_this.config.thread.script);
@@ -63,12 +69,13 @@ const ServerModule = class Server {
       thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
         const avatarUUID = data.avatarUUID;
         const worldUUID = data.worldUUID;
-        _this.placeAvatarInWorld(avatarUUID, worldUUID);
+        const portalUUID = data.portalUUID;
+        _this.placeAvatarInWorld(avatarUUID, worldUUID, portalUUID);
       });
     });
   }
 
-  placeAvatarInWorld(avatarUUID, worldUUID) {
+  placeAvatarInWorld(avatarUUID, worldUUID, portalUUID) {
     //find user with avatar uuid
     let user = null;
     for (let id in this.users) {
@@ -86,6 +93,24 @@ const ServerModule = class Server {
     if (!thread) throw new Error('no thread with world uuid ', worldUUID);
 
     user.init(thread);
+
+    //add avatar in the new world
+    const avatar = user.getAvatar();
+    thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+      gameObject: avatar.toJSON(true),
+      portalUUID: portalUUID,
+    });
+  }
+
+  findWorld(uuid) {
+    for (let index = 0; index < this.worldsJSON.length; index++) {
+      const element = this.worldsJSON[index];
+      if (element.uuid == uuid) {
+        return element;
+      }
+    }
+    console.warn('no world with uuid ', uuid);
+    return null;
   }
 
   computeUsers(thread) {
