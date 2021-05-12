@@ -13,6 +13,7 @@ const firebase = require('firebase/app');
 require('firebase/auth');
 
 const fs = require('fs');
+const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
 
 const ServerModule = class Server {
   constructor(config) {
@@ -252,17 +253,31 @@ const ServerModule = class Server {
 
             //TODO create avatar menu
             const avatar = _this.assetsManager.fetchPrefab('avatar');
+
+            //set user name
+            const r = avatar.getComponent(RenderModule.TYPE);
+            if (!r) throw new Error('no render component in avatar');
+            r.name = extraData.nameUser;
+
             extraData.avatar = avatar;
 
             const u = new User(user.uid, socket, uuidWorld, extraData);
 
             //register the client
             _this.currentUsers[u.getUUID()] = u;
-            _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+            // _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+
+            //inform client that he is connected and ready to game
+            socket.emit(Data.WEBSOCKET.MSG_TYPES.SIGNED);
+
+            //wait for client to be ready
+            socket.on(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
+              _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+            });
 
             socket.on('disconnect', () => {
               console.log('Unregister client => ', socket.id);
-              const u = _this.currentUsers[u.getUUID()];
+
               delete _this.currentUsers[u.getUUID()];
               const thread = u.getThread();
               if (thread)
