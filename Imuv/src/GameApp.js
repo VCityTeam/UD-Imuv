@@ -3,15 +3,17 @@
 import { Game, jquery } from 'ud-viz';
 
 export class GameApp {
-  constructor() {
+  constructor(webSocketService) {
     this.gameView = null;
     this.assetsManager = new Game.Components.AssetsManager();
+
+    this.webSocketService = webSocketService;
 
     //DEBUG
     window.UDVDebugger = new Game.UDVDebugger(document.body);
   }
 
-  start(path) {
+  start(path, onLoad) {
     const _this = this;
     let clientConfig;
     this.loadConfigFile(path)
@@ -20,20 +22,18 @@ export class GameApp {
         return _this.assetsManager.loadFromConfig(clientConfig.assetsManager);
       })
       .then(function () {
-        const webSocketService = new Game.Components.WebSocketService();
-        webSocketService.connectToServer();
-
         _this.gameView = new Game.GameView({
           isLocal: false,
           assetsManager: _this.assetsManager,
-          webSocketService: webSocketService,
+          webSocketService: _this.webSocketService,
           worldStateInterpolator: new Game.Components.WorldStateInterpolator(
             clientConfig.worldStateInterpolator
           ),
           config: clientConfig,
         });
         return _this.gameView.load();
-      });
+      })
+      .then(onLoad);
   }
 
   loadConfigFile(filePath) {

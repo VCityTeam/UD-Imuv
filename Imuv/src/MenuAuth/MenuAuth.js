@@ -12,6 +12,8 @@ export class MenuAuthView {
 
     this.webSocketService = webSocketService;
 
+    this.childrenView = [];
+
     //html
     this.backgroundImg = null;
     this.logoImuLabex = null;
@@ -91,9 +93,14 @@ export class MenuAuthView {
       const signUpView = new SignUpView(_this.webSocketService);
       document.body.appendChild(signUpView.html());
 
+      _this.childrenView.push(signUpView);
+
       signUpView.setOnClose(function () {
         signUpView.dispose();
         _this.rootHtml.appendChild(_this.parentButtons);
+
+        const i = _this.childrenView.indexOf(signUpView);
+        _this.childrenView.splice(i, 1);
       });
     };
 
@@ -102,21 +109,32 @@ export class MenuAuthView {
       const signInView = new SignInView(_this.webSocketService);
       document.body.appendChild(signInView.html());
 
+      _this.childrenView.push(signInView);
+
       signInView.setOnClose(function () {
         signInView.dispose();
         _this.rootHtml.appendChild(_this.parentButtons);
+
+        const i = _this.childrenView.indexOf(signInView);
+        _this.childrenView.splice(i, 1);
       });
     };
 
-    this.confidentialButton.onclick = function () {
+    this.webSocketService.on(Data.WEBSOCKET.MSG_TYPES.SIGNED, function () {
       _this.dispose();
-      const gameApp = new GameApp();
-      gameApp.start('./assets/config/config.json');
-    };
+
+      const app = new GameApp(_this.webSocketService);
+      app.start('./assets/config/config.json', function () {
+        _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED);
+      });
+    });
   }
 
   dispose() {
     this.rootHtml.remove();
+    this.childrenView.forEach(function (c) {
+      c.dispose();
+    });
   }
 
   html() {
@@ -279,11 +297,6 @@ class SignInView {
         password: password, //TODO Iam sure this is not safe at all but for the deadline...
       });
     };
-
-    this.webSocketService.on(Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD, function () {
-      _this.dispose();
-      //WIP game app and so on ...
-    });
   }
 
   dispose() {
