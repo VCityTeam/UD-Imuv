@@ -287,14 +287,12 @@ class SignInView {
     const _this = this;
 
     this.signInButton.onclick = function () {
-      console.log('hola quetal');
-
       const email = _this.inputMail.value;
       const password = _this.inputPassword.value;
 
       _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.SIGN_IN, {
         email: email,
-        password: password, //TODO Iam sure this is not safe at all but for the deadline...
+        password: password, //TODO safe ?
       });
     };
   }
