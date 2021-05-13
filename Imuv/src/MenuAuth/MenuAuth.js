@@ -2,7 +2,7 @@
 
 import './MenuAuth.css';
 
-import { GameApp } from '../GameApp';
+import { GameApp } from '../GameApp/GameApp';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
 
 export class MenuAuthView {
