@@ -185,6 +185,17 @@ const ServerModule = class Server {
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           const user = userCredential.user;
+
+          user
+            .sendEmailVerification()
+            .then(function () {
+              // Email sent.
+              console.log(nameUser + ' validates his email');
+            })
+            .catch(function (error) {
+              // An error happened.
+            });
+
           const usersJSONPath = './assets/data/users.json';
 
           fs.readFile(usersJSONPath, 'utf8', (err, data) => {
@@ -192,7 +203,6 @@ const ServerModule = class Server {
               reject();
             }
             const usersJSON = JSON.parse(data);
-            console.log(user);
             const uuid = user.uid;
 
             //TODO password is sent via websocket wss not sure if this is safe
@@ -233,60 +243,68 @@ const ServerModule = class Server {
         .signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          const usersJSONPath = './assets/data/users.json';
 
-          fs.readFile(usersJSONPath, 'utf8', (err, data) => {
-            if (err) {
-              reject();
-            }
+          if (user.emailVerified) {
+            const usersJSONPath = './assets/data/users.json';
 
-            const usersJSON = JSON.parse(data);
-            const extraData = usersJSON[user.uid];
+            fs.readFile(usersJSONPath, 'utf8', (err, data) => {
+              if (err) {
+                reject();
+              }
 
-            console.log(extraData.nameUser + ' is connected');
+              const usersJSON = JSON.parse(data);
+              const extraData = usersJSON[user.uid];
 
-            //entry
-            let uuidWorld = _this.config.entryWorld;
-            if (!(uuidWorld && _this.worldToThread[uuidWorld] != undefined)) {
-              uuidWorld = Object.keys(_this.worldToThread)[0];
-            }
+              console.log(extraData.nameUser + ' is connected');
 
-            //TODO create avatar menu
-            const avatar = _this.assetsManager.fetchPrefab('avatar');
+              //entry
+              let uuidWorld = _this.config.entryWorld;
+              if (!(uuidWorld && _this.worldToThread[uuidWorld] != undefined)) {
+                uuidWorld = Object.keys(_this.worldToThread)[0];
+              }
 
-            //set user name
-            const r = avatar.getComponent(RenderModule.TYPE);
-            if (!r) throw new Error('no render component in avatar');
-            r.name = extraData.nameUser;
+              //TODO create avatar menu
+              const avatar = _this.assetsManager.fetchPrefab('avatar');
 
-            extraData.avatar = avatar;
+              //set user name
+              const r = avatar.getComponent(RenderModule.TYPE);
+              if (!r) throw new Error('no render component in avatar');
+              r.name = extraData.nameUser;
 
-            const u = new User(user.uid, socket, uuidWorld, extraData);
+              extraData.avatar = avatar;
 
-            //register the client
-            _this.currentUsers[u.getUUID()] = u;
-            // _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+              const u = new User(user.uid, socket, uuidWorld, extraData);
 
-            //inform client that he is connected and ready to game
-            socket.emit(Data.WEBSOCKET.MSG_TYPES.SIGNED);
+              //register the client
+              _this.currentUsers[u.getUUID()] = u;
+              // _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
 
-            //wait for client to be ready
-            socket.on(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
-              _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+              //inform client that he is connected and ready to game
+              socket.emit(Data.WEBSOCKET.MSG_TYPES.SIGNED);
+
+              //wait for client to be ready
+              socket.on(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
+                _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+              });
+
+              socket.on('disconnect', () => {
+                console.log('Unregister client => ', socket.id);
+
+                delete _this.currentUsers[u.getUUID()];
+                const thread = u.getThread();
+                if (thread)
+                  thread.post(
+                    WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
+                    u.getAvatarID()
+                  );
+              });
             });
-
-            socket.on('disconnect', () => {
-              console.log('Unregister client => ', socket.id);
-
-              delete _this.currentUsers[u.getUUID()];
-              const thread = u.getThread();
-              if (thread)
-                thread.post(
-                  WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
-                  u.getAvatarID()
-                );
-            });
-          });
+          } else {
+            socket.emit(
+              Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+              'Please verify your email'
+            );
+          }
         })
         .catch((error) => {
           socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
