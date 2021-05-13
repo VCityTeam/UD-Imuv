@@ -1,0 +1,33 @@
+/** @format */
+
+.loading_GameApp {
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingParent_GameApp {
+  text-align: center;
+}
+
+@keyframes Rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingImg_GameApp {
+  width: 200px;
+  height: 200px;
+  animation-duration: 3s;
+  animation-name: Rotate;
+  animation-iteration-count: infinite;
+}
