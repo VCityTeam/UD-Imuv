@@ -4,6 +4,9 @@ import './MenuAuth.css';
 
 import { GameApp } from '../GameApp/GameApp';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
+import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
+import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
+import { SystemUtils } from 'ud-viz/src/Components/Components';
 
 export class MenuAuthView {
   constructor(webSocketService) {
@@ -85,6 +88,28 @@ export class MenuAuthView {
     this.parentButtons.appendChild(this.confidentialButton);
   }
 
+  createLoadingView() {
+    const result = document.createElement('div');
+    result.classList.add('loading_MenuAuth');
+
+    const parent = document.createElement('div');
+    parent.classList.add('loadingParent_MenuAuth');
+
+    const loadingImg = document.createElement('img');
+    loadingImg.classList.add('loadingImg_MenuAuth');
+    loadingImg.src = './assets/img/loading.png';
+
+    const label = document.createElement('div');
+    label.innerHTML = 'Please wait...';
+
+    parent.appendChild(loadingImg);
+    parent.appendChild(label);
+
+    result.appendChild(parent);
+
+    return result;
+  }
+
   initCallbacks() {
     const _this = this;
 
@@ -123,10 +148,32 @@ export class MenuAuthView {
     this.webSocketService.on(Data.WEBSOCKET.MSG_TYPES.SIGNED, function () {
       _this.dispose();
 
-      const app = new GameApp(_this.webSocketService);
-      app.start('./assets/config/config.json', function () {
-        _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED);
+      const loadingView = _this.createLoadingView();
+      document.body.appendChild(loadingView);
+
+      //load config
+      SystemUtils.File.loadJSON('./assets/config/config.json').then(function (
+        config
+      ) {
+        //load assets
+        const assetsManager = new AssetsManager();
+        assetsManager.loadFromConfig(config.assetsManager).then(function () {
+          loadingView.remove();
+
+          const menuAvatar = new MenuAvatarView(
+            _this.webSocketService,
+            config,
+            assetsManager
+          );
+
+          document.body.appendChild(menuAvatar.html());
+        });
       });
+
+      // const app = new GameApp(_this.webSocketService);
+      // app.start('./assets/config/config.json', function () {
+      //   _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED);
+      // });
     });
   }
 
