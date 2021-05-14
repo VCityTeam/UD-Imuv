@@ -37,6 +37,22 @@ export class GameApp {
     return result;
   }
 
+  createSplashScreen() {
+    const result = document.createElement('div');
+    result.classList.add('splash_GameApp');
+
+    const bg = document.createElement('div');
+    bg.classList.add('bg_splash_GameApp');
+    result.appendChild(bg);
+
+    const label = document.createElement('div');
+    label.classList.add('label_splash_GameApp');
+    label.innerHTML = 'Welcome to Flying Campus';
+    result.appendChild(label);
+
+    return result;
+  }
+
   start(path, onLoad) {
     const _this = this;
     let clientConfig;
@@ -61,6 +77,15 @@ export class GameApp {
           ),
           config: clientConfig,
         });
+
+        console.log(clientConfig.game.traveling_time);
+
+        const splash = _this.createSplashScreen();
+        document.body.appendChild(splash);
+        setTimeout(function () {
+          splash.remove();
+        }, clientConfig.game.traveling_time);
+
         return _this.gameView.load();
       })
       .then(onLoad);

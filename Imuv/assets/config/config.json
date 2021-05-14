@@ -23,6 +23,7 @@
     }
   },
   "game": {
+    "traveling_time": 2000,
     "fps": 30,
     "shadowMapSize": 2046,
     "fog": {
@@ -34,9 +35,9 @@
   "itowns": {
     "radiusExtent": 1000,
     "camera": {
-      "range": "3000",
-      "heading": "-49.6",
-      "tilt": "17"
+      "range": 3000,
+      "heading": -50,
+      "tilt": 10
     }
   }
 }
