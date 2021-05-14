@@ -106,7 +106,13 @@ const ServerModule = class Server {
       }
     }
 
-    if (!user) throw new Error('no user with avatar id ', avatarUUID);
+    if (!user)
+      throw new Error(
+        'no user with avatar id ',
+        avatarUUID,
+        ' in ',
+        this.currentUsers
+      );
 
     const thread = this.worldToThread[worldUUID];
 
@@ -277,7 +283,6 @@ const ServerModule = class Server {
 
               //register the client
               _this.currentUsers[u.getUUID()] = u;
-              // _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
 
               //inform client that he is connected and ready to game
               socket.emit(Data.WEBSOCKET.MSG_TYPES.SIGNED);

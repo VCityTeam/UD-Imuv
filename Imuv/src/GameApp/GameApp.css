@@ -31,3 +31,28 @@
   animation-name: Rotate;
   animation-iteration-count: infinite;
 }
+
+.splash_GameApp {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label_splash_GameApp {
+  opacity: unset;
+  font-size: xxx-large;
+  z-index: 1;
+  font-family: sans-serif;
+}
+
+.bg_splash_GameApp {
+  background-color: gray;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
