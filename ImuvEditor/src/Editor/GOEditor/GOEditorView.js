@@ -61,7 +61,11 @@ export class GOEditorView {
       canvas: canvas,
       antialias: true,
     });
-    THREEUtils.initRenderer(this.renderer, new THREE.Color(0.4, 0.6, 0.8));
+    THREEUtils.initRenderer(
+      this.renderer,
+      new THREE.Color(0.4, 0.6, 0.8),
+      true
+    );
 
     //controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);

@@ -292,6 +292,13 @@ const ServerModule = class Server {
                 _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
               });
 
+              socket.on(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
+                socket.emit(
+                  Data.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
+                  u.getAvatar().toJSON()
+                );
+              });
+
               socket.on('disconnect', () => {
                 console.log('Unregister client => ', socket.id);
 
