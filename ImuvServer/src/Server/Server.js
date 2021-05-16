@@ -14,6 +14,7 @@ require('firebase/auth');
 
 const fs = require('fs');
 const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
+const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
 
 const ServerModule = class Server {
   constructor(config) {
@@ -196,7 +197,6 @@ const ServerModule = class Server {
             .sendEmailVerification()
             .then(function () {
               // Email sent.
-              console.log(nameUser + ' validates his email');
             })
             .catch(function (error) {
               // An error happened.
@@ -213,9 +213,14 @@ const ServerModule = class Server {
 
             //TODO password is sent via websocket wss not sure if this is safe
             //extra info on users are stocked here
+            const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
+            avatarJSON.components.Render.name = nameUser; //TODO not very clean
+
             usersJSON[uuid] = {
               uuid: uuid,
               nameUser: nameUser,
+              initialized: false,
+              avatarJSON: avatarJSON,
             };
 
             socket.emit(
@@ -269,16 +274,6 @@ const ServerModule = class Server {
                 uuidWorld = Object.keys(_this.worldToThread)[0];
               }
 
-              //TODO create avatar menu
-              const avatar = _this.assetsManager.fetchPrefab('avatar');
-
-              //set user name
-              const r = avatar.getComponent(RenderModule.TYPE);
-              if (!r) throw new Error('no render component in avatar');
-              r.name = extraData.nameUser;
-
-              extraData.avatar = avatar;
-
               const u = new User(user.uid, socket, uuidWorld, extraData);
 
               //register the client
@@ -289,15 +284,47 @@ const ServerModule = class Server {
 
               //wait for client to be ready
               socket.on(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
-                _this.placeAvatarInWorld(avatar.getUUID(), uuidWorld);
+                _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
               });
 
               socket.on(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
                 socket.emit(
                   Data.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
-                  u.getAvatar().toJSON()
+                  new GameObject(u.getAvatarJSON()).toJSON() //TODO not clean to filter only component local
                 );
               });
+
+              socket.on(
+                Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
+                function (avatarJSON) {
+                  //TODO replace gameobject in current world
+
+                  //write in user
+                  u.setAvatarJSON(avatarJSON);
+
+                  //write as well in usersJSON
+                  fs.readFile(usersJSONPath, 'utf8', (err, data) => {
+                    if (err) {
+                      reject();
+                    }
+
+                    const usersJSON = JSON.parse(data);
+                    const extraData = usersJSON[user.uid];
+                    extraData.avatarJSON = avatarJSON;
+
+                    fs.writeFile(
+                      usersJSONPath,
+                      JSON.stringify(usersJSON),
+                      {
+                        encoding: 'utf8',
+                        flag: 'w',
+                        mode: 0o666,
+                      },
+                      function () {}
+                    );
+                  });
+                }
+              );
 
               socket.on('disconnect', () => {
                 console.log('Unregister client => ', socket.id);

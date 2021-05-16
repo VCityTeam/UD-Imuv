@@ -1,6 +1,31 @@
 {
-  "6aj8pGNVQZPQX1Fks59YTawiW8A2": {
-    "uuid": "6aj8pGNVQZPQX1Fks59YTawiW8A2",
-    "nameUser": "val"
+  "adkzXpm0hSUYwV3dL3qqIO2F5bH2": {
+    "uuid": "adkzXpm0hSUYwV3dL3qqIO2F5bH2",
+    "nameUser": "mache",
+    "initialized": false,
+    "avatarJSON": {
+      "name": "avatar",
+      "type": "GameObject",
+      "static": false,
+      "outdated": false,
+      "uuid": "5AFBE7DE-7EF1-4448-9E92-DBE373D7EA69",
+      "parentUUID": null,
+      "components": {
+        "Render": {
+          "uuid": "B9234CD2-C468-420F-815F-071DE28A4963",
+          "name": "test",
+          "media": null,
+          "type": "Render",
+          "idModel": "avatar",
+          "color": [1, 1, 1]
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
   }
 }
