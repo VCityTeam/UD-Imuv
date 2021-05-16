@@ -1,5 +1,6 @@
 /** @format */
 
+const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
 const Data = udvShared.Components.Data;
 const Command = udvShared.Command;
@@ -16,14 +17,24 @@ const UserModule = class User {
     this.lastState = null;
 
     this.data = data;
+    this.avatarGO = new GameObject(data.avatarJSON);
   }
 
   getAvatarID() {
-    return this.data.avatar.getUUID();
+    return this.avatarGO.getUUID();
   }
 
   getAvatar() {
-    return this.data.avatar;
+    return this.avatarGO;
+  }
+
+  getAvatarJSON() {
+    return this.data.avatarJSON;
+  }
+
+  setAvatarJSON(json) {
+    this.avatarGO = new GameObject(json);
+    this.data.avatarJSON = json;
   }
 
   sendWorldState(stateJSON) {

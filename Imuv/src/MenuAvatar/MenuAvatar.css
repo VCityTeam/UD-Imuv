@@ -18,3 +18,26 @@
   display: inline-block;
   position: absolute;
 }
+
+.button_MenuAvatar {
+  min-width: 75px;
+  background-color: blue;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  user-select: none;
+  font-size: small;
+  margin: 2px;
+}
+
+.button_MenuAvatar:hover {
+  background-color: red;
+  cursor: pointer;
+}

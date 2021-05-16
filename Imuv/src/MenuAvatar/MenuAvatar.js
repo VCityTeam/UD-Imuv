@@ -30,6 +30,7 @@ export class MenuAvatarView {
 
     //html
     this.inputNameUser = null;
+    this.saveButton = null;
 
     //manager
     this.assetsManager = assetsManager;
@@ -144,6 +145,11 @@ export class MenuAvatarView {
     this.inputNameUser = document.createElement('input');
     this.inputNameUser.type = 'text';
     this.ui.appendChild(this.inputNameUser);
+
+    this.saveButton = document.createElement('div');
+    this.saveButton.classList.add('button_MenuAvatar');
+    this.saveButton.innerHTML = 'Save';
+    this.ui.appendChild(this.saveButton);
   }
 
   dispose() {
@@ -159,6 +165,14 @@ export class MenuAvatarView {
       _this.scene.remove(_this.avatarGO.fetchObject3D());
       r.setName(this.value, _this.assetsManager);
       _this.scene.add(_this.avatarGO.fetchObject3D());
+    };
+
+    this.saveButton.onclick = function () {
+      const avatarJSON = _this.avatarGO.toJSON(true);
+      _this.webSocketService.emit(
+        Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
+        avatarJSON
+      );
     };
   }
 
