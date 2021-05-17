@@ -145,49 +145,51 @@ export class MenuAuthView {
       });
     };
 
-    this.webSocketService.on(Data.WEBSOCKET.MSG_TYPES.SIGNED, function () {
-      _this.dispose();
+    this.webSocketService.on(
+      Data.WEBSOCKET.MSG_TYPES.SIGNED,
+      function (initialized) {
+        _this.dispose();
 
-      const loadingView = _this.createLoadingView();
-      document.body.appendChild(loadingView);
+        const loadingView = _this.createLoadingView();
+        document.body.appendChild(loadingView);
 
-      //load config
-      SystemUtils.File.loadJSON('./assets/config/config.json').then(function (
-        config
-      ) {
-        //load assets
-        const assetsManager = new AssetsManager();
-        assetsManager.loadFromConfig(config.assetsManager).then(function () {
-          loadingView.remove();
+        //load config
+        SystemUtils.File.loadJSON('./assets/config/config.json').then(function (
+          config
+        ) {
+          //load assets
+          const assetsManager = new AssetsManager();
+          assetsManager.loadFromConfig(config.assetsManager).then(function () {
+            loadingView.remove();
 
-          const menuAvatar = new MenuAvatarView(
-            _this.webSocketService,
-            config,
-            assetsManager
-          );
-
-          menuAvatar.setOnClose(function () {
-            const app = new GameApp(
-              _this.webSocketService,
-              assetsManager,
-              config
-            );
-            app.start(function () {
-              _this.webSocketService.emit(
-                Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
+            const launchGame = function () {
+              const app = new GameApp(
+                _this.webSocketService,
+                assetsManager,
+                config
               );
-            });
+              app.start(function () {
+                _this.webSocketService.emit(
+                  Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
+                );
+              });
+            };
+
+            if (initialized) {
+              launchGame();
+            } else {
+              const menuAvatar = new MenuAvatarView(
+                _this.webSocketService,
+                config,
+                assetsManager
+              );
+              menuAvatar.setOnClose(launchGame);
+              document.body.appendChild(menuAvatar.html());
+            }
           });
-
-          document.body.appendChild(menuAvatar.html());
         });
-      });
-
-      // const app = new GameApp(_this.webSocketService);
-      // app.start('./assets/config/config.json', function () {
-      //   _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED);
-      // });
-    });
+      }
+    );
   }
 
   dispose() {

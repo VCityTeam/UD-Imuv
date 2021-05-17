@@ -281,7 +281,31 @@ const ServerModule = class Server {
               _this.currentUsers[u.getUUID()] = u;
 
               //inform client that he is connected and ready to game
-              socket.emit(Data.WEBSOCKET.MSG_TYPES.SIGNED);
+              socket.emit(
+                Data.WEBSOCKET.MSG_TYPES.SIGNED,
+                extraData.initialized
+              );
+
+              fs.readFile(usersJSONPath, 'utf8', (err, data) => {
+                if (err) {
+                  reject();
+                }
+
+                const usersJSON = JSON.parse(data);
+                const extraData = usersJSON[user.uid];
+                extraData.initialized = true; //its now
+
+                fs.writeFile(
+                  usersJSONPath,
+                  JSON.stringify(usersJSON),
+                  {
+                    encoding: 'utf8',
+                    flag: 'w',
+                    mode: 0o666,
+                  },
+                  function () {}
+                );
+              });
 
               //wait for client to be ready
               socket.on(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
