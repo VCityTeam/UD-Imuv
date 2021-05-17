@@ -51,6 +51,7 @@
     }
   },
   "game": {
+    "traveling_time": 1000,
     "fps": 30,
     "shadowMapSize": 2046,
     "fog": {

@@ -30,7 +30,9 @@ export class MenuAvatarView {
 
     //html
     this.inputNameUser = null;
+    this.inputColorPicker = null;
     this.saveButton = null;
+    this.closeButton = null;
 
     //manager
     this.assetsManager = assetsManager;
@@ -146,10 +148,23 @@ export class MenuAvatarView {
     this.inputNameUser.type = 'text';
     this.ui.appendChild(this.inputNameUser);
 
+    const labelColorAvatar = document.createElement('div');
+    labelColorAvatar.innerHTML = 'Couleur avatar';
+    this.ui.appendChild(labelColorAvatar);
+
+    this.inputColorPicker = document.createElement('input');
+    this.inputColorPicker.type = 'color';
+    this.ui.appendChild(this.inputColorPicker);
+
     this.saveButton = document.createElement('div');
     this.saveButton.classList.add('button_MenuAvatar');
     this.saveButton.innerHTML = 'Save';
     this.ui.appendChild(this.saveButton);
+
+    this.closeButton = document.createElement('div');
+    this.closeButton.classList.add('button_MenuAvatar');
+    this.closeButton.innerHTML = 'Close';
+    this.ui.appendChild(this.closeButton);
   }
 
   dispose() {
@@ -167,6 +182,14 @@ export class MenuAvatarView {
       _this.scene.add(_this.avatarGO.fetchObject3D());
     };
 
+    this.inputColorPicker.onchange = function () {
+      const r = _this.avatarGO.getComponent(RenderModule.TYPE);
+      if (!r) throw new Error('no render component');
+      _this.scene.remove(_this.avatarGO.fetchObject3D());
+      r.setColor(new THREE.Color(this.value), _this.assetsManager);
+      _this.scene.add(_this.avatarGO.fetchObject3D());
+    };
+
     this.saveButton.onclick = function () {
       const avatarJSON = _this.avatarGO.toJSON(true);
       _this.webSocketService.emit(
@@ -174,6 +197,10 @@ export class MenuAvatarView {
         avatarJSON
       );
     };
+  }
+
+  setOnClose(cb) {
+    this.closeButton.onclick = cb;
   }
 
   html() {

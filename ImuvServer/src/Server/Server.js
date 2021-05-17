@@ -15,6 +15,7 @@ require('firebase/auth');
 const fs = require('fs');
 const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
 const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
+const JSONUtils = require('ud-viz/src/Components/SystemUtils/JSONUtils');
 
 const ServerModule = class Server {
   constructor(config) {
@@ -297,6 +298,10 @@ const ServerModule = class Server {
               socket.on(
                 Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
                 function (avatarJSON) {
+                  const originalJSON = u.getAvatarJSON();
+                  JSONUtils.overWrite(originalJSON, avatarJSON);
+                  avatarJSON = originalJSON;
+
                   //TODO replace gameobject in current world
 
                   //write in user

@@ -166,6 +166,19 @@ export class MenuAuthView {
             assetsManager
           );
 
+          menuAvatar.setOnClose(function () {
+            const app = new GameApp(
+              _this.webSocketService,
+              assetsManager,
+              config
+            );
+            app.start(function () {
+              _this.webSocketService.emit(
+                Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
+              );
+            });
+          });
+
           document.body.appendChild(menuAvatar.html());
         });
       });
