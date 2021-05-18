@@ -17,18 +17,18 @@
         "path": "./assets/prefabs/Frame.json"
       }
     },
-    "scripts": {
+    "worldScripts": {
       "portal": {
-        "path": "./assets/scripts/Portal.js"
+        "path": "./assets/worldScripts/Portal.js"
       },
       "avatar": {
-        "path": "./assets/scripts/Avatar.js"
+        "path": "./assets/worldScripts/Avatar.js"
       },
       "map": {
-        "path": "./assets/scripts/Map.js"
+        "path": "./assets/worldScripts/Map.js"
       },
       "gameManager": {
-        "path": "./assets/scripts/GameManager.js"
+        "path": "./assets/worldScripts/GameManager.js"
       }
     },
     "models": {

@@ -25,11 +25,11 @@
       ],
       "body": false
     },
-    "Script": {
+    "WorldScript": {
       "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
       "idScripts": ["portal"],
       "conf": { "worldDestUUID": "default" },
-      "type": "Script"
+      "type": "WorldScript"
     }
   },
   "children": [],

@@ -11,7 +11,7 @@
       "uuid": "C9E1F773-4249-4BE5-A744-438207962D64",
       "parentUUID": null,
       "components": {
-        "Script": {
+        "WorldScript": {
           "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
           "idScripts": ["gameManager"],
           "conf": {
@@ -22,7 +22,7 @@
               "scale": { "x": 1, "y": 1, "z": 1 }
             }
           },
-          "type": "Script"
+          "type": "WorldScript"
         }
       },
       "children": [],
@@ -45,7 +45,7 @@
       "parentUUID": null,
       "static": true,
       "components": {
-        "Script": {
+        "WorldScript": {
           "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
           "idScripts": ["gameManager"],
           "conf": {
@@ -56,7 +56,7 @@
               "scale": { "x": 1, "y": 1, "z": 1 }
             }
           },
-          "type": "Script"
+          "type": "WorldScript"
         }
       },
 

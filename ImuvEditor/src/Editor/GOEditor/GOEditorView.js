@@ -16,7 +16,7 @@ import './GOEditor.css';
 import '../Editor.css';
 import { GOEditorModel } from './GOEditorModel';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
-import ScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/Script';
+import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { THREEUtils } from 'ud-viz/src/Game/Components/THREEUtils';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
@@ -372,11 +372,11 @@ export class GOEditorView {
 
       if (!go) return;
 
-      const r = go.getComponent(ScriptModule.TYPE);
+      const r = go.getComponent(WorldScriptModule.TYPE);
 
       if (r) return;
 
-      go.setComponent(ScriptModule.TYPE, new ScriptModule(go, {}));
+      go.setComponent(WorldScriptModule.TYPE, new WorldScriptModule(go, {}));
 
       _this.jsonEditorView.onJSON(go.toJSON(true));
       // _this.focusGameObject();
@@ -472,7 +472,7 @@ export class GOEditorView {
     //new heightmap add button
     const addHeightmapButton = document.createElement('div');
     addHeightmapButton.classList.add('button_Editor');
-    addHeightmapButton.innerHTML = 'Add Heightmap Script Component';
+    addHeightmapButton.innerHTML = 'Add Heightmap World Script Component';
     this.ui.appendChild(addHeightmapButton);
     this.addHeightmapButton = addHeightmapButton;
 
@@ -490,10 +490,10 @@ export class GOEditorView {
     this.ui.appendChild(addRenderButton);
     this.addRenderButton = addRenderButton;
 
-    //add Script
+    //add World Script
     const addScriptButton = document.createElement('div');
     addScriptButton.classList.add('button_Editor');
-    addScriptButton.innerHTML = 'Add Script Component';
+    addScriptButton.innerHTML = 'Add World Script Component';
     this.ui.appendChild(addScriptButton);
     this.addScriptButton = addScriptButton;
 
