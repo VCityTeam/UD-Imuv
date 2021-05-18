@@ -352,6 +352,8 @@ const ServerModule = class Server {
                       function () {}
                     );
                   });
+
+                  socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Save !');
                 }
               );
 
