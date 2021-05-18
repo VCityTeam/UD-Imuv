@@ -31,6 +31,11 @@
         "path": "./assets/worldScripts/GameManager.js"
       }
     },
+    "localScripts": {
+      "video": {
+        "path": "./assets/localScripts/Video.js"
+      }
+    },
     "models": {
       "avatar": {
         "path": "./assets/models/avatar.glb",
