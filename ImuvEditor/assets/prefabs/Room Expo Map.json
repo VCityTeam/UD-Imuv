@@ -87,6 +87,12 @@
       "uuid": "452DE889-92CD-472E-A590-A9B48D05715C",
       "parentUUID": "B61DBD98-33F6-42FE-BE5A-F0795F1E6AA8",
       "components": {
+        "LocalScript": {
+          "uuid": "5726DF5B-61EC-4340-8947-9FFE6405950C",
+          "idScripts": ["video"],
+          "conf": {},
+          "type": "LocalScript"
+        },
         "Render": {
           "uuid": "E55B8A5A-0EF3-40ED-BE1F-57286C12CEF3",
           "name": null,
