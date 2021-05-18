@@ -6,27 +6,27 @@ const Shared = require('ud-viz/src/Game/Shared/Shared');
 //server manager load script
 module.exports = class AssetsManagerServer {
   constructor() {
-    this.scripts = {};
+    this.worldScripts = {};
     this.prefabs = {};
   }
 
   loadFromConfig(config) {
-    const scripts = this.scripts;
+    const worldScripts = this.worldScripts;
     const prefabs = this.prefabs;
 
-    const scriptsPromise = new Promise((resolve, reject) => {
+    const worldScriptsPromise = new Promise((resolve, reject) => {
       let count = 0;
-      for (let idScript in config.scripts) {
-        fs.readFile(config.scripts[idScript].path, 'utf8', (err, data) => {
+      for (let idScript in config.worldScripts) {
+        fs.readFile(config.worldScripts[idScript].path, 'utf8', (err, data) => {
           if (err) {
             reject();
           }
-          scripts[idScript] = eval(data);
+          worldScripts[idScript] = eval(data);
 
           count++;
 
-          if (count == Object.keys(config.scripts).length) {
-            // console.log('Scripts loaded ', scripts);
+          if (count == Object.keys(config.worldScripts).length) {
+            // console.log('worldScripts loaded ', worldScripts);
             resolve();
           }
         });
@@ -52,12 +52,12 @@ module.exports = class AssetsManagerServer {
       }
     });
 
-    return Promise.all([scriptsPromise, prefabsPromise]);
+    return Promise.all([worldScriptsPromise, prefabsPromise]);
   }
 
-  fetchScript(idScript) {
-    if (!this.scripts[idScript]) console.error('no script with id ', idScript);
-    return this.scripts[idScript];
+  fetchWorldScript(idScript) {
+    if (!this.worldScripts[idScript]) console.error('no world script with id ', idScript);
+    return this.worldScripts[idScript];
   }
 
   fetchPrefab(idprefab) {

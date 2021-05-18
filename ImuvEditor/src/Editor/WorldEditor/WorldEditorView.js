@@ -66,7 +66,7 @@ export class WorldEditorView {
       const _this = this;
 
       world.getGameObject().traverse(function (g) {
-        const s = g.getScripts();
+        const s = g.getWorldScripts();
         if (s && s['map']) {
           //consider assets are in ./
           let path = s['map'].conf.heightmap_path;

@@ -1,17 +1,17 @@
 {
   "assetsManager": {
-    "scripts": {
+    "worldScripts": {
       "avatar": {
-        "path": "../ImuvEditor/assets/scripts/Avatar.js"
+        "path": "../ImuvEditor/assets/worldScripts/Avatar.js"
       },
       "map": {
-        "path": "../ImuvEditor/assets/scripts/Map.js"
+        "path": "../ImuvEditor/assets/worldScripts/Map.js"
       },
       "gameManager": {
-        "path": "../ImuvEditor/assets/scripts/GameManager.js"
+        "path": "../ImuvEditor/assets/worldScripts/GameManager.js"
       },
       "portal": {
-        "path": "../ImuvEditor/assets/scripts/Portal.js"
+        "path": "../ImuvEditor/assets/worldScripts/Portal.js"
       }
     },
     "prefabs": {

@@ -14,7 +14,7 @@ module.exports = class Avatar {
 
     //spawn
     const gm = go.computeRoot(); //root is gm
-    const script = gm.getScripts()['gameManager'];
+    const script = gm.getWorldScripts()['gameManager'];
     go.setTransformFromJSON(script.getSpawnTransform());
 
     //init commands
@@ -73,12 +73,12 @@ module.exports = class Avatar {
     const THREE = gCtx.UDVShared.THREE;
 
     const gmGo = gameObject.computeRoot();
-    const scriptGM = gmGo.getScripts()['gameManager'];
+    const scriptGM = gmGo.getWorldScripts()['gameManager'];
     if (!scriptGM) throw new Error('no gm script');
     const mapGo = scriptGM.getMap();
     if (!mapGo) return; //no map => no commands
-    const scriptMap = mapGo.getScripts()['map'];
-    if (!scriptMap) throw new Error('no map script');
+    const scriptMap = mapGo.getWorldScripts()['map'];
+    if (!scriptMap) throw new Error('no map world script');
 
     let elevationComputed = false;
 
@@ -196,7 +196,7 @@ module.exports = class Avatar {
 
     const collider = colliderGO.getComponent('Collider');
 
-    const scriptPortal = colliderGO.getScripts()['portal'];
+    const scriptPortal = colliderGO.getWorldScripts()['portal'];
     if (scriptPortal) scriptPortal.onAvatar(go, gCtx.world);
 
     if (collider.isBody()) {
