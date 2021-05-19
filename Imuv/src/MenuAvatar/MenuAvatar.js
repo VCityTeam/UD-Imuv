@@ -82,6 +82,7 @@ export class MenuAvatarView {
       -1.6820840951413623,
       1.9057700262812416
     );
+    p.add(center);
 
     const rot = new THREE.Euler(
       1.0403166821823782,
@@ -109,6 +110,7 @@ export class MenuAvatarView {
       function (data) {
         _this.avatarGO = new GameObject(data);
         _this.avatarGO.initAssetsComponents(_this.assetsManager, Shared, false);
+        _this.avatarGO.setTransformFromJSON()//reset transform
         const object = _this.avatarGO.fetchObject3D();
         _this.scene.add(object);
         _this.focusGameObject();

@@ -214,7 +214,9 @@ const ServerModule = class Server {
 
             //TODO password is sent via websocket wss not sure if this is safe
             //extra info on users are stocked here
-            const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
+            const avatarJSON = _this.assetsManager
+              .fetchPrefab('avatar')
+              .toJSON(true);
             avatarJSON.components.Render.name = nameUser; //TODO not very clean
 
             usersJSON[uuid] = {
@@ -326,8 +328,6 @@ const ServerModule = class Server {
                   JSONUtils.overWrite(originalJSON, avatarJSON);
                   avatarJSON = originalJSON;
 
-                  //TODO replace gameobject in current world
-
                   //write in user
                   u.setAvatarJSON(avatarJSON);
 
@@ -352,6 +352,30 @@ const ServerModule = class Server {
                       function () {}
                     );
                   });
+
+                  const thread = u.getThread();
+                  if (thread) {
+                    thread.post(
+                      WorldThread.MSG_TYPES.QUERY_GAMEOBJECT,
+                      u.getAvatarID()
+                    );
+
+                    thread.on(
+                      WorldThread.MSG_TYPES.GAMEOBJECT_RESPONSE,
+                      function (data) {
+                        const currentAvatar = data;
+                        thread.post(
+                          WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
+                          u.getAvatarID()
+                        );
+
+                        thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+                          gameObject: u.getAvatarJSON(),
+                          transform: currentAvatar.transform,
+                        });
+                      }
+                    );
+                  }
 
                   socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Save !');
                 }
