@@ -2,6 +2,7 @@
 
 import { Game } from 'ud-viz';
 import { Routine } from 'ud-viz/src/Game/Components/Cameraman';
+import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 
 import './GameApp.css';
 
@@ -47,6 +48,7 @@ export class GameApp {
     const duration = this.config.game.traveling_time;
     const gV = this.gameView;
     const splash = this.createSplashScreen();
+    const _this = this;
 
     this.gameView.setOnFirstStateEnd(function () {
       const offsetTime = 1000;
@@ -91,5 +93,25 @@ export class GameApp {
     });
 
     this.gameView.load().then(onLoad);
+
+    const menuAvatarButton = document.createElement('div');
+    menuAvatarButton.classList.add('button_GameApp');
+    menuAvatarButton.innerHTML = 'Menu Avatar';
+    this.gameView.appendToUI(menuAvatarButton);
+
+    menuAvatarButton.onclick = function () {
+      const menuAvatar = new MenuAvatarView(
+        _this.webSocketService,
+        _this.config,
+        _this.assetsManager
+      );
+      menuAvatar.setOnClose(function () {
+        gV.setPause(false);
+        document.body.appendChild(gV.html());
+      });
+      gV.html().remove();
+      gV.setPause(true);
+      document.body.appendChild(menuAvatar.html());
+    };
   }
 }

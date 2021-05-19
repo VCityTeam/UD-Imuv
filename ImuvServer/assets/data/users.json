@@ -1,1 +1,51 @@
-{"oXanDkSgZ3eGDOqLyak6pluSWYu2":{"uuid":"oXanDkSgZ3eGDOqLyak6pluSWYu2","nameUser":"valentin","initialized":true,"avatarJSON":{"name":"avatar","type":"GameObject","components":{"Collider":{"type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":0.3244298395697931}],"body":true},"Render":{"type":"Render","idModel":"avatar","name":"val","color":[0.047058823529411764,0.8117647058823529,0.23921568627450981]},"WorldScript":{"idScripts":["avatar"],"conf":{},"type":"WorldScript"}},"children":[],"transform":{"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"scale":{"x":1,"y":1,"z":1}}}}}
+{
+  "1QGaArkrznTJuHTwPNDsiSZ60c12": {
+    "uuid": "1QGaArkrznTJuHTwPNDsiSZ60c12",
+    "nameUser": "val",
+    "initialized": true,
+    "avatarJSON": {
+      "name": "avatar",
+      "type": "GameObject",
+      "static": false,
+      "outdated": false,
+      "uuid": "D7A2F2AB-AF88-4BF8-BE2D-96CC79C02D08",
+      "parentUUID": null,
+      "components": {
+        "Collider": {
+          "uuid": "15604CCE-14C4-43CC-9760-1C4901FF5B05",
+          "type": "Collider",
+          "shapes": [
+            {
+              "type": "Circle",
+              "center": { "x": 0, "y": 0 },
+              "radius": 0.3244298395697931
+            }
+          ],
+          "body": true
+        },
+        "Render": {
+          "uuid": "E0B72EBC-B3C8-46E3-892B-53FAEC798DEF",
+          "name": "val u",
+          "media": null,
+          "type": "Render",
+          "idModel": "avatar",
+          "color": [
+            0.6431372549019608, 0.19607843137254902, 0.19607843137254902
+          ]
+        },
+        "WorldScript": {
+          "uuid": "98465259-E027-4046-B551-0E859FAB610C",
+          "idScripts": ["avatar"],
+          "conf": {},
+          "type": "WorldScript"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
+  }
+}
