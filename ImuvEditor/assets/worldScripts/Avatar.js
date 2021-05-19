@@ -150,17 +150,7 @@ module.exports = class Avatar {
               vectorJSON.z * AVATAR_SPEED_ROTATION_Z
             );
             gameObject.rotate(vector.multiplyScalar(dt));
-            //clamp
-            const rotation = gameObject.getTransform().rotation;
-            rotation.y = 0;
-            //borne between 0 => 2pi
-            const angle1 = Math.PI / 5; //TODO valeur en config
-            const angle2 = Math.PI * 2 - Math.PI / 10;
-            if (rotation.x > Math.PI) {
-              rotation.x = Math.max(rotation.x, angle2);
-            } else {
-              rotation.x = Math.min(angle1, rotation.x);
-            }
+            this.clampRotation(gameObject);
             break;
           default:
         }
@@ -177,6 +167,20 @@ module.exports = class Avatar {
     }
 
     if (!elevationComputed) scriptMap.updateElevation(gameObject);
+  }
+
+  clampRotation(gameObject) {
+    //clamp
+    const rotation = gameObject.getTransform().rotation;
+    rotation.y = 0;
+    //borne between 0 => 2pi
+    const angle1 = Math.PI / 5; //TODO valeur en config
+    const angle2 = Math.PI * 2 - Math.PI / 10;
+    if (rotation.x > Math.PI) {
+      rotation.x = Math.max(rotation.x, angle2);
+    } else {
+      rotation.x = Math.min(angle1, rotation.x);
+    }
   }
 
   tick() {
