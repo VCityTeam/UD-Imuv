@@ -10,7 +10,7 @@
     },
     "models": {
       "avatar": {
-        "path": "./assets/models/avatar.glb",
+        "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
       "flying_campus": {
