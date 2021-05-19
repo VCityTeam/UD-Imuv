@@ -37,8 +37,8 @@
       }
     },
     "models": {
-      "avatar": {
-        "path": "./assets/models/avatar.glb",
+      "avatar_capuchon": {
+        "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
       "flying_campus": {

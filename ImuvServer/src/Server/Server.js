@@ -123,9 +123,8 @@ const ServerModule = class Server {
     user.initThread(thread);
 
     //add avatar in the new world
-    const avatar = user.getAvatar();
     thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
-      gameObject: avatar.toJSON(true),
+      gameObject: user.getAvatarJSON(),
       portalUUID: portalUUID,
     });
   }
@@ -214,9 +213,7 @@ const ServerModule = class Server {
 
             //TODO password is sent via websocket wss not sure if this is safe
             //extra info on users are stocked here
-            const avatarJSON = _this.assetsManager
-              .fetchPrefab('avatar')
-              .toJSON(true);
+            const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
             avatarJSON.components.Render.name = nameUser; //TODO not very clean
 
             usersJSON[uuid] = {
@@ -326,10 +323,9 @@ const ServerModule = class Server {
                 function (avatarJSON) {
                   const originalJSON = u.getAvatarJSON();
                   JSONUtils.overWrite(originalJSON, avatarJSON);
-                  avatarJSON = originalJSON;
 
                   //write in user
-                  u.setAvatarJSON(avatarJSON);
+                  u.setAvatarJSON(originalJSON);
 
                   //write as well in usersJSON
                   fs.readFile(usersJSONPath, 'utf8', (err, data) => {
@@ -339,7 +335,7 @@ const ServerModule = class Server {
 
                     const usersJSON = JSON.parse(data);
                     const extraData = usersJSON[user.uid];
-                    extraData.avatarJSON = avatarJSON;
+                    extraData.avatarJSON = originalJSON;
 
                     fs.writeFile(
                       usersJSONPath,

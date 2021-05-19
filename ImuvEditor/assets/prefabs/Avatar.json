@@ -15,7 +15,7 @@
     },
     "Render": {
       "type": "Render",
-      "idModel": "avatar",
+      "idModel": "avatar_capuchon",
       "name": "avatar_name",
       "color": null
     },
