@@ -179,8 +179,10 @@ export class ColliderModel {
     if (this.currentShape)
       this.currentShape.draw(ctx, CANVAS_TEXTURE_SIZE, 'green', bb);
 
-    const url = this.canvasTexture.toDataURL('image/png');
-    const textureShape = this.loader.load(url);
+    const textureShape = this.loader.load(
+      this.canvasTexture.toDataURL('image/png')
+    );
+    
     textureShape.flipY = false;
     textureShape.flipX = true;
     textureShape.magFilter = THREE.NearestFilter;
