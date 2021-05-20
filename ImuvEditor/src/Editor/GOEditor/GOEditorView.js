@@ -51,17 +51,15 @@ export class GOEditorView {
 
     //THREE
 
+    //camera
+    this.camera = new THREE.OrthographicCamera(0, 0, 0, 0, -3000, 3000);
+    this.camera.up.set(0, 0, 1);
     
     //renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
     });
-
-    //camera
-    this.camera = new THREE.OrthographicCamera(0, 0, 0, 0, -3000, 3000);
-    this.camera.up.set(0, 0, 1);
-
 
     THREEUtils.initRenderer(
       this.renderer,
