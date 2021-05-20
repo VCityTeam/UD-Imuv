@@ -58,6 +58,8 @@ WorldThreadModule.MSG_TYPES = {
   ADD_GAMEOBJECT: 'add_gameobject',
   REMOVE_GAMEOBJECT: 'remove_gameobject',
   AVATAR_PORTAL: 'avatar_portal',
+  QUERY_GAMEOBJECT: 'query_gameobject',
+  GAMEOBJECT_RESPONSE: 'gameobject_response',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -145,6 +147,7 @@ WorldThreadModule.routine = function (serverConfig) {
       const onAddGameObject = function (data) {
         const goJson = data.gameObject;
         const portalUUID = data.portalUUID;
+        const transform = data.transform;
         const newGO = new GameObject(goJson);
 
         gCtx.world.addGameObject(
@@ -156,6 +159,9 @@ WorldThreadModule.routine = function (serverConfig) {
               const portal = gCtx.world.getGameObject().find(portalUUID);
               newGO.setTransformFromJSON(portal.getTransform());
               gCtx.world.updateCollisionBuffer();
+            } else if (transform) {
+              newGO.setTransformFromJSON(transform);
+              gCtx.world.updateCollisionBuffer();
             }
           }
         );
@@ -163,6 +169,15 @@ WorldThreadModule.routine = function (serverConfig) {
 
       const onRemoveGameObject = function (uuid) {
         gCtx.world.removeGameObject(uuid);
+      };
+
+      const onQueryGameObject = function (uuid) {
+        const go = gCtx.world.getGameObject().find(uuid);
+        const message = {
+          msgType: WorldThreadModule.MSG_TYPES.GAMEOBJECT_RESPONSE,
+          data: go.toJSON(true),
+        };
+        parentPort.postMessage(Data.pack(message));
       };
 
       //listening parentPort
@@ -180,6 +195,9 @@ WorldThreadModule.routine = function (serverConfig) {
             break;
           case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
             onRemoveGameObject(msg.data);
+            break;
+          case WorldThreadModule.MSG_TYPES.QUERY_GAMEOBJECT:
+            onQueryGameObject(msg.data);
             break;
           default:
             console.log('default msg ', msg.data);
