@@ -94,11 +94,13 @@ export class GameApp {
 
     this.gameView.load().then(onLoad);
 
+    //INIT UI
     const menuAvatarButton = document.createElement('div');
     menuAvatarButton.classList.add('button_GameApp');
     menuAvatarButton.innerHTML = 'Menu Avatar';
     this.gameView.appendToUI(menuAvatarButton);
 
+    //INIT CALLBACKS
     menuAvatarButton.onclick = function () {
       const menuAvatar = new MenuAvatarView(
         _this.webSocketService,

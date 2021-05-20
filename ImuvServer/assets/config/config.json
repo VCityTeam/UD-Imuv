@@ -4,6 +4,9 @@
       "avatar": {
         "path": "../ImuvEditor/assets/worldScripts/Avatar.js"
       },
+      "zeppelin": {
+        "path": "../ImuvEditor/assets/worldScripts/Zeppelin.js"
+      },
       "map": {
         "path": "../ImuvEditor/assets/worldScripts/Map.js"
       },
