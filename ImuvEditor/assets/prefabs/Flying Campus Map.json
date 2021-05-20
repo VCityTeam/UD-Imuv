@@ -244,6 +244,14 @@
             "portalUUID": "08DB39F6-E077-4B0E-8480-C89A16D6369F"
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "0AEFE8E8-055B-4AE4-81BB-AB8DDDDD1E87",
+          "idScripts": ["rotate"],
+          "conf": {
+            "speed": 0.005
+          },
+          "type": "LocalScript"
         }
       },
       "children": [],
