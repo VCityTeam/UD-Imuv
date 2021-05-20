@@ -67,5 +67,40 @@
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
     }
+  },
+  {
+    "type": "World",
+    "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+    "name": "Room Conf Modulable",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "gameObject": {
+      "name": "GameManager",
+      "type": "GameObject",
+      "uuid": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+      "parentUUID": null,
+      "static": true,
+      "components": {
+        "WorldScript": {
+          "uuid": "4EEA3596-90B5-48B5-94FC-6E49EA5E2689",
+          "idScripts": ["gameManager"],
+          "conf": {
+            "mapPrefabId": "room_conf_modulable",
+            "spawnTransform": {
+              "position": { "x": 10, "y": 10, "z": 0 },
+              "rotation": { "x": 0.142, "y": 0, "z": 2.232 },
+              "scale": { "x": 1, "y": 1, "z": 1 }
+            }
+          },
+          "type": "WorldScript"
+        }
+      },
+
+      "children": [],
+      "transform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
   }
 ]
