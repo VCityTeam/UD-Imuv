@@ -1,0 +1,48 @@
+{
+  "name": "My GameObject",
+  "type": "GameObject",
+  "static": true,
+  "outdated": false,
+  "uuid": "CA5D2AB7-9465-4E3B-AED9-D07B62AEA371",
+  "parentUUID": null,
+  "components": {
+    "Render": {
+      "uuid": "A08C300B-F9FC-458B-B47F-475A03F96A53",
+      "name": null,
+      "media": null,
+      "type": "Render",
+      "idModel": "room_conf_modulable",
+      "color": [1, 1, 1]
+    },
+    "WorldScript": {
+      "uuid": "B1A58399-B678-478E-A979-0282AE610BDB",
+      "idScripts": ["map"],
+      "conf": {
+        "heightmap_path": "./assets/heightmap/room_conf_modulable.png",
+        "heightmap_geometry": {
+          "bounding_box": {
+            "min": {
+              "x": 0,
+              "y": -3.3306690738754696e-16,
+              "z": -1.1102230246251565e-16
+            },
+            "max": {
+              "x": 27.383277893066406,
+              "y": 17.576856315135956,
+              "z": 12.272754318020873
+            }
+          },
+          "heightmap_min": -0.10000000000000012,
+          "heightmap_max": 11.659116602119829
+        }
+      },
+      "type": "WorldScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": { "x": 0, "y": 0, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
+    "scale": { "x": 1, "y": 1, "z": 1 }
+  }
+}
