@@ -26,6 +26,9 @@
       },
       "avatar": {
         "path": "../ImuvEditor/assets/prefabs/Avatar.json"
+      },
+      "room_conf_modulable": {
+        "path": "../ImuvEditor/assets/prefabs/Room_Conf_Modulable.json"
       }
     }
   },

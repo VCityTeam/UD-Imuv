@@ -14,7 +14,7 @@
       "idModel": "flying_campus",
       "color": [1, 1, 1]
     },
-    "Script": {
+    "WorldScript": {
       "uuid": "A18CF9CD-CDE7-42FD-A88B-FCE457155FB5",
       "idScripts": ["map"],
       "conf": {
@@ -32,7 +32,7 @@
           "heightmap_max": 112.78629635141081
         }
       },
-      "type": "Script"
+      "type": "WorldScript"
     },
     "Collider": {
       "uuid": "AB1A5804-7951-4B0D-B183-87D0FD5A51A2",
@@ -587,14 +587,22 @@
           ],
           "body": false
         },
-        "Script": {
+        "WorldScript": {
           "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
           "idScripts": ["portal"],
           "conf": {
             "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
             "portalUUID": "08DB39F6-E077-4B0E-8480-C89A16D6369F"
           },
-          "type": "Script"
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "0AEFE8E8-055B-4AE4-81BB-AB8DDDDD1E87",
+          "idScripts": ["rotate"],
+          "conf": {
+            "speed": 0.005
+          },
+          "type": "LocalScript"
         }
       },
       "children": [],

@@ -6,6 +6,9 @@
     "localScripts": {
       "video": {
         "path": "./assets/localScripts/Video.js"
+      },
+      "rotate": {
+        "path": "./assets/localScripts/Rotate.js"
       }
     },
     "models": {
