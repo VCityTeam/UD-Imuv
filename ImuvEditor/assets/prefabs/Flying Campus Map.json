@@ -210,6 +210,38 @@
   },
   "children": [
     {
+      "name": "Zeppelin",
+      "type": "GameObject",
+      "static": false,
+      "outdated": false,
+      "uuid": "18C43BC9-D445-45DD-9CC2-357A5CF6F389",
+      "parentUUID": null,
+      "components": {
+        "Render": {
+          "uuid": "8732545C-3E5D-4A74-8273-66E91F756512",
+          "name": null,
+          "media": null,
+          "type": "Render",
+          "idModel": "zeppelin",
+          "color": [1, 1, 1]
+        },
+        "WorldScript": {
+          "uuid": "8298A71C-E680-4924-9D0A-2716E42E0540",
+          "idScripts": ["zeppelin"],
+          "conf": {
+            "duration": 1000
+          },
+          "type": "WorldScript"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
       "name": "Portal",
       "type": "GameObject",
       "static": true,

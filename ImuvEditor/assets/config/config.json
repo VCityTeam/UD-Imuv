@@ -32,6 +32,9 @@
       },
       "gameManager": {
         "path": "./assets/worldScripts/GameManager.js"
+      },
+      "zeppelin": {
+        "path": "./assets/worldScripts/Zeppelin.js"
       }
     },
     "localScripts": {
@@ -61,6 +64,10 @@
       },
       "spiral_spawn": {
         "path": "./assets/models/Spirale_spawn.glb",
+        "anchor": "center_min"
+      },
+      "zeppelin": {
+        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
         "anchor": "center_min"
       }
     }
