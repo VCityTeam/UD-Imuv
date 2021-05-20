@@ -51,16 +51,18 @@ export class GOEditorView {
 
     //THREE
 
-    //camera
-
-    this.camera = new THREE.OrthographicCamera(0, 0, 0, 0, -3000, 3000);
-    this.camera.up.set(0, 0, 1);
-
+    
     //renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
     });
+
+    //camera
+    this.camera = new THREE.OrthographicCamera(0, 0, 0, 0, -3000, 3000);
+    this.camera.up.set(0, 0, 1);
+
+
     THREEUtils.initRenderer(
       this.renderer,
       new THREE.Color(0.4, 0.6, 0.8),
@@ -206,14 +208,16 @@ export class GOEditorView {
     //slider
     this.opacitySlider.oninput = function (event) {
       if (!_this.model) return;
+      
 
       const ratio = parseFloat(event.target.value) / 100;
       const o = _this.model.getGameObject().fetchObject3D();
       if (!o) return;
+
       o.traverse(function (child) {
         if (child.material) {
-          child.material.transparent = true;
           child.material.opacity = ratio;
+          child.material.transparent = true;
         }
       });
     };

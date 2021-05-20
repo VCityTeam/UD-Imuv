@@ -24,6 +24,7 @@ export class ColliderModel {
 
     //shape to draw on texture in addition
     this.currentShape = null;
+
   }
 
   init() {
@@ -146,7 +147,7 @@ export class ColliderModel {
     this.plan = new THREE.Mesh(planGeometry, new THREE.MeshBasicMaterial());
     this.plan.position.copy(center);
     this.getScene().add(this.plan);
-    this.plan.renderOrder = -1; //on top of gameobject object3D
+    this.plan.renderOrder = 1; //on top of gameobject object3D
 
     this.initCollider();
     this.updatePlanTexture();
@@ -178,9 +179,8 @@ export class ColliderModel {
     if (this.currentShape)
       this.currentShape.draw(ctx, CANVAS_TEXTURE_SIZE, 'green', bb);
 
-    const textureShape = this.loader.load(
-      this.canvasTexture.toDataURL('image/png')
-    );
+    const url = this.canvasTexture.toDataURL('image/png');
+    const textureShape = this.loader.load(url);
     textureShape.flipY = false;
     textureShape.flipX = true;
     textureShape.magFilter = THREE.NearestFilter;
@@ -188,9 +188,9 @@ export class ColliderModel {
     this.plan.material = new THREE.MeshBasicMaterial({
       side: THREE.DoubleSide,
       color: 'white',
-      // transparent: true,
-      // opacity: 0.5,
-      map: textureShape,
+      transparent: true,
+      opacity: .5,
+      map: textureShape
     });
   }
 }
