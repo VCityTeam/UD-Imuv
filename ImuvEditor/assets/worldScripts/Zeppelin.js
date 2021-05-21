@@ -17,10 +17,6 @@ module.exports = class Zeppelin {
       98,
       111.3931481757054
     );
-    const position = this.computePosition(
-      0,
-      new gCtx.UDVShared.THREE.Vector3()
-    );
   }
 
   computePosition(t, result) {
