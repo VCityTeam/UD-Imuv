@@ -15,7 +15,7 @@ module.exports = class Zeppelin {
     this.centerCircle = new gCtx.UDVShared.THREE.Vector3(
       75,
       98,
-      111.3931481757054
+      131.3931481757054
     );
   }
 
