@@ -169,15 +169,17 @@ export class ColliderModel {
     this.canvasTexture.width = CANVAS_TEXTURE_SIZE;
     this.canvasTexture.height = CANVAS_TEXTURE_SIZE;
     const ctx = this.canvasTexture.getContext('2d');
-    ctx.clearRect(0, 0, CANVAS_TEXTURE_SIZE, CANVAS_TEXTURE_SIZE);
+    //draw a white background
+    ctx.fillStyle = 'rgba(255, 255, 255, .1)';
+    ctx.fillRect(0, 0, CANVAS_TEXTURE_SIZE, CANVAS_TEXTURE_SIZE);
 
     const bb = this.computeOffsetBB();
 
     this.shapes.forEach(function (s) {
-      s.draw(ctx, CANVAS_TEXTURE_SIZE, 'red', bb);
+      s.draw(ctx, CANVAS_TEXTURE_SIZE, 'rgba(255, 0, 0, .8)', bb);
     });
     if (this.currentShape)
-      this.currentShape.draw(ctx, CANVAS_TEXTURE_SIZE, 'green', bb);
+      this.currentShape.draw(ctx, CANVAS_TEXTURE_SIZE, 'rgba(0, 255, 0, .5)', bb);
 
     const textureShape = this.loader.load(
       this.canvasTexture.toDataURL('image/png')
@@ -191,7 +193,6 @@ export class ColliderModel {
       side: THREE.DoubleSide,
       color: 'white',
       transparent: true,
-      opacity: .5,
       map: textureShape
     });
   }
