@@ -1,6 +1,6 @@
 /** @format */
 
-import { Game } from 'ud-viz';
+import { Game, THREE } from 'ud-viz';
 import { Routine } from 'ud-viz/src/Game/Components/Cameraman';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 
@@ -62,8 +62,21 @@ export class GameApp {
       let currentTime = 0;
       cameraman.setFilmingTarget(false);
       const camera = cameraman.getCamera();
-      const startPos = camera.position.clone();
-      const startQuat = camera.quaternion.clone();
+      const startPos = new THREE.Vector3(
+        1843660.0895859331,
+        5174613.11242678,
+        385.8525534292738
+      );
+      const startQuat = new THREE.Quaternion(
+        0.027576004167469807,
+        0.6755682684405119,
+        0.736168525226603,
+        0.030049644525890727
+      );
+
+      camera.position.copy(startPos);
+      camera.quaternion.copy(startQuat);
+      camera.updateProjectionMatrix();
 
       //first travelling
       cameraman.addRoutine(
@@ -94,11 +107,13 @@ export class GameApp {
 
     this.gameView.load().then(onLoad);
 
+    //INIT UI
     const menuAvatarButton = document.createElement('div');
     menuAvatarButton.classList.add('button_GameApp');
     menuAvatarButton.innerHTML = 'Menu Avatar';
     this.gameView.appendToUI(menuAvatarButton);
 
+    //INIT CALLBACKS
     menuAvatarButton.onclick = function () {
       const menuAvatar = new MenuAvatarView(
         _this.webSocketService,

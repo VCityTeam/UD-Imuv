@@ -4,6 +4,9 @@
       "avatar": {
         "path": "../ImuvEditor/assets/worldScripts/Avatar.js"
       },
+      "zeppelin": {
+        "path": "../ImuvEditor/assets/worldScripts/Zeppelin.js"
+      },
       "map": {
         "path": "../ImuvEditor/assets/worldScripts/Map.js"
       },
@@ -26,6 +29,9 @@
       },
       "avatar": {
         "path": "../ImuvEditor/assets/prefabs/Avatar.json"
+      },
+      "room_conf_modulable": {
+        "path": "../ImuvEditor/assets/prefabs/Room_Conf_Modulable.json"
       }
     }
   },

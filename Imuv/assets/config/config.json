@@ -6,9 +6,16 @@
     "localScripts": {
       "video": {
         "path": "./assets/localScripts/Video.js"
+      },
+      "rotate": {
+        "path": "./assets/localScripts/Rotate.js"
       }
     },
     "models": {
+      "zeppelin": {
+        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
+        "anchor": "center_min"
+      },
       "avatar": {
         "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"

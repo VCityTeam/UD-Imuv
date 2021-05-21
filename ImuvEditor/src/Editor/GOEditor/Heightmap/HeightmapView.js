@@ -111,7 +111,8 @@ export class HeightMapView {
     this.sliderPlanBottom.oninput = function (event) {
       let ratio = parseFloat(event.target.value) / 100;
       const bbox = _this.model.getBoundingBox();
-      const z = bbox.min.z * (1 - ratio) + bbox.max.z * ratio;
+      const min = bbox.min.z - 0.1; //to detect out
+      const z = min * (1 - ratio) + bbox.max.z * ratio;
       _this.model.movePlanBottom(z);
       _this.updateLabelDepthResolution();
     };

@@ -308,7 +308,7 @@
               "path": "./assets/videos/Turn_around_avril2021.webm",
               "width": 3,
               "height": 1.7,
-              "size": { "width": 1920, "height": 1080 }
+              "size": { "width": 1280, "height": 720 }
             }
           },
           "type": "Render",
