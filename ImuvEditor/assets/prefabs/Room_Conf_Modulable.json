@@ -1,5 +1,5 @@
 {
-  "name": "My GameObject",
+  "name": "Room_Conf_Modulable",
   "type": "GameObject",
   "static": true,
   "outdated": false,
@@ -39,7 +39,49 @@
       "type": "WorldScript"
     }
   },
-  "children": [],
+  "children": [
+    {
+      "name": "Frame",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "3017BC9C-EBE7-4122-BB1C-03C0D7044A89",
+      "parentUUID": "CA5D2AB7-9465-4E3B-AED9-D07B62AEA371",
+      "components": {
+        "LocalScript": {
+          "uuid": "FF6AAF36-AF31-4267-929D-31B81CB5A151",
+          "idScripts": ["video"],
+          "conf": {},
+          "type": "LocalScript"
+        },
+        "Render": {
+          "uuid": "BB76CBB7-452C-43C5-B6D1-00A9B303BCB5",
+          "name": null,
+          "media": {
+            "video": {
+              "path": "./assets/videos/Turn_around_avril2021.webm",
+              "width": 10,
+              "height": 5.5,
+              "size": { "width": 1280, "height": 720 }
+            }
+          },
+          "type": "Render",
+          "idModel": null,
+          "color": [1, 1, 1]
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 1.1, "y": 8.2, "z": 6.6 },
+        "rotation": {
+          "x": 1.5707963267948966,
+          "y": 1.5707963267948966,
+          "z": 0
+        },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
+  ],
   "transform": {
     "position": { "x": 0, "y": 0, "z": 0 },
     "rotation": { "x": 0, "y": 0, "z": 0 },
