@@ -36,6 +36,7 @@ const WorldThreadModule = class WorldThread {
     );
   }
 
+  //parent thread => child thread
   post(msgType, data) {
     this.worker.postMessage(
       Data.pack({
@@ -45,6 +46,7 @@ const WorldThreadModule = class WorldThread {
     );
   }
 
+  //register callback from child thread => parent thread
   on(msgType, callback) {
     this.callbacks[msgType] = callback;
   }
@@ -98,13 +100,15 @@ WorldThreadModule.routine = function (serverConfig) {
             const uuidDest = args[1];
             const portalUUID = args[2];
 
+            const dataPortalEvent = {
+              avatarUUID: avatarGO.getUUID(),
+              worldUUID: uuidDest,
+              portalUUID: portalUUID,
+            };
+
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
-              data: {
-                avatarUUID: avatarGO.getUUID(),
-                worldUUID: uuidDest,
-                portalUUID: portalUUID,
-              },
+              data: dataPortalEvent,
             };
             parentPort.postMessage(Data.pack(message));
           });

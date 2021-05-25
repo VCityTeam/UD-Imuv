@@ -197,11 +197,13 @@ module.exports = class Avatar {
     const gCtx = arguments[2];
 
     const colliderGO = result.b.getGameObject();
-
     const collider = colliderGO.getComponent('Collider');
 
+    //check if this is a portal
     const scriptPortal = colliderGO.getWorldScripts()['portal'];
-    if (scriptPortal) scriptPortal.onAvatar(go, gCtx.world);
+    if (scriptPortal) {
+      scriptPortal.onAvatar(go, gCtx.world);
+    }
 
     if (collider.isBody()) {
       go.transform.position.x -= result.overlap * result.overlap_x;

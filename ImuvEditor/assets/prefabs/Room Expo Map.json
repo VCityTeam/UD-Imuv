@@ -3,11 +3,11 @@
   "type": "GameObject",
   "static": true,
   "outdated": false,
-  "uuid": "B61DBD98-33F6-42FE-BE5A-F0795F1E6AA8",
+  "uuid": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
   "parentUUID": null,
   "components": {
     "Render": {
-      "uuid": "8A3DEB14-891E-45F9-A4A0-FCFF1D92AB08",
+      "uuid": "AE767B21-FFE1-483C-A4F4-EE4F4BD70FD5",
       "name": null,
       "media": null,
       "type": "Render",
@@ -15,7 +15,7 @@
       "color": [1, 1, 1]
     },
     "WorldScript": {
-      "uuid": "32E7C5F2-269F-47A8-BC69-50840B5965AA",
+      "uuid": "B6696B41-3A93-4009-B69E-AD132DFF958C",
       "idScripts": ["map"],
       "conf": {
         "heightmap_path": "./assets/heightmap/room_expo.png",
@@ -35,7 +35,7 @@
       "type": "WorldScript"
     },
     "Collider": {
-      "uuid": "AC8DF032-02CE-41D9-A3D2-61F9CFF85947",
+      "uuid": "0D27CA19-B702-48C9-A461-F1429D2688C4",
       "type": "Collider",
       "shapes": [
         {
@@ -242,15 +242,15 @@
   },
   "children": [
     {
-      "name": "Portal",
+      "name": "Portal_Campus",
       "type": "GameObject",
       "static": true,
       "outdated": false,
-      "uuid": "08DB39F6-E077-4B0E-8480-C89A16D6369F",
-      "parentUUID": "B61DBD98-33F6-42FE-BE5A-F0795F1E6AA8",
+      "uuid": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
+      "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
       "components": {
         "Render": {
-          "uuid": "081CCCA6-DFE5-4BF2-A753-E9E0B32B6FCB",
+          "uuid": "540A28B2-4AEE-425B-85B1-934BF95DD2ED",
           "name": null,
           "media": null,
           "type": "Render",
@@ -258,7 +258,7 @@
           "color": [1, 1, 1]
         },
         "Collider": {
-          "uuid": "AD0E34B6-BCD0-4F46-91F1-97786A4CB30B",
+          "uuid": "79F67F9B-74D1-42CC-9B3A-4F79ED819643",
           "type": "Collider",
           "shapes": [
             {
@@ -270,18 +270,24 @@
           "body": false
         },
         "WorldScript": {
-          "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
+          "uuid": "75D59547-7E33-4D13-90AE-D83C11461D27",
           "idScripts": ["portal"],
           "conf": {
             "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-            "portalUUID": "01B9EDE2-6465-45FC-BB0C-31236CE095E9"
+            "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663"
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "AA6956CE-E11D-4519-829B-99564C8AB969",
+          "idScripts": ["rotate"],
+          "conf": { "speed": 0.001 },
+          "type": "LocalScript"
         }
       },
       "children": [],
       "transform": {
-        "position": { "x": 19, "y": 15, "z": 5 },
+        "position": { "x": 41, "y": 23, "z": 0.2 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
@@ -291,72 +297,11 @@
       "type": "GameObject",
       "static": true,
       "outdated": false,
-      "uuid": "452DE889-92CD-472E-A590-A9B48D05715C",
-      "parentUUID": "B61DBD98-33F6-42FE-BE5A-F0795F1E6AA8",
-      "components": {
-        "LocalScript": {
-          "uuid": "5726DF5B-61EC-4340-8947-9FFE6405950C",
-          "idScripts": ["video"],
-          "conf": {},
-          "type": "LocalScript"
-        },
-        "Render": {
-          "uuid": "E55B8A5A-0EF3-40ED-BE1F-57286C12CEF3",
-          "name": null,
-          "media": {
-            "video": {
-              "path": "./assets/videos/Turn_around_avril2021.webm",
-              "width": 3,
-              "height": 1.7,
-              "size": { "width": 1280, "height": 720 }
-            }
-          },
-          "type": "Render",
-          "idModel": null,
-          "color": [1, 1, 1]
-        }
-      },
-      "children": [],
-      "transform": {
-        "position": { "x": 22, "y": 18, "z": 8 },
-        "rotation": { "x": 1.6, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
-      }
-    },
-    {
-      "name": "Frame",
-      "type": "GameObject",
-      "static": true,
-      "outdated": false,
-      "uuid": "91AD9DDA-EA07-4D70-A621-BE39DF5BA3B9",
-      "parentUUID": "B61DBD98-33F6-42FE-BE5A-F0795F1E6AA8",
+      "uuid": "6056B5F6-F6B5-4754-8B41-A927D7C0E318",
+      "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
       "components": {
         "Render": {
-          "uuid": "C9EFEE64-3EEE-45C2-A7E6-379509E2D053",
-          "name": null,
-          "media": { "img": { "path": "./assets/img/lyon.jpg" } },
-          "type": "Render",
-          "idModel": null,
-          "color": [1, 1, 1]
-        }
-      },
-      "children": [],
-      "transform": {
-        "position": { "x": 18, "y": 18, "z": 8 },
-        "rotation": { "x": 1.6, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
-      }
-    },
-    {
-      "name": "Frame",
-      "type": "GameObject",
-      "static": true,
-      "outdated": false,
-      "uuid": "ED14586B-C6E4-4BC9-A5F6-ABB0C761B49D",
-      "parentUUID": "B61DBD98-33F6-42FE-BE5A-F0795F1E6AA8",
-      "components": {
-        "Render": {
-          "uuid": "E244865C-0EEE-44C6-B52D-F900FC2B2D38",
+          "uuid": "B64795E4-76DD-4447-B66D-D718DF4D13B0",
           "name": null,
           "media": { "text": { "label": "texte" } },
           "type": "Render",

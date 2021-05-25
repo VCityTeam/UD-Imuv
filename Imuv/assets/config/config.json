@@ -16,7 +16,7 @@
         "path": "./assets/models/Zeppelin_Labex_IMU.glb",
         "anchor": "center_min"
       },
-      "avatar": {
+      "avatar_capuchon": {
         "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
@@ -26,6 +26,10 @@
       },
       "room_expo": {
         "path": "./assets/models/Room_Expo.glb",
+        "anchor": "min"
+      },
+      "room_conf_modulable": {
+        "path": "./assets/models/Room_Conf_Modulable.glb",
         "anchor": "min"
       },
       "spiral_spawn": {

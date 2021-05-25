@@ -3,11 +3,11 @@
   "type": "GameObject",
   "static": true,
   "outdated": false,
-  "uuid": "F551BF3D-5789-4A08-93EF-1DFFDCB04899",
+  "uuid": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
   "parentUUID": null,
   "components": {
     "Render": {
-      "uuid": "8AC37575-F2D4-4906-B512-AC09F56DC7F4",
+      "uuid": "5DAC9A92-E4B0-4EB1-8181-79A326E70D81",
       "name": null,
       "media": null,
       "type": "Render",
@@ -15,7 +15,7 @@
       "color": [1, 1, 1]
     },
     "WorldScript": {
-      "uuid": "3B37FCEC-F920-4B87-A7F5-499FDED44877",
+      "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
       "idScripts": ["map"],
       "conf": {
         "heightmap_path": "./assets/heightmap/flying_campus.png",
@@ -35,7 +35,7 @@
       "type": "WorldScript"
     },
     "Collider": {
-      "uuid": "8F6C47D7-5E12-4F12-A879-3E71240BF9F1",
+      "uuid": "32A32F88-4A4B-42CB-A94C-31765AB85690",
       "type": "Collider",
       "shapes": [
         {
@@ -626,15 +626,117 @@
   },
   "children": [
     {
+      "name": "Portal_Expo",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
+      "parentUUID": null,
+      "components": {
+        "Render": {
+          "uuid": "769C8A89-A5F6-44B9-8F68-F458AEF20BB6",
+          "name": null,
+          "media": null,
+          "type": "Render",
+          "idModel": "spiral_spawn",
+          "color": [1, 1, 1]
+        },
+        "Collider": {
+          "uuid": "3F36190D-098B-41A7-8D48-8FED381AF656",
+          "type": "Collider",
+          "shapes": [
+            {
+              "type": "Circle",
+              "center": { "x": 0, "y": 0 },
+              "radius": 1.689427617937126
+            }
+          ],
+          "body": false
+        },
+        "WorldScript": {
+          "uuid": "BED7C964-45AA-4E10-9489-64BED47D8844",
+          "idScripts": ["portal"],
+          "conf": {
+            "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+            "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC"
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "7148E1C3-819F-4247-A7D2-06909149171F",
+          "idScripts": ["rotate"],
+          "conf": { "speed": 0.001 },
+          "type": "LocalScript"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 55, "y": 162.2, "z": 105 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
+      "name": "Portal_Conf",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "8F9051C7-B2A0-4881-848B-3484A3899AD7",
+      "parentUUID": null,
+      "components": {
+        "Render": {
+          "uuid": "A9F21107-4386-42F2-A05C-18A56EF51FE0",
+          "name": null,
+          "media": null,
+          "type": "Render",
+          "idModel": "spiral_spawn",
+          "color": [1, 1, 1]
+        },
+        "Collider": {
+          "uuid": "777E3379-E07E-41E9-850F-8D72DFD6D2EB",
+          "type": "Collider",
+          "shapes": [
+            {
+              "type": "Circle",
+              "center": { "x": 0, "y": 0 },
+              "radius": 1.689427617937126
+            }
+          ],
+          "body": false
+        },
+        "WorldScript": {
+          "uuid": "318E5A80-C840-410F-B9DC-48B3A351B36E",
+          "idScripts": ["portal"],
+          "conf": {
+            "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+            "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887"
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "DC01AF33-D9D1-43B1-A8A7-75161D858928",
+          "idScripts": ["rotate"],
+          "conf": { "speed": 0.001 },
+          "type": "LocalScript"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 125, "y": 143, "z": 106.1 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
       "name": "Zeppelin",
       "type": "GameObject",
       "static": false,
       "outdated": false,
-      "uuid": "18C43BC9-D445-45DD-9CC2-357A5CF6F389",
-      "parentUUID": "F551BF3D-5789-4A08-93EF-1DFFDCB04899",
+      "uuid": "7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B",
+      "parentUUID": null,
       "components": {
         "Render": {
-          "uuid": "8732545C-3E5D-4A74-8273-66E91F756512",
+          "uuid": "AE118224-36E8-44A4-BEED-697F0FD69BD3",
           "name": null,
           "media": null,
           "type": "Render",
@@ -642,7 +744,7 @@
           "color": [1, 1, 1]
         },
         "WorldScript": {
-          "uuid": "8298A71C-E680-4924-9D0A-2716E42E0540",
+          "uuid": "E355F75E-D0BC-46E5-B789-E34063B5A814",
           "idScripts": ["zeppelin"],
           "conf": { "duration": 1000 },
           "type": "WorldScript"
