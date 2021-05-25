@@ -34,7 +34,8 @@
       },
       "spiral_spawn": {
         "path": "./assets/models/Spirale_spawn.glb",
-        "anchor": "center_min"
+        "anchor": "center_min",
+        "scale": { "x": 0.8, "y": 0.8, "z": 0.8 }
       }
     }
   },
