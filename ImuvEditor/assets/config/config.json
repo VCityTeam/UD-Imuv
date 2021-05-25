@@ -64,6 +64,7 @@
       },
       "spiral_spawn": {
         "path": "./assets/models/Spirale_spawn.glb",
+        "scale": { "x": 0.8, "y": 0.8, "z": 0.8 },
         "anchor": "center_min"
       },
       "zeppelin": {

@@ -147,7 +147,7 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 2, "y": 14.3, "z": 0.2 },
+        "position": { "x": 6.3, "y": 2.2, "z": 0.1 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
@@ -171,10 +171,10 @@
           "name": null,
           "media": {
             "video": {
-              "path": "./assets/videos/Turn_around_avril2021.webm",
+              "path": "./assets/videos/final_IMU_sept2019.webm",
               "width": 10,
               "height": 6,
-              "size": { "width": 1280, "height": 720 }
+              "size": { "width": 853, "height": 480 }
             }
           },
           "type": "Render",

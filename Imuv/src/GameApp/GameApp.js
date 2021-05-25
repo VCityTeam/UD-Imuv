@@ -65,7 +65,7 @@ export class GameApp {
       const startPos = new THREE.Vector3(
         1843660.0895859331,
         5174613.11242678,
-        385.8525534292738
+        485.8525534292738
       );
       const startQuat = new THREE.Quaternion(
         0.027576004167469807,

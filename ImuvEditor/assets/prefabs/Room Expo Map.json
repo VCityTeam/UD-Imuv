@@ -287,7 +287,7 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 41, "y": 23, "z": 0.2 },
+        "position": { "x": 41, "y": 24, "z": 0.2 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
