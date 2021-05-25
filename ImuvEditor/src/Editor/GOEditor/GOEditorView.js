@@ -18,6 +18,7 @@ import { GOEditorModel } from './GOEditorModel';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { THREEUtils } from 'ud-viz/src/Game/Components/THREEUtils';
+import { MeshEditorView } from './MeshEditor/MeshEditorView';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 const LOCAL_STORAGE_FLAG_PREFABS = 'GOEditor_bufferPrefabs';
@@ -99,6 +100,7 @@ export class GOEditorView {
     this.addColliderButton = null; //add collider json in current go
     this.addRenderButton = null; //add render json in current go
     this.addScriptButton = null; //add Script json in current go
+    this.editMeshesButton = null; //edit Meshes Selected
   }
 
   setPause(value) {
@@ -402,6 +404,35 @@ export class GOEditorView {
       // _this.focusGameObject();
     };
 
+    let mView;
+    this.editMeshesButton.onclick = function() {
+      if (mView) return;
+
+      const go = _this.model.getGameObject();
+
+      if (!go) return;
+
+      //add view
+      const wrapper = document.createElement('div');
+
+      mView = new MeshEditorView(_this);
+
+      const deleteButton = document.createElement('div');
+      deleteButton.classList.add('button_Editor');
+      deleteButton.innerHTML = 'close';
+      wrapper.appendChild(deleteButton);
+
+      wrapper.appendChild(mView.html());
+
+      _this.ui.appendChild(wrapper);
+
+      deleteButton.onclick = function () {
+        wrapper.remove();
+        mView.dispose();
+        mView = null;
+      };
+    };
+
     this.jsonEditorView.onChange(this.jsonOnChange.bind(this));
   }
 
@@ -552,6 +583,13 @@ export class GOEditorView {
     addScriptButton.innerHTML = 'Add World Script Component';
     this.ui.appendChild(addScriptButton);
     this.addScriptButton = addScriptButton;
+
+    //Edit Mesh
+    const editMeshesButton = document.createElement('div');
+    editMeshesButton.classList.add('button_Editor');
+    editMeshesButton.innerHTML = 'Edit Meshes';
+    this.ui.appendChild(editMeshesButton);
+    this.editMeshesButton = editMeshesButton;
 
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());
