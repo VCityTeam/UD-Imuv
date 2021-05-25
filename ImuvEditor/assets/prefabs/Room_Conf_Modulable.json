@@ -3,11 +3,11 @@
   "type": "GameObject",
   "static": true,
   "outdated": false,
-  "uuid": "CA5D2AB7-9465-4E3B-AED9-D07B62AEA371",
+  "uuid": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
   "parentUUID": null,
   "components": {
     "Render": {
-      "uuid": "A08C300B-F9FC-458B-B47F-475A03F96A53",
+      "uuid": "AA121FEF-68ED-4401-9759-C745AC32CE12",
       "name": null,
       "media": null,
       "type": "Render",
@@ -15,7 +15,7 @@
       "color": [1, 1, 1]
     },
     "WorldScript": {
-      "uuid": "B1A58399-B678-478E-A979-0282AE610BDB",
+      "uuid": "B7AD0A8B-6D3A-41AE-B260-583C25D46180",
       "idScripts": ["map"],
       "conf": {
         "heightmap_path": "./assets/heightmap/room_conf_modulable.png",
@@ -39,7 +39,7 @@
       "type": "WorldScript"
     },
     "Collider": {
-      "uuid": "B902029B-D9E0-41D5-9839-F0E24339FD95",
+      "uuid": "2F7812A4-7CA5-499A-94B8-B814376F4712",
       "type": "Collider",
       "shapes": [
         {
@@ -102,27 +102,78 @@
   },
   "children": [
     {
+      "name": "Portal_Campus",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
+      "parentUUID": null,
+      "components": {
+        "Render": {
+          "uuid": "EFC4BFEE-FBF4-4514-9E30-42B5DF6F8A4E",
+          "name": null,
+          "media": null,
+          "type": "Render",
+          "idModel": "spiral_spawn",
+          "color": [1, 1, 1]
+        },
+        "Collider": {
+          "uuid": "A95047D6-FCCF-4F48-89BB-0F3A95725F38",
+          "type": "Collider",
+          "shapes": [
+            {
+              "type": "Circle",
+              "center": { "x": 0, "y": 0 },
+              "radius": 1.689427617937126
+            }
+          ],
+          "body": false
+        },
+        "WorldScript": {
+          "uuid": "3F8CB51D-6FF0-4512-9E70-E720A77C6861",
+          "idScripts": ["portal"],
+          "conf": {
+            "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+            "portalUUID": "8F9051C7-B2A0-4881-848B-3484A3899AD7"
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "12C4C448-5065-4D81-A66D-AE3AB6E7CB60",
+          "idScripts": ["rotate"],
+          "conf": { "speed": 0.001 },
+          "type": "LocalScript"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 2, "y": 14.3, "z": 0.2 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
       "name": "Frame",
       "type": "GameObject",
       "static": true,
       "outdated": false,
-      "uuid": "3017BC9C-EBE7-4122-BB1C-03C0D7044A89",
-      "parentUUID": "CA5D2AB7-9465-4E3B-AED9-D07B62AEA371",
+      "uuid": "8B1F4A9C-D358-4295-B355-6D93315D229F",
+      "parentUUID": null,
       "components": {
         "LocalScript": {
-          "uuid": "FF6AAF36-AF31-4267-929D-31B81CB5A151",
+          "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
           "idScripts": ["video"],
           "conf": {},
           "type": "LocalScript"
         },
         "Render": {
-          "uuid": "BB76CBB7-452C-43C5-B6D1-00A9B303BCB5",
+          "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
           "name": null,
           "media": {
             "video": {
               "path": "./assets/videos/Turn_around_avril2021.webm",
               "width": 10,
-              "height": 5.5,
+              "height": 6,
               "size": { "width": 1280, "height": 720 }
             }
           },

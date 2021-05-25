@@ -89,10 +89,12 @@ const ServerModule = class Server {
 
       //avatar portal
       thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
-        const avatarUUID = data.avatarUUID;
-        const worldUUID = data.worldUUID;
-        const portalUUID = data.portalUUID;
-        _this.placeAvatarInWorld(avatarUUID, worldUUID, portalUUID);
+
+        _this.placeAvatarInWorld(
+          data.avatarUUID,
+          data.worldUUID,
+          data.portalUUID
+        );
       });
     });
   }
@@ -118,7 +120,12 @@ const ServerModule = class Server {
 
     const thread = this.worldToThread[worldUUID];
 
-    if (!thread) throw new Error('no thread with world uuid ', worldUUID);
+    if (!thread)
+      throw new Error(
+        'no thread with world uuid ',
+        worldUUID,
+        this.worldToThread
+      );
 
     user.initThread(thread);
 
@@ -213,8 +220,9 @@ const ServerModule = class Server {
 
             //TODO password is sent via websocket wss not sure if this is safe
             //extra info on users are stocked here
-            const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
+            let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
             avatarJSON.components.Render.name = nameUser; //TODO not very clean
+            avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
 
             usersJSON[uuid] = {
               uuid: uuid,

@@ -18,6 +18,7 @@ import { GOEditorModel } from './GOEditorModel';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { THREEUtils } from 'ud-viz/src/Game/Components/THREEUtils';
+import JSONUtils from 'ud-viz/src/Components/SystemUtils/JSONUtils';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 const LOCAL_STORAGE_FLAG_PREFABS = 'GOEditor_bufferPrefabs';
@@ -99,6 +100,7 @@ export class GOEditorView {
     this.addColliderButton = null; //add collider json in current go
     this.addRenderButton = null; //add render json in current go
     this.addScriptButton = null; //add Script json in current go
+    this.generateUUIDButton = null; //regenerate all uuid in the go
   }
 
   setPause(value) {
@@ -122,20 +124,22 @@ export class GOEditorView {
   }
 
   focusGameObject() {
-    this.alignViewToAxis(new THREE.Vector3(0,0,1));
+    this.alignViewToAxis(new THREE.Vector3(0, 0, 1));
   }
 
-  alignViewToAxis(axis)
-  {
+  alignViewToAxis(axis) {
     const bbox = this.model.getBoundingBox();
     if (!bbox) return;
 
     //set target
     const center = bbox.max.clone().lerp(bbox.min, 0.5);
     this.controls.target = center.clone();
-    
-    const vectorOne = new THREE.Vector3(1,1,1);    
-    const cameraPos = axis.clone().multiply(bbox.max.clone()).add(vectorOne.sub(axis.clone()).multiply(center.clone()));
+
+    const vectorOne = new THREE.Vector3(1, 1, 1);
+    const cameraPos = axis
+      .clone()
+      .multiply(bbox.max.clone())
+      .add(vectorOne.sub(axis.clone()).multiply(center.clone()));
     this.camera.position.copy(cameraPos);
 
     this.updateCamera();
@@ -263,12 +267,30 @@ export class GOEditorView {
 
     this.focusGOButton.onclick = this.focusGameObject.bind(this);
 
-    this.focusTopGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,0,1));
-    this.focusBotGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,0,-1));
-    this.focusRightGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(-1,0,0));
-    this.focusLeftGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(1,0,0));
-    this.focusBackGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,-1,0));
-    this.focusForwardGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,1,0));
+    this.focusTopGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, 0, 1)
+    );
+    this.focusBotGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, 0, -1)
+    );
+    this.focusRightGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(-1, 0, 0)
+    );
+    this.focusLeftGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(1, 0, 0)
+    );
+    this.focusBackGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, -1, 0)
+    );
+    this.focusForwardGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, 1, 0)
+    );
 
     this.newGOButton.onclick = function () {
       const emptyGOJSON = {
@@ -400,6 +422,21 @@ export class GOEditorView {
 
       _this.jsonEditorView.onJSON(go.toJSON(true));
       // _this.focusGameObject();
+    };
+
+    this.generateUUIDButton.onclick = function () {
+      const go = _this.model.getGameObject();
+
+      if (!go) return;
+
+      const json = go.toJSON(true);
+      JSONUtils.parse(json, function (j, key) {
+        if (key == 'uuid') {
+          j[key] = THREE.MathUtils.generateUUID();
+        }
+      });
+
+      _this.jsonEditorView.onJSON(json);
     };
 
     this.jsonEditorView.onChange(this.jsonOnChange.bind(this));
@@ -552,6 +589,13 @@ export class GOEditorView {
     addScriptButton.innerHTML = 'Add World Script Component';
     this.ui.appendChild(addScriptButton);
     this.addScriptButton = addScriptButton;
+
+    //uuid
+    const generateUUIDButton = document.createElement('div');
+    generateUUIDButton.classList.add('button_Editor');
+    generateUUIDButton.innerHTML = 'Generate uuid in gameobject';
+    this.ui.appendChild(generateUUIDButton);
+    this.generateUUIDButton = generateUUIDButton;
 
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());

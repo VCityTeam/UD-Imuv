@@ -84,6 +84,9 @@ export class GameApp {
           function (dt) {
             const t = cameraman.computeTransformTarget();
 
+            //no avatar yet
+            if (!t) return false;
+
             currentTime += dt;
             const ratio = Math.min(Math.max(0, currentTime / duration), 1);
 
