@@ -88,6 +88,12 @@ export class GOEditorView {
     this.inputTag = null; //trigger name of meshes
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
+    this.focusTopGOButton = null; //camera focus current go if render comp
+    this.focusBotGOButton = null; //camera focus current go if render comp
+    this.focusRightGOButton = null; //camera focus current go if render comp
+    this.focusLeftGOButton = null; //camera focus current go if render comp
+    this.focusBackButton = null; //camera focus current go if render comp
+    this.focusForwardGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
     this.addHeightmapButton = null; //add heightmap json in current go
     this.addColliderButton = null; //add collider json in current go
@@ -116,13 +122,20 @@ export class GOEditorView {
   }
 
   focusGameObject() {
+    this.alignViewToAxis(new THREE.Vector3(0,0,1));
+  }
+
+  alignViewToAxis(axis)
+  {
     const bbox = this.model.getBoundingBox();
     if (!bbox) return;
 
     //set target
     const center = bbox.max.clone().lerp(bbox.min, 0.5);
     this.controls.target = center.clone();
-    const cameraPos = new THREE.Vector3(center.x, center.y, bbox.max.z);
+    
+    const vectorOne = new THREE.Vector3(1,1,1);    
+    const cameraPos = axis.clone().multiply(bbox.max.clone()).add(vectorOne.sub(axis.clone()).multiply(center.clone()));
     this.camera.position.copy(cameraPos);
 
     this.updateCamera();
@@ -249,6 +262,13 @@ export class GOEditorView {
     };
 
     this.focusGOButton.onclick = this.focusGameObject.bind(this);
+
+    this.focusTopGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,0,1));
+    this.focusBotGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,0,-1));
+    this.focusRightGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(-1,0,0));
+    this.focusLeftGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(1,0,0));
+    this.focusBackGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,-1,0));
+    this.focusForwardGOButton.onclick = this.alignViewToAxis.bind(this,new THREE.Vector3(0,1,0));
 
     this.newGOButton.onclick = function () {
       const emptyGOJSON = {
@@ -421,6 +441,42 @@ export class GOEditorView {
     focusGOButton.innerHTML = 'Focus';
     this.ui.appendChild(focusGOButton);
     this.focusGOButton = focusGOButton;
+
+    const focusTopGOButton = document.createElement('div');
+    focusTopGOButton.classList.add('button_Editor');
+    focusTopGOButton.innerHTML = 'Top';
+    this.ui.appendChild(focusTopGOButton);
+    this.focusTopGOButton = focusTopGOButton;
+
+    const focusBotGOButton = document.createElement('div');
+    focusBotGOButton.classList.add('button_Editor');
+    focusBotGOButton.innerHTML = 'Bot';
+    this.ui.appendChild(focusBotGOButton);
+    this.focusBotGOButton = focusBotGOButton;
+
+    const focusRightGOButton = document.createElement('div');
+    focusRightGOButton.classList.add('button_Editor');
+    focusRightGOButton.innerHTML = 'Right';
+    this.ui.appendChild(focusRightGOButton);
+    this.focusRightGOButton = focusRightGOButton;
+
+    const focusLeftGOButton = document.createElement('div');
+    focusLeftGOButton.classList.add('button_Editor');
+    focusLeftGOButton.innerHTML = 'Left';
+    this.ui.appendChild(focusLeftGOButton);
+    this.focusLeftGOButton = focusLeftGOButton;
+
+    const focusBackGOButton = document.createElement('div');
+    focusBackGOButton.classList.add('button_Editor');
+    focusBackGOButton.innerHTML = 'Back';
+    this.ui.appendChild(focusBackGOButton);
+    this.focusBackGOButton = focusBackGOButton;
+
+    const focusForwardGOButton = document.createElement('div');
+    focusForwardGOButton.classList.add('button_Editor');
+    focusForwardGOButton.innerHTML = 'Forward';
+    this.ui.appendChild(focusForwardGOButton);
+    this.focusForwardGOButton = focusForwardGOButton;
 
     //opacity object slider label
     const labelOpacity = document.createElement('div');
