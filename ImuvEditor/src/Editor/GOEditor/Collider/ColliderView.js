@@ -19,7 +19,7 @@ export class ColliderView {
     //Collider model
     if (!goView.model) throw new Error('no model');
     this.model = new ColliderModel(goView.model);
-
+    
     //raycaster
     this.raycaster = new THREE.Raycaster();
 
@@ -179,6 +179,7 @@ export class ColliderView {
 
   dispose() {
     this.rootHtml.parentElement.removeChild(this.rootHtml);
+    this.model.dispose()
   }
 
   initCallbacks() {

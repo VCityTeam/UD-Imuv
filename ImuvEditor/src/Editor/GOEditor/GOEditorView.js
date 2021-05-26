@@ -1,5 +1,11 @@
 /** @format */
-import { THREE, OrbitControls, Game, Components } from 'ud-viz';
+import {
+  THREE,
+  OrbitControls,
+  PointerLockControls,
+  Game,
+  Components,
+} from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
 import { ColliderView } from './Collider/ColliderView';
@@ -10,8 +16,9 @@ import './GOEditor.css';
 import '../Editor.css';
 import { GOEditorModel } from './GOEditorModel';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
-import ScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/Script';
+import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { THREEUtils } from 'ud-viz/src/Game/Components/THREEUtils';
+import JSONUtils from 'ud-viz/src/Components/SystemUtils/JSONUtils';
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 const LOCAL_STORAGE_FLAG_PREFABS = 'GOEditor_bufferPrefabs';
@@ -55,7 +62,11 @@ export class GOEditorView {
       canvas: canvas,
       antialias: true,
     });
-    THREEUtils.initRenderer(this.renderer, new THREE.Color(0.4, 0.6, 0.8));
+    THREEUtils.initRenderer(
+      this.renderer,
+      new THREE.Color(0.4, 0.6, 0.8),
+      true
+    );
 
     //controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -74,17 +85,22 @@ export class GOEditorView {
     this.prefabsList = null; //list prefabs openend
     this.opacitySlider = null; //set opacity go material
     this.checkboxGizmo = null; //display or not gizmo
+    this.switchControls = null; //switch controls
     this.inputTag = null; //trigger name of meshes
-    this.makeVisibleButton = null; //make the triggered meshes visible
-    this.makeInvisibleButton = null; //make the triggered meshes invisible
-    this.resetVisibility = null; //all meshes are visible
     this.saveGOButton = null; //save the current go as json
     this.focusGOButton = null; //camera focus current go if render comp
+    this.focusTopGOButton = null; //camera focus current go if render comp
+    this.focusBotGOButton = null; //camera focus current go if render comp
+    this.focusRightGOButton = null; //camera focus current go if render comp
+    this.focusLeftGOButton = null; //camera focus current go if render comp
+    this.focusBackButton = null; //camera focus current go if render comp
+    this.focusForwardGOButton = null; //camera focus current go if render comp
     this.newGOButton = null; //reset scene with new go
     this.addHeightmapButton = null; //add heightmap json in current go
     this.addColliderButton = null; //add collider json in current go
     this.addRenderButton = null; //add render json in current go
     this.addScriptButton = null; //add Script json in current go
+    this.generateUUIDButton = null; //regenerate all uuid in the go
   }
 
   setPause(value) {
@@ -108,13 +124,22 @@ export class GOEditorView {
   }
 
   focusGameObject() {
+    this.alignViewToAxis(new THREE.Vector3(0, 0, 1));
+  }
+
+  alignViewToAxis(axis) {
     const bbox = this.model.getBoundingBox();
     if (!bbox) return;
 
     //set target
     const center = bbox.max.clone().lerp(bbox.min, 0.5);
     this.controls.target = center.clone();
-    const cameraPos = new THREE.Vector3(center.x, center.y, bbox.max.z);
+
+    const vectorOne = new THREE.Vector3(1, 1, 1);
+    const cameraPos = axis
+      .clone()
+      .multiply(bbox.max.clone())
+      .add(vectorOne.sub(axis.clone()).multiply(center.clone()));
     this.camera.position.copy(cameraPos);
 
     this.updateCamera();
@@ -124,7 +149,9 @@ export class GOEditorView {
     requestAnimationFrame(this.tick.bind(this));
 
     if (this.pause || !this.model) return;
-    this.controls.update();
+
+    if (this.controls.update) this.controls.update();
+
     this.renderer.render(this.model.getScene(), this.camera);
   }
 
@@ -168,6 +195,24 @@ export class GOEditorView {
       false
     );
 
+    this.switchControls.onclick = function () {
+      _this.controls.dispose();
+      if (_this.controls instanceof OrbitControls) {
+        console.log('PointerLockControls');
+        _this.renderer.domElement.requestPointerLock();
+        _this.controls = new PointerLockControls(
+          _this.camera,
+          _this.renderer.domElement
+        );
+      } else {
+        console.log('OrbitControls');
+        _this.controls = new OrbitControls(
+          _this.camera,
+          _this.renderer.domElement
+        );
+      }
+    };
+
     //checkbox
     this.checkboxGizmo.oninput = function (event) {
       if (!_this.model) return;
@@ -199,24 +244,18 @@ export class GOEditorView {
           const name = child.name.toLowerCase();
           const tag = text.toLowerCase();
 
-          console.log(name);
+          // console.log(name);
 
-          if (name.includes(tag)) child.visible = visible;
+          if (tag != '' && name.includes(tag)) {
+            child.visible = visible;
+          } else {
+            child.visible = !visible;
+          }
         });
       }
     };
 
-    this.makeVisibleButton.onclick = applyVisibility.bind(this, true);
-    this.makeInvisibleButton.onclick = applyVisibility.bind(this, false);
-    this.resetVisibility.onclick = function () {
-      if (_this.model && _this.model.getGameObject()) {
-        const object3D = _this.model.getGameObject().fetchObject3D();
-        if (!object3D) return;
-        object3D.traverse(function (child) {
-          child.visible = true;
-        });
-      }
-    };
+    this.inputTag.onchange = applyVisibility.bind(this, false);
 
     this.saveGOButton.onclick = function () {
       if (_this.model && _this.model.getGameObject()) {
@@ -227,6 +266,31 @@ export class GOEditorView {
     };
 
     this.focusGOButton.onclick = this.focusGameObject.bind(this);
+
+    this.focusTopGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, 0, 1)
+    );
+    this.focusBotGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, 0, -1)
+    );
+    this.focusRightGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(-1, 0, 0)
+    );
+    this.focusLeftGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(1, 0, 0)
+    );
+    this.focusBackGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, -1, 0)
+    );
+    this.focusForwardGOButton.onclick = this.alignViewToAxis.bind(
+      this,
+      new THREE.Vector3(0, 1, 0)
+    );
 
     this.newGOButton.onclick = function () {
       const emptyGOJSON = {
@@ -350,14 +414,29 @@ export class GOEditorView {
 
       if (!go) return;
 
-      const r = go.getComponent(ScriptModule.TYPE);
+      const r = go.getComponent(WorldScriptModule.TYPE);
 
       if (r) return;
 
-      go.setComponent(ScriptModule.TYPE, new ScriptModule(go, {}));
+      go.setComponent(WorldScriptModule.TYPE, new WorldScriptModule(go, {}));
 
       _this.jsonEditorView.onJSON(go.toJSON(true));
       // _this.focusGameObject();
+    };
+
+    this.generateUUIDButton.onclick = function () {
+      const go = _this.model.getGameObject();
+
+      if (!go) return;
+
+      const json = go.toJSON(true);
+      JSONUtils.parse(json, function (j, key) {
+        if (key == 'uuid') {
+          j[key] = THREE.MathUtils.generateUUID();
+        }
+      });
+
+      _this.jsonEditorView.onJSON(json);
     };
 
     this.jsonEditorView.onChange(this.jsonOnChange.bind(this));
@@ -370,6 +449,7 @@ export class GOEditorView {
       const newString = this.jsonEditorView.computeCurrentString();
       localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, newString);
       this.onGameObjectJSON(JSON.parse(newString));
+      this.inputTag.onchange(); //rest visibility
     } catch (e) {
       console.error(e);
       localStorage.setItem(LOCAL_STORAGE_FLAG_JSON, old);
@@ -399,6 +479,42 @@ export class GOEditorView {
     this.ui.appendChild(focusGOButton);
     this.focusGOButton = focusGOButton;
 
+    const focusTopGOButton = document.createElement('div');
+    focusTopGOButton.classList.add('button_Editor');
+    focusTopGOButton.innerHTML = 'Top';
+    this.ui.appendChild(focusTopGOButton);
+    this.focusTopGOButton = focusTopGOButton;
+
+    const focusBotGOButton = document.createElement('div');
+    focusBotGOButton.classList.add('button_Editor');
+    focusBotGOButton.innerHTML = 'Bot';
+    this.ui.appendChild(focusBotGOButton);
+    this.focusBotGOButton = focusBotGOButton;
+
+    const focusRightGOButton = document.createElement('div');
+    focusRightGOButton.classList.add('button_Editor');
+    focusRightGOButton.innerHTML = 'Right';
+    this.ui.appendChild(focusRightGOButton);
+    this.focusRightGOButton = focusRightGOButton;
+
+    const focusLeftGOButton = document.createElement('div');
+    focusLeftGOButton.classList.add('button_Editor');
+    focusLeftGOButton.innerHTML = 'Left';
+    this.ui.appendChild(focusLeftGOButton);
+    this.focusLeftGOButton = focusLeftGOButton;
+
+    const focusBackGOButton = document.createElement('div');
+    focusBackGOButton.classList.add('button_Editor');
+    focusBackGOButton.innerHTML = 'Back';
+    this.ui.appendChild(focusBackGOButton);
+    this.focusBackGOButton = focusBackGOButton;
+
+    const focusForwardGOButton = document.createElement('div');
+    focusForwardGOButton.classList.add('button_Editor');
+    focusForwardGOButton.innerHTML = 'Forward';
+    this.ui.appendChild(focusForwardGOButton);
+    this.focusForwardGOButton = focusForwardGOButton;
+
     //opacity object slider label
     const labelOpacity = document.createElement('div');
     labelOpacity.innerHTML = 'GameObject opacity';
@@ -422,28 +538,22 @@ export class GOEditorView {
     this.ui.appendChild(checkboxGizmo);
     this.checkboxGizmo = checkboxGizmo;
 
+    //switch controls
+    const switchControls = document.createElement('div');
+    switchControls.classList.add('button_Editor');
+    switchControls.innerHTML = 'Switch Controls';
+    this.ui.appendChild(switchControls);
+    this.switchControls = switchControls;
+
+    //label checkbox
+    const objectVisibilityLabel = document.createElement('div');
+    objectVisibilityLabel.innerHTML = 'Object Tag Visibility';
+    this.ui.appendChild(objectVisibilityLabel);
+
     const inputTag = document.createElement('input');
     inputTag.type = 'text';
     this.ui.appendChild(inputTag);
     this.inputTag = inputTag;
-
-    const makeVisibleButton = document.createElement('div');
-    makeVisibleButton.classList.add('button_Editor');
-    makeVisibleButton.innerHTML = 'Visible';
-    this.ui.appendChild(makeVisibleButton);
-    this.makeVisibleButton = makeVisibleButton;
-
-    const makeInvisibleButton = document.createElement('div');
-    makeInvisibleButton.classList.add('button_Editor');
-    makeInvisibleButton.innerHTML = 'Invisible';
-    this.ui.appendChild(makeInvisibleButton);
-    this.makeInvisibleButton = makeInvisibleButton;
-
-    const resetVisibility = document.createElement('div');
-    resetVisibility.classList.add('button_Editor');
-    resetVisibility.innerHTML = 'Reset Visibility';
-    this.ui.appendChild(resetVisibility);
-    this.resetVisibility = resetVisibility;
 
     //new go
     const newGOButton = document.createElement('div');
@@ -455,7 +565,7 @@ export class GOEditorView {
     //new heightmap add button
     const addHeightmapButton = document.createElement('div');
     addHeightmapButton.classList.add('button_Editor');
-    addHeightmapButton.innerHTML = 'Add Heightmap Script Component';
+    addHeightmapButton.innerHTML = 'Add Heightmap World Script Component';
     this.ui.appendChild(addHeightmapButton);
     this.addHeightmapButton = addHeightmapButton;
 
@@ -473,12 +583,19 @@ export class GOEditorView {
     this.ui.appendChild(addRenderButton);
     this.addRenderButton = addRenderButton;
 
-    //add Script
+    //add World Script
     const addScriptButton = document.createElement('div');
     addScriptButton.classList.add('button_Editor');
-    addScriptButton.innerHTML = 'Add Script Component';
+    addScriptButton.innerHTML = 'Add World Script Component';
     this.ui.appendChild(addScriptButton);
     this.addScriptButton = addScriptButton;
+
+    //uuid
+    const generateUUIDButton = document.createElement('div');
+    generateUUIDButton.classList.add('button_Editor');
+    generateUUIDButton.innerHTML = 'Generate uuid in gameobject';
+    this.ui.appendChild(generateUUIDButton);
+    this.generateUUIDButton = generateUUIDButton;
 
     //jsoneditor
     this.ui.appendChild(this.jsonEditorView.html());

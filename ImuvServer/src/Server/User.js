@@ -1,39 +1,47 @@
 /** @format */
 
+const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
 const Data = udvShared.Components.Data;
 const Command = udvShared.Command;
 const WorldState = udvShared.WorldState;
-
 const WorldThread = require('./WorldThread');
 
 const UserModule = class User {
-  constructor(socket, worldUUID, avatarID, thread) {
+  constructor(uuid, socket, worldUUID, data) {
+    this.uuid = uuid;
     this.socket = socket;
     this.worldUUID = worldUUID;
-    this.thread = thread;
-
-    this.avatarID = avatarID;
 
     //to know if just joined or not
     this.lastState = null;
 
-    this.init();
-  }
-
-  setAvatarID(id) {
-    this.avatarID = id;
+    this.data = data;
+    this.avatarGO = new GameObject(data.avatarJSON);
   }
 
   getAvatarID() {
-    return this.avatarID;
+    return this.avatarGO.getUUID();
+  }
+
+  getAvatar() {
+    return this.avatarGO;
+  }
+
+  getAvatarJSON() {
+    return this.data.avatarJSON;
+  }
+
+  setAvatarJSON(json) {
+    this.avatarGO = new GameObject(json);
+    this.data.avatarJSON = json;
   }
 
   sendWorldState(stateJSON) {
     let state = new WorldState(stateJSON);
 
     if (!this.lastState) {
-      this.socket.emit(Data.WEBSOCKET.MSG_TYPES.JOIN_SERVER, {
+      this.socket.emit(Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
         avatarID: this.getAvatarID(),
       });
@@ -49,16 +57,31 @@ const UserModule = class User {
     return this.thread;
   }
 
-  init() {
+  initThread(thread) {
+    if (!thread) throw new Error('no thread to init user');
+
     const _this = this;
 
-    //cmds
+    //remove from last world
+    if (this.thread) {
+      this.thread.post(
+        WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
+        this.getAvatarID()
+      );
+    }
+
+    //assign
+    this.thread = thread;
+    this.lastState = null;
+    this.socket.removeAllListeners(Data.WEBSOCKET.MSG_TYPES.COMMANDS);
+
+    //cmds are now sent to the new thread
     this.socket.on(Data.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
       const commands = [];
+
       //parse
       cmdsJSON.forEach(function (cmdJSON) {
         const command = new Command(cmdJSON);
-        //sign command
         command.setUserID(_this.getUUID());
         command.setAvatarID(_this.getAvatarID());
         commands.push(command);
@@ -69,7 +92,7 @@ const UserModule = class User {
   }
 
   getUUID() {
-    return this.socket.id;
+    return this.uuid;
   }
 };
 

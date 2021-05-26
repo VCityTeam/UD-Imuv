@@ -2,7 +2,7 @@
 
 import { THREE } from 'ud-viz';
 
-const ScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/Script');
+const WorldScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/WorldScript');
 
 export class HeightmapModel {
   constructor(gameObjectModel) {
@@ -60,7 +60,7 @@ export class HeightmapModel {
 
   bindHeightmapGO() {
     const gameobject = this.gameObjectModel.getGameObject();
-    const script = gameobject.getComponent(ScriptComponent.TYPE);
+    const script = gameobject.getComponent(WorldScriptComponent.TYPE);
     if (!script) throw new Error();
     script.conf.heightmap_geometry = this.computeGeoJSON();
   }
@@ -68,12 +68,12 @@ export class HeightmapModel {
   initHeightmap() {
     const gameobject = this.gameObjectModel.getGameObject();
     const defaultpath = 'default_path';
-    let script = gameobject.getComponent(ScriptComponent.TYPE);
+    let script = gameobject.getComponent(WorldScriptComponent.TYPE);
     if (!script) {
       gameobject.setComponent(
-        ScriptComponent.TYPE,
-        new ScriptComponent(gameobject, {
-          type: ScriptComponent.TYPE,
+        WorldScriptComponent.TYPE,
+        new WorldScriptComponent(gameobject, {
+          type: WorldScriptComponent.TYPE,
           idScripts: ['map'],
           conf: {
             heightmap_path: defaultpath,

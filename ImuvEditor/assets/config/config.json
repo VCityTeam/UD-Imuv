@@ -1,6 +1,9 @@
 {
   "assetsManager": {
     "prefabs": {
+      "room_conf_modulable": {
+        "path": "./assets/prefabs/Room_Conf_Modulable.json"
+      },
       "room_expo": {
         "path": "./assets/prefabs/Room Expo Map.json"
       },
@@ -12,25 +15,43 @@
       },
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
+      },
+      "frame": {
+        "path": "./assets/prefabs/Frame.json"
       }
     },
-    "scripts": {
+    "worldScripts": {
       "portal": {
-        "path": "./assets/scripts/Portal.js"
+        "path": "./assets/worldScripts/Portal.js"
       },
       "avatar": {
-        "path": "./assets/scripts/Avatar.js"
+        "path": "./assets/worldScripts/Avatar.js"
       },
       "map": {
-        "path": "./assets/scripts/Map.js"
+        "path": "./assets/worldScripts/Map.js"
       },
       "gameManager": {
-        "path": "./assets/scripts/GameManager.js"
+        "path": "./assets/worldScripts/GameManager.js"
+      },
+      "zeppelin": {
+        "path": "./assets/worldScripts/Zeppelin.js"
+      }
+    },
+    "localScripts": {
+      "video": {
+        "path": "./assets/localScripts/Video.js"
+      },
+      "rotate": {
+        "path": "./assets/localScripts/Rotate.js"
       }
     },
     "models": {
-      "avatar": {
-        "path": "./assets/models/avatar.glb",
+      "room_conf_modulable": {
+        "path": "./assets/models/Room_Conf_Modulable.glb",
+        "anchor": "min"
+      },
+      "avatar_capuchon": {
+        "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
       "flying_campus": {
@@ -38,12 +59,23 @@
         "anchor": "min"
       },
       "room_expo": {
-        "path": "./assets/models/Room_Expo_INSIDE.glb",
+        "path": "./assets/models/Room_Expo.glb",
         "anchor": "min"
+      },
+      "spiral_spawn": {
+        "path": "./assets/models/Spirale_spawn.glb",
+        "scale": { "x": 0.8, "y": 0.8, "z": 0.8 },
+        "anchor": "center_min"
+      },
+      "zeppelin": {
+        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
+        "anchor": "center_min"
       }
     }
   },
   "game": {
+    "traveling_time": 1000,
+    "fps": 30,
     "shadowMapSize": 2046,
     "fog": {
       "near": 10,

@@ -1,6 +1,6 @@
 /** @format */
 
-import { GameApp } from '../GameApp';
+import { MenuAuthView } from '../MenuAuth/MenuAuth';
 
 import './Reception.css';
 
@@ -9,7 +9,7 @@ const aboutString =
   "Les communautés de recherche fédérées au sein du LabEx IMU traitent de l'urbanisation sous toutes ses formes: les villes, les métropoles, les mégalopoles, les villes mondes, les Altervilles, les seconds city, l'urbain, l'urbain généralisé... et dans ses temporalités. L'urbanisation est processus ancien qui se généralise pour atteindre, depuis la fin du XXe siècle, des seuils et des formes sans équivalents historiques.<br><br>Quel monde advient-il avec l'urbain généralisé? Vers quelles sociétés, quels environnements conduit ce processus? Vers quels états social, politique, technique, économique, environnemental conduit-il? Quelles dynamiques - sociales, politiques, tehnique, technoscientifique, etc. - l'orientent?<br><br>Intention : Proposer un espace virtuel collaboratif innovant destiné en priorité aux laboratoires et aux partenaires de la communauté IMU. Mais également, un espace virtuel restant en partie accessible 24h/24h aux acteurs de la ville; praticiens et citoyens intéressés par les réflexions permanents sur l'aménagement urbain dans tous les domaines scientifiques universitaires.";
 
 export class ReceptionView {
-  constructor() {
+  constructor(webSocketService) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Reception');
 
@@ -20,6 +20,8 @@ export class ReceptionView {
     this.servicesButton = null;
     this.languageButton = null;
     this.joinButton = null;
+
+    this.webSocketService = webSocketService;
 
     this.init();
   }
@@ -132,8 +134,12 @@ export class ReceptionView {
 
     this.joinButton.onclick = function () {
       _this.dispose();
-      const gameApp = new GameApp();
-      gameApp.start('./assets/config/config.json');
+      const menuAuth = new MenuAuthView(_this.webSocketService);
+      document.body.appendChild(menuAuth.html());
+      menuAuth.setOnClose(function () {
+        menuAuth.dispose();
+        document.body.appendChild(_this.html());
+      });
     };
   }
 

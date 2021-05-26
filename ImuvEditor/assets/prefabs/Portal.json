@@ -2,35 +2,34 @@
   "name": "Portal",
   "type": "GameObject",
   "static": true,
+  "outdated": false,
   "uuid": "E0EB2D14-8AEF-422A-AC71-C188B0CA63FA",
   "parentUUID": null,
   "components": {
     "Render": {
       "uuid": "081CCCA6-DFE5-4BF2-A753-E9E0B32B6FCB",
+      "name": null,
+      "media": null,
       "type": "Render",
-      "idModel": "cube"
+      "idModel": "spiral_spawn"
     },
     "Collider": {
       "uuid": "AD0E34B6-BCD0-4F46-91F1-97786A4CB30B",
       "type": "Collider",
       "shapes": [
         {
-          "type": "Polygon",
-          "points": [
-            { "x": 0.5592024528742741, "y": -0.4794168756611725 },
-            { "x": 0.601072089984541, "y": 0.5857008114866176 },
-            { "x": -0.5864246564925679, "y": 0.7331423280742229 },
-            { "x": -0.5510686241833582, "y": -0.5612616251936515 }
-          ]
+          "type": "Circle",
+          "center": { "x": 0, "y": 0 },
+          "radius": 1.689427617937126
         }
       ],
       "body": false
     },
-    "Script": {
+    "WorldScript": {
       "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
       "idScripts": ["portal"],
       "conf": { "worldDestUUID": "default" },
-      "type": "Script"
+      "type": "WorldScript"
     }
   },
   "children": [],

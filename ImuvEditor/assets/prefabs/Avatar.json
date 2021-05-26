@@ -15,13 +15,14 @@
     },
     "Render": {
       "type": "Render",
-      "idModel": "avatar",
-      "name": "avatar_name"
+      "idModel": "avatar_capuchon",
+      "name": "avatar_name",
+      "color": null
     },
-    "Script": {
+    "WorldScript": {
       "idScripts": ["avatar"],
       "conf": {},
-      "type": "Script"
+      "type": "WorldScript"
     }
   },
   "children": [],
