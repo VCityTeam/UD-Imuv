@@ -25,11 +25,7 @@ export class MeshEditorView {
     this.selectedObject = null;
 
     this.intersects = null;
-    this.INTERSECTED = null;
-    this.ONHOVER_INTERSECTED = null;
-    this.outlineMaterial = new THREE.MeshBasicMaterial({
-      color: "red",
-    });
+
     this.init();
   }
 
@@ -63,15 +59,28 @@ export class MeshEditorView {
     this.updateUI();
   }
 
+  meshHTML(mesh){
+    const _this = this;
+    const result = document.createElement('li');
+    result.innerHTML = mesh.name;
+    result.onmouseover = function() {
+      console.log(_this.model.dictMeshParent[mesh]);
+      _this.model.dictMeshParent[mesh].add(mesh);
+    }
+
+    return result;
+  }
+
   updateUI() {
+    const _this = this;
     //update hidden meshes list
-    const list = this.hiddenMeshesList;
+    const list = _this.hiddenMeshesList;
     while (list.firstChild) {
       list.removeChild(list.firstChild);
     }
 
     this.model.getHiddenMeshes().forEach(function (mesh) {
-      list.appendChild(this.meshHTML(mesh));
+      list.appendChild(_this.meshHTML(mesh));
     });
   }
 
@@ -107,53 +116,21 @@ export class MeshEditorView {
       );
       const intersects = _this.intersects;
       if (intersects.length > 0) {
-        if (
-          _this.INTERSECTED != intersects[0].object &&
-          _this.ONHOVER_INTERSECTED != intersects[0].object
-        ) {
-          if (_this.INTERSECTED) {
-            _this.INTERSECTED.parent.remove(_this.ONHOVER_INTERSECTED);
-            _this.showObject(_this.INTERSECTED);
-          }
-          _this.INTERSECTED = intersects[0].object;
-          _this.selectedObject.innerHTML = "Name : " + _this.INTERSECTED.name;
-          _this.ONHOVER_INTERSECTED = _this.INTERSECTED.clone();
-          _this.ONHOVER_INTERSECTED.material = _this.outlineMaterial;
-          _this.INTERSECTED.parent.add(_this.ONHOVER_INTERSECTED);
-          _this.hideObject(_this.INTERSECTED);
-        }
+        _this.model.setCurrentMesh(intersects[0].object);
       } else {
-        if (_this.INTERSECTED) {
-          _this.INTERSECTED.parent.remove(_this.ONHOVER_INTERSECTED);
-          _this.showObject(_this.INTERSECTED);
-        }
-
-        _this.INTERSECTED = null;
-        _this.selectedObject.innerHTML = "NULL";
+        _this.model.setCurrentMesh(null);
       }
+
+      _this.selectedObject.innerHTML = "Name : " + _this.model.getNameCurrentMesh();
     };
 
     canvas.onpointermove = function (event) {
       getObjectOnHover(event);
     };
     canvas.onpointerdown = function (event) {
-      //if (_this.intersects.length > 0) console.log(_this.intersects);
+      _this.model.addIntersectedObjectInHiddenMeshes();
+      _this.updateUI();
     };
   }
 
-  showObject(object) {
-    object.traverse(function (child) {
-      if (child instanceof THREE.Mesh) {
-        child.visible = true;
-      }
-    });
-  }
-
-  hideObject(object) {
-    object.traverse(function (child) {
-      if (child instanceof THREE.Mesh) {
-        child.visible = false;
-      }
-    });
-  }
 }
