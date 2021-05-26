@@ -26,7 +26,7 @@ export class MeshEditorView {
 
     this.intersects = null;
     this.INTERSECTED = null;
-    this.OUTLINE_INTERSECTED = null;
+    this.ONHOVER_INTERSECTED = null;
     this.outlineMaterial = new THREE.MeshBasicMaterial({
       color: "red",
     });
@@ -76,13 +76,15 @@ export class MeshEditorView {
   }
 
   dispose() {
-    this.rootHtml.parentElement.removeChild(this.rootHtml);
+    const _this = this;
+    const canvas = _this.goView.getRenderer().domElement;
+    canvas.onpointermove = null;
+    _this.rootHtml.parentElement.removeChild(_this.rootHtml);
   }
 
   initCallbacks() {
     const _this = this;
     const canvas = _this.goView.getRenderer().domElement;
-
     const getObjectOnHover = function (event) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
       const mouse = new THREE.Vector2(
@@ -107,22 +109,22 @@ export class MeshEditorView {
       if (intersects.length > 0) {
         if (
           _this.INTERSECTED != intersects[0].object &&
-          _this.OUTLINE_INTERSECTED != intersects[0].object
+          _this.ONHOVER_INTERSECTED != intersects[0].object
         ) {
           if (_this.INTERSECTED) {
-            _this.INTERSECTED.parent.remove(_this.OUTLINE_INTERSECTED);
+            _this.INTERSECTED.parent.remove(_this.ONHOVER_INTERSECTED);
             _this.showObject(_this.INTERSECTED);
           }
           _this.INTERSECTED = intersects[0].object;
           _this.selectedObject.innerHTML = "Name : " + _this.INTERSECTED.name;
-          _this.OUTLINE_INTERSECTED = _this.INTERSECTED.clone();
-          _this.OUTLINE_INTERSECTED.material = _this.outlineMaterial;
-          _this.INTERSECTED.parent.add(_this.OUTLINE_INTERSECTED);
+          _this.ONHOVER_INTERSECTED = _this.INTERSECTED.clone();
+          _this.ONHOVER_INTERSECTED.material = _this.outlineMaterial;
+          _this.INTERSECTED.parent.add(_this.ONHOVER_INTERSECTED);
           _this.hideObject(_this.INTERSECTED);
         }
       } else {
         if (_this.INTERSECTED) {
-          _this.INTERSECTED.parent.remove(_this.OUTLINE_INTERSECTED);
+          _this.INTERSECTED.parent.remove(_this.ONHOVER_INTERSECTED);
           _this.showObject(_this.INTERSECTED);
         }
 
