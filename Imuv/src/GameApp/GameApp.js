@@ -163,18 +163,22 @@ export class GameApp {
     this.gameView.appendToUI(menuAvatarButton);
 
     //INIT CALLBACKS
-    menuAvatarButton.onclick = function () {
+    menuAvatarButton.onclick = function (event) {
       const menuAvatar = new MenuAvatarView(
         _this.webSocketService,
         _this.config,
         _this.assetsManager
       );
+
+      //TODO clean this
       menuAvatar.setOnClose(function () {
         gV.setPause(false);
+        gV.initInputs(gV.lastState);
         document.body.appendChild(gV.html());
       });
       gV.html().remove();
       gV.setPause(true);
+      gV.inputManager.dispose();
       document.body.appendChild(menuAvatar.html());
     };
   }

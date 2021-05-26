@@ -110,7 +110,7 @@ export class MenuAvatarView {
       function (data) {
         _this.avatarGO = new GameObject(data);
         _this.avatarGO.initAssetsComponents(_this.assetsManager, Shared, false);
-        _this.avatarGO.setTransformFromJSON()//reset transform
+        _this.avatarGO.setTransformFromJSON(); //reset transform
         const object = _this.avatarGO.fetchObject3D();
         _this.scene.add(object);
         _this.focusGameObject();
@@ -179,17 +179,13 @@ export class MenuAvatarView {
     this.inputNameUser.onchange = function () {
       const r = _this.avatarGO.getComponent(RenderModule.TYPE);
       if (!r) throw new Error('no render component');
-      _this.scene.remove(_this.avatarGO.fetchObject3D());
       r.setName(this.value, _this.assetsManager);
-      _this.scene.add(_this.avatarGO.fetchObject3D());
     };
 
     this.inputColorPicker.onchange = function () {
       const r = _this.avatarGO.getComponent(RenderModule.TYPE);
       if (!r) throw new Error('no render component');
-      _this.scene.remove(_this.avatarGO.fetchObject3D());
       r.setColor(new THREE.Color(this.value), _this.assetsManager);
-      _this.scene.add(_this.avatarGO.fetchObject3D());
     };
 
     this.saveButton.onclick = function () {

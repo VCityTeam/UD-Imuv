@@ -6,6 +6,7 @@ module.exports = class Avatar {
   constructor(conf) {
     this.conf = conf;
     this.commands = {};
+    this.firstTick = true;
   }
 
   init() {
@@ -60,9 +61,6 @@ module.exports = class Avatar {
   }
 
   applyCommands(gameObject, dt, gCtx) {
-    //TODO create function in gameobject to get a nice API
-    gameObject.outdated = false;
-
     //TODO mettre valeur fichier de conf
     const AVATAR_SPEED_MOVE = 0.005;
     const AVATAR_SPEED_RUN = 0.01;
@@ -186,6 +184,15 @@ module.exports = class Avatar {
   tick() {
     const gameObject = arguments[0];
     const gCtx = arguments[1];
+
+    //TODO think to a proper way to handle this
+    //ie when a gameobject no static is added its should be outdated to notify client
+    if (this.firstTick) {
+      this.firstTick = false;
+      gameObject.outdated = true;
+    } else {
+      gameObject.outdated = false;
+    }
 
     this.fetchCommands(gCtx.commands, gameObject, gCtx);
     this.applyCommands(gameObject, gCtx.dt, gCtx);

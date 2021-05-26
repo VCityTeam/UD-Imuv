@@ -89,7 +89,6 @@ const ServerModule = class Server {
 
       //avatar portal
       thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
-
         _this.placeAvatarInWorld(
           data.avatarUUID,
           data.worldUUID,
@@ -329,6 +328,7 @@ const ServerModule = class Server {
               socket.on(
                 Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
                 function (avatarJSON) {
+                  //modify json
                   const originalJSON = u.getAvatarJSON();
                   JSONUtils.overWrite(originalJSON, avatarJSON);
 
@@ -357,6 +357,7 @@ const ServerModule = class Server {
                     );
                   });
 
+                  //update avatar in world
                   const thread = u.getThread();
                   if (thread) {
                     thread.post(
@@ -381,6 +382,7 @@ const ServerModule = class Server {
                     );
                   }
 
+                  //alert client
                   socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Save !');
                 }
               );
