@@ -172,7 +172,7 @@ export class MenuAuthView {
                 _this.webSocketService.emit(
                   Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
                 );
-              });
+              }, true);
             };
 
             if (initialized) {

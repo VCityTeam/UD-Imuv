@@ -25,13 +25,11 @@
         },
         "Render": {
           "uuid": "911DA1C6-BC6A-4451-A3ED-9226E4A3FE85",
-          "name": "uio",
+          "name": "test",
           "media": null,
           "type": "Render",
           "idModel": "avatar_capuchon",
-          "color": [
-            0.7176470588235294, 0.10196078431372549, 0.10196078431372549
-          ]
+          "color": [0.6, 0.1607843137254902, 0.1607843137254902]
         },
         "WorldScript": {
           "uuid": "6D41A715-366B-4C0B-9872-0652F5248D23",

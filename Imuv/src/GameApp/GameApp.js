@@ -3,6 +3,8 @@
 import { Game, THREE } from 'ud-viz';
 import { Routine } from 'ud-viz/src/Game/Components/Cameraman';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
+const Data = require('ud-viz/src/Game/Shared/Components/Data');
+const WorldStateDiff = require('ud-viz/src/Game/Shared/WorldStateDiff');
 
 import './GameApp.css';
 
@@ -34,7 +36,7 @@ export class GameApp {
     return result;
   }
 
-  start(onLoad) {
+  start(onLoad, travelling = false) {
     this.gameView = new Game.GameView({
       isLocal: false,
       assetsManager: this.assetsManager,
@@ -45,68 +47,112 @@ export class GameApp {
       config: this.config,
     });
 
-    const duration = this.config.game.traveling_time;
     const gV = this.gameView;
-    const splash = this.createSplashScreen();
     const _this = this;
 
-    this.gameView.setOnFirstStateEnd(function () {
-      const offsetTime = 1000;
+    if (travelling) {
+      const splash = this.createSplashScreen();
+      const duration = this.config.game.traveling_time;
 
-      document.body.appendChild(splash);
-      setTimeout(function () {
-        splash.remove();
-      }, offsetTime + duration);
+      this.gameView.setOnFirstStateEnd(function () {
+        const offsetTime = 1000;
 
-      const cameraman = gV.getCameraman();
-      let currentTime = 0;
-      cameraman.setFilmingTarget(false);
-      const camera = cameraman.getCamera();
-      const startPos = new THREE.Vector3(
-        1843660.0895859331,
-        5174613.11242678,
-        485.8525534292738
-      );
-      const startQuat = new THREE.Quaternion(
-        0.027576004167469807,
-        0.6755682684405119,
-        0.736168525226603,
-        0.030049644525890727
-      );
+        document.body.appendChild(splash);
+        setTimeout(function () {
+          splash.remove();
+        }, offsetTime + duration);
 
-      camera.position.copy(startPos);
-      camera.quaternion.copy(startQuat);
-      camera.updateProjectionMatrix();
+        const cameraman = gV.getCameraman();
+        let currentTime = 0;
+        cameraman.setFilmingTarget(false);
+        const camera = cameraman.getCamera();
+        const startPos = new THREE.Vector3(
+          1843660.0895859331,
+          5174613.11242678,
+          485.8525534292738
+        );
+        const startQuat = new THREE.Quaternion(
+          0.027576004167469807,
+          0.6755682684405119,
+          0.736168525226603,
+          0.030049644525890727
+        );
 
-      //first travelling
-      cameraman.addRoutine(
-        new Routine(
-          function (dt) {
-            const t = cameraman.computeTransformTarget();
+        camera.position.copy(startPos);
+        camera.quaternion.copy(startQuat);
+        camera.updateProjectionMatrix();
 
-            //no avatar yet
-            if (!t) return false;
+        //first travelling
+        cameraman.addRoutine(
+          new Routine(
+            function (dt) {
+              const t = cameraman.computeTransformTarget();
 
-            currentTime += dt;
-            const ratio = Math.min(Math.max(0, currentTime / duration), 1);
+              //no avatar yet
+              if (!t) return false;
 
-            const p = t.position.lerp(startPos, 1 - ratio);
-            const q = t.quaternion.slerp(startQuat, 1 - ratio);
+              currentTime += dt;
+              const ratio = Math.min(Math.max(0, currentTime / duration), 1);
 
-            camera.position.copy(p);
-            camera.quaternion.copy(q);
+              const p = t.position.lerp(startPos, 1 - ratio);
+              const q = t.quaternion.slerp(startQuat, 1 - ratio);
 
-            camera.updateProjectionMatrix();
+              camera.position.copy(p);
+              camera.quaternion.copy(q);
 
-            return ratio >= 1;
-          },
-          function () {
-            cameraman.setFilmingTarget(true);
-            gV.setFog(true);
-          }
-        )
-      );
-    });
+              camera.updateProjectionMatrix();
+
+              return ratio >= 1;
+            },
+            function () {
+              cameraman.setFilmingTarget(true);
+              gV.setFog(true);
+            }
+          )
+        );
+      });
+    }
+
+    // Register callbacks
+    this.webSocketService.on(
+      Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+      (firstStateJSON) => {
+        if (!firstStateJSON) throw new Error('no data');
+        console.log('JOIN_WORLD ', firstStateJSON);
+
+        //TODO mettre un flag initialized a la place de check this.view
+        if (!_this.gameView.view) {
+          //view was not intialized do it
+          _this.gameView.onFirstStateJSON(firstStateJSON);
+        } else {
+          //this need to be disposed
+          _this.gameView.dispose();
+
+          //reset websocketservices
+          _this.webSocketService.reset([
+            Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+            Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+          ]);
+
+          _this.start(function () {
+            _this.gameView.onFirstStateJSON(firstStateJSON);
+            console.log('gameview loaded');
+          });
+        }
+      }
+    );
+
+    this.webSocketService.on(
+      Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+      (diffJSON) => {
+        // console.log(_this.id, ' diff');
+
+        //TODO getter worldstate interpolator
+        _this.gameView.worldStateInterpolator.onNewDiff(
+          new WorldStateDiff(diffJSON)
+        );
+      }
+    );
 
     this.gameView.load().then(onLoad);
 
