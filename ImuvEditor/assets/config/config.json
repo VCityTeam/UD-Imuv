@@ -52,6 +52,7 @@
       },
       "avatar_capuchon": {
         "path": "./assets/models/avatar_capuchon.glb",
+        "rotation": { "x": 0, "y": 3.141592653589793, "z": 0 },
         "anchor": "center_min"
       },
       "flying_campus": {
