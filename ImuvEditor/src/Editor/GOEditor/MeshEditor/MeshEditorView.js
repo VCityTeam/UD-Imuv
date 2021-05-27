@@ -63,9 +63,27 @@ export class MeshEditorView {
     const _this = this;
     const result = document.createElement('li');
     result.innerHTML = mesh.name;
+    var dictMeshParent = _this.model.dictMeshParent;
+    var hiddenMeshes = _this.model.hiddenMeshes;
     result.onmouseover = function() {
       console.log(_this.model.dictMeshParent[mesh]);
-      _this.model.dictMeshParent[mesh].add(mesh);
+      if(!dictMeshParent.hasOwnProperty(mesh.uuid)) return;
+      dictMeshParent[mesh.uuid].add(mesh);
+      _this.model.showObject(mesh);
+    }
+    result.onmouseout = function() {
+      console.log("OUT",dictMeshParent.hasOwnProperty(mesh.uuid));
+      if(!dictMeshParent.hasOwnProperty(mesh.uuid)) return;
+      dictMeshParent[mesh.uuid].remove(mesh);
+    }
+    
+    result.onpointerdown = function(event) {
+      if (event.button != 0) return; //only left click
+      {
+        delete dictMeshParent[mesh.uuid];
+        hiddenMeshes.splice(hiddenMeshes.indexOf(mesh),1);
+        _this.updateUI();
+      }
     }
 
     return result;
@@ -111,8 +129,7 @@ export class MeshEditorView {
 
       //3. compute intersections
       _this.intersects = _this.raycaster.intersectObjects(
-        _this.goView.getModel().getGameObject().fetchObject3D().children,
-        true
+        _this.goView.getModel().getGameObject().fetchObject3D().children, true
       );
       const intersects = _this.intersects;
       if (intersects.length > 0) {
@@ -125,12 +142,18 @@ export class MeshEditorView {
     };
 
     canvas.onpointermove = function (event) {
+      if(event.buttons != 0) return; //stop raycast when rotating
       getObjectOnHover(event);
     };
-    canvas.onpointerdown = function (event) {
-      _this.model.addIntersectedObjectInHiddenMeshes();
-      _this.updateUI();
-    };
+
+    window.onkeydown = function(event) {
+      if(event.defaultPrevented) return;
+      if(event.code == "KeyR")
+      {
+        _this.model.addIntersectedObjectInHiddenMeshes();
+        _this.updateUI();
+      }
+    }
   }
 
 }

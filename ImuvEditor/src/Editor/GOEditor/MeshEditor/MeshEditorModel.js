@@ -19,7 +19,7 @@ export class MeshEditorModel {
     const _this = this;
     if (!_this.currentMesh) return;
     _this.hiddenMeshes.push(_this.currentMesh);
-    _this.dictMeshParent[_this.currentMesh] = _this.currentMesh.parent;
+    _this.dictMeshParent[_this.currentMesh.uuid] = _this.currentMesh.parent;
     _this.onHoverMesh.parent.remove(_this.onHoverMesh);
     _this.currentMesh.parent.remove(_this.currentMesh);
     _this.currentMesh = null;
