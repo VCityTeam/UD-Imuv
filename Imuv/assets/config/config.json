@@ -12,12 +12,13 @@
       }
     },
     "models": {
-      "zeppelin": {
-        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
-        "anchor": "center_min"
+      "room_conf_modulable": {
+        "path": "./assets/models/Room_Conf_Modulable.glb",
+        "anchor": "min"
       },
       "avatar_capuchon": {
         "path": "./assets/models/avatar_capuchon.glb",
+        "rotation": { "x": 0, "y": 3.141592653589793, "z": 0 },
         "anchor": "center_min"
       },
       "flying_campus": {
@@ -28,14 +29,19 @@
         "path": "./assets/models/Room_Expo.glb",
         "anchor": "min"
       },
-      "room_conf_modulable": {
-        "path": "./assets/models/Room_Conf_Modulable.glb",
-        "anchor": "min"
-      },
       "spiral_spawn": {
         "path": "./assets/models/Spirale_spawn.glb",
-        "anchor": "center_min",
-        "scale": { "x": 0.8, "y": 0.8, "z": 0.8 }
+        "scale": { "x": 0.8, "y": 0.8, "z": 0.8 },
+        "anchor": "center_min"
+      },
+      "zeppelin": {
+        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
+        "anchor": "center_min"
+      },
+      "lyon_city": {
+        "path": "./assets/models/flyingCampus_cube50.glb",
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "anchor": "center_min"
       }
     }
   },

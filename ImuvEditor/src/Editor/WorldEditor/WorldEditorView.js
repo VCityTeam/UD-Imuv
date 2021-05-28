@@ -83,7 +83,7 @@ export class WorldEditorView {
           _this.imgHeightmap.src = path;
         }
       });
-    } 
+    }
 
     const wCanvas = this.canvasPreview.width;
     const hCanvas = this.canvasPreview.height;
@@ -213,7 +213,9 @@ export class WorldEditorView {
         const g = newWorld.getGameObject();
         const portal = g.find(pUUID);
         const avatar = g.find(_this.gameView.avatarUUID);
-        avatar.setTransformFromJSON(portal.getTransform());
+
+        portal.getWorldScripts()['portal'].setTransformOf(avatar);
+
         newWorld.updateCollisionBuffer();
       }
     });

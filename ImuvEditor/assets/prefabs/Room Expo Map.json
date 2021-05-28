@@ -274,7 +274,12 @@
           "idScripts": ["portal"],
           "conf": {
             "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-            "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663"
+            "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
+            "spawnRotation": {
+              "x": 0.19231894531250315,
+              "y": 0,
+              "z": 4.118258725148333
+            }
           },
           "type": "WorldScript"
         },
