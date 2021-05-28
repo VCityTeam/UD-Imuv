@@ -52,16 +52,21 @@ export class WorldEditorView {
     const world = this.gameView.getWorld();
     if (!world) return;
     const go = world.getGameObject();
-    const obj = go.fetchObject3D();
-    if (!obj) return;
-    const bb = new THREE.Box3().setFromObject(obj);
 
-    const wWorld = bb.max.x - bb.min.x;
-    const hWorld = bb.max.y - bb.min.y;
+    let script;
+    go.traverse(function (child) {
+      const scripts = child.getWorldScripts();
+      if (scripts && scripts['map']) script = scripts['map'];
+    });
+
+    if (!script) return;
+
+    const wWorld = script.conf.heightmap_geometry.bounding_box.max.x;
+    const hWorld = script.conf.heightmap_geometry.bounding_box.max.y;
+
     if (!wWorld || !hWorld) return;
 
     //update heightmap src
-
     if (!this.imgHeightmap) {
       const _this = this;
 
@@ -78,7 +83,7 @@ export class WorldEditorView {
           _this.imgHeightmap.src = path;
         }
       });
-    }
+    } 
 
     const wCanvas = this.canvasPreview.width;
     const hCanvas = this.canvasPreview.height;

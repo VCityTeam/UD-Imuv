@@ -776,7 +776,7 @@
           "name": null,
           "media": {
             "video": {
-              "path": "./assets/videos/Turn_around_avril2021.webm",
+              "path": "./assets/videos/POC_flying_campus_juin.webm",
               "width": 8.5,
               "height": 5.3,
               "size": { "width": 1280, "height": 720 }
@@ -790,7 +790,7 @@
       "children": [],
       "transform": {
         "position": { "x": 108.5, "y": 153.5, "z": 112.15 },
-        "rotation": { "x": 1.5707963267948966, "y": 0, "z": 0 },
+        "rotation": { "x": 1.5707963267948966, "y": 0, "z": 3.141592653589793 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
     },
@@ -813,21 +813,13 @@
       },
       "children": [],
       "transform": {
-        "position": {
-          "x": 15,
-          "y": -1336,
-          "z": -70
-        },
+        "position": { "x": 15, "y": -1336, "z": -70 },
         "rotation": {
           "x": 1.5707963267948966,
           "y": 1.5707963267948966,
           "z": 1.5707963267948966
         },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
+        "scale": { "x": 1, "y": 1, "z": 1 }
       }
     }
   ],
