@@ -185,6 +185,42 @@ const ServerModule = class Server {
     return this.assetsManager.loadFromConfig(this.config.assetsManager);
   }
 
+  writeUserInJSON(user, nameUser = 'default_name') {
+    const usersJSONPath = './assets/data/users.json';
+
+    fs.readFile(usersJSONPath, 'utf8', (err, data) => {
+      if (err) {
+        reject();
+      }
+      const usersJSON = JSON.parse(data);
+      const uuid = user.uid;
+
+      //TODO password is sent via websocket wss not sure if this is safe
+      //extra info on users are stocked here
+      let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+      avatarJSON.components.Render.name = nameUser; //TODO not very clean
+      avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
+
+      usersJSON[uuid] = {
+        uuid: uuid,
+        nameUser: nameUser,
+        initialized: false,
+        avatarJSON: avatarJSON,
+      };
+
+      fs.writeFile(
+        usersJSONPath,
+        JSON.stringify(usersJSON),
+        {
+          encoding: 'utf8',
+          flag: 'w',
+          mode: 0o666,
+        },
+        function () {}
+      );
+    });
+  }
+
   onConnection(socket) {
     const _this = this;
 
@@ -208,44 +244,8 @@ const ServerModule = class Server {
               // An error happened.
             });
 
-          const usersJSONPath = './assets/data/users.json';
-
-          fs.readFile(usersJSONPath, 'utf8', (err, data) => {
-            if (err) {
-              reject();
-            }
-            const usersJSON = JSON.parse(data);
-            const uuid = user.uid;
-
-            //TODO password is sent via websocket wss not sure if this is safe
-            //extra info on users are stocked here
-            let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
-            avatarJSON.components.Render.name = nameUser; //TODO not very clean
-            avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
-
-            usersJSON[uuid] = {
-              uuid: uuid,
-              nameUser: nameUser,
-              initialized: false,
-              avatarJSON: avatarJSON,
-            };
-
-            socket.emit(
-              Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-              'account created'
-            );
-
-            fs.writeFile(
-              usersJSONPath,
-              JSON.stringify(usersJSON),
-              {
-                encoding: 'utf8',
-                flag: 'w',
-                mode: 0o666,
-              },
-              function () {}
-            );
-          });
+          _this.writeUserInJSON(user);
+          socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'account created');
         })
         .catch((error) => {
           socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);

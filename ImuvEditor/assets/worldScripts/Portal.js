@@ -24,9 +24,13 @@ module.exports = class Portal {
 
     //rotation in config
     const newRotation = go.getRotation();
-    newRotation.x = this.conf.spawnRotation.x;
-    newRotation.y = this.conf.spawnRotation.y;
-    newRotation.z = this.conf.spawnRotation.z;
+
+    if (this.conf.spawnRotation) {
+      newRotation.x = this.conf.spawnRotation.x;
+      newRotation.y = this.conf.spawnRotation.y;
+      newRotation.z = this.conf.spawnRotation.z;
+    }
+
     go.setRotation(newRotation);
   }
 };
