@@ -238,22 +238,26 @@ export class GOEditorView {
       if (_this.model && _this.model.getGameObject()) {
         const object3D = _this.model.getGameObject().fetchObject3D();
         if (!object3D) return;
+        const tag = text.toLowerCase();
         object3D.traverse(function (child) {
           const name = child.name.toLowerCase();
-          const tag = text.toLowerCase();
-
-          // console.log(name);
-
-          if (tag != '' && name.includes(tag)) {
+          child.visible = !visible;
+          if (name.includes(tag)) {
             child.visible = visible;
-          } else {
-            child.visible = !visible;
+            while (child.parent) {
+              child.parent.visible = visible;
+              child = child.parent;
+            }
+            while (child.child) {
+              child.child.visible = visible;
+              child = child.child;
+            }
           }
         });
       }
     };
 
-    this.inputTag.onchange = applyVisibility.bind(this, false);
+    this.inputTag.onchange = applyVisibility.bind(this, true);
 
     this.saveGOButton.onclick = function () {
       if (_this.model && _this.model.getGameObject()) {
