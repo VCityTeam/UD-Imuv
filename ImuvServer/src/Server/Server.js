@@ -244,7 +244,7 @@ const ServerModule = class Server {
               // An error happened.
             });
 
-          _this.writeUserInJSON(user);
+          _this.writeUserInJSON(user, nameUser);
           socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'account created');
         })
         .catch((error) => {
