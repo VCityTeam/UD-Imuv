@@ -51,7 +51,7 @@
         "anchor": "min"
       },
       "avatar_capuchon": {
-        "path": "./assets/models/avatar_capuchon.glb",
+        "path": "./assets/models/avatar_capuchon_V2.glb",
         "rotation": { "x": 0, "y": 3.141592653589793, "z": 0 },
         "anchor": "center_min"
       },
@@ -75,6 +75,7 @@
       "lyon_city": {
         "path": "./assets/models/flyingCampus_cube50.glb",
         "rotation": { "x": 0, "y": 0, "z": 0 },
+        "noShadow": true,
         "anchor": "center_min"
       }
     }
