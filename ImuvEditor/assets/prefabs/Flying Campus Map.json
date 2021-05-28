@@ -793,6 +793,42 @@
         "rotation": { "x": 1.5707963267948966, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
+    },
+    {
+      "name": "Lyon City",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "600EA6FB-00DA-43CC-8C80-4C51B51005C6",
+      "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+      "components": {
+        "Render": {
+          "uuid": "D6D5592E-5F0D-47FD-A6DA-96A0B88E8301",
+          "name": null,
+          "media": null,
+          "type": "Render",
+          "idModel": "lyon_city",
+          "color": [1, 1, 1]
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": {
+          "x": 15,
+          "y": -1336,
+          "z": -70
+        },
+        "rotation": {
+          "x": 1.5707963267948966,
+          "y": 1.5707963267948966,
+          "z": 1.5707963267948966
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
     }
   ],
   "transform": {
