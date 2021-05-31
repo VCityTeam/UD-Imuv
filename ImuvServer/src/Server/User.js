@@ -8,10 +8,11 @@ const WorldState = udvShared.WorldState;
 const WorldThread = require('./WorldThread');
 
 const UserModule = class User {
-  constructor(uuid, socket, worldUUID, data) {
+  constructor(uuid, socket, worldUUID, data, isGuest = false) {
     this.uuid = uuid;
     this.socket = socket;
     this.worldUUID = worldUUID;
+    this.isGuest = isGuest;
 
     //to know if just joined or not
     this.lastState = null;

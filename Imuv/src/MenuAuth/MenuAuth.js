@@ -145,9 +145,16 @@ export class MenuAuthView {
       });
     };
 
+    this.guestButton.onclick = function () {
+      _this.webSocketService.emit(
+        Data.WEBSOCKET.MSG_TYPES.GUEST_CONNECTION,
+        null
+      );
+    };
+
     this.webSocketService.on(
       Data.WEBSOCKET.MSG_TYPES.SIGNED,
-      function (initialized) {
+      function (initialized, isGuest) {
         _this.dispose();
 
         const loadingView = _this.createLoadingView();
@@ -168,14 +175,18 @@ export class MenuAuthView {
                 assetsManager,
                 config
               );
-              app.start(function () {
-                _this.webSocketService.emit(
-                  Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
-                );
-              }, true);
+              app.start(
+                function () {
+                  _this.webSocketService.emit(
+                    Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
+                  );
+                },
+                true,
+                isGuest
+              );
             };
 
-            if (initialized) {
+            if (initialized || isGuest) {
               launchGame();
             } else {
               const menuAvatar = new MenuAvatarView(

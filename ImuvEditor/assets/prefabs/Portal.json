@@ -1,20 +1,21 @@
 {
-  "name": "Portal",
+  "name": "Portal_PREFAB",
   "type": "GameObject",
   "static": true,
   "outdated": false,
-  "uuid": "E0EB2D14-8AEF-422A-AC71-C188B0CA63FA",
+  "uuid": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
   "parentUUID": null,
   "components": {
     "Render": {
-      "uuid": "081CCCA6-DFE5-4BF2-A753-E9E0B32B6FCB",
+      "uuid": "F88A0BC8-4CED-4565-BAA0-6AD08D42E0F2",
       "name": null,
       "media": null,
       "type": "Render",
-      "idModel": "spiral_spawn"
+      "idModel": "spiral_spawn",
+      "color": [1, 1, 1]
     },
     "Collider": {
-      "uuid": "AD0E34B6-BCD0-4F46-91F1-97786A4CB30B",
+      "uuid": "32FCD13B-C4F5-4F2B-BA3F-748D2EF33031",
       "type": "Collider",
       "shapes": [
         {
@@ -26,10 +27,24 @@
       "body": false
     },
     "WorldScript": {
-      "uuid": "3A79CC8A-AECB-4584-B7F0-DB755A0E53DC",
+      "uuid": "C71626D8-7AEB-4B54-805E-E2AC62CE06C9",
       "idScripts": ["portal"],
-      "conf": { "worldDestUUID": "default" },
+      "conf": {
+        "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+        "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
+        "spawnRotation": {
+          "x": 0.11522197265624445,
+          "y": 0,
+          "z": 6.253323407327942
+        }
+      },
       "type": "WorldScript"
+    },
+    "LocalScript": {
+      "uuid": "4D210DC3-544C-4020-AB93-1D7598521019",
+      "idScripts": ["rotate"],
+      "conf": { "speed": 0.001 },
+      "type": "LocalScript"
     }
   },
   "children": [],

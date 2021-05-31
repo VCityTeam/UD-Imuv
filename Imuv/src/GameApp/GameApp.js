@@ -36,7 +36,7 @@ export class GameApp {
     return result;
   }
 
-  start(onLoad, travelling = false) {
+  start(onLoad, travelling, isGuest) {
     this.gameView = new Game.GameView({
       isLocal: false,
       assetsManager: this.assetsManager,
@@ -134,10 +134,14 @@ export class GameApp {
             Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
           ]);
 
-          _this.start(function () {
-            _this.gameView.onFirstStateJSON(firstStateJSON);
-            console.log('gameview loaded');
-          });
+          _this.start(
+            function () {
+              _this.gameView.onFirstStateJSON(firstStateJSON);
+              console.log('gameview loaded');
+            },
+            false,
+            isGuest
+          ); 
         }
       }
     );
@@ -156,30 +160,32 @@ export class GameApp {
 
     this.gameView.load().then(onLoad);
 
-    //INIT UI
-    const menuAvatarButton = document.createElement('div');
-    menuAvatarButton.classList.add('button_GameApp');
-    menuAvatarButton.innerHTML = 'Menu Avatar';
-    this.gameView.appendToUI(menuAvatarButton);
+    if (!isGuest) {
+      //INIT UI
+      const menuAvatarButton = document.createElement('div');
+      menuAvatarButton.classList.add('button_GameApp');
+      menuAvatarButton.innerHTML = 'Menu Avatar';
+      this.gameView.appendToUI(menuAvatarButton);
 
-    //INIT CALLBACKS
-    menuAvatarButton.onclick = function (event) {
-      const menuAvatar = new MenuAvatarView(
-        _this.webSocketService,
-        _this.config,
-        _this.assetsManager
-      );
+      //INIT CALLBACKS
+      menuAvatarButton.onclick = function (event) {
+        const menuAvatar = new MenuAvatarView(
+          _this.webSocketService,
+          _this.config,
+          _this.assetsManager
+        );
 
-      //TODO clean this
-      menuAvatar.setOnClose(function () {
-        gV.setPause(false);
-        gV.initInputs(gV.lastState);
-        document.body.appendChild(gV.html());
-      });
-      gV.html().remove();
-      gV.setPause(true);
-      gV.inputManager.dispose();
-      document.body.appendChild(menuAvatar.html());
-    };
+        //TODO clean this
+        menuAvatar.setOnClose(function () {
+          gV.setPause(false);
+          gV.initInputs(gV.lastState);
+          document.body.appendChild(gV.html());
+        });
+        gV.html().remove();
+        gV.setPause(true);
+        gV.inputManager.dispose();
+        document.body.appendChild(menuAvatar.html());
+      };
+    }
   }
 }

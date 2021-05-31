@@ -626,12 +626,68 @@
   },
   "children": [
     {
-      "name": "Portal_Expo",
+      "name": "Portal_Conf_Patio",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "7EE2EBC0-7323-4715-91B3-371D4118D428",
+      "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+      "components": {
+        "Render": {
+          "uuid": "146C6F3F-2BA2-4502-BE06-5F62DCD7FE8E",
+          "name": null,
+          "media": null,
+          "type": "Render",
+          "idModel": "spiral_spawn",
+          "color": [1, 1, 1]
+        },
+        "Collider": {
+          "uuid": "AFAC82B4-B224-4363-82FA-399617E078F9",
+          "type": "Collider",
+          "shapes": [
+            {
+              "type": "Circle",
+              "center": { "x": 0, "y": 0 },
+              "radius": 1.689427617937126
+            }
+          ],
+          "body": false
+        },
+        "WorldScript": {
+          "uuid": "80ADD0AF-DB8E-443B-B751-BB68B57BFC88",
+          "idScripts": ["portal"],
+          "conf": {
+            "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+            "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
+            "spawnRotation": {
+              "x": 0.11522197265624445,
+              "y": 0,
+              "z": 6.253323407327942
+            }
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "5DF3924E-1822-42CA-9CEE-5DAA347322FA",
+          "idScripts": ["rotate"],
+          "conf": { "speed": 0.001 },
+          "type": "LocalScript"
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 68.8, "y": 83.5, "z": 105 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
+      "name": "Portal_Expo_Ouside",
       "type": "GameObject",
       "static": true,
       "outdated": false,
       "uuid": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
-      "parentUUID": null,
+      "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
       "components": {
         "Render": {
           "uuid": "769C8A89-A5F6-44B9-8F68-F458AEF20BB6",
@@ -658,7 +714,12 @@
           "idScripts": ["portal"],
           "conf": {
             "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-            "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC"
+            "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
+            "spawnRotation": {
+              "x": 0.11522197265624445,
+              "y": 0,
+              "z": 6.253323407327942
+            }
           },
           "type": "WorldScript"
         },
@@ -671,18 +732,18 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 62.5, "y": 161, "z": 105 },
+        "position": { "x": 62.6, "y": 160.7, "z": 105 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
     },
     {
-      "name": "Portal_Conf",
+      "name": "Portal_Conf_outside",
       "type": "GameObject",
       "static": true,
       "outdated": false,
       "uuid": "8F9051C7-B2A0-4881-848B-3484A3899AD7",
-      "parentUUID": null,
+      "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
       "components": {
         "Render": {
           "uuid": "A9F21107-4386-42F2-A05C-18A56EF51FE0",
@@ -709,7 +770,12 @@
           "idScripts": ["portal"],
           "conf": {
             "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-            "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887"
+            "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
+            "spawnRotation": {
+              "x": 0.24705369140624622,
+              "y": 0,
+              "z": 3.143055268117106
+            }
           },
           "type": "WorldScript"
         },
@@ -722,7 +788,7 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 51, "y": 64, "z": 102.5 },
+        "position": { "x": 51.2, "y": 64.4, "z": 102.5 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
@@ -733,7 +799,7 @@
       "static": false,
       "outdated": false,
       "uuid": "7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B",
-      "parentUUID": null,
+      "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
       "components": {
         "Render": {
           "uuid": "AE118224-36E8-44A4-BEED-697F0FD69BD3",
@@ -754,6 +820,71 @@
       "transform": {
         "position": { "x": 0, "y": 0, "z": 0 },
         "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
+      "name": "Frame",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "470B029B-81FA-476B-9869-401CC6EF1E94",
+      "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+      "components": {
+        "LocalScript": {
+          "uuid": "C6BD0C6B-3026-47E7-9967-0E6017FA278C",
+          "idScripts": ["video"],
+          "conf": {},
+          "type": "LocalScript"
+        },
+        "Render": {
+          "uuid": "9FE823BC-652A-4F02-82BF-D47F3A6B21E0",
+          "name": null,
+          "media": {
+            "video": {
+              "path": "./assets/videos/POC_flying_campus_juin.webm",
+              "width": 8.5,
+              "height": 5.3,
+              "size": { "width": 1280, "height": 720 }
+            }
+          },
+          "type": "Render",
+          "idModel": null,
+          "color": [1, 1, 1]
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 108.5, "y": 153.5, "z": 112.15 },
+        "rotation": { "x": 1.5707963267948966, "y": 0, "z": 3.141592653589793 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
+      "name": "Lyon City",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "600EA6FB-00DA-43CC-8C80-4C51B51005C6",
+      "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+      "components": {
+        "Render": {
+          "uuid": "D6D5592E-5F0D-47FD-A6DA-96A0B88E8301",
+          "name": null,
+          "media": null,
+          "type": "Render",
+          "idModel": "lyon_city",
+          "color": [1, 1, 1]
+        }
+      },
+      "children": [],
+      "transform": {
+        "position": { "x": 15, "y": -1336, "z": -70 },
+        "rotation": {
+          "x": 1.5707963267948966,
+          "y": 1.5707963267948966,
+          "z": 1.5707963267948966
+        },
         "scale": { "x": 1, "y": 1, "z": 1 }
       }
     }

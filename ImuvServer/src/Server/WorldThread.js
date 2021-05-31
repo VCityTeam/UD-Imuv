@@ -161,7 +161,7 @@ WorldThreadModule.routine = function (serverConfig) {
           function () {
             if (portalUUID) {
               const portal = gCtx.world.getGameObject().find(portalUUID);
-              newGO.setTransformFromJSON(portal.getTransform());
+              portal.getWorldScripts()['portal'].setTransformOf(newGO);
               gCtx.world.updateCollisionBuffer();
             } else if (transform) {
               newGO.setTransformFromJSON(transform);
