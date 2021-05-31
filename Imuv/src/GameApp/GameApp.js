@@ -141,7 +141,7 @@ export class GameApp {
             },
             false,
             isGuest
-          );
+          ); 
         }
       }
     );
