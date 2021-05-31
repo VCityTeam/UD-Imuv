@@ -7,4 +7,6 @@ const printExec = function (result) {
   console.log('stderr: \n', result.stderr);
 };
 
+console.log('Build Imuv client');
+
 exec('npm run build-debug').then(printExec);
