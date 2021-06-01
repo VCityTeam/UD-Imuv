@@ -197,6 +197,8 @@ const ServerModule = class Server {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
+          console.log(nameUser, ' is sign up');
+
           const user = userCredential.user;
 
           user
@@ -217,7 +219,7 @@ const ServerModule = class Server {
             const usersJSON = JSON.parse(data);
             const uuid = user.uid;
 
-            let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+            let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
             avatarJSON.components.Render.name = nameUser; //TODO not very clean
             avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
 
