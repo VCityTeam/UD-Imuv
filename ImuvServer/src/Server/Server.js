@@ -423,7 +423,7 @@ const ServerModule = class Server {
       ];
       avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
 
-      const uuid = new Shared.THREE.MathUtils.generateUUID();
+      const uuid = Shared.THREE.MathUtils.generateUUID();
 
       const extraData = {
         uuid: uuid,
