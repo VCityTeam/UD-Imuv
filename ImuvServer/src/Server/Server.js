@@ -185,6 +185,18 @@ const ServerModule = class Server {
     return this.assetsManager.loadFromConfig(this.config.assetsManager);
   }
 
+  fetchUserDefaultExtraData(nameUser = 'default_name') {
+    let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+    avatarJSON.components.Render.name = nameUser; //TODO not very clean
+    avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
+
+    return {
+      nameUser: nameUser,
+      initialized: false,
+      avatarJSON: avatarJSON,
+    };
+  }
+
   onConnection(socket) {
     const _this = this;
 
@@ -218,17 +230,7 @@ const ServerModule = class Server {
             }
             const usersJSON = JSON.parse(data);
             const uuid = user.uid;
-
-            let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
-            avatarJSON.components.Render.name = nameUser; //TODO not very clean
-            avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
-
-            usersJSON[uuid] = {
-              uuid: uuid,
-              nameUser: nameUser,
-              initialized: false,
-              avatarJSON: avatarJSON,
-            };
+            usersJSON[uuid] = _this.fetchUserDefaultExtraData(nameUser);
 
             fs.writeFile(
               usersJSONPath,
@@ -268,6 +270,11 @@ const ServerModule = class Server {
               }
 
               const usersJSON = JSON.parse(data);
+
+              if (!usersJSON[user.uid]) {
+                usersJSON[user.uid] = _this.fetchUserDefaultExtraData();
+              }
+
               const extraData = usersJSON[user.uid];
 
               console.log(extraData.nameUser + ' is connected');
