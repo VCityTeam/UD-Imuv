@@ -261,6 +261,15 @@ const ServerModule = class Server {
         .then((userCredential) => {
           const user = userCredential.user;
 
+          //check if this user is already connected
+          if (_this.currentUsers[user.uid]) {
+            socket.emit(
+              Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+              'You are already connected'
+            );
+            return;
+          }
+
           if (user.emailVerified) {
             const usersJSONPath = './assets/data/users.json';
 
