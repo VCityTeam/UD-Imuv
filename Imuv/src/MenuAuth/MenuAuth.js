@@ -215,7 +215,7 @@ export class MenuAuthView {
   }
 }
 
-//Helper TODO mettre code ailleurs ?
+//Helper
 const createInput = function (name, root, type = 'text') {
   const parent = document.createElement('div');
   parent.classList.add('parentInput_MenuAuth');
@@ -294,7 +294,7 @@ class SignUpView {
 
       _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.SIGN_UP, {
         email: email,
-        password: password, //TODO Iam sure this is not safe at all but for the deadline...
+        password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
         nameUser: nameUser,
       });
     };
@@ -365,7 +365,7 @@ class SignInView {
 
       _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.SIGN_IN, {
         email: email,
-        password: password, //TODO safe ?
+        password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
       });
     };
   }
