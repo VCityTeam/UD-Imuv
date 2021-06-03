@@ -79,9 +79,6 @@ export class GOEditorView {
     //json view go
     this.jsonEditorViewGO = new JSONEditorView(this, 'GameObject');
 
-    //json offset go
-    this.jsonEditorViewOffset = new JSONEditorView(this, 'Offset');
-
     //prefabs
     this.prefabs = {};
 
@@ -107,6 +104,15 @@ export class GOEditorView {
     this.addScriptButton = null; //add Script json in current go
     this.generateUUIDButton = null; //regenerate all uuid in the go
     this.editMeshesButton = null; //edit Meshes Selected
+
+    //offset
+    this.selectStep = null;
+    this.minusXOffset = null;
+    this.plusXOffset = null;
+    this.minusYOffset = null;
+    this.plusYOffset = null;
+    this.minusZOffset = null;
+    this.plusZOffset = null;
   }
 
   setPause(value) {
@@ -473,18 +479,10 @@ export class GOEditorView {
 
     this.jsonEditorViewGO.onChange(this.jsonOnChange.bind(this));
 
-    this.jsonEditorViewOffset.onChange(function () {
+    //offset
+    const offsetGO = function (offset) {
       const go = _this.model.getGameObject();
       if (!go) return;
-
-      const json = JSON.parse(
-        _this.jsonEditorViewOffset.computeCurrentString()
-      );
-      const offset = new THREE.Vector3(
-        parseFloat(json.x),
-        parseFloat(json.y),
-        parseFloat(json.z)
-      );
 
       const children = go.getChildren();
       children.forEach(function (child) {
@@ -512,8 +510,31 @@ export class GOEditorView {
       });
 
       _this.onGameObjectJSON(go.toJSON(true));
-    });
-    this.jsonEditorViewOffset.onJSON({ x: 0, y: 0, z: 0 });
+    };
+
+    //on X
+    this.minusXOffset.onclick = function () {
+      offsetGO(new THREE.Vector3(-parseFloat(_this.selectStep.value), 0, 0));
+    };
+    this.plusXOffset.onclick = function () {
+      offsetGO(new THREE.Vector3(parseFloat(_this.selectStep.value), 0, 0));
+    };
+
+    //on Y
+    this.minusYOffset.onclick = function () {
+      offsetGO(new THREE.Vector3(0, -parseFloat(_this.selectStep.value), 0));
+    };
+    this.plusYOffset.onclick = function () {
+      offsetGO(new THREE.Vector3(0, parseFloat(_this.selectStep.value), 0));
+    };
+
+    //on Z
+    this.minusZOffset.onclick = function () {
+      offsetGO(new THREE.Vector3(0, 0, -parseFloat(_this.selectStep.value)));
+    };
+    this.plusZOffset.onclick = function () {
+      offsetGO(new THREE.Vector3(0, 0, parseFloat(_this.selectStep.value)));
+    };
   }
 
   jsonOnChange() {
@@ -682,7 +703,59 @@ export class GOEditorView {
     this.ui.appendChild(this.jsonEditorViewGO.html());
 
     //offset
-    this.ui.appendChild(this.jsonEditorViewOffset.html());
+    const labelOffset = document.createElement('div');
+    labelOffset.innerHTML = 'Offset';
+    this.ui.appendChild(labelOffset);
+
+    const steps = [10, 1, 0.1, 0.01];
+    const selectStep = document.createElement('select');
+    steps.forEach(function (step) {
+      const option = document.createElement('option');
+      option.text = step + '';
+      selectStep.appendChild(option);
+    });
+    this.ui.appendChild(selectStep);
+    this.selectStep = selectStep;
+
+    const createMinusPlus = function (name) {
+      //parent
+      const parent = document.createElement('div');
+      parent.style.display = 'flex';
+
+      //label
+      const label = document.createElement('div');
+      label.innerHTML = name;
+      parent.appendChild(label);
+
+      //minus
+      const minus = document.createElement('div');
+      minus.classList.add('button_Editor');
+      minus.innerHTML = '-';
+      parent.appendChild(minus);
+
+      //plus
+      const plus = document.createElement('div');
+      plus.classList.add('button_Editor');
+      plus.innerHTML = '+';
+      parent.appendChild(plus);
+
+      return { parent: parent, minus: minus, plus: plus };
+    };
+
+    const resultX = createMinusPlus('X');
+    this.minusXOffset = resultX.minus;
+    this.plusXOffset = resultX.plus;
+    this.ui.appendChild(resultX.parent);
+
+    const resultY = createMinusPlus('Y');
+    this.minusYOffset = resultY.minus;
+    this.plusYOffset = resultY.plus;
+    this.ui.appendChild(resultY.parent);
+
+    const resultZ = createMinusPlus('Z');
+    this.minusZOffset = resultZ.minus;
+    this.plusZOffset = resultZ.plus;
+    this.ui.appendChild(resultZ.parent);
   }
 
   onGameObjectJSON(json) {
