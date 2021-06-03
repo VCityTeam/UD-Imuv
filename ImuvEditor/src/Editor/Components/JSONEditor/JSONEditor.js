@@ -14,10 +14,12 @@ const VALUES_TYPE = {
 };
 
 export class JSONEditorView {
-  constructor(parentView) {
+  constructor(parentView, name) {
     //where html is add
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_JSONEditor');
+
+    this.name = name;
 
     this.currentJSON = null;
 
@@ -263,7 +265,7 @@ export class JSONEditorView {
 
     //update html
     this.rootHtml.appendChild(
-      createHtmlObject(null, 'GameObject', this.currentJSON)
+      createHtmlObject(null, this.name, this.currentJSON)
     );
 
     //update callbacks
