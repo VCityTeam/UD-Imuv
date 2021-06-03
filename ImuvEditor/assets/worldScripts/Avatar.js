@@ -1,7 +1,15 @@
 /** @format */
 
 //scripts are commonJs module witout dependency all game context is pass as udvGameShared
-//this is due to the fact that the code is import as a string then eval() in code by the (Script/Asssets)Manager
+//this is due to the fact that the code is import as a string then eval() in code by the AsssetsManager
+
+const AVATAR_SPEED_MOVE = 0.005;
+const AVATAR_SPEED_RUN = 0.01;
+const AVATAR_SPEED_ROTATION_Z = 0.00004;
+const AVATAR_SPEED_ROTATION_X = 0.00004;
+const AVATAR_ANGLE_MIN = Math.PI / 5;
+const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
+
 module.exports = class Avatar {
   constructor(conf) {
     this.conf = conf;
@@ -61,12 +69,6 @@ module.exports = class Avatar {
   }
 
   applyCommands(gameObject, dt, gCtx) {
-    //TODO mettre valeur fichier de conf
-    const AVATAR_SPEED_MOVE = 0.005;
-    const AVATAR_SPEED_RUN = 0.01;
-    const AVATAR_SPEED_ROTATION_Z = 0.00004;
-    const AVATAR_SPEED_ROTATION_X = 0.00004;
-
     const Command = gCtx.UDVShared.Command;
     const THREE = gCtx.UDVShared.THREE;
 
@@ -172,8 +174,8 @@ module.exports = class Avatar {
     const rotation = gameObject.getTransform().rotation;
     rotation.y = 0;
     //borne between 0 => 2pi
-    const angle1 = Math.PI / 5; //TODO valeur en config
-    const angle2 = Math.PI * 2 - Math.PI / 10;
+    const angle1 = AVATAR_ANGLE_MIN;
+    const angle2 = AVATAR_ANGLE_MAX;
     if (rotation.x > Math.PI) {
       rotation.x = Math.max(rotation.x, angle2);
     } else {
