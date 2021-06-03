@@ -120,7 +120,7 @@ export class GameApp {
         if (!firstStateJSON) throw new Error('no data');
         console.log('JOIN_WORLD ', firstStateJSON);
 
-        //TODO mettre un flag initialized a la place de check this.view
+        //TODO mettre un flag initialized a la place de check this.view (wait refacto ud-vizView)
         if (!_this.gameView.view) {
           //view was not intialized do it
           _this.gameView.onFirstStateJSON(firstStateJSON);
@@ -141,7 +141,7 @@ export class GameApp {
             },
             false,
             isGuest
-          ); 
+          );
         }
       }
     );
@@ -149,12 +149,9 @@ export class GameApp {
     this.webSocketService.on(
       Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
       (diffJSON) => {
-        // console.log(_this.id, ' diff');
-
-        //TODO getter worldstate interpolator
-        _this.gameView.worldStateInterpolator.onNewDiff(
-          new WorldStateDiff(diffJSON)
-        );
+        _this.gameView
+          .getWorldStateInterpolator()
+          .onNewDiff(new WorldStateDiff(diffJSON));
       }
     );
 
@@ -175,15 +172,22 @@ export class GameApp {
           _this.assetsManager
         );
 
-        //TODO clean this
         menuAvatar.setOnClose(function () {
+          //render view
           gV.setPause(false);
-          gV.initInputs(gV.lastState);
+          //restore gameview input
+          gV.initInputs(gV.getLastState());
+          //append html
           document.body.appendChild(gV.html());
         });
+
+        //remove html
         gV.html().remove();
+        //stop rendering view
         gV.setPause(true);
-        gV.inputManager.dispose();
+        //stop listening input
+        gV.getInputManager().dispose();
+        //add menuavatar view
         document.body.appendChild(menuAvatar.html());
       };
     }
