@@ -51,8 +51,7 @@
         "anchor": "min"
       },
       "avatar_capuchon": {
-        "path": "./assets/models/avatar_capuchon_V2.glb",
-        "rotation": { "x": 0, "y": 3.141592653589793, "z": 0 },
+        "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
       "flying_campus": {
