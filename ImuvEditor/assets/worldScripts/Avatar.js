@@ -93,7 +93,7 @@ module.exports = class Avatar {
         switch (cmd.getType()) {
           case Command.TYPE.MOVE_TO:
             const target = cmd.getData().target;
-            const pos = gameObject.transform.position;
+            const pos = gameObject.getPosition();
             const dir = new THREE.Vector3(target.x, target.y).sub(
               new THREE.Vector3(pos.x, pos.y)
             );
@@ -171,7 +171,7 @@ module.exports = class Avatar {
 
   clampRotation(gameObject) {
     //clamp
-    const rotation = gameObject.getTransform().rotation;
+    const rotation = gameObject.getRotation();
     rotation.y = 0;
     //borne between 0 => 2pi
     const angle1 = AVATAR_ANGLE_MIN;
@@ -187,13 +187,11 @@ module.exports = class Avatar {
     const gameObject = arguments[0];
     const gCtx = arguments[1];
 
-    //TODO think to a proper way to handle this
-    //ie when a gameobject no static is added its should be outdated to notify client
     if (this.firstTick) {
       this.firstTick = false;
-      gameObject.outdated = true;
+      gameObject.setOutdated(true);
     } else {
-      gameObject.outdated = false;
+      gameObject.setOutdated(false);
     }
 
     this.fetchCommands(gCtx.commands, gameObject, gCtx);
