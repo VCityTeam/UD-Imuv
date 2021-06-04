@@ -488,7 +488,7 @@ export class GOEditorView {
       const children = go.getChildren();
       children.forEach(function (child) {
         child.traverse(function (g) {
-          g.transform.position.add(offset);
+          g.getPosition().add(offset);
         });
       });
 

@@ -24,7 +24,7 @@ module.exports = class Avatar {
     //spawn
     const gm = go.computeRoot(); //root is gm
     const script = gm.getWorldScripts()['gameManager'];
-    go.setTransformFromJSON(script.getSpawnTransform());
+    go.getTransform().setFromJSON(script.getSpawnTransform());
 
     //init commands
     const Command = gCtx.UDVShared.Command;
@@ -212,9 +212,14 @@ module.exports = class Avatar {
       scriptPortal.onAvatar(go, gCtx.world);
     }
 
+    this.collide(collider, go, result);
+  }
+
+  collide(collider, go, result) {
     if (collider.isBody()) {
-      go.transform.position.x -= result.overlap * result.overlap_x;
-      go.transform.position.y -= result.overlap * result.overlap_y;
+      const p = go.getTransform().getPosition();
+      p.x -= result.overlap * result.overlap_x;
+      p.y -= result.overlap * result.overlap_y;
     }
   }
 
@@ -224,10 +229,7 @@ module.exports = class Avatar {
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
 
-    if (collider.isBody()) {
-      go.transform.position.x -= result.overlap * result.overlap_x;
-      go.transform.position.y -= result.overlap * result.overlap_y;
-    }
+    this.collide(collider, go, result);
   }
 
   onLeaveCollision() {

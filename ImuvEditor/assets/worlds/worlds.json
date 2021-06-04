@@ -17,21 +17,11 @@
           "conf": {
             "mapPrefabId": "flying_campus",
             "spawnTransform": {
-              "position": {
-                "x": 127.21785572496287,
-                "y": 164.3729321580124,
-                "z": 105.22355221405807
-              },
-              "rotation": {
-                "x": 0.21799999999999553,
-                "y": 0,
-                "z": 2.441505307179602
-              },
-              "scale": {
-                "x": 1,
-                "y": 1,
-                "z": 1
-              }
+              "position": [
+                127.21785572496287, 164.3729321580124, 105.22355221405807
+              ],
+              "rotation": [0.21799999999999553, 0, 2.441505307179602],
+              "scale": [1, 1, 1]
             }
           },
           "type": "WorldScript"
@@ -39,9 +29,9 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 0, "y": 0, "z": 0 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     }
   },
@@ -63,9 +53,9 @@
           "conf": {
             "mapPrefabId": "room_expo",
             "spawnTransform": {
-              "position": { "x": 31, "y": 20, "z": 0 },
-              "rotation": { "x": 0.142, "y": 0, "z": 2.232 },
-              "scale": { "x": 1, "y": 1, "z": 1 }
+              "position": [31, 20, 0],
+              "rotation": [0.142, 0, 2.232],
+              "scale": [1, 1, 1]
             }
           },
           "type": "WorldScript"
@@ -74,9 +64,9 @@
 
       "children": [],
       "transform": {
-        "position": { "x": 0, "y": 0, "z": 0 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     }
   },
@@ -98,9 +88,9 @@
           "conf": {
             "mapPrefabId": "room_conf_modulable",
             "spawnTransform": {
-              "position": { "x": 10, "y": 10, "z": 0 },
-              "rotation": { "x": 0.142, "y": 0, "z": 2.232 },
-              "scale": { "x": 1, "y": 1, "z": 1 }
+              "position": [10, 10, 0],
+              "rotation": [0.142, 0, 2.232],
+              "scale": [1, 1, 1]
             }
           },
           "type": "WorldScript"
@@ -109,9 +99,9 @@
 
       "children": [],
       "transform": {
-        "position": { "x": 0, "y": 0, "z": 0 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     }
   }

@@ -151,7 +151,7 @@ WorldThreadModule.routine = function (serverConfig) {
       const onAddGameObject = function (data) {
         const goJson = data.gameObject;
         const portalUUID = data.portalUUID;
-        const transform = data.transform;
+        const transformJSON = data.transform;
         const newGO = new GameObject(goJson);
 
         gCtx.world.addGameObject(
@@ -163,8 +163,8 @@ WorldThreadModule.routine = function (serverConfig) {
               const portal = gCtx.world.getGameObject().find(portalUUID);
               portal.getWorldScripts()['portal'].setTransformOf(newGO);
               gCtx.world.updateCollisionBuffer();
-            } else if (transform) {
-              newGO.setTransformFromJSON(transform);
+            } else if (transformJSON) {
+              newGO.getTransform().setFromJSON(transformJSON);
               gCtx.world.updateCollisionBuffer();
             }
           }

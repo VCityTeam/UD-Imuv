@@ -676,9 +676,9 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 68.8, "y": 83.5, "z": 105 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [68.8, 83.5, 105],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     },
     {
@@ -732,11 +732,12 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 62.6, "y": 160.7, "z": 105 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [62.6, 160.7, 105],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     },
+
     {
       "name": "Portal_Conf_outside",
       "type": "GameObject",
@@ -788,9 +789,9 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 51.2, "y": 64.4, "z": 102.5 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [51.2, 64.4, 102.5],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     },
     {
@@ -818,9 +819,9 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 0, "y": 0, "z": 0 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     },
     {
@@ -855,9 +856,9 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 108.5, "y": 153.5, "z": 112.15 },
-        "rotation": { "x": 1.5707963267948966, "y": 0, "z": 3.141592653589793 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [108.5, 153.5, 112.15],
+        "rotation": [1.5707, 0, 3.1415],
+        "scale": [1, 1, 1]
       }
     },
     {
@@ -879,19 +880,15 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 15, "y": -1336, "z": -70 },
-        "rotation": {
-          "x": 1.5707963267948966,
-          "y": 1.5707963267948966,
-          "z": 1.5707963267948966
-        },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [15, -1336, -70],
+        "rotation": [1.5707, 1.5707, 1.5707],
+        "scale": [1, 1, 1]
       }
     }
   ],
   "transform": {
-    "position": { "x": 0, "y": 0, "z": 0 },
-    "rotation": { "x": 0, "y": 0, "z": 0 },
-    "scale": { "x": 1, "y": 1, "z": 1 }
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0],
+    "scale": [1, 1, 1]
   }
 }

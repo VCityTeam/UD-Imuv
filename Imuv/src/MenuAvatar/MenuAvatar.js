@@ -110,7 +110,7 @@ export class MenuAvatarView {
       function (data) {
         _this.avatarGO = new GameObject(data);
         _this.avatarGO.initAssetsComponents(_this.assetsManager, Shared, false);
-        _this.avatarGO.setTransformFromJSON(); //reset transform
+        _this.avatarGO.getTransform().setFromJSON(); //reset transform
         const object = _this.avatarGO.fetchObject3D();
         _this.scene.add(object);
         _this.focusGameObject();

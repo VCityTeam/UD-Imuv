@@ -156,14 +156,14 @@ module.exports = class Map {
 
     const elevation = getHeightValue(
       this.conf,
-      gameObject.transform.position.x,
-      gameObject.transform.position.y,
+      gameObject.getPosition().x,
+      gameObject.getPosition().y,
       this.heightmapSize,
       this.heightValues
     );
 
     if (elevation > 0) {
-      gameObject.transform.position.z = elevation;
+      gameObject.getPosition().z = elevation;
       return true;
     } else {
       return false;

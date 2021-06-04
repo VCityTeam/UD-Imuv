@@ -374,7 +374,7 @@ const ServerModule = class Server {
                     thread.on(
                       WorldThread.MSG_TYPES.GAMEOBJECT_RESPONSE,
                       function (data) {
-                        const currentAvatar = data;
+                        const currentAvatarJSON = data;
                         thread.post(
                           WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
                           u.getAvatarID()
@@ -382,7 +382,7 @@ const ServerModule = class Server {
 
                         thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
                           gameObject: u.getAvatarJSON(),
-                          transform: currentAvatar.transform,
+                          transform: currentAvatarJSON.transform,
                         });
                       }
                     );

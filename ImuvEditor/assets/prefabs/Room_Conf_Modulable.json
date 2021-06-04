@@ -152,9 +152,9 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 23.6, "y": 15.3, "z": 3.1 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [23.6, 15.3, 3.1],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     },
     {
@@ -208,9 +208,9 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 6.3, "y": 2.1, "z": 0.1 },
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [6.3, 2.1, 0.1],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1]
       }
     },
     {
@@ -245,19 +245,15 @@
       },
       "children": [],
       "transform": {
-        "position": { "x": 1.1, "y": 8.2, "z": 6.6 },
-        "rotation": {
-          "x": 1.5707963267948966,
-          "y": 1.5707963267948966,
-          "z": 0
-        },
-        "scale": { "x": 1, "y": 1, "z": 1 }
+        "position": [1.1, 8.2, 6.6],
+        "rotation": [1.5707, 1.5707, 0],
+        "scale": [1, 1, 1]
       }
     }
   ],
   "transform": {
-    "position": { "x": 0, "y": 0, "z": 0 },
-    "rotation": { "x": 0, "y": 0, "z": 0 },
-    "scale": { "x": 1, "y": 1, "z": 1 }
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0],
+    "scale": [1, 1, 1]
   }
 }

@@ -273,40 +273,7 @@ export class JSONEditorView {
   }
 
   computeCurrentString() {
-    const parseIndex = function (json) {
-      if (!(json instanceof Object)) return json;
-
-      let isArray = json instanceof Array;
-
-      if (!isArray) {
-        for (let key in json) {
-          isArray = true;
-          if (isNaN(key)) {
-            isArray = false;
-            break;
-          }
-        }
-      }
-
-      if (isArray) {
-        const parsedJson = [];
-        for (let index in json) {
-          if (!json[index]) continue;
-          parsedJson.push(json[index]);
-        }
-        json = parsedJson;
-      }
-
-      for (let key in json) {
-        json[key] = parseIndex(json[key]);
-      }
-
-      return json;
-    };
-
-    const deepCopy = JSON.parse(JSON.stringify(this.currentJSON));
-
-    return JSON.stringify(parseIndex(deepCopy));
+    return JSON.stringify(this.currentJSON);
   }
 
   onJSON(goJson) {
