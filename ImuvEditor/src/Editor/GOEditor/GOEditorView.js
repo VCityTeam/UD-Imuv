@@ -279,7 +279,7 @@ export class GOEditorView {
     this.saveGOButton.onclick = function () {
       if (_this.model && _this.model.getGameObject()) {
         const go = _this.model.getGameObject();
-        const goJSON = go.toJSON(true); //TODO remove true by changing the default value
+        const goJSON = go.toJSON(true);
         Components.SystemUtils.File.downloadObjectAsJson(goJSON, goJSON.name);
       }
     };
