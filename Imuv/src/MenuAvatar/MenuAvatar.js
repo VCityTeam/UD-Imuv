@@ -5,10 +5,10 @@ import './MenuAvatar.css';
 const GameObject = require('ud-viz/src/Game/Shared/GameObject/GameObject');
 
 import { THREE, OrbitControls } from 'ud-viz';
-import { THREEUtils } from 'ud-viz/src/Game/Shared/Components/THREEUtils';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
-import { Shared } from 'ud-viz/src/Game/Shared/Shared';
 import RenderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
+
+const Shared = require('ud-viz/src/Game/Shared/Shared');
 
 export class MenuAvatarView {
   constructor(webSocketService, config, assetsManager) {
@@ -45,7 +45,7 @@ export class MenuAvatarView {
       canvas: canvas,
       antialias: true,
     });
-    THREEUtils.initRenderer(
+    Shared.Components.THREEUtils.initRenderer(
       this.renderer,
       new THREE.Color(0.4, 0.6, 0.8),
       true
@@ -101,7 +101,7 @@ export class MenuAvatarView {
 
     this.initUI();
     this.initCallbacks();
-    THREEUtils.addLights(this.scene);
+    Shared.Components.THREEUtils.addLights(this.scene);
 
     this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO);
 
