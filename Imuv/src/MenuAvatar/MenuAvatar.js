@@ -5,7 +5,7 @@ import './MenuAvatar.css';
 const GameObject = require('ud-viz/src/Game/Shared/GameObject/GameObject');
 
 import { THREE, OrbitControls } from 'ud-viz';
-import { THREEUtils } from 'ud-viz/src/Game/Components/THREEUtils';
+import { THREEUtils } from 'ud-viz/src/Game/Shared/Components/THREEUtils';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
 import { Shared } from 'ud-viz/src/Game/Shared/Shared';
 import RenderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Render';

@@ -18,9 +18,10 @@ import { GOEditorModel } from './GOEditorModel';
 import RenderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
 import ColliderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
-import { THREEUtils } from 'ud-viz/src/Game/Components/THREEUtils';
 import JSONUtils from 'ud-viz/src/Components/SystemUtils/JSONUtils';
 import { MeshEditorView } from './MeshEditor/MeshEditorView';
+
+const THREEUtils = require('ud-viz/src/Game/Shared/Components/THREEUtils');
 
 const LOCAL_STORAGE_FLAG_JSON = 'GOEditor_bufferJSON';
 const LOCAL_STORAGE_FLAG_PREFABS = 'GOEditor_bufferPrefabs';

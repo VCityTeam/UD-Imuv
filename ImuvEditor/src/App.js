@@ -3,11 +3,12 @@
 import { Editor } from './Editor/Editor.js';
 import { Game, Components } from 'ud-viz';
 
-//TODO déplacer dans Components udviz
+
 export class App {
   constructor() {
     this.editor = null;
 
+    //DEBUG
     window.UDVDebugger = new Game.UDVDebugger(document.body);
   }
 

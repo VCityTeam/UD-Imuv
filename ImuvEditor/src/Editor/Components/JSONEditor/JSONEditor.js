@@ -202,7 +202,7 @@ export class JSONEditorView {
           parent[newKey] = copyObject;
 
           result.appendChild(
-            createHtmlObject(parent, newKey, copyObject) //TODO remove third param
+            createHtmlObject(parent, newKey, copyObject) //TODO remove third param (not sure to keep this object)
           );
           result.classList.remove('hidden');
           _this.onchange();

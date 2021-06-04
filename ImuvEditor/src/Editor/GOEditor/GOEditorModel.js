@@ -22,7 +22,7 @@ export class GOEditorModel {
   }
 
   initScene() {
-    Game.Components.THREEUtils.addLights(this.scene);
+    Game.Shared.Components.THREEUtils.addLights(this.scene);
   }
 
   getBoundingBox() {

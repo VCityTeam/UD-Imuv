@@ -33,7 +33,7 @@ export class Editor {
 
     //flex parent
     const parentFlex = document.createElement('div');
-    parentFlex.style.display = 'flex';//TODO in css
+    parentFlex.classList.add('flex');
     parentUI.appendChild(parentFlex);
 
     //switch view
@@ -42,7 +42,6 @@ export class Editor {
     switchView.innerHTML = 'Switch Editor View';
     parentFlex.appendChild(switchView);
     this.switchView = switchView;
-
   }
 
   initCallbacks() {

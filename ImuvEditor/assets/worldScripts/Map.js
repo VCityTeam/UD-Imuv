@@ -15,8 +15,7 @@ module.exports = class Map {
 
       const img = document.createElement('img');
 
-      //TODO mettre in Component
-      //consider assets are in ./
+      //TODO à refaire après rearchitecture
       let path = conf.heightmap_path;
       const index = path.indexOf('/assets');
       path = './' + path.slice(index);
