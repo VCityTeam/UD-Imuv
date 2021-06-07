@@ -76,7 +76,7 @@ export class WorldEditorView {
           //consider assets are in ./
           let path = s['map'].conf.heightmap_path;
           const index = path.indexOf('/assets');
-          path = './' + path.slice(index);
+          path = './applications/server' + path.slice(index);
 
           //create html element
           _this.imgHeightmap = document.createElement('img');

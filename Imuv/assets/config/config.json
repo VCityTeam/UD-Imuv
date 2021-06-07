@@ -2,77 +2,77 @@
   "assetsManager": {
     "prefabs": {
       "room_conf_modulable": {
-        "path": "./assets/prefabs/Room_Conf_Modulable.json"
+        "path": "./applications/server/assets/prefabs/Room_Conf_Modulable.json"
       },
       "room_expo": {
-        "path": "./assets/prefabs/Room Expo Map.json"
+        "path": "./applications/server/assets/prefabs/Room Expo Map.json"
       },
       "flying_campus": {
-        "path": "./assets/prefabs/Flying Campus Map.json"
+        "path": "./applications/server/assets/prefabs/Flying Campus Map.json"
       },
       "portal": {
-        "path": "./assets/prefabs/Portal.json"
+        "path": "./applications/server/assets/prefabs/Portal.json"
       },
       "avatar": {
-        "path": "./assets/prefabs/Avatar.json"
+        "path": "./applications/server/assets/prefabs/Avatar.json"
       },
       "frame": {
-        "path": "./assets/prefabs/Frame.json"
+        "path": "./applications/server/assets/prefabs/Frame.json"
       }
     },
     "worldScripts": {
       "portal": {
-        "path": "./assets/worldScripts/Portal.js"
+        "path": "./applications/server/assets/worldScripts/Portal.js"
       },
       "avatar": {
-        "path": "./assets/worldScripts/Avatar.js"
+        "path": "./applications/server/assets/worldScripts/Avatar.js"
       },
       "map": {
-        "path": "./assets/worldScripts/Map.js"
+        "path": "./applications/server/assets/worldScripts/Map.js"
       },
       "gameManager": {
-        "path": "./assets/worldScripts/GameManager.js"
+        "path": "./applications/server/assets/worldScripts/GameManager.js"
       },
       "zeppelin": {
-        "path": "./assets/worldScripts/Zeppelin.js"
+        "path": "./applications/server/assets/worldScripts/Zeppelin.js"
       }
     },
     "localScripts": {
       "video": {
-        "path": "./assets/localScripts/Video.js"
+        "path": "./applications/client/assets/localScripts/Video.js"
       },
       "rotate": {
-        "path": "./assets/localScripts/Rotate.js"
+        "path": "./applications/client/assets/localScripts/Rotate.js"
       }
     },
     "models": {
       "room_conf_modulable": {
-        "path": "./assets/models/Room_Conf_Modulable.glb",
+        "path": "./applications/client/assets/models/Room_Conf_Modulable.glb",
         "anchor": "min"
       },
       "avatar_capuchon": {
-        "path": "./assets/models/avatar_capuchon.glb",
+        "path": "./applications/client/assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
       "flying_campus": {
-        "path": "./assets/models/flying_campus.glb",
+        "path": "./applications/client/assets/models/flying_campus.glb",
         "anchor": "min"
       },
       "room_expo": {
-        "path": "./assets/models/Room_Expo.glb",
+        "path": "./applications/client/assets/models/Room_Expo.glb",
         "anchor": "min"
       },
       "spiral_spawn": {
-        "path": "./assets/models/Spirale_spawn.glb",
+        "path": "./applications/client/assets/models/Spirale_spawn.glb",
         "scale": { "x": 0.8, "y": 0.8, "z": 0.8 },
         "anchor": "center_min"
       },
       "zeppelin": {
-        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
+        "path": "./applications/client/assets/models/Zeppelin_Labex_IMU.glb",
         "anchor": "center_min"
       },
       "lyon_city": {
-        "path": "./assets/models/flyingCampus_cube50.glb",
+        "path": "./applications/client/assets/models/flyingCampus_cube50.glb",
         "rotation": { "x": 0, "y": 0, "z": 0 },
         "noShadow": true,
         "anchor": "center_min"
@@ -80,21 +80,25 @@
     }
   },
   "game": {
-    "traveling_time": 1000,
+    "traveling_time": 1500,
     "fps": 30,
     "shadowMapSize": 2046,
     "fog": {
-      "near": 10,
-      "far": 200
+      "near": 5,
+      "far": 100
     },
-    "skyColor": { "r": 0.4, "g": 0.6, "b": 0.8 }
+    "skyColor": {
+      "r": 0.4,
+      "g": 0.6,
+      "b": 0.8
+    }
   },
   "itowns": {
     "radiusExtent": 1000,
     "camera": {
-      "range": "3000",
-      "heading": "-49.6",
-      "tilt": "17"
+      "range": 3000,
+      "heading": -50,
+      "tilt": 10
     }
   }
 }

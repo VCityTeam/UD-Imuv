@@ -15,14 +15,13 @@ module.exports = class Map {
 
       const img = document.createElement('img');
 
-      //TODO à refaire après rearchitecture
+      //modify the path because in local heightmap are not in ./assets but in ./applications/server/assets
       let path = conf.heightmap_path;
       const index = path.indexOf('/assets');
-      path = './' + path.slice(index);
+      path = './applications/server' + path.slice(index);
       img.src = path;
 
       //callback of the img
-
       img.onload = function () {
         _this.heightmapSize = { width: img.width, height: img.height };
 
@@ -35,8 +34,12 @@ module.exports = class Map {
         const ctx = canvas.getContext('2d');
 
         ctx.drawImage(img, 0, 0);
-        const imgDataHeight = ctx.getImageData(0, 0, img.width, img.height)
-          .data;
+        const imgDataHeight = ctx.getImageData(
+          0,
+          0,
+          img.width,
+          img.height
+        ).data;
 
         for (let index = 0; index < imgDataHeight.length; index += 4) {
           let heightValue = imgDataHeight[index] / 255;
@@ -58,13 +61,7 @@ module.exports = class Map {
       const PNG = modules.PNG;
 
       const conf = this.conf;
-
-      const index = conf.heightmap_path.indexOf('assets');
-      const newPath = '../../ImuvEditor/' + conf.heightmap_path.slice(index);
-      const path = require('path');
-      const hPath = path.resolve(__dirname, newPath);
-      // console.log(hPath);
-      const heightmap = gm(hPath);
+      const heightmap = gm(conf.heightmap_path);
 
       const _this = this;
 
