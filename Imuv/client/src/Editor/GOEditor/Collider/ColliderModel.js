@@ -1,9 +1,7 @@
 /** @format */
 
 import { THREE } from 'ud-viz';
-
-const ColliderComponent = require('ud-viz/src/Game/Shared/GameObject/Components/Collider');
-
+import { ColliderComponent } from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 import * as ShapeController from '../../Components/ShapeController';
 
 const CANVAS_TEXTURE_SIZE = 2046;
@@ -24,7 +22,6 @@ export class ColliderModel {
 
     //shape to draw on texture in addition
     this.currentShape = null;
-
   }
 
   init() {
@@ -179,12 +176,17 @@ export class ColliderModel {
       s.draw(ctx, CANVAS_TEXTURE_SIZE, 'rgba(255, 0, 0, .8)', bb);
     });
     if (this.currentShape)
-      this.currentShape.draw(ctx, CANVAS_TEXTURE_SIZE, 'rgba(0, 255, 0, .5)', bb);
+      this.currentShape.draw(
+        ctx,
+        CANVAS_TEXTURE_SIZE,
+        'rgba(0, 255, 0, .5)',
+        bb
+      );
 
     const textureShape = this.loader.load(
       this.canvasTexture.toDataURL('image/png')
     );
-    
+
     textureShape.flipY = false;
     textureShape.flipX = true;
     textureShape.magFilter = THREE.NearestFilter;
@@ -193,7 +195,7 @@ export class ColliderModel {
       side: THREE.DoubleSide,
       color: 'white',
       transparent: true,
-      map: textureShape
+      map: textureShape,
     });
   }
 }

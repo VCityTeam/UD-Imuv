@@ -1,20 +1,18 @@
 /** @format */
 
-import { createTileGroupsFromBatchIDs } from "ud-viz/src/Components/3DTiles/3DTilesUtils";
-import { TemporalGraphWindow } from "ud-viz/src/Widgets/Temporal/View/TemporalGraphWindow";
-import { MeshEditorModel } from "./MeshEditorModel";
-import { THREE } from "ud-viz";
+import { MeshEditorModel } from './MeshEditorModel';
+import { THREE } from 'ud-viz';
 
 export class MeshEditorView {
   constructor(goView) {
     //parent
     this.goView = goView;
     //root UI
-    this.rootHtml = document.createElement("div");
-    this.rootHtml.classList.add("root_MeshEditorView");
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root_MeshEditorView');
 
     //MeshEditor Model
-    if (!goView.model) throw new Error("no model");
+    if (!goView.model) throw new Error('no model');
     this.model = new MeshEditorModel(goView.model);
 
     //raycaster
@@ -43,48 +41,47 @@ export class MeshEditorView {
 
   initUI() {
     //Selected Object
-    const labelSelectedObjected = document.createElement("div");
-    labelSelectedObjected.innerHTML = "Selected Object";
+    const labelSelectedObjected = document.createElement('div');
+    labelSelectedObjected.innerHTML = 'Selected Object';
     this.rootHtml.appendChild(labelSelectedObjected);
     this.selectedObject = labelSelectedObjected;
 
     //hidden meshes preview
-    const labelHiddenMeshesList = document.createElement("div");
-    labelHiddenMeshesList.innerHTML = "Hidden Meshes";
+    const labelHiddenMeshesList = document.createElement('div');
+    labelHiddenMeshesList.innerHTML = 'Hidden Meshes';
     this.rootHtml.appendChild(labelHiddenMeshesList);
-    const hiddenMeshesList = document.createElement("ul");
+    const hiddenMeshesList = document.createElement('ul');
     this.rootHtml.appendChild(hiddenMeshesList);
     this.hiddenMeshesList = hiddenMeshesList;
 
     this.updateUI();
   }
 
-  meshHTML(mesh){
+  meshHTML(mesh) {
     const _this = this;
     const result = document.createElement('li');
     result.innerHTML = mesh.name;
-    var dictMeshParent = _this.model.dictMeshParent;
-    var hiddenMeshes = _this.model.hiddenMeshes;
-    result.onmouseover = function() {
+    let dictMeshParent = _this.model.dictMeshParent;
+    let hiddenMeshes = _this.model.hiddenMeshes;
+    result.onmouseover = function () {
       console.log(_this.model.dictMeshParent[mesh]);
-      if(!dictMeshParent.hasOwnProperty(mesh.uuid)) return;
+      if (!dictMeshParent[mesh.uuid]) return;
       dictMeshParent[mesh.uuid].add(mesh);
       _this.model.showObject(mesh);
-    }
-    result.onmouseout = function() {
-      console.log("OUT",dictMeshParent.hasOwnProperty(mesh.uuid));
-      if(!dictMeshParent.hasOwnProperty(mesh.uuid)) return;
+    };
+    result.onmouseout = function () {
+      if (!dictMeshParent[mesh.uuid]) return;
       dictMeshParent[mesh.uuid].remove(mesh);
-    }
-    
-    result.onpointerdown = function(event) {
+    };
+
+    result.onpointerdown = function (event) {
       if (event.button != 0) return; //only left click
       {
         delete dictMeshParent[mesh.uuid];
-        hiddenMeshes.splice(hiddenMeshes.indexOf(mesh),1);
+        hiddenMeshes.splice(hiddenMeshes.indexOf(mesh), 1);
         _this.updateUI();
       }
-    }
+    };
 
     return result;
   }
@@ -129,7 +126,8 @@ export class MeshEditorView {
 
       //3. compute intersections
       _this.intersects = _this.raycaster.intersectObjects(
-        _this.goView.getModel().getGameObject().fetchObject3D().children, true
+        _this.goView.getModel().getGameObject().fetchObject3D().children,
+        true
       );
       const intersects = _this.intersects;
       if (intersects.length > 0) {
@@ -138,22 +136,21 @@ export class MeshEditorView {
         _this.model.setCurrentMesh(null);
       }
 
-      _this.selectedObject.innerHTML = "Name : " + _this.model.getNameCurrentMesh();
+      _this.selectedObject.innerHTML =
+        'Name : ' + _this.model.getNameCurrentMesh();
     };
 
     canvas.onpointermove = function (event) {
-      if(event.buttons != 0) return; //stop raycast when rotating
+      if (event.buttons != 0) return; //stop raycast when rotating
       getObjectOnHover(event);
     };
 
-    window.onkeydown = function(event) {
-      if(event.defaultPrevented) return;
-      if(event.code == "KeyR")
-      {
+    window.onkeydown = function (event) {
+      if (event.defaultPrevented) return;
+      if (event.code == 'KeyR') {
         _this.model.addIntersectedObjectInHiddenMeshes();
         _this.updateUI();
       }
-    }
+    };
   }
-
 }

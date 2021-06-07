@@ -28,7 +28,7 @@ const Circle = class CircleClass {
     return new Circle().fromJSON(this.toJSON(new THREE.Vector2()));
   }
 
-  mouseUp(point) {
+  mouseUp() {
     this.isEdited = false;
   }
 
@@ -178,8 +178,8 @@ const Polygon = class PolygonClass {
       });
     }
   }
-  mouseUp(point) {}
-  mouseMove(point) {}
+  mouseUp() {}
+  mouseMove() {}
   mouseDown(point) {
     if (!point) return;
     this.points.push(point);

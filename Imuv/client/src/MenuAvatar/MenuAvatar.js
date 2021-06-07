@@ -2,13 +2,11 @@
 
 import './MenuAvatar.css';
 
-const GameObject = require('ud-viz/src/Game/Shared/GameObject/GameObject');
-
+import { GameObject } from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 import { THREE, OrbitControls } from 'ud-viz';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
 import RenderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
-
-const Shared = require('ud-viz/src/Game/Shared/Shared');
+import { Shared } from 'ud-viz/src/Game/Shared/Shared';
 
 export class MenuAvatarView {
   constructor(webSocketService, config, assetsManager) {
@@ -143,7 +141,7 @@ export class MenuAvatarView {
 
   initUI() {
     const labelNameUser = document.createElement('div');
-    labelNameUser.innerHTML = "Nom d'utilisateur";
+    labelNameUser.innerHTML = 'Nom utilisateur';
     this.ui.appendChild(labelNameUser);
 
     this.inputNameUser = document.createElement('input');

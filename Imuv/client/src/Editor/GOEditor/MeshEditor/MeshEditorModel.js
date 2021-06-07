@@ -1,6 +1,6 @@
 /** @format */
 
-import { THREE } from "ud-viz";
+import { THREE } from 'ud-viz';
 
 export class MeshEditorModel {
   constructor(gameObjectModel) {
@@ -10,7 +10,6 @@ export class MeshEditorModel {
     this.dictMeshParent = {};
     this.currentMesh = null;
     this.onHoverMesh = null;
-
   }
 
   init() {}
@@ -36,7 +35,7 @@ export class MeshEditorModel {
         _this.currentMesh = mesh;
         _this.onHoverMesh = _this.currentMesh.clone();
         _this.onHoverMesh.material = _this.onHoverMesh.material.clone();
-        _this.onHoverMesh.material.emissive.r =1.0;
+        _this.onHoverMesh.material.emissive.r = 1.0;
         _this.currentMesh.parent.add(_this.onHoverMesh);
         _this.hideObject(_this.currentMesh);
       }
@@ -52,7 +51,7 @@ export class MeshEditorModel {
     if (this.currentMesh) {
       return this.currentMesh.name;
     } else {
-      return'No Current Mesh';
+      return 'No Current Mesh';
     }
   }
 
@@ -75,5 +74,4 @@ export class MeshEditorModel {
       }
     });
   }
-
 }

@@ -72,16 +72,20 @@ export class Editor {
   load() {
     const _this = this;
     return new Promise((resolve, reject) => {
-      _this.assetsManager
-        .loadFromConfig(_this.config.assetsManager)
-        .then(_this.goView.load.bind(_this.goView))
-        .then(_this.worldView.load.bind(_this.worldView))
-        .then(function () {
-          _this.initUI();
-          _this.initCallbacks();
+      try {
+        _this.assetsManager
+          .loadFromConfig(_this.config.assetsManager)
+          .then(_this.goView.load.bind(_this.goView))
+          .then(_this.worldView.load.bind(_this.worldView))
+          .then(function () {
+            _this.initUI();
+            _this.initCallbacks();
 
-          resolve();
-        });
+            resolve();
+          });
+      } catch (e) {
+        reject();
+      }
     });
   }
 

@@ -5,8 +5,7 @@ import { MenuAuthView } from '../MenuAuth/MenuAuth';
 import './Reception.css';
 
 //TODO en conf
-const aboutString =
-  "Les communautés de recherche fédérées au sein du LabEx IMU traitent de l'urbanisation sous toutes ses formes: les villes, les métropoles, les mégalopoles, les villes mondes, les Altervilles, les seconds city, l'urbain, l'urbain généralisé... et dans ses temporalités. L'urbanisation est processus ancien qui se généralise pour atteindre, depuis la fin du XXe siècle, des seuils et des formes sans équivalents historiques.<br><br>Quel monde advient-il avec l'urbain généralisé? Vers quelles sociétés, quels environnements conduit ce processus? Vers quels états social, politique, technique, économique, environnemental conduit-il? Quelles dynamiques - sociales, politiques, tehnique, technoscientifique, etc. - l'orientent?<br><br>Intention : Proposer un espace virtuel collaboratif innovant destiné en priorité aux laboratoires et aux partenaires de la communauté IMU. Mais également, un espace virtuel restant en partie accessible 24h/24h aux acteurs de la ville; praticiens et citoyens intéressés par les réflexions permanents sur l'aménagement urbain dans tous les domaines scientifiques universitaires.";
+const aboutString = 'text to fill waiting config with text';
 
 export class ReceptionView {
   constructor(webSocketService) {
@@ -89,8 +88,7 @@ export class ReceptionView {
     this.rootHtml.appendChild(contentDiv);
 
     const titleContent = document.createElement('div');
-    titleContent.innerHTML =
-      "Un observatoire sur la ville d'hier, d'aujourd'hui et de demain"; //TODO should go in a config file to allow to swicth betwwen languages
+    titleContent.innerHTML = 'text to fill waiting config with text'; //TODO should go in a config file to allow to swicth betwwen languages
     titleContent.classList.add('titleContent_Reception');
     contentDiv.appendChild(titleContent);
 

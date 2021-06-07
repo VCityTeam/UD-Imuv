@@ -3,8 +3,8 @@
 import { Game, THREE } from 'ud-viz';
 import { Routine } from 'ud-viz/src/Game/Components/Cameraman';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
-const Data = require('ud-viz/src/Game/Shared/Components/Data');
-const WorldStateDiff = require('ud-viz/src/Game/Shared/WorldStateDiff');
+import Data from 'ud-viz/src/Game/Shared/Components/Data';
+import WorldStateDiff from 'ud-viz/src/Game/Shared/WorldStateDiff';
 
 import './GameApp.css';
 
@@ -165,7 +165,7 @@ export class GameApp {
       this.gameView.appendToUI(menuAvatarButton);
 
       //INIT CALLBACKS
-      menuAvatarButton.onclick = function (event) {
+      menuAvatarButton.onclick = function () {
         const menuAvatar = new MenuAvatarView(
           _this.webSocketService,
           _this.config,

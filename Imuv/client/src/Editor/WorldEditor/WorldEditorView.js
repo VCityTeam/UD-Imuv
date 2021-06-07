@@ -1,7 +1,7 @@
 /** @format */
 
 import './WorldEditor.css';
-import { Game, Components, THREE } from 'ud-viz';
+import { Game, Components } from 'ud-viz';
 const File = Components.SystemUtils.File;
 
 export class WorldEditorView {
@@ -209,7 +209,6 @@ export class WorldEditorView {
 
     //register
     newWorld.on('portalEvent', function (params) {
-      const avatar = params[0];
       const worldToGoUUID = params[1];
       const portalUUID = params[2];
 
@@ -276,13 +275,17 @@ export class WorldEditorView {
   load() {
     const _this = this;
     return new Promise((resolve, reject) => {
-      _this.initUI();
+      try {
+        _this.initUI();
 
-      _this.initCallbacks();
+        _this.initCallbacks();
 
-      _this.renderCanvas();
+        _this.renderCanvas();
 
-      resolve();
+        resolve();
+      } catch (e) {
+        reject();
+      }
     });
   }
 }

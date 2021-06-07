@@ -69,7 +69,7 @@ export class MenuAuthView {
     this.parentButtons.appendChild(this.signUpButton);
 
     this.signInButton = document.createElement('div');
-    this.signInButton.innerHTML = "J'ai déja un compte";
+    this.signInButton.innerHTML = 'J ai déja un compte';
     this.signInButton.classList.add('button_pink_MenuAuth');
     this.parentButtons.appendChild(this.signInButton);
 
@@ -285,7 +285,7 @@ class SignUpView {
     parentInputs.classList.add('parentCentered_MenuAuth');
     this.rootHtml.appendChild(parentInputs);
 
-    this.inputNameUser = createInput("Nom d'utilisateur", parentInputs);
+    this.inputNameUser = createInput('Nom d utilisateur', parentInputs);
     this.inputMail = createInput('Mail', parentInputs);
     this.inputMailConfirm = createInput('Confirmez mail', parentInputs);
     this.inputPassword = createInput('Mot de passe', parentInputs, 'password');

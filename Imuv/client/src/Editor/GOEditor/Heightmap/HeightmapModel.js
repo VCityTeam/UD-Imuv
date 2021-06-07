@@ -1,8 +1,7 @@
 /** @format */
 
 import { THREE } from 'ud-viz';
-
-const WorldScriptComponent = require('ud-viz/src/Game/Shared/GameObject/Components/WorldScript');
+import { WorldScriptComponent } from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 
 export class HeightmapModel {
   constructor(gameObjectModel) {

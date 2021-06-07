@@ -1,11 +1,5 @@
 /** @format */
-import {
-  THREE,
-  OrbitControls,
-  PointerLockControls,
-  Game,
-  Components,
-} from 'ud-viz';
+import { THREE, OrbitControls, Game, Components } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';
 import { ColliderView } from './Collider/ColliderView';
@@ -217,12 +211,12 @@ export class GOEditorView {
     this.switchControls.onclick = function () {
       _this.controls.dispose();
       if (_this.controls instanceof OrbitControls) {
-        console.log('PointerLockControls');
-        _this.renderer.domElement.requestPointerLock();
-        _this.controls = new PointerLockControls(
-          _this.camera,
-          _this.renderer.domElement
-        );
+        // console.log('PointerLockControls');
+        // _this.renderer.domElement.requestPointerLock();
+        // _this.controls = new PointerLockControls(
+        //   _this.camera,
+        //   _this.renderer.domElement
+        // );
       } else {
         console.log('OrbitControls');
         _this.controls = new OrbitControls(

@@ -67,7 +67,7 @@ export class JSONEditorView {
       if (Components.SystemUtils.Type.isNumeric(value)) {
         input.type = 'number';
         input.value = parseFloat(value);
-        input.onchange = function (event) {
+        input.onchange = function () {
           if (isArray) {
             json.push(this.value);
           } else {
@@ -77,7 +77,7 @@ export class JSONEditorView {
       } else if (typeof value == 'boolean') {
         input.type = 'checkbox';
         input.checked = value;
-        input.onchange = function (event) {
+        input.onchange = function () {
           if (isArray) {
             json.push(this.checked);
           } else {
@@ -87,7 +87,7 @@ export class JSONEditorView {
       } else if (typeof value == 'string' || value === null) {
         input.type = 'text';
         input.value = value;
-        input.onchange = function (event) {
+        input.onchange = function () {
           if (isArray) {
             json.push(this.value);
           } else {
@@ -109,7 +109,7 @@ export class JSONEditorView {
       result.appendChild(removeButton);
 
       //callbacks
-      removeButton.onclick = function (event) {
+      removeButton.onclick = function () {
         delete json[key];
         _this.onchange();
         result.remove(); //remove ui
@@ -179,7 +179,7 @@ export class JSONEditorView {
 
       //INITCALLBACKS
       let hidden = true;
-      foldButton.onclick = function (event) {
+      foldButton.onclick = function () {
         hidden = !hidden;
 
         if (hidden) {
@@ -209,7 +209,7 @@ export class JSONEditorView {
         }
       };
 
-      removeButton.onclick = function (event) {
+      removeButton.onclick = function () {
         if (parent) {
           if (parent instanceof Array) {
             parent.splice(keyParent, 1);
@@ -223,7 +223,7 @@ export class JSONEditorView {
         result.remove();
       };
 
-      addButton.onclick = function (event) {
+      addButton.onclick = function () {
         const type = selectValueAdd.selectedOptions[0].value;
 
         const msgKey = 'Key ?';
