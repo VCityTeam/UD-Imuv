@@ -824,7 +824,7 @@
       }
     },
     {
-      "name": "Frame",
+      "name": "Video Intro",
       "type": "GameObject",
       "static": true,
       "outdated": false,
@@ -834,20 +834,17 @@
         "LocalScript": {
           "uuid": "C6BD0C6B-3026-47E7-9967-0E6017FA278C",
           "idScripts": ["video"],
-          "conf": {},
+          "conf": {
+            "idVideo": "introduction_flying_campus",
+            "width": 8.5,
+            "height": 5.3,
+            "size": { "width": 1280, "height": 720 }
+          },
           "type": "LocalScript"
         },
         "Render": {
           "uuid": "9FE823BC-652A-4F02-82BF-D47F3A6B21E0",
           "name": null,
-          "media": {
-            "video": {
-              "path": "./assets/videos/POC_flying_campus_juin.webm",
-              "width": 8.5,
-              "height": 5.3,
-              "size": { "width": 1280, "height": 720 }
-            }
-          },
           "type": "Render",
           "idModel": null,
           "color": [1, 1, 1]

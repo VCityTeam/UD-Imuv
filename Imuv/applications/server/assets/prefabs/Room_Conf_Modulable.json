@@ -214,7 +214,7 @@
       }
     },
     {
-      "name": "Frame",
+      "name": "Video final IMU",
       "type": "GameObject",
       "static": true,
       "outdated": false,
@@ -224,20 +224,17 @@
         "LocalScript": {
           "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
           "idScripts": ["video"],
-          "conf": {},
+          "conf": {
+            "idVideo": "final_IMU",
+            "width": 10,
+            "height": 6,
+            "size": { "width": 853, "height": 480 }
+          },
           "type": "LocalScript"
         },
         "Render": {
           "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
           "name": null,
-          "media": {
-            "video": {
-              "path": "./assets/videos/final_IMU_sept2019.webm",
-              "width": 10,
-              "height": 6,
-              "size": { "width": 853, "height": 480 }
-            }
-          },
           "type": "Render",
           "idModel": null,
           "color": [1, 1, 1]

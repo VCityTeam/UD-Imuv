@@ -77,6 +77,14 @@
         "noShadow": true,
         "anchor": "center_min"
       }
+    },
+    "videos": {
+      "introduction_flying_campus": {
+        "path": "./applications/client/assets/videos/POC_flying_campus_juin.webm"
+      },
+      "final_IMU": {
+        "path": "./applications/client/assets/videos/final_IMU_sept2019.webm"
+      }
     }
   },
   "game": {
