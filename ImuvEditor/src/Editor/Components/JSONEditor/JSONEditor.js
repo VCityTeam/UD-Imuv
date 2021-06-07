@@ -232,8 +232,6 @@ export class JSONEditorView {
           return;
         }
 
-        //TODO with event api notify GOEditorView when prefabId
-
         switch (type) {
           case VALUES_TYPE.STRING:
             object[key] = '';
