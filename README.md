@@ -58,7 +58,18 @@ some server (possibly your desktop). For example
    and thus require no specific configuratione there is nothing more to do
  * handling of documents will require you to [install the API_enhanced_city](https://github.com/VCityTeam/UD-Serv/blob/master/API_Enhanced_City/INSTALL.md).
  * you can also modify the [application configuration file](DemoFull/assets/config/config.json)
- 
+
+
+## Pre-requisites to install Imuv
+You have to install [imagemagick](https://imagemagick.org/index.php) or [graphicsmagick](http://www.graphicsmagick.org/) on your desktop since the server used [gm](https://www.npmjs.com/package/gm?activeTab=readme) needed the binary files to works.
+
+* **Linux**
+```bash
+ sudo apt-get install -y imagemagick graphicsmagick
+```
+* **Windows**
+FIXME: unmature section
+
 ## Installing Imuv application
 
 Imuv can be locally (on your desktop) started in the following way:
@@ -75,6 +86,7 @@ Note that technically the `npm run debug` command will use the [nodemon](https:/
 - in case of change run a node.js routine (./bin/debug.js) that will repacks an updated bundle
 
 Then install the server:
+
 ```
 cd Imuv/server
 npm install
