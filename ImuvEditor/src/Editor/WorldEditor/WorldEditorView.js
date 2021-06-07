@@ -203,7 +203,7 @@ export class WorldEditorView {
 
     this.gameView.load().then(function () {
       const htmlView = _this.gameView.html();
-      //TODO no css inline
+      //TODO no css inline (wait reafacto editor)
       htmlView.style.display = 'inline-block';
       htmlView.style.position = 'absolute';
       _this.updateUI();

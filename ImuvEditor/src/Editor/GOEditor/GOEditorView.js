@@ -204,7 +204,13 @@ export class GOEditorView {
     //input
     this.input.addEventListener(
       'change',
-      this.readSingleFile.bind(this),
+      function (e) {
+        Components.SystemUtils.File.readSingleFile(e, function (e) {
+          const json = JSON.parse(e.target.result);
+          console.log('PREFAB = ', json);
+          _this.onOpenNewPrefab(json);
+        });
+      },
       false
     );
 
@@ -804,57 +810,11 @@ export class GOEditorView {
   onOpenNewPrefab(json) {
     this.prefabs[json.name] = json;
     //store localstorage
-    localStorage.setItem(LOCAL_STORAGE_FLAG_PREFABS, this.pack(this.prefabs));
+    localStorage.setItem(
+      LOCAL_STORAGE_FLAG_PREFABS,
+      Components.SystemUtils.JSONUtils.pack(this.prefabs)
+    );
     this.updateUI();
-  }
-
-  //TODO mettre in component udviz
-  pack(jsonArray) {
-    const separator = '&';
-    let result = '';
-    for (let key in jsonArray) {
-      result += JSON.stringify(jsonArray[key]);
-      result += separator;
-    }
-
-    //remove seprator at the end
-    if (result.endsWith(separator)) {
-      result = result.slice(0, result.length - separator.length);
-    }
-    return result;
-  }
-
-  unpack(string) {
-    const separator = '&';
-    const prefabs = string.split(separator);
-    const result = {};
-    prefabs.forEach(function (p) {
-      const json = JSON.parse(p);
-      result[json.name] = json;
-    });
-
-    return result;
-  }
-
-  //TODO mettre cette function dans udv.Components.SysteUtils.File
-  readSingleFile(e) {
-    try {
-      var file = e.target.files[0];
-      if (!file) {
-        return;
-      }
-      const _this = this;
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        const json = JSON.parse(e.target.result);
-        console.log('PREFAB = ', json);
-        _this.onOpenNewPrefab(json);
-      };
-
-      reader.readAsText(file);
-    } catch (e) {
-      throw new Error(e);
-    }
   }
 
   load() {
@@ -888,7 +848,7 @@ export class GOEditorView {
     const oldPrefabs = localStorage.getItem(LOCAL_STORAGE_FLAG_PREFABS);
     if (oldPrefabs != undefined) {
       try {
-        this.prefabs = this.unpack(oldPrefabs);
+        this.prefabs = Components.SystemUtils.JSONUtils.unpack(oldPrefabs);
         this.updateUI();
       } catch (e) {
         console.error(e);

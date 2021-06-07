@@ -8,7 +8,6 @@ try {
   const folder = process.argv[2];
   const port = process.argv[3];
 
-  //TODO better to not override config and pass argument as parameters
   if (port) config.port = port;
   if (folder) config.folder = folder;
 
