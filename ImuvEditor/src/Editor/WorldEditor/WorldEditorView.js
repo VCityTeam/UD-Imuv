@@ -117,7 +117,13 @@ export class WorldEditorView {
     //input
     this.input.addEventListener(
       'change',
-      this.readSingleFile.bind(this),
+      function (e) {
+        Components.SystemUtils.File.readSingleFile(e, function (e) {
+          const json = JSON.parse(e.target.result);
+          console.log('Worlds = ', json);
+          _this.onWorlds(json);
+        });
+      },
       false
     );
 
@@ -144,26 +150,6 @@ export class WorldEditorView {
       //download array
       File.downloadObjectAsJson(_this.worldsJSON, 'worlds');
     };
-  }
-
-  readSingleFile(e) {
-    try {
-      const file = e.target.files[0];
-      if (!file) {
-        return;
-      }
-      const _this = this;
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const json = JSON.parse(e.target.result);
-        console.log('Worlds = ', json);
-        _this.onWorlds(json);
-      };
-
-      reader.readAsText(file);
-    } catch (e) {
-      throw new Error(e);
-    }
   }
 
   updateUI() {
