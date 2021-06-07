@@ -16,6 +16,7 @@ const fs = require('fs');
 const Shared = require('ud-viz/src/Game/Shared/Shared');
 const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
 const JSONUtils = require('ud-viz/src/Components/SystemUtils/JSONUtils');
+const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
 
 const ServerModule = class Server {
   constructor(config) {
@@ -187,8 +188,8 @@ const ServerModule = class Server {
 
   fetchUserDefaultExtraData(nameUser = 'default_name') {
     let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
-    avatarJSON.components.Render.name = nameUser; //TODO not very clean
-    avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
+    RenderModule.bindName(avatarJSON, nameUser);
+    avatarJSON = new GameObject(avatarJSON).toJSON(true); //fill missing fields
 
     return {
       nameUser: nameUser,
@@ -327,7 +328,7 @@ const ServerModule = class Server {
               socket.on(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
                 socket.emit(
                   Data.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
-                  new GameObject(u.getAvatarJSON()).toJSON() //TODO not clean to filter only component local
+                  new GameObject(u.getAvatarJSON()).toJSON() //to filter only component local
                 );
               });
 
@@ -404,9 +405,6 @@ const ServerModule = class Server {
                     u.getAvatarID()
                   );
               });
-
-              //TODO to test
-              // resolve();
             });
           } else {
             socket.emit(
@@ -431,13 +429,13 @@ const ServerModule = class Server {
 
       const nameUser = 'Guest';
       let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
-      avatarJSON.components.Render.name = nameUser; //TODO not very clean
-      avatarJSON.components.Render.color = [
+      RenderModule.bindName(avatarJSON, nameUser);
+      RenderModule.bindColor(avatarJSON, [
         Math.random(),
         Math.random(),
         Math.random(),
-      ];
-      avatarJSON = new GameObject(avatarJSON).toJSON(true); //create an uuid
+      ]);
+      avatarJSON = new GameObject(avatarJSON).toJSON(true); //fill missing fields
 
       const uuid = Shared.THREE.MathUtils.generateUUID();
 
