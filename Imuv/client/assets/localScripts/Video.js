@@ -11,14 +11,10 @@ module.exports = class Video {
 
   init() {
     const go = arguments[0];
-
-    console.log('init ', go.name);
-
     const localCtx = arguments[1];
-    debugger
-
     const THREE = localCtx.UDVShared.THREE;
 
+    
     const video = document.createElement('video');
     video.src = localCtx.assetsManager.fetchVideoPath(this.conf.idVideo);
     video.autoplay = true;
