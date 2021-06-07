@@ -7,6 +7,7 @@ import Data from 'ud-viz/src/Game/Shared/Components/Data';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
+import { Editor } from '../Editor/Editor';
 
 export class MenuAuthView {
   constructor(webSocketService) {
@@ -201,6 +202,23 @@ export class MenuAuthView {
         });
       }
     );
+
+    this.confidentialButton.onclick = function () {
+      _this.dispose();
+
+      const loadingView = _this.createLoadingView();
+      document.body.appendChild(loadingView);
+
+      SystemUtils.File.loadJSON('./assets/config/config.json').then(function (
+        config
+      ) {
+        _this.editor = new Editor(config);
+        _this.editor.load().then(function () {
+          loadingView.remove();
+          document.body.appendChild(_this.editor.html());
+        });
+      });
+    };
   }
 
   dispose() {

@@ -428,7 +428,7 @@ const ServerModule = class Server {
       }
 
       const nameUser = 'Guest';
-      const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
+      let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
       RenderModule.bindName(avatarJSON, nameUser);
       RenderModule.bindColor(avatarJSON, [
         Math.random(),

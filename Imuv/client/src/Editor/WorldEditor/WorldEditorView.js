@@ -80,6 +80,7 @@ export class WorldEditorView {
 
           //create html element
           _this.imgHeightmap = document.createElement('img');
+          _this.imgHeightmap.classList.add('img_WorldEditorView');
           _this.imgHeightmap.src = path;
         }
       });
