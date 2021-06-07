@@ -2,36 +2,36 @@
   "assetsManager": {
     "worldScripts": {
       "avatar": {
-        "path": "../ImuvEditor/assets/worldScripts/Avatar.js"
+        "path": "./assets/worldScripts/Avatar.js"
       },
       "zeppelin": {
-        "path": "../ImuvEditor/assets/worldScripts/Zeppelin.js"
+        "path": "./assets/worldScripts/Zeppelin.js"
       },
       "map": {
-        "path": "../ImuvEditor/assets/worldScripts/Map.js"
+        "path": "./assets/worldScripts/Map.js"
       },
       "gameManager": {
-        "path": "../ImuvEditor/assets/worldScripts/GameManager.js"
+        "path": "./assets/worldScripts/GameManager.js"
       },
       "portal": {
-        "path": "../ImuvEditor/assets/worldScripts/Portal.js"
+        "path": "./assets/worldScripts/Portal.js"
       }
     },
     "prefabs": {
       "room_expo": {
-        "path": "../ImuvEditor/assets/prefabs/Room Expo Map.json"
+        "path": "./assets/prefabs/Room Expo Map.json"
       },
       "flying_campus": {
-        "path": "../ImuvEditor/assets/prefabs/Flying Campus Map.json"
+        "path": "./assets/prefabs/Flying Campus Map.json"
       },
       "portal": {
-        "path": "../ImuvEditor/assets/prefabs/Portal.json"
+        "path": "./assets/prefabs/Portal.json"
       },
       "avatar": {
-        "path": "../ImuvEditor/assets/prefabs/Avatar.json"
+        "path": "./assets/prefabs/Avatar.json"
       },
       "room_conf_modulable": {
-        "path": "../ImuvEditor/assets/prefabs/Room_Conf_Modulable.json"
+        "path": "./assets/prefabs/Room_Conf_Modulable.json"
       }
     }
   },
@@ -40,5 +40,5 @@
     "script": "./assets/scripts/thread.js"
   },
   "port": 8000,
-  "folder": "../Imuv/"
+  "folder": "../client/"
 }
