@@ -61,7 +61,7 @@ some server (possibly your desktop). For example
 
 
 ## Pre-requisites to install Imuv
-You have to install [imagemagick](https://imagemagick.org/index.php) or [graphicsmagick](http://www.graphicsmagick.org/) on your desktop since the server used [gm](https://www.npmjs.com/package/gm?activeTab=readme) needed the binary files to works.
+You have to install [imagemagick](https://imagemagick.org/index.php) or [graphicsmagick](http://www.graphicsmagick.org/) on your desktop since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme) (a npm package working with binary).
 
 * **Linux**
 ```bash
