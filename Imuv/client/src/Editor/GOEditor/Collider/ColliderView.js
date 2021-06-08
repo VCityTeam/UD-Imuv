@@ -19,7 +19,7 @@ export class ColliderView {
     //Collider model
     if (!goView.model) throw new Error('no model');
     this.model = new ColliderModel(goView.model);
-    
+
     //raycaster
     this.raycaster = new THREE.Raycaster();
 
@@ -179,17 +179,17 @@ export class ColliderView {
 
   dispose() {
     this.rootHtml.parentElement.removeChild(this.rootHtml);
-    this.model.dispose()
+    this.model.dispose();
   }
 
   initCallbacks() {
     const _this = this;
 
     //step
-    this.minusStepButton.onclick = function (event) {
+    this.minusStepButton.onclick = function () {
       _this.model.addZPlan(-parseFloat(_this.selectStep.value));
     };
-    this.plusStepButton.onclick = function (event) {
+    this.plusStepButton.onclick = function () {
       _this.model.addZPlan(parseFloat(_this.selectStep.value));
     };
 
