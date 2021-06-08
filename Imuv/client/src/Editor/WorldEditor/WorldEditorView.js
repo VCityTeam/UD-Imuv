@@ -73,15 +73,10 @@ export class WorldEditorView {
       world.getGameObject().traverse(function (g) {
         const s = g.getWorldScripts();
         if (s && s['map']) {
-          //consider assets are in ./
-          let path = s['map'].conf.heightmap_path;
-          const index = path.indexOf('/assets');
-          path = './applications/server' + path.slice(index);
-
           //create html element
           _this.imgHeightmap = document.createElement('img');
           _this.imgHeightmap.classList.add('img_WorldEditorView');
-          _this.imgHeightmap.src = path;
+          _this.imgHeightmap.src = s['map'].conf.heightmap_path;
         }
       });
     }

@@ -14,12 +14,7 @@ module.exports = class Map {
       const conf = this.conf;
 
       const img = document.createElement('img');
-
-      //modify the path because in local heightmap are not in ./assets but in ./applications/server/assets
-      let path = conf.heightmap_path;
-      const index = path.indexOf('/assets');
-      path = './applications/server' + path.slice(index);
-      img.src = path;
+      img.src = conf.heightmap_path;
 
       //callback of the img
       img.onload = function () {
@@ -61,7 +56,12 @@ module.exports = class Map {
       const PNG = modules.PNG;
 
       const conf = this.conf;
-      const heightmap = gm(conf.heightmap_path);
+
+      //recompute dynamically path
+      let path = conf.heightmap_path;
+      const index = path.indexOf('/assets');
+      path = '../client/' + path.slice(index);
+      const heightmap = gm(path);
 
       const _this = this;
 

@@ -162,7 +162,7 @@ export class MenuAuthView {
         document.body.appendChild(loadingView);
 
         //load config
-        SystemUtils.File.loadJSON('./assets/config/config.json').then(function (
+        SystemUtils.File.loadJSON('./assets/config/config_game.json').then(function (
           config
         ) {
           //load assets
@@ -209,7 +209,7 @@ export class MenuAuthView {
       const loadingView = _this.createLoadingView();
       document.body.appendChild(loadingView);
 
-      SystemUtils.File.loadJSON('./assets/config/config.json').then(function (
+      SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(function (
         config
       ) {
         _this.editor = new Editor(config);
