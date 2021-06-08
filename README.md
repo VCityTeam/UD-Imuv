@@ -4,7 +4,7 @@ Demonstrations illustating some usages of the [UD-Viz JS library](https://github
 
 The sub-directorie DemoFull hold **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent application
 
-In opposition `Imuv/client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `Imuv/server`
+`Imuv/client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `Imuv/server`
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
 
 ## Installing the demo applications
@@ -31,6 +31,24 @@ its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node applic
     iex (new-object net.webclient).downstring(‘https://get.scoop.sh’)
     scoop install nodejs
     ```
+
+## Setup of the coding environment
+
+Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
+
+### Debugging with UDV library
+
+If you need to code in [UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of the demo you want to link with UD-Viz library :
+
+```
+"ud-viz": "^2.31.9" => "ud-viz": "file:../../../UD-Viz" //where the path is a relative path to your UD-Viz directory
+```
+
+then reinstall the ud-viz npm package
+
+```
+npm install ud-viz
+```
 
 ### Installing the pure front-end demo DemoFull
 
@@ -99,22 +117,4 @@ Note that technically the `npm run debug` command will use the [nodemon](https:/
 
 and then use your favorite (web) browser to open
 `http://localhost:8000/`.
-
-## Setup of the coding environment
-
-Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
-
-### Debugging with UDV library
-
-If you need to code in [UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of the demo you want to link with UD-Viz library :
-
-```
-"ud-viz": "^2.31.9" => "ud-viz": "file:../../../UD-Viz" //where the path is a relative path to your UD-Viz directory
-```
-
-then reinstall the ud-viz npm package
-
-```
-npm install ud-viz
-```
 
