@@ -221,13 +221,14 @@ const ServerModule = class Server {
             })
             .catch(function (error) {
               // An error happened.
+              console.error(error);
             });
 
           const usersJSONPath = './assets/data/users.json';
 
           fs.readFile(usersJSONPath, 'utf8', (err, data) => {
             if (err) {
-              reject();
+              console.error(err);
             }
             const usersJSON = JSON.parse(data);
             const uuid = user.uid;
@@ -276,7 +277,7 @@ const ServerModule = class Server {
 
             fs.readFile(usersJSONPath, 'utf8', (err, data) => {
               if (err) {
-                reject();
+                console.error(err);
               }
 
               const usersJSON = JSON.parse(data);
@@ -345,7 +346,7 @@ const ServerModule = class Server {
                   //write as well in usersJSON
                   fs.readFile(usersJSONPath, 'utf8', (err, data) => {
                     if (err) {
-                      reject();
+                      console.error(err);
                     }
 
                     const usersJSON = JSON.parse(data);
@@ -466,7 +467,7 @@ const ServerModule = class Server {
         );
       });
 
-      socket.on(Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO, function (avatarJSON) {
+      socket.on(Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO, function () {
         socket.emit(
           Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
           'guest are not suppoed to save avatar'

@@ -56,7 +56,8 @@ module.exports = class AssetsManagerServer {
   }
 
   fetchWorldScript(idScript) {
-    if (!this.worldScripts[idScript]) console.error('no world script with id ', idScript);
+    if (!this.worldScripts[idScript])
+      console.error('no world script with id ', idScript);
     return this.worldScripts[idScript];
   }
 

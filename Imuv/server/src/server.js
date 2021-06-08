@@ -1,7 +1,9 @@
 /** @format */
 
-const es5Thread = require('./Server/WorldThread');
-export { es5Thread as WorldThread };
+const commonJsThread = require('./Server/WorldThread');
+const commonJsServer = require('./Server/Server');
 
-const es5Server = require('./Server/Server');
-export { es5Server as Server };
+module.exports = {
+  Server: commonJsServer,
+  WorldThread: commonJsThread,
+};

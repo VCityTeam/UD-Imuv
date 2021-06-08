@@ -1,7 +1,7 @@
 /** @format */
 const express = require('express');
 
-export class SimpleServer {
+const SimpleServerModule = class SimpleServer {
   constructor() {}
 
   start(config) {
@@ -12,7 +12,13 @@ export class SimpleServer {
     //http server
     app.listen(config.port, function (err) {
       if (err) console.log('Error in server setup');
-      console.log('Server listening on Port', config.port, ' folder ' + config.folder);
+      console.log(
+        'Server listening on Port',
+        config.port,
+        ' folder ' + config.folder
+      );
     });
   }
-}
+};
+
+module.exports = SimpleServerModule;
