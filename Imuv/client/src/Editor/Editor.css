@@ -1,0 +1,70 @@
+/** @format */
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.flex {
+  display: flex;
+}
+
+input {
+  display: block;
+}
+
+li {
+  display: flex;
+  cursor: pointer;
+  font-size: small;
+  margin: 0%;
+}
+
+ul {
+  margin: 0%;
+}
+
+li:hover {
+  background-color: blueviolet;
+}
+
+.parentUI_Editor {
+  display: unset;
+}
+
+.root_Editor {
+  height: 100%;
+  background-color: chartreuse;
+}
+
+.hidden {
+  display: none;
+}
+
+.button_Editor {
+  min-width: 75px;
+  background-color: blue;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  user-select: none;
+  font-size: small;
+  margin: 2px;
+}
+
+.button_Editor:hover {
+  background-color: red;
+  cursor: pointer;
+}

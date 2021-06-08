@@ -2,13 +2,9 @@
 [UD-Viz](https://github.com/VCityTeam/UD-Viz/) is an 
 Demonstrations illustating some usages of the [UD-Viz JS library](https://github.com/VCityTeam/UD-Viz/).
 
-The following sub-directories hold **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent applications 
-```
-DemoFull: client application (working with vanilla http server)
-ImuvEditor: client application (working with vanilla http server)
-```
+The sub-directory DemoFull hold **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent application, in opposition the sub-directory SimpleServer hold **pure** [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) independent application.
 
-In opposition `Imuv` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `ImuvServer`
+`Imuv/client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `Imuv/server`
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
 
 ## Installing the demo applications
@@ -36,14 +32,27 @@ its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node applic
     scoop install nodejs
     ```
 
-### Installing the pure front-end demos (DemoFull and ImuvEditor)
-In order to install the pure front-end demos
- * enter the chosen sub-directory, 
- * launch `npm install` (to install the demo package dependencies),
- * run the demo with `npm run debug` command,
- * eventually open `http://localhost:8000/` with your favorite (web) browser.
+## Setup of the coding environment
 
-For example the DemoFull application can be locally (on your desktop) started in the following way
+Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
+
+### Debugging with UDV library
+
+If you need to code in [UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of the demo you want to link with UD-Viz library :
+
+```
+"ud-viz": "^2.31.9" => "ud-viz": "file:../../../UD-Viz" //where the path is a relative path to your UD-Viz directory
+```
+
+then reinstall the ud-viz npm package
+
+```
+npm install ud-viz
+```
+
+## Installing DemoFull
+
+DemoFull application can be locally (on your desktop) started in the following way
 ```
 cd DemoFull
 npm install
@@ -58,22 +67,7 @@ Note that technically the `npm run debug` command will use the [webpack-dev-serv
  - in case of change that repacks an updated bundle
  - that triggers a client (hot) reload 
 
-Notes: TO BE CHECKED !
- * If you want to change the listening port use
-   ```bash
-   npm run debug -- --port=8081
-   ```
- * if you want this server to be visible from another host (than the one running this npm based server) 
-   then (as [documented in this issue](https://github.com/iTowns/itowns/issues/1503)) use
-   ```bash
-   npm run debug -- --host=0.0.0.0
-   ```
-   or alternatively
-   ```bash
-   npm run debug -- --host=<the_host_IP_number>
-   ```
-
-## Notes on the DemoFull
+### Notes on the DemoFull
 FIXME: unmature section
 
 Some modules used by the DemoFull require some server-side components to be installed on
@@ -82,4 +76,53 @@ some server (possibly your desktop). For example
    and thus require no specific configuratione there is nothing more to do
  * handling of documents will require you to [install the API_enhanced_city](https://github.com/VCityTeam/UD-Serv/blob/master/API_Enhanced_City/INSTALL.md).
  * you can also modify the [application configuration file](DemoFull/assets/config/config.json)
- 
+
+
+## Pre-requisites to install Imuv
+You have to install [imagemagick](https://imagemagick.org/index.php) or [graphicsmagick](http://www.graphicsmagick.org/) on your desktop since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme) (a npm package working with binary).
+
+* **Linux**
+```bash
+ sudo apt-get install -y imagemagick graphicsmagick
+```
+* **Windows**
+FIXME: unmature section
+
+## Installing Imuv applications
+
+Imuv can be locally (on your desktop) started in the following way:
+
+First install the client:
+```
+cd Imuv/client
+npm install
+npm run debug
+```
+
+Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
+- launches a watcher (surveying changes in sources)
+- in case of change run a node.js routine (./bin/debug.js) that will repacks an updated bundle
+
+Then install the server:
+
+```
+cd Imuv/server
+npm install
+npm run debug
+```
+
+Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
+- launches a watcher (surveying changes in sources)
+- in case of change run a node.js routine (./bin/debug.js) that will repacks an updated bundle then launches the node.js server application on your desktop
+
+and then use your favorite (web) browser to open
+`http://localhost:8000/`.
+
+## Installing SimpleServer
+
+SimpleServer application can be locally (on your desktop) started in the following way
+```
+cd SimpleServer
+npm install
+node index.js "path_folder_to_serve" "port"
+```

@@ -1,7 +1,7 @@
 {
-  "name": "simple_server",
+  "name": "server",
   "version": "1.0.0",
-  "description": "application to create a simple server",
+  "description": "application hosting a imuv client",
   "main": "index.js",
   "scripts": {
     "travis": "npm run eslint && npm run build",
@@ -12,12 +12,17 @@
     "clear-node": "sudo killall -9 node"
   },
   "keywords": [
-    "server"
+    "game"
   ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "firebase": "^8.5.0",
+    "gm": "^1.23.1",
+    "pngjs": "^6.0.0",
+    "socket.io": "^4.0.0",
+    "ud-viz": "^2.32.0"
   },
   "devDependencies": {
     "child-process-promise": "^2.2.1",

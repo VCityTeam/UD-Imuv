@@ -98,7 +98,7 @@ export class BaseDemo {
 
           ////// CONTRIBUTE EXTENSION
           if (_this.config.widgets.contributeModule) {
-            const contribute = new Widgets.Extensions.ContributeModule(
+            new Widgets.Extensions.ContributeModule(
               documentModule,
               imageOrienter,
               requestService,
@@ -111,7 +111,7 @@ export class BaseDemo {
 
         ////// VALIDATION EXTENSION
         if (_this.config.widgets.documentValidationModule) {
-          const validation = new Widgets.Extensions.DocumentValidationModule(
+          new Widgets.Extensions.DocumentValidationModule(
             documentModule,
             requestService,
             _this.config
@@ -120,7 +120,7 @@ export class BaseDemo {
 
         ////// DOCUMENT COMMENTS
         if (_this.config.widgets.documentCommentsModule) {
-          const documentComments = new Widgets.Extensions.DocumentCommentsModule(
+          new Widgets.Extensions.DocumentCommentsModule(
             documentModule,
             requestService,
             _this.config
@@ -174,7 +174,7 @@ export class BaseDemo {
         cityObjectModule &&
         _this.config.widgets.linkModule
       ) {
-        const linkModule = new Widgets.LinkModule(
+        new Widgets.LinkModule(
           documentModule,
           cityObjectModule,
           requestService,
@@ -205,8 +205,8 @@ export class BaseDemo {
 
       ////// LAYER CHOICE
       if (_this.config.widgets.layerChoice) {
-        const layerChoice = new Widgets.LayerChoice(baseDemo.layerManager);
-        baseDemo.addModuleView('layerChoice', layerChoice, {
+        const layerChoice = new Widgets.LayerChoice(_this.layerManager);
+        _this.addModuleView('layerChoice', layerChoice, {
           name: 'layerChoice',
         });
       }
@@ -341,8 +341,8 @@ export class BaseDemo {
       .replace(/^./, (str) => str.toUpperCase());
     let type = BaseDemo.MODULE_VIEW;
     let requireAuth = false;
-    if (!!options) {
-      if (!!options.type) {
+    if (options) {
+      if (options.type) {
         if (
           options.type === BaseDemo.MODULE_VIEW ||
           options.type === BaseDemo.AUTHENTICATION_MODULE
@@ -352,10 +352,10 @@ export class BaseDemo {
           throw `Invalid value for option 'type' : '${options.type}'`;
         }
       }
-      if (!!options.name) {
+      if (options.name) {
         moduleName = options.name;
       }
-      if (!!options.requireAuth) {
+      if (options.requireAuth) {
         requireAuth = options.requireAuth;
       }
     }
@@ -389,7 +389,7 @@ export class BaseDemo {
       this.updateAuthentication();
     }
 
-    if (!!binding) {
+    if (binding) {
       this.moduleBindings[binding] = moduleId;
     }
   }
@@ -404,7 +404,7 @@ export class BaseDemo {
     let button = document.createElement('li');
     button.id = this.getModuleButtonId(moduleId);
     button.innerHTML = `<p class="_base_demo_menu_hint">${buttonText}</p>`;
-    if (!!accessKey) {
+    if (accessKey) {
       button.accessKey = accessKey;
     }
     this.menuElement.appendChild(button);
@@ -477,7 +477,7 @@ export class BaseDemo {
    *     by the `options` parameter in the method `addModuleView`
    */
   updateAuthentication() {
-    if (!!this.authService) {
+    if (this.authService) {
       if (this.authService.isUserLoggedIn()) {
         const user = this.authService.getUser();
         this.authenticationMenuLoggedInElement.hidden = false;
@@ -606,14 +606,14 @@ export class BaseDemo {
       !this.config['3DTilesLayer']['url']
     ) {
       throw (
-        "Your layer does not have 'url'/'id' properties or both. " +
+        'Your layer does not have \'url\'/\'id\' properties or both. ' +
         '(in UD-Viz/UD-Viz-Core/examples/data/config/generalDemoConfig.json)'
       );
     }
 
     const extensionsConfig = this.config['3DTilesLayer']['extensions'];
     let extensions = new itowns.C3DTExtensions();
-    if (!!extensionsConfig) {
+    if (extensionsConfig) {
       for (let i = 0; i < extensionsConfig.length; i++) {
         if (extensionsConfig[i] === '3DTILES_temporal') {
           extensions.registerExtension('3DTILES_temporal', {
@@ -799,7 +799,7 @@ export class BaseDemo {
       success: (data) => {
         this.config = data;
       },
-      error: (e) => {
+      error: () => {
         throw 'Could not load config file : ' + filePath;
       },
     });
