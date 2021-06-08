@@ -4,6 +4,7 @@
   "description": "udv game editor",
   "main": "./src/bootstrap.js",
   "scripts": {
+    "eslint": "./node_modules/.bin/eslint ./src --fix",
     "build": "cross-env NODE_ENV=production webpack",
     "build-debug": "cross-env NODE_ENV=development webpack",
     "debug": "cross-env NODE_ENV=development webpack serve"
@@ -22,6 +23,7 @@
     "child-process-promise": "^2.2.1",
     "cross-env": "^7.0.3",
     "css-loader": "^0.28.10",
+    "eslint": "^7.28.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^4.5.2",
     "style-loader": "^0.20.3",
