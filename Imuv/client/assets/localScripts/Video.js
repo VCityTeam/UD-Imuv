@@ -45,7 +45,7 @@ module.exports = class Video {
     );
     const movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
 
-    const r = go.getComponent('Render');
+    const r = go.getComponent(localCtx.UDVShared.Render.TYPE);
     r.addObject3D(movieScreen);
 
     this.video = video;

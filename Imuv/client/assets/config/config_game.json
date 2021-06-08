@@ -17,6 +17,9 @@
       },
       "rotate": {
         "path": "./assets/localScripts/Rotate.js"
+      },
+      "image": {
+        "path": "./assets/localScripts/Image.js"
       }
     },
     "models": {
