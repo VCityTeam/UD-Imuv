@@ -2,7 +2,7 @@
 [UD-Viz](https://github.com/VCityTeam/UD-Viz/) is an 
 Demonstrations illustating some usages of the [UD-Viz JS library](https://github.com/VCityTeam/UD-Viz/).
 
-The sub-directorie DemoFull hold **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent application
+The sub-directory DemoFull hold **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent application, in opposition the sub-directory SimpleServer hold **pure** [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) independent application.
 
 `Imuv/client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `Imuv/server`
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
@@ -50,7 +50,7 @@ then reinstall the ud-viz npm package
 npm install ud-viz
 ```
 
-### Installing the pure front-end demo DemoFull
+## Installing DemoFull
 
 DemoFull application can be locally (on your desktop) started in the following way
 ```
@@ -67,7 +67,7 @@ Note that technically the `npm run debug` command will use the [webpack-dev-serv
  - in case of change that repacks an updated bundle
  - that triggers a client (hot) reload 
 
-## Notes on the DemoFull
+### Notes on the DemoFull
 FIXME: unmature section
 
 Some modules used by the DemoFull require some server-side components to be installed on
@@ -88,7 +88,7 @@ You have to install [imagemagick](https://imagemagick.org/index.php) or [graphic
 * **Windows**
 FIXME: unmature section
 
-## Installing Imuv application
+## Installing Imuv applications
 
 Imuv can be locally (on your desktop) started in the following way:
 
@@ -118,3 +118,11 @@ Note that technically the `npm run debug` command will use the [nodemon](https:/
 and then use your favorite (web) browser to open
 `http://localhost:8000/`.
 
+## Installing SimpleServer
+
+SimpleServer application can be locally (on your desktop) started in the following way
+```
+cd SimpleServer
+npm install
+node index.js "path_folder_to_serve" "port"
+```
