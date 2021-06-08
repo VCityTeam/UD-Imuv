@@ -50,6 +50,14 @@ then reinstall the ud-viz npm package
 npm install ud-viz
 ```
 
+### Workflow
+
+Before to push your modifications run:
+```
+npm run travis
+```
+to check if eslint and the webpack command run well
+
 ## Installing DemoFull
 
 DemoFull application can be locally (on your desktop) started in the following way
