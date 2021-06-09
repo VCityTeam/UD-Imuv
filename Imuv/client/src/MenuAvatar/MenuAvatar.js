@@ -2,11 +2,11 @@
 
 import './MenuAvatar.css';
 
-import { GameObject } from 'ud-viz/src/Game/Shared/GameObject/GameObject';
+import GameObject from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 import { THREE, OrbitControls } from 'ud-viz';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
 import RenderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
-import { Shared } from 'ud-viz/src/Game/Shared/Shared';
+import Shared from 'ud-viz/src/Game/Shared/Shared';
 
 export class MenuAvatarView {
   constructor(webSocketService, config, assetsManager) {
