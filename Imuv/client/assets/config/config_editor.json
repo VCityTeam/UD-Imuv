@@ -84,6 +84,9 @@
       "room_conf_modulable": {
         "path": "./assets/prefabs/Room_Conf_Modulable.json"
       }
+    },
+    "worlds": {
+      "path": "./assets/worlds/worlds.json"
     }
   },
   "game": {

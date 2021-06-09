@@ -12,61 +12,52 @@ export class Editor {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Editor');
 
-    //assets
-    this.assetsManager = new Game.Components.AssetsManager();
-
-    //views
-    this.goView = new GOEditorView(config, this.assetsManager);
-    this.worldView = new WorldEditorView(config, this.assetsManager);
-
-    //id current world
-    this.currentWorld = null;
+    //where html goes
+    this.ui = document.createElement('div');
+    this.ui.classList.add('ui_MenuAvatar'); //TODO create .css imuv global
+    this.rootHtml.appendChild(this.ui);
 
     //html
-    this.switchView = null;
+    this.worldsList = null;
+
+    //assets
+    this.assetsManager = new Game.Components.AssetsManager();
+  }
+
+  dispose() {
+    this.rootHtml.remove();
   }
 
   initUI() {
-    const parentUI = document.createElement('div');
-    parentUI.classList.add('parentUI_Editor');
-    this.rootHtml.appendChild(parentUI);
-
-    //flex parent
-    const parentFlex = document.createElement('div');
-    parentFlex.classList.add('flex_Editor');
-    parentUI.appendChild(parentFlex);
-
-    //switch view
-    const switchView = document.createElement('div');
-    switchView.classList.add('button_Editor');
-    switchView.innerHTML = 'Switch Editor View';
-    parentFlex.appendChild(switchView);
-    this.switchView = switchView;
+    const worldsList = document.createElement('ul');
+    worldsList.classList.add('ul_Editor');
+    this.ui.appendChild(worldsList);
+    this.worldsList = worldsList;
   }
 
   initCallbacks() {
     const _this = this;
+  }
 
-    //callbacks
-    let wView = true;
-    this.rootHtml.appendChild(this.worldView.html());
-    this.switchView.onclick = function () {
-      wView = !wView;
-      if (wView) {
-        _this.goView.setPause(true);
-        _this.rootHtml.removeChild(_this.goView.html());
+  updateUI() {
+    const worldsJSON = this.assetsManager.getWorldsJSON();
+    //clean worlds list and rebuild it
+    const list = this.worldsList;
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+    const _this = this;
+    worldsJSON.forEach(function (w) {
+      const li = document.createElement('li');
+      li.classList.add('li_Editor');
+      li.innerHTML = w.name;
+      li.onclick = _this.onWorldJSON.bind(_this, w);
+      list.appendChild(li);
+    });
+  }
 
-        _this.worldView.setPause(false);
-        _this.rootHtml.appendChild(_this.worldView.html());
-      } else {
-        _this.worldView.setPause(true);
-        _this.rootHtml.removeChild(_this.worldView.html());
-
-        _this.goView.setPause(false);
-        _this.rootHtml.appendChild(_this.goView.html());
-      }
-      window.dispatchEvent(new Event('resize'));
-    };
+  onWorldJSON(worldJSON) {
+    console.log(worldJSON);
   }
 
   load() {
@@ -75,12 +66,10 @@ export class Editor {
       try {
         _this.assetsManager
           .loadFromConfig(_this.config.assetsManager)
-          .then(_this.goView.load.bind(_this.goView))
-          .then(_this.worldView.load.bind(_this.worldView))
           .then(function () {
             _this.initUI();
             _this.initCallbacks();
-
+            _this.updateUI();
             resolve();
           });
       } catch (e) {
