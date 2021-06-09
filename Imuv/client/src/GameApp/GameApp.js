@@ -181,8 +181,6 @@ export class GameApp {
         menuAvatar.setOnClose(function () {
           //render view
           gV.setPause(false);
-          //restore gameview input
-          gV.initInputs(gV.getLastState());
           //append html
           document.body.appendChild(gV.html());
         });
@@ -191,8 +189,6 @@ export class GameApp {
         gV.html().remove();
         //stop rendering view
         gV.setPause(true);
-        //stop listening input
-        gV.getInputManager().dispose();
         //add menuavatar view
         document.body.appendChild(menuAvatar.html());
       };
