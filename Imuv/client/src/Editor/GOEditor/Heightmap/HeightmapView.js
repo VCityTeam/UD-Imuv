@@ -50,6 +50,7 @@ export class HeightMapView {
     labelSliderTop.innerHTML = 'Plan Top';
     this.rootHtml.appendChild(labelSliderTop);
     const sliderPlanTop = document.createElement('input');
+    sliderPlanTop.classList.add('input_Editor');
     sliderPlanTop.setAttribute('type', 'range');
     sliderPlanTop.value = '100';
     this.rootHtml.appendChild(sliderPlanTop);
@@ -60,6 +61,7 @@ export class HeightMapView {
     labelSliderBottom.innerHTML = 'Plan Bottom';
     this.rootHtml.appendChild(labelSliderBottom);
     const sliderPlanBottom = document.createElement('input');
+    sliderPlanBottom.classList.add('input_Editor');
     sliderPlanBottom.setAttribute('type', 'range');
     sliderPlanBottom.value = '0';
     this.rootHtml.appendChild(sliderPlanBottom);

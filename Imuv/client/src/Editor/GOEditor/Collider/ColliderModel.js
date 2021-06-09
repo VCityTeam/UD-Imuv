@@ -1,7 +1,7 @@
 /** @format */
 
 import { THREE } from 'ud-viz';
-import { ColliderComponent } from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
+import ColliderComponent from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 import * as ShapeController from '../../Components/ShapeController';
 
 const CANVAS_TEXTURE_SIZE = 2046;

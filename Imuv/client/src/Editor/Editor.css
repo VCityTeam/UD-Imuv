@@ -1,5 +1,5 @@
 /** @format */
-html {
+/* html {
   height: 100%;
 }
 
@@ -8,28 +8,28 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
+} */
 
-.flex {
+.flex_Editor {
   display: flex;
 }
 
-input {
+.input_Editor {
   display: block;
 }
 
-li {
+.li_Editor {
   display: flex;
   cursor: pointer;
   font-size: small;
   margin: 0%;
 }
 
-ul {
+.ul_Editor {
   margin: 0%;
 }
 
-li:hover {
+.li_Editor:hover {
   background-color: blueviolet;
 }
 

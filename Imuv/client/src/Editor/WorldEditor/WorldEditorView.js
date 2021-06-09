@@ -157,6 +157,7 @@ export class WorldEditorView {
     const _this = this;
     this.worldsJSON.forEach(function (w) {
       const li = document.createElement('li');
+      li.classList.add('li_Editor');
       li.innerHTML = w.name;
       li.onclick = _this.onWorldJSON.bind(_this, w, null);
       list.appendChild(li);
@@ -240,11 +241,13 @@ export class WorldEditorView {
   initUI() {
     //open a world
     const input = document.createElement('input');
+    input.classList.add('input_Editor');
     input.setAttribute('type', 'file');
     this.ui.appendChild(input);
     this.input = input; //ref
 
     const worldsList = document.createElement('ul');
+    worldsList.classList.add('ul_Editor');
     this.ui.appendChild(worldsList);
     this.worldsList = worldsList;
 

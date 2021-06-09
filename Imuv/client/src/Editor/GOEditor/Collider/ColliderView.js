@@ -50,7 +50,7 @@ export class ColliderView {
   initUI() {
     //step
     const parentStep = document.createElement('div');
-    parentStep.style.display = 'flex';
+    parentStep.classList.add('flex_Editor');
 
     const steps = [10, 1, 0.1, 0.01];
     const selectStep = document.createElement('select');
@@ -100,6 +100,7 @@ export class ColliderView {
     labelShapesList.innerHTML = 'Shapes';
     this.rootHtml.appendChild(labelShapesList);
     const shapesList = document.createElement('ul');
+    shapesList.classList.add('ul_Editor');
     this.rootHtml.appendChild(shapesList);
     this.shapesList = shapesList;
 
@@ -110,6 +111,7 @@ export class ColliderView {
     const _this = this;
 
     const result = document.createElement('li');
+    result.classList.add('li_Editor');
     result.innerHTML = shape.toString();
 
     if (this.model.getCurrentShape() != shape) {

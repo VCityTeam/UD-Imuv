@@ -162,44 +162,46 @@ export class MenuAuthView {
         document.body.appendChild(loadingView);
 
         //load config
-        SystemUtils.File.loadJSON('./assets/config/config_game.json').then(function (
-          config
-        ) {
-          //load assets
-          const assetsManager = new AssetsManager();
-          assetsManager.loadFromConfig(config.assetsManager).then(function () {
-            loadingView.remove();
+        SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
+          function (config) {
+            //load assets
+            const assetsManager = new AssetsManager();
+            assetsManager
+              .loadFromConfig(config.assetsManager)
+              .then(function () {
+                loadingView.remove();
 
-            const launchGame = function () {
-              const app = new GameApp(
-                _this.webSocketService,
-                assetsManager,
-                config
-              );
-              app.start(
-                function () {
-                  _this.webSocketService.emit(
-                    Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
+                const launchGame = function () {
+                  const app = new GameApp(
+                    _this.webSocketService,
+                    assetsManager,
+                    config
                   );
-                },
-                true,
-                isGuest
-              );
-            };
+                  app.start(
+                    function () {
+                      _this.webSocketService.emit(
+                        Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
+                      );
+                    },
+                    true,
+                    isGuest
+                  );
+                };
 
-            if (initialized || isGuest) {
-              launchGame();
-            } else {
-              const menuAvatar = new MenuAvatarView(
-                _this.webSocketService,
-                config,
-                assetsManager
-              );
-              menuAvatar.setOnClose(launchGame);
-              document.body.appendChild(menuAvatar.html());
-            }
-          });
-        });
+                if (initialized || isGuest) {
+                  launchGame();
+                } else {
+                  const menuAvatar = new MenuAvatarView(
+                    _this.webSocketService,
+                    config,
+                    assetsManager
+                  );
+                  menuAvatar.setOnClose(launchGame);
+                  document.body.appendChild(menuAvatar.html());
+                }
+              });
+          }
+        );
       }
     );
 
@@ -209,15 +211,15 @@ export class MenuAuthView {
       const loadingView = _this.createLoadingView();
       document.body.appendChild(loadingView);
 
-      SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(function (
-        config
-      ) {
-        _this.editor = new Editor(config);
-        _this.editor.load().then(function () {
-          loadingView.remove();
-          document.body.appendChild(_this.editor.html());
-        });
-      });
+      SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
+        function (config) {
+          _this.editor = new Editor(config);
+          _this.editor.load().then(function () {
+            loadingView.remove();
+            document.body.appendChild(_this.editor.html());
+          });
+        }
+      );
     };
   }
 
@@ -244,6 +246,7 @@ const createInput = function (name, root, type = 'text') {
   parent.appendChild(labelInputNameUser);
 
   const ref = document.createElement('input');
+  ref.classList.add("input_MenuAuth")
   ref.type = type;
   parent.appendChild(ref);
   return ref;

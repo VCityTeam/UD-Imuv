@@ -33,7 +33,7 @@ export class Editor {
 
     //flex parent
     const parentFlex = document.createElement('div');
-    parentFlex.classList.add('flex');
+    parentFlex.classList.add('flex_Editor');
     parentUI.appendChild(parentFlex);
 
     //switch view

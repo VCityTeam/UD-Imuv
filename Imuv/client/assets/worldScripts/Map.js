@@ -15,7 +15,7 @@ module.exports = class Map {
 
       const img = document.createElement('img');
       img.src = conf.heightmap_path;
-
+      
       //callback of the img
       img.onload = function () {
         _this.heightmapSize = { width: img.width, height: img.height };
