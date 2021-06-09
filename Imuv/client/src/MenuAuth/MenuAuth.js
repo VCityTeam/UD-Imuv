@@ -246,7 +246,7 @@ const createInput = function (name, root, type = 'text') {
   parent.appendChild(labelInputNameUser);
 
   const ref = document.createElement('input');
-  ref.classList.add("input_MenuAuth")
+  ref.classList.add('input_MenuAuth');
   ref.type = type;
   parent.appendChild(ref);
   return ref;
