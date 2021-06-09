@@ -137,7 +137,6 @@ export class GameApp {
           _this.start(
             function () {
               _this.gameView.onFirstStateJSON(firstStateJSON);
-              console.log('gameview loaded');
             },
             false,
             isGuest
@@ -155,7 +154,14 @@ export class GameApp {
       }
     );
 
-    this.gameView.load().then(onLoad);
+    this.gameView.load().then(function () {
+      onLoad();
+
+      //register in tick of the gameview
+      gV.addTickRequester(function () {
+        gV.getInputManager().sendCommandsToServer(_this.webSocketService);
+      });
+    });
 
     if (!isGuest) {
       //INIT UI
