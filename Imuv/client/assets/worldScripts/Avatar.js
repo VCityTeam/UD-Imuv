@@ -23,7 +23,7 @@ module.exports = class Avatar {
 
     //spawn
     const gm = go.computeRoot(); //root is gm
-    const script = gm.getWorldScripts()['gameManager'];
+    const script = gm.getWorldScripts()['worldGameManager'];
     go.getTransform().setFromJSON(script.getSpawnTransform());
 
     //init commands
@@ -73,7 +73,7 @@ module.exports = class Avatar {
     const THREE = gCtx.UDVShared.THREE;
 
     const gmGo = gameObject.computeRoot();
-    const scriptGM = gmGo.getWorldScripts()['gameManager'];
+    const scriptGM = gmGo.getWorldScripts()['worldGameManager'];
     if (!scriptGM) throw new Error('no gm script');
     const mapGo = scriptGM.getMap();
     if (!mapGo) return; //no map => no commands
@@ -84,6 +84,7 @@ module.exports = class Avatar {
 
     for (let type in this.commands) {
       const cmds = this.commands[type];
+
       if (cmds.length) {
         const cmd = cmds[0];
         let cmdFinished = true;

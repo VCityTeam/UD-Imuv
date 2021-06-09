@@ -13,7 +13,7 @@
       "components": {
         "WorldScript": {
           "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
-          "idScripts": ["gameManager"],
+          "idScripts": ["worldGameManager"],
           "conf": {
             "mapPrefabId": "flying_campus",
             "spawnTransform": {
@@ -49,7 +49,7 @@
       "components": {
         "WorldScript": {
           "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
-          "idScripts": ["gameManager"],
+          "idScripts": ["worldGameManager"],
           "conf": {
             "mapPrefabId": "room_expo",
             "spawnTransform": {
@@ -84,7 +84,7 @@
       "components": {
         "WorldScript": {
           "uuid": "4EEA3596-90B5-48B5-94FC-6E49EA5E2689",
-          "idScripts": ["gameManager"],
+          "idScripts": ["worldGameManager"],
           "conf": {
             "mapPrefabId": "room_conf_modulable",
             "spawnTransform": {
