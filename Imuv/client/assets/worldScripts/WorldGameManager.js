@@ -1,6 +1,6 @@
 /** @format */
 
-module.exports = class GameManager {
+module.exports = class WorldGameManager {
   constructor(conf) {
     this.conf = conf;
     //go
