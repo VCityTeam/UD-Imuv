@@ -25,6 +25,12 @@
             }
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
+          "idScripts": ["localGameManager"],
+          "conf": {},
+          "type": "LocalScript"
         }
       },
       "children": [],
@@ -59,6 +65,12 @@
             }
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
+          "idScripts": ["localGameManager"],
+          "conf": {},
+          "type": "LocalScript"
         }
       },
 
@@ -94,9 +106,14 @@
             }
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
+          "idScripts": ["localGameManager"],
+          "conf": {},
+          "type": "LocalScript"
         }
       },
-
       "children": [],
       "transform": {
         "position": [0, 0, 0],
