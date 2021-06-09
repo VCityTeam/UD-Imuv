@@ -20,6 +20,9 @@
       },
       "image": {
         "path": "./assets/localScripts/Image.js"
+      },
+      "localGameManager": {
+        "path": "./assets/localScripts/LocalGameManager.js"
       }
     },
     "models": {

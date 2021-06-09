@@ -10,8 +10,8 @@
       "map": {
         "path": "../client/assets/worldScripts/Map.js"
       },
-      "gameManager": {
-        "path": "../client/assets/worldScripts/GameManager.js"
+      "worldGameManager": {
+        "path": "../client/assets/worldScripts/WorldGameManager.js"
       },
       "portal": {
         "path": "../client/assets/worldScripts/Portal.js"
@@ -36,7 +36,7 @@
     }
   },
   "thread": {
-    "fps": 40,
+    "fps": 60,
     "script": "./assets/scripts/thread.js"
   },
   "port": 8000,

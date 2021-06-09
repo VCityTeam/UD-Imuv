@@ -61,8 +61,8 @@
       "map": {
         "path": "./assets/worldScripts/Map.js"
       },
-      "gameManager": {
-        "path": "./assets/worldScripts/GameManager.js"
+      "worldGameManager": {
+        "path": "./assets/worldScripts/WorldGameManager.js"
       },
       "portal": {
         "path": "./assets/worldScripts/Portal.js"
