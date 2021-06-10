@@ -2,7 +2,7 @@
 [UD-Viz](https://github.com/VCityTeam/UD-Viz/) is an 
 Demonstrations illustating some usages of the [UD-Viz JS library](https://github.com/VCityTeam/UD-Viz/).
 
-The sub-directory DemoFull hold **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent application, in opposition the sub-directory SimpleServer hold **pure** [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) independent application.
+The sub-directory DemoFull holds a **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent application, in opposition the sub-directory SimpleServer that holds a **pure** [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) independent application.
 
 `Imuv/client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `Imuv/server`
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
@@ -52,6 +52,11 @@ npm install ud-viz
 
 ### Workflow
 
+TODO: reformulate this
+-possible layout screenshot
+-work with terminal
+-rs if changes in UD-Viz
+
 Before to push your modifications run:
 ```
 npm run travis
@@ -60,7 +65,7 @@ to check if eslint and the webpack command run well
 
 ## Installing DemoFull
 
-DemoFull application can be locally (on your desktop) started in the following way
+More information can be found [here](./DemoFull/Readme.md). DemoFull application can be locally (on your desktop) started in the following way
 ```
 cd DemoFull
 npm install
@@ -87,14 +92,18 @@ some server (possibly your desktop). For example
 
 
 ## Pre-requisites to install Imuv
-You have to install [imagemagick](https://imagemagick.org/index.php) or [graphicsmagick](http://www.graphicsmagick.org/) on your desktop since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme) (a npm package working with binary).
+Install [imagemagick](https://imagemagick.org/index.php) and [graphicsmagick](http://www.graphicsmagick.org/) binary sub dependencies since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme).
 
 * **Linux**
 ```bash
  sudo apt-get install -y imagemagick graphicsmagick
 ```
+You can also refer to the installation steps with this [Dockerfile](https://github.com/VCityTeam/UD-Viz-demo-docker/blob/main/v2.31.6/Imuv/Dockerfile)
+
 * **Windows**
 FIXME: unmature section
+
+If at runtime the imuv server displayed images errors then you should check the installation of thoses binary dependencies. 
 
 ## Installing Imuv applications
 
@@ -109,7 +118,7 @@ npm run debug
 
 Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
 - launches a watcher (surveying changes in sources)
-- in case of change run a node.js routine (./bin/debug.js) that will repacks an updated bundle
+- in case of change runs this [node.js routine](./Imuv/client/bin/debug.js) that will repack an updated bundle
 
 Then install the server:
 
@@ -121,13 +130,14 @@ npm run debug
 
 Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
 - launches a watcher (surveying changes in sources)
-- in case of change run a node.js routine (./bin/debug.js) that will repacks an updated bundle then launches the node.js server application on your desktop
+- in case of change runs this [node.js routine](./Imuv/server/bin/debug.js) that will repack an updated bundle then launches the node.js server application on your desktop
 
 and then use your favorite (web) browser to open
 `http://localhost:8000/`.
 
 ## Installing SimpleServer
 
+SimpleServer provides an http server service.
 SimpleServer application can be locally (on your desktop) started in the following way
 ```
 cd SimpleServer
