@@ -77,6 +77,16 @@ some server (possibly your desktop). For example
  * handling of documents will require you to [install the API_enhanced_city](https://github.com/VCityTeam/UD-Serv/blob/master/API_Enhanced_City/INSTALL.md).
  * you can also modify the [application configuration file](DemoFull/assets/config/config.json)
 
+### Writing your own DemoFull application
+```bash
+git clone UD-Viz-demo
+git clone MyDemo.git
+cd MyDemo
+cp -r ../UD-Viz-demo/* .
+git commit
+git push
+```
+and proceed with editing src/<FIXME>.js
 
 ## Pre-requisites to install Imuv
 You have to install [imagemagick](https://imagemagick.org/index.php) or [graphicsmagick](http://www.graphicsmagick.org/) on your desktop since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme) (a npm package working with binary).
