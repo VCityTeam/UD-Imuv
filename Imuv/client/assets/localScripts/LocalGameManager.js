@@ -15,7 +15,7 @@ module.exports = class LocalGameManager {
     const localCtx = arguments[1];
 
     //init obstacle
-    const state = localCtx.state;
+    const state = localCtx.gameView.lastState;
     const proj4 = localCtx.UDVShared.proj4;
     const o = state.getOrigin();
     const [x, y] = proj4.default('EPSG:3946').forward([o.lng, o.lat]);
@@ -25,22 +25,22 @@ module.exports = class LocalGameManager {
     this.obstacle.position.z = o.alt;
 
     this.fogObject = new localCtx.UDVShared.THREE.Fog(
-      localCtx.gameView.skyColor,
+      localCtx.gameView.skyColor, //TODO getter
       this.conf.fog.near,
       this.conf.fog.far
     );
 
     //init cameraman
     this.cameraman = new Cameraman(
-      localCtx.view.camera.camera3D,
+      localCtx.gameView.view.camera.camera3D, //getter
       localCtx.UDVShared.THREE
     );
 
     this.initInputs(
-      localCtx.view.domElement,
-      localCtx.view.camera.camera3D,
-      localCtx.inputManager,
-      localCtx.view,
+      localCtx.gameView.view.domElement, //getter
+      localCtx.gameView.view.camera.camera3D,
+      localCtx.gameView.getInputManager(),
+      localCtx.gameView.view,
       localCtx.itowns,
       localCtx.UDVShared.Components.Routine,
       localCtx.UDVShared.Command,
@@ -51,7 +51,7 @@ module.exports = class LocalGameManager {
       this.initTraveling(
         localCtx.UDVShared.THREE,
         localCtx.UDVShared.Components.Routine,
-        localCtx.view
+        localCtx.gameView.view
       );
     }
   }
@@ -139,8 +139,8 @@ module.exports = class LocalGameManager {
     const localCtx = arguments[1];
     this.cameraman.tick(
       localCtx.dt,
-      localCtx.state,
-      localCtx.avatarUUID,
+      localCtx.gameView.lastState,
+      localCtx.gameView.avatarUUID,
       this.obstacle
     );
   }

@@ -16,7 +16,7 @@ module.exports = class Video {
 
     
     const video = document.createElement('video');
-    video.src = localCtx.assetsManager.fetchVideoPath(this.conf.idVideo);
+    video.src = localCtx.gameView.assetsManager.fetchVideoPath(this.conf.idVideo);
     video.autoplay = true;
     video.muted = true;
     video.load(); // must call after setting/changing source
