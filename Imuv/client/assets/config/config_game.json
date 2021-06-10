@@ -21,6 +21,9 @@
       "image": {
         "path": "./assets/localScripts/Image.js"
       },
+      "sprite_name": {
+        "path": "./assets/localScripts/SpriteName.js"
+      },
       "localGameManager": {
         "path": "./assets/localScripts/LocalGameManager.js"
       }

@@ -23,6 +23,11 @@
       "idScripts": ["avatar"],
       "conf": {},
       "type": "WorldScript"
+    },
+    "LocalScript": {
+      "idScripts": ["sprite_name"],
+      "conf": { "name": "default_name" },
+      "type": "LocalScript"
     }
   },
   "children": [],

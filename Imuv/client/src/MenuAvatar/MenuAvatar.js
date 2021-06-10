@@ -177,13 +177,13 @@ export class MenuAvatarView {
     this.inputNameUser.onchange = function () {
       const r = _this.avatarGO.getComponent(RenderModule.TYPE);
       if (!r) throw new Error('no render component');
-      r.setName(this.value, _this.assetsManager);
+      //TODO implement change name in localscript
     };
 
     this.inputColorPicker.onchange = function () {
       const r = _this.avatarGO.getComponent(RenderModule.TYPE);
       if (!r) throw new Error('no render component');
-      r.setColor(new THREE.Color(this.value), _this.assetsManager);
+      r.setColor(new THREE.Color(this.value));
     };
 
     this.saveButton.onclick = function () {

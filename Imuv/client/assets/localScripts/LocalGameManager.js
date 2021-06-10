@@ -22,7 +22,7 @@ module.exports = class LocalGameManager {
     const localCtx = arguments[1];
 
     //init obstacle
-    const state = localCtx.getGameView().lastState;
+    const state = localCtx.getGameView().getLastState();
     const proj4 = localCtx.getSharedModule().proj4;
     const o = state.getOrigin();
     const [x, y] = proj4.default('EPSG:3946').forward([o.lng, o.lat]);

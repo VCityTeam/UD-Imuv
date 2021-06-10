@@ -15,6 +15,9 @@
       "rotate": {
         "path": "./assets/localScripts/Rotate.js"
       },
+      "sprite_name": {
+        "path": "./assets/localScripts/SpriteName.js"
+      },
       "image": {
         "path": "./assets/localScripts/Image.js"
       }

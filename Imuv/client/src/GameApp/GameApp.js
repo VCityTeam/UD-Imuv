@@ -1,7 +1,6 @@
 /** @format */
 
-import { Game, THREE } from 'ud-viz';
-import Routine from 'ud-viz/src/Game/Shared/Components/Routine';
+import { Game } from 'ud-viz';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
 import WorldStateDiff from 'ud-viz/src/Game/Shared/WorldStateDiff';

@@ -188,7 +188,7 @@ const ServerModule = class Server {
 
   fetchUserDefaultExtraData(nameUser = 'default_name') {
     let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
-    RenderModule.bindName(avatarJSON, nameUser);
+    avatarJSON.components.LocalScript.conf.name = nameUser;
     avatarJSON = new GameObject(avatarJSON).toJSON(true); //fill missing fields
 
     return {
@@ -430,7 +430,7 @@ const ServerModule = class Server {
 
       const nameUser = 'Guest';
       let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
-      RenderModule.bindName(avatarJSON, nameUser);
+      avatarJSON.components.LocalScript.conf.name = nameUser;
       RenderModule.bindColor(avatarJSON, [
         Math.random(),
         Math.random(),
