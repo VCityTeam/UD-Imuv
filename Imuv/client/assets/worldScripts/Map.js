@@ -15,7 +15,7 @@ module.exports = class Map {
 
       const img = document.createElement('img');
       img.src = conf.heightmap_path;
-      
+
       //callback of the img
       img.onload = function () {
         _this.heightmapSize = { width: img.width, height: img.height };
@@ -65,9 +65,13 @@ module.exports = class Map {
 
       const _this = this;
 
+      //TODO check if gm is well installed
+
       heightmap.toBuffer('png', function (err, buffer) {
         if (err) {
-          throw new Error('toBuffer ' + err);
+          throw new Error(
+            'Check your installation of gm/imageMagick binary !! ' + err
+          );
         }
         heightmap.size(function (err, size) {
           if (err) {
