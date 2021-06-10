@@ -1,9 +1,16 @@
 /** @format */
 
+//dynamics modules
+let THREE = null;
+
 module.exports = class LocalGameManager {
   constructor(conf, udvShared) {
     this.conf = conf;
-    this.obstacle = new udvShared.THREE.Object3D();
+
+    //ref THREE
+    THREE = udvShared.THREE;
+
+    this.obstacle = new THREE.Object3D();
     this.obstacle.name = 'LocalGameManager_Obstacle';
 
     this.cameraman = null;
@@ -15,8 +22,8 @@ module.exports = class LocalGameManager {
     const localCtx = arguments[1];
 
     //init obstacle
-    const state = localCtx.gameView.lastState;
-    const proj4 = localCtx.UDVShared.proj4;
+    const state = localCtx.getGameView().lastState;
+    const proj4 = localCtx.getSharedModule().proj4;
     const o = state.getOrigin();
     const [x, y] = proj4.default('EPSG:3946').forward([o.lng, o.lat]);
 
@@ -24,39 +31,26 @@ module.exports = class LocalGameManager {
     this.obstacle.position.y = y;
     this.obstacle.position.z = o.alt;
 
-    this.fogObject = new localCtx.UDVShared.THREE.Fog(
-      localCtx.gameView.skyColor, //TODO getter
+    this.fogObject = new THREE.Fog(
+      localCtx.getGameView().skyColor, //TODO getter
       this.conf.fog.near,
       this.conf.fog.far
     );
 
     //init cameraman
-    this.cameraman = new Cameraman(
-      localCtx.gameView.view.camera.camera3D, //getter
-      localCtx.UDVShared.THREE
-    );
+    this.cameraman = new Cameraman(localCtx.getGameView().view.camera.camera3D);
 
-    this.initInputs(
-      localCtx.gameView.view.domElement, //getter
-      localCtx.gameView.view.camera.camera3D,
-      localCtx.gameView.getInputManager(),
-      localCtx.gameView.view,
-      localCtx.itowns,
-      localCtx.UDVShared.Components.Routine,
-      localCtx.UDVShared.Command,
-      localCtx.UDVShared.THREE
-    );
+    this.initInputs(localCtx);
 
-    if (localCtx.gameView.firstGameView) {
+    if (localCtx.getGameView().firstGameView) {
       this.initTraveling(
-        localCtx.UDVShared.THREE,
-        localCtx.UDVShared.Components.Routine,
-        localCtx.gameView.view
+        localCtx.getSharedModule().Components.Routine,
+        localCtx.getGameView().view
       );
     }
   }
 
-  initTraveling(THREE, Routine, view) {
+  initTraveling(Routine, view) {
     const splash = this.createSplashScreen();
     const duration = this.conf.traveling_time;
     if (!duration) return; //if no traveling time return
@@ -148,7 +142,7 @@ module.exports = class LocalGameManager {
   onNewGameObject() {
     const localCtx = arguments[1];
     const newGO = arguments[2];
-    const Render = localCtx.UDVShared.Render;
+    const Render = localCtx.getSharedModule().Render;
 
     const _this = this;
 
@@ -187,17 +181,18 @@ module.exports = class LocalGameManager {
     }
   }
 
-  initInputs(
-    viewerDiv,
-    camera,
-    manager,
-    view,
-    itowns,
-    Routine,
-    Command,
-    THREE
-  ) {
+  initInputs(localCtx) {
     const _this = this;
+
+    const gameView = localCtx.getGameView();
+    const view = gameView.view;
+    const viewerDiv = view.domElement;
+    const camera = view.camera.camera3D;
+    const manager = gameView.getInputManager();
+    const itowns = localCtx.getItownsModule();
+    const Shared = localCtx.getSharedModule();
+    const Routine = Shared.Components.Routine;
+    const Command = Shared.Command;
 
     viewerDiv.requestPointerLock =
       viewerDiv.requestPointerLock || viewerDiv.mozRequestPointerLock;
@@ -448,10 +443,7 @@ const CAMERA_ANGLE = Math.PI / 12;
 const THIRD_PERSON_FOV = 60;
 
 class Cameraman {
-  constructor(camera, THREE) {
-    //keep ref on the THREE lib
-    this.THREE = THREE;
-
+  constructor(camera) {
     //quaternion
     this.quaternionCam = new THREE.Quaternion().setFromEuler(
       new THREE.Euler(Math.PI * 0.5, 0, 0)
@@ -500,7 +492,7 @@ class Cameraman {
       //follow tps
       this.camera.fov = THIRD_PERSON_FOV;
       const obj = this.target.fetchObject3D();
-      this.bbTarget = new this.THREE.Box3().setFromObject(obj); //compute here one time
+      this.bbTarget = new THREE.Box3().setFromObject(obj); //compute here one time
       this.camera.updateProjectionMatrix();
     }
   }
@@ -523,9 +515,9 @@ class Cameraman {
 
     //world transform
     const obj = this.target.fetchObject3D();
-    let position = new this.THREE.Vector3();
-    let quaternion = new this.THREE.Quaternion();
-    obj.matrixWorld.decompose(position, quaternion, new this.THREE.Vector3());
+    let position = new THREE.Vector3();
+    let quaternion = new THREE.Quaternion();
+    obj.matrixWorld.decompose(position, quaternion, new THREE.Vector3());
 
     const zDiff = this.bbTarget.max.z - this.bbTarget.min.z;
     position.z += zDiff;

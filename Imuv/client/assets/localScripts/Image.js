@@ -8,7 +8,7 @@ module.exports = class Image {
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
-    const THREE = localCtx.UDVShared.THREE;
+    const THREE = localCtx.getSharedModule().THREE;
 
     const texture = new THREE.TextureLoader().load(this.conf.path);
     const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -19,7 +19,7 @@ module.exports = class Image {
     );
     const plane = new THREE.Mesh(geometry, material);
 
-    const r = go.getComponent(localCtx.UDVShared.Render.TYPE);
+    const r = go.getComponent(localCtx.getSharedModule().Render.TYPE);
     r.addObject3D(plane);
   }
 };

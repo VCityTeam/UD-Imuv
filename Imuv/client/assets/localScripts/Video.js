@@ -12,11 +12,12 @@ module.exports = class Video {
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
-    const THREE = localCtx.UDVShared.THREE;
+    const THREE = localCtx.getSharedModule().THREE;
 
-    
     const video = document.createElement('video');
-    video.src = localCtx.gameView.assetsManager.fetchVideoPath(this.conf.idVideo);
+    video.src = localCtx
+      .getGameView()
+      .assetsManager.fetchVideoPath(this.conf.idVideo);
     video.autoplay = true;
     video.muted = true;
     video.load(); // must call after setting/changing source
@@ -45,7 +46,7 @@ module.exports = class Video {
     );
     const movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
 
-    const r = go.getComponent(localCtx.UDVShared.Render.TYPE);
+    const r = go.getComponent(localCtx.getSharedModule().Render.TYPE);
     r.addObject3D(movieScreen);
 
     this.video = video;
