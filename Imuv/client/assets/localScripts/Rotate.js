@@ -1,17 +1,19 @@
 /** @format */
 
-let THREE = null;
+let Shared = null;
 
 module.exports = class Rotate {
-  constructor(conf, Shared) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
 
-    THREE = Shared.THREE;
+    Shared = SharedModule;
   }
 
   tick() {
     const go = arguments[0];
     const localCtx = arguments[1];
-    go.rotate(new THREE.Vector3(0, 0, -this.conf.speed * localCtx.getDt()));
+    go.rotate(
+      new Shared.THREE.Vector3(0, 0, -this.conf.speed * localCtx.getDt())
+    );
   }
 };

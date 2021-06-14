@@ -1,16 +1,15 @@
 /** @format */
 
 //dynamics modules
-let THREE = null;
+let Shared = null;
 
 module.exports = class LocalGameManager {
-  constructor(conf, udvShared) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
 
-    //ref THREE
-    THREE = udvShared.THREE;
+    Shared = SharedModule;
 
-    this.obstacle = new THREE.Object3D();
+    this.obstacle = new Shared.THREE.Object3D();
     this.obstacle.name = 'LocalGameManager_Obstacle';
 
     this.cameraman = null;
@@ -23,16 +22,15 @@ module.exports = class LocalGameManager {
 
     //init obstacle
     const state = localCtx.getGameView().getLastState();
-    const proj4 = localCtx.getSharedModule().proj4;
     const o = state.getOrigin();
     if (!o) debugger; //DEBUG
-    const [x, y] = proj4.default('EPSG:3946').forward([o.lng, o.lat]);
+    const [x, y] = Shared.proj4.default('EPSG:3946').forward([o.lng, o.lat]);
 
     this.obstacle.position.x = x;
     this.obstacle.position.y = y;
     this.obstacle.position.z = o.alt;
 
-    this.fogObject = new THREE.Fog(
+    this.fogObject = new Shared.THREE.Fog(
       localCtx.getGameView().skyColor, //TODO getter
       this.conf.fog.near,
       this.conf.fog.far
@@ -44,14 +42,11 @@ module.exports = class LocalGameManager {
     this.initInputs(localCtx);
 
     if (localCtx.getGameView().firstGameView) {
-      this.initTraveling(
-        localCtx.getSharedModule().Components.Routine,
-        localCtx.getGameView().view
-      );
+      this.initTraveling(localCtx.getGameView().view);
     }
   }
 
-  initTraveling(Routine, view) {
+  initTraveling(view) {
     const splash = this.createSplashScreen();
     const duration = this.conf.traveling_time;
     if (!duration) return; //if no traveling time return
@@ -68,12 +63,12 @@ module.exports = class LocalGameManager {
     let currentTime = 0;
     cameraman.setFilmingTarget(false);
     const camera = cameraman.getCamera();
-    const startPos = new THREE.Vector3(
+    const startPos = new Shared.THREE.Vector3(
       1843660.0895859331,
       5174613.11242678,
       485.8525534292738
     );
-    const startQuat = new THREE.Quaternion(
+    const startQuat = new Shared.THREE.Quaternion(
       0.027576004167469807,
       0.6755682684405119,
       0.736168525226603,
@@ -86,7 +81,7 @@ module.exports = class LocalGameManager {
 
     //first travelling
     cameraman.addRoutine(
-      new Routine(
+      new Shared.Components.Routine(
         function (dt) {
           const t = cameraman.computeTransformTarget();
 
@@ -133,24 +128,22 @@ module.exports = class LocalGameManager {
   tick() {
     const localCtx = arguments[1];
     this.cameraman.tick(
-      localCtx.dt,
-      localCtx.gameView.lastState,
-      localCtx.gameView.avatarUUID,
+      localCtx.getDt(),
+      localCtx.getGameView().getLastState(),
+      localCtx.getGameView().avatarUUID, //todo getter
       this.obstacle
     );
   }
 
   onNewGameObject() {
-    const localCtx = arguments[1];
     const newGO = arguments[2];
-    const Render = localCtx.getSharedModule().Render;
 
     const _this = this;
 
     //add static object to obstacle
     if (newGO.isStatic()) {
       //register in obstacle
-      const r = newGO.getComponent(Render.TYPE);
+      const r = newGO.getComponent(Shared.Render.TYPE);
       if (r) {
         const clone = r.computeOriginalObject3D().clone();
 
@@ -191,7 +184,6 @@ module.exports = class LocalGameManager {
     const camera = view.camera.camera3D;
     const manager = gameView.getInputManager();
     const itowns = localCtx.getItownsModule();
-    const Shared = localCtx.getSharedModule();
     const Routine = Shared.Components.Routine;
     const Command = Shared.Command;
 
@@ -253,13 +245,15 @@ module.exports = class LocalGameManager {
           )
         );
       } else {
-        const currentPosition = new THREE.Vector3().copy(
+        const currentPosition = new Shared.THREE.Vector3().copy(
           _this.cameraman.getCamera().position
         );
         //TODO valeur en dur
-        const endPosition = new THREE.Vector3(0, 0, 200).add(currentPosition); //envoie la camera 200 metre plus haut
-        const endQuaternion = new THREE.Quaternion().setFromEuler(
-          new THREE.Euler(Math.PI / 5, 0, 0)
+        const endPosition = new Shared.THREE.Vector3(0, 0, 200).add(
+          currentPosition
+        ); //envoie la camera 200 metre plus haut
+        const endQuaternion = new Shared.THREE.Quaternion().setFromEuler(
+          new Shared.THREE.Euler(Math.PI / 5, 0, 0)
         );
 
         _this.setFog(view, false);
@@ -366,14 +360,14 @@ module.exports = class LocalGameManager {
 
       //1. sets the mouse position with a coordinate system where the center
       //   of the screen is the origin
-      const mouse = new THREE.Vector2(
+      const mouse = new Shared.THREE.Vector2(
         -1 +
           (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
         1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
       );
 
       //2. set the picking ray from the camera position and mouse coordinates
-      const raycaster = new THREE.Raycaster();
+      const raycaster = new Shared.THREE.Raycaster();
       raycaster.setFromCamera(mouse, camera);
 
       //3. compute intersections
@@ -393,7 +387,7 @@ module.exports = class LocalGameManager {
         });
 
         //transform p map referentiel
-        const bb = new THREE.Box3().setFromObject(mapObject);
+        const bb = new Shared.THREE.Box3().setFromObject(mapObject);
         p.sub(bb.min);
 
         //DEBUG
@@ -404,7 +398,7 @@ module.exports = class LocalGameManager {
 
         return new Command({
           type: Command.TYPE.MOVE_TO,
-          data: { target: new THREE.Vector2(p.x, p.y) },
+          data: { target: new Shared.THREE.Vector2(p.x, p.y) },
         });
       } else {
         return null;
@@ -431,7 +425,7 @@ module.exports = class LocalGameManager {
           return new Command({
             type: Command.TYPE.ROTATE,
             data: {
-              vector: new THREE.Vector3(pixelY, 0, pixelX),
+              vector: new Shared.THREE.Vector3(pixelY, 0, pixelX),
             },
           });
         }
@@ -451,11 +445,11 @@ const THIRD_PERSON_FOV = 60;
 class Cameraman {
   constructor(camera) {
     //quaternion
-    this.quaternionCam = new THREE.Quaternion().setFromEuler(
-      new THREE.Euler(Math.PI * 0.5, 0, 0)
+    this.quaternionCam = new Shared.THREE.Quaternion().setFromEuler(
+      new Shared.THREE.Euler(Math.PI * 0.5, 0, 0)
     );
-    this.quaternionAngle = new THREE.Quaternion().setFromEuler(
-      new THREE.Euler(-CAMERA_ANGLE, 0, 0)
+    this.quaternionAngle = new Shared.THREE.Quaternion().setFromEuler(
+      new Shared.THREE.Euler(-CAMERA_ANGLE, 0, 0)
     );
 
     //three js camera
@@ -470,7 +464,7 @@ class Cameraman {
     this.enabled = true;
 
     //raycaster
-    this.raycaster = new THREE.Raycaster();
+    this.raycaster = new Shared.THREE.Raycaster();
     this.raycaster.camera = camera;
 
     //routines
@@ -498,7 +492,7 @@ class Cameraman {
       //follow tps
       this.camera.fov = THIRD_PERSON_FOV;
       const obj = this.target.fetchObject3D();
-      this.bbTarget = new THREE.Box3().setFromObject(obj); //compute here one time
+      this.bbTarget = new Shared.THREE.Box3().setFromObject(obj); //compute here one time
       this.camera.updateProjectionMatrix();
     }
   }
@@ -521,9 +515,9 @@ class Cameraman {
 
     //world transform
     const obj = this.target.fetchObject3D();
-    let position = new THREE.Vector3();
-    let quaternion = new THREE.Quaternion();
-    obj.matrixWorld.decompose(position, quaternion, new THREE.Vector3());
+    let position = new Shared.THREE.Vector3();
+    let quaternion = new Shared.THREE.Quaternion();
+    obj.matrixWorld.decompose(position, quaternion, new Shared.THREE.Vector3());
 
     const zDiff = this.bbTarget.max.z - this.bbTarget.min.z;
     position.z += zDiff;

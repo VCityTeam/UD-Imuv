@@ -1,8 +1,12 @@
 /** @format */
 
+let Shared = null;
+
 module.exports = class Video {
-  constructor(conf) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
+
+    Shared = SharedModule;
 
     this.video = null;
     this.videoImageContext = null;
@@ -12,7 +16,6 @@ module.exports = class Video {
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
-    const THREE = localCtx.getSharedModule().THREE;
 
     const video = document.createElement('video');
     video.src = localCtx
@@ -33,21 +36,21 @@ module.exports = class Video {
     videoImageContext.fillStyle = '#000000';
     videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
 
-    const videoTexture = new THREE.Texture(videoImage);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
+    const videoTexture = new Shared.THREE.Texture(videoImage);
+    videoTexture.minFilter = Shared.THREE.LinearFilter;
+    videoTexture.magFilter = Shared.THREE.LinearFilter;
 
-    const movieMaterial = new THREE.MeshBasicMaterial({
+    const movieMaterial = new Shared.THREE.MeshBasicMaterial({
       map: videoTexture,
-      side: THREE.DoubleSide,
+      side: Shared.THREE.DoubleSide,
     });
-    const movieGeometry = new THREE.PlaneGeometry(
+    const movieGeometry = new Shared.THREE.PlaneGeometry(
       this.conf.width,
       this.conf.height
     );
-    const movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
+    const movieScreen = new Shared.THREE.Mesh(movieGeometry, movieMaterial);
 
-    const r = go.getComponent(localCtx.getSharedModule().Render.TYPE);
+    const r = go.getComponent(Shared.Render.TYPE);
     r.addObject3D(movieScreen);
 
     this.video = video;

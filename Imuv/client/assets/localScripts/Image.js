@@ -1,25 +1,24 @@
 /** @format */
 
+let Shared = null;
+
 module.exports = class Image {
-  constructor(conf) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
+    Shared = SharedModule;
   }
 
   init() {
     const go = arguments[0];
-    const localCtx = arguments[1];
-    const THREE = localCtx.getSharedModule().THREE;
-
-    const texture = new THREE.TextureLoader().load(this.conf.path);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const geometry = new THREE.PlaneGeometry(
+    const texture = new Shared.THREE.TextureLoader().load(this.conf.path);
+    const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
+    const geometry = new Shared.THREE.PlaneGeometry(
       this.conf.width,
       this.conf.height,
       32
     );
-    const plane = new THREE.Mesh(geometry, material);
-
-    const r = go.getComponent(localCtx.getSharedModule().Render.TYPE);
+    const plane = new Shared.THREE.Mesh(geometry, material);
+    const r = go.getComponent(Shared.Render.TYPE);
     r.addObject3D(plane);
   }
 };
