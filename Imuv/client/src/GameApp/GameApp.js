@@ -4,6 +4,7 @@ import { Game } from 'ud-viz';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import WorldStateDiff from 'ud-viz/src/Game/Shared/WorldStateDiff';
+import WorldState from 'ud-viz/src/Game/Shared/WorldState';
 
 import './GameApp.css';
 
@@ -13,23 +14,33 @@ export class GameApp {
     this.assetsManager = assetsManager;
     this.webSocketService = webSocketService;
 
+    this.worldStateInterpolator = null;
+
     this.config = config;
   }
 
   start(onLoad, firstGameView, isGuest) {
+    const _this = this;
+
+    const worldStateInterpolator = new Game.Components.WorldStateInterpolator(
+      this.config.worldStateInterpolator
+    );
+    this.worldStateInterpolator = worldStateInterpolator;
+
     this.gameView = new Game.GameView({
       isLocal: false,
       assetsManager: this.assetsManager,
       webSocketService: this.webSocketService,
-      worldStateInterpolator: new Game.Components.WorldStateInterpolator(
-        this.config.worldStateInterpolator
-      ),
+      stateComputer: worldStateInterpolator,
       config: this.config,
       firstGameView: firstGameView,
     });
 
-    const gV = this.gameView;
-    const _this = this;
+    const onFirstStateJSON = function (json) {
+      const state = new WorldState(json.state);
+      _this.worldStateInterpolator.onFirstState(state);
+      _this.gameView.onFirstState(state, json.avatarUUID);
+    };
 
     // Register callbacks
     this.webSocketService.on(
@@ -41,7 +52,7 @@ export class GameApp {
         //TODO mettre un flag initialized a la place de check this.view (wait refacto ud-vizView)
         if (!_this.gameView.view) {
           //view was not intialized do it
-          _this.gameView.onFirstStateJSON(firstStateJSON);
+          onFirstStateJSON(firstStateJSON);
         } else {
           //this need to be disposed
           _this.gameView.dispose();
@@ -53,9 +64,7 @@ export class GameApp {
           ]);
 
           _this.start(
-            function () {
-              _this.gameView.onFirstStateJSON(firstStateJSON);
-            },
+            onFirstStateJSON.bind(_this, firstStateJSON),
             false,
             isGuest
           );
@@ -66,9 +75,7 @@ export class GameApp {
     this.webSocketService.on(
       Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
       (diffJSON) => {
-        _this.gameView
-          .getWorldStateInterpolator()
-          .onNewDiff(new WorldStateDiff(diffJSON));
+        worldStateInterpolator.onNewDiff(new WorldStateDiff(diffJSON));
       }
     );
 
@@ -76,8 +83,10 @@ export class GameApp {
       onLoad();
 
       //register in tick of the gameview
-      gV.addTickRequester(function () {
-        gV.getInputManager().sendCommandsToServer(_this.webSocketService);
+      _this.gameView.addTickRequester(function () {
+        _this.gameView
+          .getInputManager()
+          .sendCommandsToServer(_this.webSocketService);
       });
     });
 
@@ -98,17 +107,17 @@ export class GameApp {
 
         menuAvatar.setOnClose(function () {
           //render view
-          gV.setPause(false);
+          _this.gameView.setPause(false);
           //remove html
           menuAvatar.dispose();
           //append html
-          document.body.appendChild(gV.html());
+          document.body.appendChild(_this.gameView.html());
         });
 
         //remove html
-        gV.html().remove();
+        _this.gameView.html().remove();
         //stop rendering view
-        gV.setPause(true);
+        _this.gameView.setPause(true);
         //add menuavatar view
         document.body.appendChild(menuAvatar.html());
       };

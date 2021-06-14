@@ -44,7 +44,7 @@ const UserModule = class User {
     if (!this.lastState) {
       this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
-        avatarID: this.getAvatarID(),
+        avatarUUID: this.getAvatarID(),
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);
