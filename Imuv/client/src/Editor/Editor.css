@@ -1,14 +1,4 @@
 /** @format */
-/* html {
-  height: 100%;
-}
-
-body {
-  margin: 0%;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-} */
 
 .flex_Editor {
   display: flex;
@@ -23,6 +13,13 @@ body {
   cursor: pointer;
   font-size: small;
   margin: 0%;
+}
+
+.ui_Editor {
+  display: inline-block;
+  height: 100%;
+  background-color: burlywood;
+  padding: 5px;
 }
 
 .ul_Editor {

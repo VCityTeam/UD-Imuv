@@ -14,7 +14,7 @@ export class Editor {
 
     //where html goes
     this.ui = document.createElement('div');
-    this.ui.classList.add('ui_MenuAvatar'); //TODO create .css imuv global
+    this.ui.classList.add('ui_Editor');
     this.rootHtml.appendChild(this.ui);
 
     //html
