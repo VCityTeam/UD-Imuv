@@ -25,6 +25,7 @@ module.exports = class LocalGameManager {
     const state = localCtx.getGameView().getLastState();
     const proj4 = localCtx.getSharedModule().proj4;
     const o = state.getOrigin();
+    if (!o) debugger; //DEBUG
     const [x, y] = proj4.default('EPSG:3946').forward([o.lng, o.lat]);
 
     this.obstacle.position.x = x;

@@ -4,7 +4,7 @@ import './MenuAvatar.css';
 
 import GameObject from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 import { THREE, OrbitControls } from 'ud-viz';
-import Data from 'ud-viz/src/Game/Shared/Components/Data';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import RenderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
@@ -102,10 +102,10 @@ export class MenuAvatarView {
     this.initCallbacks();
     Shared.Components.THREEUtils.addLights(this.scene);
 
-    this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO);
+    this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO);
 
     this.webSocketService.on(
-      Data.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
+      Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
       function (data) {
         _this.avatarGO = new GameObject(data);
         _this.avatarGO.initAssetsComponents(_this.assetsManager, Shared, false);
@@ -202,7 +202,7 @@ export class MenuAvatarView {
     this.saveButton.onclick = function () {
       const avatarJSON = _this.avatarGO.toJSON(true);
       _this.webSocketService.emit(
-        Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
+        Constants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
         avatarJSON
       );
     };

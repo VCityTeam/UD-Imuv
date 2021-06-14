@@ -2,7 +2,7 @@
 
 import { Game } from 'ud-viz';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
-import Data from 'ud-viz/src/Game/Shared/Components/Data';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import WorldStateDiff from 'ud-viz/src/Game/Shared/WorldStateDiff';
 
 import './GameApp.css';
@@ -33,7 +33,7 @@ export class GameApp {
 
     // Register callbacks
     this.webSocketService.on(
-      Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+      Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
       (firstStateJSON) => {
         if (!firstStateJSON) throw new Error('no data');
         console.log('JOIN_WORLD ', firstStateJSON);
@@ -48,8 +48,8 @@ export class GameApp {
 
           //reset websocketservices
           _this.webSocketService.reset([
-            Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-            Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+            Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+            Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
           ]);
 
           _this.start(
@@ -64,7 +64,7 @@ export class GameApp {
     );
 
     this.webSocketService.on(
-      Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+      Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
       (diffJSON) => {
         _this.gameView
           .getWorldStateInterpolator()
@@ -99,6 +99,8 @@ export class GameApp {
         menuAvatar.setOnClose(function () {
           //render view
           gV.setPause(false);
+          //remove html
+          menuAvatar.dispose();
           //append html
           document.body.appendChild(gV.html());
         });

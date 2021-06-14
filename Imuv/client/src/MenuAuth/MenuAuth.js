@@ -3,7 +3,7 @@
 import './MenuAuth.css';
 
 import { GameApp } from '../GameApp/GameApp';
-import Data from 'ud-viz/src/Game/Shared/Components/Data';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
@@ -148,13 +148,13 @@ export class MenuAuthView {
 
     this.guestButton.onclick = function () {
       _this.webSocketService.emit(
-        Data.WEBSOCKET.MSG_TYPES.GUEST_CONNECTION,
+        Constants.WEBSOCKET.MSG_TYPES.GUEST_CONNECTION,
         null
       );
     };
 
     this.webSocketService.on(
-      Data.WEBSOCKET.MSG_TYPES.SIGNED,
+      Constants.WEBSOCKET.MSG_TYPES.SIGNED,
       function (initialized, isGuest) {
         _this.dispose();
 
@@ -180,7 +180,7 @@ export class MenuAuthView {
                   app.start(
                     function () {
                       _this.webSocketService.emit(
-                        Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
+                        Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
                       );
                     },
                     true,
@@ -313,7 +313,7 @@ class SignUpView {
         return;
       }
 
-      _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.SIGN_UP, {
+      _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SIGN_UP, {
         email: email,
         password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
         nameUser: nameUser,
@@ -384,7 +384,7 @@ class SignInView {
       const email = _this.inputMail.value;
       const password = _this.inputPassword.value;
 
-      _this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.SIGN_IN, {
+      _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SIGN_IN, {
         email: email,
         password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
       });

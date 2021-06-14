@@ -9,7 +9,7 @@ const gm = require('gm');
 const PNG = require('pngjs').PNG;
 
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Data = udvShared.Components.Data;
+const Pack = udvShared.Components.Pack;
 const Command = udvShared.Command;
 const GameObject = udvShared.GameObject;
 const World = udvShared.World;
@@ -28,7 +28,7 @@ const WorldThreadModule = class WorldThread {
     this.worker.on(
       'message',
       function (msgPacked) {
-        const msg = Data.unpack(msgPacked);
+        const msg = Pack.unpack(msgPacked);
         if (this.callbacks[msg.msgType]) {
           this.callbacks[msg.msgType](msg.data);
         }
@@ -39,7 +39,7 @@ const WorldThreadModule = class WorldThread {
   //parent thread => child thread
   post(msgType, data) {
     this.worker.postMessage(
-      Data.pack({
+      Pack.pack({
         msgType: msgType,
         data: data,
       })
@@ -110,7 +110,7 @@ WorldThreadModule.routine = function (serverConfig) {
               msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
               data: dataPortalEvent,
             };
-            parentPort.postMessage(Data.pack(message));
+            parentPort.postMessage(Pack.pack(message));
           });
 
           //loop
@@ -133,7 +133,7 @@ WorldThreadModule.routine = function (serverConfig) {
               msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
               data: currentState.toJSON(),
             };
-            parentPort.postMessage(Data.pack(message));
+            parentPort.postMessage(Pack.pack(message));
           };
 
           const fps = serverConfig.thread.fps;
@@ -181,12 +181,12 @@ WorldThreadModule.routine = function (serverConfig) {
           msgType: WorldThreadModule.MSG_TYPES.GAMEOBJECT_RESPONSE,
           data: go.toJSON(true),
         };
-        parentPort.postMessage(Data.pack(message));
+        parentPort.postMessage(Pack.pack(message));
       };
 
       //listening parentPort
       parentPort.on('message', (msgPacked) => {
-        const msg = Data.unpack(msgPacked);
+        const msg = Pack.unpack(msgPacked);
         switch (msg.msgType) {
           case WorldThreadModule.MSG_TYPES.INIT:
             onInit(msg.data);
