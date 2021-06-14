@@ -7,6 +7,7 @@ import { THREE, OrbitControls } from 'ud-viz';
 import Data from 'ud-viz/src/Game/Shared/Components/Data';
 import RenderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
+import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
 
 export class MenuAvatarView {
   constructor(webSocketService, config, assetsManager) {
@@ -175,9 +176,21 @@ export class MenuAvatarView {
     const _this = this;
 
     this.inputNameUser.onchange = function () {
-      const r = _this.avatarGO.getComponent(RenderModule.TYPE);
-      if (!r) throw new Error('no render component');
-      //TODO implement change name in localscript
+      const localScriptComp = _this.avatarGO.getComponent(
+        LocalScriptModule.TYPE
+      );
+
+      //create the new component
+      const newComponent = localScriptComp.toJSON();
+      newComponent.conf.name = this.value; //bind the new name
+
+      if (!localScriptComp) throw new Error('no localScript component');
+
+      //TODO signature function is bad menuavatar should be in a gameview object
+      localScriptComp.execute(LocalScriptModule.EVENT.UPDATE, [
+        newComponent,
+        _this.assetsManager,
+      ]);
     };
 
     this.inputColorPicker.onchange = function () {

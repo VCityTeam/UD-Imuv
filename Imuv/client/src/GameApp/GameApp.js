@@ -14,9 +14,6 @@ export class GameApp {
     this.webSocketService = webSocketService;
 
     this.config = config;
-
-    //DEBUG
-    // window.UDVDebugger = new Game.UDVDebugger(document.body);
   }
 
   start(onLoad, firstGameView, isGuest) {
