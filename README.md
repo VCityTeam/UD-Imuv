@@ -56,10 +56,10 @@ Note that when you make a change in UD-Viz library watchers of UD-Viz-demo will 
 
 In VS Code you can open terminal here is the possible layout:
 
-DemoFull:
+Imuv:
 ![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_demo_full.png)
 
-Imuv
+DemoFull:
 ![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_imuv.png)
 
 Before to push your modifications run:
