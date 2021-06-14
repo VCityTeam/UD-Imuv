@@ -50,12 +50,17 @@ then reinstall the ud-viz npm package
 npm install ud-viz
 ```
 
+Note that when you make a change in UD-Viz library watchers of UD-Viz-demo will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
+
 ### Workflow
 
-TODO: reformulate this
--possible layout screenshot
--work with terminal
--rs if changes in UD-Viz
+In VS Code you can open terminal here is the possible layout:
+
+DemoFull:
+![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_demo_full.png)
+
+Imuv
+![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_imuv.png)
 
 Before to push your modifications run:
 ```
