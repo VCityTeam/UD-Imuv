@@ -31,7 +31,7 @@ module.exports = class LocalGameManager {
     this.obstacle.position.z = o.alt;
 
     this.fogObject = new Shared.THREE.Fog(
-      localCtx.getGameView().skyColor, //TODO getter
+      localCtx.getGameView().getSkyColor(),
       this.conf.fog.near,
       this.conf.fog.far
     );
@@ -354,10 +354,6 @@ module.exports = class LocalGameManager {
       swicthMode(MODE.DEFAULT);
       if (event.which != 3) return; //if its not a right click
 
-      //map is the root object
-      const mapObject = _this.obstacle;
-      if (!mapObject) throw new Error('no map object');
-
       //1. sets the mouse position with a coordinate system where the center
       //   of the screen is the origin
       const mouse = new Shared.THREE.Vector2(
@@ -373,7 +369,7 @@ module.exports = class LocalGameManager {
       //3. compute intersections
       //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
 
-      const intersects = raycaster.intersectObject(mapObject, true);
+      const intersects = raycaster.intersectObject(_this.obstacle, true);
 
       if (intersects.length) {
         let minDist = Infinity;
@@ -387,7 +383,7 @@ module.exports = class LocalGameManager {
         });
 
         //transform p map referentiel
-        const bb = new Shared.THREE.Box3().setFromObject(mapObject);
+        const bb = new Shared.THREE.Box3().setFromObject(_this.obstacle);
         p.sub(bb.min);
 
         //DEBUG
