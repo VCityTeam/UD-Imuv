@@ -1,6 +1,7 @@
 /** @format */
 
 import { Game } from 'ud-viz';
+import { GameView } from 'ud-viz/src/View/GameView/GameView';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import WorldStateDiff from 'ud-viz/src/Game/Shared/WorldStateDiff';
@@ -27,7 +28,7 @@ export class GameApp {
     );
     this.worldStateInterpolator = worldStateInterpolator;
 
-    this.gameView = new Game.GameView({
+    this.gameView = new GameView({
       isLocal: false,
       assetsManager: this.assetsManager,
       webSocketService: this.webSocketService,
@@ -79,15 +80,11 @@ export class GameApp {
       }
     );
 
-    this.gameView.load().then(function () {
-      onLoad();
-
-      //register in tick of the gameview
-      _this.gameView.addTickRequester(function () {
-        _this.gameView
-          .getInputManager()
-          .sendCommandsToServer(_this.webSocketService);
-      });
+    //register in tick of the gameview
+    this.gameView.addTickRequester(function () {
+      _this.gameView
+        .getInputManager()
+        .sendCommandsToServer(_this.webSocketService);
     });
 
     if (!isGuest) {
@@ -122,5 +119,7 @@ export class GameApp {
         document.body.appendChild(menuAvatar.html());
       };
     }
+
+    onLoad();
   }
 }
