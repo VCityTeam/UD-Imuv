@@ -29,9 +29,7 @@ export class GameApp {
     this.worldStateInterpolator = worldStateInterpolator;
 
     this.gameView = new GameView({
-      isLocal: false,
       assetsManager: this.assetsManager,
-      webSocketService: this.webSocketService,
       stateComputer: worldStateInterpolator,
       config: this.config,
       firstGameView: firstGameView,

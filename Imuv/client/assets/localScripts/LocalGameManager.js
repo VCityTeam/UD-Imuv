@@ -289,11 +289,6 @@ module.exports = class LocalGameManager {
       }
     });
 
-    //pause
-    manager.addKeyInput('p', 'keydown', function () {
-      gameView.pause = !gameView.pause;
-    });
-
     //COMMANDS WORLD
 
     //FORWARD

@@ -7,7 +7,7 @@ import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
-import { Editor } from '../Editor/Editor';
+import { EditorView } from '../Editor/Editor';
 
 export class MenuAuthView {
   constructor(webSocketService) {
@@ -213,7 +213,7 @@ export class MenuAuthView {
 
       SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
         function (config) {
-          _this.editor = new Editor(config);
+          _this.editor = new EditorView(config);
           _this.editor.load().then(function () {
             loadingView.remove();
             document.body.appendChild(_this.editor.html());

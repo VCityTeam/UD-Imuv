@@ -1,11 +1,11 @@
 /** @format */
 
 import './Editor.css';
-import { GOEditorView } from './GOEditor/GOEditorView';
-import { WorldEditorView } from './WorldEditor/WorldEditorView';
 import { Game } from 'ud-viz';
+import { GameView } from 'ud-viz/src/View/GameView/GameView';
+import { LocalComputer } from 'ud-viz/src/Game/Components/StateComputer/LocalComputer';
 
-export class Editor {
+export class EditorView {
   constructor(config) {
     this.config = config;
 
@@ -22,6 +22,12 @@ export class Editor {
 
     //assets
     this.assetsManager = new Game.Components.AssetsManager();
+
+    //model
+    this.model = new EditorModel();
+
+    //gameview
+    this.currentGameView = null;
   }
 
   dispose() {
@@ -56,8 +62,17 @@ export class Editor {
     });
   }
 
-  onWorldJSON(worldJSON) {
-    console.log(worldJSON);
+  onWorldJSON(json) {
+    this.model.onWorldJSON(json);
+
+    this.currentGameView = new GameView({
+      assetsManager: this.assetsManager,
+      stateComputer: this.model.getLocalComputer(),
+      config: this.config,
+      firstGameView: false,
+    });
+
+
   }
 
   load() {
@@ -80,5 +95,20 @@ export class Editor {
 
   html() {
     return this.rootHtml;
+  }
+}
+
+class EditorModel {
+  constructor() {
+    this.localComputer = null;
+  }
+
+  onWorldJSON(json) {
+    //init localcomputer
+    this.localComputer = new LocalComputer(new Game.Shared.World(json));
+  }
+
+  getLocalComputer() {
+    return this.localComputer;
   }
 }
