@@ -1,8 +1,12 @@
 /** @format */
 
+let Shared;
+
 module.exports = class Zeppelin {
-  constructor(conf) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
+
+    Shared = SharedModule;
 
     this.currentTime = 0;
     this.radius = 82;
@@ -10,13 +14,9 @@ module.exports = class Zeppelin {
 
   init() {
     const go = arguments[0];
-    const gCtx = arguments[1];
+    const worldContext = arguments[1];
 
-    this.centerCircle = new gCtx.UDVShared.THREE.Vector3(
-      75,
-      98,
-      131.3931481757054
-    );
+    this.centerCircle = new Shared.THREE.Vector3(75, 98, 131.3931481757054);
   }
 
   computePosition(t, result) {
@@ -29,8 +29,8 @@ module.exports = class Zeppelin {
 
   tick() {
     const go = arguments[0];
-    const gCtx = arguments[1];
-    const dt = gCtx.dt;
+    const worldContext = arguments[1];
+    const dt = worldContext.dt;
 
     this.currentTime += dt;
 

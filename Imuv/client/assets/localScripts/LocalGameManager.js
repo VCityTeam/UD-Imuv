@@ -490,7 +490,7 @@ class Cameraman {
 
   focusTarget(obstacle) {
     if (!this.target) {
-      console.warn('no target');
+      // console.warn('no target');
       return;
     }
     const transform = this.computeTransformTarget(obstacle);

@@ -57,22 +57,34 @@ export class EditorView {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
       li.innerHTML = w.name;
-      li.onclick = _this.onWorldJSON.bind(_this, w);
+      li.onclick = _this.onWorldJSON.bind(_this, w, _this.assetsManager);
       list.appendChild(li);
     });
   }
 
   onWorldJSON(json) {
+    if (this.currentGameView) {
+      this.currentGameView.dispose();
+    }
+
     this.model.onWorldJSON(json);
 
     this.currentGameView = new GameView({
+      htmlParent: this.rootHtml,
       assetsManager: this.assetsManager,
       stateComputer: this.model.getLocalComputer(),
       config: this.config,
       firstGameView: false,
     });
 
+    this.currentGameView.onFirstState(
+      this.model.getLocalComputer().computeCurrentState(),
+      null
+    );
 
+    //offset the gameview
+    const viewHtml = this.currentGameView.html();
+    viewHtml.style.left = this.ui.clientWidth + 'px';
   }
 
   load() {
@@ -103,9 +115,12 @@ class EditorModel {
     this.localComputer = null;
   }
 
-  onWorldJSON(json) {
+  onWorldJSON(json, assetsManager) {
     //init localcomputer
-    this.localComputer = new LocalComputer(new Game.Shared.World(json));
+    this.localComputer = new LocalComputer(
+      new Game.Shared.World(json),
+      assetsManager
+    );
   }
 
   getLocalComputer() {

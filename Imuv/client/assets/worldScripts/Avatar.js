@@ -10,16 +10,21 @@ const AVATAR_SPEED_ROTATION_X = 0.00004;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
+let Shared;
+
 module.exports = class Avatar {
-  constructor(conf) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
+
+    Shared = SharedModule;
+
     this.commands = {};
     this.firstTick = true;
   }
 
   init() {
     const go = arguments[0];
-    const gCtx = arguments[1];
+    const worldContext = arguments[1];
 
     //spawn
     const gm = go.computeRoot(); //root is gm
@@ -27,14 +32,13 @@ module.exports = class Avatar {
     go.getTransform().setFromJSON(script.getSpawnTransform());
 
     //init commands
-    const Command = gCtx.UDVShared.Command;
-    for (let type in Command.TYPE) {
-      this.commands[Command.TYPE[type]] = [];
+    for (let type in Shared.Command.TYPE) {
+      this.commands[Shared.Command.TYPE[type]] = [];
     }
   }
 
-  fetchCommands(commands, gameObject, gCtx) {
-    const Command = gCtx.UDVShared.Command;
+  fetchCommands(commands, gameObject) {
+    const Command = Shared.Command;
 
     //get commands sign by its user
     let addMoveTo = false;
@@ -68,9 +72,9 @@ module.exports = class Avatar {
     }
   }
 
-  applyCommands(gameObject, dt, gCtx) {
-    const Command = gCtx.UDVShared.Command;
-    const THREE = gCtx.UDVShared.THREE;
+  applyCommands(gameObject, dt) {
+    const Command = Shared.Command;
+    const THREE = Shared.THREE;
 
     const gmGo = gameObject.computeRoot();
     const scriptGM = gmGo.getWorldScripts()['worldGameManager'];
@@ -186,7 +190,7 @@ module.exports = class Avatar {
 
   tick() {
     const gameObject = arguments[0];
-    const gCtx = arguments[1];
+    const worldContext = arguments[1];
 
     if (this.firstTick) {
       this.firstTick = false;
@@ -195,14 +199,14 @@ module.exports = class Avatar {
       gameObject.setOutdated(false);
     }
 
-    this.fetchCommands(gCtx.commands, gameObject, gCtx);
-    this.applyCommands(gameObject, gCtx.dt, gCtx);
+    this.fetchCommands(worldContext.getCommands(), gameObject);
+    this.applyCommands(gameObject, worldContext.getDt());
   }
 
   onEnterCollision() {
     const go = arguments[0];
     const result = arguments[1];
-    const gCtx = arguments[2];
+    const worldContext = arguments[2];
 
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
@@ -210,7 +214,7 @@ module.exports = class Avatar {
     //check if this is a portal
     const scriptPortal = colliderGO.getWorldScripts()['portal'];
     if (scriptPortal) {
-      scriptPortal.onAvatar(go, gCtx.world);
+      scriptPortal.onAvatar(go, worldContext.getWorld());
     }
 
     this.collide(collider, go, result);
