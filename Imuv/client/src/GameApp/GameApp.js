@@ -51,7 +51,7 @@ export class GameApp {
         console.log('JOIN_WORLD ', firstStateJSON);
 
         //TODO mettre un flag initialized a la place de check this.view (wait refacto ud-vizView)
-        if (!_this.gameView.view) {
+        if (!_this.gameView.getItownsView()) {
           //view was not intialized do it
           onFirstStateJSON(firstStateJSON);
         } else {
