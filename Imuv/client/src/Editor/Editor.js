@@ -24,7 +24,7 @@ export class EditorView {
     this.assetsManager = new Game.Components.AssetsManager();
 
     //model
-    this.model = new EditorModel();
+    this.model = new EditorModel(this.assetsManager);
 
     //gameview
     this.currentGameView = null;
@@ -57,7 +57,7 @@ export class EditorView {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
       li.innerHTML = w.name;
-      li.onclick = _this.onWorldJSON.bind(_this, w, _this.assetsManager);
+      li.onclick = _this.onWorldJSON.bind(_this, w);
       list.appendChild(li);
     });
   }
@@ -111,16 +111,19 @@ export class EditorView {
 }
 
 class EditorModel {
-  constructor() {
+  constructor(assetsManager) {
     this.localComputer = null;
+    this.assetsManager = assetsManager;
   }
 
-  onWorldJSON(json, assetsManager) {
+  onWorldJSON(json) {
     //init localcomputer
     this.localComputer = new LocalComputer(
       new Game.Shared.World(json),
-      assetsManager
+      this.assetsManager
     );
+
+    this.localComputer.load();
   }
 
   getLocalComputer() {
