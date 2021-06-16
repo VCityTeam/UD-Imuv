@@ -37,12 +37,12 @@ module.exports = class LocalGameManager {
     );
 
     //init cameraman
-    this.cameraman = new Cameraman(localCtx.getGameView().view.camera.camera3D);
+    this.cameraman = new Cameraman(localCtx.getGameView().getItownsView().camera.camera3D);
 
     this.initInputs(localCtx);
 
     if (localCtx.getGameView().firstGameView) {
-      this.initTraveling(localCtx.getGameView().view);
+      this.initTraveling(localCtx.getGameView().getItownsView());
     }
   }
 
@@ -179,7 +179,7 @@ module.exports = class LocalGameManager {
     const _this = this;
 
     const gameView = localCtx.getGameView();
-    const view = gameView.view;
+    const view = gameView.getItownsView();
     const viewerDiv = view.domElement;
     const camera = view.camera.camera3D;
     const manager = gameView.getInputManager();
