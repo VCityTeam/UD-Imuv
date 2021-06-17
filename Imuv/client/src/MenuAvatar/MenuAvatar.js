@@ -179,18 +179,7 @@ export class MenuAvatarView {
       const localScriptComp = _this.avatarGO.getComponent(
         LocalScriptModule.TYPE
       );
-
-      //create the new component
-      const newComponent = localScriptComp.toJSON();
-      newComponent.conf.name = this.value; //bind the new name
-
-      if (!localScriptComp) throw new Error('no localScript component');
-
-      //TODO signature function is bad menuavatar should be in a gameview object
-      localScriptComp.execute(LocalScriptModule.EVENT.UPDATE, [
-        newComponent,
-        _this.assetsManager,
-      ]);
+      localScriptComp.conf.name = this.value; //TODO rela time update
     };
 
     this.inputColorPicker.onchange = function () {

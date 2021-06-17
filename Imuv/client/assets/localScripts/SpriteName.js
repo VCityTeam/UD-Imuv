@@ -28,6 +28,7 @@ module.exports = class SpriteName {
     const sprite = assetsManager.createSprite(this.config.name);
     const bbSprite = new Shared.THREE.Box3().setFromObject(sprite);
     sprite.position.z = bb.max.z + 0.5 * (bbSprite.max.y - bbSprite.min.y);
+    sprite.position.z -= bb.min.z;
     renderComp.addObject3D(sprite);
 
     this.sprite = sprite;
@@ -35,10 +36,7 @@ module.exports = class SpriteName {
 
   update() {
     const go = arguments[0];
-    const newComponentJSON = arguments[1];
-    const assetsManager = arguments[2];
-
-    this.config = newComponentJSON.conf;
-    this.createSprite(go, assetsManager);
+    const localContext = arguments[1];
+    this.createSprite(go, localContext.getGameView().getAssetsManager());
   }
 };
