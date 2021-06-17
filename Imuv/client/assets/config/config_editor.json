@@ -1,5 +1,10 @@
 {
   "assetsManager": {
+    "css": {
+      "localGameManager": {
+        "path": "./assets/css/localGameManager.css"
+      }
+    },
     "videos": {
       "introduction_flying_campus": {
         "path": "./assets/videos/POC_flying_campus_juin.webm"

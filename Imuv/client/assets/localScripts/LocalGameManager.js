@@ -57,11 +57,11 @@ module.exports = class LocalGameManager {
     const gameView = localCtx.getGameView();
 
     this.fpsLabel = document.createElement('div');
-    this.fpsLabel.classList.add('label_GameView');
+    this.fpsLabel.classList.add('label_localGameManager');
     gameView.appendToUI(this.fpsLabel);
 
     this.avatarCount = document.createElement('div');
-    this.avatarCount.classList.add('label_GameView');
+    this.avatarCount.classList.add('label_localGameManager');
     gameView.appendToUI(this.avatarCount);
   }
 
@@ -130,14 +130,14 @@ module.exports = class LocalGameManager {
 
   createSplashScreen() {
     const result = document.createElement('div');
-    result.classList.add('splash_GameApp'); //TODO think how to integrate css in localscript
+    result.classList.add('splash_localGameManager');
 
     const bg = document.createElement('div');
-    bg.classList.add('bg_splash_GameApp');
+    bg.classList.add('bg_splash_localGameManager');
     result.appendChild(bg);
 
     const label = document.createElement('div');
-    label.classList.add('label_splash_GameApp');
+    label.classList.add('label_splash_localGameManager');
     label.innerHTML = 'Welcome to Flying Campus';
     result.appendChild(label);
 
