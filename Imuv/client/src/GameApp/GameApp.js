@@ -103,6 +103,7 @@ export class GameApp {
         menuAvatar.setOnClose(function () {
           //render view
           _this.gameView.setPause(false);
+          _this.gameView.getInputManager().setPause(false);
           //remove html
           menuAvatar.dispose();
           //append html
@@ -113,6 +114,7 @@ export class GameApp {
         _this.gameView.html().remove();
         //stop rendering view
         _this.gameView.setPause(true);
+        _this.gameView.getInputManager().setPause(true);
         //add menuavatar view
         document.body.appendChild(menuAvatar.html());
       };
