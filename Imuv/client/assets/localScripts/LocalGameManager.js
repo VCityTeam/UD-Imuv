@@ -15,6 +15,10 @@ module.exports = class LocalGameManager {
     this.cameraman = null;
 
     this.fogObject = null;
+
+    //dynamic html
+    this.fpsLabel = null;
+    this.avatarCount = null;
   }
 
   init() {
@@ -37,13 +41,28 @@ module.exports = class LocalGameManager {
     );
 
     //init cameraman
-    this.cameraman = new Cameraman(localCtx.getGameView().getItownsView().camera.camera3D);
+    this.cameraman = new Cameraman(
+      localCtx.getGameView().getItownsView().camera.camera3D
+    );
 
     this.initInputs(localCtx);
+    this.initUI(localCtx);
 
     if (localCtx.getGameView().firstGameView) {
       this.initTraveling(localCtx.getGameView().getItownsView());
     }
+  }
+
+  initUI(localCtx) {
+    const gameView = localCtx.getGameView();
+
+    this.fpsLabel = document.createElement('div');
+    this.fpsLabel.classList.add('label_GameView');
+    gameView.appendToUI(this.fpsLabel);
+
+    this.avatarCount = document.createElement('div');
+    this.avatarCount.classList.add('label_GameView');
+    gameView.appendToUI(this.avatarCount);
   }
 
   initTraveling(view) {
@@ -126,6 +145,7 @@ module.exports = class LocalGameManager {
   }
 
   tick() {
+    const go = arguments[0];
     const localCtx = arguments[1];
     this.cameraman.tick(
       localCtx.getDt(),
@@ -133,6 +153,14 @@ module.exports = class LocalGameManager {
       localCtx.getGameView().avatarUUID, //todo getter
       this.obstacle
     );
+
+    //update ui
+    this.fpsLabel.innerHTML = 'FPS = ' + Math.round(1000 / localCtx.getDt());
+    let avatarCount = 0;
+    go.traverse(function (g) {
+      if (g.name == 'avatar') avatarCount++;
+    });
+    this.avatarCount.innerHTML = 'Player: ' + avatarCount;
   }
 
   onNewGameObject() {
