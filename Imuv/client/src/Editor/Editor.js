@@ -1,7 +1,7 @@
 /** @format */
 
 import './Editor.css';
-import { Game, THREE } from 'ud-viz';
+import { Game, THREE, OrbitControls } from 'ud-viz';
 import { GameView } from 'ud-viz/src/View/GameView/GameView';
 import { LocalComputer } from 'ud-viz/src/Game/Components/StateComputer/LocalComputer';
 
@@ -28,10 +28,18 @@ export class EditorView {
 
     //gameview
     this.currentGameView = null;
+
+    //controls
+    this.controls = null;
+
+    this.disposed = false;
   }
 
   dispose() {
     this.rootHtml.remove();
+    if (this.controls) this.controls.dispose();
+    if (this.currentGameView) this.currentGameView.dispose();
+    this.disposed = true;
   }
 
   initUI() {
@@ -86,6 +94,22 @@ export class EditorView {
     this.currentGameView.setDisplaySize(
       new THREE.Vector2(this.ui.clientWidth, 0)
     );
+
+    //new controls
+    if (this.controls) this.controls.dispose();
+
+    const _this = this;
+    this.controls = new OrbitControls(
+      this.currentGameView.getItownsView().camera.camera3D,
+      this.currentGameView.rootItownsHtml
+    );
+    this.controls.target.copy(this.currentGameView.getExtent().center());
+    const tick = function () {
+      if (_this.disposed) return;
+      requestAnimationFrame(tick);
+      _this.controls.update();
+    };
+    tick();
   }
 
   load() {
