@@ -1,7 +1,7 @@
 /** @format */
 
 import './Editor.css';
-import { Game } from 'ud-viz';
+import { Game, THREE } from 'ud-viz';
 import { GameView } from 'ud-viz/src/View/GameView/GameView';
 import { LocalComputer } from 'ud-viz/src/Game/Components/StateComputer/LocalComputer';
 
@@ -83,8 +83,9 @@ export class EditorView {
     );
 
     //offset the gameview
-    const viewHtml = this.currentGameView.html();
-    viewHtml.style.left = this.ui.clientWidth + 'px';
+    this.currentGameView.setDisplaySize(
+      new THREE.Vector2(this.ui.clientWidth, 0)
+    );
   }
 
   load() {
