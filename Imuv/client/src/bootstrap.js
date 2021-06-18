@@ -1,7 +1,7 @@
 /** @format */
 
 import { ReceptionView } from './Reception/Reception';
-import { WebSocketService } from 'ud-viz/src/Game/Components/WebSocketService';
+import { WebSocketService } from 'ud-viz/src/Components/WebSocketService';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 
 const webSocketService = new WebSocketService();
