@@ -31,15 +31,12 @@ export class EditorView {
 
     //controls
     this.controls = null;
-
-    this.disposed = false;
   }
 
   dispose() {
     this.rootHtml.remove();
     if (this.controls) this.controls.dispose();
     if (this.currentGameView) this.currentGameView.dispose();
-    this.disposed = true;
   }
 
   initUI() {
@@ -90,6 +87,8 @@ export class EditorView {
       null
     );
 
+    this.currentGameView.getInputManager().setPause(true);
+
     //offset the gameview
     this.currentGameView.setDisplaySize(
       new THREE.Vector2(this.ui.clientWidth, 0)
@@ -103,13 +102,14 @@ export class EditorView {
       this.currentGameView.getItownsView().camera.camera3D,
       this.currentGameView.rootItownsHtml
     );
+      
     this.controls.target.copy(this.currentGameView.getExtent().center());
-    const tick = function () {
-      if (_this.disposed) return;
-      requestAnimationFrame(tick);
+    this.controls.rotateSpeed = 0.5;
+    this.controls.zoomSpeed = 0.1;
+    const controlsUpdate = function () {
       _this.controls.update();
     };
-    tick();
+    this.currentGameView.addTickRequester(controlsUpdate);
   }
 
   load() {
