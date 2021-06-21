@@ -238,7 +238,7 @@ export class GOEditorView {
       if (!_this.model) return;
 
       const ratio = parseFloat(event.target.value) / 100;
-      const o = _this.model.getGameObject().fetchObject3D();
+      const o = _this.model.getGameObject().computeObject3D();
       if (!o) return;
       o.traverse(function (child) {
         if (child.material) {
@@ -251,7 +251,7 @@ export class GOEditorView {
     const applyVisibility = function (visible) {
       const text = _this.inputTag.value;
       if (_this.model && _this.model.getGameObject()) {
-        const object3D = _this.model.getGameObject().fetchObject3D();
+        const object3D = _this.model.getGameObject().computeObject3D();
         if (!object3D) return;
         const tag = text.toLowerCase();
         object3D.traverse(function (child) {

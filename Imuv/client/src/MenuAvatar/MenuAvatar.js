@@ -67,7 +67,7 @@ export class MenuAvatarView {
   }
 
   focusGameObject() {
-    const obj = this.avatarGO.fetchObject3D();
+    const obj = this.avatarGO.computeObject3D();
 
     const bbox = new THREE.Box3().setFromObject(obj);
     if (!bbox) return;
@@ -110,7 +110,7 @@ export class MenuAvatarView {
         _this.avatarGO = new GameObject(data);
         _this.avatarGO.initAssetsComponents(_this.assetsManager, Shared, false);
         _this.avatarGO.getTransform().setFromJSON(); //reset transform
-        const object = _this.avatarGO.fetchObject3D();
+        const object = _this.avatarGO.computeObject3D();
         _this.scene.add(object);
         _this.focusGameObject();
       }

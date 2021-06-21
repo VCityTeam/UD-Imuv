@@ -40,14 +40,14 @@ export class GOEditorModel {
 
   setGameObject(g) {
     if (this.gameObject) {
-      this.scene.remove(this.gameObject.fetchObject3D());
+      this.scene.remove(this.gameObject.computeObject3D());
       this.scene.remove(this.gizmo);
       this.scene.remove(this.boxHelper);
     }
 
     this.gameObject = g;
     if (g) {
-      const object = g.fetchObject3D();
+      const object = g.computeObject3D();
 
       if (object) {
         this.boundingBox = new THREE.Box3().setFromObject(object);

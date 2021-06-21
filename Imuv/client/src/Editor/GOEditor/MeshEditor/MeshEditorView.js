@@ -128,7 +128,7 @@ export class MeshEditorView {
 
       //3. compute intersections
       _this.intersects = _this.raycaster.intersectObjects(
-        _this.goView.getModel().getGameObject().fetchObject3D().children,
+        _this.goView.getModel().getGameObject().computeObject3D().children,
         true
       );
       const intersects = _this.intersects;
