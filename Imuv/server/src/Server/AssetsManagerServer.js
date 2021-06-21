@@ -61,7 +61,7 @@ module.exports = class AssetsManagerServer {
     return this.worldScripts[idScript];
   }
 
-  fetchPrefab(idprefab) {
+  createPrefab(idprefab) {
     if (!this.prefabs[idprefab]) console.error('no prefab with id ', idprefab);
     return new Shared.GameObject(this.prefabs[idprefab]);
   }

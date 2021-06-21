@@ -25,7 +25,7 @@ module.exports = class WorldGameManager {
       const go = arguments[0];
       const gCtx = arguments[1];
 
-      const map = gCtx.assetsManager.fetchPrefab(_this.conf.mapPrefabId);
+      const map = gCtx.assetsManager.createPrefab(_this.conf.mapPrefabId);
       gCtx.world.addGameObject(map, gCtx, go, function () {
         _this.map = map;
         resolve();
