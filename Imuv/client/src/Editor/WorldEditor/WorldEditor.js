@@ -1,6 +1,5 @@
 /** @format */
 
-import { createTileGroupsFromBatchIDs } from 'ud-viz/src/Widgets/Components/3DTiles/3DTilesUtils';
 import './WorldEditor.css';
 
 export class WorldEditorView {

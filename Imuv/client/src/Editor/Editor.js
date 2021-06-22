@@ -52,7 +52,7 @@ export class EditorView {
   }
 
   initCallbacks() {
-    const _this = this;
+    //    const _this = this;
   }
 
   updateUI() {
