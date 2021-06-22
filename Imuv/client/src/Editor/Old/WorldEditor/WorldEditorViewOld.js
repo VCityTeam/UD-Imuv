@@ -1,10 +1,10 @@
 /** @format */
 
-import './WorldEditor.css';
+import './WorldEditorOld.css';
 import { Game, Components } from 'ud-viz';
 const File = Components.SystemUtils.File;
 
-export class WorldEditorView {
+export class WorldEditorViewOld {
   constructor(config, assetsManager) {
     this.config = config;
 

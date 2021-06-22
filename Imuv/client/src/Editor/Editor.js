@@ -4,6 +4,7 @@ import './Editor.css';
 import { Game, THREE, OrbitControls } from 'ud-viz';
 import { GameView } from 'ud-viz/src/View/GameView/GameView';
 import { LocalComputer } from 'ud-viz/src/Game/Components/StateComputer/LocalComputer';
+import { WorldEditorView } from './WorldEditor/WorldEditor';
 
 export class EditorView {
   constructor(config) {
@@ -39,6 +40,10 @@ export class EditorView {
     if (this.currentGameView) this.currentGameView.dispose();
   }
 
+  disposeUI() {
+    this.ui.remove();
+  }
+
   initUI() {
     const worldsList = document.createElement('ul');
     worldsList.classList.add('ul_Editor');
@@ -62,7 +67,17 @@ export class EditorView {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
       li.innerHTML = w.name;
-      li.onclick = _this.onWorldJSON.bind(_this, w);
+      li.onclick = function () {
+        _this.onWorldJSON.call(_this, w);
+        _this.disposeUI();
+        const WE = new WorldEditorView(_this, _this.config);
+
+        WE.setOnClose(function () {
+          WE.disposeUI();
+          _this.rootHtml.appendChild(_this.ui);
+          _this.currentGameView.dispose();
+        });
+      };
       list.appendChild(li);
     });
   }
@@ -102,7 +117,7 @@ export class EditorView {
       this.currentGameView.getItownsView().camera.camera3D,
       this.currentGameView.rootItownsHtml
     );
-      
+
     this.controls.target.copy(this.currentGameView.getExtent().center());
     this.controls.rotateSpeed = 0.5;
     this.controls.zoomSpeed = 0.1;
@@ -153,5 +168,9 @@ class EditorModel {
 
   getLocalComputer() {
     return this.localComputer;
+  }
+
+  getCurrentWorld() {
+    return this.localComputer.worldContext.world;
   }
 }
