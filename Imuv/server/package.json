@@ -22,7 +22,7 @@
     "gm": "^1.23.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
-    "ud-viz": "^2.32.0"
+    "ud-viz": "file:../../../UD-Viz"
   },
   "devDependencies": {
     "child-process-promise": "^2.2.1",

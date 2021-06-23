@@ -29,7 +29,7 @@ module.exports = class Avatar {
     //spawn
     const gm = go.computeRoot(); //root is gm
     const script = gm.fetchWorldScripts()['worldGameManager'];
-    go.getTransform().setFromJSON(script.getSpawnTransform());
+    go.setFromTransformJSON(script.getSpawnTransform());
 
     //init commands
     for (let type in Shared.Command.TYPE) {
@@ -222,7 +222,7 @@ module.exports = class Avatar {
 
   collide(collider, go, result) {
     if (collider.isBody()) {
-      const p = go.getTransform().getPosition();
+      const p = go.getPosition();
       p.x -= result.overlap * result.overlap_x;
       p.y -= result.overlap * result.overlap_y;
     }
