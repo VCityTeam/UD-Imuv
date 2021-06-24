@@ -364,14 +364,6 @@ module.exports = class LocalGameManager {
       }
     );
 
-    //MOVE ON MOUSEDOWN
-
-    //disbale right click context menu
-    viewerDiv.oncontextmenu = function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    };
-
     manager.addMouseCommand('mousedown', function () {
       const event = this.event('mousedown');
       swicthMode(MODE.DEFAULT);
@@ -451,9 +443,6 @@ module.exports = class LocalGameManager {
       }
       return null;
     });
-
-    //start
-    manager.startListening(viewerDiv);
   }
 };
 
