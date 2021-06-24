@@ -28,8 +28,8 @@ module.exports = class Avatar {
 
     //spawn
     const gm = go.computeRoot(); //root is gm
-    const script = gm.getWorldScripts()['worldGameManager'];
-    go.getTransform().setFromJSON(script.getSpawnTransform());
+    const script = gm.fetchWorldScripts()['worldGameManager'];
+    go.setFromTransformJSON(script.getSpawnTransform());
 
     //init commands
     for (let type in Shared.Command.TYPE) {
@@ -77,11 +77,11 @@ module.exports = class Avatar {
     const THREE = Shared.THREE;
 
     const gmGo = gameObject.computeRoot();
-    const scriptGM = gmGo.getWorldScripts()['worldGameManager'];
+    const scriptGM = gmGo.fetchWorldScripts()['worldGameManager'];
     if (!scriptGM) throw new Error('no gm script');
     const mapGo = scriptGM.getMap();
     if (!mapGo) return; //no map => no commands
-    const scriptMap = mapGo.getWorldScripts()['map'];
+    const scriptMap = mapGo.fetchWorldScripts()['map'];
     if (!scriptMap) throw new Error('no map world script');
 
     let elevationComputed = false;
@@ -212,7 +212,7 @@ module.exports = class Avatar {
     const collider = colliderGO.getComponent('Collider');
 
     //check if this is a portal
-    const scriptPortal = colliderGO.getWorldScripts()['portal'];
+    const scriptPortal = colliderGO.fetchWorldScripts()['portal'];
     if (scriptPortal) {
       scriptPortal.onAvatar(go, worldContext.getWorld());
     }
@@ -222,7 +222,7 @@ module.exports = class Avatar {
 
   collide(collider, go, result) {
     if (collider.isBody()) {
-      const p = go.getTransform().getPosition();
+      const p = go.getPosition();
       p.x -= result.overlap * result.overlap_x;
       p.y -= result.overlap * result.overlap_y;
     }

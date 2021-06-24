@@ -167,10 +167,10 @@ WorldThreadModule.routine = function (serverConfig) {
                   .getWorld()
                   .getGameObject()
                   .find(portalUUID);
-                portal.getWorldScripts()['portal'].setTransformOf(newGO);
+                portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
                 worldContext.getWorld().updateCollisionBuffer();
               } else if (transformJSON) {
-                newGO.getTransform().setFromJSON(transformJSON);
+                newGO.setFromTransformJSON(transformJSON);
                 worldContext.getWorld().updateCollisionBuffer();
               }
             }

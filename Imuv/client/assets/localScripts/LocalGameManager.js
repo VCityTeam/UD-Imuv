@@ -173,7 +173,7 @@ module.exports = class LocalGameManager {
       //register in obstacle
       const r = newGO.getComponent(Shared.Render.TYPE);
       if (r) {
-        const clone = r.computeOriginalObject3D().clone();
+        const clone = r.computeOriginalObject3D();
 
         const wT = newGO.computeWorldTransform();
 

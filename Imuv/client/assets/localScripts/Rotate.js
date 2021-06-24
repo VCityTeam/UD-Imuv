@@ -12,8 +12,10 @@ module.exports = class Rotate {
   tick() {
     const go = arguments[0];
     const localCtx = arguments[1];
-    go.rotate(
-      new Shared.THREE.Vector3(0, 0, -this.conf.speed * localCtx.getDt())
-    );
+
+    let speed = this.conf.speed;
+    if (!speed) speed = 0.01;
+
+    go.rotate(new Shared.THREE.Vector3(0, 0, -speed * localCtx.getDt()));
   }
 };

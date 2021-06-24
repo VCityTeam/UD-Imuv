@@ -55,7 +55,7 @@ export class WorldEditorViewOld {
 
     let script;
     go.traverse(function (child) {
-      const scripts = child.getWorldScripts();
+      const scripts = child.fetchWorldScripts();
       if (scripts && scripts['map']) script = scripts['map'];
     });
 
@@ -71,7 +71,7 @@ export class WorldEditorViewOld {
       const _this = this;
 
       world.getGameObject().traverse(function (g) {
-        const s = g.getWorldScripts();
+        const s = g.fetchWorldScripts();
         if (s && s['map']) {
           //create html element
           _this.imgHeightmap = document.createElement('img');
@@ -197,7 +197,7 @@ export class WorldEditorViewOld {
         const portal = g.find(pUUID);
         const avatar = g.find(_this.gameView.avatarUUID);
 
-        portal.getWorldScripts()['portal'].setTransformOf(avatar);
+        portal.fetchWorldScripts()['portal'].setTransformOf(avatar);
 
         newWorld.updateCollisionBuffer();
       }
