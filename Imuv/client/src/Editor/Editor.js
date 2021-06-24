@@ -116,7 +116,7 @@ export class EditorView {
       'dragging-changed',
       function (event) {
         _this.orbitControls.enabled = !event.value;
-        console.log('orbit enabled ', !event.value);
+        // console.log('orbit enabled ', !event.value);
       }
     );
 
