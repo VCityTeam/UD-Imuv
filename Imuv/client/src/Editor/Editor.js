@@ -30,12 +30,12 @@ export class EditorView {
     this.currentGameView = null;
 
     //controls
-    this.controls = null;
+    this.orbitControls = null;
   }
 
   dispose() {
     this.rootHtml.remove();
-    if (this.controls) this.controls.dispose();
+    if (this.orbitControls) this.orbitControls.dispose();
     if (this.currentGameView) this.currentGameView.dispose();
   }
 
@@ -95,19 +95,19 @@ export class EditorView {
     );
 
     //new controls
-    if (this.controls) this.controls.dispose();
+    if (this.orbitControls) this.orbitControls.dispose();
 
     const _this = this;
-    this.controls = new OrbitControls(
+    this.orbitControls = new OrbitControls(
       this.currentGameView.getItownsView().camera.camera3D,
       this.currentGameView.rootItownsHtml
     );
       
-    this.controls.target.copy(this.currentGameView.getExtent().center());
-    this.controls.rotateSpeed = 0.5;
-    this.controls.zoomSpeed = 0.1;
+    this.orbitControls.target.copy(this.currentGameView.getExtent().center());
+    this.orbitControls.rotateSpeed = 0.5;
+    this.orbitControls.zoomSpeed = 0.1;
     const controlsUpdate = function () {
-      _this.controls.update();
+      _this.orbitControls.update();
     };
     this.currentGameView.addTickRequester(controlsUpdate);
   }
