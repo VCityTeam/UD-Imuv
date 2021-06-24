@@ -63,6 +63,7 @@ export class EditorView {
       list.removeChild(list.firstChild);
     }
     const _this = this;
+
     worldsJSON.forEach(function (w) {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
