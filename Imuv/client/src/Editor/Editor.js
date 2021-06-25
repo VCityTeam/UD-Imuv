@@ -209,7 +209,7 @@ export class EditorView {
 
     this.orbitControls.target.copy(this.currentGameView.getExtent().center());
     this.orbitControls.rotateSpeed = 0.5;
-    this.orbitControls.zoomSpeed = 0.1;
+    this.orbitControls.zoomSpeed = 0.5;
     this.orbitControls.update();
   }
 

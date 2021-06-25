@@ -1,6 +1,7 @@
 import './TransformEditor.css';
 
 import { THREE } from 'ud-viz/src/Game/Shared/Shared';
+import { createTileGroupsFromBatchIDs } from 'ud-viz/src/Widgets/Components/3DTiles/3DTilesUtils';
 
 export class TransformEditorView {
   constructor(parentWEV) {
@@ -71,24 +72,27 @@ export class TransformEditorView {
       camera.near = oldNear;
 
       //3. compute intersections
-      _this.intersects = _this.raycaster.intersectObjects(
-        _this.parentWEV.parentEV.currentGameView.object3D.children,true
+      const intersects = _this.raycaster.intersectObject(
+        _this.parentWEV.parentEV.currentGameView.getObject3D(),
+        true
       );
-      const intersects = _this.intersects;
       if (intersects.length > 0) {
-        _this.model.setCurrentGO(intersects[0].object);
+        _this.model.setOnHoverGO(intersects[0].object);
       } else {
-        _this.model.setCurrentGO(null);
+        _this.model.setOnHoverGO(null);
       }
 
-      _this.selectedObject.innerHTML =
-        'GOSelected : ' + _this.model.getNameCurrentGO();
+      _this.selectedObject.innerHTML = 'GO : ' + _this.model.getNameCurrentGO();
     };
 
     canvas.onpointermove = function (event) {
       if (event.buttons != 0) return; //stop raycast when rotating
       getObjectOnHover(event);
     };
+
+    canvas.onclick = function(){
+      _this.model.selectGO();
+    }
   }
 
   setOnClose(f) {
@@ -98,16 +102,40 @@ export class TransformEditorView {
 
 export class TransformEditorModel {
   constructor() {
-    this.currentGO = null;
+    this.onHoverGO = null;
+    this.selectedGO = null;
   }
 
-  setCurrentGO(newGO) {
-    this.currentGO = newGO;
+  
+  setSelectedGO(newGO) {
+    if(newGO == this.selectedGO) return;
+    this.selectedGO = newGO;
+  }
+  
+  selectGO() {
+    if(!this.onHoverGO) return;
+    this.setSelectedGO(this.onHoverGO);
+  }
+  
+  setOnHoverGO(newGO) {
+    if(newGO)
+    {
+      newGO = this.getRootGO(newGO);
+    }
+    this.onHoverGO = newGO;
+  }
+
+  getRootGO(GO) {
+    if(!GO.userData.gameObjectUUID && GO.parent)
+    {
+      return this.getRootGO(GO.parent);
+    }
+    return GO;
   }
 
   getNameCurrentGO() {
-    if (this.currentGO) {
-      return this.currentGO.name;
+    if (this.onHoverGO) {
+      return this.onHoverGO.name;
     } else {
       return 'No Current GO';
     }
