@@ -72,8 +72,7 @@ export class TransformEditorView {
 
       //3. compute intersections
       _this.intersects = _this.raycaster.intersectObjects(
-        _this.parentWEV.parentEV.currentGameView.object3D.children,
-        true
+        _this.parentWEV.parentEV.currentGameView.object3D.children,true
       );
       const intersects = _this.intersects;
       if (intersects.length > 0) {
@@ -83,7 +82,7 @@ export class TransformEditorView {
       }
 
       _this.selectedObject.innerHTML =
-        'GOSelected : ' + _this.model.getNameCurrentMesh();
+        'GOSelected : ' + _this.model.getNameCurrentGO();
     };
 
     canvas.onpointermove = function (event) {
@@ -106,11 +105,11 @@ export class TransformEditorModel {
     this.currentGO = newGO;
   }
 
-  getNameCurrentMesh() {
-    if (this.currentMesh) {
-      return this.currentMesh.name;
+  getNameCurrentGO() {
+    if (this.currentGO) {
+      return this.currentGO.name;
     } else {
-      return 'No Current Mesh';
+      return 'No Current GO';
     }
   }
 }
