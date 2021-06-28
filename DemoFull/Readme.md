@@ -62,8 +62,6 @@ Adds user management :
 * Possibility to create an account
 * Possibility to log in
 
-![](UD-Viz-Core/Doc/User/Pictures/module_pres/authentication.png)
-
 ### Temporal
 
 [Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Temporal)
