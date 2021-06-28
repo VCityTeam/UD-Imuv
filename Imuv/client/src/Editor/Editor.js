@@ -118,83 +118,17 @@ export class EditorView {
     if (this.transformControls) this.transformControls.dispose();
 
     const camera = this.currentGameView.getItownsView().camera.camera3D;
-    const scene = this.currentGameView.getItownsView().scene;
-    const manager = this.currentGameView.getInputManager();
     const viewerDiv = this.currentGameView.rootItownsHtml;
 
     this.transformControls = new TransformControls(camera, viewerDiv);
-
     const _this = this;
-    const renderer =
-      this.currentGameView.getItownsView().mainLoop.gfxEngine.renderer;
 
     this.transformControls.addEventListener(
       'dragging-changed',
       function (event) {
         _this.orbitControls.enabled = !event.value;
-        // console.log('orbit enabled ', !event.value);
       }
     );
-
-    //CALLBACKS
-    manager.addKeyInput('Escape', 'keydown', function () {
-      _this.transformControls.detach();
-    });
-
-    manager.addMouseInput(viewerDiv, 'pointerdown', function (event) {
-      if (_this.transformControls.object) return; //already assign to an object
-
-      //1. sets the mouse position with a coordinate system where the center
-      //   of the screen is the origin
-      const mouse = new THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
-        1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
-      );
-
-      //2. set the picking ray from the camera position and mouse coordinates
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouse, camera);
-
-      //3. compute intersections
-      //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
-      const intersects = raycaster.intersectObject(
-        _this.currentGameView.getObject3D(),
-        true
-      );
-
-      if (intersects.length) {
-        let minDist = Infinity;
-        let info = null;
-
-        intersects.forEach(function (i) {
-          if (i.distance < minDist) {
-            info = i;
-            minDist = i.distance;
-          }
-        });
-
-        if (info) {
-          const objectClicked = info.object;
-          let current = objectClicked;
-          while (!current.userData.gameObjectUUID) {
-            if (!current.parent) {
-              console.warn('didnt find gameobject uuid');
-              current = null;
-              break;
-            }
-            current = current.parent;
-          }
-
-          if (current) {
-            _this.transformControls.attach(current);
-            _this.transformControls.updateMatrixWorld();
-            scene.add(_this.transformControls);
-            console.log('attach to ', current.name);
-          }
-        }
-      }
-    });
   }
 
   initOrbitControls() {

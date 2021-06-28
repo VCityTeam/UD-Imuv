@@ -37,12 +37,13 @@ export class TransformEditorView {
   disposeCallbacks() {
     const canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
     canvas.onpointermove = null;
-    canvas.onclick = null;
+    canvas.onpointerup = null;
   }
 
   dispose() {
     this.disposeUI();
     this.disposeCallbacks();
+    this.parentWEV.parentEV.transformControls.detach();
   }
 
   initUI() {
@@ -59,24 +60,32 @@ export class TransformEditorView {
 
     const selectedObject = document.createElement('p');
     this.ui.appendChild(selectedObject);
+    selectedObject.innerHTML = 'Selected GO : ';
     this.selectedObject = selectedObject;
+
+    const raycastedObject = document.createElement('p');
+    this.ui.appendChild(raycastedObject);
+    raycastedObject.innerHTML = 'Raycasted GO : ';
+    this.raycastedObject = raycastedObject;
   }
 
   initCallbaks() {
     const _this = this;
-    const canvas = _this.parentWEV.parentEV.currentGameView.rootItownsHtml;
+    const currentGameView = _this.parentWEV.parentEV.currentGameView;
+    const canvas = currentGameView.rootItownsHtml;
+    const transformControls = _this.parentWEV.parentEV.transformControls;
+    const scene = currentGameView.getItownsView().scene;
+    const manager = currentGameView.getInputManager();
+
     const getObjectOnHover = function (event) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
       const mouse = new THREE.Vector2(
         -1 + (2 * event.offsetX) / canvas.clientWidth,
         1 - (2 * event.offsetY) / canvas.clientHeight
       );
-      //console.log("mouse", mouse);
 
       //2. set the picking ray from the camera position and mouse coordinates
-      const camera =
-        _this.parentWEV.parentEV.currentGameView.getItownsView().camera
-          .camera3D;
+      const camera = currentGameView.getItownsView().camera.camera3D;
       const oldNear = camera.near;
       camera.near = 0;
       _this.raycaster.setFromCamera(mouse, camera);
@@ -84,7 +93,7 @@ export class TransformEditorView {
 
       //3. compute intersections
       const intersects = _this.raycaster.intersectObject(
-        _this.parentWEV.parentEV.currentGameView.getObject3D(),
+        currentGameView.getObject3D(),
         true
       );
       if (intersects.length > 0) {
@@ -93,7 +102,16 @@ export class TransformEditorView {
         _this.model.setOnHoverGO(null);
       }
 
-      _this.selectedObject.innerHTML = 'GO : ' + _this.model.getNameCurrentGO();
+      _this.raycastedObject.innerHTML =
+        'Raycasted GO : ' + _this.model.getNameCurrentGO();
+    };
+
+    const attachTC = function () {
+      if (!_this.model.selectedGO) return;
+
+      transformControls.attach(_this.model.selectedGO);
+      transformControls.updateMatrixWorld();
+      scene.add(transformControls);
     };
 
     canvas.onpointermove = function (event) {
@@ -101,9 +119,20 @@ export class TransformEditorView {
       getObjectOnHover(event);
     };
 
-    canvas.onclick = function () {
+    canvas.onpointerup = function () {
+      if (transformControls.dragging) return;
       _this.model.selectGO();
+      _this.selectedObject.innerHTML =
+        'Selected GO : ' + _this.model.getNameSelectedGO();
+      attachTC();
     };
+
+    manager.addKeyInput('Escape', 'keydown', function () {
+      transformControls.detach();
+      _this.model.setSelectedGO(null);
+      _this.selectedObject.innerHTML =
+        'Selected GO : ' + _this.model.getNameSelectedGO();
+    });
   }
 
   setOnClose(f) {
@@ -146,6 +175,14 @@ export class TransformEditorModel {
       return this.onHoverGO.name;
     } else {
       return 'No Current GO';
+    }
+  }
+
+  getNameSelectedGO() {
+    if (this.selectedGO) {
+      return this.selectedGO.name;
+    } else {
+      return 'No Selected GO';
     }
   }
 }
