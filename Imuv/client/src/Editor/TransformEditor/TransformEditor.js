@@ -34,6 +34,17 @@ export class TransformEditorView {
     this.ui.remove();
   }
 
+  disposeCallbacks() {
+    const canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
+    canvas.onpointermove = null;
+    canvas.onclick = null;
+  }
+
+  dispose() {
+    this.disposeUI();
+    this.disposeCallbacks();
+  }
+
   initUI() {
     const labelTransformTool = document.createElement('p');
     labelTransformTool.innerHTML =
@@ -90,9 +101,9 @@ export class TransformEditorView {
       getObjectOnHover(event);
     };
 
-    canvas.onclick = function(){
+    canvas.onclick = function () {
       _this.model.selectGO();
-    }
+    };
   }
 
   setOnClose(f) {
@@ -106,28 +117,25 @@ export class TransformEditorModel {
     this.selectedGO = null;
   }
 
-  
   setSelectedGO(newGO) {
-    if(newGO == this.selectedGO) return;
+    if (newGO == this.selectedGO) return;
     this.selectedGO = newGO;
   }
-  
+
   selectGO() {
-    if(!this.onHoverGO) return;
+    if (!this.onHoverGO) return;
     this.setSelectedGO(this.onHoverGO);
   }
-  
+
   setOnHoverGO(newGO) {
-    if(newGO)
-    {
+    if (newGO) {
       newGO = this.getRootGO(newGO);
     }
     this.onHoverGO = newGO;
   }
 
   getRootGO(GO) {
-    if(!GO.userData.gameObjectUUID && GO.parent)
-    {
+    if (!GO.userData.gameObjectUUID && GO.parent) {
       return this.getRootGO(GO.parent);
     }
     return GO;

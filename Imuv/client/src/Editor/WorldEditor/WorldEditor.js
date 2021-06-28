@@ -27,6 +27,8 @@ export class WorldEditorView {
     this.heightmapButton = null;
     this.addObjectButton = null;
 
+    this.TEV = null;
+
     this.labelCurrentWorld = null;
     this.toolsList = null;
     this.initUI();
@@ -80,10 +82,13 @@ export class WorldEditorView {
 
     _this.transformButton.onclick = function () {
       _this.disposeUI();
-      const TEV = new TransformEditorView(_this);
+
+      _this.TEV = _this.TEV || new TransformEditorView(_this);
+      const TEV = _this.TEV;
       TEV.setOnClose(function () {
-        TEV.disposeUI();
+        TEV.dispose();
         _this.rootHtml.appendChild(_this.ui);
+        _this.TEV = null;
       });
     };
   }
