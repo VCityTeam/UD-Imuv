@@ -15,26 +15,26 @@ Each module adds new functionnalities to the application. You can find the code 
 
 ### Document
 
-[Go to the module](UD-Viz-Core/src/Modules/Documents/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Documents)
 
 * Display of documents in a 3D representation of the city, in superposition
 * Filtered research (research by keyword, attribute and/or temporal research)
 * All documents are loaded from an external data server and can be accessed using the **Document Inspector** window.
 
-![](UD-Viz-Core/Doc/User/Pictures/module_pres/document.png)
+![](https://github.com/VCityTeam/UD-Viz/blob/master/src/Widgets/Documents/Doc/Pictures/view.png)
 
 This module has several extensions that add functionalities :
 
 #### Contribute
 
-[Go to the module](UD-Viz-Core/src/Extensions/Contribute/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Extensions/Contribute)
 
 * Possibility to create a new document
 * Possibility to edit and delete existing documents
 
 #### Validation
 
-[Go to the module](UD-Viz-Core/src/Extensions/DocumentValidation/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Extensions/DocumentValidation)
 
 This extensions works with the *Authentication* module :
 
@@ -47,7 +47,7 @@ This extensions works with the *Authentication* module :
 
 #### Comments
 
-[Go to the module](UD-Viz-Core/src/Extensions/DocumentComments/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Extensions/DocumentComments)
 
 Requires the *Authentication* module :
 
@@ -55,7 +55,7 @@ Requires the *Authentication* module :
 
 ### Authentication
 
-[Go to the module](UD-Viz-Core/src/Extensions/Authentication/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Extensions/Authentication)
 
 Adds user management :
 
@@ -66,7 +66,7 @@ Adds user management :
 
 ### Temporal
 
-[Go to the module](UD-Viz-Core/src/Modules/Temporal/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Temporal)
 
 * Basic slider + input field to select a date
 * Ability to navigate between key dates (arrow buttons)
@@ -75,16 +75,14 @@ Adds user management :
 
 ### City Objects
 
-[Go to the module](UD-Viz-Core/src/Modules/CityObjects/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/CityObjects)
 
 * Selection of a city object, view its details
 * Filter city objects from their attributes
 
-![](UD-Viz-Core/Doc/User/Pictures/module_pres/city_object.png)
-
 ### Links
 
-[Go to the module](UD-Viz-Core/src/Modules/Links/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Links)
 
 The link module serves as an extension for both *Document* and *City object* modules.
 
@@ -94,7 +92,7 @@ The link module serves as an extension for both *Document* and *City object* mod
 
 ### Guided Tour
 
-[Go to the module](UD-Viz-Core/src/Modules/GuidedTour/)
+[Go to the module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/GuidedTour)
 
 * A Guided Tour is a succession of Steps (document + text) that the user can follow
 * Each step triggers the oriented view of its document, and opens this doc in the doc browser
