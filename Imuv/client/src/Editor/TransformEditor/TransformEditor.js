@@ -110,6 +110,7 @@ export class TransformEditorView {
     };
 
     const attachTC = function () {
+      transformControls.detach();
       if (!_this.model.selectedGO) return;
 
       transformControls.attach(_this.model.selectedGO);
@@ -117,23 +118,22 @@ export class TransformEditorView {
       scene.add(transformControls);
     };
 
-    canvas.onpointermove = function (event) {
-      if (event.buttons != 0) return; //stop raycast when rotating
-      getObjectOnHover(event);
-    };
-
     canvas.onpointerdown = function (event) {
       if (event.button != 0) return;
       rotatediff =
         orbitControls.getAzimuthalAngle() + orbitControls.getPolarAngle();
+      getObjectOnHover(event);
     };
 
     canvas.onpointerup = function (event) {
       if (event.button != 0) return;
+
       rotatediff -=
         orbitControls.getAzimuthalAngle() + orbitControls.getPolarAngle();
       rotatediff = Math.abs(rotatediff);
+
       if (transformControls.dragging || rotatediff > 0.01) return;
+
       _this.model.selectGO();
       _this.selectedObject.innerHTML =
         'Selected GO : ' + _this.model.getNameSelectedGO();
@@ -161,11 +161,17 @@ export class TransformEditorModel {
 
   setSelectedGO(newGO) {
     if (newGO == this.selectedGO) return;
-    this.selectedGO = newGO;
+    this.selectedGO = this.setColorSelected(
+      this.selectedGO,
+      new THREE.Color('rgb(255, 255, 255)')
+    );
+    this.selectedGO = this.setColorSelected(
+      newGO,
+      new THREE.Color('rgb(255, 0, 0)')
+    );
   }
 
   selectGO() {
-    if (!this.onHoverGO) return;
     this.setSelectedGO(this.onHoverGO);
   }
 
@@ -174,6 +180,18 @@ export class TransformEditorModel {
       newGO = this.getRootGO(newGO);
     }
     this.onHoverGO = newGO;
+  }
+
+  setColorSelected(newGO, newColor) {
+    const _this = this;
+    if (newGO) {
+      newGO.traverse(function (children) {
+        if (children.material) {
+          children.material.color = newColor;
+        }
+      });
+    }
+    return newGO;
   }
 
   getRootGO(GO) {
