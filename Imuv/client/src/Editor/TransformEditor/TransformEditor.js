@@ -74,9 +74,12 @@ export class TransformEditorView {
     const currentGameView = _this.parentWEV.parentEV.currentGameView;
     const canvas = currentGameView.rootItownsHtml;
     const transformControls = _this.parentWEV.parentEV.transformControls;
+    const orbitControls = _this.parentWEV.parentEV.orbitControls;
     const scene = currentGameView.getItownsView().scene;
     const manager = currentGameView.getInputManager();
 
+
+    let rotatediff = 0;
     const getObjectOnHover = function (event) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
       const mouse = new THREE.Vector2(
@@ -119,8 +122,18 @@ export class TransformEditorView {
       getObjectOnHover(event);
     };
 
-    canvas.onpointerup = function () {
-      if (transformControls.dragging) return;
+    canvas.onpointerdown = function (event) {
+      if (event.button != 0) return;
+      rotatediff =
+        orbitControls.getAzimuthalAngle() + orbitControls.getPolarAngle();
+    };
+
+    canvas.onpointerup = function (event) {
+      if (event.button != 0) return;
+      rotatediff -=
+        orbitControls.getAzimuthalAngle() + orbitControls.getPolarAngle();
+      rotatediff = Math.abs(rotatediff);
+      if (transformControls.dragging || rotatediff > 0.01) return;
       _this.model.selectGO();
       _this.selectedObject.innerHTML =
         'Selected GO : ' + _this.model.getNameSelectedGO();
