@@ -27,7 +27,7 @@ export class TransformEditorView {
     this.selectedObject = null;
 
     this.initUI();
-    this.initCallbaks();
+    this.initCallbacks();
   }
 
   disposeUI() {
@@ -70,7 +70,7 @@ export class TransformEditorView {
     this.raycastedObject = raycastedObject;
   }
 
-  initCallbaks() {
+  initCallbacks() {
     const _this = this;
     const currentGameView = _this.parentWEV.parentEV.currentGameView;
     const canvas = currentGameView.rootItownsHtml;

@@ -2,6 +2,7 @@
 
 import './WorldEditor.css';
 import { TransformEditorView } from '../TransformEditor/TransformEditor';
+import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 
 export class WorldEditorView {
   constructor(parentEV, config) {
@@ -84,6 +85,16 @@ export class WorldEditorView {
       const TEV = new TransformEditorView(_this);
       TEV.setOnClose(function () {
         TEV.dispose();
+        _this.rootHtml.appendChild(_this.ui);
+      });
+    };
+
+    _this.colliderButton.onclick = function () {
+      _this.disposeUI();
+
+      const CEV = new ColliderEditorView(_this);
+      CEV.setOnClose(function () {
+        CEV.dispose();
         _this.rootHtml.appendChild(_this.ui);
       });
     };
