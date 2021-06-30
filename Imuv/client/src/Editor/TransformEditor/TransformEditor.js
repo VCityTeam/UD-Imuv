@@ -44,6 +44,7 @@ export class TransformEditorView {
     this.disposeUI();
     this.disposeCallbacks();
     this.parentWEV.parentEV.transformControls.detach();
+    this.model.setSelectedGO(null);
   }
 
   initUI() {
@@ -77,7 +78,6 @@ export class TransformEditorView {
     const orbitControls = _this.parentWEV.parentEV.orbitControls;
     const scene = currentGameView.getItownsView().scene;
     const manager = currentGameView.getInputManager();
-
 
     let rotatediff = 0;
     const getObjectOnHover = function (event) {
@@ -140,12 +140,14 @@ export class TransformEditorView {
       attachTC();
     };
 
-    manager.addKeyInput('Escape', 'keydown', function () {
+    const deselectGO = function () {
       transformControls.detach();
       _this.model.setSelectedGO(null);
       _this.selectedObject.innerHTML =
         'Selected GO : ' + _this.model.getNameSelectedGO();
-    });
+    };
+
+    manager.addKeyInput('Escape', 'keydown', deselectGO);
   }
 
   setOnClose(f) {
