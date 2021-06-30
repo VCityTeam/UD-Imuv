@@ -14,6 +14,8 @@ export class TransformEditorView {
 
     this.rootHtml = this.parentWEV.rootHtml;
 
+    this.canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
+
     //where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_Editor');
@@ -35,7 +37,7 @@ export class TransformEditorView {
   }
 
   disposeCallbacks() {
-    const canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
+    const canvas = this.canvas;
     canvas.onpointermove = null;
     canvas.onpointerup = null;
   }
@@ -73,7 +75,7 @@ export class TransformEditorView {
   initCallbacks() {
     const _this = this;
     const currentGameView = _this.parentWEV.parentEV.currentGameView;
-    const canvas = currentGameView.rootItownsHtml;
+    const canvas = _this.canvas;
     const transformControls = _this.parentWEV.parentEV.transformControls;
     const orbitControls = _this.parentWEV.parentEV.orbitControls;
     const scene = currentGameView.getItownsView().scene;
