@@ -92,6 +92,7 @@ export class ColliderEditorView {
     };
 
     this.addButton.onclick = function () {
+      const shape = new Sphape();
       canvas.onclick = function (event) {
         if (event.button != 0) return;
         const intersect = throwRay(event);
@@ -103,8 +104,17 @@ export class ColliderEditorView {
           sphere.position.set(pos.x, pos.y, pos.z);
           _this.getScene(intersect.object).add(sphere);
           sphere.updateMatrix();
+          shape.addPoint(sphere);
         }
       };
+      _this.model.addShape(shape);
+    };
+
+    window.onkeydown = function (event) {
+      if (event.defaultPrevented) return;
+      if (event.code == 'Enter') {
+        console.log('Enter');
+      }
     };
   }
 
@@ -118,4 +128,23 @@ export class ColliderEditorView {
   }
 }
 
-export class ColliderEditorModel {}
+export class ColliderEditorModel {
+  constructor() {
+    this.shapes = [];
+  }
+
+  addShape(shape) {
+    this.shapes.push(shape);
+    console.log(this.shapes);
+  }
+}
+
+export class Sphape {
+  constructor() {
+    this.points = [];
+  }
+
+  addPoint(point) {
+    this.points.push(point);
+  }
+}
