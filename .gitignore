@@ -8,3 +8,7 @@ TODO.txt
 .vs
 .vscode
 Test/**
+
+*.b3dm
+
+Imuv/client/assets/lod_flying_campus/
