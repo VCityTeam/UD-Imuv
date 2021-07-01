@@ -96,13 +96,12 @@ export class ColliderEditorView {
         if (event.button != 0) return;
         const intersect = throwRay(event);
         if (intersect) {
-          const geometry = new THREE.SphereGeometry(500, 32, 32);
+          const geometry = new THREE.SphereGeometry(1, 32, 32);
           const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
           const sphere = new THREE.Mesh(geometry, material);
           const pos = intersect.point;
           sphere.position.set(pos.x, pos.y, pos.z);
-          sphere.position.set(100,0,0);
-          intersect.object.parent.add(sphere);
+          _this.getScene(intersect.object).add(sphere);
           sphere.updateMatrix();
         }
       };
@@ -111,6 +110,11 @@ export class ColliderEditorView {
 
   setOnClose(f) {
     this.closeButton.onclick = f;
+  }
+
+  getScene(obj) {
+    if (obj.parent) return this.getScene(obj.parent);
+    return obj;
   }
 }
 
