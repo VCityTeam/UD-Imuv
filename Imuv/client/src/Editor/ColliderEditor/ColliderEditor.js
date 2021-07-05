@@ -1,6 +1,8 @@
 import './ColliderEditor.css';
 
 import { THREE } from 'ud-viz/src/Game/Shared/Shared';
+import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
+
 
 export class ColliderEditorView {
   constructor(parentWEV) {
@@ -220,8 +222,8 @@ export class Sphape {
   constructor() {
     this.points = [];
 
-    this.geometry = new THREE.BufferGeometry();
     this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    this.material.side = THREE.DoubleSide;
     this.mesh = null;
   }
 
@@ -232,22 +234,26 @@ export class Sphape {
 
   updateMesh() {
     const points = this.points;
-    if (!points.length) return;
-    const vertices = new Float32Array(points.length * 3);
+    if (points.length <4) return;
+    /*const vertices = new Float32Array(points.length * 3);
     for (let i = 0; i < this.points.length; i++) {
       vertices[3 * i] = points[i].position.x;
       vertices[3 * i + 1] = points[i].position.y;
       vertices[3 * i + 2] = points[i].position.z;
     }
-
     this.geometry.setAttribute(
       'position',
       new THREE.BufferAttribute(vertices, 3)
-    );
+    );*/
 
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    const vertices = [];
+    points.forEach((element) => {
+      vertices.push(element.position);
+    });
+    const geometry = new ConvexGeometry(vertices);
+
+    this.mesh = new THREE.Mesh(geometry, this.material);
     points[0].parent.add(this.mesh);
-    this.mesh.side = THREE.DoubleSide;
     this.mesh.updateMatrix();
   }
 }
