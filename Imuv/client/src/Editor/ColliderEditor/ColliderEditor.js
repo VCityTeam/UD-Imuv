@@ -6,6 +6,8 @@ export class ColliderEditorView {
   constructor(parentWEV) {
     this.parentWEV = parentWEV;
 
+    this.editor = parentWEV.parentEV;
+
     this.model = new ColliderEditorModel();
 
     //raycaster
@@ -22,11 +24,12 @@ export class ColliderEditorView {
     this.rootHtml.appendChild(this.ui);
 
     this.labelColliderTool = null;
+    this.uiCurrentShape = null;
+    this.uiShapes = null;
+    this.uiMode = null;
 
     this.closeButton = null;
-    this.addButton = null;
-
-    this.scene = new THREE.Scene();
+    this.newButton = null;
 
     this.initUI();
     this.initCallbacks();
@@ -36,11 +39,32 @@ export class ColliderEditorView {
     this.ui.remove();
   }
 
-  disposeCallbacks() {}
+  disposeCallbacks() {
+    this.setOrbitsControl(true);
+    window.onkeydown = null;
+  }
 
   dispose() {
     this.disposeUI();
     this.disposeCallbacks();
+  }
+
+  setOrbitsControl(value) {
+    this.editor.orbitControls.enabled = value;
+  }
+
+  updateUI() {
+    this.uiShapes.innerHTML =
+      'Shapes length : ' + this.model.getShapes().length;
+
+    this.uiCurrentShape.innerHTML =
+      'Current Shape : ' + this.model.getCurrentShape();
+
+    if (this.editor.orbitControls.enabled) {
+      this.uiMode.innerHTML = 'Mode : OrbitsControl';
+    } else {
+      this.uiMode.innerHTML = 'Mode : AddPoints';
+    }
   }
 
   initUI() {
@@ -56,11 +80,29 @@ export class ColliderEditorView {
     this.closeButton = closeButton;
 
     const wrapper = document.createElement('div');
-    const addButton = document.createElement('button');
-    addButton.innerHTML = 'Add';
-    wrapper.appendChild(addButton);
+    const newButton = document.createElement('button');
+    newButton.innerHTML = 'New';
+    wrapper.appendChild(newButton);
     this.ui.appendChild(wrapper);
-    this.addButton = addButton;
+    this.newButton = newButton;
+
+    const uiCurrentShape = document.createElement('p');
+    uiCurrentShape.innerHTML = 'Current Shape : None';
+    wrapper.appendChild(uiCurrentShape);
+    this.ui.appendChild(wrapper);
+    this.uiCurrentShape = uiCurrentShape;
+
+    const uiShapes = document.createElement('p');
+    uiShapes.innerHTML = 'Shapes length : None';
+    wrapper.appendChild(uiShapes);
+    this.ui.appendChild(wrapper);
+    this.uiShapes = uiShapes;
+
+    const uiMode = document.createElement('p');
+    uiMode.innerHTML = 'Mode : OrbitsControl';
+    wrapper.appendChild(uiMode);
+    this.ui.appendChild(wrapper);
+    this.uiMode = uiMode;
   }
 
   initCallbacks() {
@@ -91,30 +133,48 @@ export class ColliderEditorView {
       return intersects[0];
     };
 
-    this.addButton.onclick = function () {
-      const shape = new Sphape();
-      canvas.onclick = function (event) {
-        if (event.button != 0) return;
-        const intersect = throwRay(event);
-        if (intersect) {
-          const geometry = new THREE.SphereGeometry(1, 32, 32);
-          const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-          const sphere = new THREE.Mesh(geometry, material);
-          const pos = intersect.point;
-          sphere.position.set(pos.x, pos.y, pos.z);
-          _this.getScene(intersect.object).add(sphere);
-          sphere.updateMatrix();
-          shape.addPoint(sphere);
-        }
-      };
-      _this.model.addShape(shape);
+    this.newButton.onclick = function () {
+      _this.model.setCurrentShape(new Sphape());
+      _this.updateUI();
     };
 
+    const editor = _this.editor;
     window.onkeydown = function (event) {
       if (event.defaultPrevented) return;
       if (event.code == 'Enter') {
-        console.log('Enter');
+        if (!_this.model.getCurrentShape()) return;
+        console.log('Confirm Shape', _this.model.getCurrentShape());
+        _this.model.addCurrentShape();
+        canvas.onclick = null;
+        _this.setOrbitsControl(true);
       }
+      if (event.code == 'KeyQ') {
+        const shape = _this.model.getCurrentShape();
+        if (!shape) return;
+
+        const mode = !editor.orbitControls.enabled;
+        _this.setOrbitsControl(mode);
+        if (!mode) {
+          canvas.onclick = function (event) {
+            if (event.button != 0) return;
+            const intersect = throwRay(event);
+            if (intersect) {
+              const geometry = new THREE.SphereGeometry(1, 32, 32);
+              const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+              const sphere = new THREE.Mesh(geometry, material);
+              const pos = intersect.point;
+              sphere.position.set(pos.x, pos.y, pos.z);
+              _this.getScene(intersect.object).add(sphere);
+              sphere.updateMatrix();
+              shape.addPoint(sphere);
+            }
+          };
+        } else {
+          canvas.onclick = null;
+        }
+      }
+
+      _this.updateUI();
     };
   }
 
@@ -131,20 +191,63 @@ export class ColliderEditorView {
 export class ColliderEditorModel {
   constructor() {
     this.shapes = [];
+    this.currentShape = null;
   }
 
-  addShape(shape) {
-    this.shapes.push(shape);
-    console.log(this.shapes);
+  addCurrentShape() {
+    if (!this.currentShape || !this.currentShape.points.length) {
+      console.log('BAD DATA ! CurrentShape : ', this.currentShape);
+      return;
+    }
+    this.shapes.push(this.currentShape);
+    this.setCurrentShape(null);
+  }
+
+  setCurrentShape(shape) {
+    this.currentShape = shape;
+  }
+
+  getCurrentShape() {
+    return this.currentShape;
+  }
+
+  getShapes() {
+    return this.shapes;
   }
 }
 
 export class Sphape {
   constructor() {
     this.points = [];
+
+    this.geometry = new THREE.BufferGeometry();
+    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    this.mesh = null;
   }
 
   addPoint(point) {
     this.points.push(point);
+    this.updateMesh();
+  }
+
+  updateMesh() {
+    const points = this.points;
+    if (!points.length) return;
+    const vertices = new Float32Array(points.length * 3);
+    for (let i = 0; i < this.points.length; i++) {
+      vertices[3 * i] = points[i].position.x;
+      vertices[3 * i + 1] = points[i].position.y;
+      vertices[3 * i + 2] = points[i].position.z;
+    }
+
+    this.geometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(vertices, 3)
+    );
+
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    points[0].parent.add(this.mesh);
+    this.mesh.side = THREE.DoubleSide;
+    this.mesh.updateMatrix();
   }
 }
