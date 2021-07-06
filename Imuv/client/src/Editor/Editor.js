@@ -49,7 +49,7 @@ export class EditorView {
   }
 
   initCallbacks() {
-    const _this = this;
+    //const _this = this;
   }
 
   updateUI() {
@@ -109,8 +109,6 @@ export class EditorView {
     this.transformControls = new TransformControls(camera, viewerDiv);
 
     const _this = this;
-    const renderer =
-      this.currentGameView.getItownsView().mainLoop.gfxEngine.renderer;
 
     this.transformControls.addEventListener(
       'dragging-changed',
@@ -185,7 +183,6 @@ export class EditorView {
     //new controls
     if (this.orbitControls) this.orbitControls.dispose();
 
-    const _this = this;
     this.orbitControls = new OrbitControls(
       this.currentGameView.getItownsView().camera.camera3D,
       this.currentGameView.rootItownsHtml

@@ -3,8 +3,6 @@
 //Components
 import { Widgets, Components, itowns, proj4, THREE, jquery } from 'ud-viz';
 const ModuleView = Widgets.Components.ModuleView;
-const TilesManager = Widgets.Components.TilesManager;
-const LayerManager = Widgets.Components.LayerManager;
 const $3DTemporalBatchTable = Widgets.$3DTemporalBatchTable;
 const $3DTemporalBoundingVolume = Widgets.$3DTemporalBoundingVolume;
 const $3DTemporalTileset = Widgets.$3DTemporalTileset;
