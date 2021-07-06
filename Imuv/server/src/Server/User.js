@@ -2,7 +2,7 @@
 
 const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Data = udvShared.Components.Data;
+const Constants = udvShared.Components.Constants;
 const Command = udvShared.Command;
 const WorldState = udvShared.WorldState;
 const WorldThread = require('./WorldThread');
@@ -42,13 +42,13 @@ const UserModule = class User {
     let state = new WorldState(stateJSON);
 
     if (!this.lastState) {
-      this.socket.emit(Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
+      this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
-        avatarID: this.getAvatarID(),
+        avatarUUID: this.getAvatarID(),
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);
-      this.socket.emit(Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF, diffJSON);
+      this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF, diffJSON);
     }
 
     this.lastState = state;
@@ -74,10 +74,10 @@ const UserModule = class User {
     //assign
     this.thread = thread;
     this.lastState = null;
-    this.socket.removeAllListeners(Data.WEBSOCKET.MSG_TYPES.COMMANDS);
+    this.socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.COMMANDS);
 
     //cmds are now sent to the new thread
-    this.socket.on(Data.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
+    this.socket.on(Constants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
       const commands = [];
 
       //parse

@@ -1,0 +1,30 @@
+/** @format */
+
+.label_localGameManager {
+  color: red;
+}
+
+.splash_localGameManager {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label_splash_localGameManager {
+  opacity: unset;
+  font-size: xxx-large;
+  z-index: 1;
+  font-family: sans-serif;
+}
+
+.bg_splash_localGameManager {
+  background-color: gray;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}

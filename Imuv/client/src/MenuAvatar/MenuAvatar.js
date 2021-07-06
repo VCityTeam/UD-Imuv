@@ -2,11 +2,12 @@
 
 import './MenuAvatar.css';
 
-import { GameObject } from 'ud-viz/src/Game/Shared/GameObject/GameObject';
+import GameObject from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 import { THREE, OrbitControls } from 'ud-viz';
-import Data from 'ud-viz/src/Game/Shared/Components/Data';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import RenderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Render';
-import { Shared } from 'ud-viz/src/Game/Shared/Shared';
+import Shared from 'ud-viz/src/Game/Shared/Shared';
+import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
 
 export class MenuAvatarView {
   constructor(webSocketService, config, assetsManager) {
@@ -66,7 +67,7 @@ export class MenuAvatarView {
   }
 
   focusGameObject() {
-    const obj = this.avatarGO.fetchObject3D();
+    const obj = this.avatarGO.computeObject3D();
 
     const bbox = new THREE.Box3().setFromObject(obj);
     if (!bbox) return;
@@ -101,15 +102,15 @@ export class MenuAvatarView {
     this.initCallbacks();
     Shared.Components.THREEUtils.addLights(this.scene);
 
-    this.webSocketService.emit(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO);
+    this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO);
 
     this.webSocketService.on(
-      Data.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
+      Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
       function (data) {
         _this.avatarGO = new GameObject(data);
         _this.avatarGO.initAssetsComponents(_this.assetsManager, Shared, false);
-        _this.avatarGO.getTransform().setFromJSON(); //reset transform
-        const object = _this.avatarGO.fetchObject3D();
+        _this.avatarGO.setFromTransformJSON({}); //reset transform
+        const object = _this.avatarGO.computeObject3D();
         _this.scene.add(object);
         _this.focusGameObject();
       }
@@ -175,21 +176,22 @@ export class MenuAvatarView {
     const _this = this;
 
     this.inputNameUser.onchange = function () {
-      const r = _this.avatarGO.getComponent(RenderModule.TYPE);
-      if (!r) throw new Error('no render component');
-      r.setName(this.value, _this.assetsManager);
+      const localScriptComp = _this.avatarGO.getComponent(
+        LocalScriptModule.TYPE
+      );
+      localScriptComp.conf.name = this.value; //TODO rela time update
     };
 
     this.inputColorPicker.onchange = function () {
       const r = _this.avatarGO.getComponent(RenderModule.TYPE);
       if (!r) throw new Error('no render component');
-      r.setColor(new THREE.Color(this.value), _this.assetsManager);
+      r.setColor(new THREE.Color(this.value));
     };
 
     this.saveButton.onclick = function () {
       const avatarJSON = _this.avatarGO.toJSON(true);
       _this.webSocketService.emit(
-        Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
+        Constants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
         avatarJSON
       );
     };

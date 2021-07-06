@@ -3,7 +3,7 @@
 try {
   const gameServer = require('./dist/server.js');
   const config = require('./assets/config/config.json');
-  const worldsJSON = require('./assets/worlds/worlds.json');
+  const worldsJSON = require('../client/assets/worlds/worlds.json');
 
   const folder = process.argv[2];
   const port = process.argv[3];
