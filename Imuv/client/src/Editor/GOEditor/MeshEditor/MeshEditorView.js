@@ -51,6 +51,7 @@ export class MeshEditorView {
     labelHiddenMeshesList.innerHTML = 'Hidden Meshes';
     this.rootHtml.appendChild(labelHiddenMeshesList);
     const hiddenMeshesList = document.createElement('ul');
+    hiddenMeshesList.classList.add('ul_Editor');
     this.rootHtml.appendChild(hiddenMeshesList);
     this.hiddenMeshesList = hiddenMeshesList;
 
@@ -60,6 +61,7 @@ export class MeshEditorView {
   meshHTML(mesh) {
     const _this = this;
     const result = document.createElement('li');
+    result.classList.add('li_Editor');
     result.innerHTML = mesh.name;
     let dictMeshParent = _this.model.dictMeshParent;
     let hiddenMeshes = _this.model.hiddenMeshes;
@@ -126,7 +128,7 @@ export class MeshEditorView {
 
       //3. compute intersections
       _this.intersects = _this.raycaster.intersectObjects(
-        _this.goView.getModel().getGameObject().fetchObject3D().children,
+        _this.goView.getModel().getGameObject().computeObject3D().children,
         true
       );
       const intersects = _this.intersects;

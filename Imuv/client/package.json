@@ -4,7 +4,7 @@
   "description": "udv game client",
   "main": "./src/bootstrap.js",
   "scripts": {
-    "travis":"npm run eslint && npm run build",
+    "travis": "npm run eslint && npm run build",
     "eslint": "./node_modules/.bin/eslint ./src",
     "build": "cross-env NODE_ENV=production webpack",
     "build-debug": "cross-env NODE_ENV=development webpack",
@@ -16,7 +16,7 @@
     "@egjs/hammerjs": "^2.0.17",
     "keycharm": "^0.4.0",
     "timsort": "^0.3.0",
-    "ud-viz": "^2.32.0",
+    "ud-viz": "file:../../../UD-Viz",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },

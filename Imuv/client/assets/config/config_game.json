@@ -3,6 +3,11 @@
     "renderDelay": 100
   },
   "assetsManager": {
+    "css": {
+      "localGameManager": {
+        "path": "./assets/css/localGameManager.css"
+      }
+    },
     "videos": {
       "introduction_flying_campus": {
         "path": "./assets/videos/POC_flying_campus_juin.webm"
@@ -17,6 +22,15 @@
       },
       "rotate": {
         "path": "./assets/localScripts/Rotate.js"
+      },
+      "image": {
+        "path": "./assets/localScripts/Image.js"
+      },
+      "sprite_name": {
+        "path": "./assets/localScripts/SpriteName.js"
+      },
+      "localGameManager": {
+        "path": "./assets/localScripts/LocalGameManager.js"
       }
     },
     "models": {
@@ -53,13 +67,8 @@
     }
   },
   "game": {
-    "traveling_time": 1500,
     "fps": 30,
     "shadowMapSize": 2046,
-    "fog": {
-      "near": 5,
-      "far": 100
-    },
     "skyColor": {
       "r": 0.4,
       "g": 0.6,

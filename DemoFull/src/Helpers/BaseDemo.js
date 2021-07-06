@@ -67,10 +67,11 @@ export class BaseDemo {
 
       ////// AUTHENTICATION MODULE
       if (_this.config.widgets.authenticationView) {
-        const authenticationService = new Widgets.Extensions.AuthenticationService(
-          requestService,
-          _this.config
-        );
+        const authenticationService =
+          new Widgets.Extensions.AuthenticationService(
+            requestService,
+            _this.config
+          );
         const authenticationView = new Widgets.Extensions.AuthenticationView(
           authenticationService
         );
@@ -606,7 +607,7 @@ export class BaseDemo {
       !this.config['3DTilesLayer']['url']
     ) {
       throw (
-        'Your layer does not have \'url\'/\'id\' properties or both. ' +
+        'Your layer does not have url id properties or both. ' +
         '(in UD-Viz/UD-Viz-Core/examples/data/config/generalDemoConfig.json)'
       );
     }
@@ -667,7 +668,10 @@ export class BaseDemo {
     $3dTilesLayer.overrideMaterials = material;
     $3dTilesLayer.material = material;
 
-    const $3DTilesManager = new TilesManager(this.view, $3dTilesLayer);
+    const $3DTilesManager = new Widgets.Components.TilesManager(
+      this.view,
+      $3dTilesLayer
+    );
     this.layerManager.tilesManagers.push($3DTilesManager);
 
     return [$3dTilesLayer, $3DTilesManager];
@@ -757,7 +761,7 @@ export class BaseDemo {
         tilt: tilt,
       },
     });
-    this.layerManager = new LayerManager(this.view);
+    this.layerManager = new Widgets.Components.LayerManager(this.view);
     // ********* 3D Elements
     // Lights
     let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);

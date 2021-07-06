@@ -8,8 +8,9 @@ const workerThreads = require('worker_threads');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
 
+const WorldContext = require('ud-viz/src/Game/Shared/WorldContext');
 const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Data = udvShared.Components.Data;
+const Pack = udvShared.Components.Pack;
 const Command = udvShared.Command;
 const GameObject = udvShared.GameObject;
 const World = udvShared.World;
@@ -28,7 +29,7 @@ const WorldThreadModule = class WorldThread {
     this.worker.on(
       'message',
       function (msgPacked) {
-        const msg = Data.unpack(msgPacked);
+        const msg = Pack.unpack(msgPacked);
         if (this.callbacks[msg.msgType]) {
           this.callbacks[msg.msgType](msg.data);
         }
@@ -39,7 +40,7 @@ const WorldThreadModule = class WorldThread {
   //parent thread => child thread
   post(msgType, data) {
     this.worker.postMessage(
-      Data.pack({
+      Pack.pack({
         msgType: msgType,
         data: data,
       })
@@ -71,16 +72,14 @@ WorldThreadModule.routine = function (serverConfig) {
 
   const parentPort = workerThreads.parentPort;
 
-  const gCtx = {
+  const worldContext = new WorldContext({
     assetsManager: new AssetsManagerServer(),
-    dt: 0,
-    commands: [],
-    world: null,
-    UDVShared: udvShared,
-  };
+    Shared: udvShared,
+  });
 
   //load scripts
-  gCtx.assetsManager
+  worldContext
+    .getAssetsManager()
     .loadFromConfig(serverConfig.assetsManager)
     .then(function () {
       //Variables
@@ -88,14 +87,16 @@ WorldThreadModule.routine = function (serverConfig) {
 
       //Callbacks
       const onInit = function (worldJSON) {
-        gCtx.world = new World(worldJSON, {
-          isServerSide: true,
-          modules: { gm: gm, PNG: PNG },
-        });
+        worldContext.setWorld(
+          new World(worldJSON, {
+            isServerSide: true,
+            modules: { gm: gm, PNG: PNG },
+          })
+        );
 
-        gCtx.world.load(function () {
+        worldContext.getWorld().load(function () {
           //world event
-          gCtx.world.on('portalEvent', function (args) {
+          worldContext.getWorld().on('portalEvent', function (args) {
             const avatarGO = args[0];
             const uuidDest = args[1];
             const portalUUID = args[2];
@@ -110,41 +111,41 @@ WorldThreadModule.routine = function (serverConfig) {
               msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
               data: dataPortalEvent,
             };
-            parentPort.postMessage(Data.pack(message));
+            parentPort.postMessage(Pack.pack(message));
           });
 
           //loop
           const tick = function () {
             const now = Date.now();
             if (!lastTimeTick) {
-              gCtx.dt = 0;
+              worldContext.setDt(0);
             } else {
-              gCtx.dt = now - lastTimeTick;
+              worldContext.setDt(now - lastTimeTick);
             }
             lastTimeTick = now;
 
-            gCtx.world.tick(gCtx); //tick with user commands
-            gCtx.commands.length = 0; //clear commands
+            worldContext.getWorld().tick(worldContext); //tick with user commands
+            worldContext.getCommands().length = 0; //clear commands
 
-            const currentState = gCtx.world.computeWorldState();
+            const currentState = worldContext.getWorld().computeWorldState();
 
             //post worldstate to main thread
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
               data: currentState.toJSON(),
             };
-            parentPort.postMessage(Data.pack(message));
+            parentPort.postMessage(Pack.pack(message));
           };
 
           const fps = serverConfig.thread.fps;
           if (!fps) throw new Error('no fps');
           setInterval(tick, 1000 / fps);
-        }, gCtx);
+        }, worldContext);
       };
 
       const onCommands = function (cmdsJSON) {
         cmdsJSON.forEach(function (cmdJSON) {
-          gCtx.commands.push(new Command(cmdJSON));
+          worldContext.getCommands().push(new Command(cmdJSON));
         });
       };
 
@@ -154,39 +155,44 @@ WorldThreadModule.routine = function (serverConfig) {
         const transformJSON = data.transform;
         const newGO = new GameObject(goJson);
 
-        gCtx.world.addGameObject(
-          newGO,
-          gCtx,
-          gCtx.world.getGameObject(),
-          function () {
-            if (portalUUID) {
-              const portal = gCtx.world.getGameObject().find(portalUUID);
-              portal.getWorldScripts()['portal'].setTransformOf(newGO);
-              gCtx.world.updateCollisionBuffer();
-            } else if (transformJSON) {
-              newGO.getTransform().setFromJSON(transformJSON);
-              gCtx.world.updateCollisionBuffer();
+        worldContext
+          .getWorld()
+          .addGameObject(
+            newGO,
+            worldContext,
+            worldContext.getWorld().getGameObject(),
+            function () {
+              if (portalUUID) {
+                const portal = worldContext
+                  .getWorld()
+                  .getGameObject()
+                  .find(portalUUID);
+                portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
+                worldContext.getWorld().updateCollisionBuffer();
+              } else if (transformJSON) {
+                newGO.setFromTransformJSON(transformJSON);
+                worldContext.getWorld().updateCollisionBuffer();
+              }
             }
-          }
-        );
+          );
       };
 
       const onRemoveGameObject = function (uuid) {
-        gCtx.world.removeGameObject(uuid);
+        worldContext.getWorld().removeGameObject(uuid);
       };
 
       const onQueryGameObject = function (uuid) {
-        const go = gCtx.world.getGameObject().find(uuid);
+        const go = worldContext.getWorld().getGameObject().find(uuid);
         const message = {
           msgType: WorldThreadModule.MSG_TYPES.GAMEOBJECT_RESPONSE,
           data: go.toJSON(true),
         };
-        parentPort.postMessage(Data.pack(message));
+        parentPort.postMessage(Pack.pack(message));
       };
 
       //listening parentPort
       parentPort.on('message', (msgPacked) => {
-        const msg = Data.unpack(msgPacked);
+        const msg = Pack.unpack(msgPacked);
         switch (msg.msgType) {
           case WorldThreadModule.MSG_TYPES.INIT:
             onInit(msg.data);

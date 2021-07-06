@@ -13,7 +13,7 @@
       "components": {
         "WorldScript": {
           "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
-          "idScripts": ["gameManager"],
+          "idScripts": ["worldGameManager"],
           "conf": {
             "mapPrefabId": "flying_campus",
             "spawnTransform": {
@@ -25,6 +25,18 @@
             }
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
+          "idScripts": ["localGameManager"],
+          "conf": {
+            "traveling_time": 1500,
+            "fog": {
+              "near": 5,
+              "far": 100
+            }
+          },
+          "type": "LocalScript"
         }
       },
       "children": [],
@@ -49,7 +61,7 @@
       "components": {
         "WorldScript": {
           "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
-          "idScripts": ["gameManager"],
+          "idScripts": ["worldGameManager"],
           "conf": {
             "mapPrefabId": "room_expo",
             "spawnTransform": {
@@ -59,6 +71,17 @@
             }
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
+          "idScripts": ["localGameManager"],
+          "conf": {
+            "fog": {
+              "near": 5,
+              "far": 100
+            }
+          },
+          "type": "LocalScript"
         }
       },
 
@@ -84,7 +107,7 @@
       "components": {
         "WorldScript": {
           "uuid": "4EEA3596-90B5-48B5-94FC-6E49EA5E2689",
-          "idScripts": ["gameManager"],
+          "idScripts": ["worldGameManager"],
           "conf": {
             "mapPrefabId": "room_conf_modulable",
             "spawnTransform": {
@@ -94,9 +117,19 @@
             }
           },
           "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
+          "idScripts": ["localGameManager"],
+          "conf": {
+            "fog": {
+              "near": 5,
+              "far": 100
+            }
+          },
+          "type": "LocalScript"
         }
       },
-
       "children": [],
       "transform": {
         "position": [0, 0, 0],

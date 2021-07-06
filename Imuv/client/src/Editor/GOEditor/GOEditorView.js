@@ -238,7 +238,7 @@ export class GOEditorView {
       if (!_this.model) return;
 
       const ratio = parseFloat(event.target.value) / 100;
-      const o = _this.model.getGameObject().fetchObject3D();
+      const o = _this.model.getGameObject().computeObject3D();
       if (!o) return;
       o.traverse(function (child) {
         if (child.material) {
@@ -251,7 +251,7 @@ export class GOEditorView {
     const applyVisibility = function (visible) {
       const text = _this.inputTag.value;
       if (_this.model && _this.model.getGameObject()) {
-        const object3D = _this.model.getGameObject().fetchObject3D();
+        const object3D = _this.model.getGameObject().computeObject3D();
         if (!object3D) return;
         const tag = text.toLowerCase();
         object3D.traverse(function (child) {
@@ -554,11 +554,13 @@ export class GOEditorView {
 
   initUI() {
     const input = document.createElement('input');
+    input.classList.add('input_Editor');
     input.setAttribute('type', 'file');
     this.ui.appendChild(input);
     this.input = input; //ref
 
     const prefabsList = document.createElement('ul');
+    prefabsList.classList.add('ul_Editor');
     this.ui.appendChild(prefabsList);
     this.prefabsList = prefabsList;
 
@@ -617,6 +619,7 @@ export class GOEditorView {
 
     //opacity of the gameobject
     const opacitySlider = document.createElement('input');
+    opacitySlider.classList.add('input_Editor');
     opacitySlider.setAttribute('type', 'range');
     opacitySlider.value = '100';
     this.ui.appendChild(opacitySlider);
@@ -629,6 +632,7 @@ export class GOEditorView {
 
     //checkbox
     const checkboxGizmo = document.createElement('input');
+    checkboxGizmo.classList.add('input_Editor');
     checkboxGizmo.setAttribute('type', 'checkbox');
     this.ui.appendChild(checkboxGizmo);
     this.checkboxGizmo = checkboxGizmo;
@@ -646,6 +650,7 @@ export class GOEditorView {
     this.ui.appendChild(objectVisibilityLabel);
 
     const inputTag = document.createElement('input');
+    inputTag.classList.add('input_Editor');
     inputTag.type = 'text';
     this.ui.appendChild(inputTag);
     this.inputTag = inputTag;
@@ -720,7 +725,7 @@ export class GOEditorView {
     const createMinusPlus = function (name) {
       //parent
       const parent = document.createElement('div');
-      parent.style.display = 'flex';
+      parent.classList.add('flex_Editor');
 
       //label
       const label = document.createElement('div');
@@ -783,6 +788,7 @@ export class GOEditorView {
     const _this = this;
     for (let name in this.prefabs) {
       const li = document.createElement('li');
+      li.classList.add('li_Editor');
       li.innerHTML = name;
       li.onclick = function () {
         _this.jsonEditorViewGO.onJSON(_this.prefabs[name]);

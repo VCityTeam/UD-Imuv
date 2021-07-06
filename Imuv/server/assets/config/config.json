@@ -2,41 +2,41 @@
   "assetsManager": {
     "worldScripts": {
       "avatar": {
-        "path": "./assets/worldScripts/Avatar.js"
+        "path": "../client/assets/worldScripts/Avatar.js"
       },
       "zeppelin": {
-        "path": "./assets/worldScripts/Zeppelin.js"
+        "path": "../client/assets/worldScripts/Zeppelin.js"
       },
       "map": {
-        "path": "./assets/worldScripts/Map.js"
+        "path": "../client/assets/worldScripts/Map.js"
       },
-      "gameManager": {
-        "path": "./assets/worldScripts/GameManager.js"
+      "worldGameManager": {
+        "path": "../client/assets/worldScripts/WorldGameManager.js"
       },
       "portal": {
-        "path": "./assets/worldScripts/Portal.js"
+        "path": "../client/assets/worldScripts/Portal.js"
       }
     },
     "prefabs": {
       "room_expo": {
-        "path": "./assets/prefabs/Room Expo Map.json"
+        "path": "../client/assets/prefabs/Room Expo Map.json"
       },
       "flying_campus": {
-        "path": "./assets/prefabs/Flying Campus Map.json"
+        "path": "../client/assets/prefabs/Flying Campus Map.json"
       },
       "portal": {
-        "path": "./assets/prefabs/Portal.json"
+        "path": "../client/assets/prefabs/Portal.json"
       },
       "avatar": {
-        "path": "./assets/prefabs/Avatar.json"
+        "path": "../client/assets/prefabs/Avatar.json"
       },
       "room_conf_modulable": {
-        "path": "./assets/prefabs/Room_Conf_Modulable.json"
+        "path": "../client/assets/prefabs/Room_Conf_Modulable.json"
       }
     }
   },
   "thread": {
-    "fps": 40,
+    "fps": 60,
     "script": "./assets/scripts/thread.js"
   },
   "port": 8000,

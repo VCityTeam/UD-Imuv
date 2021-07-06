@@ -55,7 +55,7 @@ export class WorldEditorView {
 
     let script;
     go.traverse(function (child) {
-      const scripts = child.getWorldScripts();
+      const scripts = child.fetchWorldScripts();
       if (scripts && scripts['map']) script = scripts['map'];
     });
 
@@ -71,17 +71,12 @@ export class WorldEditorView {
       const _this = this;
 
       world.getGameObject().traverse(function (g) {
-        const s = g.getWorldScripts();
+        const s = g.fetchWorldScripts();
         if (s && s['map']) {
-          //consider assets are in ./
-          let path = s['map'].conf.heightmap_path;
-          const index = path.indexOf('/assets');
-          path = './applications/server' + path.slice(index);
-
           //create html element
           _this.imgHeightmap = document.createElement('img');
           _this.imgHeightmap.classList.add('img_WorldEditorView');
-          _this.imgHeightmap.src = path;
+          _this.imgHeightmap.src = s['map'].conf.heightmap_path;
         }
       });
     }
@@ -162,6 +157,7 @@ export class WorldEditorView {
     const _this = this;
     this.worldsJSON.forEach(function (w) {
       const li = document.createElement('li');
+      li.classList.add('li_Editor');
       li.innerHTML = w.name;
       li.onclick = _this.onWorldJSON.bind(_this, w, null);
       list.appendChild(li);
@@ -201,7 +197,7 @@ export class WorldEditorView {
         const portal = g.find(pUUID);
         const avatar = g.find(_this.gameView.avatarUUID);
 
-        portal.getWorldScripts()['portal'].setTransformOf(avatar);
+        portal.fetchWorldScripts()['portal'].setTransformOf(avatar);
 
         newWorld.updateCollisionBuffer();
       }
@@ -245,11 +241,13 @@ export class WorldEditorView {
   initUI() {
     //open a world
     const input = document.createElement('input');
+    input.classList.add('input_Editor');
     input.setAttribute('type', 'file');
     this.ui.appendChild(input);
     this.input = input; //ref
 
     const worldsList = document.createElement('ul');
+    worldsList.classList.add('ul_Editor');
     this.ui.appendChild(worldsList);
     this.worldsList = worldsList;
 

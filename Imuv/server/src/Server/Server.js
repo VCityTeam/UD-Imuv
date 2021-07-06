@@ -8,7 +8,7 @@ const socketio = require('socket.io');
 const WorldThread = require('./WorldThread');
 const User = require('./User');
 const AssetsManagerServer = require('./AssetsManagerServer');
-const Data = require('ud-viz/src/Game/Shared/Components/Data');
+const Constants = require('ud-viz/src/Game/Shared/Components/Constants');
 const firebase = require('firebase/app');
 require('firebase/auth');
 
@@ -188,7 +188,7 @@ const ServerModule = class Server {
 
   fetchUserDefaultExtraData(nameUser = 'default_name') {
     let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
-    RenderModule.bindName(avatarJSON, nameUser);
+    avatarJSON.components.LocalScript.conf.name = nameUser;
     avatarJSON = new GameObject(avatarJSON).toJSON(true); //fill missing fields
 
     return {
@@ -201,7 +201,7 @@ const ServerModule = class Server {
   onConnection(socket) {
     const _this = this;
 
-    socket.on(Data.WEBSOCKET.MSG_TYPES.SIGN_UP, function (data) {
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.SIGN_UP, function (data) {
       const nameUser = data.nameUser;
       const password = data.password;
       const email = data.email;
@@ -246,14 +246,14 @@ const ServerModule = class Server {
             );
           });
 
-          socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'account created');
+          socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'account created');
         })
         .catch((error) => {
-          socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
+          socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
         });
     });
 
-    socket.on(Data.WEBSOCKET.MSG_TYPES.SIGN_IN, function (data) {
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.SIGN_IN, function (data) {
       const password = data.password;
       const email = data.email;
 
@@ -266,7 +266,7 @@ const ServerModule = class Server {
           //check if this user is already connected
           if (_this.currentUsers[user.uid]) {
             socket.emit(
-              Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+              Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
               'You are already connected'
             );
             return;
@@ -303,7 +303,7 @@ const ServerModule = class Server {
 
               //inform client that he is connected and ready to game
               socket.emit(
-                Data.WEBSOCKET.MSG_TYPES.SIGNED,
+                Constants.WEBSOCKET.MSG_TYPES.SIGNED,
                 extraData.initialized,
                 false
               );
@@ -322,19 +322,19 @@ const ServerModule = class Server {
               );
 
               //wait for client to be ready
-              socket.on(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
+              socket.on(Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
                 _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
               });
 
-              socket.on(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
+              socket.on(Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
                 socket.emit(
-                  Data.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
+                  Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
                   new GameObject(u.getAvatarJSON()).toJSON() //to filter only component local
                 );
               });
 
               socket.on(
-                Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
+                Constants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
                 function (avatarJSON) {
                   //modify json
                   const originalJSON = u.getAvatarJSON();
@@ -391,7 +391,7 @@ const ServerModule = class Server {
                   }
 
                   //alert client
-                  socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Save !');
+                  socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Save !');
                 }
               );
 
@@ -409,17 +409,17 @@ const ServerModule = class Server {
             });
           } else {
             socket.emit(
-              Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+              Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
               'Please verify your email'
             );
           }
         })
         .catch((error) => {
-          socket.emit(Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
+          socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
         });
     });
 
-    socket.on(Data.WEBSOCKET.MSG_TYPES.GUEST_CONNECTION, function () {
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.GUEST_CONNECTION, function () {
       console.log('guest is connected');
 
       //entry
@@ -430,7 +430,7 @@ const ServerModule = class Server {
 
       const nameUser = 'Guest';
       let avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
-      RenderModule.bindName(avatarJSON, nameUser);
+      avatarJSON.components.LocalScript.conf.name = nameUser;
       RenderModule.bindColor(avatarJSON, [
         Math.random(),
         Math.random(),
@@ -453,23 +453,23 @@ const ServerModule = class Server {
       _this.currentUsers[u.getUUID()] = u;
 
       //inform client that he is connected and ready to game
-      socket.emit(Data.WEBSOCKET.MSG_TYPES.SIGNED, extraData.initialized, true);
+      socket.emit(Constants.WEBSOCKET.MSG_TYPES.SIGNED, extraData.initialized, true);
 
       //wait for client to be ready
-      socket.on(Data.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
+      socket.on(Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
         _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
       });
 
-      socket.on(Data.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
+      socket.on(Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
         socket.emit(
-          Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+          Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
           'guest are not suppoed to query avatar'
         );
       });
 
-      socket.on(Data.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO, function () {
+      socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO, function () {
         socket.emit(
-          Data.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+          Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
           'guest are not suppoed to save avatar'
         );
       });

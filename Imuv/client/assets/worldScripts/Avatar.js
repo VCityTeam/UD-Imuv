@@ -10,31 +10,35 @@ const AVATAR_SPEED_ROTATION_X = 0.00004;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
+let Shared;
+
 module.exports = class Avatar {
-  constructor(conf) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
+
+    Shared = SharedModule;
+
     this.commands = {};
     this.firstTick = true;
   }
 
   init() {
     const go = arguments[0];
-    const gCtx = arguments[1];
+    const worldContext = arguments[1];
 
     //spawn
     const gm = go.computeRoot(); //root is gm
-    const script = gm.getWorldScripts()['gameManager'];
-    go.getTransform().setFromJSON(script.getSpawnTransform());
+    const script = gm.fetchWorldScripts()['worldGameManager'];
+    go.setFromTransformJSON(script.getSpawnTransform());
 
     //init commands
-    const Command = gCtx.UDVShared.Command;
-    for (let type in Command.TYPE) {
-      this.commands[Command.TYPE[type]] = [];
+    for (let type in Shared.Command.TYPE) {
+      this.commands[Shared.Command.TYPE[type]] = [];
     }
   }
 
-  fetchCommands(commands, gameObject, gCtx) {
-    const Command = gCtx.UDVShared.Command;
+  fetchCommands(commands, gameObject) {
+    const Command = Shared.Command;
 
     //get commands sign by its user
     let addMoveTo = false;
@@ -68,22 +72,23 @@ module.exports = class Avatar {
     }
   }
 
-  applyCommands(gameObject, dt, gCtx) {
-    const Command = gCtx.UDVShared.Command;
-    const THREE = gCtx.UDVShared.THREE;
+  applyCommands(gameObject, dt) {
+    const Command = Shared.Command;
+    const THREE = Shared.THREE;
 
     const gmGo = gameObject.computeRoot();
-    const scriptGM = gmGo.getWorldScripts()['gameManager'];
+    const scriptGM = gmGo.fetchWorldScripts()['worldGameManager'];
     if (!scriptGM) throw new Error('no gm script');
     const mapGo = scriptGM.getMap();
     if (!mapGo) return; //no map => no commands
-    const scriptMap = mapGo.getWorldScripts()['map'];
+    const scriptMap = mapGo.fetchWorldScripts()['map'];
     if (!scriptMap) throw new Error('no map world script');
 
     let elevationComputed = false;
 
     for (let type in this.commands) {
       const cmds = this.commands[type];
+
       if (cmds.length) {
         const cmd = cmds[0];
         let cmdFinished = true;
@@ -185,7 +190,7 @@ module.exports = class Avatar {
 
   tick() {
     const gameObject = arguments[0];
-    const gCtx = arguments[1];
+    const worldContext = arguments[1];
 
     if (this.firstTick) {
       this.firstTick = false;
@@ -194,22 +199,22 @@ module.exports = class Avatar {
       gameObject.setOutdated(false);
     }
 
-    this.fetchCommands(gCtx.commands, gameObject, gCtx);
-    this.applyCommands(gameObject, gCtx.dt, gCtx);
+    this.fetchCommands(worldContext.getCommands(), gameObject);
+    this.applyCommands(gameObject, worldContext.getDt());
   }
 
   onEnterCollision() {
     const go = arguments[0];
     const result = arguments[1];
-    const gCtx = arguments[2];
+    const worldContext = arguments[2];
 
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
 
     //check if this is a portal
-    const scriptPortal = colliderGO.getWorldScripts()['portal'];
+    const scriptPortal = colliderGO.fetchWorldScripts()['portal'];
     if (scriptPortal) {
-      scriptPortal.onAvatar(go, gCtx.world);
+      scriptPortal.onAvatar(go, worldContext.getWorld());
     }
 
     this.collide(collider, go, result);
@@ -217,7 +222,7 @@ module.exports = class Avatar {
 
   collide(collider, go, result) {
     if (collider.isBody()) {
-      const p = go.getTransform().getPosition();
+      const p = go.getPosition();
       p.x -= result.overlap * result.overlap_x;
       p.y -= result.overlap * result.overlap_y;
     }

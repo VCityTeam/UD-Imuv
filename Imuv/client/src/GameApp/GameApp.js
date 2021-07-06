@@ -1,10 +1,11 @@
 /** @format */
 
-import { Game, THREE } from 'ud-viz';
-import { Routine } from 'ud-viz/src/Game/Components/Cameraman';
+import { Game } from 'ud-viz';
+import { GameView } from 'ud-viz/src/View/GameView/GameView';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
-import Data from 'ud-viz/src/Game/Shared/Components/Data';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import WorldStateDiff from 'ud-viz/src/Game/Shared/WorldStateDiff';
+import WorldState from 'ud-viz/src/Game/Shared/WorldState';
 
 import './GameApp.css';
 
@@ -14,131 +15,55 @@ export class GameApp {
     this.assetsManager = assetsManager;
     this.webSocketService = webSocketService;
 
+    this.worldStateInterpolator = null;
+
     this.config = config;
-
-    //DEBUG
-    // window.UDVDebugger = new Game.UDVDebugger(document.body);
   }
 
-  createSplashScreen() {
-    const result = document.createElement('div');
-    result.classList.add('splash_GameApp');
-
-    const bg = document.createElement('div');
-    bg.classList.add('bg_splash_GameApp');
-    result.appendChild(bg);
-
-    const label = document.createElement('div');
-    label.classList.add('label_splash_GameApp');
-    label.innerHTML = 'Welcome to Flying Campus';
-    result.appendChild(label);
-
-    return result;
-  }
-
-  start(onLoad, travelling, isGuest) {
-    this.gameView = new Game.GameView({
-      isLocal: false,
-      assetsManager: this.assetsManager,
-      webSocketService: this.webSocketService,
-      worldStateInterpolator: new Game.Components.WorldStateInterpolator(
-        this.config.worldStateInterpolator
-      ),
-      config: this.config,
-    });
-
-    const gV = this.gameView;
+  start(onLoad, firstGameView, isGuest) {
     const _this = this;
 
-    if (travelling) {
-      const splash = this.createSplashScreen();
-      const duration = this.config.game.traveling_time;
+    const worldStateInterpolator = new Game.Components.WorldStateInterpolator(
+      this.config.worldStateInterpolator
+    );
+    this.worldStateInterpolator = worldStateInterpolator;
 
-      this.gameView.setOnFirstStateEnd(function () {
-        const offsetTime = 1000;
+    this.gameView = new GameView({
+      assetsManager: this.assetsManager,
+      stateComputer: worldStateInterpolator,
+      config: this.config,
+      firstGameView: firstGameView,
+    });
 
-        document.body.appendChild(splash);
-        setTimeout(function () {
-          splash.remove();
-        }, offsetTime + duration);
-
-        const cameraman = gV.getCameraman();
-        let currentTime = 0;
-        cameraman.setFilmingTarget(false);
-        const camera = cameraman.getCamera();
-        const startPos = new THREE.Vector3(
-          1843660.0895859331,
-          5174613.11242678,
-          485.8525534292738
-        );
-        const startQuat = new THREE.Quaternion(
-          0.027576004167469807,
-          0.6755682684405119,
-          0.736168525226603,
-          0.030049644525890727
-        );
-
-        camera.position.copy(startPos);
-        camera.quaternion.copy(startQuat);
-        camera.updateProjectionMatrix();
-
-        //first travelling
-        cameraman.addRoutine(
-          new Routine(
-            function (dt) {
-              const t = cameraman.computeTransformTarget();
-
-              //no avatar yet
-              if (!t) return false;
-
-              currentTime += dt;
-              const ratio = Math.min(Math.max(0, currentTime / duration), 1);
-
-              const p = t.position.lerp(startPos, 1 - ratio);
-              const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-              camera.position.copy(p);
-              camera.quaternion.copy(q);
-
-              camera.updateProjectionMatrix();
-
-              return ratio >= 1;
-            },
-            function () {
-              cameraman.setFilmingTarget(true);
-              gV.setFog(true);
-            }
-          )
-        );
-      });
-    }
+    const onFirstStateJSON = function (json) {
+      const state = new WorldState(json.state);
+      _this.worldStateInterpolator.onFirstState(state);
+      _this.gameView.onFirstState(state, json.avatarUUID);
+    };
 
     // Register callbacks
     this.webSocketService.on(
-      Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+      Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
       (firstStateJSON) => {
         if (!firstStateJSON) throw new Error('no data');
         console.log('JOIN_WORLD ', firstStateJSON);
 
         //TODO mettre un flag initialized a la place de check this.view (wait refacto ud-vizView)
-        if (!_this.gameView.view) {
+        if (!_this.gameView.getItownsView()) {
           //view was not intialized do it
-          _this.gameView.onFirstStateJSON(firstStateJSON);
+          onFirstStateJSON(firstStateJSON);
         } else {
           //this need to be disposed
           _this.gameView.dispose();
 
           //reset websocketservices
           _this.webSocketService.reset([
-            Data.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-            Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+            Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+            Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
           ]);
 
           _this.start(
-            function () {
-              _this.gameView.onFirstStateJSON(firstStateJSON);
-              console.log('gameview loaded');
-            },
+            onFirstStateJSON.bind(_this, firstStateJSON),
             false,
             isGuest
           );
@@ -147,15 +72,18 @@ export class GameApp {
     );
 
     this.webSocketService.on(
-      Data.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+      Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
       (diffJSON) => {
-        _this.gameView
-          .getWorldStateInterpolator()
-          .onNewDiff(new WorldStateDiff(diffJSON));
+        worldStateInterpolator.onNewDiff(new WorldStateDiff(diffJSON));
       }
     );
 
-    this.gameView.load().then(onLoad);
+    //register in tick of the gameview
+    this.gameView.addTickRequester(function () {
+      _this.gameView
+        .getInputManager()
+        .sendCommandsToServer(_this.webSocketService);
+    });
 
     if (!isGuest) {
       //INIT UI
@@ -174,22 +102,24 @@ export class GameApp {
 
         menuAvatar.setOnClose(function () {
           //render view
-          gV.setPause(false);
-          //restore gameview input
-          gV.initInputs(gV.getLastState());
+          _this.gameView.setPause(false);
+          _this.gameView.getInputManager().setPause(false);
+          //remove html
+          menuAvatar.dispose();
           //append html
-          document.body.appendChild(gV.html());
+          document.body.appendChild(_this.gameView.html());
         });
 
         //remove html
-        gV.html().remove();
+        _this.gameView.html().remove();
         //stop rendering view
-        gV.setPause(true);
-        //stop listening input
-        gV.getInputManager().dispose();
+        _this.gameView.setPause(true);
+        _this.gameView.getInputManager().setPause(true);
         //add menuavatar view
         document.body.appendChild(menuAvatar.html());
       };
     }
+
+    onLoad();
   }
 }
