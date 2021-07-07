@@ -3,7 +3,6 @@ import './ColliderEditor.css';
 import { THREE } from 'ud-viz/src/Game/Shared/Shared';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 
-
 export class ColliderEditorView {
   constructor(parentWEV) {
     this.parentWEV = parentWEV;
@@ -18,6 +17,10 @@ export class ColliderEditorView {
     this.rootHtml = this.parentWEV.rootHtml;
 
     this.canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
+
+    this.colliderObject = new THREE.Object3D();
+    this.colliderObject.name = 'ColliderObject';
+    this.editor.currentGameView.getItownsView().scene.add(this.colliderObject);
 
     //where html goes
     this.ui = document.createElement('div');
@@ -109,10 +112,10 @@ export class ColliderEditorView {
 
   initCallbacks() {
     const _this = this;
-    const currentGameView = _this.parentWEV.parentEV.currentGameView;
+    const currentGameView = _this.editor.currentGameView;
     const canvas = _this.canvas;
 
-    const throwRay = function (event) {
+    const throwRay = function (event, object3D) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
       const mouse = new THREE.Vector2(
         -1 + (2 * event.offsetX) / canvas.clientWidth,
@@ -127,16 +130,13 @@ export class ColliderEditorView {
       camera.near = oldNear;
 
       //3. compute intersections
-      const intersects = _this.raycaster.intersectObject(
-        currentGameView.getObject3D(),
-        true
-      );
+      const intersects = _this.raycaster.intersectObject(object3D, true);
 
       return intersects[0];
     };
 
     this.newButton.onclick = function () {
-      _this.model.setCurrentShape(new Sphape());
+      _this.model.setCurrentShape(new Sphape(_this.colliderObject));
       _this.updateUI();
     };
 
@@ -159,14 +159,14 @@ export class ColliderEditorView {
         if (!mode) {
           canvas.onclick = function (event) {
             if (event.button != 0) return;
-            const intersect = throwRay(event);
+            const intersect = throwRay(event, currentGameView.getObject3D());
             if (intersect) {
               const geometry = new THREE.SphereGeometry(1, 32, 32);
               const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
               const sphere = new THREE.Mesh(geometry, material);
               const pos = intersect.point;
               sphere.position.set(pos.x, pos.y, pos.z);
-              _this.getScene(intersect.object).add(sphere);
+              _this.model.getCurrentShape().getObject3D().add(sphere);
               sphere.updateMatrix();
               shape.addPoint(sphere);
             }
@@ -182,11 +182,6 @@ export class ColliderEditorView {
 
   setOnClose(f) {
     this.closeButton.onclick = f;
-  }
-
-  getScene(obj) {
-    if (obj.parent) return this.getScene(obj.parent);
-    return obj;
   }
 }
 
@@ -219,8 +214,12 @@ export class ColliderEditorModel {
 }
 
 export class Sphape {
-  constructor() {
+  constructor(parent) {
     this.points = [];
+    
+    this.shapeObject = new THREE.Object3D();
+    this.shapeObject.name = 'ShapeObject3D';
+    parent.add(this.shapeObject);
 
     this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     this.material.side = THREE.DoubleSide;
@@ -234,26 +233,28 @@ export class Sphape {
 
   updateMesh() {
     const points = this.points;
-    if (points.length <4) return;
-    /*const vertices = new Float32Array(points.length * 3);
-    for (let i = 0; i < this.points.length; i++) {
-      vertices[3 * i] = points[i].position.x;
-      vertices[3 * i + 1] = points[i].position.y;
-      vertices[3 * i + 2] = points[i].position.z;
-    }
-    this.geometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(vertices, 3)
-    );*/
-
+    if (points.length < 4) return;
+    let averageZ = 0;
+    points.forEach((element) => {
+      averageZ += element.position.z;
+    });
+    averageZ /= points.length;
     const vertices = [];
     points.forEach((element) => {
-      vertices.push(element.position);
+      let elPos = element.position.clone();
+      //elPos.z = averageZ;
+      vertices.push(elPos);
     });
     const geometry = new ConvexGeometry(vertices);
 
+    if (this.mesh) points[0].parent.remove(this.mesh);
     this.mesh = new THREE.Mesh(geometry, this.material);
-    points[0].parent.add(this.mesh);
+    this.shapeObject.add(this.mesh);
     this.mesh.updateMatrix();
+  }
+
+  getObject3D()
+  {
+    return this.shapeObject;
   }
 }
