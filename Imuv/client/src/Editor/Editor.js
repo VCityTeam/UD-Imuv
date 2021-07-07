@@ -89,7 +89,7 @@ export class EditorView {
     if (this.currentGameView) {
       this.currentGameView.dispose();
     }
-
+  
     this.model.onWorldJSON(json);
 
     this.currentGameView = new GameView({
@@ -141,10 +141,17 @@ export class EditorView {
       this.currentGameView.rootItownsHtml
     );
 
-    this.orbitControls.target.copy(this.currentGameView.getExtent().center());
+    this.orbitControls.target.copy(this.currentGameView.getObject3D().position);
     this.orbitControls.rotateSpeed = 0.5;
     this.orbitControls.zoomSpeed = 0.5;
     this.orbitControls.update();
+
+    const geometry = new THREE.SphereGeometry(5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0xff00c8 });
+    const sphere = new THREE.Mesh(geometry, material);
+    sphere.position.copy(this.orbitControls.target);
+    this.currentGameView.getItownsView().scene.add(sphere);
+    sphere.updateMatrix();
   }
 
   load() {
