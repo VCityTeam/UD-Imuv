@@ -18,9 +18,11 @@ export class ColliderEditorView {
 
     this.canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
 
-    this.colliderObject = new THREE.Object3D();
-    this.colliderObject.name = 'ColliderObject';
-    this.editor.currentGameView.getItownsView().scene.add(this.colliderObject);
+    this.colliderObject3D = new THREE.Object3D();
+    this.colliderObject3D.name = 'ColliderObject';
+    this.editor.currentGameView
+      .getItownsView()
+      .scene.add(this.colliderObject3D);
 
     //where html goes
     this.ui = document.createElement('div');
@@ -114,6 +116,7 @@ export class ColliderEditorView {
     const _this = this;
     const currentGameView = _this.editor.currentGameView;
     const canvas = _this.canvas;
+    const transformControls = _this.editor.transformControls;
 
     const throwRay = function (event, object3D) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
@@ -136,14 +139,23 @@ export class ColliderEditorView {
     };
 
     this.newButton.onclick = function () {
-      _this.model.setCurrentShape(new Sphape(_this.colliderObject));
+      _this.model.setCurrentShape(new Sphape(_this.colliderObject3D));
       _this.updateUI();
+    };
+
+    const attachTC = function () {
+      transformControls.detach();
+      if (!_this.model.getSelectedObject()) return;
+
+      transformControls.attach(_this.model.getSelectedObject());
+      transformControls.updateMatrixWorld();
+      currentGameView.getItownsView().scene.add(transformControls);
     };
 
     const editor = _this.editor;
     window.onkeydown = function (event) {
       if (event.defaultPrevented) return;
-      if (event.code == 'Enter') {
+      if (event.code == 'Enter' || event.code == 'NumpadEnter') {
         if (!_this.model.getCurrentShape()) return;
         console.log('Confirm Shape', _this.model.getCurrentShape());
         _this.model.addCurrentShape();
@@ -167,12 +179,20 @@ export class ColliderEditorView {
               const pos = intersect.point;
               sphere.position.set(pos.x, pos.y, pos.z);
               _this.model.getCurrentShape().getObject3D().add(sphere);
-              sphere.updateMatrix();
+              sphere.updateMatrixWorld();
               shape.addPoint(sphere);
             }
           };
         } else {
-          canvas.onclick = null;
+          canvas.onclick = function (event) {
+            const intersect = throwRay(event, _this.colliderObject3D);
+            if (intersect) {
+              _this.model.setSelectedObject(intersect.object);
+            } else {
+              _this.model.setSelectedObject(null);
+            }
+            attachTC();
+          };
         }
       }
 
@@ -189,6 +209,7 @@ export class ColliderEditorModel {
   constructor() {
     this.shapes = [];
     this.currentShape = null;
+    this.selectedObject = null;
   }
 
   addCurrentShape() {
@@ -204,6 +225,10 @@ export class ColliderEditorModel {
     this.currentShape = shape;
   }
 
+  setSelectedObject(object) {
+    this.selectedObject = object;
+  }
+
   getCurrentShape() {
     return this.currentShape;
   }
@@ -211,12 +236,15 @@ export class ColliderEditorModel {
   getShapes() {
     return this.shapes;
   }
+  getSelectedObject() {
+    return this.selectedObject;
+  }
 }
 
 export class Sphape {
   constructor(parent) {
     this.points = [];
-    
+
     this.shapeObject = new THREE.Object3D();
     this.shapeObject.name = 'ShapeObject3D';
     parent.add(this.shapeObject);
@@ -241,20 +269,28 @@ export class Sphape {
     averageZ /= points.length;
     const vertices = [];
     points.forEach((element) => {
-      let elPos = element.position.clone();
-      //elPos.z = averageZ;
-      vertices.push(elPos);
+      vertices.push(element.position);
     });
     const geometry = new ConvexGeometry(vertices);
+    geometry.computeBoundingBox();
+    const center = geometry.boundingBox.getCenter();
+    const positions = geometry.attributes.position.array;
+    for(let i = 0 ; i< positions.length;i+=3){
+      positions[i] -= center.x;
+      positions[i+1] -= center.y;
+      positions[i+2] -= center.z;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute( positions, 3 ));
 
     if (this.mesh) points[0].parent.remove(this.mesh);
     this.mesh = new THREE.Mesh(geometry, this.material);
+    this.mesh.position.copy(center);
+    this.mesh.updateMatrixWorld();
     this.shapeObject.add(this.mesh);
-    this.mesh.updateMatrix();
   }
 
-  getObject3D()
-  {
+  getObject3D() {
     return this.shapeObject;
   }
 }
