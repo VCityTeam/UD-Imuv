@@ -1,35 +1,56 @@
 # DemoFull
 
 ## Making our UD-Viz demo application
-This DemoFull directory holds all the required elements constituting an independent JavaScript 
+The present `DemoFull` directory holds all the required elements constituting an independent JavaScript 
 application (using among others the UD-Viz package).
 It is thus a good example of what you need to provide in order to build a custom application
 based on UD-Viz. 
-A simple way of building your own application would be to copy the `DemoFull` directory
-into your own sandbox repository and start customizing it.
 
-The main entry point for this customization of this new demo is the 
-[BaseDemo.js](https://github.com/VCityTeam/UD-Viz-demo/blob/master/DemoFull/src/Helpers/BaseDemo.js)
+### Replicating DemoFull to your sandbox: the straigthforward strategy
+A simple way of building such a custom application would be to copy the `DemoFull` directory
+into your own sandbox repository and start customizing it.
+The starting instructions thus boil down to
+
+```bash
+git clone https://github.com/VCityTeam/UD-Viz-demo.git
+git clone MyDemoApp.git
+cd MyDemoApp
+cp -r ../UD-Viz-demo/DemoFull MyDemoApp
+git commit
+git push
+```
+and then proceed with customizing `MyDemoApp`.
+
+The main entry point for this customization of this new `MyDemoApp` is the 
+[BaseDemo.js file](https://github.com/VCityTeam/UD-Viz-demo/blob/master/DemoFull/src/Helpers/BaseDemo.js)
 that you can
- * adapt in order to change e.g. the left sidedbar widgets
+ * adapt in order to change e.g. the left sidedbar widgets (refer to the 
+   [`_this.addModuleView(...)`](https://github.com/VCityTeam/UD-Viz-demo/blob/master/DemoFull/src/Helpers/BaseDemo.js#L76)
+   calls),
  * extend with your own components/features
 
 Then you can also adapt the 
 [`assets/config/config.json`](https://github.com/VCityTeam/UD-Viz-demo/blob/master/DemoFull/assets/config/config.json)
 configuration file that defines e.g.
- * the assets to be used (logos),
+ * links to the used `assets` for the icons, logos of your application,
  * the `extents` i.e. the geographical portion of the territory that will be displayed,
  * some default data streams used e.g.
-    - the `background_image_layer` that define the terrain (through a [`WMS` (Web Mapping Service)](https://www.lib.ncsu.edu/gis/ogcwms) stream,
-    - some 3d buildings (based on [3DTiles](https://github.com/CesiumGS/3d-tiles)) refer e.g. to the `3DTilesLayer` entry
-    - the default `camera` position within the scene
+    - the `background_image_layer` that define the terrain (through a [`WMS` (Web Mapping Service)](https://www.lib.ncsu.edu/gis/ogcwms) stream),
+    - some 3d buildings (based on [3DTiles](https://github.com/CesiumGS/3d-tiles)) refer e.g. to the `3DTilesLayer` entry,
+    - the default `camera` position within the scene,
     - ...
 
-If you are working in a [docker container](https://en.wikipedia.org/wiki/Docker_(software)) and alternative strategy
-to the replication of the complete DemoFull directory consists within your `Dockerfile` in
- - cloning the UD-Viz-demo reposotiry
- - placing yourself (with [`WORKDIR`](https://docs.docker.com/engine/reference/builder/#workdir) inside the `DemoFull` directory
- - overwriting the `DemoFull` code with your partial customizations (e.g. just overwriting `BaseDemo.js` and the `config.json` files)
+You can then proceed with build your `MyDemoApp` with exactly the same instructions 
+as for the `DemoFull` demo that is
+ * [install the dependencies](https://github.com/VCityTeam/UD-Viz-demo#installing-the-demo-applications)
+ * [building and running the application](https://github.com/VCityTeam/UD-Viz-demo/blob/master/README.md#installing-demofull)
+
+### When working with a docker container: the [`diff`](https://en.wikipedia.org/wiki/Diff) alternative strategy
+If you demo is defined within a [docker container](https://en.wikipedia.org/wiki/Docker_(software)) then an alternative strategy
+(to the complete replication of the DemoFull directory) consists in (within your `Dockerfile`)
+ - cloning the UD-Viz-demo repository,
+ - placing yourself (with [`WORKDIR`](https://docs.docker.com/engine/reference/builder/#workdir)) inside the `DemoFull` directory,
+ - overwriting the `DemoFull` code with your partial customizations (e.g. just overwriting `BaseDemo.js` and the `config.json` files).
 
 A example of this docker container based strategy can be found in the 
 [DatAgora_PartDieu](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/DatAgora_PartDieu/)
