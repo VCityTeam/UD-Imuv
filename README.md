@@ -32,8 +32,6 @@ its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node applic
     scoop install nodejs
     ```
 
-
-
 ## Installing DemoFull
 
 More information can be found [here](./DemoFull/Readme.md). DemoFull application can be locally (on your desktop) started in the following way
@@ -61,16 +59,6 @@ some server (possibly your desktop). For example
  * handling of documents will require you to [install the API_enhanced_city](https://github.com/VCityTeam/UD-Serv/blob/master/API_Enhanced_City/INSTALL.md).
  * you can also modify the [application configuration file](DemoFull/assets/config/config.json)
 
-### Writing your own DemoFull application
-```bash
-git clone UD-Viz-demo
-git clone MyDemo.git
-cd MyDemo
-cp -r ../UD-Viz-demo/* .
-git commit
-git push
-```
-and proceed with editing src/<FIXME>.js
 
 ## Pre-requisites to install Imuv
 Install [imagemagick](https://imagemagick.org/index.php) and [graphicsmagick](http://www.graphicsmagick.org/) binary sub dependencies since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme).
