@@ -1,6 +1,6 @@
 # UD-Viz-demo
-[UD-Viz](https://github.com/VCityTeam/UD-Viz/) is an 
-Demonstrations illustating some usages of the [UD-Viz JS library](https://github.com/VCityTeam/UD-Viz/).
+[UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo/) is a set of
+demonstrations illustating some possible usages of the [UD-Viz JS library](https://github.com/VCityTeam/UD-Viz/).
 
 The sub-directory DemoFull holds a **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) indenpedent application, in opposition the sub-directory SimpleServer that holds a **pure** [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) independent application.
 
@@ -32,41 +32,7 @@ its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node applic
     scoop install nodejs
     ```
 
-## Setup of the coding environment
 
-Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
-
-### Debugging with UDV library
-
-If you need to code in [UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of the demo you want to link with UD-Viz library :
-
-```
-"ud-viz": "^2.31.9" => "ud-viz": "file:../../../UD-Viz" //where the path is a relative path to your UD-Viz directory
-```
-
-then reinstall the ud-viz npm package
-
-```
-npm install ud-viz
-```
-
-Note that when you make a change in UD-Viz library watchers of UD-Viz-demo will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
-
-### Workflow
-
-In VS Code you can open terminal here is the possible layout:
-
-Imuv:
-![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_demo_full.png)
-
-DemoFull:
-![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_imuv.png)
-
-Before to push your modifications run:
-```
-npm run travis
-```
-to check if eslint and the webpack command run well
 
 ## Installing DemoFull
 
@@ -159,3 +125,39 @@ cd SimpleServer
 npm install
 node index.js "path_folder_to_serve" "port"
 ```
+ 
+## Setup of the coding environment
+
+Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
+
+### Debugging with UDV library
+
+If you need to code in [UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of the demo you want to link with UD-Viz library :
+
+```
+"ud-viz": "^2.31.9" => "ud-viz": "file:../../../UD-Viz" //where the path is a relative path to your UD-Viz directory
+```
+
+then reinstall the ud-viz npm package
+
+```
+npm install ud-viz
+```
+
+Note that when you make a change in UD-Viz library watchers of UD-Viz-demo will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
+
+### Workflow
+
+In VS Code you can open terminal here is the possible layout:
+
+Imuv:
+![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_demo_full.png)
+
+DemoFull:
+![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_imuv.png)
+
+Before to push your modifications run:
+```
+npm run travis
+```
+to check if eslint and the webpack command run well
