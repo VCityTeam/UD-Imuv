@@ -1,3 +1,46 @@
+# DemoFull
+
+## Making our UD-Viz demo application
+This DemoFull directory holds all the required elements constituting an independent JavaScript 
+application (using among others the UD-Viz package).
+It is thus a good example of what you need to provide in order to build a custom application
+based on UD-Viz. 
+A simple way of building your own application would be to copy the `DemoFull` directory
+into your own sandbox repository and start customizing it.
+
+The main entry point for this customization of this new demo is the 
+[BaseDemo.js](https://github.com/VCityTeam/UD-Viz-demo/blob/master/DemoFull/src/Helpers/BaseDemo.js)
+that you can
+ * adapt in order to change e.g. the left sidedbar widgets
+ * extend with your own components/features
+
+Then you can also adapt the 
+[`assets/config/config.json`](https://github.com/VCityTeam/UD-Viz-demo/blob/master/DemoFull/assets/config/config.json)
+configuration file that defines e.g.
+ * the assets to be used (logos),
+ * the `extents` i.e. the geographical portion of the territory that will be displayed,
+ * some default data streams used e.g.
+    - the `background_image_layer` that define the terrain (through a [`WMS` (Web Mapping Service)](https://www.lib.ncsu.edu/gis/ogcwms) stream,
+    - some 3d buildings (based on [3DTiles](https://github.com/CesiumGS/3d-tiles)) refer e.g. to the `3DTilesLayer` entry
+    - the default `camera` position within the scene
+    - ...
+
+If you are working in a [docker container](https://en.wikipedia.org/wiki/Docker_(software)) and alternative strategy
+to the replication of the complete DemoFull directory consists within your `Dockerfile` in
+ - cloning the UD-Viz-demo reposotiry
+ - placing yourself (with [`WORKDIR`](https://docs.docker.com/engine/reference/builder/#workdir) inside the `DemoFull` directory
+ - overwriting the `DemoFull` code with your partial customizations (e.g. just overwriting `BaseDemo.js` and the `config.json` files)
+
+A example of this docker container based strategy can be found in the 
+[DatAgora_PartDieu](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/DatAgora_PartDieu/)
+demo as illustrated by the
+[Dockerfile](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/DatAgora_PartDieu/ud-viz-context/Dockerfile#L28)
+commands.
+
+---
+**Warning** the following documentation has not been updated for quite some time...
+
+
 ### Camera Controller
 
 * **Left-click + drag** : User "grabs" the ground (cursor stays at the same spot on the ground) to translate camera on XY axis.
