@@ -1,0 +1,44 @@
+{
+  "assetsManager": {
+    "worldScripts": {
+      "avatar": {
+        "path": "../client/assets/worldScripts/Avatar.js"
+      },
+      "zeppelin": {
+        "path": "../client/assets/worldScripts/Zeppelin.js"
+      },
+      "map": {
+        "path": "../client/assets/worldScripts/Map.js"
+      },
+      "worldGameManager": {
+        "path": "../client/assets/worldScripts/WorldGameManager.js"
+      },
+      "portal": {
+        "path": "../client/assets/worldScripts/Portal.js"
+      }
+    },
+    "prefabs": {
+      "room_expo": {
+        "path": "../client/assets/prefabs/Room Expo Map.json"
+      },
+      "flying_campus": {
+        "path": "../client/assets/prefabs/Flying Campus Map.json"
+      },
+      "portal": {
+        "path": "../client/assets/prefabs/Portal.json"
+      },
+      "avatar": {
+        "path": "../client/assets/prefabs/Avatar.json"
+      },
+      "room_conf_modulable": {
+        "path": "../client/assets/prefabs/Room_Conf_Modulable.json"
+      }
+    }
+  },
+  "thread": {
+    "fps": 60,
+    "script": "./assets/scripts/thread.js"
+  },
+  "port": 8000,
+  "folder": "../client/"
+}
