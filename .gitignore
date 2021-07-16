@@ -1,0 +1,10 @@
+**/idea/
+**/node_modules/
+**/TODO.txt
+TODO.txt
+**/package-lock.json
+**/dist
+**/lib
+.vs
+.vscode
+Test/**
