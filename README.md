@@ -1,10 +1,6 @@
 # UD-Viz-demo
-[UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo/) is a set of
-demonstrations illustating some possible usages of the [UD-Viz JS library](https://github.com/VCityTeam/UD-Viz/).
 
-The sub-directory DemoFull holds a **pure** [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) independent application, in opposition the sub-directory SimpleServer that holds a **pure** [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) independent application.
-
-`Imuv/client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `Imuv/server`
+`client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
 
 ## Installing the demo applications
@@ -31,35 +27,7 @@ its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node applic
     iex (new-object net.webclient).downstring(‘https://get.scoop.sh’)
     scoop install nodejs
     ```
-
-## Installing DemoFull
-
-More information can be found [here](./DemoFull/Readme.md). DemoFull application can be locally (on your desktop) started in the following way
-```
-cd DemoFull
-npm install
-npm run debug      # integrates building
-```
-and then use your favorite (web) browser to open
-`http://localhost:8000/`.
-
-Note that technically the `npm run debug` command will use the [webpack-dev-server](https://github.com/webpack/webpack-dev-server) npm package that
- - runs node application that in turn launched a vanilla http sever in local (on your desktop) 
- - launches a watcher (surveying changes in sources)
- - in case of change that repacks an updated bundle
- - that triggers a client (hot) reload 
-
-### Notes on the DemoFull
-FIXME: unmature section
-
-Some modules used by the DemoFull require some server-side components to be installed on
-some server (possibly your desktop). For example
- * the 3D objects (buildings) are (by default) serverd by a LIRIS server
-   and thus require no specific configuratione there is nothing more to do
- * handling of documents will require you to [install the API_enhanced_city](https://github.com/VCityTeam/UD-Serv/blob/master/API_Enhanced_City/INSTALL.md).
- * you can also modify the [application configuration file](DemoFull/assets/config/config.json)
-
-
+    
 ## Pre-requisites to install Imuv
 Install [imagemagick](https://imagemagick.org/index.php) and [graphicsmagick](http://www.graphicsmagick.org/) binary sub dependencies since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme).
 
@@ -80,7 +48,7 @@ Imuv can be locally (on your desktop) started in the following way:
 
 First install the client:
 ```
-cd Imuv/client
+cd ./client
 npm install
 npm run debug
 ```
@@ -92,7 +60,7 @@ Note that technically the `npm run debug` command will use the [nodemon](https:/
 Then install the server:
 
 ```
-cd Imuv/server
+cd ./server
 npm install
 npm run debug
 ```
@@ -104,16 +72,6 @@ Note that technically the `npm run debug` command will use the [nodemon](https:/
 and then use your favorite (web) browser to open
 `http://localhost:8000/`.
 
-## Installing SimpleServer
-
-SimpleServer provides an http server service.
-SimpleServer application can be locally (on your desktop) started in the following way
-```
-cd SimpleServer
-npm install
-node index.js "path_folder_to_serve" "port"
-```
- 
 ## Setup of the coding environment
 
 Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
@@ -140,9 +98,6 @@ In VS Code you can open terminal here is the possible layout:
 
 Imuv:
 ![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_demo_full.png)
-
-DemoFull:
-![layout_demo_full](./Doc/Devel/Pictures/Possible_lyout_imuv.png)
 
 Before to push your modifications run:
 ```
