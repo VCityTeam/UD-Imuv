@@ -9,48 +9,11 @@ language: node_js
 node_js:
   - 14
 
-# before_install:
-#   - sudo apt-get -y install curl
-
 jobs:
   include:
-    - stage: DemoFull
+    - stage: client
       script:
-        - cd DemoFull && npm install && npm run travis
-    - stage: Imuv/client
+        - cd ./client && npm install && npm run travis
+    - stage: server
       script:
-        - cd Imuv/client && npm install && npm run travis
-    - stage: Imuv/server
-      script:
-        - cd Imuv/server && npm install && npm run travis
-    - stage: SimpleServer
-      script:
-        - cd SimpleServer && npm install && npm run travis
-    # - stage: trigger downstream
-    #   script:
-    #   - |
-    # FIXME: everything goes smoothly an travis-ci.com returns a
-    #    a body response without complain. Yet not job seems to get
-    #    get triggered.
-    #    Note that:
-    #      - the ACCESS_TOKEN is corrrect (otherwise an access denied
-    #        is (would be) returned,
-    #      - The slug (the combo of the VCityTeam organisation and the
-    #        UD-Viz-demo-docker repository) is also correct as asserted
-    #        by the body response.
-    #      - you can send the command from a desktop shell by launching
-    #        sh trigger-travis.sh --pro VCityTeam UD-Viz-demo-docker <YOUR_TRAVIS_ACCESS_TOKEN>
-    #
-    # Trigger a new Travis-ci n the repositories depending on
-    # on this repository i.e. UD-Viz-demo-docker
-    # Refer to https://github.com/plume-lib/trigger-travis
-    #   and to https://docs.travis-ci.com/user/triggering-builds
-    # echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-    # if [[ ($TRAVIS_BRANCH == master) && ($TRAVIS_PULL_REQUEST == false) ]] ; then
-    #   curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
-    #   echo "####################### Body response from Travis-CI: begin."
-    #   sh trigger-travis.sh --pro VCityTeam UD-Viz-demo-docker $TRAVIS_ACCESS_TOKEN
-    #   echo "####################### Body response from Travis-CI: end."
-    # else
-    #   echo "trigger-travis.sh did not run"
-    # fi
+        - cd ./server && npm install && npm run travis
