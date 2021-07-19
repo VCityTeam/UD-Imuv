@@ -263,11 +263,7 @@ export class Sphape {
   updateMesh() {
     const points = this.points;
     if (points.length < 4) return;
-    let averageZ = 0;
-    points.forEach((element) => {
-      averageZ += element.position.z;
-    });
-    averageZ /= points.length;
+
     const vertices = [];
     points.forEach((element) => {
       vertices.push(element.position);

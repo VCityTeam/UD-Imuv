@@ -1,7 +1,6 @@
 import './TransformEditor.css';
 
 import { THREE } from 'ud-viz/src/Game/Shared/Shared';
-import { createTileGroupsFromBatchIDs } from 'ud-viz/src/Widgets/Components/3DTiles/3DTilesUtils';
 
 export class TransformEditorView {
   constructor(parentWEV) {
@@ -187,7 +186,6 @@ export class TransformEditorModel {
   }
 
   setColorSelected(newGO, newColor) {
-    const _this = this;
     if (newGO) {
       newGO.traverse(function (children) {
         if (children.material) {

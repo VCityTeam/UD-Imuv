@@ -135,7 +135,6 @@ export class EditorView {
     //new controls
     if (this.orbitControls) this.orbitControls.dispose();
 
-    const _this = this;
     this.orbitControls = new OrbitControls(
       this.currentGameView.getItownsView().camera.camera3D,
       this.currentGameView.rootItownsHtml
