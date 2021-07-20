@@ -3,7 +3,7 @@
 import './Editor.css';
 import { Game, THREE, OrbitControls, TransformControls } from 'ud-viz';
 import { GameView } from 'ud-viz/src/View/GameView/GameView';
-import { LocalComputer } from 'ud-viz/src/Game/Components/StateComputer/LocalComputer';
+import { Shared } from 'ud-viz/src/Game/Game';
 
 export class EditorView {
   constructor(config) {
@@ -79,13 +79,13 @@ export class EditorView {
     this.currentGameView = new GameView({
       htmlParent: this.rootHtml,
       assetsManager: this.assetsManager,
-      stateComputer: this.model.getLocalComputer(),
+      stateComputer: this.model.getWorldStateComputer(),
       config: this.config,
       firstGameView: false,
     });
 
     this.currentGameView.onFirstState(
-      this.model.getLocalComputer().computeCurrentState(),
+      this.model.getWorldStateComputer().computeCurrentState(),
       null
     );
 
@@ -219,21 +219,18 @@ export class EditorView {
 
 class EditorModel {
   constructor(assetsManager) {
-    this.localComputer = null;
-    this.assetsManager = assetsManager;
+    this.worldStateComputer = new Shared.WorldStateComputer(
+      assetsManager,
+      30,
+      Shared
+    );
   }
 
   onWorldJSON(json) {
-    //init localcomputer
-    this.localComputer = new LocalComputer(
-      new Game.Shared.World(json),
-      this.assetsManager
-    );
-
-    this.localComputer.load();
+    this.worldStateComputer.onInit(new Shared.World(json));
   }
 
-  getLocalComputer() {
-    return this.localComputer;
+  getWorldStateComputer() {
+    return this.worldStateComputer;
   }
 }
