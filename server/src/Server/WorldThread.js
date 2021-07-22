@@ -76,7 +76,7 @@ WorldThreadModule.routine = function (serverConfig) {
     const worldStateComputer = new Shared.WorldStateComputer(
       assetsManager,
       serverConfig.thread.fps,
-      Shared
+      { Shared: Shared }
     );
 
     //listening parentPort

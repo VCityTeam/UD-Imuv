@@ -3,7 +3,8 @@
 import './Editor.css';
 import { Game, THREE, OrbitControls, TransformControls } from 'ud-viz';
 import { GameView } from 'ud-viz/src/View/GameView/GameView';
-import { Shared } from 'ud-viz/src/Game/Game';
+import { Shared } from 'ud-viz/src/Game/Shared/Shared';
+import udviz from 'ud-viz';
 
 export class EditorView {
   constructor(config) {
@@ -219,11 +220,10 @@ export class EditorView {
 
 class EditorModel {
   constructor(assetsManager) {
-    this.worldStateComputer = new Shared.WorldStateComputer(
-      assetsManager,
-      30,
-      Shared
-    );
+    this.worldStateComputer = new Shared.WorldStateComputer(assetsManager, 30, {
+      udviz: udviz,
+      Shared: Shared,
+    });
   }
 
   onWorldJSON(json) {
