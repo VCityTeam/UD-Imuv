@@ -3,7 +3,6 @@ import './ColliderEditor.css';
 import { THREE } from 'ud-viz/src/Game/Shared/Shared';
 import { ConvexGeometry } from 'ud-viz/node_modules/three/examples/jsm/geometries/ConvexGeometry';
 
-
 export class ColliderEditorView {
   constructor(parentWEV) {
     this.parentWEV = parentWEV;
@@ -160,7 +159,7 @@ export class ColliderEditorView {
         if (!_this.model.getCurrentShape()) return;
         console.log('Confirm Shape', _this.model.getCurrentShape());
         _this.model.addCurrentShape();
-        canvas.onclick = null;
+        canvas.onpointerup = null;
         _this.setOrbitsControl(true);
       }
       if (event.code == 'KeyQ') {
@@ -170,7 +169,7 @@ export class ColliderEditorView {
         const mode = !editor.orbitControls.enabled;
         _this.setOrbitsControl(mode);
         if (!mode) {
-          canvas.onclick = function (event) {
+          canvas.onpointerup = function (event) {
             if (event.button != 0) return;
             const intersect = throwRay(event, currentGameView.getObject3D());
             if (intersect) {
@@ -185,7 +184,11 @@ export class ColliderEditorView {
             }
           };
         } else {
-          canvas.onclick = function (event) {
+          canvas.onpointerup = function (event) {
+            if (transformControls.dragging) {
+              shape.updateMesh();
+              return;
+            }
             const intersect = throwRay(event, _this.colliderObject3D);
             if (intersect) {
               _this.model.setSelectedObject(intersect.object);
@@ -272,13 +275,16 @@ export class Sphape {
     geometry.computeBoundingBox();
     const center = geometry.boundingBox.getCenter();
     const positions = geometry.attributes.position.array;
-    for(let i = 0 ; i< positions.length;i+=3){
+    for (let i = 0; i < positions.length; i += 3) {
       positions[i] -= center.x;
-      positions[i+1] -= center.y;
-      positions[i+2] -= center.z;
+      positions[i + 1] -= center.y;
+      positions[i + 2] -= center.z;
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute( positions, 3 ));
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    //If you want the ray intersect the mesh you have to remove this boudingbox
+    //geometry.boundingBox = null;
 
     if (this.mesh) points[0].parent.remove(this.mesh);
     this.mesh = new THREE.Mesh(geometry, this.material);
