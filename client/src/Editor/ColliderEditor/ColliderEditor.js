@@ -163,8 +163,10 @@ export class ColliderEditorView {
         _this.setOrbitsControl(true);
       }
       if (event.code == 'KeyQ') {
-        const shape = _this.model.getCurrentShape();
-        if (!shape) return;
+        const getShape = function () {
+          return _this.model.getCurrentShape();
+        };
+        if (!getShape()) return;
 
         const mode = !editor.orbitControls.enabled;
         _this.setOrbitsControl(mode);
@@ -180,13 +182,13 @@ export class ColliderEditorView {
               sphere.position.set(pos.x, pos.y, pos.z);
               _this.model.getCurrentShape().getObject3D().add(sphere);
               sphere.updateMatrixWorld();
-              shape.addPoint(sphere);
+              getShape().addPoint(sphere);
             }
           };
         } else {
           canvas.onpointerup = function (event) {
             if (transformControls.dragging) {
-              shape.updateMesh();
+              getShape().updateMesh();
               return;
             }
             const intersect = throwRay(event, _this.colliderObject3D);
@@ -231,6 +233,9 @@ export class ColliderEditorModel {
 
   setSelectedObject(object) {
     this.selectedObject = object;
+    if (object && object.parent.shape) {
+      this.setCurrentShape(object.parent.shape);
+    }
   }
 
   getCurrentShape() {
@@ -251,6 +256,7 @@ export class Sphape {
 
     this.shapeObject = new THREE.Object3D();
     this.shapeObject.name = 'ShapeObject3D';
+    this.shapeObject.shape = this;
     parent.add(this.shapeObject);
 
     this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
