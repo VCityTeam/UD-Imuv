@@ -213,7 +213,7 @@ export class MenuAuthView {
 
       SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
         function (config) {
-          _this.editor = new EditorView(config);
+          _this.editor = new EditorView(_this.webSocketService, config);
           _this.editor.load().then(function () {
             loadingView.remove();
             document.body.appendChild(_this.editor.html());

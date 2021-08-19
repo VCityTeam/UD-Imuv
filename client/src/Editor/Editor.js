@@ -5,10 +5,13 @@ import { Game, THREE, OrbitControls, TransformControls } from 'ud-viz';
 import { GameView } from 'ud-viz/src/Views/GameView/GameView';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 
 export class EditorView {
-  constructor(config) {
+  constructor(webSocketService, config) {
     this.config = config;
+
+    this.webSocketService = webSocketService;
 
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Editor');
@@ -20,6 +23,7 @@ export class EditorView {
 
     //html
     this.worldsList = null;
+    this.saveWorldsButton = null;
 
     //assets
     this.assetsManager = new Game.Components.AssetsManager();
@@ -47,10 +51,23 @@ export class EditorView {
     worldsList.classList.add('ul_Editor');
     this.ui.appendChild(worldsList);
     this.worldsList = worldsList;
+
+    this.saveWorldsButton = document.createElement('div');
+    this.saveWorldsButton.classList.add('button_Editor');
+    this.saveWorldsButton.innerHTML = 'Save Worlds';
+    this.ui.appendChild(this.saveWorldsButton);
   }
 
   initCallbacks() {
-    //const _this = this;
+    const _this = this;
+
+    this.saveWorldsButton.onclick = function () {
+      console.log('Save worlds');
+      _this.webSocketService.emit(
+        Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+        _this.assetsManager.getWorldsJSON()
+      );
+    };
   }
 
   updateUI() {

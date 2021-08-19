@@ -1,5 +1,5 @@
 /**
- * Handle a UDV Server
+ * udviz game server
  *
  * @format
  */
@@ -246,10 +246,16 @@ const ServerModule = class Server {
             );
           });
 
-          socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'account created');
+          socket.emit(
+            Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+            'account created'
+          );
         })
         .catch((error) => {
-          socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
+          socket.emit(
+            Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+            error.message
+          );
         });
     });
 
@@ -322,16 +328,22 @@ const ServerModule = class Server {
               );
 
               //wait for client to be ready
-              socket.on(Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
-                _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
-              });
+              socket.on(
+                Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED,
+                function () {
+                  _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
+                }
+              );
 
-              socket.on(Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
-                socket.emit(
-                  Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
-                  new GameObject(u.getAvatarJSON()).toJSON() //to filter only component local
-                );
-              });
+              socket.on(
+                Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO,
+                function () {
+                  socket.emit(
+                    Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR_GO,
+                    new GameObject(u.getAvatarJSON()).toJSON() //to filter only component local
+                  );
+                }
+              );
 
               socket.on(
                 Constants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR_GO,
@@ -391,7 +403,10 @@ const ServerModule = class Server {
                   }
 
                   //alert client
-                  socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Save !');
+                  socket.emit(
+                    Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+                    'Save !'
+                  );
                 }
               );
 
@@ -415,7 +430,10 @@ const ServerModule = class Server {
           }
         })
         .catch((error) => {
-          socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, error.message);
+          socket.emit(
+            Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+            error.message
+          );
         });
     });
 
@@ -453,7 +471,11 @@ const ServerModule = class Server {
       _this.currentUsers[u.getUUID()] = u;
 
       //inform client that he is connected and ready to game
-      socket.emit(Constants.WEBSOCKET.MSG_TYPES.SIGNED, extraData.initialized, true);
+      socket.emit(
+        Constants.WEBSOCKET.MSG_TYPES.SIGNED,
+        extraData.initialized,
+        true
+      );
 
       //wait for client to be ready
       socket.on(Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
@@ -482,6 +504,10 @@ const ServerModule = class Server {
         if (thread)
           thread.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, u.getAvatarID());
       });
+    });
+
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
+      console.log(data);
     });
   }
 };

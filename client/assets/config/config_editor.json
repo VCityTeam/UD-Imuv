@@ -80,20 +80,8 @@
       }
     },
     "prefabs": {
-      "room_expo": {
-        "path": "./assets/prefabs/Room Expo Map.json"
-      },
-      "flying_campus": {
-        "path": "./assets/prefabs/Flying Campus Map.json"
-      },
-      "portal": {
-        "path": "./assets/prefabs/Portal.json"
-      },
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
-      },
-      "room_conf_modulable": {
-        "path": "./assets/prefabs/Room_Conf_Modulable.json"
       }
     },
     "worlds": {
