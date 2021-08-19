@@ -3,7 +3,7 @@
 import './Editor.css';
 import { Game, THREE, OrbitControls, TransformControls } from 'ud-viz';
 import { GameView } from 'ud-viz/src/Views/GameView/GameView';
-import { Shared } from 'ud-viz/src/Game/Shared/Shared';
+import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
 
 export class EditorView {
@@ -108,6 +108,7 @@ export class EditorView {
     const viewerDiv = this.currentGameView.rootItownsHtml;
 
     this.transformControls = new TransformControls(camera, viewerDiv);
+    scene.add(this.transformControls);
 
     const _this = this;
 
@@ -172,7 +173,7 @@ export class EditorView {
           if (current) {
             _this.transformControls.attach(current);
             _this.transformControls.updateMatrixWorld();
-            scene.add(_this.transformControls);
+
             console.log('attach to ', current.name);
           }
         }

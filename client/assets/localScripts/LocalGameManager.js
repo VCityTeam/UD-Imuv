@@ -24,7 +24,6 @@ module.exports = class LocalGameManager {
   }
 
   init() {
-    debugger;
     const localCtx = arguments[1];
 
     //init obstacle
