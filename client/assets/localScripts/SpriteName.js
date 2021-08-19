@@ -1,11 +1,14 @@
 /** @format */
 
-let Shared;
+let Shared = null;
+let udviz = null;
 
 module.exports = class SpriteName {
-  constructor(config, SharedModule) {
+  constructor(config, udvizBundle) {
     this.config = config;
-    Shared = SharedModule;
+
+    udviz = udvizBundle;
+    Shared = udviz.Game.Shared;
 
     //THREE.Object3D
     this.sprite = null;

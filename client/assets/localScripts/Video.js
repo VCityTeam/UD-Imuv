@@ -1,12 +1,14 @@
 /** @format */
 
 let Shared = null;
+let udviz = null;
 
 module.exports = class Video {
-  constructor(conf, SharedModule) {
+  constructor(conf, udvizBundle) {
     this.conf = conf;
 
-    Shared = SharedModule;
+    udviz = udvizBundle;
+    Shared = udviz.Game.Shared;
 
     this.video = null;
     this.videoImageContext = null;

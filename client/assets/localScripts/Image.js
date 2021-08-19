@@ -1,11 +1,13 @@
 /** @format */
 
 let Shared = null;
+let udviz = null;
 
 module.exports = class Image {
-  constructor(conf, SharedModule) {
+  constructor(conf, udvizBundle) {
     this.conf = conf;
-    Shared = SharedModule;
+    udviz = udvizBundle;
+    Shared = udviz.Game.Shared;
   }
 
   init() {

@@ -2,9 +2,9 @@
 
 import './Editor.css';
 import { Game, THREE, OrbitControls, TransformControls } from 'ud-viz';
-import { GameView } from 'ud-viz/src/View/GameView/GameView';
+import { GameView } from 'ud-viz/src/Views/GameView/GameView';
 import { Shared } from 'ud-viz/src/Game/Shared/Shared';
-import udviz from 'ud-viz';
+import * as udviz from 'ud-viz';
 
 export class EditorView {
   constructor(config) {
