@@ -507,7 +507,18 @@ const ServerModule = class Server {
     });
 
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
-      console.log(data);
+      //write on disks new worlds
+      fs.writeFile(
+        '../client/assets/worlds/worlds.json',
+        JSON.stringify(data) + 'tets',
+        {
+          encoding: 'utf8',
+          flag: 'w',
+          mode: 0o666,
+        },
+        function () {}
+      );
+      //reload worlds
     });
   }
 };
