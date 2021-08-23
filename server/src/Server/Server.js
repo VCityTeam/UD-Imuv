@@ -509,8 +509,8 @@ const ServerModule = class Server {
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
       //write on disks new worlds
       fs.writeFile(
-        '../client/assets/worlds/worlds.json',
-        JSON.stringify(data) + 'tets',
+        _this.config.worldsPath,
+        JSON.stringify(data),
         {
           encoding: 'utf8',
           flag: 'w',

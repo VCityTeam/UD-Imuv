@@ -28,5 +28,6 @@
     "script": "./assets/scripts/thread.js"
   },
   "port": 8000,
-  "folder": "../client/"
+  "folder": "../client/",
+  "worldsPath": "../client/assets/worlds/worlds.json"
 }
