@@ -2,10 +2,11 @@
 
 import './WorldEditor.css';
 import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
+import { TransformEditorView } from '../TransformEditor/TransformEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
 import { GameView } from 'ud-viz/src/Views/Views';
-import { THREE, OrbitControls, TransformControls } from 'ud-viz';
+import { THREE, OrbitControls } from 'ud-viz';
 
 export class WorldEditorView {
   constructor(params) {
@@ -49,12 +50,12 @@ export class WorldEditorView {
 
     //controls
     this.orbitControls = null;
-    this.transformControls = null;
+
+    this.childrenViews = [];
 
     this.initUI();
     this.initCallbacks();
     this.initOrbitControls();
-    this.initTransformControls();
   }
 
   getGameView() {
@@ -65,7 +66,10 @@ export class WorldEditorView {
     this.gameView.dispose();
     this.ui.remove();
     this.orbitControls.dispose();
-    this.transformControls.dispose();
+
+    this.childrenViews.forEach(function (v) {
+      v.dispose();
+    });
   }
 
   initUI() {
@@ -113,100 +117,44 @@ export class WorldEditorView {
   initCallbacks() {
     const _this = this;
 
-    _this.colliderButton.onclick = function () {
+    this.colliderButton.onclick = function () {
       const CEV = new ColliderEditorView(_this);
       CEV.setOnClose(function () {
         CEV.dispose();
-        // _this.rootHtml.appendChild(_this.ui);
+
+        const index = _this.childrenViews.indexOf(CEV);
+        _this.childrenViews.splice(index, 1);
       });
+
+      _this.childrenViews.push(CEV);
+    };
+
+    this.transformButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof TransformEditorView) return;
+      }
+
+      const tV = new TransformEditorView({
+        parentUIHtml: _this.ui.parentElement,
+        gameView: _this.gameView,
+        orbitControls: _this.orbitControls,
+      });
+
+      tV.setOnClose(function () {
+        tV.dispose();
+
+        const index = _this.childrenViews.indexOf(tV);
+        _this.childrenViews.splice(index, 1);
+      });
+
+      _this.childrenViews.push(tV);
     };
   }
 
   setOnClose(f) {
     this.closeButton.onclick = f;
-  }
-
-  initTransformControls() {
-    if (this.transformControls) this.transformControls.dispose();
-
-    const camera = this.gameView.getItownsView().camera.camera3D;
-    const scene = this.gameView.getItownsView().scene;
-    const manager = this.gameView.getInputManager();
-    const viewerDiv = this.gameView.rootItownsHtml;
-
-    this.transformControls = new TransformControls(camera, viewerDiv);
-    scene.add(this.transformControls);
-
-    const _this = this;
-
-    //cant handle this callback with our input manager
-    this.transformControls.addEventListener(
-      'dragging-changed',
-      function (event) {
-        _this.orbitControls.enabled = !event.value;
-        // console.log('orbit enabled ', !event.value);
-      }
-    );
-
-    //CALLBACKS
-    manager.addKeyInput('Escape', 'keydown', function () {
-      _this.transformControls.detach();
-    });
-
-    manager.addMouseInput(viewerDiv, 'pointerdown', function (event) {
-      if (_this.transformControls.object) return; //already assign to an object
-
-      //1. sets the mouse position with a coordinate system where the center
-      //   of the screen is the origin
-      const mouse = new THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
-        1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
-      );
-
-      //2. set the picking ray from the camera position and mouse coordinates
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouse, camera);
-
-      //3. compute intersections
-      //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
-      const intersects = raycaster.intersectObject(
-        _this.gameView.getObject3D(),
-        true
-      );
-
-      if (intersects.length) {
-        let minDist = Infinity;
-        let info = null;
-
-        intersects.forEach(function (i) {
-          if (i.distance < minDist) {
-            info = i;
-            minDist = i.distance;
-          }
-        });
-
-        if (info) {
-          const objectClicked = info.object;
-          let current = objectClicked;
-          while (!current.userData.gameObjectUUID) {
-            if (!current.parent) {
-              console.warn('didnt find gameobject uuid');
-              current = null;
-              break;
-            }
-            current = current.parent;
-          }
-
-          if (current) {
-            _this.transformControls.attach(current);
-            _this.transformControls.updateMatrixWorld();
-
-            console.log('attach to ', current.name);
-          }
-        }
-      }
-    });
   }
 
   initOrbitControls() {
@@ -219,8 +167,6 @@ export class WorldEditorView {
     );
 
     this.orbitControls.target.copy(this.gameView.getExtent().center());
-    // this.orbitControls.rotateSpeed = 0.5;
-    // this.orbitControls.zoomSpeed = 0.1;
     this.orbitControls.update();
   }
 }
