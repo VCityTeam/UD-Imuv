@@ -69,7 +69,7 @@ export class EditorView {
   }
 
   saveCurrentWorld() {
-    if (!this.currentWorldView.getGameView()) return;
+    if (!this.currentWorldView) return;
 
     //world loaded
     const world = this.currentWorldView
@@ -91,7 +91,7 @@ export class EditorView {
     const worldsJSON = this.assetsManager.getWorldsJSON();
     for (let index = 0; index < worldsJSON.length; index++) {
       const json = worldsJSON[index];
-      if ((json.uuid = world.getUUID())) {
+      if (json.uuid == world.getUUID()) {
         //found
         worldsJSON[index] = world.toJSON(); // update with new content
         break;
