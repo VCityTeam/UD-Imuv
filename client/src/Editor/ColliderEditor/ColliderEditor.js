@@ -4,25 +4,23 @@ import { THREE } from 'ud-viz/src/Game/Shared/Shared';
 import { ConvexGeometry } from 'ud-viz/node_modules/three/examples/jsm/geometries/ConvexGeometry';
 
 export class ColliderEditorView {
-  constructor(parentWEV) {
-    this.parentWEV = parentWEV;
-
-    this.editor = parentWEV.parentEV;
-
+  constructor(params) {
     this.model = new ColliderEditorModel();
 
     //raycaster
     this.raycaster = new THREE.Raycaster();
 
-    this.rootHtml = this.parentWEV.rootHtml;
+    //this.rootHtml = this.parentWEV.rootHtml;
+    this.rootHtml = params.parentUIHtml;
 
-    this.canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
+    this.gameView = params.gameView;
+
+    // this.canvas = this.parentWEV.parentEV.currentGameView.rootItownsHtml;
+    this.canvas = this.gameView.rootItownsHtml;
 
     this.colliderObject3D = new THREE.Object3D();
     this.colliderObject3D.name = 'ColliderObject';
-    this.editor.currentGameView
-      .getItownsView()
-      .scene.add(this.colliderObject3D);
+    this.gameView.getItownsView().scene.add(this.colliderObject3D);
 
     //where html goes
     this.ui = document.createElement('div');
@@ -38,6 +36,10 @@ export class ColliderEditorView {
     this.closeButton = null;
     this.newButton = null;
 
+    //controls
+    this.orbitControls = params.parentOC;
+    this.transformControls = params.parentTC;
+
     this.initUI();
     this.initCallbacks();
   }
@@ -47,8 +49,9 @@ export class ColliderEditorView {
   }
 
   disposeCallbacks() {
-    this.setOrbitsControl(true);
+    this.setOrbitControls(true);
     window.onkeydown = null;
+    this.canvas.onpointerup = null;
   }
 
   dispose() {
@@ -56,8 +59,8 @@ export class ColliderEditorView {
     this.disposeCallbacks();
   }
 
-  setOrbitsControl(value) {
-    this.editor.orbitControls.enabled = value;
+  setOrbitControls(value) {
+    this.orbitControls.enabled = value;
   }
 
   updateUI() {
@@ -67,7 +70,7 @@ export class ColliderEditorView {
     this.uiCurrentShape.innerHTML =
       'Current Shape : ' + this.model.getCurrentShape();
 
-    if (this.editor.orbitControls.enabled) {
+    if (this.orbitControls.enabled) {
       this.uiMode.innerHTML = 'Mode : OrbitsControl';
     } else {
       this.uiMode.innerHTML = 'Mode : AddPoints';
@@ -75,12 +78,6 @@ export class ColliderEditorView {
   }
 
   initUI() {
-    const labelColliderTool = document.createElement('p');
-    labelColliderTool.innerHTML =
-      'Collider Tool <br>' + this.parentWEV.labelCurrentWorld.innerHTML;
-    this.ui.appendChild(labelColliderTool);
-    this.labelColliderTool = labelColliderTool;
-
     const closeButton = document.createElement('button');
     closeButton.innerHTML = 'Close';
     this.ui.appendChild(closeButton);
@@ -114,9 +111,10 @@ export class ColliderEditorView {
 
   initCallbacks() {
     const _this = this;
-    const currentGameView = _this.editor.currentGameView;
+    const currentGameView = _this.gameView;
     const canvas = _this.canvas;
-    const transformControls = _this.editor.transformControls;
+    const transformControls =
+      this.transformControls;
 
     const throwRay = function (event, object3D) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
@@ -151,8 +149,6 @@ export class ColliderEditorView {
       transformControls.updateMatrixWorld();
       currentGameView.getItownsView().scene.add(transformControls);
     };
-
-    const editor = _this.editor;
     window.onkeydown = function (event) {
       if (event.defaultPrevented) return;
       if (event.code == 'Enter' || event.code == 'NumpadEnter') {
@@ -160,7 +156,7 @@ export class ColliderEditorView {
         console.log('Confirm Shape', _this.model.getCurrentShape());
         _this.model.addCurrentShape();
         canvas.onpointerup = null;
-        _this.setOrbitsControl(true);
+        _this.setOrbitControls(true);
       }
       if (event.code == 'KeyQ') {
         const getShape = function () {
@@ -168,8 +164,8 @@ export class ColliderEditorView {
         };
         if (!getShape()) return;
 
-        const mode = !editor.orbitControls.enabled;
-        _this.setOrbitsControl(mode);
+        const mode = !_this.orbitControls.enabled;
+        _this.setOrbitControls(mode);
         if (!mode) {
           canvas.onpointerup = function (event) {
             if (event.button != 0) return;

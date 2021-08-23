@@ -114,9 +114,14 @@ export class WorldEditorView {
     const _this = this;
 
     _this.colliderButton.onclick = function () {
-      const CEV = new ColliderEditorView(_this);
-      CEV.setOnClose(function () {
-        CEV.dispose();
+      const cev = new ColliderEditorView({
+        parentUIHtml: _this.ui,
+        gameView: _this.gameView,
+        parentOC: _this.orbitControls,
+        parentTC: _this.transformControls,
+      });
+      cev.setOnClose(function () {
+        cev.dispose();
         // _this.rootHtml.appendChild(_this.ui);
       });
     };
