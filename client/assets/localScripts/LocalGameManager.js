@@ -1,13 +1,15 @@
 /** @format */
 
 //dynamics modules
+let udviz = null;
 let Shared = null;
 
 module.exports = class LocalGameManager {
-  constructor(conf, SharedModule) {
+  constructor(conf, udvizBundle) {
     this.conf = conf;
 
-    Shared = SharedModule;
+    udviz = udvizBundle;
+    Shared = udviz.Game.Shared;
 
     this.obstacle = new Shared.THREE.Object3D();
     this.obstacle.name = 'LocalGameManager_Obstacle';

@@ -7,13 +7,11 @@
 const workerThreads = require('worker_threads');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
-
-const WorldContext = require('ud-viz/src/Game/Shared/WorldContext');
-const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Pack = udvShared.Components.Pack;
-const Command = udvShared.Command;
-const GameObject = udvShared.GameObject;
-const World = udvShared.World;
+const Shared = require('ud-viz/src/Game/Shared/Shared');
+const Pack = Shared.Components.Pack;
+const Command = Shared.Command;
+const GameObject = Shared.GameObject;
+const World = Shared.World;
 
 const AssetsManagerServer = require('./AssetsManagerServer');
 
@@ -71,149 +69,119 @@ WorldThreadModule.routine = function (serverConfig) {
   }
 
   const parentPort = workerThreads.parentPort;
-
-  const worldContext = new WorldContext({
-    assetsManager: new AssetsManagerServer(),
-    Shared: udvShared,
-  });
+  const assetsManager = new AssetsManagerServer();
 
   //load scripts
-  worldContext
-    .getAssetsManager()
-    .loadFromConfig(serverConfig.assetsManager)
-    .then(function () {
-      //Variables
-      let lastTimeTick = 0;
+  assetsManager.loadFromConfig(serverConfig.assetsManager).then(function () {
+    const worldStateComputer = new Shared.WorldStateComputer(
+      assetsManager,
+      serverConfig.thread.fps,
+      { Shared: Shared }
+    );
 
-      //Callbacks
-      const onInit = function (worldJSON) {
-        worldContext.setWorld(
-          new World(worldJSON, {
+    //listening parentPort
+    parentPort.on('message', (msgPacked) => {
+      const msg = Pack.unpack(msgPacked);
+      switch (msg.msgType) {
+        case WorldThreadModule.MSG_TYPES.INIT:
+          //create a server world
+          const world = new World(msg.data, {
             isServerSide: true,
             modules: { gm: gm, PNG: PNG },
-          })
-        );
-
-        worldContext.getWorld().load(function () {
-          //world event
-          worldContext.getWorld().on('portalEvent', function (args) {
-            const avatarGO = args[0];
-            const uuidDest = args[1];
-            const portalUUID = args[2];
-
-            const dataPortalEvent = {
-              avatarUUID: avatarGO.getUUID(),
-              worldUUID: uuidDest,
-              portalUUID: portalUUID,
-            };
-
-            const message = {
-              msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
-              data: dataPortalEvent,
-            };
-            parentPort.postMessage(Pack.pack(message));
           });
 
-          //loop
-          const tick = function () {
-            const now = Date.now();
-            if (!lastTimeTick) {
-              worldContext.setDt(0);
-            } else {
-              worldContext.setDt(now - lastTimeTick);
-            }
-            lastTimeTick = now;
+          worldStateComputer.onInit(world);
 
-            worldContext.getWorld().tick(worldContext); //tick with user commands
-            worldContext.getCommands().length = 0; //clear commands
-
-            const currentState = worldContext.getWorld().computeWorldState();
-
+          worldStateComputer.setOnAfterTick(function () {
+            const currentState = worldStateComputer.computeCurrentState();
             //post worldstate to main thread
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
               data: currentState.toJSON(),
             };
             parentPort.postMessage(Pack.pack(message));
-          };
+          });
 
-          const fps = serverConfig.thread.fps;
-          if (!fps) throw new Error('no fps');
-          setInterval(tick, 1000 / fps);
-        }, worldContext);
-      };
+          //world events
+          worldStateComputer
+            .getWorldContext()
+            .getWorld()
+            .on('portalEvent', function (args) {
+              const avatarGO = args[0];
+              const uuidDest = args[1];
+              const portalUUID = args[2];
 
-      const onCommands = function (cmdsJSON) {
-        cmdsJSON.forEach(function (cmdJSON) {
-          worldContext.getCommands().push(new Command(cmdJSON));
-        });
-      };
+              const dataPortalEvent = {
+                avatarUUID: avatarGO.getUUID(),
+                worldUUID: uuidDest,
+                portalUUID: portalUUID,
+              };
 
-      const onAddGameObject = function (data) {
-        const goJson = data.gameObject;
-        const portalUUID = data.portalUUID;
-        const transformJSON = data.transform;
-        const newGO = new GameObject(goJson);
+              const message = {
+                msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
+                data: dataPortalEvent,
+              };
+              parentPort.postMessage(Pack.pack(message));
+            });
+          break;
+        case WorldThreadModule.MSG_TYPES.COMMANDS:
+          //create js object from json
+          const cmds = [];
+          msg.data.forEach(function (c) {
+            cmds.push(new Command(c));
+          });
 
-        worldContext
-          .getWorld()
-          .addGameObject(
-            newGO,
-            worldContext,
-            worldContext.getWorld().getGameObject(),
-            function () {
-              if (portalUUID) {
-                const portal = worldContext
-                  .getWorld()
-                  .getGameObject()
-                  .find(portalUUID);
-                portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
-                worldContext.getWorld().updateCollisionBuffer();
-              } else if (transformJSON) {
-                newGO.setFromTransformJSON(transformJSON);
-                worldContext.getWorld().updateCollisionBuffer();
-              }
+          //pass to the computer
+          worldStateComputer.onCommands(cmds);
+          break;
+        case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT:
+          const goJson = msg.data.gameObject;
+          const portalUUID = msg.data.portalUUID;
+          const transformJSON = msg.data.transform;
+          const newGO = new GameObject(goJson);
+
+          worldStateComputer.onAddGameObject(newGO, function () {
+            if (portalUUID) {
+              const portal = worldStateComputer
+                .getWorldContext()
+                .getWorld()
+                .getGameObject()
+                .find(portalUUID);
+              portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
+              worldStateComputer
+                .getWorldContext()
+                .getWorld()
+                .updateCollisionBuffer();
+            } else if (transformJSON) {
+              newGO.setFromTransformJSON(transformJSON);
+              worldStateComputer
+                .getWorldContext()
+                .getWorld()
+                .updateCollisionBuffer();
             }
-          );
-      };
+          });
 
-      const onRemoveGameObject = function (uuid) {
-        worldContext.getWorld().removeGameObject(uuid);
-      };
-
-      const onQueryGameObject = function (uuid) {
-        const go = worldContext.getWorld().getGameObject().find(uuid);
-        const message = {
-          msgType: WorldThreadModule.MSG_TYPES.GAMEOBJECT_RESPONSE,
-          data: go.toJSON(true),
-        };
-        parentPort.postMessage(Pack.pack(message));
-      };
-
-      //listening parentPort
-      parentPort.on('message', (msgPacked) => {
-        const msg = Pack.unpack(msgPacked);
-        switch (msg.msgType) {
-          case WorldThreadModule.MSG_TYPES.INIT:
-            onInit(msg.data);
-            break;
-          case WorldThreadModule.MSG_TYPES.COMMANDS:
-            onCommands(msg.data);
-            break;
-          case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT:
-            onAddGameObject(msg.data);
-            break;
-          case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
-            onRemoveGameObject(msg.data);
-            break;
-          case WorldThreadModule.MSG_TYPES.QUERY_GAMEOBJECT:
-            onQueryGameObject(msg.data);
-            break;
-          default:
-            console.log('default msg ', msg.data);
-        }
-      });
+          break;
+        case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
+          worldStateComputer.onRemoveGameObject(msg.data);
+          break;
+        case WorldThreadModule.MSG_TYPES.QUERY_GAMEOBJECT:
+          const go = worldStateComputer
+            .getWorldContext()
+            .getWorld()
+            .getGameObject()
+            .find(msg.data);
+          const message = {
+            msgType: WorldThreadModule.MSG_TYPES.GAMEOBJECT_RESPONSE,
+            data: go.toJSON(true),
+          };
+          parentPort.postMessage(Pack.pack(message));
+          break;
+        default:
+          console.log('default msg ', msg.data);
+      }
     });
+  });
 };
 
 module.exports = WorldThreadModule;

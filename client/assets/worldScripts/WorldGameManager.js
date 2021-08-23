@@ -19,18 +19,9 @@ module.exports = class WorldGameManager {
     }
   }
 
-  load() {
-    const _this = this;
-    return new Promise((resolve, reject) => {
-      const go = arguments[0];
-      const gCtx = arguments[1];
-
-      const map = gCtx.assetsManager.createPrefab(_this.conf.mapPrefabId);
-      gCtx.world.addGameObject(map, gCtx, go, function () {
-        _this.map = map;
-        resolve();
-      });
-    });
+  init() {
+    const go = arguments[0];
+    this.map = go.find(this.conf.mapUUID);
   }
 
   getMap() {

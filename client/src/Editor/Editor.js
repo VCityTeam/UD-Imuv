@@ -2,13 +2,17 @@
 
 import './Editor.css';
 import { Game, THREE, OrbitControls, TransformControls } from 'ud-viz';
-import { GameView } from 'ud-viz/src/View/GameView/GameView';
-import { LocalComputer } from 'ud-viz/src/Game/Components/StateComputer/LocalComputer';
+import { GameView } from 'ud-viz/src/Views/GameView/GameView';
+import Shared from 'ud-viz/src/Game/Shared/Shared';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
+import * as udviz from 'ud-viz';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 
 export class EditorView {
-  constructor(config) {
+  constructor(webSocketService, config) {
     this.config = config;
+
+    this.webSocketService = webSocketService;
 
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Editor');
@@ -20,6 +24,7 @@ export class EditorView {
 
     //html
     this.worldsList = null;
+    this.saveWorldsButton = null;
 
     //assets
     this.assetsManager = new Game.Components.AssetsManager();
@@ -41,20 +46,28 @@ export class EditorView {
     if (this.transformControls) this.transformControls.dispose();
     if (this.currentGameView) this.currentGameView.dispose();
   }
-
-  disposeUI() {
-    this.ui.remove();
-  }
-
   initUI() {
     const worldsList = document.createElement('ul');
     worldsList.classList.add('ul_Editor');
     this.ui.appendChild(worldsList);
     this.worldsList = worldsList;
+
+    this.saveWorldsButton = document.createElement('div');
+    this.saveWorldsButton.classList.add('button_Editor');
+    this.saveWorldsButton.innerHTML = 'Save Worlds';
+    this.ui.appendChild(this.saveWorldsButton);
   }
 
   initCallbacks() {
-    //    const _this = this;
+    const _this = this;
+
+    this.saveWorldsButton.onclick = function () {
+      console.log('Save worlds');
+      _this.webSocketService.emit(
+        Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+        _this.assetsManager.getWorldsJSON()
+      );
+    };
   }
 
   updateUI() {
@@ -70,17 +83,7 @@ export class EditorView {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
       li.innerHTML = w.name;
-      li.onclick = function () {
-        _this.onWorldJSON.call(_this, w);
-        _this.disposeUI();
-        const WE = new WorldEditorView(_this, _this.config);
-
-        WE.setOnClose(function () {
-          WE.disposeUI();
-          _this.rootHtml.appendChild(_this.ui);
-          _this.currentGameView.dispose();
-        });
-      };
+      li.onclick = _this.onWorldJSON.bind(_this, w);
       list.appendChild(li);
     });
   }
@@ -89,19 +92,19 @@ export class EditorView {
     if (this.currentGameView) {
       this.currentGameView.dispose();
     }
-  
+
     this.model.onWorldJSON(json);
 
     this.currentGameView = new GameView({
       htmlParent: this.rootHtml,
       assetsManager: this.assetsManager,
-      stateComputer: this.model.getLocalComputer(),
+      stateComputer: this.model.getWorldStateComputer(),
       config: this.config,
       firstGameView: false,
     });
 
     this.currentGameView.onFirstState(
-      this.model.getLocalComputer().computeCurrentState(),
+      this.model.getWorldStateComputer().computeCurrentState(),
       null
     );
 
@@ -118,17 +121,82 @@ export class EditorView {
     if (this.transformControls) this.transformControls.dispose();
 
     const camera = this.currentGameView.getItownsView().camera.camera3D;
+    const scene = this.currentGameView.getItownsView().scene;
+    const manager = this.currentGameView.getInputManager();
     const viewerDiv = this.currentGameView.rootItownsHtml;
 
     this.transformControls = new TransformControls(camera, viewerDiv);
+    scene.add(this.transformControls);
+
     const _this = this;
 
     this.transformControls.addEventListener(
       'dragging-changed',
       function (event) {
         _this.orbitControls.enabled = !event.value;
+        // console.log('orbit enabled ', !event.value);
       }
     );
+
+    //CALLBACKS
+    manager.addKeyInput('Escape', 'keydown', function () {
+      _this.transformControls.detach();
+    });
+
+    manager.addMouseInput(viewerDiv, 'pointerdown', function (event) {
+      if (_this.transformControls.object) return; //already assign to an object
+
+      //1. sets the mouse position with a coordinate system where the center
+      //   of the screen is the origin
+      const mouse = new THREE.Vector2(
+        -1 +
+          (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
+        1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
+      );
+
+      //2. set the picking ray from the camera position and mouse coordinates
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+
+      //3. compute intersections
+      //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
+      const intersects = raycaster.intersectObject(
+        _this.currentGameView.getObject3D(),
+        true
+      );
+
+      if (intersects.length) {
+        let minDist = Infinity;
+        let info = null;
+
+        intersects.forEach(function (i) {
+          if (i.distance < minDist) {
+            info = i;
+            minDist = i.distance;
+          }
+        });
+
+        if (info) {
+          const objectClicked = info.object;
+          let current = objectClicked;
+          while (!current.userData.gameObjectUUID) {
+            if (!current.parent) {
+              console.warn('didnt find gameobject uuid');
+              current = null;
+              break;
+            }
+            current = current.parent;
+          }
+
+          if (current) {
+            _this.transformControls.attach(current);
+            _this.transformControls.updateMatrixWorld();
+
+            console.log('attach to ', current.name);
+          }
+        }
+      }
+    });
   }
 
   initOrbitControls() {
@@ -140,17 +208,10 @@ export class EditorView {
       this.currentGameView.rootItownsHtml
     );
 
-    this.orbitControls.target.copy(this.currentGameView.getObject3D().position);
+    this.orbitControls.target.copy(this.currentGameView.getExtent().center());
     this.orbitControls.rotateSpeed = 0.5;
-    this.orbitControls.zoomSpeed = 0.5;
+    this.orbitControls.zoomSpeed = 0.1;
     this.orbitControls.update();
-
-    const geometry = new THREE.SphereGeometry(5, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xff00c8 });
-    const sphere = new THREE.Mesh(geometry, material);
-    sphere.position.copy(this.orbitControls.target);
-    this.currentGameView.getItownsView().scene.add(sphere);
-    sphere.updateMatrix();
   }
 
   load() {
@@ -178,25 +239,21 @@ export class EditorView {
 
 class EditorModel {
   constructor(assetsManager) {
-    this.localComputer = null;
-    this.assetsManager = assetsManager;
+    this.worldStateComputer = new Shared.WorldStateComputer(assetsManager, 30, {
+      udviz: udviz,
+      Shared: Shared,
+    });
   }
 
   onWorldJSON(json) {
-    //init localcomputer
-    this.localComputer = new LocalComputer(
-      new Game.Shared.World(json),
-      this.assetsManager
-    );
-
-    this.localComputer.load();
-  }
-
-  getLocalComputer() {
-    return this.localComputer;
+    this.worldStateComputer.onInit(new Shared.World(json));
   }
 
   getCurrentWorld() {
-    return this.localComputer.worldContext.world;
+    return this.worldStateComputer.getWorldContext().getWorld();
+  }
+
+  getWorldStateComputer() {
+    return this.worldStateComputer;
   }
 }

@@ -18,6 +18,8 @@ export class WorldEditorView {
     this.ui.classList.add('ui_WorldEditor');
     this.rootHtml.appendChild(this.ui);
 
+    this.gameView = null ;
+
     this.closeButton = null;
 
     this.toolsButtons = document.createElement('ul');
@@ -34,9 +36,6 @@ export class WorldEditorView {
     this.initCallbacks();
   }
 
-  disposeUI() {
-    this.ui.remove();
-  }
 
   initUI() {
     const labelCurrentWorld = document.createElement('p');
@@ -79,18 +78,7 @@ export class WorldEditorView {
   initCallbacks() {
     const _this = this;
 
-    _this.transformButton.onclick = function () {
-      _this.disposeUI();
-
-      const TEV = new TransformEditorView(_this);
-      TEV.setOnClose(function () {
-        TEV.dispose();
-        _this.rootHtml.appendChild(_this.ui);
-      });
-    };
-
     _this.colliderButton.onclick = function () {
-      _this.disposeUI();
 
       const CEV = new ColliderEditorView(_this);
       CEV.setOnClose(function () {
