@@ -35,6 +35,10 @@ const WorldThreadModule = class WorldThread {
     );
   }
 
+  stop() {
+    this.post(WorldThreadModule.MSG_TYPES.STOP, {});
+  }
+
   //parent thread => child thread
   post(msgType, data) {
     this.worker.postMessage(
@@ -61,6 +65,7 @@ WorldThreadModule.MSG_TYPES = {
   AVATAR_PORTAL: 'avatar_portal',
   QUERY_GAMEOBJECT: 'query_gameobject',
   GAMEOBJECT_RESPONSE: 'gameobject_response',
+  STOP: 'stop_thread',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -176,6 +181,9 @@ WorldThreadModule.routine = function (serverConfig) {
             data: go.toJSON(true),
           };
           parentPort.postMessage(Pack.pack(message));
+          break;
+        case WorldThreadModule.MSG_TYPES.STOP:
+          process.exit(0);
           break;
         default:
           console.log('default msg ', msg.data);
