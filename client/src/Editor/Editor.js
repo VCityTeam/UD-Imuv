@@ -24,6 +24,7 @@ export class EditorView {
     //html
     this.worldsList = null;
     this.saveWorldsButton = null;
+    this.saveCurrentWorldButton = null;
 
     //assets
     this.assetsManager = new Game.Components.AssetsManager();
@@ -56,18 +57,58 @@ export class EditorView {
     this.saveWorldsButton.classList.add('button_Editor');
     this.saveWorldsButton.innerHTML = 'Save Worlds';
     this.ui.appendChild(this.saveWorldsButton);
+
+    this.saveCurrentWorldButton = document.createElement('div');
+    this.saveCurrentWorldButton.classList.add('button_Editor');
+    this.saveCurrentWorldButton.innerHTML = 'Save Current World Local';
+    this.ui.appendChild(this.saveCurrentWorldButton);
   }
 
   initCallbacks() {
     const _this = this;
 
     this.saveWorldsButton.onclick = function () {
-      console.log('Save worlds');
+      _this.saveCurrentWorld();
+
       _this.webSocketService.emit(
         Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
         _this.assetsManager.getWorldsJSON()
       );
     };
+
+    this.saveCurrentWorldButton.onclick = this.saveCurrentWorld.bind(this);
+  }
+
+  saveCurrentWorld() {
+    if (!this.currentGameView) return;
+
+    //world loaded
+    const world = this.currentGameView
+      .getStateComputer()
+      .getWorldContext()
+      .getWorld();
+
+    const currentObject3D = this.currentGameView.getObject3D();
+    //update object 3D transform
+    currentObject3D.traverse(function (object) {
+      world.getGameObject().traverse(function (go) {
+        if (go.getUUID() == object.userData.gameObjectUUID) {
+          go.bindTransformFrom(object);
+        }
+      });
+    });
+
+    const worldsJSON = this.assetsManager.getWorldsJSON();
+    for (let index = 0; index < worldsJSON.length; index++) {
+      const json = worldsJSON[index];
+      if ((json.uuid = world.getUUID())) {
+        //found
+        worldsJSON[index] = world.toJSON(); // update with new content
+        break;
+      }
+    }
+
+    this.updateUI();
   }
 
   updateUI() {
@@ -131,6 +172,7 @@ export class EditorView {
 
     const _this = this;
 
+    //cant handle this callback with our input manager
     this.transformControls.addEventListener(
       'dragging-changed',
       function (event) {
