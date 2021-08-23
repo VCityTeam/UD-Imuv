@@ -102,6 +102,8 @@ export class EditorView {
       firstGameView: false,
     });
 
+    this.currentGameView.setUpdateGameObject(false);
+
     this.currentGameView.onFirstState(
       this.model.getWorldStateComputer().computeCurrentState(),
       null
