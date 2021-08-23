@@ -48,7 +48,7 @@ const ServerModule = class Server {
     this.io;
 
     //clients
-    this.currentUsers = {};
+    this.currentUsersInGame = {};
 
     //worlds json
     this.worldsJSON = null;
@@ -58,43 +58,58 @@ const ServerModule = class Server {
 
     //manager
     this.assetsManager = new AssetsManagerServer();
+
+    this.initWorlds();
   }
 
-  initWorlds(worldsJSON) {
+  initWorlds() {
     //instanciate Worlds with config
     const _this = this;
 
-    this.worldsJSON = worldsJSON;
+    //clean
+    for (let key in this.worldToThread) {
+      const thread = this.worldToThread[key];
+      thread.stop();
+      delete this.worldToThread[key];
+    }
 
-    worldsJSON.forEach(function (worldJSON) {
-      //create a worldThread
-      const thread = new WorldThread(_this.config.thread.script);
+    fs.readFile(this.config.worldsPath, 'utf8', (err, data) => {
+      if (err) throw new Error('cant load world ', err);
 
-      //post data to create world
-      thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
+      const worldsJSON = JSON.parse(data);
 
-      //mapping between world and thread
-      _this.worldToThread[worldJSON.uuid] = thread;
+      _this.worldsJSON = worldsJSON;
 
-      //callbacks
+      worldsJSON.forEach(function (worldJSON) {
+        //create a worldThread
+        const thread = new WorldThread(_this.config.thread.script);
 
-      //worldstate
-      thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (data) {
-        const worldstateJSON = data;
-        const users = _this.computeUsers(thread); //compute clients concerned
-        users.forEach(function (user) {
-          if (!worldstateJSON) throw new Error('no worldstateJSON');
-          user.sendWorldState(worldstateJSON);
+        //post data to create world
+        thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
+
+        //mapping between world and thread
+        _this.worldToThread[worldJSON.uuid] = thread;
+
+        //callbacks
+
+        //worldstate
+        thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (data) {
+          const worldstateJSON = data;
+          const users = _this.computeUsers(thread); //compute clients concerned
+          users.forEach(function (user) {
+            if (!worldstateJSON) throw new Error('no worldstateJSON');
+            user.sendWorldState(worldstateJSON);
+          });
         });
-      });
 
-      //avatar portal
-      thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
-        _this.placeAvatarInWorld(
-          data.avatarUUID,
-          data.worldUUID,
-          data.portalUUID
-        );
+        //avatar portal
+        thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
+          _this.placeAvatarInWorld(
+            data.avatarUUID,
+            data.worldUUID,
+            data.portalUUID
+          );
+        });
       });
     });
   }
@@ -102,8 +117,8 @@ const ServerModule = class Server {
   placeAvatarInWorld(avatarUUID, worldUUID, portalUUID) {
     //find user with avatar uuid
     let user = null;
-    for (let id in this.currentUsers) {
-      const u = this.currentUsers[id];
+    for (let id in this.currentUsersInGame) {
+      const u = this.currentUsersInGame[id];
       if (u.getAvatarID() == avatarUUID) {
         user = u;
         break;
@@ -115,7 +130,7 @@ const ServerModule = class Server {
         'no user with avatar id ',
         avatarUUID,
         ' in ',
-        this.currentUsers
+        this.currentUsersInGame
       );
 
     const thread = this.worldToThread[worldUUID];
@@ -149,8 +164,8 @@ const ServerModule = class Server {
 
   computeUsers(thread) {
     let result = [];
-    for (let idUser in this.currentUsers) {
-      const u = this.currentUsers[idUser];
+    for (let idUser in this.currentUsersInGame) {
+      const u = this.currentUsersInGame[idUser];
       if (u.getThread() == thread) result.push(u);
     }
     return result;
@@ -270,7 +285,7 @@ const ServerModule = class Server {
           const user = userCredential.user;
 
           //check if this user is already connected
-          if (_this.currentUsers[user.uid]) {
+          if (_this.currentUsersInGame[user.uid]) {
             socket.emit(
               Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
               'You are already connected'
@@ -305,7 +320,7 @@ const ServerModule = class Server {
               const u = new User(user.uid, socket, uuidWorld, extraData);
 
               //register the client
-              _this.currentUsers[u.getUUID()] = u;
+              _this.currentUsersInGame[u.getUUID()] = u;
 
               //inform client that he is connected and ready to game
               socket.emit(
@@ -413,7 +428,7 @@ const ServerModule = class Server {
               socket.on('disconnect', () => {
                 console.log('Unregister client => ', socket.id);
 
-                delete _this.currentUsers[u.getUUID()];
+                delete _this.currentUsersInGame[u.getUUID()];
                 const thread = u.getThread();
                 if (thread)
                   thread.post(
@@ -468,7 +483,7 @@ const ServerModule = class Server {
       const u = new User(uuid, socket, uuidWorld, extraData, true);
 
       //register the client
-      _this.currentUsers[u.getUUID()] = u;
+      _this.currentUsersInGame[u.getUUID()] = u;
 
       //inform client that he is connected and ready to game
       socket.emit(
@@ -499,7 +514,7 @@ const ServerModule = class Server {
       socket.on('disconnect', () => {
         console.log('Unregister client => ', socket.id);
 
-        delete _this.currentUsers[u.getUUID()];
+        delete _this.currentUsersInGame[u.getUUID()];
         const thread = u.getThread();
         if (thread)
           thread.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, u.getAvatarID());
@@ -507,6 +522,8 @@ const ServerModule = class Server {
     });
 
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
+      console.log(data);
+
       //write on disks new worlds
       fs.writeFile(
         _this.config.worldsPath,
@@ -518,7 +535,17 @@ const ServerModule = class Server {
         },
         function () {}
       );
+
+      //disconnect all users in game
+      for (let key in _this.currentUsersInGame) {
+        const user = _this.currentUsersInGame[key];
+        user.getSocket().disconnect();
+        console.log(user.getUUID(), ' disnonnect');
+        delete _this.currentUsersInGame[key];
+      }
+
       //reload worlds
+      _this.initWorlds();
     });
   }
 };
