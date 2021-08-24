@@ -2,10 +2,12 @@
 
 import './WorldEditor.css';
 import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
+import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
+import { TransformEditorView } from '../TransformEditor/TransformEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
 import { GameView } from 'ud-viz/src/Views/Views';
-import { THREE, OrbitControls, TransformControls } from 'ud-viz';
+import { THREE, OrbitControls } from 'ud-viz';
 
 export class WorldEditorView {
   constructor(params) {
@@ -19,6 +21,8 @@ export class WorldEditorView {
     //html
     this.closeButton = null;
     this.toolsButtons = null;
+
+    this.assetsManager = params.assetsManager;
 
     this.model = new WorldEditorModel(params.assetsManager, params.worldJSON);
 
@@ -42,19 +46,19 @@ export class WorldEditorView {
     this.transformButton = null;
     this.colliderButton = null;
     this.heightmapButton = null;
-    this.addObjectButton = null;
+    this.addPrefabButton = null;
 
     this.labelCurrentWorld = null;
     this.toolsList = null;
 
     //controls
     this.orbitControls = null;
-    this.transformControls = null;
+
+    this.childrenViews = [];
 
     this.initUI();
     this.initCallbacks();
     this.initOrbitControls();
-    this.initTransformControls();
   }
 
   getGameView() {
@@ -65,7 +69,10 @@ export class WorldEditorView {
     this.gameView.dispose();
     this.ui.remove();
     this.orbitControls.dispose();
-    this.transformControls.dispose();
+
+    this.childrenViews.forEach(function (v) {
+      v.dispose();
+    });
   }
 
   initUI() {
@@ -103,115 +110,84 @@ export class WorldEditorView {
     this.toolsButtons.appendChild(heightmapButton);
     this.heightmapButton = heightmapButton;
 
-    const addObjectButton = document.createElement('li');
-    addObjectButton.classList.add('li_Editor');
-    addObjectButton.innerHTML = 'Add Object';
-    this.toolsButtons.appendChild(addObjectButton);
-    this.addObjectButton = addObjectButton;
+    const addPrefabButton = document.createElement('li');
+    addPrefabButton.classList.add('li_Editor');
+    addPrefabButton.innerHTML = 'Add Prefab';
+    this.toolsButtons.appendChild(addPrefabButton);
+    this.addPrefabButton = addPrefabButton;
   }
 
   initCallbacks() {
     const _this = this;
 
-    _this.colliderButton.onclick = function () {
-      const cev = new ColliderEditorView({
-        parentUIHtml: _this.ui,
+    this.colliderButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof ColliderEditorView) return;
+      }
+      const cEV = new ColliderEditorView({
+        parentUIHtml: _this.ui.parentElement,
         gameView: _this.gameView,
         parentOC: _this.orbitControls,
-        parentTC: _this.transformControls,
       });
-      cev.setOnClose(function () {
-        cev.dispose();
-        // _this.rootHtml.appendChild(_this.ui);
+      cEV.setOnClose(function () {
+        cEV.dispose();
+        const index = _this.childrenViews.indexOf(cEV);
+        _this.childrenViews.splice(index, 1);
       });
+
+      _this.childrenViews.push(cEV);
+    };
+
+    this.transformButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof TransformEditorView) return;
+      }
+
+      const tV = new TransformEditorView({
+        parentUIHtml: _this.ui.parentElement,
+        gameView: _this.gameView,
+        orbitControls: _this.orbitControls,
+      });
+
+      tV.setOnClose(function () {
+        tV.dispose();
+
+        const index = _this.childrenViews.indexOf(tV);
+        _this.childrenViews.splice(index, 1);
+      });
+
+      _this.childrenViews.push(tV);
+    };
+
+    this.addPrefabButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof AddPrefabEditorView) return;
+      }
+
+      const aV = new AddPrefabEditorView({
+        parentUIHtml: _this.ui.parentElement,
+        assetsManager: _this.assetsManager,
+      });
+
+      aV.setOnClose(function () {
+        aV.dispose();
+
+        const index = _this.childrenViews.indexOf(aV);
+        _this.childrenViews.splice(index, 1);
+      });
+
+      _this.childrenViews.push(aV);
     };
   }
 
   setOnClose(f) {
     this.closeButton.onclick = f;
-  }
-
-  initTransformControls() {
-    if (this.transformControls) this.transformControls.dispose();
-
-    const camera = this.gameView.getItownsView().camera.camera3D;
-    const scene = this.gameView.getItownsView().scene;
-    const manager = this.gameView.getInputManager();
-    const viewerDiv = this.gameView.rootItownsHtml;
-
-    this.transformControls = new TransformControls(camera, viewerDiv);
-    scene.add(this.transformControls);
-
-    const _this = this;
-
-    //cant handle this callback with our input manager
-    this.transformControls.addEventListener(
-      'dragging-changed',
-      function (event) {
-        _this.orbitControls.enabled = !event.value;
-        // console.log('orbit enabled ', !event.value);
-      }
-    );
-
-    //CALLBACKS
-    manager.addKeyInput('Escape', 'keydown', function () {
-      _this.transformControls.detach();
-    });
-
-    manager.addMouseInput(viewerDiv, 'pointerdown', function (event) {
-      if (_this.transformControls.object) return; //already assign to an object
-
-      //1. sets the mouse position with a coordinate system where the center
-      //   of the screen is the origin
-      const mouse = new THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
-        1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
-      );
-
-      //2. set the picking ray from the camera position and mouse coordinates
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouse, camera);
-
-      //3. compute intersections
-      //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
-      const intersects = raycaster.intersectObject(
-        _this.gameView.getObject3D(),
-        true
-      );
-
-      if (intersects.length) {
-        let minDist = Infinity;
-        let info = null;
-
-        intersects.forEach(function (i) {
-          if (i.distance < minDist) {
-            info = i;
-            minDist = i.distance;
-          }
-        });
-
-        if (info) {
-          const objectClicked = info.object;
-          let current = objectClicked;
-          while (!current.userData.gameObjectUUID) {
-            if (!current.parent) {
-              console.warn('didnt find gameobject uuid');
-              current = null;
-              break;
-            }
-            current = current.parent;
-          }
-
-          if (current) {
-            _this.transformControls.attach(current);
-            _this.transformControls.updateMatrixWorld();
-
-            console.log('attach to ', current.name);
-          }
-        }
-      }
-    });
   }
 
   initOrbitControls() {
@@ -224,8 +200,6 @@ export class WorldEditorView {
     );
 
     this.orbitControls.target.copy(this.gameView.getExtent().center());
-    // this.orbitControls.rotateSpeed = 0.5;
-    // this.orbitControls.zoomSpeed = 0.1;
     this.orbitControls.update();
   }
 }

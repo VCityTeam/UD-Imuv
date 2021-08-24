@@ -95,6 +95,10 @@ const UserModule = class User {
   getUUID() {
     return this.uuid;
   }
+
+  getSocket() {
+    return this.socket;
+  }
 };
 
 module.exports = UserModule;

@@ -20,6 +20,7 @@ export class EditorView {
     this.rootHtml.appendChild(this.ui);
 
     //html
+    this.closeButton = null;
     this.worldsList = null;
     this.saveWorldsButton = null;
     this.saveCurrentWorldButton = null;
@@ -37,6 +38,11 @@ export class EditorView {
   }
 
   initUI() {
+    this.closeButton = document.createElement('div');
+    this.closeButton.classList.add('button_Editor');
+    this.closeButton.innerHTML = 'close';
+    this.ui.appendChild(this.closeButton);
+
     const worldsList = document.createElement('ul');
     worldsList.classList.add('ul_Editor');
     this.ui.appendChild(worldsList);
@@ -51,6 +57,10 @@ export class EditorView {
     this.saveCurrentWorldButton.classList.add('button_Editor');
     this.saveCurrentWorldButton.innerHTML = 'Save Current World Local';
     this.ui.appendChild(this.saveCurrentWorldButton);
+  }
+
+  setOnClose(f) {
+    this.closeButton.onclick = f;
   }
 
   initCallbacks() {
@@ -69,7 +79,7 @@ export class EditorView {
   }
 
   saveCurrentWorld() {
-    if (!this.currentWorldView.getGameView()) return;
+    if (!this.currentWorldView) return;
 
     //world loaded
     const world = this.currentWorldView
@@ -91,7 +101,7 @@ export class EditorView {
     const worldsJSON = this.assetsManager.getWorldsJSON();
     for (let index = 0; index < worldsJSON.length; index++) {
       const json = worldsJSON[index];
-      if ((json.uuid = world.getUUID())) {
+      if (json.uuid == world.getUUID()) {
         //found
         worldsJSON[index] = world.toJSON(); // update with new content
         break;
