@@ -19,6 +19,9 @@ export class TransformEditorView {
     params.parentUIHtml.appendChild(this.ui);
 
     //html
+    this.translateButton = null;
+    this.scaleButton = null;
+    this.rotateButton = null;
     this.closeButton = null;
 
     //controls
@@ -128,6 +131,21 @@ export class TransformEditorView {
   }
 
   initUI() {
+    this.translateButton = document.createElement('div');
+    this.translateButton.classList.add('button_Editor');
+    this.translateButton.innerHTML = 'Translate';
+    this.ui.appendChild(this.translateButton);
+
+    this.rotateButton = document.createElement('div');
+    this.rotateButton.classList.add('button_Editor');
+    this.rotateButton.innerHTML = 'rotate';
+    this.ui.appendChild(this.rotateButton);
+
+    this.scaleButton = document.createElement('div');
+    this.scaleButton.classList.add('button_Editor');
+    this.scaleButton.innerHTML = 'scale';
+    this.ui.appendChild(this.scaleButton);
+
     const closeButton = document.createElement('div');
     closeButton.classList.add('button_Editor');
     closeButton.innerHTML = 'Close';
@@ -137,6 +155,18 @@ export class TransformEditorView {
 
   initCallbacks() {
     const _this = this;
+
+    this.translateButton.onclick = function () {
+      _this.transformControls.setMode('translate');
+    };
+
+    this.rotateButton.onclick = function () {
+      _this.transformControls.setMode('rotate');
+    };
+
+    this.scaleButton.onclick = function () {
+      _this.transformControls.setMode('scale');
+    };
   }
 
   setOnClose(f) {
