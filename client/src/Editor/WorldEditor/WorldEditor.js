@@ -43,7 +43,7 @@ export class WorldEditorView {
     this.transformButton = null;
     this.colliderButton = null;
     this.heightmapButton = null;
-    this.addObjectButton = null;
+    this.addPrefabButton = null;
 
     this.labelCurrentWorld = null;
     this.toolsList = null;
@@ -107,11 +107,11 @@ export class WorldEditorView {
     this.toolsButtons.appendChild(heightmapButton);
     this.heightmapButton = heightmapButton;
 
-    const addObjectButton = document.createElement('li');
-    addObjectButton.classList.add('li_Editor');
-    addObjectButton.innerHTML = 'Add Object';
-    this.toolsButtons.appendChild(addObjectButton);
-    this.addObjectButton = addObjectButton;
+    const addPrefabButton = document.createElement('li');
+    addPrefabButton.classList.add('li_Editor');
+    addPrefabButton.innerHTML = 'Add Prefab';
+    this.toolsButtons.appendChild(addPrefabButton);
+    this.addPrefabButton = addPrefabButton;
   }
 
   initCallbacks() {
@@ -136,6 +136,29 @@ export class WorldEditorView {
     };
 
     this.transformButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof TransformEditorView) return;
+      }
+
+      const tV = new TransformEditorView({
+        parentUIHtml: _this.ui.parentElement,
+        gameView: _this.gameView,
+        orbitControls: _this.orbitControls,
+      });
+
+      tV.setOnClose(function () {
+        tV.dispose();
+
+        const index = _this.childrenViews.indexOf(tV);
+        _this.childrenViews.splice(index, 1);
+      });
+
+      _this.childrenViews.push(tV);
+    };
+
+    this.addPrefabButton.onclick = function () {
       //check if one already exist
       for (let index = 0; index < _this.childrenViews.length; index++) {
         const element = _this.childrenViews[index];

@@ -217,6 +217,11 @@ export class MenuAuthView {
           _this.editor.load().then(function () {
             loadingView.remove();
             document.body.appendChild(_this.editor.html());
+
+            _this.editor.setOnClose(function () {
+              _this.editor.dispose();
+              document.body.appendChild(_this.html());
+            });
           });
         }
       );
