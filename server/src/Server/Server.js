@@ -63,6 +63,8 @@ const ServerModule = class Server {
   }
 
   initWorlds() {
+    console.log('Initialize worlds');
+
     //instanciate Worlds with config
     const _this = this;
 
@@ -522,8 +524,6 @@ const ServerModule = class Server {
     });
 
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
-      console.log(data);
-
       //write on disks new worlds
       fs.writeFile(
         _this.config.worldsPath,

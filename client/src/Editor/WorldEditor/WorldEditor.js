@@ -118,6 +118,12 @@ export class WorldEditorView {
     const _this = this;
 
     this.colliderButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof ColliderEditorView) return;
+      }
+
       const CEV = new ColliderEditorView(_this);
       CEV.setOnClose(function () {
         CEV.dispose();
