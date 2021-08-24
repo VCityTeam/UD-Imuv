@@ -2,6 +2,7 @@
 
 import './WorldEditor.css';
 import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
+import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import { TransformEditorView } from '../TransformEditor/TransformEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
@@ -20,6 +21,8 @@ export class WorldEditorView {
     //html
     this.closeButton = null;
     this.toolsButtons = null;
+
+    this.assetsManager = params.assetsManager;
 
     this.model = new WorldEditorModel(params.assetsManager, params.worldJSON);
 
@@ -162,23 +165,22 @@ export class WorldEditorView {
       //check if one already exist
       for (let index = 0; index < _this.childrenViews.length; index++) {
         const element = _this.childrenViews[index];
-        if (element instanceof TransformEditorView) return;
+        if (element instanceof AddPrefabEditorView) return;
       }
 
-      const tV = new TransformEditorView({
+      const aV = new AddPrefabEditorView({
         parentUIHtml: _this.ui.parentElement,
-        gameView: _this.gameView,
-        orbitControls: _this.orbitControls,
+        assetsManager: _this.assetsManager,
       });
 
-      tV.setOnClose(function () {
-        tV.dispose();
+      aV.setOnClose(function () {
+        aV.dispose();
 
-        const index = _this.childrenViews.indexOf(tV);
+        const index = _this.childrenViews.indexOf(aV);
         _this.childrenViews.splice(index, 1);
       });
 
-      _this.childrenViews.push(tV);
+      _this.childrenViews.push(aV);
     };
   }
 
