@@ -28,7 +28,8 @@ export class TransformEditorView {
     this.transformControls = null;
 
     //listeners
-    this.keyDownListener = null;
+    this.escListener = null;
+    this.deleteListener = null;
     this.mouseDownListener = null;
 
     this.initUI();
@@ -57,8 +58,27 @@ export class TransformEditorView {
       }
     );
 
-    this.keyDownListener = function () {
+    this.escListener = function () {
       _this.transformControls.detach();
+    };
+    this.deleteListener = function () {
+      if (_this.transformControls.object) {
+        const world = _this.gameView
+          .getStateComputer()
+          .getWorldContext()
+          .getWorld();
+        const go = world.getGameObject();
+        const deletedGO = go.find(
+          _this.transformControls.object.userData.gameObjectUUID
+        );
+        _this.transformControls.detach();
+        deletedGO.removeFromParent();
+
+        //force update gameview
+        _this.gameView.setUpdateGameObject(true);
+        _this.gameView.update(world.computeWorldState());
+        _this.gameView.setUpdateGameObject(false);
+      }
     };
     this.mouseDownListener = function (event) {
       if (_this.transformControls.object) return; //already assign to an object
@@ -116,7 +136,8 @@ export class TransformEditorView {
     };
 
     //CALLBACKS
-    manager.addKeyInput('Escape', 'keydown', this.keyDownListener);
+    manager.addKeyInput('Delete', 'keydown', this.deleteListener);
+    manager.addKeyInput('Escape', 'keydown', this.escListener);
     manager.addMouseInput(viewerDiv, 'pointerdown', this.mouseDownListener);
   }
 
@@ -126,7 +147,8 @@ export class TransformEditorView {
     this.transformControls.dispose();
     //remove listeners as well
     const manager = this.gameView.getInputManager();
-    manager.removeInputListener(this.keyDownListener);
+    manager.removeInputListener(this.deleteListener);
+    manager.removeInputListener(this.escListener);
     manager.removeInputListener(this.mouseDownListener);
   }
 
