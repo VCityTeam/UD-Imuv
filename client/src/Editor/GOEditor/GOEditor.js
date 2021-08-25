@@ -312,7 +312,3 @@ export class GOEditorView {
 
   initCallbacks() {}
 }
-
-class GOEditorModel {
-  constructor() {}
-}

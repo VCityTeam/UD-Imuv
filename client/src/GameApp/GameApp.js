@@ -20,6 +20,15 @@ export class GameApp {
     this.config = config;
   }
 
+  dispose() {
+    this.gameView.dispose();
+    //reset websocketservices
+    this.webSocketService.reset([
+      Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+      Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+    ]);
+  }
+
   start(onLoad, firstGameView, isGuest) {
     const _this = this;
 
@@ -54,13 +63,7 @@ export class GameApp {
           onFirstStateJSON(firstStateJSON);
         } else {
           //this need to be disposed
-          _this.gameView.dispose();
-
-          //reset websocketservices
-          _this.webSocketService.reset([
-            Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-            Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
-          ]);
+          _this.dispose();
 
           _this.start(
             onFirstStateJSON.bind(_this, firstStateJSON),
