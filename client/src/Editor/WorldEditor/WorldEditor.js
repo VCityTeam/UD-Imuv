@@ -63,6 +63,10 @@ export class WorldEditorView {
     this.initCallbacks();
   }
 
+  getGOEditorView() {
+    return this.goEditorView;
+  }
+
   getGameView() {
     return this.gameView;
   }
@@ -146,6 +150,7 @@ export class WorldEditorView {
         parentUIHtml: _this.ui.parentElement,
         assetsManager: _this.assetsManager,
         gameView: _this.gameView,
+        parentView: _this,
       });
 
       aV.setOnClose(function () {
