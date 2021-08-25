@@ -169,9 +169,10 @@ export class GOEditorView {
     result.classList.add('goUI_GOEditor');
 
     //name
-    const labelName = document.createElement('div');
-    labelName.innerHTML = go.getName();
-    result.appendChild(labelName);
+    const inputName = document.createElement('input');
+    inputName.type = 'text';
+    inputName.value = go.getName();
+    result.appendChild(inputName);
 
     //transform mode
     const translateButton = document.createElement('div');
@@ -226,6 +227,11 @@ export class GOEditorView {
 
     scaleButton.onclick = function () {
       _this.transformControls.setMode('scale');
+    };
+
+    inputName.onchange = function () {
+      go.setName(inputName.value);
+      _this.updateUI();
     };
 
     return result;
