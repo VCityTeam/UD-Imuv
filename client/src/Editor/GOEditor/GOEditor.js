@@ -2,6 +2,7 @@
 
 import './GOEditor.css';
 import { THREE, TransformControls } from 'ud-viz';
+import File from 'ud-viz/src/Components/SystemUtils/File';
 
 export class GOEditorView {
   constructor(params) {
@@ -238,6 +239,13 @@ export class GOEditorView {
 
     result.appendChild(createInputVector3('scale'));
 
+    let imageInput = null;
+    if (this.detectImageScript(go)) {
+      imageInput = document.createElement('input');
+      imageInput.type = 'file';
+      result.appendChild(imageInput);
+    }
+
     //delete
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
@@ -246,6 +254,27 @@ export class GOEditorView {
 
     //CALLBACKS
     const _this = this;
+
+    if (imageInput) {
+      imageInput.onchange = function (e) {
+        File.readSingleFileAsDataUrl(e, function (data) {
+          const url = data.target.result;
+
+          //TODO find how to display it locally then find when save to server how to upload and register images
+
+          go.components.LocalScript.conf.path = url;
+
+          const texture = new THREE.TextureLoader().load(url);
+          const material = new THREE.MeshBasicMaterial({ map: texture });
+          _this.gameView.getObject3D().traverse(function (child) {
+            if (child.userData.gameObjectUUID == go.getUUID()) {
+              child.children[0].children[0].material = material;
+            }
+          });
+        });
+      };
+    }
+
     deleteButton.onclick = function () {
       const world = _this.gameView
         .getStateComputer()
@@ -283,6 +312,14 @@ export class GOEditorView {
     };
 
     return result;
+  }
+
+  detectImageScript(go) {
+    return (
+      go.components &&
+      go.components.LocalScript &&
+      go.components.LocalScript.idScripts.includes('image')
+    );
   }
 
   dispose() {
