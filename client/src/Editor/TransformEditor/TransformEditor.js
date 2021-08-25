@@ -146,11 +146,10 @@ export class TransformEditorView {
     this.transformControls.detach();
     this.transformControls.dispose();
     //remove listeners as well
-    //Warning removeInputListener is not a fucntion and manager.listeners is already empty. 
-    // const manager = this.gameView.getInputManager();
-    // manager.removeInputListener(this.deleteListener);
-    // manager.removeInputListener(this.escListener);
-    // manager.removeInputListener(this.mouseDownListener);
+    const manager = this.gameView.getInputManager();
+    manager.removeInputListener(this.deleteListener);
+    manager.removeInputListener(this.escListener);
+    manager.removeInputListener(this.mouseDownListener);
   }
 
   initUI() {
