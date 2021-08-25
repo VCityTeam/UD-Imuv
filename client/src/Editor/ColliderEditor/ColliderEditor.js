@@ -1,6 +1,5 @@
 import './ColliderEditor.css';
 
-
 import { THREE, TransformControls } from 'ud-viz';
 import { ConvexGeometry } from 'ud-viz/node_modules/three/examples/jsm/geometries/ConvexGeometry';
 
@@ -12,9 +11,7 @@ export class ColliderEditorView {
     this.raycaster = new THREE.Raycaster();
 
     this.rootHtml = params.parentUIHtml;
-
     this.gameView = params.gameView;
-
     this.canvas = this.gameView.rootItownsHtml;
 
     this.colliderObject3D = new THREE.Object3D();
@@ -45,21 +42,17 @@ export class ColliderEditorView {
     this.initCallbacks();
   }
 
-  disposeUI() {
-    this.ui.remove();
-  }
-
-  disposeCallbacks() {
-    this.setOrbitControls(true);
-    window.onkeydown = null;
-    this.canvas.onpointerup = null;
-  }
-
   dispose() {
-    this.disposeUI();
-    this.disposeCallbacks();
+    this.setOrbitControls(true);
+    this.ui.remove();
     this.transformControls.detach();
     this.transformControls.dispose();
+    const manager = this.gameView.getInputManager();
+    manager.removeInputListener(this.refAddPointKeyDown);
+    manager.removeInputListener(this.refAddPointKeyUp);
+    manager.removeInputListener(this.onPointerupListener);
+    if (this.gameView.getItownsView().scene)
+      this.gameView.getItownsView().scene.remove(this.colliderObject3D);
   }
 
   setOrbitControls(value) {
@@ -67,10 +60,12 @@ export class ColliderEditorView {
   }
 
   setAddPointMode(value) {
+    if (!this.model.getCurrentShape()) return;
     this.addPointMode = value;
     this.setOrbitControls(!this.addPointMode);
+    this.updateUI();
   }
-  getAddPointMode(){
+  getAddPointMode() {
     return this.addPointMode;
   }
 
@@ -172,9 +167,10 @@ export class ColliderEditorView {
 
   initCallbacks() {
     const _this = this;
-    const currentGameView = _this.gameView;
-    const canvas = _this.canvas;
+    const currentGameView = this.gameView;
+    const canvas = this.canvas;
     const transformControls = this.transformControls;
+    const manager = this.gameView.getInputManager();
 
     const throwRay = function (event, object3D) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
@@ -210,11 +206,10 @@ export class ColliderEditorView {
       currentGameView.getItownsView().scene.add(transformControls);
     };
 
-    canvas.onpointerup = function (event) {
-      const getShape = function () {
-        return _this.model.getCurrentShape();
-      };
-      if (!getShape()) return;
+    const getShape = function () {
+      return _this.model.getCurrentShape();
+    };
+    this.onPointerupListener = function (event) {
       if (_this.getAddPointMode()) {
         if (event.button != 0) return;
         const intersect = throwRay(event, currentGameView.getObject3D());
@@ -243,28 +238,12 @@ export class ColliderEditorView {
       }
     };
 
-    window.onkeydown = function (event) {
-      if (event.defaultPrevented) return;
-      if (event.code == 'Enter' || event.code == 'NumpadEnter') {
-        if (!_this.model.getCurrentShape()) return;
-        console.log('Confirm Shape', _this.model.getCurrentShape());
-        _this.model.addCurrentShape();
-        canvas.onpointerup = null;
-        _this.setOrbitControls(true);
-      }
-      if (event.code == 'ControlLeft') {
-        _this.setAddPointMode(true);
-      }
+    this.refAddPointKeyDown = this.setAddPointMode.bind(this, true);
+    this.refAddPointKeyUp = this.setAddPointMode.bind(this, false);
 
-      _this.updateUI();
-    };
-    
-    window.onkeyup = function (event) {
-      if (event.code == 'ControlLeft') {
-        _this.setAddPointMode(false);
-      }
-      _this.updateUI();
-    };
+    manager.addKeyInput('Control', 'keydown', this.refAddPointKeyDown);
+    manager.addKeyInput('Control', 'keyup', this.refAddPointKeyUp);
+    manager.addMouseInput(canvas, 'pointerup', this.onPointerupListener);
   }
 
   setOnClose(f) {
