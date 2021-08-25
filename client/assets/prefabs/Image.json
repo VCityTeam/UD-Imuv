@@ -1,0 +1,27 @@
+{
+  "name": "Image",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idModel": null,
+      "color": [1, 1, 1]
+    },
+    "LocalScript": {
+      "idScripts": ["image"],
+      "conf": {
+        "path": "./assets/img/labex_imu.jpeg",
+        "width": 320,
+        "height": 153
+      },
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [1.5707, 1.5707, 0],
+    "scale": [1, 1, 1]
+  }
+}

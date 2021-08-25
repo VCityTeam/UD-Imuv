@@ -11,6 +11,8 @@ export class AddPrefabEditorView {
 
     this.assetsManager = params.assetsManager;
 
+    this.gameView = params.gameView;
+
     //html
     this.prefabList = null;
     this.closeButton = null;
@@ -37,13 +39,32 @@ export class AddPrefabEditorView {
   }
 
   updatePrefabList() {
-    const prefabs = this.assetsManager.getPrefabs();
+    const _this = this;
+    const a = this.assetsManager;
+    const prefabs = a.getPrefabs();
     for (let key in prefabs) {
       const li = document.createElement('li');
+      li.classList.add('li_Editor');
       li.innerHTML = key;
       this.prefabList.appendChild(li);
       li.onclick = function () {
-        console.log(key);
+        const newGo = a.createPrefab(key);
+        //find the map
+        const wCxt = _this.gameView.getStateComputer().getWorldContext();
+        const world = wCxt.getWorld();
+
+        const go = world.getGameObject();
+        const wS = go.fetchWorldScripts()['worldGameManager'];
+        const mapGo = wS.getMap();
+
+        world.addGameObject(newGo, wCxt, mapGo);
+
+        //TODO code replicate
+
+        //force update gameview
+        _this.gameView.setUpdateGameObject(true);
+        _this.gameView.update(world.computeWorldState());
+        _this.gameView.setUpdateGameObject(false);
       };
     }
   }

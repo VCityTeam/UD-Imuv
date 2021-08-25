@@ -82,6 +82,9 @@
     "prefabs": {
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
+      },
+      "image": {
+        "path": "./assets/prefabs/Image.json"
       }
     },
     "worlds": {

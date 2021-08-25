@@ -3,11 +3,11 @@
 import './WorldEditor.css';
 import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
-import { TransformEditorView } from '../TransformEditor/TransformEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
 import { GameView } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
+import { GOEditorView } from '../GOEditor/GOEditor';
 
 export class WorldEditorView {
   constructor(params) {
@@ -18,13 +18,8 @@ export class WorldEditorView {
     this.ui.classList.add('ui_WorldEditor');
     params.parentUIHtml.appendChild(this.ui);
 
-    //html
-    this.closeButton = null;
-    this.toolsButtons = null;
-
     this.assetsManager = params.assetsManager;
-
-    this.model = new WorldEditorModel(params.assetsManager, params.worldJSON);
+    this.model = new WorldEditorModel(this.assetsManager, params.worldJSON);
 
     this.gameView = new GameView({
       htmlParent: params.parentGameViewHtml,
@@ -43,22 +38,29 @@ export class WorldEditorView {
       new THREE.Vector2(params.parentUIHtml.clientWidth, 0)
     );
 
-    this.transformButton = null;
+    //controls
+    this.orbitControls = null;
+    this.initOrbitControls();
+
+    //view to edit go
+    this.goEditorView = new GOEditorView({
+      parentUIHtml: this.ui,
+      gameView: this.gameView,
+      orbitControls: this.orbitControls,
+    });
+
+    //html
+    this.closeButton = null;
     this.colliderButton = null;
     this.heightmapButton = null;
     this.addPrefabButton = null;
-
     this.labelCurrentWorld = null;
-    this.toolsList = null;
 
-    //controls
-    this.orbitControls = null;
-
-    this.childrenViews = [];
+    //ref children views to dispose them easily
+    this.childrenViews = [this.goEditorView]; //go editor view is always active
 
     this.initUI();
     this.initCallbacks();
-    this.initOrbitControls();
   }
 
   getGameView() {
@@ -76,9 +78,9 @@ export class WorldEditorView {
   }
 
   initUI() {
-    this.toolsButtons = document.createElement('div');
-    this.toolsButtons.classList.add('ul_WorldEditor');
-    this.ui.appendChild(this.toolsButtons);
+    const ulButtons = document.createElement('div');
+    ulButtons.classList.add('ul_WorldEditor');
+    this.ui.appendChild(ulButtons);
 
     const labelCurrentWorld = document.createElement('p');
     labelCurrentWorld.innerHTML =
@@ -87,33 +89,28 @@ export class WorldEditorView {
     this.ui.appendChild(labelCurrentWorld);
     this.labelCurrentWorld = labelCurrentWorld;
 
-    const closeButton = document.createElement('button');
+    const closeButton = document.createElement('div');
+    closeButton.classList.add('button_Editor');
     closeButton.innerHTML = 'Close';
     this.ui.appendChild(closeButton);
     this.closeButton = closeButton;
 
-    const transformButton = document.createElement('li');
-    transformButton.classList.add('li_Editor');
-    transformButton.innerHTML = 'Transform';
-    this.toolsButtons.appendChild(transformButton);
-    this.transformButton = transformButton;
-
     const colliderButton = document.createElement('li');
     colliderButton.classList.add('li_Editor');
     colliderButton.innerHTML = 'Collider';
-    this.toolsButtons.appendChild(colliderButton);
+    ulButtons.appendChild(colliderButton);
     this.colliderButton = colliderButton;
 
     const heightmapButton = document.createElement('li');
     heightmapButton.classList.add('li_Editor');
     heightmapButton.innerHTML = 'Heightmap';
-    this.toolsButtons.appendChild(heightmapButton);
+    ulButtons.appendChild(heightmapButton);
     this.heightmapButton = heightmapButton;
 
     const addPrefabButton = document.createElement('li');
     addPrefabButton.classList.add('li_Editor');
     addPrefabButton.innerHTML = 'Add Prefab';
-    this.toolsButtons.appendChild(addPrefabButton);
+    ulButtons.appendChild(addPrefabButton);
     this.addPrefabButton = addPrefabButton;
   }
 
@@ -138,29 +135,6 @@ export class WorldEditorView {
       _this.childrenViews.push(CEV);
     };
 
-    this.transformButton.onclick = function () {
-      //check if one already exist
-      for (let index = 0; index < _this.childrenViews.length; index++) {
-        const element = _this.childrenViews[index];
-        if (element instanceof TransformEditorView) return;
-      }
-
-      const tV = new TransformEditorView({
-        parentUIHtml: _this.ui.parentElement,
-        gameView: _this.gameView,
-        orbitControls: _this.orbitControls,
-      });
-
-      tV.setOnClose(function () {
-        tV.dispose();
-
-        const index = _this.childrenViews.indexOf(tV);
-        _this.childrenViews.splice(index, 1);
-      });
-
-      _this.childrenViews.push(tV);
-    };
-
     this.addPrefabButton.onclick = function () {
       //check if one already exist
       for (let index = 0; index < _this.childrenViews.length; index++) {
@@ -171,6 +145,7 @@ export class WorldEditorView {
       const aV = new AddPrefabEditorView({
         parentUIHtml: _this.ui.parentElement,
         assetsManager: _this.assetsManager,
+        gameView: _this.gameView,
       });
 
       aV.setOnClose(function () {

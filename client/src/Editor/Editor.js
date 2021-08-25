@@ -91,9 +91,12 @@ export class EditorView {
     const currentObject3D = this.currentWorldView.getGameView().getObject3D();
     //update object 3D transform
     currentObject3D.traverse(function (object) {
+      if (!object.userData.gameObjectUUID) return;
+
       world.getGameObject().traverse(function (go) {
         if (go.getUUID() == object.userData.gameObjectUUID) {
           go.bindTransformFrom(object);
+          return true; //stop propagation
         }
       });
     });
