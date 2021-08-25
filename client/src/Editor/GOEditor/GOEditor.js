@@ -56,6 +56,12 @@ export class GOEditorView {
       'dragging-changed',
       function (event) {
         _this.orbitControls.enabled = !event.value;
+
+        //update go menu ui
+        _this.setSelectedGO(
+          _this.goSelected.getUUID(),
+          _this.transformControls.object
+        );
       }
     );
 
@@ -158,13 +164,13 @@ export class GOEditorView {
       //attach transform ctrl
       this.transformControls.attach(object3D);
       this.transformControls.updateMatrixWorld();
-      this.goSelectedUI.appendChild(this.createGOUI(this.goSelected));
+      this.goSelectedUI.appendChild(this.createGOUI(this.goSelected, object3D));
     } else {
       this.transformControls.detach();
     }
   }
 
-  createGOUI(go) {
+  createGOUI(go, obj) {
     const result = document.createElement('div');
     result.classList.add('goUI_GOEditor');
 
@@ -174,21 +180,63 @@ export class GOEditorView {
     inputName.value = go.getName();
     result.appendChild(inputName);
 
+    const createInputVector3 = function (field) {
+      const inputVector3 = document.createElement('div');
+
+      const xInput = document.createElement('input');
+      xInput.type = 'number';
+      xInput.value = obj[field].x;
+      xInput.step = 0.1;
+      inputVector3.appendChild(xInput);
+
+      const yInput = document.createElement('input');
+      yInput.type = 'number';
+      yInput.value = obj[field].y;
+      yInput.step = 0.1;
+      inputVector3.appendChild(yInput);
+
+      const zInput = document.createElement('input');
+      zInput.type = 'number';
+      zInput.value = obj[field].z;
+      zInput.step = 0.1;
+      inputVector3.appendChild(zInput);
+
+      xInput.onchange = function () {
+        obj[field].x = xInput.value;
+      };
+
+      yInput.onchange = function () {
+        obj[field].y = yInput.value;
+      };
+
+      zInput.onchange = function () {
+        obj[field].z = zInput.value;
+      };
+
+      return inputVector3;
+    };
+
     //transform mode
     const translateButton = document.createElement('div');
     translateButton.innerHTML = 'translate';
     translateButton.classList.add('button_Editor');
     result.appendChild(translateButton);
 
+    result.appendChild(createInputVector3('position'));
+
     const rotateButton = document.createElement('div');
     rotateButton.classList.add('button_Editor');
     rotateButton.innerHTML = 'rotate';
     result.appendChild(rotateButton);
 
+    result.appendChild(createInputVector3('rotation'));
+
     const scaleButton = document.createElement('div');
     scaleButton.classList.add('button_Editor');
     scaleButton.innerHTML = 'scale';
     result.appendChild(scaleButton);
+
+    result.appendChild(createInputVector3('scale'));
 
     //delete
     const deleteButton = document.createElement('div');
