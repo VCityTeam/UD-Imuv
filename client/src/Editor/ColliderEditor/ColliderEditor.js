@@ -193,7 +193,7 @@ export class ColliderEditorView {
     };
 
     this.newButton.onclick = function () {
-      _this.model.setCurrentShape(new Sphape(_this.colliderObject3D));
+      _this.model.addNewShape(new Sphape(_this.colliderObject3D));
       _this.updateUI();
     };
 
@@ -258,13 +258,12 @@ export class ColliderEditorModel {
     this.selectedObject = null;
   }
 
-  addCurrentShape() {
-    if (!this.currentShape || !this.currentShape.points.length) {
-      console.log('BAD DATA ! CurrentShape : ', this.currentShape);
-      return;
+  addNewShape(shape) {
+    if (this.currentShape && !this.currentShape.points.length) {
+      this.shapes.pop();
     }
     this.shapes.push(this.currentShape);
-    this.setCurrentShape(null);
+    this.setCurrentShape(shape);
   }
 
   setCurrentShape(shape) {
