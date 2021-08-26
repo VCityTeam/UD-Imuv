@@ -238,7 +238,8 @@ export class GOEditorView {
     result.appendChild(createInputVector3('scale'));
 
     let imageInput = null;
-    if (this.detectImageScript(go)) {
+    const scripts = go.fetchLocalScripts();
+    if (scripts && scripts['image']) {
       imageInput = document.createElement('input');
       imageInput.type = 'file';
       result.appendChild(imageInput);
@@ -302,14 +303,6 @@ export class GOEditorView {
     };
 
     return result;
-  }
-
-  detectImageScript(go) {
-    return (
-      go.components &&
-      go.components.LocalScript &&
-      go.components.LocalScript.idScripts.includes('image')
-    );
   }
 
   dispose() {

@@ -3,6 +3,8 @@
  *
  * @format
  */
+const gm = require('gm');
+const PNG = require('pngjs').PNG;
 const express = require('express');
 const socketio = require('socket.io');
 const WorldThread = require('./WorldThread');
@@ -14,7 +16,10 @@ require('firebase/auth');
 
 const fs = require('fs');
 const Shared = require('ud-viz/src/Game/Shared/Shared');
-const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
+const {
+  GameObject,
+  WorldStateComputer,
+} = require('ud-viz/src/Game/Shared/Shared');
 const JSONUtils = require('ud-viz/src/Components/SystemUtils/JSONUtils');
 const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
 
@@ -524,30 +529,71 @@ const ServerModule = class Server {
     });
 
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
-      //write on disks new worlds
-      fs.writeFile(
-        _this.config.worldsPath,
-        JSON.stringify(data),
-        {
-          encoding: 'utf8',
-          flag: 'w',
-          mode: 0o666,
-        },
-        function () {}
-      );
+      const worlds = data.worlds;
+      const images = data.images;
 
-      //disconnect all users in game
-      for (let key in _this.currentUsersInGame) {
-        const user = _this.currentUsersInGame[key];
-        user.getSocket().disconnect();
-        console.log(user.getUUID(), ' disnonnect');
-        delete _this.currentUsersInGame[key];
-      }
+      console.log('SAVING WORLDS');
 
-      //reload worlds
-      _this.initWorlds();
+      const assetsManager = new AssetsManagerServer();
+      assetsManager
+        .loadFromConfig(_this.config.assetsManager)
+        .then(function () {
+          console.log('MANAGER LOADED');
 
-      socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Worlds saved !');
+          const loadPromises = [];
+
+          worlds.forEach(function (worldJSON) {
+            const loadPromise = WorldStateComputer.WorldCanLoad(
+              worldJSON,
+              assetsManager,
+              { Shared: Shared },
+              {
+                isServerSide: true,
+                modules: { gm: gm, PNG: PNG },
+              }
+            );
+            loadPromises.push(loadPromise);
+          });
+
+          try {
+            Promise.all(loadPromises).then(function () {
+              console.log('ALL WORLD HAVE LOADED');
+
+              //write on disks new worlds
+              fs.writeFile(
+                _this.config.worldsPath,
+                JSON.stringify(worlds),
+                {
+                  encoding: 'utf8',
+                  flag: 'w',
+                  mode: 0o666,
+                },
+                function () {
+                  console.log('WORLD WRITED ON DISK');
+
+                  //disconnect all users in game
+                  for (let key in _this.currentUsersInGame) {
+                    const user = _this.currentUsersInGame[key];
+                    user.getSocket().disconnect();
+                    console.log(user.getUUID(), ' disnonnect');
+                    delete _this.currentUsersInGame[key];
+                  }
+
+                  //reload worlds
+                  _this.initWorlds();
+
+                  socket.emit(
+                    Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+                    'Worlds saved !'
+                  );
+                }
+              );
+            });
+          } catch (e) {
+            console.error(e);
+            socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
+          }
+        });
     });
   }
 };

@@ -95,7 +95,7 @@ WorldThreadModule.routine = function (serverConfig) {
             modules: { gm: gm, PNG: PNG },
           });
 
-          worldStateComputer.onInit(world);
+          worldStateComputer.load(world);
 
           worldStateComputer.setOnAfterTick(function () {
             const currentState = worldStateComputer.computeCurrentState();

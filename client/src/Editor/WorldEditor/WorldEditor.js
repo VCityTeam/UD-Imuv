@@ -193,7 +193,7 @@ class WorldEditorModel {
   }
 
   onWorldJSON(json) {
-    this.worldStateComputer.onInit(new Shared.World(json));
+    this.worldStateComputer.load(new Shared.World(json));
   }
 
   getWorldStateComputer() {
