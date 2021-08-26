@@ -98,7 +98,7 @@ WorldThreadModule.routine = function (serverConfig) {
           worldStateComputer.load(world);
 
           worldStateComputer.setOnAfterTick(function () {
-            const currentState = worldStateComputer.computeCurrentState();
+            const currentState = worldStateComputer.computeCurrentState(false);
             //post worldstate to main thread
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
