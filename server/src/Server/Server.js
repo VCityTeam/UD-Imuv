@@ -199,7 +199,10 @@ const ServerModule = class Server {
       });
 
       //websocket
-      _this.io = socketio(_this.server);
+      _this.io = socketio(_this.server, {
+        pingInterval: 25000,
+        pingTimeout: 20000,
+      });
 
       //cb
       _this.io.on('connection', _this.onConnection.bind(_this));

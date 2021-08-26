@@ -92,6 +92,9 @@ export class EditorView {
                 img.onload = function () {
                   c.width = this.naturalWidth; // update canvas size to match image
                   c.height = this.naturalHeight;
+
+                  console.log('width ', c.width, ' height ', c.height);
+
                   ctx.drawImage(this, 0, 0); // draw in image
                   c.toBlob(
                     function (blob) {
@@ -101,6 +104,7 @@ export class EditorView {
                         blob: blob,
                         localScriptUUID: ls.getUUID(),
                       });
+                      console.log('pack ', child.getName(), ' image');
                       resolve();
                     },
                     'image/jpeg',
@@ -118,10 +122,12 @@ export class EditorView {
       });
 
       Promise.all(promises).then(function () {
+        console.log('send data server');
         _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, {
           worlds: _this.assetsManager.getWorldsJSON(),
           images: blobsBuffer,
         });
+        console.log('ok');
       });
     };
 
