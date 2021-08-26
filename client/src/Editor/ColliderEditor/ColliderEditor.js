@@ -27,6 +27,7 @@ export class ColliderEditorView {
     this.uiCurrentShape = null;
     this.uiShapes = null;
     this.shapesList = null;
+    this.pointsList = null;
     this.uiMode = null;
 
     this.closeButton = null;
@@ -66,6 +67,7 @@ export class ColliderEditorView {
     this.setOrbitControls(!this.addPointMode);
     this.updateUI();
   }
+
   getAddPointMode() {
     return this.addPointMode;
   }
@@ -89,22 +91,51 @@ export class ColliderEditorView {
     return liShapesList;
   }
 
+  pointHtml(point) {
+    const _this = this;
+
+    const liPointList = document.createElement(`li`);
+    liPointList.classList.add('li_Editor');
+    liPointList.innerHTML = point.name;
+
+    const deleteButton = document.createElement('div');
+    deleteButton.classList.add('button_Editor');
+    deleteButton.innerHTML = 'Delete';
+    deleteButton.onclick = function () {
+      _this.model.getCurrentShape().removePoint(point);
+      _this.updateUI();
+    };
+    liPointList.appendChild(deleteButton);
+
+    return liPointList;
+  }
+
   updateUI() {
     const _this = this;
     this.uiShapes.innerHTML =
       'Shapes length : ' + this.model.getShapes().length;
 
-    const list = this.shapesList;
-    while (list.firstChild) {
-      list.removeChild(list.firstChild);
+    const sList = this.shapesList;
+    while (sList.firstChild) {
+      sList.removeChild(sList.firstChild);
     }
     this.model.getShapes().forEach(function (shape) {
-      list.appendChild(_this.shapeHtml(shape));
+      sList.appendChild(_this.shapeHtml(shape));
     });
 
-    const shape = this.model.getCurrentShape(); 
-    const name = (shape) ? shape.name : 'None';
+    const shape = this.model.getCurrentShape();
+    const name = shape ? shape.name : 'None';
     this.uiCurrentShape.innerHTML = 'Current Shape : ' + name;
+
+    const pList = this.pointsList;
+    while (pList.firstChild) {
+      pList.removeChild(pList.firstChild);
+    }
+    if (shape) {
+      shape.points.forEach(function (point) {
+        pList.appendChild(_this.pointHtml(point));
+      });
+    }
 
     if (this.orbitControls.enabled) {
       this.uiMode.innerHTML = 'Mode : OrbitsControl';
@@ -144,6 +175,12 @@ export class ColliderEditorView {
     this.ui.appendChild(wrapper);
     this.shapesList = shapesList;
 
+    const pointsList = document.createElement('ul');
+    pointsList.classList.add('ul_Editor');
+    wrapper.appendChild(pointsList);
+    this.ui.appendChild(wrapper);
+    this.pointsList = pointsList;
+
     const uiMode = document.createElement('p');
     uiMode.innerHTML = 'Mode : OrbitsControl';
     wrapper.appendChild(uiMode);
@@ -171,34 +208,6 @@ export class ColliderEditorView {
         _this.orbitControls.enabled = !event.value;
       }
     );
-
-    this.escListener = function () {
-      _this.transformControls.detach();
-    };
-
-    this.deleteListener = function () {
-      if (_this.transformControls.object) {
-        const world = _this.gameView
-          .getStateComputer()
-          .getWorldContext()
-          .getWorld();
-        const go = world.getGameObject();
-        const deletedGO = go.find(
-          _this.transformControls.object.userData.gameObjectUUID
-        );
-        _this.transformControls.detach();
-        deletedGO.removeFromParent();
-
-        //force update gameview
-        _this.gameView.setUpdateGameObject(true);
-        _this.gameView.update(world.computeWorldState());
-        _this.gameView.setUpdateGameObject(false);
-      }
-    };
-
-    //CALLBACKS
-    manager.addKeyInput('Delete', 'keydown', this.deleteListener);
-    manager.addKeyInput('Escape', 'keydown', this.escListener);
   }
 
   initCallbacks() {
@@ -327,6 +336,7 @@ export class ColliderEditorModel {
   getShapes() {
     return this.shapes;
   }
+
   getSelectedObject() {
     return this.selectedObject;
   }
@@ -349,11 +359,25 @@ export class Sphape {
 
   addPoint(point) {
     this.points.push(point);
+    point.name = 'Point' + this.points.length;
+    this.updateMesh();
+  }
+
+  removePoint(point) {
+    const index = this.points.indexOf(point);
+    if (index >= 0) this.points.splice(index, 1);
+    point.parent.remove(point);
     this.updateMesh();
   }
 
   updateMesh() {
     const points = this.points;
+
+    if (this.mesh) {
+      this.mesh.parent.remove(this.mesh);
+      this.mesh = null;
+    }
+
     if (points.length < 4) return;
 
     const vertices = [];
@@ -375,7 +399,6 @@ export class Sphape {
     //If you want the ray intersect the mesh you have to remove this boudingbox
     //geometry.boundingBox = null;
 
-    if (this.mesh) points[0].parent.remove(this.mesh);
     this.mesh = new THREE.Mesh(geometry, this.material);
     this.mesh.position.copy(center);
     this.mesh.updateMatrixWorld();
