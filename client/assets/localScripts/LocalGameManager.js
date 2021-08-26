@@ -24,6 +24,7 @@ module.exports = class LocalGameManager {
   }
 
   init() {
+    const go = arguments[0];
     const localCtx = arguments[1];
 
     //init obstacle
@@ -48,14 +49,14 @@ module.exports = class LocalGameManager {
     );
 
     this.initInputs(localCtx);
-    this.initUI(localCtx);
+    this.initUI(go, localCtx);
 
     if (localCtx.getGameView().firstGameView) {
       this.initTraveling(localCtx.getGameView().getItownsView());
     }
   }
 
-  initUI(localCtx) {
+  initUI(go, localCtx) {
     const gameView = localCtx.getGameView();
 
     this.fpsLabel = document.createElement('div');
@@ -65,6 +66,8 @@ module.exports = class LocalGameManager {
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_localGameManager');
     gameView.appendToUI(this.avatarCount);
+
+    this.updateUI(go, localCtx);
   }
 
   initTraveling(view) {
@@ -156,6 +159,10 @@ module.exports = class LocalGameManager {
       this.obstacle
     );
 
+    this.updateUI(go, localCtx);
+  }
+
+  updateUI(go, localCtx) {
     //update ui
     this.fpsLabel.innerHTML = 'FPS = ' + Math.round(1000 / localCtx.getDt());
     let avatarCount = 0;

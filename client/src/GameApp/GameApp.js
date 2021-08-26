@@ -20,6 +20,15 @@ export class GameApp {
     this.config = config;
   }
 
+  dispose() {
+    this.gameView.dispose();
+    //reset websocketservices
+    this.webSocketService.reset([
+      Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+      Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+    ]);
+  }
+
   start(onLoad, firstGameView, isGuest) {
     const _this = this;
 
@@ -48,19 +57,12 @@ export class GameApp {
         if (!firstStateJSON) throw new Error('no data');
         console.log('JOIN_WORLD ', firstStateJSON);
 
-        //TODO mettre un flag initialized a la place de check this.view (wait refacto ud-vizView)
-        if (!_this.gameView.getItownsView()) {
+        if (!_this.gameView.getLastState()) {
           //view was not intialized do it
           onFirstStateJSON(firstStateJSON);
         } else {
           //this need to be disposed
-          _this.gameView.dispose();
-
-          //reset websocketservices
-          _this.webSocketService.reset([
-            Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-            Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
-          ]);
+          _this.dispose();
 
           _this.start(
             onFirstStateJSON.bind(_this, firstStateJSON),

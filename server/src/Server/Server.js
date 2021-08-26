@@ -546,6 +546,8 @@ const ServerModule = class Server {
 
       //reload worlds
       _this.initWorlds();
+
+      socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'Worlds saved !');
     });
   }
 };

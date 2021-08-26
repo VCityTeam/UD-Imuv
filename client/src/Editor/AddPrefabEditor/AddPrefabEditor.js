@@ -13,6 +13,8 @@ export class AddPrefabEditorView {
 
     this.gameView = params.gameView;
 
+    this.parentView = params.parentView;
+
     //html
     this.prefabList = null;
     this.closeButton = null;
@@ -57,14 +59,19 @@ export class AddPrefabEditorView {
         const wS = go.fetchWorldScripts()['worldGameManager'];
         const mapGo = wS.getMap();
 
-        world.addGameObject(newGo, wCxt, mapGo);
+        if (!mapGo) throw new Error('no map object in world');
 
-        //TODO code replicate
+        world.addGameObject(newGo, wCxt, mapGo, function () {
+          //TODO code replicate
 
-        //force update gameview
-        _this.gameView.setUpdateGameObject(true);
-        _this.gameView.update(world.computeWorldState());
-        _this.gameView.setUpdateGameObject(false);
+          //force update gameview
+          _this.gameView.setUpdateGameObject(true);
+          _this.gameView.update(world.computeWorldState());
+          _this.gameView.setUpdateGameObject(false);
+
+          //force ui update
+          _this.parentView.getGOEditorView().updateUI();
+        });
       };
     }
   }

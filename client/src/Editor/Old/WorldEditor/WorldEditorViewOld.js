@@ -114,7 +114,7 @@ export class WorldEditorViewOld {
     this.input.addEventListener(
       'change',
       function (e) {
-        Components.SystemUtils.File.readSingleFile(e, function (e) {
+        Components.SystemUtils.File.readSingleFileAsText(e, function (e) {
           const json = JSON.parse(e.target.result);
           console.log('Worlds = ', json);
           _this.onWorlds(json);

@@ -2,6 +2,7 @@
 
 import './GOEditor.css';
 import { THREE, TransformControls } from 'ud-viz';
+import File from 'ud-viz/src/Components/SystemUtils/File';
 
 export class GOEditorView {
   constructor(params) {
@@ -56,6 +57,12 @@ export class GOEditorView {
       'dragging-changed',
       function (event) {
         _this.orbitControls.enabled = !event.value;
+
+        //update go menu ui
+        _this.setSelectedGO(
+          _this.goSelected.getUUID(),
+          _this.transformControls.object
+        );
       }
     );
 
@@ -158,20 +165,57 @@ export class GOEditorView {
       //attach transform ctrl
       this.transformControls.attach(object3D);
       this.transformControls.updateMatrixWorld();
-      this.goSelectedUI.appendChild(this.createGOUI(this.goSelected));
+      this.goSelectedUI.appendChild(this.createGOUI(this.goSelected, object3D));
     } else {
       this.transformControls.detach();
     }
   }
 
-  createGOUI(go) {
+  createGOUI(go, obj) {
     const result = document.createElement('div');
     result.classList.add('goUI_GOEditor');
 
     //name
-    const labelName = document.createElement('div');
-    labelName.innerHTML = go.getName();
-    result.appendChild(labelName);
+    const inputName = document.createElement('input');
+    inputName.type = 'text';
+    inputName.value = go.getName();
+    result.appendChild(inputName);
+
+    const createInputVector3 = function (field) {
+      const inputVector3 = document.createElement('div');
+
+      const xInput = document.createElement('input');
+      xInput.type = 'number';
+      xInput.value = obj[field].x;
+      xInput.step = 0.1;
+      inputVector3.appendChild(xInput);
+
+      const yInput = document.createElement('input');
+      yInput.type = 'number';
+      yInput.value = obj[field].y;
+      yInput.step = 0.1;
+      inputVector3.appendChild(yInput);
+
+      const zInput = document.createElement('input');
+      zInput.type = 'number';
+      zInput.value = obj[field].z;
+      zInput.step = 0.1;
+      inputVector3.appendChild(zInput);
+
+      xInput.onchange = function () {
+        obj[field].x = xInput.value;
+      };
+
+      yInput.onchange = function () {
+        obj[field].y = yInput.value;
+      };
+
+      zInput.onchange = function () {
+        obj[field].z = zInput.value;
+      };
+
+      return inputVector3;
+    };
 
     //transform mode
     const translateButton = document.createElement('div');
@@ -179,15 +223,28 @@ export class GOEditorView {
     translateButton.classList.add('button_Editor');
     result.appendChild(translateButton);
 
+    result.appendChild(createInputVector3('position'));
+
     const rotateButton = document.createElement('div');
     rotateButton.classList.add('button_Editor');
     rotateButton.innerHTML = 'rotate';
     result.appendChild(rotateButton);
 
+    result.appendChild(createInputVector3('rotation'));
+
     const scaleButton = document.createElement('div');
     scaleButton.classList.add('button_Editor');
     scaleButton.innerHTML = 'scale';
     result.appendChild(scaleButton);
+
+    result.appendChild(createInputVector3('scale'));
+
+    let imageInput = null;
+    if (this.detectImageScript(go)) {
+      imageInput = document.createElement('input');
+      imageInput.type = 'file';
+      result.appendChild(imageInput);
+    }
 
     //delete
     const deleteButton = document.createElement('div');
@@ -197,6 +254,27 @@ export class GOEditorView {
 
     //CALLBACKS
     const _this = this;
+
+    if (imageInput) {
+      imageInput.onchange = function (e) {
+        File.readSingleFileAsDataUrl(e, function (data) {
+          const url = data.target.result;
+
+          //TODO find how to display it locally then find when save to server how to upload and register images
+
+          go.components.LocalScript.conf.path = url;
+
+          const texture = new THREE.TextureLoader().load(url);
+          const material = new THREE.MeshBasicMaterial({ map: texture });
+          _this.gameView.getObject3D().traverse(function (child) {
+            if (child.userData.gameObjectUUID == go.getUUID()) {
+              child.children[0].children[0].material = material;
+            }
+          });
+        });
+      };
+    }
+
     deleteButton.onclick = function () {
       const world = _this.gameView
         .getStateComputer()
@@ -228,7 +306,20 @@ export class GOEditorView {
       _this.transformControls.setMode('scale');
     };
 
+    inputName.onchange = function () {
+      go.setName(inputName.value);
+      _this.updateUI();
+    };
+
     return result;
+  }
+
+  detectImageScript(go) {
+    return (
+      go.components &&
+      go.components.LocalScript &&
+      go.components.LocalScript.idScripts.includes('image')
+    );
   }
 
   dispose() {
@@ -311,8 +402,4 @@ export class GOEditorView {
   }
 
   initCallbacks() {}
-}
-
-class GOEditorModel {
-  constructor() {}
 }
