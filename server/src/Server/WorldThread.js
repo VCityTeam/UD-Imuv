@@ -183,6 +183,10 @@ WorldThreadModule.routine = function (serverConfig) {
           parentPort.postMessage(Pack.pack(message));
           break;
         case WorldThreadModule.MSG_TYPES.STOP:
+          console.log(
+            worldStateComputer.getWorldContext().getWorld().getName(),
+            ' stop'
+          );
           process.exit(0);
           break;
         default:

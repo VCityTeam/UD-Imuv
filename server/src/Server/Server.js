@@ -16,9 +16,11 @@ require('firebase/auth');
 
 const fs = require('fs');
 const Shared = require('ud-viz/src/Game/Shared/Shared');
+const LocalScriptModule = require('ud-viz/src/Game/Shared/GameObject/Components/LocalScript');
 const {
   GameObject,
   WorldStateComputer,
+  World,
 } = require('ud-viz/src/Game/Shared/Shared');
 const JSONUtils = require('ud-viz/src/Components/SystemUtils/JSONUtils');
 const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
@@ -529,71 +531,128 @@ const ServerModule = class Server {
     });
 
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
-      const worlds = data.worlds;
-      const images = data.images;
+      const worlds = [];
+      data.worlds.forEach(function (json) {
+        worlds.push(
+          new World(json, {
+            isServerSide: true,
+            modules: { gm: gm, PNG: PNG },
+          })
+        );
+      });
 
-      console.log('SAVING WORLDS');
+      const writeImagesOnDiskPromise = [];
 
-      const assetsManager = new AssetsManagerServer();
-      assetsManager
-        .loadFromConfig(_this.config.assetsManager)
-        .then(function () {
-          console.log('MANAGER LOADED');
+      data.images.forEach(function (i) {
+        writeImagesOnDiskPromise.push(
+          new Promise((resolve, reject) => {
+            const bitmap = Buffer.from(i.blob, 'base64');
+            const commonPath =
+              'assets/img/' + Shared.THREE.MathUtils.generateUUID() + '.jpeg';
+            const serverPath = '../client/' + commonPath;
 
-          const loadPromises = [];
+            //add attr on the fly (TODO clean ?)
+            i.serverPath = serverPath;
 
-          worlds.forEach(function (worldJSON) {
-            const loadPromise = WorldStateComputer.WorldCanLoad(
-              worldJSON,
-              assetsManager,
-              { Shared: Shared },
-              {
-                isServerSide: true,
-                modules: { gm: gm, PNG: PNG },
-              }
-            );
-            loadPromises.push(loadPromise);
-          });
+            //modify worldjson
+            worlds.forEach(function (w) {
+              w.getGameObject().traverse(function (child) {
+                const ls = child.getComponent(LocalScriptModule.TYPE);
+                if (ls && ls.getUUID() == i.localScriptUUID) {
+                  i.oldPath = ls.getConf().path;
+                  ls.getConf().path = './' + commonPath;
+                  return true;
+                }
+              });
+            });
 
-          try {
-            Promise.all(loadPromises).then(function () {
-              console.log('ALL WORLD HAVE LOADED');
+            fs.writeFile(serverPath, bitmap, function () {
+              resolve();
+            });
+          })
+        );
+      });
 
-              //write on disks new worlds
-              fs.writeFile(
-                _this.config.worldsPath,
-                JSON.stringify(worlds),
-                {
-                  encoding: 'utf8',
-                  flag: 'w',
-                  mode: 0o666,
-                },
-                function () {
-                  console.log('WORLD WRITED ON DISK');
+      Promise.all(writeImagesOnDiskPromise).then(function () {
+        console.log('IMAGES WRITED ON DISK');
 
-                  //disconnect all users in game
-                  for (let key in _this.currentUsersInGame) {
-                    const user = _this.currentUsersInGame[key];
-                    user.getSocket().disconnect();
-                    console.log(user.getUUID(), ' disnonnect');
-                    delete _this.currentUsersInGame[key];
+        const assetsManager = new AssetsManagerServer();
+        assetsManager
+          .loadFromConfig(_this.config.assetsManager)
+          .then(function () {
+            console.log('MANAGER LOADED');
+
+            const loadPromises = [];
+
+            worlds.forEach(function (w) {
+              const loadPromise = WorldStateComputer.WorldCanLoad(
+                w,
+                assetsManager,
+                { Shared: Shared }
+              );
+              loadPromises.push(loadPromise);
+            });
+
+            try {
+              Promise.all(loadPromises).then(function () {
+                console.log('ALL WORLD HAVE LOADED');
+
+                //write on disks new worlds
+
+                const content = [];
+                worlds.forEach(function (w) {
+                  content.push(w.toJSON(true));
+                });
+
+                fs.writeFile(
+                  _this.config.worldsPath,
+                  JSON.stringify(content),
+                  {
+                    encoding: 'utf8',
+                    flag: 'w',
+                    mode: 0o666,
+                  },
+                  function () {
+                    console.log('WORLD WRITED ON DISK');
+
+                    //disconnect all users in game
+                    for (let key in _this.currentUsersInGame) {
+                      const user = _this.currentUsersInGame[key];
+                      user.getSocket().disconnect();
+                      console.log(user.getUUID(), ' disnonnect');
+                      delete _this.currentUsersInGame[key];
+                    }
+
+                    //reload worlds
+                    _this.initWorlds();
+
+                    socket.emit(
+                      Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+                      'Worlds saved !'
+                    );
+                  }
+                );
+              });
+            } catch (e) {
+              console.log(
+                'Error occured while saving worlds remove images created'
+              );
+              data.images.forEach(function (i) {
+                // delete a file
+                fs.unlink(i.serverPath, (err) => {
+                  if (err) {
+                    throw err;
                   }
 
-                  //reload worlds
-                  _this.initWorlds();
+                  console.log(i.serverPath + ' deleted.');
+                });
+              });
 
-                  socket.emit(
-                    Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-                    'Worlds saved !'
-                  );
-                }
-              );
-            });
-          } catch (e) {
-            console.error(e);
-            socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
-          }
-        });
+              console.error(e);
+              socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
+            }
+          });
+      });
     });
   }
 };
