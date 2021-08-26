@@ -26,6 +26,7 @@ export class ColliderEditorView {
     this.labelColliderTool = null;
     this.uiCurrentShape = null;
     this.uiShapes = null;
+    this.shapesList = null;
     this.uiMode = null;
 
     this.closeButton = null;
@@ -69,12 +70,41 @@ export class ColliderEditorView {
     return this.addPointMode;
   }
 
+  shapeHtml(shape) {
+    const _this = this;
+
+    const liShapesList = document.createElement(`li`);
+    liShapesList.classList.add('li_Editor');
+    liShapesList.innerHTML = shape.name;
+
+    const deleteButton = document.createElement('div');
+    deleteButton.classList.add('button_Editor');
+    deleteButton.innerHTML = 'Delete';
+    deleteButton.onclick = function () {
+      _this.model.removeShape(shape);
+      _this.updateUI();
+    };
+    liShapesList.appendChild(deleteButton);
+
+    return liShapesList;
+  }
+
   updateUI() {
+    const _this = this;
     this.uiShapes.innerHTML =
       'Shapes length : ' + this.model.getShapes().length;
 
-    this.uiCurrentShape.innerHTML =
-      'Current Shape : ' + this.model.getCurrentShape();
+    const list = this.shapesList;
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+    this.model.getShapes().forEach(function (shape) {
+      list.appendChild(_this.shapeHtml(shape));
+    });
+
+    const shape = this.model.getCurrentShape(); 
+    const name = (shape) ? shape.name : 'None';
+    this.uiCurrentShape.innerHTML = 'Current Shape : ' + name;
 
     if (this.orbitControls.enabled) {
       this.uiMode.innerHTML = 'Mode : OrbitsControl';
@@ -107,6 +137,12 @@ export class ColliderEditorView {
     wrapper.appendChild(uiShapes);
     this.ui.appendChild(wrapper);
     this.uiShapes = uiShapes;
+
+    const shapesList = document.createElement('ul');
+    shapesList.classList.add('ul_Editor');
+    wrapper.appendChild(shapesList);
+    this.ui.appendChild(wrapper);
+    this.shapesList = shapesList;
 
     const uiMode = document.createElement('p');
     uiMode.innerHTML = 'Mode : OrbitsControl';
@@ -236,6 +272,7 @@ export class ColliderEditorView {
         }
         attachTC();
       }
+      _this.updateUI();
     };
 
     this.refAddPointKeyDown = this.setAddPointMode.bind(this, true);
@@ -259,11 +296,17 @@ export class ColliderEditorModel {
   }
 
   addNewShape(shape) {
-    if (this.currentShape && !this.currentShape.points.length) {
-      this.shapes.pop();
-    }
-    this.shapes.push(this.currentShape);
     this.setCurrentShape(shape);
+    this.shapes.push(this.currentShape);
+  }
+
+  removeShape(shape) {
+    if (this.currentShape == shape) {
+      this.currentShape = null;
+    }
+    const index = this.shapes.indexOf(shape);
+    if (index >= 0) this.shapes.splice(index, 1);
+    shape.shapeObject.parent.remove(shape.shapeObject);
   }
 
   setCurrentShape(shape) {
@@ -298,6 +341,7 @@ export class Sphape {
     this.shapeObject.shape = this;
     parent.add(this.shapeObject);
 
+    this.name = 'Shape' + this.shapeObject.uuid;
     this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     this.material.side = THREE.DoubleSide;
     this.mesh = null;
