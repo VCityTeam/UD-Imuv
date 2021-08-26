@@ -29,4 +29,11 @@ module.exports = class Image {
     const r = go.getComponent(Shared.Render.TYPE);
     r.addObject3D(this.plane);
   }
+
+  update() {
+    const go = arguments[0];
+    const texture = new Shared.THREE.TextureLoader().load(this.conf.path);
+    const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
+    this.plane.material = material;
+  }
 };

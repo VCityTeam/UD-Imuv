@@ -81,6 +81,11 @@ export class EditorView {
   saveCurrentWorld() {
     if (!this.currentWorldView) return;
 
+    const currentGO = this.currentWorldView
+      .getGameView()
+      .getLastState()
+      .getGameObject();
+
     //world loaded
     const world = this.currentWorldView
       .getGameView()
@@ -88,25 +93,14 @@ export class EditorView {
       .getWorldContext()
       .getWorld();
 
-    const currentObject3D = this.currentWorldView.getGameView().getObject3D();
-    //update object 3D transform
-    currentObject3D.traverse(function (object) {
-      if (!object.userData.gameObjectUUID) return;
-
-      world.getGameObject().traverse(function (go) {
-        if (go.getUUID() == object.userData.gameObjectUUID) {
-          go.bindTransformFrom(object);
-          return true; //stop propagation
-        }
-      });
-    });
-
     const worldsJSON = this.assetsManager.getWorldsJSON();
     for (let index = 0; index < worldsJSON.length; index++) {
       const json = worldsJSON[index];
       if (json.uuid == world.getUUID()) {
         //found
-        worldsJSON[index] = world.toJSON(); // update with new content
+        const newContent = world.toJSON(); // update with new content
+        newContent.gameObject = currentGO.toJSON(true);
+        worldsJSON[index] = newContent;
         break;
       }
     }

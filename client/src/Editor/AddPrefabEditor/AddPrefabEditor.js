@@ -62,12 +62,8 @@ export class AddPrefabEditorView {
         if (!mapGo) throw new Error('no map object in world');
 
         world.addGameObject(newGo, wCxt, mapGo, function () {
-          //TODO code replicate
-
           //force update gameview
-          _this.gameView.setUpdateGameObject(true);
-          _this.gameView.update(world.computeWorldState());
-          _this.gameView.setUpdateGameObject(false);
+          _this.gameView.forceUpdate();
 
           //force ui update
           _this.parentView.getGOEditorView().updateUI();

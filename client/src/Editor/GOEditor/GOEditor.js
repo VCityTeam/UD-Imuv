@@ -86,9 +86,7 @@ export class GOEditorView {
         _this.setSelectedGO(null, null);
 
         //force update gameview
-        _this.gameView.setUpdateGameObject(true);
-        _this.gameView.update(world.computeWorldState());
-        _this.gameView.setUpdateGameObject(false);
+        _this.gameView.forceUpdate();
 
         _this.updateUI();
       }
@@ -259,18 +257,13 @@ export class GOEditorView {
       imageInput.onchange = function (e) {
         File.readSingleFileAsDataUrl(e, function (data) {
           const url = data.target.result;
-
-          //TODO find how to display it locally then find when save to server how to upload and register images
-
-          go.components.LocalScript.conf.path = url;
-
-          const texture = new THREE.TextureLoader().load(url);
-          const material = new THREE.MeshBasicMaterial({ map: texture });
-          _this.gameView.getObject3D().traverse(function (child) {
-            if (child.userData.gameObjectUUID == go.getUUID()) {
-              child.children[0].children[0].material = material;
-            }
-          });
+          const state = _this.gameView.getStateComputer().computeCurrentState();
+          const newGO = state.getGameObject().find(go.getUUID());
+          newGO.components.LocalScript.conf = JSON.parse(
+            JSON.stringify(go.components.LocalScript.conf)
+          ); //deep copy TODO conf are not shared
+          newGO.components.LocalScript.conf.path = url;
+          _this.gameView.forceUpdate(state);
         });
       };
     }
@@ -286,10 +279,7 @@ export class GOEditorView {
       go.removeFromParent();
       _this.setSelectedGO(null, null);
 
-      //force update gameview
-      _this.gameView.setUpdateGameObject(true);
-      _this.gameView.update(world.computeWorldState());
-      _this.gameView.setUpdateGameObject(false);
+      _this.gameView.forceUpdate();
 
       _this.updateUI();
     };
