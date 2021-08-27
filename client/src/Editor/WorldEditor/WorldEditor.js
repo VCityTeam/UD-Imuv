@@ -49,15 +49,22 @@ export class WorldEditorView {
       orbitControls: this.orbitControls,
     });
 
+    //view to add prefab
+    this.addPrefabView = new AddPrefabEditorView({
+      parentUIHtml: this.ui.parentElement,
+      assetsManager: this.assetsManager,
+      gameView: this.gameView,
+      parentView: this,
+    });
+
     //html
     this.closeButton = null;
     this.colliderButton = null;
     this.heightmapButton = null;
-    this.addPrefabButton = null;
     this.labelCurrentWorld = null;
 
     //ref children views to dispose them easily
-    this.childrenViews = [this.goEditorView]; //go editor view is always active
+    this.childrenViews = [this.goEditorView, this.addPrefabView]; //view always active
 
     this.initUI();
     this.initCallbacks();
@@ -110,12 +117,6 @@ export class WorldEditorView {
     heightmapButton.innerHTML = 'Heightmap';
     ulButtons.appendChild(heightmapButton);
     this.heightmapButton = heightmapButton;
-
-    const addPrefabButton = document.createElement('li');
-    addPrefabButton.classList.add('li_Editor');
-    addPrefabButton.innerHTML = 'Add Prefab';
-    ulButtons.appendChild(addPrefabButton);
-    this.addPrefabButton = addPrefabButton;
   }
 
   initCallbacks() {
@@ -137,30 +138,6 @@ export class WorldEditorView {
       });
 
       _this.childrenViews.push(CEV);
-    };
-
-    this.addPrefabButton.onclick = function () {
-      //check if one already exist
-      for (let index = 0; index < _this.childrenViews.length; index++) {
-        const element = _this.childrenViews[index];
-        if (element instanceof AddPrefabEditorView) return;
-      }
-
-      const aV = new AddPrefabEditorView({
-        parentUIHtml: _this.ui.parentElement,
-        assetsManager: _this.assetsManager,
-        gameView: _this.gameView,
-        parentView: _this,
-      });
-
-      aV.setOnClose(function () {
-        aV.dispose();
-
-        const index = _this.childrenViews.indexOf(aV);
-        _this.childrenViews.splice(index, 1);
-      });
-
-      _this.childrenViews.push(aV);
     };
   }
 
