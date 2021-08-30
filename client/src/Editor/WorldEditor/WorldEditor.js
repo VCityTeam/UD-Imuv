@@ -8,6 +8,7 @@ import * as udviz from 'ud-viz';
 import { GameView } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
+import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 
 export class WorldEditorView {
   constructor(params) {
@@ -38,6 +39,8 @@ export class WorldEditorView {
       new THREE.Vector2(params.parentUIHtml.clientWidth, 0)
     );
 
+    console.log('DEBUG ', this.gameView.getLastState());
+
     //controls
     this.orbitControls = null;
     this.initOrbitControls();
@@ -47,6 +50,7 @@ export class WorldEditorView {
       parentUIHtml: this.ui,
       gameView: this.gameView,
       orbitControls: this.orbitControls,
+      parentView: this,
     });
 
     //view to add prefab
@@ -68,6 +72,27 @@ export class WorldEditorView {
 
     this.initUI();
     this.initCallbacks();
+  }
+
+  addGameObject(newGo) {
+    //find the map
+    const wCxt = this.gameView.getStateComputer().getWorldContext();
+    const world = wCxt.getWorld();
+
+    const go = world.getGameObject();
+    const wS = go.fetchWorldScripts()['worldGameManager'];
+    const mapGo = wS.getMap();
+
+    if (!mapGo) throw new Error('no map object in world');
+
+    const _this = this;
+    world.addGameObject(newGo, wCxt, mapGo, function () {
+      //force update gameview
+      _this.gameView.forceUpdate();
+
+      //force ui update
+      _this.goEditorView.updateUI();
+    });
   }
 
   getGOEditorView() {
@@ -119,6 +144,30 @@ export class WorldEditorView {
     this.heightmapButton = heightmapButton;
   }
 
+  focusObject(objToFocus) {
+    const camera = this.gameView.getItownsView().camera.camera3D;
+
+    const bb = new THREE.Box3().setFromObject(objToFocus);
+    const center = bb.getCenter(new THREE.Vector3());
+    const radius = bb.min.distanceTo(bb.max) * 0.5;
+
+    // compute new distance between camera and center of object/sphere
+    const h = radius / Math.tan((camera.fov / 2) * THREE.Math.DEG2RAD);
+
+    // get direction of camera
+    const dir = new THREE.Vector3().subVectors(camera.position, center);
+
+    // compute new camera position
+    const newPos = new THREE.Vector3().addVectors(center, dir.setLength(h));
+
+    camera.position.set(newPos.x, newPos.y, newPos.z);
+    camera.lookAt(center);
+    camera.updateProjectionMatrix();
+
+    this.orbitControls.target.copy(center);
+    this.orbitControls.update();
+  }
+
   initCallbacks() {
     const _this = this;
 
@@ -139,6 +188,17 @@ export class WorldEditorView {
 
       _this.childrenViews.push(CEV);
     };
+
+    const manager = this.gameView.getInputManager();
+
+    manager.addKeyInput('f', 'keyup', function () {
+      const currentGO = _this.goEditorView.getSelectedGO();
+      if (!currentGO) return;
+      const objectInScene = _this.goEditorView.computeObject3D(
+        currentGO.getUUID()
+      );
+      _this.focusObject(objectInScene);
+    });
   }
 
   setOnClose(f) {
