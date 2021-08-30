@@ -17,7 +17,6 @@ export class AddPrefabEditorView {
 
     //html
     this.prefabList = null;
-    this.closeButton = null;
 
     this.initUI();
     this.initCallbacks();
@@ -28,12 +27,6 @@ export class AddPrefabEditorView {
   }
 
   initUI() {
-    const closeButton = document.createElement('div');
-    closeButton.classList.add('button_Editor');
-    closeButton.innerHTML = 'Close';
-    this.ui.appendChild(closeButton);
-    this.closeButton = closeButton;
-
     this.prefabList = document.createElement('ul');
     this.ui.appendChild(this.prefabList);
 
@@ -62,12 +55,8 @@ export class AddPrefabEditorView {
         if (!mapGo) throw new Error('no map object in world');
 
         world.addGameObject(newGo, wCxt, mapGo, function () {
-          //TODO code replicate
-
           //force update gameview
-          _this.gameView.setUpdateGameObject(true);
-          _this.gameView.update(world.computeWorldState());
-          _this.gameView.setUpdateGameObject(false);
+          _this.gameView.forceUpdate();
 
           //force ui update
           _this.parentView.getGOEditorView().updateUI();
@@ -78,9 +67,5 @@ export class AddPrefabEditorView {
 
   initCallbacks() {
     const _this = this;
-  }
-
-  setOnClose(f) {
-    this.closeButton.onclick = f;
   }
 }

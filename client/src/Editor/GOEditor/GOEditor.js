@@ -3,6 +3,8 @@
 import './GOEditor.css';
 import { THREE, TransformControls } from 'ud-viz';
 import File from 'ud-viz/src/Components/SystemUtils/File';
+import { World } from 'ud-viz/src/Game/Shared/Shared';
+import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 
 export class GOEditorView {
   constructor(params) {
@@ -86,9 +88,7 @@ export class GOEditorView {
         _this.setSelectedGO(null, null);
 
         //force update gameview
-        _this.gameView.setUpdateGameObject(true);
-        _this.gameView.update(world.computeWorldState());
-        _this.gameView.setUpdateGameObject(false);
+        _this.gameView.forceUpdate();
 
         _this.updateUI();
       }
@@ -175,6 +175,10 @@ export class GOEditorView {
     const result = document.createElement('div');
     result.classList.add('goUI_GOEditor');
 
+    const uuidlabel = document.createElement('div');
+    uuidlabel.innerHTML = go.getUUID();
+    result.appendChild(uuidlabel);
+
     //name
     const inputName = document.createElement('input');
     inputName.type = 'text';
@@ -240,10 +244,128 @@ export class GOEditorView {
     result.appendChild(createInputVector3('scale'));
 
     let imageInput = null;
-    if (this.detectImageScript(go)) {
+    const localScripts = go.fetchLocalScripts();
+    if (localScripts && localScripts['image']) {
       imageInput = document.createElement('input');
       imageInput.type = 'file';
       result.appendChild(imageInput);
+    }
+
+    let portalInput = null;
+    const worldScripts = go.fetchWorldScripts();
+    if (worldScripts && worldScripts['portal']) {
+      portalInput = document.createElement('div');
+
+      //spawn rot input
+      {
+        const refSpawnRot = worldScripts['portal'].conf.spawnRotation;
+        if (!refSpawnRot) throw new Error('no spawn rotation');
+
+        const labelSpawnRot = document.createElement('div');
+        labelSpawnRot.innerHTML = 'Portal spawn rotation';
+        portalInput.appendChild(labelSpawnRot);
+
+        const xInput = document.createElement('input');
+        xInput.type = 'number';
+        xInput.value = refSpawnRot.x;
+        xInput.step = 0.1;
+        portalInput.appendChild(xInput);
+
+        const yInput = document.createElement('input');
+        yInput.type = 'number';
+        yInput.value = refSpawnRot.y;
+        yInput.step = 0.1;
+        portalInput.appendChild(yInput);
+
+        const zInput = document.createElement('input');
+        zInput.type = 'number';
+        zInput.value = refSpawnRot.z;
+        zInput.step = 0.1;
+        portalInput.appendChild(zInput);
+
+        xInput.onchange = function () {
+          refSpawnRot.x = xInput.value;
+        };
+
+        yInput.onchange = function () {
+          refSpawnRot.y = xInput.value;
+        };
+
+        zInput.onchange = function () {
+          refSpawnRot.z = xInput.value;
+        };
+      }
+
+      //world uuid
+      const worlds = this.gameView.getAssetsManager().getWorldsJSON();
+      const labelWorlds = document.createElement('div');
+      labelWorlds.innerHTML = 'World Destination';
+      portalInput.appendChild(labelWorlds);
+
+      const selectWorldUUID = document.createElement('select');
+      portalInput.appendChild(selectWorldUUID);
+
+      const unsetOption = document.createElement('option');
+      unsetOption.value = null;
+      unsetOption.innerHTML = 'None';
+      selectWorldUUID.appendChild(unsetOption);
+
+      worlds.forEach(function (wjson) {
+        const optionWorld = document.createElement('option');
+        optionWorld.value = wjson.uuid;
+        optionWorld.innerHTML = wjson.name;
+        selectWorldUUID.appendChild(optionWorld);
+      });
+
+      //select right value
+      for (let index = 0; index < selectWorldUUID.children.length; index++) {
+        const o = selectWorldUUID.children[index];
+        if (o.value == worldScripts['portal'].conf.worldDestUUID) {
+          o.selected = true;
+        } else {
+          o.selected = false;
+        }
+      }
+
+      //portal uuid
+      let currentWorld;
+      worlds.forEach(function (wjson) {
+        if (wjson.uuid == selectWorldUUID.selectedOptions[0].value) {
+          currentWorld = new World(wjson);
+        }
+      });
+
+      if (currentWorld) {
+        const selectPortalUUID = document.createElement('select');
+        portalInput.appendChild(selectPortalUUID);
+
+        const unsetOptionPortal = document.createElement('option');
+        unsetOptionPortal.value = null;
+        unsetOptionPortal.innerHTML = 'None';
+        selectPortalUUID.appendChild(unsetOptionPortal);
+
+        currentWorld.getGameObject().traverse(function (child) {
+          const s = child.getComponent(WorldScriptModule.TYPE); //this way because assets are not initialized
+          if (s && s.idScripts.includes('portal')) {
+            const optionPortal = document.createElement('option');
+            optionPortal.value = child.getUUID();
+            optionPortal.innerHTML = child.getName();
+            selectPortalUUID.appendChild(optionPortal);
+          }
+        });
+
+        //select right value
+        for (let index = 0; index < selectPortalUUID.children.length; index++) {
+          const o = selectPortalUUID.children[index];
+          if (o.value == worldScripts['portal'].conf.portalUUID) {
+            o.selected = true;
+          } else {
+            o.selected = false;
+          }
+        }
+      }
+
+      result.appendChild(portalInput);
     }
 
     //delete
@@ -255,22 +377,20 @@ export class GOEditorView {
     //CALLBACKS
     const _this = this;
 
+    if (portalInput) {
+    }
+
     if (imageInput) {
       imageInput.onchange = function (e) {
         File.readSingleFileAsDataUrl(e, function (data) {
           const url = data.target.result;
-
-          //TODO find how to display it locally then find when save to server how to upload and register images
-
-          go.components.LocalScript.conf.path = url;
-
-          const texture = new THREE.TextureLoader().load(url);
-          const material = new THREE.MeshBasicMaterial({ map: texture });
-          _this.gameView.getObject3D().traverse(function (child) {
-            if (child.userData.gameObjectUUID == go.getUUID()) {
-              child.children[0].children[0].material = material;
-            }
-          });
+          const state = _this.gameView.getStateComputer().computeCurrentState();
+          const newGO = state.getGameObject().find(go.getUUID());
+          newGO.components.LocalScript.conf = JSON.parse(
+            JSON.stringify(go.components.LocalScript.conf)
+          ); //deep copy TODO conf are not shared
+          newGO.components.LocalScript.conf.path = url;
+          _this.gameView.forceUpdate(state);
         });
       };
     }
@@ -286,10 +406,7 @@ export class GOEditorView {
       go.removeFromParent();
       _this.setSelectedGO(null, null);
 
-      //force update gameview
-      _this.gameView.setUpdateGameObject(true);
-      _this.gameView.update(world.computeWorldState());
-      _this.gameView.setUpdateGameObject(false);
+      _this.gameView.forceUpdate();
 
       _this.updateUI();
     };
@@ -312,14 +429,6 @@ export class GOEditorView {
     };
 
     return result;
-  }
-
-  detectImageScript(go) {
-    return (
-      go.components &&
-      go.components.LocalScript &&
-      go.components.LocalScript.idScripts.includes('image')
-    );
   }
 
   dispose() {
@@ -349,6 +458,7 @@ export class GOEditorView {
       li.classList.add('li_Editor');
       list.appendChild(li);
       li.innerHTML = child.getName();
+      li.title = child.getUUID();
 
       li.onclick = _this.goButtonClicked.bind(_this, child.getUUID());
     });

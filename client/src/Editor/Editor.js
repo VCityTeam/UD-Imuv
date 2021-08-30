@@ -4,6 +4,8 @@ import './Editor.css';
 import { Game } from 'ud-viz';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
+import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
+import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -69,10 +71,64 @@ export class EditorView {
     this.saveWorldsButton.onclick = function () {
       _this.saveCurrentWorld();
 
-      _this.webSocketService.emit(
-        Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
-        _this.assetsManager.getWorldsJSON()
-      );
+      //images upload
+      const promises = [];
+      const blobsBuffer = [];
+
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d');
+
+      const worldsJSON = _this.assetsManager.getWorldsJSON();
+      worldsJSON.forEach(function (worldJSON) {
+        const go = new GameObject(worldJSON.gameObject);
+        go.traverse(function (child) {
+          const ls = child.getComponent(LocalScriptModule.TYPE); //this way because assets are not initialized
+          if (ls && ls.idScripts.includes('image')) {
+            const conf = ls.getConf();
+            if (conf.path.startsWith('data:image')) {
+              const promise = new Promise((resolve, reject) => {
+                //compute blob
+                const img = new Image();
+                img.onload = function () {
+                  c.width = this.naturalWidth; // update canvas size to match image
+                  c.height = this.naturalHeight;
+
+                  console.log('width ', c.width, ' height ', c.height);
+
+                  ctx.drawImage(this, 0, 0); // draw in image
+                  c.toBlob(
+                    function (blob) {
+                      // get content as JPEG blob
+                      // here the image is a blob
+                      blobsBuffer.push({
+                        blob: blob,
+                        localScriptUUID: ls.getUUID(),
+                      });
+                      console.log('pack ', child.getName(), ' image');
+                      resolve();
+                    },
+                    'image/jpeg',
+                    0.75
+                  );
+                };
+                img.crossOrigin = ''; // if from different origin
+                img.src = conf.path;
+                img.onerror = reject;
+              });
+              promises.push(promise);
+            }
+          }
+        });
+      });
+
+      Promise.all(promises).then(function () {
+        console.log('send data server');
+        _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, {
+          worlds: _this.assetsManager.getWorldsJSON(),
+          images: blobsBuffer,
+        });
+        console.log('ok');
+      });
     };
 
     this.saveCurrentWorldButton.onclick = this.saveCurrentWorld.bind(this);
@@ -81,6 +137,11 @@ export class EditorView {
   saveCurrentWorld() {
     if (!this.currentWorldView) return;
 
+    const currentGO = this.currentWorldView
+      .getGameView()
+      .getLastState()
+      .getGameObject();
+
     //world loaded
     const world = this.currentWorldView
       .getGameView()
@@ -88,25 +149,14 @@ export class EditorView {
       .getWorldContext()
       .getWorld();
 
-    const currentObject3D = this.currentWorldView.getGameView().getObject3D();
-    //update object 3D transform
-    currentObject3D.traverse(function (object) {
-      if (!object.userData.gameObjectUUID) return;
-
-      world.getGameObject().traverse(function (go) {
-        if (go.getUUID() == object.userData.gameObjectUUID) {
-          go.bindTransformFrom(object);
-          return true; //stop propagation
-        }
-      });
-    });
-
     const worldsJSON = this.assetsManager.getWorldsJSON();
     for (let index = 0; index < worldsJSON.length; index++) {
       const json = worldsJSON[index];
       if (json.uuid == world.getUUID()) {
         //found
-        worldsJSON[index] = world.toJSON(); // update with new content
+        const newContent = world.toJSON(); // update with new content
+        newContent.gameObject = currentGO.toJSON(true);
+        worldsJSON[index] = newContent;
         break;
       }
     }

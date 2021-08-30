@@ -95,10 +95,10 @@ WorldThreadModule.routine = function (serverConfig) {
             modules: { gm: gm, PNG: PNG },
           });
 
-          worldStateComputer.onInit(world);
+          worldStateComputer.load(world);
 
           worldStateComputer.setOnAfterTick(function () {
-            const currentState = worldStateComputer.computeCurrentState();
+            const currentState = worldStateComputer.computeCurrentState(false);
             //post worldstate to main thread
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
@@ -183,6 +183,10 @@ WorldThreadModule.routine = function (serverConfig) {
           parentPort.postMessage(Pack.pack(message));
           break;
         case WorldThreadModule.MSG_TYPES.STOP:
+          console.log(
+            worldStateComputer.getWorldContext().getWorld().getName(),
+            ' stop'
+          );
           process.exit(0);
           break;
         default:

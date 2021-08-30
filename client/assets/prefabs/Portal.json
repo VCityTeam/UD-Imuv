@@ -1,0 +1,47 @@
+{
+  "name": "Portal",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idModel": "spiral_spawn",
+      "color": [1, 1, 1]
+    },
+    "Collider": {
+      "type": "Collider",
+      "shapes": [
+        {
+          "type": "Circle",
+          "center": { "x": 0, "y": 0 },
+          "radius": 1.689427617937126
+        }
+      ],
+      "body": false
+    },
+    "WorldScript": {
+      "idScripts": ["portal"],
+      "conf": {
+        "worldDestUUID": null,
+        "portalUUID": null,
+        "spawnRotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      "type": "WorldScript"
+    },
+    "LocalScript": {
+      "idScripts": ["rotate"],
+      "conf": { "speed": 0.001 },
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 3.14, 0, "ZXY"],
+    "scale": [1, 1, 1]
+  }
+}
