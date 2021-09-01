@@ -425,7 +425,7 @@ export class GOEditorView {
           selectWorldUUID.children[selectWorldUUID.selectedIndex].value;
         ws.conf.portalUUID =
           selectPortalUUID.children[selectPortalUUID.selectedIndex].value;
-        _this.setSelectedGO(go.getUUID(), obj);
+        _this.updateUI();
       };
 
       selectPortalUUID.onchange = updatePortalUI.bind(_this);
