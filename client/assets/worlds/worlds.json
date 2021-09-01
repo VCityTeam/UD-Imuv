@@ -1418,7 +1418,7 @@
           },
           "children": [
             {
-              "name": "Portal_Patio_Campus",
+              "name": "Portal_Patio_balcon",
               "type": "GameObject",
               "static": true,
               "outdated": true,
@@ -1447,8 +1447,8 @@
                   "uuid": "C71626D8-7AEB-4B54-805E-E2AC62CE06C9",
                   "idScripts": ["portal"],
                   "conf": {
-                    "worldDestUUID": "85D81A91-7474-403B-8895-03AA9AA85CDC",
-                    "portalUUID": "A38B7BA4-0A23-44FD-82A6-11386C827FF3",
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "7EE2EBC0-7323-4715-91B3-371D4118D428",
                     "spawnRotation": {
                       "x": 0.05486912109374398,
                       "y": 0,
