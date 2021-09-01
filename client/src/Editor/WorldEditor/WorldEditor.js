@@ -39,8 +39,6 @@ export class WorldEditorView {
       new THREE.Vector2(params.parentUIHtml.clientWidth, 0)
     );
 
-    console.log('DEBUG ', this.gameView.getLastState());
-
     //controls
     this.orbitControls = null;
     this.initOrbitControls();
@@ -74,7 +72,7 @@ export class WorldEditorView {
     this.initCallbacks();
   }
 
-  addGameObject(newGo) {
+  addGameObject(newGo, onLoad) {
     //find the map
     const wCxt = this.gameView.getStateComputer().getWorldContext();
     const world = wCxt.getWorld();
@@ -92,6 +90,8 @@ export class WorldEditorView {
 
       //force ui update
       _this.goEditorView.updateUI();
+
+      if (onLoad) onLoad();
     });
   }
 

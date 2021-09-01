@@ -868,7 +868,7 @@
                   "idScripts": ["portal"],
                   "conf": {
                     "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-                    "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
+                    "portalUUID": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
                     "spawnRotation": {
                       "x": 0.11522197265624445,
                       "y": 0,
@@ -888,6 +888,67 @@
               "transform": {
                 "position": [69.11329386332072, 83.04286698997021, 105],
                 "rotation": ["0", "-3.14", "0", "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Portal_Conf_Stairs balcon",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "C61203C3-092C-463F-B9EF-634000F81F7F",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "CDEA6258-6CA3-4291-AFAE-41BE2A5738BA",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "7CCAE93A-9254-48C9-BAD4-7CAE4937D5C3",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+                    "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
+                    "spawnRotation": {
+                      "x": 0.11522197265624445,
+                      "y": 0,
+                      "z": 6.253323407327942
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "008101ED-9DC7-44E1-8855-78E8414DF6A8",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  44.129498086124656, 78.77024507988244, 102.18530654268488
+                ],
+                "rotation": [
+                  0.00011183297909234113,
+                  3.1431813759860567,
+                  0.07027579007045226,
+                  "ZXY"
+                ],
                 "scale": [1, 1, 1]
               }
             }
@@ -1448,7 +1509,7 @@
                   "idScripts": ["portal"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-                    "portalUUID": "7EE2EBC0-7323-4715-91B3-371D4118D428",
+                    "portalUUID": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
                     "spawnRotation": {
                       "x": 0.05486912109374398,
                       "y": 0,
@@ -1595,8 +1656,8 @@
                   "uuid": "648290B5-4F95-48D8-8678-C30E16AA16DD",
                   "idScripts": ["portal"],
                   "conf": {
-                    "worldDestUUID": "85D81A91-7474-403B-8895-03AA9AA85CDC",
-                    "portalUUID": "A38B7BA4-0A23-44FD-82A6-11386C827FF3",
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
                     "spawnRotation": {
                       "x": 0.05486912109374398,
                       "y": 0,

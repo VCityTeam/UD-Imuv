@@ -71,16 +71,14 @@ export class GOEditorView {
         _this.goSelected.setTransformFromGO(gameViewGO);
 
         //update go menu ui
-        _this.setSelectedGO(
-          _this.goSelected.getUUID(),
-          _this.transformControls.object
-        );
+        _this.setSelectedGO(_this.goSelected.getUUID());
       }
     );
 
     this.escListener = function () {
-      _this.setSelectedGO(null, null);
+      _this.setSelectedGO(null);
     };
+
     this.deleteListener = function () {
       if (_this.transformControls.object) {
         const world = _this.gameView
@@ -95,7 +93,6 @@ export class GOEditorView {
         //TODO duplicate code with the delete button of the goUI
 
         deletedGO.removeFromParent();
-        _this.setSelectedGO(null, null);
 
         //force update gameview
         _this.gameView.forceUpdate();
@@ -148,7 +145,7 @@ export class GOEditorView {
           }
 
           if (current) {
-            _this.setSelectedGO(current.userData.gameObjectUUID, current);
+            _this.setSelectedGO(current.userData.gameObjectUUID);
           }
         }
       }
@@ -164,7 +161,7 @@ export class GOEditorView {
     return this.goSelected;
   }
 
-  setSelectedGO(uuid, object3D) {
+  setSelectedGO(uuid) {
     const world = this.gameView.getStateComputer().getWorldContext().getWorld();
     const go = world.getGameObject();
     this.goSelected = go.find(uuid);
@@ -177,6 +174,9 @@ export class GOEditorView {
 
     if (this.goSelected) {
       //attach transform ctrl
+
+      let object3D = this.computeObject3D(uuid);
+
       this.transformControls.attach(object3D);
       this.transformControls.updateMatrixWorld();
       this.goSelectedUI.appendChild(this.createGOUI(this.goSelected, object3D));
@@ -342,7 +342,7 @@ export class GOEditorView {
       portalInput.appendChild(selectWorldUUID);
 
       const unsetOption = document.createElement('option');
-      unsetOption.value = null;
+      unsetOption.value = 'null';
       unsetOption.innerHTML = 'None';
       selectWorldUUID.appendChild(unsetOption);
 
@@ -353,15 +353,35 @@ export class GOEditorView {
         selectWorldUUID.appendChild(optionWorld);
       });
 
-      //select right value
-      for (let index = 0; index < selectWorldUUID.children.length; index++) {
-        const o = selectWorldUUID.children[index];
-        if (o.value == worldScripts['portal'].conf.worldDestUUID) {
-          o.selected = true;
-        } else {
-          o.selected = false;
+      //select option in a select html
+      const selectOption = function (select, value) {
+        let found = false;
+
+        if (value === null) value = 'null'; //dynamic cast
+
+        console.log('value param ', value);
+        for (let index = 0; index < select.children.length; index++) {
+          const o = select.children[index];
+          const optValue = o.value;
+          console.log('opt value ', optValue);
+          if (optValue == value) {
+            o.selected = true;
+            found = true;
+            break;
+          } else {
+            o.selected = false;
+          }
         }
-      }
+
+        if (!found) {
+          //select null option
+          selectOption(select, null);
+        }
+      };
+
+      //select right value
+      const currentWorldValue = worldScripts['portal'].conf.worldDestUUID;
+      selectOption(selectWorldUUID, currentWorldValue);
 
       //portal uuid
       let worldPortal;
@@ -376,10 +396,11 @@ export class GOEditorView {
       portalInput.appendChild(selectPortalUUID);
 
       const unsetOptionPortal = document.createElement('option');
-      unsetOptionPortal.value = null;
+      unsetOptionPortal.value = 'null';
       unsetOptionPortal.innerHTML = 'None';
       selectPortalUUID.appendChild(unsetOptionPortal);
 
+      //add option portal
       if (worldPortal) {
         worldPortal.getGameObject().traverse(function (child) {
           const s = child.getComponent(WorldScriptModule.TYPE); //this way because assets are not initialized
@@ -393,14 +414,8 @@ export class GOEditorView {
       }
 
       //select right value
-      for (let index = 0; index < selectPortalUUID.children.length; index++) {
-        const o = selectPortalUUID.children[index];
-        if (o.value == worldScripts['portal'].conf.portalUUID) {
-          o.selected = true;
-        } else {
-          o.selected = false;
-        }
-      }
+      const currentPortalValue = worldScripts['portal'].conf.portalUUID;
+      selectOption(selectPortalUUID, currentPortalValue);
 
       result.appendChild(portalInput);
     }
@@ -415,12 +430,16 @@ export class GOEditorView {
     const _this = this;
 
     cloneButton.onclick = function () {
-      _this.parentView.addGameObject(GameObject.deepCopy(go));
+      const clone = GameObject.deepCopy(go);
+      _this.parentView.addGameObject(clone, function () {
+        _this.setSelectedGO(clone.getUUID());
+      });
     };
 
     if (portalInput) {
       const updatePortalUI = function () {
         const ws = go.fetchWorldScripts()['portal'];
+
         ws.conf.worldDestUUID =
           selectWorldUUID.children[selectWorldUUID.selectedIndex].value;
         ws.conf.portalUUID =
@@ -441,6 +460,7 @@ export class GOEditorView {
           newGO.components.LocalScript.conf = JSON.parse(
             JSON.stringify(go.components.LocalScript.conf)
           ); //deep copy TODO conf are not shared
+          if (go == newGO) debugger;
           newGO.components.LocalScript.conf.path = url;
           _this.gameView.forceUpdate(state);
         });
@@ -448,15 +468,7 @@ export class GOEditorView {
     }
 
     deleteButton.onclick = function () {
-      const world = _this.gameView
-        .getStateComputer()
-        .getWorldContext()
-        .getWorld();
-
-      //TODO code replication with delete of delete key
-
       go.removeFromParent();
-      _this.setSelectedGO(null, null);
 
       _this.gameView.forceUpdate();
 
@@ -514,6 +526,13 @@ export class GOEditorView {
 
       li.onclick = _this.goButtonClicked.bind(_this, child.getUUID());
     });
+
+    //goeditor view
+    if (this.goSelected) {
+      this.setSelectedGO(this.goSelected.getUUID());
+    } else {
+      this.setSelectedGO(null);
+    }
   }
 
   goButtonClicked(uuid) {
@@ -523,7 +542,7 @@ export class GOEditorView {
 
     this.parentView.focusObject(obj);
 
-    this.setSelectedGO(uuid, obj);
+    this.setSelectedGO(uuid);
   }
 
   computeObject3D(uuid) {
