@@ -359,11 +359,11 @@ export class GOEditorView {
 
         if (value === null) value = 'null'; //dynamic cast
 
-        console.log('value param ', value);
+        // console.log('value param ', value);
         for (let index = 0; index < select.children.length; index++) {
           const o = select.children[index];
           const optValue = o.value;
-          console.log('opt value ', optValue);
+          // console.log('opt value ', optValue);
           if (optValue == value) {
             o.selected = true;
             found = true;
