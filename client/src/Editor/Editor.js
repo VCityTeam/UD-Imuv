@@ -6,6 +6,7 @@ import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
 import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
+import JSONUtils from 'ud-viz/src/Game/Shared/Components/JSONUtils';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -25,7 +26,6 @@ export class EditorView {
     this.closeButton = null;
     this.worldsList = null;
     this.saveWorldsButton = null;
-    this.saveCurrentWorldButton = null;
 
     //assets
     this.assetsManager = new Game.Components.AssetsManager();
@@ -54,11 +54,6 @@ export class EditorView {
     this.saveWorldsButton.classList.add('button_Editor');
     this.saveWorldsButton.innerHTML = 'Save Worlds';
     this.ui.appendChild(this.saveWorldsButton);
-
-    this.saveCurrentWorldButton = document.createElement('div');
-    this.saveCurrentWorldButton.classList.add('button_Editor');
-    this.saveCurrentWorldButton.innerHTML = 'Save Current World Local';
-    this.ui.appendChild(this.saveCurrentWorldButton);
   }
 
   setOnClose(f) {
@@ -113,6 +108,7 @@ export class EditorView {
                 };
                 img.crossOrigin = ''; // if from different origin
                 img.src = conf.path;
+                conf.path = 'none'; //clear path
                 img.onerror = reject;
               });
               promises.push(promise);
@@ -122,25 +118,21 @@ export class EditorView {
       });
 
       Promise.all(promises).then(function () {
-        console.log('send data server');
-        _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, {
+        const data = {
           worlds: _this.assetsManager.getWorldsJSON(),
           images: blobsBuffer,
-        });
-        console.log('ok');
+        };
+        console.log('send data server ', data);
+        _this.webSocketService.emit(
+          Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+          data
+        );
       });
     };
-
-    this.saveCurrentWorldButton.onclick = this.saveCurrentWorld.bind(this);
   }
 
   saveCurrentWorld() {
     if (!this.currentWorldView) return;
-
-    const currentGO = this.currentWorldView
-      .getGameView()
-      .getLastState()
-      .getGameObject();
 
     //world loaded
     const world = this.currentWorldView
@@ -154,8 +146,7 @@ export class EditorView {
       const json = worldsJSON[index];
       if (json.uuid == world.getUUID()) {
         //found
-        const newContent = world.toJSON(); // update with new content
-        newContent.gameObject = currentGO.toJSON(true);
+        const newContent = world.toJSON();
         worldsJSON[index] = newContent;
         break;
       }
@@ -183,6 +174,7 @@ export class EditorView {
 
   onWorldJSON(json) {
     if (this.currentWorldView) {
+      this.saveCurrentWorld();
       this.currentWorldView.dispose();
     }
 

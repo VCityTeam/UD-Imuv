@@ -3,7 +3,7 @@
 import './GOEditor.css';
 import { THREE, TransformControls } from 'ud-viz';
 import File from 'ud-viz/src/Components/SystemUtils/File';
-import { World } from 'ud-viz/src/Game/Shared/Shared';
+import { GameObject, World } from 'ud-viz/src/Game/Shared/Shared';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 
 export class GOEditorView {
@@ -16,6 +16,9 @@ export class GOEditorView {
     //html
     this.goList = null;
     this.goSelectedUI = null;
+
+    //parentView
+    this.parentView = params.parentView;
 
     //gameview
     this.gameView = params.gameView;
@@ -60,17 +63,22 @@ export class GOEditorView {
       function (event) {
         _this.orbitControls.enabled = !event.value;
 
+        const gameViewGO = _this.gameView
+          .getLastState()
+          .getGameObject()
+          .find(_this.goSelected.getUUID());
+
+        _this.goSelected.setTransformFromGO(gameViewGO);
+
         //update go menu ui
-        _this.setSelectedGO(
-          _this.goSelected.getUUID(),
-          _this.transformControls.object
-        );
+        _this.setSelectedGO(_this.goSelected.getUUID());
       }
     );
 
     this.escListener = function () {
-      _this.setSelectedGO(null, null);
+      _this.setSelectedGO(null);
     };
+
     this.deleteListener = function () {
       if (_this.transformControls.object) {
         const world = _this.gameView
@@ -85,7 +93,6 @@ export class GOEditorView {
         //TODO duplicate code with the delete button of the goUI
 
         deletedGO.removeFromParent();
-        _this.setSelectedGO(null, null);
 
         //force update gameview
         _this.gameView.forceUpdate();
@@ -138,7 +145,7 @@ export class GOEditorView {
           }
 
           if (current) {
-            _this.setSelectedGO(current.userData.gameObjectUUID, current);
+            _this.setSelectedGO(current.userData.gameObjectUUID);
           }
         }
       }
@@ -150,7 +157,11 @@ export class GOEditorView {
     manager.addMouseInput(viewerDiv, 'pointerdown', this.mouseDownListener);
   }
 
-  setSelectedGO(uuid, object3D) {
+  getSelectedGO() {
+    return this.goSelected;
+  }
+
+  setSelectedGO(uuid) {
     const world = this.gameView.getStateComputer().getWorldContext().getWorld();
     const go = world.getGameObject();
     this.goSelected = go.find(uuid);
@@ -163,6 +174,9 @@ export class GOEditorView {
 
     if (this.goSelected) {
       //attach transform ctrl
+
+      let object3D = this.computeObject3D(uuid);
+
       this.transformControls.attach(object3D);
       this.transformControls.updateMatrixWorld();
       this.goSelectedUI.appendChild(this.createGOUI(this.goSelected, object3D));
@@ -243,6 +257,12 @@ export class GOEditorView {
 
     result.appendChild(createInputVector3('scale'));
 
+    //clone
+    const cloneButton = document.createElement('div');
+    cloneButton.classList.add('button_Editor');
+    cloneButton.innerHTML = 'Clone';
+    result.appendChild(cloneButton);
+
     let imageInput = null;
     const localScripts = go.fetchLocalScripts();
     if (localScripts && localScripts['image']) {
@@ -252,6 +272,8 @@ export class GOEditorView {
     }
 
     let portalInput = null;
+    let selectWorldUUID = null;
+    let selectPortalUUID = null;
     const worldScripts = go.fetchWorldScripts();
     if (worldScripts && worldScripts['portal']) {
       portalInput = document.createElement('div');
@@ -297,54 +319,90 @@ export class GOEditorView {
       }
 
       //world uuid
-      const worlds = this.gameView.getAssetsManager().getWorldsJSON();
+      const worldsJSON = this.gameView.getAssetsManager().getWorldsJSON();
+      const wCxt = this.gameView.getStateComputer().getWorldContext();
+      const currentWorld = wCxt.getWorld();
+      //replace current world json because it can be modified
+      for (let index = 0; index < worldsJSON.length; index++) {
+        const json = worldsJSON[index];
+        if (json.uuid == currentWorld.getUUID()) {
+          //found
+          const newContent = currentWorld.toJSON();
+          worldsJSON[index] = newContent;
+          break;
+        }
+      }
+
       const labelWorlds = document.createElement('div');
       labelWorlds.innerHTML = 'World Destination';
       portalInput.appendChild(labelWorlds);
 
-      const selectWorldUUID = document.createElement('select');
+      selectWorldUUID = document.createElement('select');
+      selectWorldUUID.multiple = false;
       portalInput.appendChild(selectWorldUUID);
 
       const unsetOption = document.createElement('option');
-      unsetOption.value = null;
+      unsetOption.value = 'null';
       unsetOption.innerHTML = 'None';
       selectWorldUUID.appendChild(unsetOption);
 
-      worlds.forEach(function (wjson) {
+      worldsJSON.forEach(function (wjson) {
         const optionWorld = document.createElement('option');
         optionWorld.value = wjson.uuid;
         optionWorld.innerHTML = wjson.name;
         selectWorldUUID.appendChild(optionWorld);
       });
 
-      //select right value
-      for (let index = 0; index < selectWorldUUID.children.length; index++) {
-        const o = selectWorldUUID.children[index];
-        if (o.value == worldScripts['portal'].conf.worldDestUUID) {
-          o.selected = true;
-        } else {
-          o.selected = false;
+      //select option in a select html
+      const selectOption = function (select, value) {
+        let found = false;
+
+        if (value === null) value = 'null'; //dynamic cast
+
+        // console.log('value param ', value);
+        for (let index = 0; index < select.children.length; index++) {
+          const o = select.children[index];
+          const optValue = o.value;
+          // console.log('opt value ', optValue);
+          if (optValue == value) {
+            o.selected = true;
+            found = true;
+            break;
+          } else {
+            o.selected = false;
+          }
         }
-      }
+
+        if (!found) {
+          //select null option
+          selectOption(select, null);
+        }
+      };
+
+      //select right value
+      const currentWorldValue = worldScripts['portal'].conf.worldDestUUID;
+      selectOption(selectWorldUUID, currentWorldValue);
 
       //portal uuid
-      let currentWorld;
-      worlds.forEach(function (wjson) {
+      let worldPortal;
+      worldsJSON.forEach(function (wjson) {
         if (wjson.uuid == selectWorldUUID.selectedOptions[0].value) {
-          currentWorld = new World(wjson);
+          worldPortal = new World(wjson);
         }
       });
 
-      if (currentWorld) {
-        const selectPortalUUID = document.createElement('select');
-        portalInput.appendChild(selectPortalUUID);
+      selectPortalUUID = document.createElement('select');
+      selectPortalUUID.multiple = false;
+      portalInput.appendChild(selectPortalUUID);
 
-        const unsetOptionPortal = document.createElement('option');
-        unsetOptionPortal.value = null;
-        unsetOptionPortal.innerHTML = 'None';
-        selectPortalUUID.appendChild(unsetOptionPortal);
+      const unsetOptionPortal = document.createElement('option');
+      unsetOptionPortal.value = 'null';
+      unsetOptionPortal.innerHTML = 'None';
+      selectPortalUUID.appendChild(unsetOptionPortal);
 
-        currentWorld.getGameObject().traverse(function (child) {
+      //add option portal
+      if (worldPortal) {
+        worldPortal.getGameObject().traverse(function (child) {
           const s = child.getComponent(WorldScriptModule.TYPE); //this way because assets are not initialized
           if (s && s.idScripts.includes('portal')) {
             const optionPortal = document.createElement('option');
@@ -353,17 +411,11 @@ export class GOEditorView {
             selectPortalUUID.appendChild(optionPortal);
           }
         });
-
-        //select right value
-        for (let index = 0; index < selectPortalUUID.children.length; index++) {
-          const o = selectPortalUUID.children[index];
-          if (o.value == worldScripts['portal'].conf.portalUUID) {
-            o.selected = true;
-          } else {
-            o.selected = false;
-          }
-        }
       }
+
+      //select right value
+      const currentPortalValue = worldScripts['portal'].conf.portalUUID;
+      selectOption(selectPortalUUID, currentPortalValue);
 
       result.appendChild(portalInput);
     }
@@ -377,7 +429,26 @@ export class GOEditorView {
     //CALLBACKS
     const _this = this;
 
+    cloneButton.onclick = function () {
+      const clone = GameObject.deepCopy(go);
+      _this.parentView.addGameObject(clone, function () {
+        _this.setSelectedGO(clone.getUUID());
+      });
+    };
+
     if (portalInput) {
+      const updatePortalUI = function () {
+        const ws = go.fetchWorldScripts()['portal'];
+
+        ws.conf.worldDestUUID =
+          selectWorldUUID.children[selectWorldUUID.selectedIndex].value;
+        ws.conf.portalUUID =
+          selectPortalUUID.children[selectPortalUUID.selectedIndex].value;
+        _this.updateUI();
+      };
+
+      selectPortalUUID.onchange = updatePortalUI.bind(_this);
+      selectWorldUUID.onchange = updatePortalUI.bind(_this);
     }
 
     if (imageInput) {
@@ -389,6 +460,7 @@ export class GOEditorView {
           newGO.components.LocalScript.conf = JSON.parse(
             JSON.stringify(go.components.LocalScript.conf)
           ); //deep copy TODO conf are not shared
+          if (go == newGO) debugger;
           newGO.components.LocalScript.conf.path = url;
           _this.gameView.forceUpdate(state);
         });
@@ -396,15 +468,7 @@ export class GOEditorView {
     }
 
     deleteButton.onclick = function () {
-      const world = _this.gameView
-        .getStateComputer()
-        .getWorldContext()
-        .getWorld();
-
-      //TODO code replication with delete of delete key
-
       go.removeFromParent();
-      _this.setSelectedGO(null, null);
 
       _this.gameView.forceUpdate();
 
@@ -462,42 +526,34 @@ export class GOEditorView {
 
       li.onclick = _this.goButtonClicked.bind(_this, child.getUUID());
     });
+
+    //goeditor view
+    if (this.goSelected) {
+      this.setSelectedGO(this.goSelected.getUUID());
+    } else {
+      this.setSelectedGO(null);
+    }
   }
 
   goButtonClicked(uuid) {
+    const obj = this.computeObject3D(uuid);
+
+    if (!obj) return;
+
+    this.parentView.focusObject(obj);
+
+    this.setSelectedGO(uuid);
+  }
+
+  computeObject3D(uuid) {
     const object3D = this.gameView.getObject3D();
-    let objToFocus = null;
+    let result = null;
     object3D.traverse(function (c) {
       if (c.userData.gameObjectUUID == uuid) {
-        objToFocus = c;
+        result = c;
       }
     });
-
-    if (!objToFocus) return;
-
-    const camera = this.gameView.getItownsView().camera.camera3D;
-
-    const bb = new THREE.Box3().setFromObject(objToFocus);
-    const center = bb.getCenter(new THREE.Vector3());
-    const radius = bb.min.distanceTo(bb.max) * 0.5;
-
-    // compute new distance between camera and center of object/sphere
-    const h = radius / Math.tan((camera.fov / 2) * THREE.Math.DEG2RAD);
-
-    // get direction of camera
-    const dir = new THREE.Vector3().subVectors(camera.position, center);
-
-    // compute new camera position
-    const newPos = new THREE.Vector3().addVectors(center, dir.setLength(h));
-
-    camera.position.set(newPos.x, newPos.y, newPos.z);
-    camera.lookAt(center);
-    camera.updateProjectionMatrix();
-
-    this.orbitControls.target.copy(center);
-    this.orbitControls.update();
-
-    this.setSelectedGO(uuid, objToFocus);
+    return result;
   }
 
   initUI() {

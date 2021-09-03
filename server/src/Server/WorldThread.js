@@ -152,11 +152,13 @@ WorldThreadModule.routine = function (serverConfig) {
                 .getWorld()
                 .getGameObject()
                 .find(portalUUID);
-              portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
-              worldStateComputer
-                .getWorldContext()
-                .getWorld()
-                .updateCollisionBuffer();
+              if (portal) {
+                portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
+                worldStateComputer
+                  .getWorldContext()
+                  .getWorld()
+                  .updateCollisionBuffer();
+              }
             } else if (transformJSON) {
               newGO.setFromTransformJSON(transformJSON);
               worldStateComputer

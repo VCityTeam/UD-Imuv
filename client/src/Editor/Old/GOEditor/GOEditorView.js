@@ -1,4 +1,7 @@
 /** @format */
+
+//TODO delete this
+
 import { THREE, OrbitControls, Game, Components } from 'ud-viz';
 
 import { HeightMapView } from './Heightmap/HeightmapView';

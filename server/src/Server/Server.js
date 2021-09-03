@@ -22,7 +22,6 @@ const {
   WorldStateComputer,
   World,
 } = require('ud-viz/src/Game/Shared/Shared');
-const JSONUtils = require('ud-viz/src/Components/SystemUtils/JSONUtils');
 const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
 
 const ServerModule = class Server {
@@ -377,7 +376,10 @@ const ServerModule = class Server {
                 function (avatarJSON) {
                   //modify json
                   const originalJSON = u.getAvatarJSON();
-                  JSONUtils.overWrite(originalJSON, avatarJSON);
+                  Shared.Components.JSONUtils.overWrite(
+                    originalJSON,
+                    avatarJSON
+                  );
 
                   //write in user
                   u.setAvatarJSON(originalJSON);
@@ -534,6 +536,11 @@ const ServerModule = class Server {
     });
 
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
+      if (!data) {
+        console.log('no data on save worlds');
+        return;
+      }
+
       const worlds = [];
       data.worlds.forEach(function (json) {
         worlds.push(
@@ -551,7 +558,9 @@ const ServerModule = class Server {
           new Promise((resolve, reject) => {
             const bitmap = Buffer.from(i.blob, 'base64');
             const commonPath =
-              'assets/img/' + Shared.THREE.MathUtils.generateUUID() + '.jpeg';
+              'assets/img/uploaded/' +
+              Shared.THREE.MathUtils.generateUUID() +
+              '.jpeg';
             const serverPath = '../client/' + commonPath;
 
             //add attr on the fly (TODO clean ?)
@@ -562,7 +571,6 @@ const ServerModule = class Server {
               w.getGameObject().traverse(function (child) {
                 const ls = child.getComponent(LocalScriptModule.TYPE);
                 if (ls && ls.getUUID() == i.localScriptUUID) {
-                  i.oldPath = ls.getConf().path;
                   ls.getConf().path = './' + commonPath;
                   return true;
                 }

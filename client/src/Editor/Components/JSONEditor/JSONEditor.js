@@ -3,7 +3,7 @@ import './JSONEditor.css';
 
 import { Components, THREE } from 'ud-viz';
 import Type from 'ud-viz/src/Components/SystemUtils/Type';
-import JSONUtils from 'ud-viz/src/Components/SystemUtils/JSONUtils';
+import JSONUtils from 'ud-viz/src/Game/Shared/Components/JSONUtils';
 
 const OFFSET_LEFT = 20;
 const VALUES_TYPE = {
