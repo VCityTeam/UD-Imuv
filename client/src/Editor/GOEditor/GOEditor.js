@@ -38,10 +38,10 @@ export class GOEditorView {
 
     //go selected
     this.goSelected = null;
-
+    
+    this.initTransformControls();
     this.initUI();
     this.initCallbacks();
-    this.initTransformControls();
   }
 
   initTransformControls() {

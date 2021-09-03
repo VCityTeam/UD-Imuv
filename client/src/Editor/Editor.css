@@ -16,6 +16,7 @@
 }
 
 .ui_Editor {
+  overflow: scroll;
   position: absolute;
   left: 0px;
   top: 0px;
