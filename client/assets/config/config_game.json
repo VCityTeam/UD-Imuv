@@ -35,20 +35,17 @@
     },
     "models": {
       "room_conf_modulable": {
-        "path": "./assets/models/Room_Conf_Modulable.glb",
-        "anchor": "min"
+        "path": "./assets/models/Room_Conf_Modulable.glb"
       },
       "avatar_capuchon": {
         "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
       "flying_campus": {
-        "path": "./assets/models/flying_campus.glb",
-        "anchor": "min"
+        "path": "./assets/models/flying_campus.glb"
       },
       "room_expo": {
-        "path": "./assets/models/Room_Expo.glb",
-        "anchor": "min"
+        "path": "./assets/models/Room_Expo.glb"
       },
       "spiral_spawn": {
         "path": "./assets/models/Spirale_spawn.glb",
