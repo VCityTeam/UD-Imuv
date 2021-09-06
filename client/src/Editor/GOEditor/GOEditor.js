@@ -454,15 +454,9 @@ export class GOEditorView {
     if (imageInput) {
       imageInput.onchange = function (e) {
         File.readSingleFileAsDataUrl(e, function (data) {
-          const url = data.target.result;
-          const state = _this.gameView.getStateComputer().computeCurrentState();
-          const newGO = state.getGameObject().find(go.getUUID());
-          newGO.components.LocalScript.conf = JSON.parse(
-            JSON.stringify(go.components.LocalScript.conf)
-          ); //deep copy TODO conf are not shared
-          if (go == newGO) debugger;
-          newGO.components.LocalScript.conf.path = url;
-          _this.gameView.forceUpdate(state);
+          const url = data.target.result;          
+          go.components.LocalScript.conf.path = url;
+          _this.gameView.forceUpdate();
         });
       };
     }
