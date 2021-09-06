@@ -8,7 +8,7 @@ import * as udviz from 'ud-viz';
 import { GameView } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
-import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
+import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
 
 export class WorldEditorView {
   constructor(params) {
@@ -187,6 +187,30 @@ export class WorldEditorView {
       });
 
       _this.childrenViews.push(CEV);
+    };
+
+    this.heightmapButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof HeightmapEditorView) return;
+      }
+
+      const hV = new HeightmapEditorView({
+        parentUIHtml: _this.ui,
+        assetsManager: _this.assetsManager,
+        gameView: _this.gameView,
+        parentView: _this,
+      });
+
+      hV.setOnClose(function () {
+        hV.dispose();
+
+        const index = _this.childrenViews.indexOf(hV);
+        _this.childrenViews.splice(index, 1);
+      });
+
+      _this.childrenViews.push(hV);
     };
 
     const manager = this.gameView.getInputManager();
