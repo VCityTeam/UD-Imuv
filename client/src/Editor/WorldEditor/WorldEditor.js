@@ -183,6 +183,7 @@ export class WorldEditorView {
         parentUIHtml: _this.ui.parentElement,
         gameView: _this.gameView,
         parentOC: _this.orbitControls,
+        assetsManager: _this.assetsManager,
       });
       cEV.setOnClose(function () {
         cEV.dispose();

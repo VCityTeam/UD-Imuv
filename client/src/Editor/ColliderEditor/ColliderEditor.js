@@ -2,6 +2,7 @@ import './ColliderEditor.css';
 
 import { THREE, TransformControls } from 'ud-viz';
 import { ConvexGeometry } from 'ud-viz/node_modules/three/examples/jsm/geometries/ConvexGeometry';
+import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 
 export class ColliderEditorView {
   constructor(params) {
@@ -13,6 +14,7 @@ export class ColliderEditorView {
     this.rootHtml = params.parentUIHtml;
     this.gameView = params.gameView;
     this.canvas = this.gameView.rootItownsHtml;
+    this.assetsManager = params.assetsManager;
 
     this.colliderObject3D = new THREE.Object3D();
     this.colliderObject3D.name = 'ColliderObject';
@@ -32,6 +34,7 @@ export class ColliderEditorView {
 
     this.closeButton = null;
     this.newButton = null;
+    this.saveButton = null;
 
     //controls
     this.orbitControls = params.parentOC;
@@ -42,6 +45,26 @@ export class ColliderEditorView {
     this.initUI();
     this.initTransformControls();
     this.initCallbacks();
+    this.model.loadShapesFromJSON(
+      this.getColliderComponent(),
+      this.colliderObject3D
+    );
+  }
+
+  getColliderComponent() {
+    const world = this.gameView.getStateComputer().getWorldContext().getWorld();
+
+    const go = world.getGameObject();
+    const wS = go.fetchWorldScripts()['worldGameManager'];
+    const mapGo = wS.getMap();
+
+    if (!mapGo) throw new Error('no map object in world');
+
+    let colliderComp = mapGo.getComponent(ColliderModule.TYPE);
+    if (!colliderComp) {
+      colliderComp = new ColliderModule();
+    }
+    return colliderComp;
   }
 
   dispose() {
@@ -145,47 +168,48 @@ export class ColliderEditorView {
   }
 
   initUI() {
-    const closeButton = document.createElement('button');
-    closeButton.innerHTML = 'Close';
-    this.ui.appendChild(closeButton);
-    this.closeButton = closeButton;
-
     const wrapper = document.createElement('div');
     const newButton = document.createElement('button');
     newButton.innerHTML = 'New';
     wrapper.appendChild(newButton);
-    this.ui.appendChild(wrapper);
     this.newButton = newButton;
+
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = 'Close';
+    wrapper.appendChild(closeButton);
+    this.closeButton = closeButton;
+
+    const saveButton = document.createElement('button');
+    saveButton.innerHTML = 'Save';
+    wrapper.appendChild(saveButton);
+    this.saveButton = saveButton;
 
     const uiCurrentShape = document.createElement('p');
     uiCurrentShape.innerHTML = 'Current Shape : None';
     wrapper.appendChild(uiCurrentShape);
-    this.ui.appendChild(wrapper);
     this.uiCurrentShape = uiCurrentShape;
 
     const uiShapes = document.createElement('p');
     uiShapes.innerHTML = 'Shapes length : None';
     wrapper.appendChild(uiShapes);
-    this.ui.appendChild(wrapper);
     this.uiShapes = uiShapes;
 
     const shapesList = document.createElement('ul');
     shapesList.classList.add('ul_Editor');
     wrapper.appendChild(shapesList);
-    this.ui.appendChild(wrapper);
     this.shapesList = shapesList;
 
     const pointsList = document.createElement('ul');
     pointsList.classList.add('ul_Editor');
     wrapper.appendChild(pointsList);
-    this.ui.appendChild(wrapper);
     this.pointsList = pointsList;
 
     const uiMode = document.createElement('p');
     uiMode.innerHTML = 'Mode : OrbitsControl';
     wrapper.appendChild(uiMode);
-    this.ui.appendChild(wrapper);
     this.uiMode = uiMode;
+
+    this.ui.appendChild(wrapper);
   }
 
   initTransformControls() {
@@ -238,8 +262,15 @@ export class ColliderEditorView {
     };
 
     this.newButton.onclick = function () {
-      _this.model.addNewShape(new Sphape(_this.colliderObject3D));
+      _this.model.addNewShape(new Shape(_this.colliderObject3D));
       _this.updateUI();
+    };
+
+    this.saveButton.onclick = function () {
+      console.log('Save Collider');
+
+      const colliderComp = _this.getColliderComponent();
+      colliderComp.shapesJSON = _this.model.toJSON();
     };
 
     const attachTC = function () {
@@ -264,7 +295,7 @@ export class ColliderEditorView {
           const sphere = new THREE.Mesh(geometry, material);
           const pos = intersect.point;
           sphere.position.set(pos.x, pos.y, pos.z);
-          _this.model.getCurrentShape().getObject3D().add(sphere);
+          getShape().getObject3D().add(sphere);
           sphere.updateMatrixWorld();
           getShape().addPoint(sphere);
         }
@@ -340,9 +371,36 @@ export class ColliderEditorModel {
   getSelectedObject() {
     return this.selectedObject;
   }
+
+  loadShapesFromJSON(colliderComp, object3D) {
+    const _this = this;
+    const json = colliderComp.shapesJSON;
+    json.forEach(function (col) {
+      if (typeof col.points === 'undefined') return;
+      const shape = new Shape(object3D);
+      _this.addNewShape(shape);
+      col.points.forEach(function (p) {
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        const sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(p.x, p.y, p.z || 450);
+        _this.getCurrentShape().getObject3D().add(sphere);
+        sphere.updateMatrixWorld();
+        _this.getCurrentShape().addPoint(sphere);
+      });
+    });
+  }
+
+  toJSON() {
+    const result = [];
+    this.shapes.forEach(function (s) {
+      result.push(s.toJSON());
+    });
+    return result;
+  }
 }
 
-export class Sphape {
+class Shape {
   constructor(parent) {
     this.points = [];
 
@@ -352,9 +410,12 @@ export class Sphape {
     parent.add(this.shapeObject);
 
     this.name = 'Shape' + this.shapeObject.uuid;
-    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });;
     this.material.side = THREE.DoubleSide;
+
     this.mesh = null;
+
+    this.type = 'Polygon';
   }
 
   addPoint(point) {
@@ -384,22 +445,25 @@ export class Sphape {
     points.forEach((element) => {
       vertices.push(element.position);
     });
-    const geometry = new ConvexGeometry(vertices);
-    geometry.computeBoundingBox();
-    const center = geometry.boundingBox.getCenter();
-    const positions = geometry.attributes.position.array;
+    const meshGeometry = new ConvexGeometry(vertices);
+    meshGeometry.computeBoundingBox();
+    const center = meshGeometry.boundingBox.getCenter();
+    const positions = meshGeometry.attributes.position.array;
     for (let i = 0; i < positions.length; i += 3) {
       positions[i] -= center.x;
       positions[i + 1] -= center.y;
       positions[i + 2] -= center.z;
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    meshGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(positions, 3)
+    );
 
     //If you want the ray intersect the mesh you have to remove this boudingbox
-    //geometry.boundingBox = null;
+    //meshGeometry.boundingBox = null;
 
-    this.mesh = new THREE.Mesh(geometry, this.material);
+    this.mesh = new THREE.Mesh(meshGeometry, this.material);
     this.mesh.position.copy(center);
     this.mesh.updateMatrixWorld();
     this.shapeObject.add(this.mesh);
@@ -407,5 +471,16 @@ export class Sphape {
 
   getObject3D() {
     return this.shapeObject;
+  }
+
+  toJSON() {
+    const result = [];
+    this.points.forEach(function (p) {
+      result.push(p.position);
+    });
+    const shape = {};
+    shape.type = this.type;
+    shape.points = result;
+    return shape;
   }
 }
