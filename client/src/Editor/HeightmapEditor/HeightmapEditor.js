@@ -87,7 +87,7 @@ export class HeightmapEditorView {
     this.update3DView(true);
   }
 
-  updatePlanes() {
+  updateModel() {
     //remove old ones
     if (this.planeTop && this.planeTop.parent) {
       this.planeTop.parent.remove(this.planeTop);
@@ -115,9 +115,11 @@ export class HeightmapEditorView {
     this.planeBottom.position.set(center.x, center.y, this.bottomPlaneAlt);
     this.planeTop.position.set(center.x, center.y, this.topPlaneAlt);
 
-    const scene = this.gameView.getItownsView().scene;
-    scene.add(this.planeTop);
-    scene.add(this.planeBottom);
+    const mapGO = this.parentView.computeMapGO();
+    //TODO ajouter dans l'objet 3D de la map pour etre dans le bon referentiel
+    
+    // scene.add(this.planeTop);
+    // scene.add(this.planeBottom);
 
     this.renderHeightmap();
   }
@@ -137,7 +139,7 @@ export class HeightmapEditorView {
       this.bottomPlaneAlt = bb.min.z;
       this.planeSize = Math.max(bb.max.x - bb.min.x, bb.max.y - bb.min.y);
 
-      this.updatePlanes();
+      this.updateModel();
     } else {
       scene.remove(this.planeTop);
       scene.remove(this.planeBottom);
@@ -252,17 +254,17 @@ export class HeightmapEditorView {
 
     this.bottomInput.onchange = function () {
       _this.bottomPlaneAlt = this.value;
-      _this.updatePlanes();
+      _this.updateModel();
     };
 
     this.topInput.onchange = function () {
       _this.topPlaneAlt = this.value;
-      _this.updatePlanes();
+      _this.updateModel();
     };
 
     this.sizeInput.onchange = function () {
       _this.planeSize = this.value;
-      _this.updatePlanes();
+      _this.updateModel();
     };
   }
 

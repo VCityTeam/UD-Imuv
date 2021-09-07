@@ -3,7 +3,7 @@
 module.exports = class Map {
   constructor(conf) {
     this.conf = conf;
-    this.heightmapSize = null; //size of the heightmap
+    this.heightmapSize = 0; //size of the heightmap
     this.heightValues = []; //values extract from heightmap
   }
 
@@ -18,7 +18,9 @@ module.exports = class Map {
 
       //callback of the img
       img.onload = function () {
-        _this.heightmapSize = { width: img.width, height: img.height };
+        _this.heightmapSize = img.width;
+        if (img.width != img.height)
+          throw new Error('heightmap must be square image');
 
         const hMin = conf.heightmap_geometry.min;
         const hMax = conf.heightmap_geometry.max;
@@ -77,8 +79,11 @@ module.exports = class Map {
           if (err) {
             throw new Error('size ' + err);
           }
-          _this.heightmapSize = size;
-          let png = new PNG();
+          _this.heightmapSize = size.width;
+          if (size.width != size.height)
+            throw new Error('heightmap must be square image');
+
+          const png = new PNG();
           png.end(buffer);
           png.on('parsed', function (imgDataHeight) {
             const hMin = conf.heightmap_geometry.min;
@@ -105,14 +110,17 @@ module.exports = class Map {
   }
 
   getHeightValue(x, y, size = this.heightmapSize, values = this.heightValues) {
+    //TODO heightmap are square
     const pixelWorldUnit = {
-      width: this.conf.heightmap_geometry.size / size.width,
-      height: this.conf.heightmap_geometry.size / size.height,
+      width: this.conf.heightmap_geometry.size / size,
+      height: this.conf.heightmap_geometry.size / size,
     };
 
+    const center = size / 2;
+
     const coordHeightmap = {
-      x: x / pixelWorldUnit.width,
-      y: (this.conf.heightmap_geometry.size - y) / pixelWorldUnit.height, //y is inverse
+      x: x / pixelWorldUnit.width + center,
+      y: y / pixelWorldUnit.height + center,
     };
 
     const indexMin = {
@@ -125,13 +133,13 @@ module.exports = class Map {
     const getPixelHeight = function (i, j, weight) {
       //clamp
       let out = false;
-      if (i >= size.width) {
+      if (i >= size) {
         // console.log('out of bound X >');
         out = true;
       } else if (i < 0) {
         // console.log('out of bound X <');
         out = true;
-      } else if (j >= size.height) {
+      } else if (j >= size) {
         // console.log('out of bound Y >');
         out = true;
       } else if (j < 0) {
@@ -143,7 +151,7 @@ module.exports = class Map {
       if (out) {
         result = -1; //if negative means out
       } else {
-        result = values[i + j * size.width];
+        result = values[i + j * size];
         if (Math.abs(result - hMin) < 0.0001) result = -1; //negative => out
       }
       return weight * result;
@@ -153,10 +161,13 @@ module.exports = class Map {
   }
 
   updateElevation(gameObject) {
-    const elevation = this.getHeightValue(
+    let elevation = this.getHeightValue(
       gameObject.getPosition().x,
       gameObject.getPosition().y
     );
+
+    console.log(elevation);
+    elevation = 0
 
     if (elevation > 0) {
       gameObject.getPosition().z = elevation;
