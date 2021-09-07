@@ -49,6 +49,7 @@ export class ColliderEditorView {
       this.getColliderComponent(),
       this.colliderObject3D
     );
+    this.updateUI();
   }
 
   getColliderComponent() {
@@ -76,6 +77,7 @@ export class ColliderEditorView {
     manager.removeInputListener(this.refAddPointKeyDown);
     manager.removeInputListener(this.refAddPointKeyUp);
     manager.removeInputListener(this.onPointerupListener);
+    manager.removeInputListener(this.onPointerdownListener);
     if (this.gameView.getItownsView().scene)
       this.gameView.getItownsView().scene.remove(this.colliderObject3D);
   }
@@ -263,6 +265,7 @@ export class ColliderEditorView {
 
     this.newButton.onclick = function () {
       _this.model.addNewShape(new Shape(_this.colliderObject3D));
+      transformControls.detach();
       _this.updateUI();
     };
 
@@ -285,9 +288,24 @@ export class ColliderEditorView {
     const getShape = function () {
       return _this.model.getCurrentShape();
     };
+
+    const computeAngle = function () {
+      return (
+        _this.orbitControls.getAzimuthalAngle() +
+        _this.orbitControls.getPolarAngle()
+      );
+    };
+
+    let angle = 0;
+    this.onPointerdownListener = function (event) {
+      if (event.button != 0) return;
+      angle = computeAngle();
+    };
+
     this.onPointerupListener = function (event) {
+      const isRotating = Math.abs(angle - computeAngle()) > 0;
+      if (event.button != 0) return;
       if (_this.getAddPointMode()) {
-        if (event.button != 0) return;
         const intersect = throwRay(event, currentGameView.getObject3D());
         if (intersect) {
           const geometry = new THREE.SphereGeometry(1, 32, 32);
@@ -304,6 +322,7 @@ export class ColliderEditorView {
           getShape().updateMesh();
           return;
         }
+        if (isRotating) return;
         const intersect = throwRay(event, _this.colliderObject3D);
         if (intersect) {
           _this.model.setSelectedObject(intersect.object);
@@ -321,6 +340,7 @@ export class ColliderEditorView {
     manager.addKeyInput('Control', 'keydown', this.refAddPointKeyDown);
     manager.addKeyInput('Control', 'keyup', this.refAddPointKeyUp);
     manager.addMouseInput(canvas, 'pointerup', this.onPointerupListener);
+    manager.addMouseInput(canvas, 'pointerdown', this.onPointerdownListener);
   }
 
   setOnClose(f) {
@@ -338,6 +358,7 @@ export class ColliderEditorModel {
   addNewShape(shape) {
     this.setCurrentShape(shape);
     this.shapes.push(this.currentShape);
+    this.setSelectedObject(null);
   }
 
   removeShape(shape) {
@@ -350,7 +371,9 @@ export class ColliderEditorModel {
   }
 
   setCurrentShape(shape) {
+    if (this.currentShape) this.currentShape.setMaterialColor(0xff0000);
     this.currentShape = shape;
+    this.currentShape.setMaterialColor(0x00ff00);
   }
 
   setSelectedObject(object) {
@@ -410,12 +433,19 @@ class Shape {
     parent.add(this.shapeObject);
 
     this.name = 'Shape' + this.shapeObject.uuid;
-    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });;
+    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     this.material.side = THREE.DoubleSide;
 
     this.mesh = null;
 
     this.type = 'Polygon';
+  }
+
+  setMaterialColor(color) {
+    this.material.color.set(color);
+    if (this.mesh) {
+      this.mesh.material = this.material;
+    }
   }
 
   addPoint(point) {
