@@ -78,10 +78,7 @@ export class WorldEditorView {
     //find the map
     const wCxt = this.gameView.getStateComputer().getWorldContext();
     const world = wCxt.getWorld();
-
-    const go = world.getGameObject();
-    const wS = go.fetchWorldScripts()['worldGameManager'];
-    const mapGo = wS.getMap();
+    const mapGo = this.computeMapGO();
 
     if (!mapGo) throw new Error('no map object in world');
 
@@ -95,6 +92,16 @@ export class WorldEditorView {
 
       if (onLoad) onLoad();
     });
+  }
+
+  computeMapGO() {
+    //find the map
+    const wCxt = this.gameView.getStateComputer().getWorldContext();
+    const world = wCxt.getWorld();
+
+    const go = world.getGameObject();
+    const wS = go.fetchWorldScripts()['worldGameManager'];
+    return wS.getMap();
   }
 
   getGOEditorView() {
