@@ -102,7 +102,12 @@ export class ColliderEditorView {
 
     const liShapesList = document.createElement(`li`);
     liShapesList.classList.add('li_Editor');
+    liShapesList.classList.add('li_ColliderEditor');
     liShapesList.innerHTML = shape.name;
+    liShapesList.onclick = function () {
+      _this.model.setCurrentShape(shape);
+      _this.updateUI();
+    };
 
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
@@ -121,6 +126,7 @@ export class ColliderEditorView {
 
     const liPointList = document.createElement(`li`);
     liPointList.classList.add('li_Editor');
+    liPointList.classList.add('li_ColliderEditor');
     liPointList.innerHTML = point.name;
 
     const deleteButton = document.createElement('div');
@@ -153,13 +159,15 @@ export class ColliderEditorView {
     this.uiCurrentShape.innerHTML = 'Current Shape : ' + name;
 
     const pList = this.pointsList;
-    while (pList.firstChild) {
-      pList.removeChild(pList.firstChild);
+    if (pList.parentElement) {
+      pList.parentElement.removeChild(pList);
     }
     if (shape) {
       shape.points.forEach(function (point) {
         pList.appendChild(_this.pointHtml(point));
       });
+      const index = _this.model.shapes.indexOf(shape);
+      sList.children[index].appendChild(pList);
     }
 
     if (this.orbitControls.enabled) {
@@ -203,7 +211,6 @@ export class ColliderEditorView {
 
     const pointsList = document.createElement('ul');
     pointsList.classList.add('ul_Editor');
-    wrapper.appendChild(pointsList);
     this.pointsList = pointsList;
 
     const uiMode = document.createElement('p');
