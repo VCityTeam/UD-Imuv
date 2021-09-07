@@ -49,18 +49,11 @@
               "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/heightmap/flying_campus.png",
+                "heightmap_path": "./assets/img/uploaded/34C41DE7-A243-45AD-A268-A05B67C877C2.jpeg",
                 "heightmap_geometry": {
-                  "bounding_box": {
-                    "min": { "x": 0, "y": 0, "z": 0 },
-                    "max": {
-                      "x": 213.26456154806635,
-                      "y": 217.67993360188194,
-                      "z": 179.05260716867784
-                    }
-                  },
-                  "heightmap_min": 76.93562108253147,
-                  "heightmap_max": 139.66103359156872
+                  "max": 414.8000000830729,
+                  "min": 195.551815913264,
+                  "size": 276.9360682601109
                 }
               },
               "type": "WorldScript"

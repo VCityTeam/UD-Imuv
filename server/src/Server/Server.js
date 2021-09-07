@@ -569,9 +569,9 @@ const ServerModule = class Server {
             //modify worldjson
             worlds.forEach(function (w) {
               w.getGameObject().traverse(function (child) {
-                const ls = child.getComponent(LocalScriptModule.TYPE);
-                if (ls && ls.getUUID() == i.localScriptUUID) {
-                  ls.getConf().path = './' + commonPath;
+                const c = child.getComponentByUUID(i.componentUUID);
+                if (c) {
+                  c.getConf()[i.key] = './' + commonPath;
                   return true;
                 }
               });
