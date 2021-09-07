@@ -104,10 +104,7 @@ export class ColliderEditorView {
     liShapesList.classList.add('li_Editor');
     liShapesList.classList.add('li_ColliderEditor');
     liShapesList.innerHTML = shape.name;
-    liShapesList.onclick = function () {
-      _this.model.setCurrentShape(shape);
-      _this.updateUI();
-    };
+
 
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
@@ -117,6 +114,15 @@ export class ColliderEditorView {
       _this.updateUI();
     };
     liShapesList.appendChild(deleteButton);
+    
+    const selectButton = document.createElement('div');
+    selectButton.classList.add('button_Editor');
+    selectButton.innerHTML = 'Select';
+    selectButton.onclick = function () {
+      _this.model.setCurrentShape(shape);
+      _this.updateUI();
+    };
+    liShapesList.appendChild(selectButton);
 
     return liShapesList;
   }
@@ -155,18 +161,21 @@ export class ColliderEditorView {
     });
 
     const shape = this.model.getCurrentShape();
+    const index = this.model.shapes.indexOf(shape);
     const name = shape ? shape.name : 'None';
     this.uiCurrentShape.innerHTML = 'Current Shape : ' + name;
 
     const pList = this.pointsList;
+    while (pList.firstChild) {
+      pList.removeChild(pList.firstChild);
+    }
     if (pList.parentElement) {
       pList.parentElement.removeChild(pList);
     }
-    if (shape) {
+    if (index >= 0) {
       shape.points.forEach(function (point) {
         pList.appendChild(_this.pointHtml(point));
       });
-      const index = _this.model.shapes.indexOf(shape);
       sList.children[index].appendChild(pList);
     }
 
