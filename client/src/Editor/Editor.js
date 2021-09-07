@@ -6,7 +6,7 @@ import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
 import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
-import JSONUtils from 'ud-viz/src/Game/Shared/Components/JSONUtils';
+import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -73,46 +73,55 @@ export class EditorView {
       const c = document.createElement('canvas');
       const ctx = c.getContext('2d');
 
+      const computeImagePromise = function (conf, componentUUID, key) {
+        if (conf[key].startsWith('data:image')) {
+          const promise = new Promise((resolve, reject) => {
+            //compute blob
+            const img = new Image();
+            img.onload = function () {
+              c.width = this.naturalWidth; // update canvas size to match image
+              c.height = this.naturalHeight;
+
+              console.log('width ', c.width, ' height ', c.height);
+
+              ctx.drawImage(this, 0, 0); // draw in image
+              c.toBlob(
+                function (blob) {
+                  // get content as JPEG blob
+                  // here the image is a blob
+                  blobsBuffer.push({
+                    blob: blob,
+                    componentUUID: componentUUID,
+                    key: key,
+                  });
+                  console.log('pack image ', conf);
+                  resolve();
+                },
+                'image/jpeg',
+                0.75
+              );
+            };
+            img.crossOrigin = ''; // if from different origin
+            img.src = conf[key];
+            conf[key] = 'none'; //clear path
+            img.onerror = reject;
+          });
+          promises.push(promise);
+        }
+      };
+
       const worldsJSON = _this.assetsManager.getWorldsJSON();
       worldsJSON.forEach(function (worldJSON) {
         const go = new GameObject(worldJSON.gameObject);
         go.traverse(function (child) {
           const ls = child.getComponent(LocalScriptModule.TYPE); //this way because assets are not initialized
           if (ls && ls.idScripts.includes('image')) {
-            const conf = ls.getConf();
-            if (conf.path.startsWith('data:image')) {
-              const promise = new Promise((resolve, reject) => {
-                //compute blob
-                const img = new Image();
-                img.onload = function () {
-                  c.width = this.naturalWidth; // update canvas size to match image
-                  c.height = this.naturalHeight;
+            computeImagePromise(ls.getConf(), ls.getUUID(), 'path');
+          }
 
-                  console.log('width ', c.width, ' height ', c.height);
-
-                  ctx.drawImage(this, 0, 0); // draw in image
-                  c.toBlob(
-                    function (blob) {
-                      // get content as JPEG blob
-                      // here the image is a blob
-                      blobsBuffer.push({
-                        blob: blob,
-                        localScriptUUID: ls.getUUID(),
-                      });
-                      console.log('pack ', child.getName(), ' image');
-                      resolve();
-                    },
-                    'image/jpeg',
-                    0.75
-                  );
-                };
-                img.crossOrigin = ''; // if from different origin
-                img.src = conf.path;
-                conf.path = 'none'; //clear path
-                img.onerror = reject;
-              });
-              promises.push(promise);
-            }
+          const ws = child.getComponent(WorldScriptModule.TYPE);
+          if (ws && ws.idScripts.includes('map')) {
+            computeImagePromise(ws.getConf(), ws.getUUID(), 'heightmap_path');
           }
         });
       });
