@@ -6,3 +6,7 @@
     display: block;
     list-style: none;
 }
+
+.li_SelectedEditor{
+    background-color: green;
+}

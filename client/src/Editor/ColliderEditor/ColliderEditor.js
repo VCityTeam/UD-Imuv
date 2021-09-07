@@ -177,6 +177,7 @@ export class ColliderEditorView {
         pList.appendChild(_this.pointHtml(point));
       });
       sList.children[index].appendChild(pList);
+      sList.children[index].classList.add('li_SelectedEditor')
     }
 
     if (this.orbitControls.enabled) {
