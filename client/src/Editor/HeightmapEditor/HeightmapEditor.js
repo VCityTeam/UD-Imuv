@@ -14,6 +14,9 @@ export class HeightmapEditorView {
     this.closeButton = null;
     this.computeButton = null;
     this.canvasPreview = document.createElement('canvas');
+    this.topInput = null;
+    this.bottomInput = null;
+    this.sizeInput = null;
 
     this.assetsManager = params.assetsManager;
 
@@ -21,7 +24,7 @@ export class HeightmapEditorView {
 
     this.parentView = params.parentView;
 
-    //params to set heightmap screenshot
+    //params to set heightmap screenshot (model)
     this.topPlaneAlt = 10;
     this.bottomPlaneAlt = 0;
     this.planeSize = 100;
@@ -83,6 +86,14 @@ export class HeightmapEditorView {
   }
 
   updatePlanes() {
+    //remove old ones
+    if (this.planeTop && this.planeTop.parent) {
+      this.planeTop.parent.remove(this.planeTop);
+    }
+    if (this.planeBottom && this.planeBottom.parent) {
+      this.planeBottom.parent.remove(this.planeBottom);
+    }
+
     const planGeometry = new THREE.PlaneGeometry(
       this.planeSize,
       this.planeSize
@@ -100,6 +111,12 @@ export class HeightmapEditorView {
     //position
     this.planeBottom.position.set(center.x, center.y, this.bottomPlaneAlt);
     this.planeTop.position.set(center.x, center.y, this.topPlaneAlt);
+
+    const scene = this.gameView.getItownsView().scene;
+    scene.add(this.planeTop);
+    scene.add(this.planeBottom);
+
+    this.renderHeightmap();
   }
 
   update3DView(visible) {
@@ -118,14 +135,12 @@ export class HeightmapEditorView {
       this.planeSize = Math.max(bb.max.x - bb.min.x, bb.max.y - bb.min.y);
 
       this.updatePlanes();
-      scene.add(this.planeTop);
-      scene.add(this.planeBottom);
-
-      this.renderHeightmap();
     } else {
       scene.remove(this.planeTop);
       scene.remove(this.planeBottom);
     }
+
+    this.updateUI();
   }
 
   applyHeightmapVisibility(value) {
@@ -172,27 +187,29 @@ export class HeightmapEditorView {
     this.canvasPreview.classList.add('preview_HeightmapEditor');
     this.ui.appendChild(this.canvasPreview);
 
-    const create1DInput = function (labelText, initValue) {
-      const result = document.createElement('div');
+    const labelTop = document.createElement('div');
+    labelTop.innerHTML = 'top alt';
+    this.ui.appendChild(labelTop);
 
-      const label = document.createElement('div');
-      label.innerHTML = labelText;
-      result.appendChild(label);
+    this.topInput = document.createElement('input');
+    this.topInput.type = 'number';
+    this.ui.appendChild(this.topInput);
 
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.value = initValue;
-      input.onchange = function () {
-        console.log('change');
-      };
-      result.appendChild(input);
+    const labelbottom = document.createElement('div');
+    labelbottom.innerHTML = 'bottom alt';
+    this.ui.appendChild(labelbottom);
 
-      return result;
-    };
+    this.bottomInput = document.createElement('input');
+    this.bottomInput.type = 'number';
+    this.ui.appendChild(this.bottomInput);
 
-    this.ui.appendChild(create1DInput('top alt', this.topPlaneAlt));
-    this.ui.appendChild(create1DInput('bottom alt', this.bottomPlaneAlt));
-    this.ui.appendChild(create1DInput('size', this.planeSize));
+    const labelsize = document.createElement('div');
+    labelsize.innerHTML = 'size';
+    this.ui.appendChild(labelsize);
+
+    this.sizeInput = document.createElement('input');
+    this.sizeInput.type = 'number';
+    this.ui.appendChild(this.sizeInput);
 
     this.computeButton = document.createElement('div');
     this.computeButton.classList.add('button_Editor');
@@ -209,6 +226,27 @@ export class HeightmapEditorView {
     const _this = this;
 
     this.computeButton.onclick = this.renderHeightmap.bind(this);
+
+    this.bottomInput.onchange = function () {
+      _this.bottomPlaneAlt = this.value;
+      _this.updatePlanes();
+    };
+
+    this.topInput.onchange = function () {
+      _this.topPlaneAlt = this.value;
+      _this.updatePlanes();
+    };
+
+    this.sizeInput.onchange = function () {
+      _this.planeSize = this.value;
+      _this.updatePlanes();
+    };
+  }
+
+  updateUI() {
+    this.sizeInput.value = this.planeSize;
+    this.topInput.value = this.topPlaneAlt;
+    this.bottomInput.value = this.bottomPlaneAlt;
   }
 
   setOnClose(f) {
