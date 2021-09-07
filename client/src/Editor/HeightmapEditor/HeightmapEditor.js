@@ -4,6 +4,8 @@ import { THREE } from 'ud-viz';
 
 import './HeightmapEditor.css';
 
+const HEIGHTMAP_SIZE = 512;
+
 export class HeightmapEditorView {
   constructor(params) {
     //where html goes
@@ -12,7 +14,7 @@ export class HeightmapEditorView {
     params.parentUIHtml.appendChild(this.ui);
 
     this.closeButton = null;
-    this.computeButton = null;
+    this.bindButton = null;
     this.canvasPreview = document.createElement('canvas');
     this.topInput = null;
     this.bottomInput = null;
@@ -107,6 +109,7 @@ export class HeightmapEditorView {
     this.planeBottom = new THREE.Mesh(planGeometry, matPlan);
 
     const center = this.gameView.getExtent().center();
+    //TODO get map and place at it center
 
     //position
     this.planeBottom.position.set(center.x, center.y, this.bottomPlaneAlt);
@@ -161,6 +164,11 @@ export class HeightmapEditorView {
   }
 
   renderHeightmap() {
+    this.rendererHeightmap.setSize(HEIGHTMAP_SIZE, HEIGHTMAP_SIZE);
+
+    //detech transform so its not appearing on the heightmap image
+    this.parentView.getGOEditorView().transformControls.detach();
+
     this.cameraHeightmap.position.copy(this.planeTop.position);
     this.cameraHeightmap.top = this.planeSize * 0.5;
     this.cameraHeightmap.bottom = -this.planeSize * 0.5;
@@ -211,10 +219,10 @@ export class HeightmapEditorView {
     this.sizeInput.type = 'number';
     this.ui.appendChild(this.sizeInput);
 
-    this.computeButton = document.createElement('div');
-    this.computeButton.classList.add('button_Editor');
-    this.computeButton.innerHTML = 'Compute heightmap';
-    this.ui.appendChild(this.computeButton);
+    this.bindButton = document.createElement('div');
+    this.bindButton.classList.add('button_Editor');
+    this.bindButton.innerHTML = 'Compute heightmap';
+    this.ui.appendChild(this.bindButton);
 
     this.closeButton = document.createElement('div');
     this.closeButton.classList.add('button_Editor');
@@ -225,7 +233,22 @@ export class HeightmapEditorView {
   initCallbacks() {
     const _this = this;
 
-    this.computeButton.onclick = this.renderHeightmap.bind(this);
+    this.bindButton.onclick = function () {
+      _this.renderHeightmap(); //useless since model update launch render but robust
+      const url = _this.canvasPreview.toDataURL('image/png');
+
+      //get mapgo
+      const mapGO = _this.parentView.computeMapGO();
+      const mapScript = mapGO.fetchWorldScripts()['map'];
+
+      //bind
+      mapScript.conf.heightmap_path = url;
+      mapScript.conf.heightmap_geometry = {
+        max: _this.topPlaneAlt,
+        min: _this.bottomPlaneAlt,
+        size: _this.planeSize,
+      };
+    };
 
     this.bottomInput.onchange = function () {
       _this.bottomPlaneAlt = this.value;
