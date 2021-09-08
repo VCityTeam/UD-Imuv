@@ -205,7 +205,7 @@ export class HeightmapEditorView {
   }
 
   initUI() {
-    this.canvasPreview.classList.add('preview_HeightmapEditor');
+    this.canvasPreview.classList.add('canvas_Editor');
     this.ui.appendChild(this.canvasPreview);
 
     const labelTop = document.createElement('div');

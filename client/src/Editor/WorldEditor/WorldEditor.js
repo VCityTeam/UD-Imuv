@@ -9,21 +9,25 @@ import { GameView } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
+import EditorUtility from '../Components/EditorUtility';
 
 export class WorldEditorView {
   constructor(params) {
     this.config = params.config;
 
+    this.parentUIHtml = params.parentUIHtml;
+    this.parentGameViewHtml = params.parentGameViewHtml;
+
     //where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_WorldEditor');
-    params.parentUIHtml.appendChild(this.ui);
+    this.parentUIHtml.appendChild(this.ui);
 
     this.assetsManager = params.assetsManager;
     this.model = new WorldEditorModel(this.assetsManager, params.worldJSON);
 
     this.gameView = new GameView({
-      htmlParent: params.parentGameViewHtml,
+      htmlParent: this.parentGameViewHtml,
       assetsManager: params.assetsManager,
       config: this.config,
       firstGameView: false,
@@ -36,7 +40,7 @@ export class WorldEditorView {
     );
     //offset the gameview
     this.gameView.setDisplaySize(
-      new THREE.Vector2(params.parentUIHtml.clientWidth, 0)
+      new THREE.Vector2(this.parentUIHtml.clientWidth, 0)
     );
 
     //controls
@@ -64,6 +68,7 @@ export class WorldEditorView {
     this.colliderButton = null;
     this.heightmapButton = null;
     this.labelCurrentWorld = null;
+    this.playWorldButton = null;
 
     //ref children views to dispose them easily
     this.childrenViews = [this.goEditorView, this.addPrefabView]; //view always active
@@ -95,13 +100,7 @@ export class WorldEditorView {
   }
 
   computeMapGO() {
-    //find the map
-    const wCxt = this.gameView.getStateComputer().getWorldContext();
-    const world = wCxt.getWorld();
-
-    const go = world.getGameObject();
-    const wS = go.fetchWorldScripts()['worldGameManager'];
-    return wS.getMap();
+    return EditorUtility.computeMapGO(this.gameView); //TODO remove this function
   }
 
   getGOEditorView() {

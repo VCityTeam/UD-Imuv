@@ -24,7 +24,6 @@ module.exports = class Avatar {
 
   init() {
     const go = arguments[0];
-    const worldContext = arguments[1];
 
     //spawn
     const gm = go.computeRoot(); //root is gm
