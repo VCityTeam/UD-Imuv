@@ -120,7 +120,7 @@ module.exports = class Map {
 
     const coordHeightmap = {
       x: x / pixelWorldUnit.width + center,
-      y: y / pixelWorldUnit.height + center,
+      y: -y / pixelWorldUnit.height + center,
     };
 
     // console.log(coordHeightmap);
@@ -154,7 +154,7 @@ module.exports = class Map {
         result = -1; //if negative means out
       } else {
         result = values[i + j * size];
-        if (Math.abs(result - hMin) < 0.0001) result = -1; //negative => out
+        if (Math.abs(result - hMin) < 0.0001) result = NaN; //nan => out
       }
       return weight * result;
     };
@@ -168,7 +168,7 @@ module.exports = class Map {
       gameObject.getPosition().y
     );
 
-    if (elevation > 0 || true) {
+    if (!isNaN(elevation)) {
       gameObject.getPosition().z = elevation;
       return true;
     } else {
