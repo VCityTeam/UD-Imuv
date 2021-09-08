@@ -47,8 +47,8 @@
               "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/F3A702FE-185F-4341-8E57-4E78E276E248.jpeg",
-                "heightmap_geometry": { "max": 10, "min": -10, "size": 276 }
+                "heightmap_path": "./assets/img/uploaded/D56BC2BF-74A5-4C90-BE98-5D70DCF0C18E.jpeg",
+                "heightmap_geometry": { "max": 10, "min": -31, "size": 276 }
               },
               "type": "WorldScript"
             }

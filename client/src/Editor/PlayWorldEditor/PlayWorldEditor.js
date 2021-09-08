@@ -18,7 +18,7 @@ export class PlayWorldEditorView {
     this.ui.classList.add('ui_PlayWorldEditor');
     this.parentUIHtml.appendChild(this.ui);
 
-    this.localGameApp = new LocalGame(60);
+    this.localGameApp = new LocalGame();
     this.closeButton = null;
     this.canvasDebug = null;
     this.heightmapImg = null;
@@ -107,7 +107,7 @@ export class PlayWorldEditorView {
     const center = canvas.width * 0.5;
     const avatarPosCanavs = {
       x: center + avatarPos.x / pixelSize,
-      y: center + avatarPos.y / pixelSize,
+      y: center - avatarPos.y / pixelSize,
     };
     ctx.beginPath();
     ctx.fillStyle = 'red';
