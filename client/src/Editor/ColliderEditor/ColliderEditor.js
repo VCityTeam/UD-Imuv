@@ -6,15 +6,16 @@ import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collide
 
 export class ColliderEditorView {
   constructor(params) {
-    this.model = new ColliderEditorModel();
-
+    
     //raycaster
     this.raycaster = new THREE.Raycaster();
-
+    
     this.rootHtml = params.parentUIHtml;
     this.gameView = params.gameView;
     this.canvas = this.gameView.rootItownsHtml;
     this.assetsManager = params.assetsManager;
+    
+    this.model = new ColliderEditorModel(this.gameView);
 
     this.colliderObject3D = new THREE.Object3D();
     this.colliderObject3D.name = 'ColliderObject';
@@ -47,7 +48,8 @@ export class ColliderEditorView {
     this.initCallbacks();
     this.model.loadShapesFromJSON(
       this.getColliderComponent(),
-      this.colliderObject3D
+      this.colliderObject3D,
+      this.gameView
     );
     this.updateUI();
   }
@@ -376,16 +378,17 @@ export class ColliderEditorView {
 }
 
 export class ColliderEditorModel {
-  constructor() {
+  constructor(gameView) {
     this.shapes = [];
     this.currentShape = null;
     this.selectedObject = null;
+    this.gameViewObject = gameView.getObject3D();
   }
 
   addNewShape(shape) {
+    this.setSelectedObject(null);
     this.setCurrentShape(shape);
     this.shapes.push(this.currentShape);
-    this.setSelectedObject(null);
   }
 
   removeShape(shape) {
@@ -400,13 +403,15 @@ export class ColliderEditorModel {
   setCurrentShape(shape) {
     if (this.currentShape) this.currentShape.setMaterialColor(0xff0000);
     this.currentShape = shape;
-    this.currentShape.setMaterialColor(0x00ff00);
+    if (this.currentShape) this.currentShape.setMaterialColor(0x00ff00);
   }
 
   setSelectedObject(object) {
     this.selectedObject = object;
     if (object && object.parent.shape) {
       this.setCurrentShape(object.parent.shape);
+    } else {
+      this.setCurrentShape(null);
     }
   }
 
@@ -425,6 +430,7 @@ export class ColliderEditorModel {
   loadShapesFromJSON(colliderComp, object3D) {
     const _this = this;
     const json = colliderComp.shapesJSON;
+
     json.forEach(function (col) {
       if (typeof col.points === 'undefined') return;
       const shape = new Shape(object3D);
@@ -433,7 +439,12 @@ export class ColliderEditorModel {
         const geometry = new THREE.SphereGeometry(1, 32, 32);
         const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         const sphere = new THREE.Mesh(geometry, material);
-        sphere.position.set(p.x, p.y, p.z || 450);
+        const posOffset = _this.gameViewObject.position;
+        sphere.position.set(
+          posOffset.x + p.x,
+          posOffset.y + p.y,
+          posOffset.z + (p.z || 0)
+        );
         _this.getCurrentShape().getObject3D().add(sphere);
         sphere.updateMatrixWorld();
         _this.getCurrentShape().addPoint(sphere);
@@ -443,8 +454,9 @@ export class ColliderEditorModel {
 
   toJSON() {
     const result = [];
+    const _this = this;
     this.shapes.forEach(function (s) {
-      result.push(s.toJSON());
+      result.push(s.toJSON(_this.gameViewObject.position));
     });
     return result;
   }
@@ -549,10 +561,10 @@ class Shape {
     return this.shapeObject;
   }
 
-  toJSON() {
+  toJSON(posOffset) {
     const result = [];
     this.points.forEach(function (p) {
-      result.push(p.position);
+      result.push(p.position.clone().sub(posOffset));
     });
     const shape = {};
     shape.type = this.type;
