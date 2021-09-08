@@ -7,6 +7,7 @@ import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
 import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
+import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -26,17 +27,32 @@ export class EditorView {
     this.closeButton = null;
     this.worldsList = null;
     this.saveWorldsButton = null;
+    this.playCurrentWorldButton = null;
 
     //assets
     this.assetsManager = new Game.Components.AssetsManager();
 
     //gameview
     this.currentWorldView = null;
+    this.currentPlayWorldView = null;
+  }
+
+  closeCurrentView() {
+    if (this.currentWorldView) {
+      this.saveCurrentWorld();
+      this.currentWorldView.dispose();
+      this.currentWorldView = null;
+    }
+
+    if (this.currentPlayWorldView) {
+      this.currentPlayWorldView.dispose();
+      this.currentPlayWorldView = null;
+    }
   }
 
   dispose() {
     this.rootHtml.remove();
-    if (this.currentWorldView) this.currentWorldView.dispose();
+    this.closeCurrentView();
   }
 
   initUI() {
@@ -54,6 +70,11 @@ export class EditorView {
     this.saveWorldsButton.classList.add('button_Editor');
     this.saveWorldsButton.innerHTML = 'Save Worlds';
     this.ui.appendChild(this.saveWorldsButton);
+
+    this.playCurrentWorldButton = document.createElement('div');
+    this.playCurrentWorldButton.classList.add('button_Editor');
+    this.playCurrentWorldButton.innerHTML = 'Play Current World';
+    this.ui.appendChild(this.playCurrentWorldButton);
   }
 
   setOnClose(f) {
@@ -138,6 +159,38 @@ export class EditorView {
         );
       });
     };
+
+    this.playCurrentWorldButton.onclick = function () {
+      if (!_this.currentWorldView) return;
+
+      const worldUUID = _this.currentWorldView
+        .getGameView()
+        .getStateComputer()
+        .getWorldContext()
+        .getWorld()
+        .getUUID();
+      let wJson = null;
+      _this.assetsManager.getWorldsJSON().forEach(function (json) {
+        if (json.uuid == worldUUID) wJson = json;
+      });
+
+      if (!wJson) throw new Error('no world json');
+
+      _this.closeCurrentView();
+
+      //create new view
+      _this.currentPlayWorldView = new PlayWorldEditorView({
+        parentUIHtml: _this.ui,
+        parentView: _this,
+        assetsManager: _this.assetsManager,
+        worldJSON: wJson,
+        parentGameViewHtml: _this.rootHtml,
+      });
+
+      _this.currentPlayWorldView.setOnClose(function () {
+        _this.currentPlayWorldView.dispose();
+      });
+    };
   }
 
   saveCurrentWorld() {
@@ -182,10 +235,7 @@ export class EditorView {
   }
 
   onWorldJSON(json) {
-    if (this.currentWorldView) {
-      this.saveCurrentWorld();
-      this.currentWorldView.dispose();
-    }
+    this.closeCurrentView();
 
     this.currentWorldView = new WorldEditorView({
       parentUIHtml: this.ui,
