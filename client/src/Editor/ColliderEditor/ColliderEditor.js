@@ -103,8 +103,8 @@ export class ColliderEditorView {
     const liShapesList = document.createElement(`li`);
     liShapesList.classList.add('li_Editor');
     liShapesList.classList.add('li_ColliderEditor');
-    liShapesList.innerHTML = shape.name;
-
+    liShapesList.innerHTML =
+      shape.name + '\nNombre de points : ' + shape.points.length;
 
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
@@ -114,12 +114,16 @@ export class ColliderEditorView {
       _this.updateUI();
     };
     liShapesList.appendChild(deleteButton);
-    
+
     const selectButton = document.createElement('div');
     selectButton.classList.add('button_Editor');
     selectButton.innerHTML = 'Select';
     selectButton.onclick = function () {
       _this.model.setCurrentShape(shape);
+      if (shape.mesh) {
+        _this.model.setSelectedObject(shape.mesh);
+      }
+      _this.attachTC();
       _this.updateUI();
     };
     liShapesList.appendChild(selectButton);
@@ -177,7 +181,7 @@ export class ColliderEditorView {
         pList.appendChild(_this.pointHtml(point));
       });
       sList.children[index].appendChild(pList);
-      sList.children[index].classList.add('li_SelectedEditor')
+      sList.children[index].classList.add('li_SelectedEditor');
     }
 
     if (this.orbitControls.enabled) {
@@ -293,11 +297,12 @@ export class ColliderEditorView {
       colliderComp.shapesJSON = _this.model.toJSON();
     };
 
-    const attachTC = function () {
+    this.attachTC = function () {
       transformControls.detach();
       if (!_this.model.getSelectedObject()) return;
 
       transformControls.attach(_this.model.getSelectedObject());
+      _this.orbitControls.target.copy(_this.model.getSelectedObject().position);
       transformControls.updateMatrixWorld();
       currentGameView.getItownsView().scene.add(transformControls);
     };
@@ -314,6 +319,7 @@ export class ColliderEditorView {
     };
 
     let angle = 0;
+
     this.onPointerdownListener = function (event) {
       if (event.button != 0) return;
       angle = computeAngle();
@@ -336,7 +342,11 @@ export class ColliderEditorView {
         }
       } else {
         if (transformControls.dragging) {
-          getShape().updateMesh();
+          if (_this.model.getSelectedObject().type == 'Point') {
+            getShape().updateMesh();
+          } else if (_this.model.getSelectedObject().type == 'Mesh') {
+            getShape().adjustPoints();
+          }
           return;
         }
         if (isRotating) return;
@@ -346,7 +356,7 @@ export class ColliderEditorView {
         } else {
           _this.model.setSelectedObject(null);
         }
-        attachTC();
+        _this.attachTC();
       }
       _this.updateUI();
     };
@@ -455,6 +465,8 @@ class Shape {
 
     this.mesh = null;
 
+    this.previousMeshPosition = null;
+
     this.type = 'Polygon';
   }
 
@@ -468,6 +480,7 @@ class Shape {
   addPoint(point) {
     this.points.push(point);
     point.name = 'Point' + this.points.length;
+    point.type = 'Point';
     this.updateMesh();
   }
 
@@ -480,7 +493,6 @@ class Shape {
 
   updateMesh() {
     const points = this.points;
-
     if (this.mesh) {
       this.mesh.parent.remove(this.mesh);
       this.mesh = null;
@@ -492,6 +504,7 @@ class Shape {
     points.forEach((element) => {
       vertices.push(element.position);
     });
+
     const meshGeometry = new ConvexGeometry(vertices);
     meshGeometry.computeBoundingBox();
     const center = meshGeometry.boundingBox.getCenter();
@@ -508,12 +521,28 @@ class Shape {
     );
 
     //If you want the ray intersect the mesh you have to remove this boudingbox
-    //meshGeometry.boundingBox = null;
+    meshGeometry.boundingBox = null;
 
     this.mesh = new THREE.Mesh(meshGeometry, this.material);
     this.mesh.position.copy(center);
     this.mesh.updateMatrixWorld();
+    this.mesh.type = 'Mesh';
+    this.previousMeshPosition = this.mesh.position.clone();
     this.shapeObject.add(this.mesh);
+  }
+
+  adjustPoints() {
+    const _this = this;
+    this.points.forEach((point) => {
+      const newPosition = point.position
+        .clone()
+        .add(
+          _this.mesh.position.clone().sub(_this.previousMeshPosition.clone())
+        );
+
+      point.position.copy(newPosition);
+    });
+    this.previousMeshPosition = this.mesh.position.clone();
   }
 
   getObject3D() {
