@@ -123,6 +123,8 @@ module.exports = class Map {
       y: y / pixelWorldUnit.height + center,
     };
 
+    // console.log(coordHeightmap);
+
     const indexMin = {
       i: Math.floor(coordHeightmap.x),
       j: Math.floor(coordHeightmap.y),
@@ -166,10 +168,7 @@ module.exports = class Map {
       gameObject.getPosition().y
     );
 
-    console.log(elevation);
-    elevation = 0
-
-    if (elevation > 0) {
+    if (elevation > 0 || true) {
       gameObject.getPosition().z = elevation;
       return true;
     } else {

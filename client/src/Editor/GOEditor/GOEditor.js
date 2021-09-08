@@ -5,6 +5,7 @@ import { THREE, TransformControls } from 'ud-viz';
 import File from 'ud-viz/src/Components/SystemUtils/File';
 import { GameObject, World } from 'ud-viz/src/Game/Shared/Shared';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
+import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 
 export class GOEditorView {
   constructor(params) {
@@ -454,7 +455,7 @@ export class GOEditorView {
     if (imageInput) {
       imageInput.onchange = function (e) {
         File.readSingleFileAsDataUrl(e, function (data) {
-          const url = data.target.result;          
+          const url = data.target.result;
           go.components.LocalScript.conf.path = url;
           _this.gameView.forceUpdate();
         });
@@ -540,14 +541,11 @@ export class GOEditorView {
   }
 
   computeObject3D(uuid) {
-    const object3D = this.gameView.getObject3D();
-    let result = null;
-    object3D.traverse(function (c) {
-      if (c.userData.gameObjectUUID == uuid) {
-        result = c;
-      }
-    });
-    return result;
+    return GameObjectModule.findObject3D(
+      uuid,
+      this.gameView.getObject3D(),
+      false
+    );
   }
 
   initUI() {

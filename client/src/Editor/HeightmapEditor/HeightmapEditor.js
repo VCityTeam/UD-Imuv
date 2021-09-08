@@ -1,6 +1,7 @@
 /** @format */
 
 import { THREE } from 'ud-viz';
+import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 
 import './HeightmapEditor.css';
 
@@ -34,6 +35,8 @@ export class HeightmapEditorView {
     //three object
     this.planeTop = null;
     this.planeBottom = null;
+    this.parentPlanes = new THREE.Object3D();
+    this.parentPlanes.name = 'Parent Heightmap Object3D';
 
     //renderer heightmap
     this.rendererHeightmap = new THREE.WebGLRenderer({
@@ -108,18 +111,25 @@ export class HeightmapEditorView {
     this.planeTop = new THREE.Mesh(planGeometry, matPlan);
     this.planeBottom = new THREE.Mesh(planGeometry, matPlan);
 
-    const center = this.gameView.getExtent().center();
-    //TODO get map and place at it center
+    const mapGO = this.parentView.computeMapGO();
+
+    const mapObject3D = GameObjectModule.findObject3D(
+      mapGO.getUUID(),
+      this.gameView.getObject3D(),
+      false
+    );
+
+    const center = mapGO.computeWorldTransform().position; //in game world ref
 
     //position
     this.planeBottom.position.set(center.x, center.y, this.bottomPlaneAlt);
     this.planeTop.position.set(center.x, center.y, this.topPlaneAlt);
 
-    const mapGO = this.parentView.computeMapGO();
-    //TODO ajouter dans l'objet 3D de la map pour etre dans le bon referentiel
-    
-    // scene.add(this.planeTop);
-    // scene.add(this.planeBottom);
+    //create a parent clone
+    mapObject3D.getWorldPosition(this.parentPlanes.position);
+
+    this.parentPlanes.add(this.planeTop);
+    this.parentPlanes.add(this.planeBottom);
 
     this.renderHeightmap();
   }
@@ -135,14 +145,15 @@ export class HeightmapEditorView {
       const bb = new THREE.Box3().setFromObject(obj);
 
       //init bottom and top alt and size
-      this.topPlaneAlt = bb.max.z;
-      this.bottomPlaneAlt = bb.min.z;
+      const delta = 10;
+      this.topPlaneAlt = delta;
+      this.bottomPlaneAlt = -delta;
       this.planeSize = Math.max(bb.max.x - bb.min.x, bb.max.y - bb.min.y);
 
       this.updateModel();
+      scene.add(this.parentPlanes);
     } else {
-      scene.remove(this.planeTop);
-      scene.remove(this.planeBottom);
+      scene.remove(this.parentPlanes);
     }
 
     this.updateUI();
@@ -171,7 +182,7 @@ export class HeightmapEditorView {
     //detech transform so its not appearing on the heightmap image
     this.parentView.getGOEditorView().transformControls.detach();
 
-    this.cameraHeightmap.position.copy(this.planeTop.position);
+    this.planeTop.getWorldPosition(this.cameraHeightmap.position);
     this.cameraHeightmap.top = this.planeSize * 0.5;
     this.cameraHeightmap.bottom = -this.planeSize * 0.5;
     this.cameraHeightmap.right = this.planeSize * 0.5;
@@ -180,8 +191,8 @@ export class HeightmapEditorView {
 
     const scene = this.gameView.getItownsView().scene;
 
-    this.heightmapMaterial.uniforms.max.value = this.planeTop.position.z;
-    this.heightmapMaterial.uniforms.min.value = this.planeBottom.position.z;
+    this.heightmapMaterial.uniforms.max.value = this.topPlaneAlt;
+    this.heightmapMaterial.uniforms.min.value = this.bottomPlaneAlt;
 
     scene.overrideMaterial = this.heightmapMaterial;
     this.rendererHeightmap.render(scene, this.cameraHeightmap);
@@ -246,9 +257,9 @@ export class HeightmapEditorView {
       //bind
       mapScript.conf.heightmap_path = url;
       mapScript.conf.heightmap_geometry = {
-        max: _this.topPlaneAlt,
-        min: _this.bottomPlaneAlt,
-        size: _this.planeSize,
+        max: parseInt(_this.topPlaneAlt),
+        min: parseInt(_this.bottomPlaneAlt),
+        size: parseInt(_this.planeSize),
       };
     };
 
