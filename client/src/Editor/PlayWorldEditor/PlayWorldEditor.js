@@ -115,19 +115,19 @@ export class PlayWorldEditorView {
     ctx.fill();
 
     //draw collison body
-    // const world = this.localGameApp
-    //   .getGameView()
-    //   .getStateComputer()
-    //   .getWorldContext()
-    //   .getWorld();
-    // ctx.beginPath();
-    // ctx.save();
-    // ctx.translate(-center, -center);
-    // ctx.scale(1 / pixelSize, 1 / pixelSize);
-    // world.getCollisions().draw(ctx);
-    // ctx.fillStyle = 'red';
-    // ctx.fill();
-    // ctx.restore();
+    const world = this.localGameApp
+      .getGameView()
+      .getStateComputer()
+      .getWorldContext()
+      .getWorld();
+    ctx.beginPath();
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.scale(1 / pixelSize, 1 / pixelSize);
+    world.getCollisions().draw(ctx);
+    ctx.fillStyle = 'green';
+    ctx.fill();
+    ctx.restore();
   }
 
   initUI() {
