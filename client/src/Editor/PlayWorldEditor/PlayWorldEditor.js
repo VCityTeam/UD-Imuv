@@ -63,7 +63,7 @@ export class PlayWorldEditorView {
         //resize
         gV.setDisplaySize(new THREE.Vector2(_this.parentUIHtml.clientWidth, 0));
 
-        gV.addTickRequester(function () {
+        gV.getStateComputer().setOnAfterTick(function () {
           const worldComputer = gV.getStateComputer();
           const inputManager = gV.getInputManager();
           const cmds = inputManager.computeCommands();
