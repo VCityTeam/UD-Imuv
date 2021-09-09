@@ -32,8 +32,8 @@ export class WorldEditorView {
       config: this.config,
       firstGameView: false,
       stateComputer: this.model.getWorldStateComputer(),
+      updateGameObject: false,
     });
-    this.gameView.setUpdateGameObject(false);
     this.gameView.start(
       this.model.getWorldStateComputer().computeCurrentState(),
       null
