@@ -34,7 +34,7 @@ export class WorldEditorView {
       stateComputer: this.model.getWorldStateComputer(),
     });
     this.gameView.setUpdateGameObject(false);
-    this.gameView.onFirstState(
+    this.gameView.start(
       this.model.getWorldStateComputer().computeCurrentState(),
       null
     );

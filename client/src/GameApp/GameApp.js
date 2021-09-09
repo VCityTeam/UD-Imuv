@@ -47,7 +47,7 @@ export class GameApp {
     const onFirstStateJSON = function (json) {
       const state = new WorldState(json.state);
       _this.worldStateInterpolator.onFirstState(state);
-      _this.gameView.onFirstState(state, json.avatarUUID);
+      _this.gameView.start(state, json.avatarUUID);
     };
 
     // Register callbacks
