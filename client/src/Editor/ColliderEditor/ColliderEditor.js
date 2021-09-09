@@ -6,15 +6,14 @@ import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collide
 
 export class ColliderEditorView {
   constructor(params) {
-    
     //raycaster
     this.raycaster = new THREE.Raycaster();
-    
+
     this.rootHtml = params.parentUIHtml;
     this.gameView = params.gameView;
     this.canvas = this.gameView.rootItownsHtml;
     this.assetsManager = params.assetsManager;
-    
+
     this.model = new ColliderEditorModel(this.gameView);
 
     this.colliderObject3D = new THREE.Object3D();
@@ -155,9 +154,11 @@ export class ColliderEditorView {
 
   updateUI() {
     const _this = this;
+
     this.uiShapes.innerHTML =
       'Shapes length : ' + this.model.getShapes().length;
 
+    //List of shapes
     const sList = this.shapesList;
     while (sList.firstChild) {
       sList.removeChild(sList.firstChild);
@@ -168,15 +169,12 @@ export class ColliderEditorView {
 
     const shape = this.model.getCurrentShape();
     const index = this.model.shapes.indexOf(shape);
-    const name = shape ? shape.name : 'None';
+    const name = shape ? '' : 'None';
     this.uiCurrentShape.innerHTML = 'Current Shape : ' + name;
 
     const pList = this.pointsList;
     while (pList.firstChild) {
       pList.removeChild(pList.firstChild);
-    }
-    if (pList.parentElement) {
-      pList.parentElement.removeChild(pList);
     }
     if (index >= 0) {
       shape.points.forEach(function (point) {
@@ -184,6 +182,7 @@ export class ColliderEditorView {
       });
       sList.children[index].appendChild(pList);
       sList.children[index].classList.add('li_SelectedEditor');
+      this.uiCurrentShape.appendChild(sList.children[index]);
     }
 
     if (this.orbitControls.enabled) {
@@ -302,7 +301,6 @@ export class ColliderEditorView {
     this.attachTC = function () {
       transformControls.detach();
       if (!_this.model.getSelectedObject()) return;
-
       transformControls.attach(_this.model.getSelectedObject());
       _this.orbitControls.target.copy(_this.model.getSelectedObject().position);
       transformControls.updateMatrixWorld();
@@ -341,12 +339,13 @@ export class ColliderEditorView {
           getShape().getObject3D().add(sphere);
           sphere.updateMatrixWorld();
           getShape().addPoint(sphere);
+          _this.model.setSelectedObject(getShape().mesh || null);
         }
       } else {
         if (transformControls.dragging) {
-          if (_this.model.getSelectedObject().type == 'Point') {
+          if (_this.model.getSelectedObject().userData == 'Point') {
             getShape().updateMesh();
-          } else if (_this.model.getSelectedObject().type == 'Mesh') {
+          } else if (_this.model.getSelectedObject().userData == 'Mesh') {
             getShape().adjustPoints();
           }
           return;
@@ -358,8 +357,8 @@ export class ColliderEditorView {
         } else {
           _this.model.setSelectedObject(null);
         }
-        _this.attachTC();
       }
+      _this.attachTC();
       _this.updateUI();
     };
 
@@ -401,9 +400,10 @@ export class ColliderEditorModel {
   }
 
   setCurrentShape(shape) {
-    if (this.currentShape) this.currentShape.setMaterialColor(0xff0000);
+    if (this.currentShape) this.currentShape.setDefaultColor();
     this.currentShape = shape;
-    if (this.currentShape) this.currentShape.setMaterialColor(0x00ff00);
+    if (this.currentShape)
+      this.currentShape.setSelectedColor(this.getSelectedObject());
   }
 
   setSelectedObject(object) {
@@ -443,7 +443,7 @@ export class ColliderEditorModel {
         sphere.position.set(
           posOffset.x + p.x,
           posOffset.y + p.y,
-          posOffset.z + (p.z || 0)
+          posOffset.z + (p.z || 150)
         );
         _this.getCurrentShape().getObject3D().add(sphere);
         sphere.updateMatrixWorld();
@@ -472,8 +472,15 @@ class Shape {
     parent.add(this.shapeObject);
 
     this.name = 'Shape' + this.shapeObject.uuid;
-    this.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-    this.material.side = THREE.DoubleSide;
+    this.matMesh = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    this.matMesh.side = THREE.DoubleSide;
+
+    this.colMeshDefault = 0xff0000;
+    this.colMeshSelected = 0x00ff00;
+
+    this.colPointDefault = 0xffff00;
+    this.colPointCurrentShape = 0x00ffff;
+    this.colPointSelected = 0x00ff00;
 
     this.mesh = null;
 
@@ -482,17 +489,36 @@ class Shape {
     this.type = 'Polygon';
   }
 
-  setMaterialColor(color) {
-    this.material.color.set(color);
+  setDefaultColor() {
+    const _this = this;
+    this.matMesh.color.set(this.colMeshDefault);
     if (this.mesh) {
-      this.mesh.material = this.material;
+      this.mesh.material = this.matMesh;
     }
+    this.points.forEach(function (p) {
+      p.material.color.set(_this.colPointDefault);
+    });
+  }
+
+  setSelectedColor(objectSelected) {
+    const _this = this;
+    this.matMesh.color.set(this.colMeshSelected);
+    if (this.mesh) {
+      this.mesh.material = this.matMesh;
+    }
+    this.points.forEach(function (p) {
+      if (objectSelected == p) {
+        p.material.color.set(_this.colPointSelected);
+      } else {
+        p.material.color.set(_this.colPointCurrentShape);
+      }
+    });
   }
 
   addPoint(point) {
     this.points.push(point);
     point.name = 'Point' + this.points.length;
-    point.type = 'Point';
+    point.userData = 'Point';
     this.updateMesh();
   }
 
@@ -535,10 +561,10 @@ class Shape {
     //If you want the ray intersect the mesh you have to remove this boudingbox
     meshGeometry.boundingBox = null;
 
-    this.mesh = new THREE.Mesh(meshGeometry, this.material);
+    this.mesh = new THREE.Mesh(meshGeometry, this.matMesh);
     this.mesh.position.copy(center);
     this.mesh.updateMatrixWorld();
-    this.mesh.type = 'Mesh';
+    this.mesh.userData = 'Mesh';
     this.previousMeshPosition = this.mesh.position.clone();
     this.shapeObject.add(this.mesh);
   }
