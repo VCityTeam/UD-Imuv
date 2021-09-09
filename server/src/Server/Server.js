@@ -591,8 +591,6 @@ const ServerModule = class Server {
         assetsManager
           .loadFromConfig(_this.config.assetsManager)
           .then(function () {
-            console.log('MANAGER LOADED');
-
             const loadPromises = [];
 
             worlds.forEach(function (w) {
@@ -637,6 +635,8 @@ const ServerModule = class Server {
                     //reload worlds
                     _this.initWorlds();
 
+                    _this.cleanUnusedImages();
+
                     socket.emit(
                       Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
                       'Worlds saved !'
@@ -663,6 +663,31 @@ const ServerModule = class Server {
               socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
             }
           });
+      });
+    });
+  }
+
+  cleanUnusedImages() {
+    const folderPath = '../client/assets/img/uploaded/';
+
+    fs.readFile(this.config.worldsPath, 'utf8', (err, data) => {
+      if (err) throw new Error('cant load world ', err);
+
+      fs.readdir(folderPath, (err, files) => {
+        files.forEach((file) => {
+          //check if ref by something in worlds
+          if (!data.includes(file)) {
+            //delete it
+            // delete a file
+            fs.unlink(folderPath + file, (err) => {
+              if (err) {
+                throw err;
+              }
+
+              console.log(folderPath + file + ' deleted.');
+            });
+          }
+        });
       });
     });
   }

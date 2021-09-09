@@ -37,6 +37,14 @@
           "uuid": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
           "parentUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
           "components": {
+            "Collider": {
+              "uuid": "F3A702FE-185F-4341-8E57-4E78E276E248",
+              "type": "Collider",
+              "shapes": [
+                { "type": "Circle", "center": { "x": 0, "y": 0 }, "radius": 10 }
+              ],
+              "body": true
+            },
             "Render": {
               "uuid": "5DAC9A92-E4B0-4EB1-8181-79A326E70D81",
               "type": "Render",
