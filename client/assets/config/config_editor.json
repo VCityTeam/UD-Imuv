@@ -32,20 +32,17 @@
     },
     "models": {
       "room_conf_modulable": {
-        "path": "./assets/models/Room_Conf_Modulable.glb",
-        "anchor": "min"
+        "path": "./assets/models/Room_Conf_Modulable.glb"
       },
       "avatar_capuchon": {
         "path": "./assets/models/avatar_capuchon.glb",
         "anchor": "center_min"
       },
       "flying_campus": {
-        "path": "./assets/models/flying_campus.glb",
-        "anchor": "min"
+        "path": "./assets/models/flying_campus.glb"
       },
       "room_expo": {
-        "path": "./assets/models/Room_Expo.glb",
-        "anchor": "min"
+        "path": "./assets/models/Room_Expo.glb"
       },
       "spiral_spawn": {
         "path": "./assets/models/Spirale_spawn.glb",
@@ -82,6 +79,12 @@
     "prefabs": {
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
+      },
+      "image": {
+        "path": "./assets/prefabs/Image.json"
+      },
+      "portal": {
+        "path": "./assets/prefabs/Portal.json"
       }
     },
     "worlds": {
@@ -104,5 +107,17 @@
       "heading": -50,
       "tilt": 10
     }
+  },
+  "3DTilesLayer": {
+    "id": "3d-tiles-layer-building",
+    "url": "./assets/models/lod_flying_campus/tileset.json",
+    "color": "0xFFFFFF",
+    "initTilesManager": "true"
+  },
+  "elevation_layer": {
+    "url": "https://download.data.grandlyon.com/wms/grandlyon",
+    "name": "MNT2018_Altitude_2m",
+    "format": "image/jpeg",
+    "layer_name": "wms_elevation_test"
   }
 }

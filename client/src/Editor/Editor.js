@@ -1,11 +1,13 @@
 /** @format */
 
 import './Editor.css';
-import { Game, THREE, OrbitControls, TransformControls } from 'ud-viz';
-import { GameView } from 'ud-viz/src/Views/GameView/GameView';
-import Shared from 'ud-viz/src/Game/Shared/Shared';
-import * as udviz from 'ud-viz';
+import { Game } from 'ud-viz';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
+import { WorldEditorView } from './WorldEditor/WorldEditor';
+import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
+import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
+import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
+import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -22,31 +24,43 @@ export class EditorView {
     this.rootHtml.appendChild(this.ui);
 
     //html
+    this.closeButton = null;
     this.worldsList = null;
     this.saveWorldsButton = null;
+    this.playCurrentWorldButton = null;
 
     //assets
     this.assetsManager = new Game.Components.AssetsManager();
 
-    //model
-    this.model = new EditorModel(this.assetsManager);
-
     //gameview
-    this.currentGameView = null;
+    this.currentWorldView = null;
+    this.currentPlayWorldView = null;
+  }
 
-    //controls
-    this.orbitControls = null;
-    this.transformControls = null;
+  closeCurrentView() {
+    if (this.currentWorldView) {
+      this.saveCurrentWorld();
+      this.currentWorldView.dispose();
+      this.currentWorldView = null;
+    }
+
+    if (this.currentPlayWorldView) {
+      this.currentPlayWorldView.dispose();
+      this.currentPlayWorldView = null;
+    }
   }
 
   dispose() {
     this.rootHtml.remove();
-    if (this.orbitControls) this.orbitControls.dispose();
-    if (this.transformControls) this.transformControls.dispose();
-    if (this.currentGameView) this.currentGameView.dispose();
+    this.closeCurrentView();
   }
 
   initUI() {
+    this.closeButton = document.createElement('div');
+    this.closeButton.classList.add('button_Editor');
+    this.closeButton.innerHTML = 'close';
+    this.ui.appendChild(this.closeButton);
+
     const worldsList = document.createElement('ul');
     worldsList.classList.add('ul_Editor');
     this.ui.appendChild(worldsList);
@@ -56,18 +70,151 @@ export class EditorView {
     this.saveWorldsButton.classList.add('button_Editor');
     this.saveWorldsButton.innerHTML = 'Save Worlds';
     this.ui.appendChild(this.saveWorldsButton);
+
+    this.playCurrentWorldButton = document.createElement('div');
+    this.playCurrentWorldButton.classList.add('button_Editor');
+    this.playCurrentWorldButton.innerHTML = 'Play Current World';
+    this.ui.appendChild(this.playCurrentWorldButton);
+  }
+
+  setOnClose(f) {
+    this.closeButton.onclick = f;
   }
 
   initCallbacks() {
     const _this = this;
 
     this.saveWorldsButton.onclick = function () {
-      console.log('Save worlds');
-      _this.webSocketService.emit(
-        Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
-        _this.assetsManager.getWorldsJSON()
-      );
+      _this.saveCurrentWorld();
+
+      //images upload
+      const promises = [];
+      const blobsBuffer = [];
+
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d');
+
+      const computeImagePromise = function (conf, componentUUID, key) {
+        if (conf[key].startsWith('data:image')) {
+          const promise = new Promise((resolve, reject) => {
+            //compute blob
+            const img = new Image();
+            img.onload = function () {
+              c.width = this.naturalWidth; // update canvas size to match image
+              c.height = this.naturalHeight;
+
+              console.log('width ', c.width, ' height ', c.height);
+
+              ctx.drawImage(this, 0, 0); // draw in image
+              c.toBlob(
+                function (blob) {
+                  // get content as JPEG blob
+                  // here the image is a blob
+                  blobsBuffer.push({
+                    blob: blob,
+                    componentUUID: componentUUID,
+                    key: key,
+                  });
+                  console.log('pack image ', conf);
+                  resolve();
+                },
+                'image/jpeg',
+                0.75
+              );
+            };
+            img.crossOrigin = ''; // if from different origin
+            img.src = conf[key];
+            conf[key] = 'none'; //clear path
+            img.onerror = reject;
+          });
+          promises.push(promise);
+        }
+      };
+
+      const worldsJSON = _this.assetsManager.getWorldsJSON();
+      worldsJSON.forEach(function (worldJSON) {
+        const go = new GameObject(worldJSON.gameObject);
+        go.traverse(function (child) {
+          const ls = child.getComponent(LocalScriptModule.TYPE); //this way because assets are not initialized
+          if (ls && ls.idScripts.includes('image')) {
+            computeImagePromise(ls.getConf(), ls.getUUID(), 'path');
+          }
+
+          const ws = child.getComponent(WorldScriptModule.TYPE);
+          if (ws && ws.idScripts.includes('map')) {
+            computeImagePromise(ws.getConf(), ws.getUUID(), 'heightmap_path');
+          }
+        });
+      });
+
+      Promise.all(promises).then(function () {
+        const data = {
+          worlds: _this.assetsManager.getWorldsJSON(),
+          images: blobsBuffer,
+        };
+        console.log('send data server ', data);
+        _this.webSocketService.emit(
+          Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+          data
+        );
+      });
     };
+
+    this.playCurrentWorldButton.onclick = function () {
+      if (!_this.currentWorldView) return;
+
+      const worldUUID = _this.currentWorldView
+        .getGameView()
+        .getStateComputer()
+        .getWorldContext()
+        .getWorld()
+        .getUUID();
+      let wJson = null;
+      _this.assetsManager.getWorldsJSON().forEach(function (json) {
+        if (json.uuid == worldUUID) wJson = json;
+      });
+
+      if (!wJson) throw new Error('no world json');
+
+      _this.closeCurrentView();
+
+      //create new view
+      _this.currentPlayWorldView = new PlayWorldEditorView({
+        parentUIHtml: _this.ui,
+        parentView: _this,
+        assetsManager: _this.assetsManager,
+        worldJSON: wJson,
+        parentGameViewHtml: _this.rootHtml,
+      });
+
+      _this.currentPlayWorldView.setOnClose(function () {
+        _this.currentPlayWorldView.dispose();
+      });
+    };
+  }
+
+  saveCurrentWorld() {
+    if (!this.currentWorldView) return;
+
+    //world loaded
+    const world = this.currentWorldView
+      .getGameView()
+      .getStateComputer()
+      .getWorldContext()
+      .getWorld();
+
+    const worldsJSON = this.assetsManager.getWorldsJSON();
+    for (let index = 0; index < worldsJSON.length; index++) {
+      const json = worldsJSON[index];
+      if (json.uuid == world.getUUID()) {
+        //found
+        const newContent = world.toJSON();
+        worldsJSON[index] = newContent;
+        break;
+      }
+    }
+
+    this.updateUI();
   }
 
   updateUI() {
@@ -88,129 +235,21 @@ export class EditorView {
   }
 
   onWorldJSON(json) {
-    if (this.currentGameView) {
-      this.currentGameView.dispose();
-    }
+    this.closeCurrentView();
 
-    this.model.onWorldJSON(json);
-
-    this.currentGameView = new GameView({
-      htmlParent: this.rootHtml,
+    this.currentWorldView = new WorldEditorView({
+      parentUIHtml: this.ui,
+      worldJSON: json,
+      parentGameViewHtml: this.rootHtml,
       assetsManager: this.assetsManager,
-      stateComputer: this.model.getWorldStateComputer(),
-      config: this.config,
       firstGameView: false,
+      config: this.config,
     });
-
-    this.currentGameView.onFirstState(
-      this.model.getWorldStateComputer().computeCurrentState(),
-      null
-    );
-
-    //offset the gameview
-    this.currentGameView.setDisplaySize(
-      new THREE.Vector2(this.ui.clientWidth, 0)
-    );
-
-    this.initOrbitControls();
-    this.initTransformControls();
-  }
-
-  initTransformControls() {
-    if (this.transformControls) this.transformControls.dispose();
-
-    const camera = this.currentGameView.getItownsView().camera.camera3D;
-    const scene = this.currentGameView.getItownsView().scene;
-    const manager = this.currentGameView.getInputManager();
-    const viewerDiv = this.currentGameView.rootItownsHtml;
-
-    this.transformControls = new TransformControls(camera, viewerDiv);
-    scene.add(this.transformControls);
 
     const _this = this;
-
-    this.transformControls.addEventListener(
-      'dragging-changed',
-      function (event) {
-        _this.orbitControls.enabled = !event.value;
-        // console.log('orbit enabled ', !event.value);
-      }
-    );
-
-    //CALLBACKS
-    manager.addKeyInput('Escape', 'keydown', function () {
-      _this.transformControls.detach();
+    this.currentWorldView.setOnClose(function () {
+      _this.currentWorldView.dispose();
     });
-
-    manager.addMouseInput(viewerDiv, 'pointerdown', function (event) {
-      if (_this.transformControls.object) return; //already assign to an object
-
-      //1. sets the mouse position with a coordinate system where the center
-      //   of the screen is the origin
-      const mouse = new THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
-        1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
-      );
-
-      //2. set the picking ray from the camera position and mouse coordinates
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouse, camera);
-
-      //3. compute intersections
-      //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
-      const intersects = raycaster.intersectObject(
-        _this.currentGameView.getObject3D(),
-        true
-      );
-
-      if (intersects.length) {
-        let minDist = Infinity;
-        let info = null;
-
-        intersects.forEach(function (i) {
-          if (i.distance < minDist) {
-            info = i;
-            minDist = i.distance;
-          }
-        });
-
-        if (info) {
-          const objectClicked = info.object;
-          let current = objectClicked;
-          while (!current.userData.gameObjectUUID) {
-            if (!current.parent) {
-              console.warn('didnt find gameobject uuid');
-              current = null;
-              break;
-            }
-            current = current.parent;
-          }
-
-          if (current) {
-            _this.transformControls.attach(current);
-            _this.transformControls.updateMatrixWorld();
-
-            console.log('attach to ', current.name);
-          }
-        }
-      }
-    });
-  }
-
-  initOrbitControls() {
-    //new controls
-    if (this.orbitControls) this.orbitControls.dispose();
-
-    this.orbitControls = new OrbitControls(
-      this.currentGameView.getItownsView().camera.camera3D,
-      this.currentGameView.rootItownsHtml
-    );
-
-    this.orbitControls.target.copy(this.currentGameView.getExtent().center());
-    this.orbitControls.rotateSpeed = 0.5;
-    this.orbitControls.zoomSpeed = 0.1;
-    this.orbitControls.update();
   }
 
   load() {
@@ -233,22 +272,5 @@ export class EditorView {
 
   html() {
     return this.rootHtml;
-  }
-}
-
-class EditorModel {
-  constructor(assetsManager) {
-    this.worldStateComputer = new Shared.WorldStateComputer(assetsManager, 30, {
-      udviz: udviz,
-      Shared: Shared,
-    });
-  }
-
-  onWorldJSON(json) {
-    this.worldStateComputer.onInit(new Shared.World(json));
-  }
-
-  getWorldStateComputer() {
-    return this.worldStateComputer;
   }
 }

@@ -3,8 +3,8 @@
 //scripts are commonJs module witout dependency all game context is pass as udvGameShared
 //this is due to the fact that the code is import as a string then eval() in code by the AsssetsManager
 
-const AVATAR_SPEED_MOVE = 0.005;
-const AVATAR_SPEED_RUN = 0.01;
+const AVATAR_SPEED_MOVE = 0.01;
+const AVATAR_SPEED_RUN = 0.03;
 const AVATAR_SPEED_ROTATION_Z = 0.00004;
 const AVATAR_SPEED_ROTATION_X = 0.00004;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
@@ -24,7 +24,6 @@ module.exports = class Avatar {
 
   init() {
     const go = arguments[0];
-    const worldContext = arguments[1];
 
     //spawn
     const gm = go.computeRoot(); //root is gm

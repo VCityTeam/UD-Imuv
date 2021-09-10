@@ -3,6 +3,8 @@
  *
  * @format
  */
+const gm = require('gm');
+const PNG = require('pngjs').PNG;
 const express = require('express');
 const socketio = require('socket.io');
 const WorldThread = require('./WorldThread');
@@ -14,9 +16,14 @@ require('firebase/auth');
 
 const fs = require('fs');
 const Shared = require('ud-viz/src/Game/Shared/Shared');
-const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
-const JSONUtils = require('ud-viz/src/Components/SystemUtils/JSONUtils');
+const {
+  GameObject,
+  WorldStateComputer,
+  World,
+} = require('ud-viz/src/Game/Shared/Shared');
 const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
+
+const Buffer = require('buffer').Buffer;
 
 const ServerModule = class Server {
   constructor(config) {
@@ -48,7 +55,7 @@ const ServerModule = class Server {
     this.io;
 
     //clients
-    this.currentUsers = {};
+    this.currentUsersInGame = {};
 
     //worlds json
     this.worldsJSON = null;
@@ -58,43 +65,60 @@ const ServerModule = class Server {
 
     //manager
     this.assetsManager = new AssetsManagerServer();
+
+    this.initWorlds();
   }
 
-  initWorlds(worldsJSON) {
+  initWorlds() {
+    console.log('Initialize worlds');
+
     //instanciate Worlds with config
     const _this = this;
 
-    this.worldsJSON = worldsJSON;
+    //clean
+    for (let key in this.worldToThread) {
+      const thread = this.worldToThread[key];
+      thread.stop();
+      delete this.worldToThread[key];
+    }
 
-    worldsJSON.forEach(function (worldJSON) {
-      //create a worldThread
-      const thread = new WorldThread(_this.config.thread.script);
+    fs.readFile(this.config.worldsPath, 'utf8', (err, data) => {
+      if (err) throw new Error('cant load world ', err);
 
-      //post data to create world
-      thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
+      const worldsJSON = JSON.parse(data);
 
-      //mapping between world and thread
-      _this.worldToThread[worldJSON.uuid] = thread;
+      _this.worldsJSON = worldsJSON;
 
-      //callbacks
+      worldsJSON.forEach(function (worldJSON) {
+        //create a worldThread
+        const thread = new WorldThread(_this.config.thread.script);
 
-      //worldstate
-      thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (data) {
-        const worldstateJSON = data;
-        const users = _this.computeUsers(thread); //compute clients concerned
-        users.forEach(function (user) {
-          if (!worldstateJSON) throw new Error('no worldstateJSON');
-          user.sendWorldState(worldstateJSON);
+        //post data to create world
+        thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
+
+        //mapping between world and thread
+        _this.worldToThread[worldJSON.uuid] = thread;
+
+        //callbacks
+
+        //worldstate
+        thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (data) {
+          const worldstateJSON = data;
+          const users = _this.computeUsers(thread); //compute clients concerned
+          users.forEach(function (user) {
+            if (!worldstateJSON) throw new Error('no worldstateJSON');
+            user.sendWorldState(worldstateJSON);
+          });
         });
-      });
 
-      //avatar portal
-      thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
-        _this.placeAvatarInWorld(
-          data.avatarUUID,
-          data.worldUUID,
-          data.portalUUID
-        );
+        //avatar portal
+        thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
+          _this.placeAvatarInWorld(
+            data.avatarUUID,
+            data.worldUUID,
+            data.portalUUID
+          );
+        });
       });
     });
   }
@@ -102,8 +126,8 @@ const ServerModule = class Server {
   placeAvatarInWorld(avatarUUID, worldUUID, portalUUID) {
     //find user with avatar uuid
     let user = null;
-    for (let id in this.currentUsers) {
-      const u = this.currentUsers[id];
+    for (let id in this.currentUsersInGame) {
+      const u = this.currentUsersInGame[id];
       if (u.getAvatarID() == avatarUUID) {
         user = u;
         break;
@@ -115,7 +139,7 @@ const ServerModule = class Server {
         'no user with avatar id ',
         avatarUUID,
         ' in ',
-        this.currentUsers
+        this.currentUsersInGame
       );
 
     const thread = this.worldToThread[worldUUID];
@@ -149,8 +173,8 @@ const ServerModule = class Server {
 
   computeUsers(thread) {
     let result = [];
-    for (let idUser in this.currentUsers) {
-      const u = this.currentUsers[idUser];
+    for (let idUser in this.currentUsersInGame) {
+      const u = this.currentUsersInGame[idUser];
       if (u.getThread() == thread) result.push(u);
     }
     return result;
@@ -175,7 +199,10 @@ const ServerModule = class Server {
       });
 
       //websocket
-      _this.io = socketio(_this.server);
+      _this.io = socketio(_this.server, {
+        pingInterval: 25000,
+        pingTimeout: 20000,
+      });
 
       //cb
       _this.io.on('connection', _this.onConnection.bind(_this));
@@ -270,7 +297,7 @@ const ServerModule = class Server {
           const user = userCredential.user;
 
           //check if this user is already connected
-          if (_this.currentUsers[user.uid]) {
+          if (_this.currentUsersInGame[user.uid]) {
             socket.emit(
               Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
               'You are already connected'
@@ -305,7 +332,7 @@ const ServerModule = class Server {
               const u = new User(user.uid, socket, uuidWorld, extraData);
 
               //register the client
-              _this.currentUsers[u.getUUID()] = u;
+              _this.currentUsersInGame[u.getUUID()] = u;
 
               //inform client that he is connected and ready to game
               socket.emit(
@@ -350,7 +377,10 @@ const ServerModule = class Server {
                 function (avatarJSON) {
                   //modify json
                   const originalJSON = u.getAvatarJSON();
-                  JSONUtils.overWrite(originalJSON, avatarJSON);
+                  Shared.Components.JSONUtils.overWrite(
+                    originalJSON,
+                    avatarJSON
+                  );
 
                   //write in user
                   u.setAvatarJSON(originalJSON);
@@ -413,7 +443,7 @@ const ServerModule = class Server {
               socket.on('disconnect', () => {
                 console.log('Unregister client => ', socket.id);
 
-                delete _this.currentUsers[u.getUUID()];
+                delete _this.currentUsersInGame[u.getUUID()];
                 const thread = u.getThread();
                 if (thread)
                   thread.post(
@@ -468,7 +498,7 @@ const ServerModule = class Server {
       const u = new User(uuid, socket, uuidWorld, extraData, true);
 
       //register the client
-      _this.currentUsers[u.getUUID()] = u;
+      _this.currentUsersInGame[u.getUUID()] = u;
 
       //inform client that he is connected and ready to game
       socket.emit(
@@ -499,7 +529,7 @@ const ServerModule = class Server {
       socket.on('disconnect', () => {
         console.log('Unregister client => ', socket.id);
 
-        delete _this.currentUsers[u.getUUID()];
+        delete _this.currentUsersInGame[u.getUUID()];
         const thread = u.getThread();
         if (thread)
           thread.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, u.getAvatarID());
@@ -507,7 +537,162 @@ const ServerModule = class Server {
     });
 
     socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
-      console.log(data);
+      if (!data) {
+        console.log('no data on save worlds');
+        return;
+      }
+
+      const worlds = [];
+      data.worlds.forEach(function (json) {
+        worlds.push(
+          new World(json, {
+            isServerSide: true,
+            modules: { gm: gm, PNG: PNG },
+          })
+        );
+      });
+
+      const writeImagesOnDiskPromise = [];
+
+      data.images.forEach(function (i) {
+        writeImagesOnDiskPromise.push(
+          new Promise((resolve, reject) => {
+            const bitmap = Buffer.from(i.blob, 'base64');
+            const commonPath =
+              'assets/img/uploaded/' +
+              Shared.THREE.MathUtils.generateUUID() +
+              '.jpeg';
+            const serverPath = '../client/' + commonPath;
+
+            //add attr on the fly (TODO clean ?)
+            i.serverPath = serverPath;
+
+            //modify worldjson
+            worlds.forEach(function (w) {
+              w.getGameObject().traverse(function (child) {
+                const c = child.getComponentByUUID(i.componentUUID);
+                if (c) {
+                  c.getConf()[i.key] = './' + commonPath;
+                  return true;
+                }
+              });
+            });
+
+            fs.writeFile(serverPath, bitmap, function (err) {
+              if (err) {
+                reject();
+              }
+              resolve();
+            });
+          })
+        );
+      });
+
+      Promise.all(writeImagesOnDiskPromise).then(function () {
+        console.log('IMAGES WRITED ON DISK');
+
+        const assetsManager = new AssetsManagerServer();
+        assetsManager
+          .loadFromConfig(_this.config.assetsManager)
+          .then(function () {
+            const loadPromises = [];
+
+            worlds.forEach(function (w) {
+              const loadPromise = WorldStateComputer.WorldCanLoad(
+                w,
+                assetsManager,
+                { Shared: Shared }
+              );
+              loadPromises.push(loadPromise);
+            });
+
+            try {
+              Promise.all(loadPromises).then(function () {
+                console.log('ALL WORLD HAVE LOADED');
+
+                //write on disks new worlds
+
+                const content = [];
+                worlds.forEach(function (w) {
+                  content.push(w.toJSON(true));
+                });
+
+                fs.writeFile(
+                  _this.config.worldsPath,
+                  JSON.stringify(content),
+                  {
+                    encoding: 'utf8',
+                    flag: 'w',
+                    mode: 0o666,
+                  },
+                  function () {
+                    console.log('WORLD WRITED ON DISK');
+
+                    //disconnect all users in game
+                    for (let key in _this.currentUsersInGame) {
+                      const user = _this.currentUsersInGame[key];
+                      user.getSocket().disconnect();
+                      console.log(user.getUUID(), ' disnonnect');
+                      delete _this.currentUsersInGame[key];
+                    }
+
+                    //reload worlds
+                    _this.initWorlds();
+
+                    _this.cleanUnusedImages();
+
+                    socket.emit(
+                      Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+                      'Worlds saved !'
+                    );
+                  }
+                );
+              });
+            } catch (e) {
+              console.log(
+                'Error occured while saving worlds remove images created'
+              );
+              data.images.forEach(function (i) {
+                // delete a file
+                fs.unlink(i.serverPath, (err) => {
+                  if (err) {
+                    throw err;
+                  }
+
+                  console.log(i.serverPath + ' deleted.');
+                });
+              });
+
+              console.error(e);
+              socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
+            }
+          });
+      });
+    });
+  }
+
+  cleanUnusedImages() {
+    const folderPath = '../client/assets/img/uploaded/';
+
+    fs.readFile(this.config.worldsPath, 'utf8', (err, data) => {
+      if (err) throw new Error('cant load world ', err);
+
+      fs.readdir(folderPath, (err, files) => {
+        files.forEach((file) => {
+          //check if ref by something in worlds
+          if (!data.includes(file)) {
+            //delete it
+            // delete a file
+            fs.unlink(folderPath + file, (err) => {
+              if (err) {
+                throw err;
+              }
+
+              console.log(folderPath + file + ' deleted.');
+            });
+          }
+        });
+      });
     });
   }
 };

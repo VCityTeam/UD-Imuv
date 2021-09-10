@@ -20,6 +20,15 @@ export class GameApp {
     this.config = config;
   }
 
+  dispose() {
+    this.gameView.dispose();
+    //reset websocketservices
+    this.webSocketService.reset([
+      Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+      Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+    ]);
+  }
+
   start(onLoad, firstGameView, isGuest) {
     const _this = this;
 
@@ -38,7 +47,7 @@ export class GameApp {
     const onFirstStateJSON = function (json) {
       const state = new WorldState(json.state);
       _this.worldStateInterpolator.onFirstState(state);
-      _this.gameView.onFirstState(state, json.avatarUUID);
+      _this.gameView.start(state, json.avatarUUID);
     };
 
     // Register callbacks
@@ -48,19 +57,12 @@ export class GameApp {
         if (!firstStateJSON) throw new Error('no data');
         console.log('JOIN_WORLD ', firstStateJSON);
 
-        //TODO mettre un flag initialized a la place de check this.view (wait refacto ud-vizView)
-        if (!_this.gameView.getItownsView()) {
+        if (!_this.gameView.getLastState()) {
           //view was not intialized do it
           onFirstStateJSON(firstStateJSON);
         } else {
           //this need to be disposed
-          _this.gameView.dispose();
-
-          //reset websocketservices
-          _this.webSocketService.reset([
-            Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-            Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
-          ]);
+          _this.dispose();
 
           _this.start(
             onFirstStateJSON.bind(_this, firstStateJSON),
@@ -102,7 +104,7 @@ export class GameApp {
 
         menuAvatar.setOnClose(function () {
           //render view
-          _this.gameView.setPause(false);
+          _this.gameView.setIsRendering(true);
           _this.gameView.getInputManager().setPause(false);
           //remove html
           menuAvatar.dispose();
@@ -113,7 +115,7 @@ export class GameApp {
         //remove html
         _this.gameView.html().remove();
         //stop rendering view
-        _this.gameView.setPause(true);
+        _this.gameView.setIsRendering(false);
         _this.gameView.getInputManager().setPause(true);
         //add menuavatar view
         document.body.appendChild(menuAvatar.html());

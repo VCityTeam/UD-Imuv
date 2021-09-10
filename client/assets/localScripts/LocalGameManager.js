@@ -21,9 +21,13 @@ module.exports = class LocalGameManager {
     //dynamic html
     this.fpsLabel = null;
     this.avatarCount = null;
+
+    this.itownsCamPos = null;
+    this.itownsCamQuat = null;
   }
 
   init() {
+    const go = arguments[0];
     const localCtx = arguments[1];
 
     //init obstacle
@@ -48,14 +52,14 @@ module.exports = class LocalGameManager {
     );
 
     this.initInputs(localCtx);
-    this.initUI(localCtx);
+    this.initUI(go, localCtx);
 
     if (localCtx.getGameView().firstGameView) {
       this.initTraveling(localCtx.getGameView().getItownsView());
     }
   }
 
-  initUI(localCtx) {
+  initUI(go, localCtx) {
     const gameView = localCtx.getGameView();
 
     this.fpsLabel = document.createElement('div');
@@ -65,6 +69,8 @@ module.exports = class LocalGameManager {
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_localGameManager');
     gameView.appendToUI(this.avatarCount);
+
+    this.updateUI(go, localCtx);
   }
 
   initTraveling(view) {
@@ -156,6 +162,10 @@ module.exports = class LocalGameManager {
       this.obstacle
     );
 
+    this.updateUI(go, localCtx);
+  }
+
+  updateUI(go, localCtx) {
     //update ui
     this.fpsLabel.innerHTML = 'FPS = ' + Math.round(1000 / localCtx.getDt());
     let avatarCount = 0;
@@ -251,6 +261,15 @@ module.exports = class LocalGameManager {
 
       const speed = 0.6;
       if (view.controls) {
+        //record
+        const camera = _this.cameraman.getCamera();
+        _this.itownsCamPos.set(
+          camera.position.x,
+          camera.position.y,
+          camera.position.z
+        );
+        _this.itownsCamQuat.setFromEuler(camera.rotation);
+
         _this.cameraman.addRoutine(
           new Routine(
             function (dt) {
@@ -275,16 +294,26 @@ module.exports = class LocalGameManager {
           )
         );
       } else {
-        const currentPosition = new Shared.THREE.Vector3().copy(
-          _this.cameraman.getCamera().position
-        );
-        //TODO valeur en dur
-        const endPosition = new Shared.THREE.Vector3(0, 0, 200).add(
-          currentPosition
-        ); //envoie la camera 200 metre plus haut
-        const endQuaternion = new Shared.THREE.Quaternion().setFromEuler(
-          new Shared.THREE.Euler(Math.PI / 5, 0, 0)
-        );
+        if (!_this.itownsCamPos && !_this.itownsCamQuat) {
+          //first time camera in sky
+
+          const currentPosition = new Shared.THREE.Vector3().copy(
+            _this.cameraman.getCamera().position
+          );
+
+          //200 meters up
+          const endPosition = new Shared.THREE.Vector3(0, 0, 200).add(
+            currentPosition
+          );
+
+          //look down
+          const endQuaternion = new Shared.THREE.Quaternion().setFromEuler(
+            new Shared.THREE.Euler(Math.PI / 5, 0, 0)
+          );
+
+          _this.itownsCamPos = endPosition;
+          _this.itownsCamQuat = endQuaternion;
+        }
 
         _this.setFog(view, false);
 
@@ -293,11 +322,11 @@ module.exports = class LocalGameManager {
             function (dt) {
               const camera = _this.cameraman.getCamera();
               const amount = speed * dt;
-              const dist = endPosition.distanceTo(camera.position);
+              const dist = _this.itownsCamPos.distanceTo(camera.position);
               let ratio = amount / dist;
               ratio = Math.min(Math.max(0, ratio), 1);
-              camera.position.lerp(endPosition, ratio);
-              camera.quaternion.slerp(endQuaternion, ratio);
+              camera.position.lerp(_this.itownsCamPos, ratio);
+              camera.quaternion.slerp(_this.itownsCamQuat, ratio);
               camera.updateProjectionMatrix();
 
               return ratio >= 1;

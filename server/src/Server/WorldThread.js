@@ -12,6 +12,7 @@ const Pack = Shared.Components.Pack;
 const Command = Shared.Command;
 const GameObject = Shared.GameObject;
 const World = Shared.World;
+const process = require('process');
 
 const AssetsManagerServer = require('./AssetsManagerServer');
 
@@ -33,6 +34,10 @@ const WorldThreadModule = class WorldThread {
         }
       }.bind(this)
     );
+  }
+
+  stop() {
+    this.post(WorldThreadModule.MSG_TYPES.STOP, {});
   }
 
   //parent thread => child thread
@@ -61,6 +66,7 @@ WorldThreadModule.MSG_TYPES = {
   AVATAR_PORTAL: 'avatar_portal',
   QUERY_GAMEOBJECT: 'query_gameobject',
   GAMEOBJECT_RESPONSE: 'gameobject_response',
+  STOP: 'stop_thread',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -83,17 +89,17 @@ WorldThreadModule.routine = function (serverConfig) {
     parentPort.on('message', (msgPacked) => {
       const msg = Pack.unpack(msgPacked);
       switch (msg.msgType) {
-        case WorldThreadModule.MSG_TYPES.INIT:
+        case WorldThreadModule.MSG_TYPES.INIT: {
           //create a server world
           const world = new World(msg.data, {
             isServerSide: true,
             modules: { gm: gm, PNG: PNG },
           });
 
-          worldStateComputer.onInit(world);
+          worldStateComputer.load(world);
 
           worldStateComputer.setOnAfterTick(function () {
-            const currentState = worldStateComputer.computeCurrentState();
+            const currentState = worldStateComputer.computeCurrentState(false);
             //post worldstate to main thread
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
@@ -124,7 +130,8 @@ WorldThreadModule.routine = function (serverConfig) {
               parentPort.postMessage(Pack.pack(message));
             });
           break;
-        case WorldThreadModule.MSG_TYPES.COMMANDS:
+        }
+        case WorldThreadModule.MSG_TYPES.COMMANDS: {
           //create js object from json
           const cmds = [];
           msg.data.forEach(function (c) {
@@ -134,7 +141,8 @@ WorldThreadModule.routine = function (serverConfig) {
           //pass to the computer
           worldStateComputer.onCommands(cmds);
           break;
-        case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT:
+        }
+        case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT: {
           const goJson = msg.data.gameObject;
           const portalUUID = msg.data.portalUUID;
           const transformJSON = msg.data.transform;
@@ -147,11 +155,13 @@ WorldThreadModule.routine = function (serverConfig) {
                 .getWorld()
                 .getGameObject()
                 .find(portalUUID);
-              portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
-              worldStateComputer
-                .getWorldContext()
-                .getWorld()
-                .updateCollisionBuffer();
+              if (portal) {
+                portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
+                worldStateComputer
+                  .getWorldContext()
+                  .getWorld()
+                  .updateCollisionBuffer();
+              }
             } else if (transformJSON) {
               newGO.setFromTransformJSON(transformJSON);
               worldStateComputer
@@ -162,10 +172,12 @@ WorldThreadModule.routine = function (serverConfig) {
           });
 
           break;
-        case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT:
+        }
+        case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT: {
           worldStateComputer.onRemoveGameObject(msg.data);
           break;
-        case WorldThreadModule.MSG_TYPES.QUERY_GAMEOBJECT:
+        }
+        case WorldThreadModule.MSG_TYPES.QUERY_GAMEOBJECT: {
           const go = worldStateComputer
             .getWorldContext()
             .getWorld()
@@ -176,6 +188,16 @@ WorldThreadModule.routine = function (serverConfig) {
             data: go.toJSON(true),
           };
           parentPort.postMessage(Pack.pack(message));
+          break;
+        }
+        case WorldThreadModule.MSG_TYPES.STOP:
+          {
+            console.log(
+              worldStateComputer.getWorldContext().getWorld().getName(),
+              ' stop'
+            );
+            process.exit(0);
+          }
           break;
         default:
           console.log('default msg ', msg.data);

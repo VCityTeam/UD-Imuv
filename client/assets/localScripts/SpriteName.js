@@ -16,8 +16,6 @@ module.exports = class SpriteName {
 
   init() {
     const go = arguments[0];
-    const localContext = arguments[1];
-    const assetsManager = localContext.getGameView().getAssetsManager();
     this.updateSprite(go);
   }
 
@@ -72,7 +70,6 @@ module.exports = class SpriteName {
 
   update() {
     const go = arguments[0];
-    const localContext = arguments[1];
     this.updateSprite(go);
   }
 };
