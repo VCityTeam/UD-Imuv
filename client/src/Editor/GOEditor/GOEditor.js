@@ -52,8 +52,11 @@ export class GOEditorView {
     const scene = this.gameView.getItownsView().scene;
     const manager = this.gameView.getInputManager();
     const viewerDiv = this.gameView.rootItownsHtml;
+    const canvas =
+      this.gameView.getItownsView().mainLoop.gfxEngine.renderer.domElement;
+    canvas.style.zIndex = 1; //patch
 
-    this.transformControls = new TransformControls(camera, viewerDiv);
+    this.transformControls = new TransformControls(camera, canvas);
     scene.add(this.transformControls);
 
     const _this = this;
@@ -108,8 +111,11 @@ export class GOEditorView {
       //   of the screen is the origin
       const mouse = new THREE.Vector2(
         -1 +
-          (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
-        1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
+          (2 * event.offsetX) /
+            (canvas.clientWidth - parseInt(canvas.offsetLeft)),
+        1 -
+          (2 * event.offsetY) /
+            (canvas.clientHeight - parseInt(canvas.offsetTop))
       );
 
       //2. set the picking ray from the camera position and mouse coordinates
