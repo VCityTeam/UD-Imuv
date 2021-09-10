@@ -49,7 +49,5 @@ export class AddPrefabEditorView {
     }
   }
 
-  initCallbacks() {
-    const _this = this;
-  }
+  initCallbacks() {}
 }

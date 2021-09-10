@@ -16,13 +16,14 @@ require('firebase/auth');
 
 const fs = require('fs');
 const Shared = require('ud-viz/src/Game/Shared/Shared');
-const LocalScriptModule = require('ud-viz/src/Game/Shared/GameObject/Components/LocalScript');
 const {
   GameObject,
   WorldStateComputer,
   World,
 } = require('ud-viz/src/Game/Shared/Shared');
 const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Render');
+
+const Buffer = require('buffer').Buffer;
 
 const ServerModule = class Server {
   constructor(config) {
@@ -577,7 +578,10 @@ const ServerModule = class Server {
               });
             });
 
-            fs.writeFile(serverPath, bitmap, function () {
+            fs.writeFile(serverPath, bitmap, function (err) {
+              if (err) {
+                reject();
+              }
               resolve();
             });
           })

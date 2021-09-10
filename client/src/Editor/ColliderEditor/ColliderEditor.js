@@ -101,7 +101,7 @@ export class ColliderEditorView {
   shapeHtml(shape) {
     const _this = this;
 
-    const liShapesList = document.createElement(`li`);
+    const liShapesList = document.createElement('li');
     liShapesList.classList.add('li_Editor');
     liShapesList.classList.add('li_ColliderEditor');
     liShapesList.innerHTML =
@@ -135,7 +135,7 @@ export class ColliderEditorView {
   pointHtml(point) {
     const _this = this;
 
-    const liPointList = document.createElement(`li`);
+    const liPointList = document.createElement('li');
     liPointList.classList.add('li_Editor');
     liPointList.classList.add('li_ColliderEditor');
     liPointList.innerHTML = point.name;
@@ -241,7 +241,6 @@ export class ColliderEditorView {
 
     const camera = this.gameView.getItownsView().camera.camera3D;
     const scene = this.gameView.getItownsView().scene;
-    const manager = this.gameView.getInputManager();
     const viewerDiv = this.gameView.rootItownsHtml;
 
     this.transformControls = new TransformControls(camera, viewerDiv);

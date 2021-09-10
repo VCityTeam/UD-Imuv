@@ -2,6 +2,7 @@
 
 import { THREE } from 'ud-viz';
 import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
+import { computeMapGO } from '../Components/EditorUtility';
 
 import './HeightmapEditor.css';
 
@@ -111,7 +112,7 @@ export class HeightmapEditorView {
     this.planeTop = new THREE.Mesh(planGeometry, matPlan);
     this.planeBottom = new THREE.Mesh(planGeometry, matPlan);
 
-    const mapGO = this.parentView.computeMapGO();
+    const mapGO = computeMapGO(this.gameView);
 
     const mapObject3D = GameObjectModule.findObject3D(
       mapGO.getUUID(),
@@ -251,7 +252,7 @@ export class HeightmapEditorView {
       const url = _this.canvasPreview.toDataURL('image/png');
 
       //get mapgo
-      const mapGO = _this.parentView.computeMapGO();
+      const mapGO = computeMapGO(_this.gameView);
       const mapScript = mapGO.fetchWorldScripts()['map'];
 
       //bind

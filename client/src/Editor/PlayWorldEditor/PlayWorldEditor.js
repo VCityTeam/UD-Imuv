@@ -4,7 +4,7 @@ import { World } from 'ud-viz/src/Game/Shared/Shared';
 import { LocalGame } from 'ud-viz/src/Templates/Templates';
 import { THREE } from 'ud-viz';
 import './PlayWorldEditor.css';
-import EditorUtility from '../Components/EditorUtility';
+import { computeMapGO } from '../Components/EditorUtility';
 
 export class PlayWorldEditorView {
   constructor(params) {
@@ -57,7 +57,7 @@ export class PlayWorldEditorView {
         world.addGameObject(
           avatar,
           gV.getStateComputer().getWorldContext(),
-          EditorUtility.computeMapGO(gV)
+          computeMapGO(gV)
         );
 
         //resize
@@ -88,7 +88,7 @@ export class PlayWorldEditorView {
     const canvas = this.canvasDebug;
 
     if (!this.heightmapImg) {
-      const mapGO = EditorUtility.computeMapGO(this.localGameApp.getGameView());
+      const mapGO = computeMapGO(this.localGameApp.getGameView());
       this.heightmapImg = document.createElement('img');
       this.heightmapConf = mapGO.fetchWorldScripts()['map'].conf;
       this.heightmapImg.src = this.heightmapConf.heightmap_path;
@@ -141,9 +141,7 @@ export class PlayWorldEditorView {
     this.ui.appendChild(this.canvasDebug);
   }
 
-  initCallbacks() {
-    const _this = this;
-  }
+  initCallbacks() {}
 
   setOnClose(f) {
     this.closeButton.onclick = f;

@@ -9,7 +9,7 @@ import { GameView } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
-import EditorUtility from '../Components/EditorUtility';
+import { computeMapGO } from '../Components/EditorUtility';
 
 export class WorldEditorView {
   constructor(params) {
@@ -83,7 +83,7 @@ export class WorldEditorView {
     //find the map
     const wCxt = this.gameView.getStateComputer().getWorldContext();
     const world = wCxt.getWorld();
-    const mapGo = this.computeMapGO();
+    const mapGo = computeMapGO(this.gameView);
 
     if (!mapGo) throw new Error('no map object in world');
 
@@ -97,10 +97,6 @@ export class WorldEditorView {
 
       if (onLoad) onLoad();
     });
-  }
-
-  computeMapGO() {
-    return EditorUtility.computeMapGO(this.gameView); //TODO remove this function
   }
 
   getGOEditorView() {
@@ -198,30 +194,6 @@ export class WorldEditorView {
       });
 
       _this.childrenViews.push(cEV);
-    };
-
-    this.heightmapButton.onclick = function () {
-      //check if one already exist
-      for (let index = 0; index < _this.childrenViews.length; index++) {
-        const element = _this.childrenViews[index];
-        if (element instanceof HeightmapEditorView) return;
-      }
-
-      const hV = new HeightmapEditorView({
-        parentUIHtml: _this.ui,
-        assetsManager: _this.assetsManager,
-        gameView: _this.gameView,
-        parentView: _this,
-      });
-
-      hV.setOnClose(function () {
-        hV.dispose();
-
-        const index = _this.childrenViews.indexOf(hV);
-        _this.childrenViews.splice(index, 1);
-      });
-
-      _this.childrenViews.push(hV);
     };
 
     this.heightmapButton.onclick = function () {
