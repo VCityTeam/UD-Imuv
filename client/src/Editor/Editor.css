@@ -25,6 +25,7 @@
   background-color: burlywood;
   padding: 5px;
   overflow-y: auto;
+  padding: 0px;
 }
 
 .ul_Editor {
