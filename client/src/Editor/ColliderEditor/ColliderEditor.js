@@ -1,7 +1,7 @@
 import './ColliderEditor.css';
 
 import { THREE, TransformControls } from 'ud-viz';
-import { ConvexGeometry } from 'ud-viz/node_modules/three/examples/jsm/geometries/ConvexGeometry';
+import { ConvexGeometry } from 'ud-viz';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 
 export class ColliderEditorView {
