@@ -224,6 +224,30 @@ export class WorldEditorView {
       _this.childrenViews.push(hV);
     };
 
+    this.heightmapButton.onclick = function () {
+      //check if one already exist
+      for (let index = 0; index < _this.childrenViews.length; index++) {
+        const element = _this.childrenViews[index];
+        if (element instanceof HeightmapEditorView) return;
+      }
+
+      const hV = new HeightmapEditorView({
+        parentUIHtml: _this.ui,
+        assetsManager: _this.assetsManager,
+        gameView: _this.gameView,
+        parentView: _this,
+      });
+
+      hV.setOnClose(function () {
+        hV.dispose();
+
+        const index = _this.childrenViews.indexOf(hV);
+        _this.childrenViews.splice(index, 1);
+      });
+
+      _this.childrenViews.push(hV);
+    };
+
     const manager = this.gameView.getInputManager();
 
     manager.addKeyInput('f', 'keyup', function () {
