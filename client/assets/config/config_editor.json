@@ -28,6 +28,9 @@
       },
       "localGameManager": {
         "path": "./assets/localScripts/LocalGameManager.js"
+      },
+      "avatar_sound": {
+        "path": "./assets/localScripts/AvatarSound.js"
       }
     },
     "models": {
