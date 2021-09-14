@@ -3,6 +3,7 @@
 //dynamics modules
 let udviz = null;
 let Shared = null;
+let itowns = null;
 
 module.exports = class LocalGameManager {
   constructor(conf, udvizBundle) {
@@ -10,6 +11,7 @@ module.exports = class LocalGameManager {
 
     udviz = udvizBundle;
     Shared = udviz.Game.Shared;
+    itowns = udviz.itowns;
 
     this.obstacle = new Shared.THREE.Object3D();
     this.obstacle.name = 'LocalGameManager_Obstacle';
@@ -78,13 +80,9 @@ module.exports = class LocalGameManager {
     const duration = this.conf.traveling_time;
     if (!duration) return; //if no traveling time return
 
-    const offsetTime = 1000;
     const _this = this;
 
     document.body.appendChild(splash);
-    setTimeout(function () {
-      splash.remove();
-    }, offsetTime + duration);
 
     const cameraman = this.cameraman;
     let currentTime = 0;
@@ -129,6 +127,7 @@ module.exports = class LocalGameManager {
           return ratio >= 1;
         },
         function () {
+          splash.remove();
           cameraman.setFilmingTarget(true);
           _this.setFog(view, true);
         }
@@ -223,7 +222,6 @@ module.exports = class LocalGameManager {
     const viewerDiv = view.domElement;
     const camera = view.camera.camera3D;
     const manager = gameView.getInputManager();
-    const itowns = localCtx.getItownsModule();
     const Routine = Shared.Components.Routine;
     const Command = Shared.Command;
 
@@ -346,6 +344,11 @@ module.exports = class LocalGameManager {
           )
         );
       }
+    });
+
+    manager.addKeyInput('p', 'keydown', function () {
+      console.log('Gameview ', gameView);
+      console.log('Camera ', camera);
     });
 
     //COMMANDS WORLD
