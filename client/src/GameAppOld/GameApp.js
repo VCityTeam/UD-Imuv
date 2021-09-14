@@ -9,6 +9,8 @@ import WorldState from 'ud-viz/src/Game/Shared/WorldState';
 
 import './GameApp.css';
 
+//TODO remove this classe (here to keep isGuest code)
+
 export class GameApp {
   constructor(webSocketService, assetsManager, config) {
     this.gameView = null;

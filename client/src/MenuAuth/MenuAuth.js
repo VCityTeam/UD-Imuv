@@ -2,12 +2,12 @@
 
 import './MenuAuth.css';
 
-import { GameApp } from '../GameApp/GameApp';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { EditorView } from '../Editor/Editor';
+import { DistantGame } from 'ud-viz/src/Templates/Templates';
 
 export class MenuAuthView {
   constructor(webSocketService) {
@@ -171,32 +171,36 @@ export class MenuAuthView {
               .then(function () {
                 loadingView.remove();
 
-                const launchGame = function () {
-                  const app = new GameApp(
-                    _this.webSocketService,
-                    assetsManager,
-                    config
-                  );
-                  app.start(
-                    function () {
-                      _this.webSocketService.emit(
-                        Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED
-                      );
-                    },
-                    true,
-                    isGuest
-                  );
-                };
+                const distantGame = new DistantGame(
+                  _this.webSocketService,
+                  assetsManager,
+                  config
+                );
 
                 if (initialized || isGuest) {
-                  launchGame();
+                  distantGame.start({
+                    firstGameView: true,
+                  });
+                  //notify server that app is ready to receive state
+                  _this.webSocketService.emit(
+                    Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
+                  );
                 } else {
                   const menuAvatar = new MenuAvatarView(
                     _this.webSocketService,
                     config,
                     assetsManager
                   );
-                  menuAvatar.setOnClose(launchGame);
+                  menuAvatar.setOnClose(function () {
+                    menuAvatar.dispose();
+                    distantGame.start({
+                      firstGameView: true,
+                    });
+                    //notify server that app is ready to receive state
+                    _this.webSocketService.emit(
+                      Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
+                    );
+                  });
                   document.body.appendChild(menuAvatar.html());
                 }
               });
