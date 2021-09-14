@@ -598,7 +598,7 @@ const ServerModule = class Server {
             const loadPromises = [];
 
             worlds.forEach(function (w) {
-              const loadPromise = WorldStateComputer.WorldCanLoad(
+              const loadPromise = WorldStateComputer.WorldTest(
                 w,
                 assetsManager,
                 { Shared: Shared }
