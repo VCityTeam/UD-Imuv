@@ -356,7 +356,7 @@ const ServerModule = class Server {
 
               //wait for client to be ready
               socket.on(
-                Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED,
+                Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE,
                 function () {
                   _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
                 }
@@ -508,7 +508,7 @@ const ServerModule = class Server {
       );
 
       //wait for client to be ready
-      socket.on(Constants.WEBSOCKET.MSG_TYPES.GAME_APP_LOADED, function () {
+      socket.on(Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
         _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
       });
 
