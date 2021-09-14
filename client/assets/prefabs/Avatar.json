@@ -13,6 +13,10 @@
       ],
       "body": true
     },
+    "Audio": {
+      "type": "Audio",
+      "sounds": ["./assets/sounds/epic.mp3"]
+    },
     "Render": {
       "type": "Render",
       "idModel": "avatar_capuchon",
@@ -25,7 +29,7 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["sprite_name"],
+      "idScripts": ["sprite_name", "avatar_sound"],
       "conf": { "name": "default_name" },
       "type": "LocalScript"
     }
