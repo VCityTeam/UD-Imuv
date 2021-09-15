@@ -3,6 +3,8 @@
  *
  * @format
  */
+
+const cors = require('cors');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
 const express = require('express');
@@ -189,6 +191,22 @@ const ServerModule = class Server {
       _this.app = express();
       //serve
       _this.app.use(express.static(_this.config.folder)); //what folder is served
+
+      // _this.app.use(
+      //   cors({
+      //     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
+      //     origin: '*',
+      //     allowedHeaders: true,
+      //   })
+      // );
+
+      _this.app.options('*', cors()); // include before other routes
+
+      // _this.app.use(cors());
+
+      _this.app.get('/products/:id', function (req, res, next) {
+        res.json({ msg: 'This is CORS-enabled for all origins!' });
+      });
 
       //http server
       const port = _this.config.port;
@@ -508,9 +526,12 @@ const ServerModule = class Server {
       );
 
       //wait for client to be ready
-      socket.on(Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
-        _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
-      });
+      socket.on(
+        Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE,
+        function () {
+          _this.placeAvatarInWorld(u.getAvatar().getUUID(), uuidWorld);
+        }
+      );
 
       socket.on(Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR_GO, function () {
         socket.emit(
