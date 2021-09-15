@@ -7,24 +7,36 @@ module.exports = class AvatarSound {
     this.conf = conf;
     udviz = udvizBundle;
 
-    this.epicSound = null;
+    this.walkSound = null;
+    this.oldPosition = new udviz.THREE.Vector3();
+  }
+
+  isMoving(go) {
+    const currentPosition = go.getPosition();
+    const epsilon = 0.00001;
+    let result = true;
+    if (currentPosition.distanceTo(this.oldPosition) < epsilon) {
+      result = false;
+    }
+    this.oldPosition.copy(currentPosition);
+    return result;
   }
 
   init() {
     const go = arguments[0];
 
-    this.epicSound = go.getComponent(udviz.Game.Shared.Audio.TYPE).getSounds()[
-      'epic'
+    this.walkSound = go.getComponent(udviz.Game.Shared.Audio.TYPE).getSounds()[
+      'walk'
     ];
-    this.epicSound.play();
+    this.walkSound.play();
   }
 
   tick() {
     const go = arguments[0];
-    if (go.isOutdated()) {
-      if (!this.epicSound.playing()) this.epicSound.play();
+    if (this.isMoving(go)) {
+      if (!this.walkSound.playing()) this.walkSound.play();
     } else {
-      // this.epicSound.pause();
+      this.walkSound.pause();
     }
   }
 
