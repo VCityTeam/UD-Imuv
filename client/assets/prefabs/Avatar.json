@@ -15,7 +15,7 @@
     },
     "Audio": {
       "type": "Audio",
-      "sounds": ["epic", "cat"]
+      "sounds": ["walk", "cat"]
     },
     "Render": {
       "type": "Render",

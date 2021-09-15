@@ -4,8 +4,8 @@
   },
   "assetsManager": {
     "sounds": {
-      "epic": {
-        "path": "./assets/sounds/epic.mp3"
+      "walk": {
+        "path": "./assets/sounds/walk.mp3"
       },
       "cat": {
         "path": "./assets/sounds/cat.mp3"
