@@ -15,7 +15,7 @@
     },
     "Audio": {
       "type": "Audio",
-      "sounds": ["./assets/sounds/epic.mp3"]
+      "sounds": ["epic", "cat"]
     },
     "Render": {
       "type": "Render",

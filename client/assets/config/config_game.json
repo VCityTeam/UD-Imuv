@@ -3,6 +3,14 @@
     "renderDelay": 100
   },
   "assetsManager": {
+    "sounds": {
+      "epic": {
+        "path": "./assets/sounds/epic.mp3"
+      },
+      "cat": {
+        "path": "./assets/sounds/cat.mp3"
+      }
+    },
     "css": {
       "localGameManager": {
         "path": "./assets/css/localGameManager.css"

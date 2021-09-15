@@ -6,22 +6,26 @@ module.exports = class AvatarSound {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
+
+    this.epicSound = null;
   }
 
   init() {
     const go = arguments[0];
 
-    const sound = go.getComponent(udviz.Game.Shared.Audio.TYPE).getSound();
-    sound.play();
+    this.epicSound = go.getComponent(udviz.Game.Shared.Audio.TYPE).getSounds()[
+      'epic'
+    ];
+    this.epicSound.play();
   }
 
   tick() {
-    // // debugger;
-    // if (go.isOutdated()) {
-    //     debugger
-    // } else {
-    //   sound.stop();
-    // }
+    const go = arguments[0];
+    if (go.isOutdated()) {
+      if (!this.epicSound.playing()) this.epicSound.play();
+    } else {
+      // this.epicSound.pause();
+    }
   }
 
   update() {}
