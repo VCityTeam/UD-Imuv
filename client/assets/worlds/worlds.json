@@ -172,11 +172,7 @@
               },
               "children": [],
               "transform": {
-                "position": [
-                  "12.8781753042712800",
-                  "000",
-                  "01.24743629456452250"
-                ],
+                "position": [12.87817530427128, 0, 1.2474362945645225],
                 "rotation": [
                   0.02277039099037559,
                   3.1309498365464528,
@@ -299,7 +295,7 @@
               "children": [],
               "transform": {
                 "position": [69.11329386332072, 83.04286698997021, 105],
-                "rotation": ["0", "-3.14", "0", "ZXY"],
+                "rotation": [0, -3.14, 0, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -431,19 +427,8 @@
               "uuid": "B6696B41-3A93-4009-B69E-AD132DFF958C",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/heightmap/room_expo.png",
-                "heightmap_geometry": {
-                  "bounding_box": {
-                    "min": { "x": -4.440892098500626e-16, "y": 0, "z": 0 },
-                    "max": {
-                      "x": 53.21786689758301,
-                      "y": 42.72092153620724,
-                      "z": 17.701411840017023
-                    }
-                  },
-                  "heightmap_min": 0,
-                  "heightmap_max": 17.701411840017023
-                }
+                "heightmap_path": "./assets/img/uploaded/FA251193-FBB0-40D9-9EEE-86057A25FE61.jpeg",
+                "heightmap_geometry": { "max": 10, "min": -10, "size": 139 }
               },
               "type": "WorldScript"
             },
@@ -658,7 +643,7 @@
               "name": "Portal_Campus",
               "type": "GameObject",
               "static": true,
-              "outdated": false,
+              "outdated": true,
               "uuid": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
               "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
               "components": {
@@ -687,7 +672,7 @@
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
                     "spawnRotation": {
-                      "x": 0.19231894531250315,
+                      "x": "0",
                       "y": 0,
                       "z": 4.118258725148333
                     }
@@ -703,8 +688,8 @@
               },
               "children": [],
               "transform": {
-                "position": [41, 24, 0.2],
-                "rotation": [0, 0, 0, "ZXY"],
+                "position": [-13.543805123539641, 44.72298573050648, 0.2],
+                "rotation": [0, 3.14, 0, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -712,7 +697,7 @@
               "name": "Image_Test",
               "type": "GameObject",
               "static": true,
-              "outdated": false,
+              "outdated": true,
               "uuid": "6056B5F6-F6B5-4754-8B41-A927D7C0E318",
               "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
               "components": {
@@ -735,8 +720,10 @@
               },
               "children": [],
               "transform": {
-                "position": [4.4, 12, 10],
-                "rotation": [1.5707, 1.5707, 0, "ZXY"],
+                "position": [
+                  -15.48295276160352, 31.182454681023955, 3.6558164059147202
+                ],
+                "rotation": [1.5707, 3.14, 0, "ZXY"],
                 "scale": [0.005, 0.005, 0.005]
               }
             }
@@ -1001,7 +988,7 @@
               "children": [],
               "transform": {
                 "position": [6.663152822246775, 1.8178348703309894, 0.1],
-                "rotation": [0, "-3.14", 0, "ZXY"],
+                "rotation": [0, -3.14, 0, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -1090,7 +1077,7 @@
                 "position": [
                   23.769961774721743, 15.285009373165668, 3.091862372578112
                 ],
-                "rotation": [0, "-3.14", 0, "ZXY"],
+                "rotation": [0, -3.14, 0, "ZXY"],
                 "scale": [1, 1, 1]
               }
             }
