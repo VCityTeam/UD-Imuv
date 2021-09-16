@@ -24,7 +24,7 @@
     }
   },
   "thread": {
-    "fps": 60,
+    "fps": 30,
     "script": "./assets/scripts/thread.js"
   },
   "port": 8000,
