@@ -27,6 +27,10 @@ const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Rende
 
 const Buffer = require('buffer').Buffer;
 
+const bbb = require('bigbluebutton-js');
+const BBB_SECRET = 'EyEuC9fSJ3ERtwljddesQpCXepX4VGOndDd1kw3amk';
+const BBB_URL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
+
 const ServerModule = class Server {
   constructor(config) {
     // Your web app's Firebase configuration
@@ -68,7 +72,22 @@ const ServerModule = class Server {
     //manager
     this.assetsManager = new AssetsManagerServer();
 
+    //bbb
+    this.bbbAPI = null;
+    this.bbbRooms = {};
+
     this.initWorlds();
+    this.initBBB();
+  }
+
+  initBBB() {
+    this.bbbAPI = bbb.api(BBB_URL, BBB_SECRET);
+  }
+
+  createBBBRoom(params) {
+    const room = new BBB_ROOM(params, this.bbbAPI);
+    this.bbbRooms[room.getUUID()] = room;
+    return room.createRoom();
   }
 
   initWorlds() {
@@ -192,13 +211,13 @@ const ServerModule = class Server {
       //serve
       _this.app.use(express.static(_this.config.folder)); //what folder is served
 
-      // _this.app.use(
-      //   cors({
-      //     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
-      //     origin: '*',
-      //     allowedHeaders: true,
-      //   })
-      // );
+      _this.app.use(
+        cors({
+          methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
+          origin: '*',
+          allowedHeaders: true,
+        })
+      );
 
       _this.app.options('*', cors()); // include before other routes
 
@@ -330,6 +349,9 @@ const ServerModule = class Server {
               if (err) {
                 console.error(err);
               }
+
+              //robust
+              if (!data) data = '{}';
 
               const usersJSON = JSON.parse(data);
 
@@ -470,6 +492,22 @@ const ServerModule = class Server {
                   );
               });
             });
+
+            //create a bbb rooom
+            socket.on(
+              Shared.Components.Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM,
+              function () {
+                _this
+                  .createBBBRoom({ name: 'BBB_ROOM' })
+                  .then(function (newRoom) {
+                    socket.emit(
+                      Shared.Components.Constants.WEBSOCKET.MSG_TYPES
+                        .ON_BBB_URL,
+                      { url: newRoom.getModeratorUrl(), name: newRoom.name }
+                    );
+                  });
+              }
+            );
           } else {
             socket.emit(
               Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
@@ -717,5 +755,62 @@ const ServerModule = class Server {
     });
   }
 };
+
+class BBB_ROOM {
+  constructor(params, api) {
+    this.uuid = Shared.THREE.MathUtils.generateUUID();
+
+    this.name = params.name;
+
+    this.api = api;
+
+    this.moderatorUrl = null;
+    this.attendeeUrl = null;
+    this.meetingEndUrl = null;
+  }
+
+  createRoom() {
+    const http = bbb.http;
+    const _this = this;
+    const api = this.api;
+
+    const mPw = 'mpw';
+    const aPw = 'apw';
+
+    // api module itslef is responsible for constructing URLs
+    const meetingCreateUrl = api.administration.create(this.name, this.uuid, {
+      attendeePW: aPw,
+      moderatorPW: mPw,
+    });
+
+    return new Promise((resolve, reject) => {
+      // http method should be used in order to make calls
+      http(meetingCreateUrl).then((result) => {
+        // console.log(result);
+        _this.moderatorUrl = api.administration.join(
+          'moderator',
+          _this.uuid,
+          mPw
+        );
+        _this.attendeeUrl = api.administration.join(
+          'attendee',
+          _this.uuid,
+          aPw
+        );
+        _this.meetingEndUrl = api.administration.end(_this.uuid, mPw);
+
+        resolve(_this);
+      });
+    });
+  }
+
+  getModeratorUrl() {
+    return this.moderatorUrl;
+  }
+
+  getUUID() {
+    return this.uuid;
+  }
+}
 
 module.exports = ServerModule;

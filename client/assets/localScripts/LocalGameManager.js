@@ -23,6 +23,7 @@ module.exports = class LocalGameManager {
     //dynamic html
     this.fpsLabel = null;
     this.avatarCount = null;
+    this.createBBBRoomButton = null;
 
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
@@ -59,6 +60,43 @@ module.exports = class LocalGameManager {
     if (localCtx.getGameView().firstGameView) {
       this.initTraveling(localCtx.getGameView().getItownsView());
     }
+
+    const w = localCtx.getWebSocketService();
+    if (w) {
+      const _this = this;
+      w.on(
+        udviz.Game.Shared.Components.Constants.WEBSOCKET.MSG_TYPES.ON_BBB_URL,
+        function (data) {
+          //create a join button
+          const joinButton = document.createElement('div');
+          joinButton.classList.add('button_Editor'); //TODO css class
+          joinButton.innerHTML = 'join ' + data.name;
+          localCtx.getGameView().appendToUI(joinButton);
+
+          joinButton.onclick = function () {
+            const iframe = document.createElement('iframe');
+            iframe.src = data.url;
+            iframe.style.width = '500px';
+            iframe.style.height = '500px';
+            // iframe.allow = 'microphone;camera;';
+            iframe.allow =
+              'geolocation; microphone https://bbb-node1.domain https://bbb-node2.domain https://bbb-node3.domain; camera  https://bbb-node1.domain https://bbb-node2.domain https://bbb-node3.domain; display-capture  https://bbb-node1.domain https://bbb-node2.domain https://bbb-node3.domain;';
+
+            console.log(iframe);
+            localCtx.getGameView().appendToUI(iframe);
+          };
+        }
+      );
+
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          console.log('success!');
+        })
+        .catch((e) => {
+          console.log('e: ', e);
+        });
+    }
   }
 
   initUI(go, localCtx) {
@@ -71,6 +109,22 @@ module.exports = class LocalGameManager {
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_localGameManager');
     gameView.appendToUI(this.avatarCount);
+
+    const webSocketService = localCtx.getWebSocketService();
+    if (webSocketService) {
+      this.createBBBRoomButton = document.createElement('div');
+      this.createBBBRoomButton.classList.add('button_Editor'); //TODO put another css classes
+      this.createBBBRoomButton.innerHTML = 'Create BBB Room';
+      gameView.appendToUI(this.createBBBRoomButton);
+
+      //Callbacks
+      this.createBBBRoomButton.onclick = function () {
+        webSocketService.emit(
+          udviz.Game.Shared.Components.Constants.WEBSOCKET.MSG_TYPES
+            .CREATE_BBB_ROOM
+        );
+      };
+    }
 
     this.updateUI(go, localCtx);
   }
