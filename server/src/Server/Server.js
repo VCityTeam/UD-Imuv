@@ -500,6 +500,7 @@ const ServerModule = class Server {
                 _this
                   .createBBBRoom({ name: 'BBB_ROOM' })
                   .then(function (newRoom) {
+                    console.log(_this.bbbAPI.monitoring.getMeetings());
                     socket.emit(
                       Shared.Components.Constants.WEBSOCKET.MSG_TYPES
                         .ON_BBB_URL,
