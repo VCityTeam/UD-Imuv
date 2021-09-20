@@ -78,9 +78,13 @@ module.exports = class LocalGameManager {
             iframe.src = data.url;
             iframe.style.width = '500px';
             iframe.style.height = '500px';
+            iframe.onload = function () {
+              debugger;
+            };
             // iframe.allow = 'microphone;camera;';
+            const suddomain = 'https://s8x3a2hk.meetings-server.com/';
             iframe.allow =
-              'geolocation; microphone https://bbb-node1.domain https://bbb-node2.domain https://bbb-node3.domain; camera  https://bbb-node1.domain https://bbb-node2.domain https://bbb-node3.domain; display-capture  https://bbb-node1.domain https://bbb-node2.domain https://bbb-node3.domain;';
+              'microphone ' + suddomain + '; camera  ' + suddomain + ';';
 
             console.log(iframe);
             localCtx.getGameView().appendToUI(iframe);
