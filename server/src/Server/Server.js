@@ -31,6 +31,11 @@ const bbb = require('bigbluebutton-js');
 const BBB_SECRET = 'EyEuC9fSJ3ERtwljddesQpCXepX4VGOndDd1kw3amk';
 const BBB_URL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
 
+const https = require('https');
+const parseString = require('xml2js').parseString;
+// const parser = new xml2js.Parser();
+const exec = require('child-process-promise').exec;
+
 const ServerModule = class Server {
   constructor(config) {
     // Your web app's Firebase configuration
@@ -77,11 +82,53 @@ const ServerModule = class Server {
     this.bbbRooms = {};
 
     this.initWorlds();
-    this.initBBB();
+
+    try {
+      this.initBBB();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   initBBB() {
     this.bbbAPI = bbb.api(BBB_URL, BBB_SECRET);
+    const api = this.bbbAPI;
+
+    //clean all meetings running
+    const meetingsURL = this.bbbAPI.monitoring.getMeetings();
+    const pathTempXML = './assets/temp/bbb_data.xml';
+    exec('wget ' + meetingsURL + ' -O ' + pathTempXML).then(function () {
+      fs.readFile(pathTempXML, 'utf-8', function (err, data) {
+        if (err) {
+          throw new Error(err);
+        }
+
+        parseString(data, function (errParser, jsData) {
+          if (errParser) {
+            throw new Error(errParser);
+          }
+
+          if (!jsData.response) throw new Error('no response');
+
+          if (jsData.response.returncode[0] != 'SUCCESS')
+            throw new Error('response status is not SUCCESS');
+
+          if (
+            jsData.response.messageKey &&
+            jsData.response.messageKey[0] == 'noMeetings'
+          ) {
+            console.warn('no bbb meetings running');
+            return;
+          }
+
+          const meetings = jsData.response.meetings;
+          meetings[0].meeting.forEach(function (m) {
+            api.administration.end(m.meetingID[0], m.moderatorPW[0]);
+            console.log('end bbb meeting ', m.meetingID[0]);
+          });
+        });
+      });
+    });
   }
 
   createBBBRoom(params) {
