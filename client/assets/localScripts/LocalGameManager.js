@@ -78,11 +78,7 @@ module.exports = class LocalGameManager {
             iframe.src = data.url;
             iframe.style.width = '500px';
             iframe.style.height = '500px';
-            iframe.onload = function () {
-              debugger;
-            };
-            // iframe.allow = 'microphone;camera;';
-            const suddomain = 'https://s8x3a2hk.meetings-server.com/';
+            const suddomain = '*';
             iframe.allow =
               'microphone ' + suddomain + '; camera  ' + suddomain + ';';
 
@@ -95,7 +91,7 @@ module.exports = class LocalGameManager {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
-          console.log('success!');
+          console.log('Video + audio allowed');
         })
         .catch((e) => {
           console.log('e: ', e);
