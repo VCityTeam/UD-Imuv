@@ -335,6 +335,8 @@ module.exports = class LocalGameManager {
               camera.quaternion.slerp(t.quaternion, ratio);
               camera.updateProjectionMatrix();
 
+              view.notifyChange(); //trigger camera event
+
               return ratio >= 1;
             },
             function () {
@@ -380,6 +382,8 @@ module.exports = class LocalGameManager {
               camera.position.lerp(_this.itownsCamPos, ratio);
               camera.quaternion.slerp(_this.itownsCamQuat, ratio);
               camera.updateProjectionMatrix();
+
+              view.notifyChange(); //trigger camera event
 
               return ratio >= 1;
             },
