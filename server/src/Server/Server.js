@@ -31,9 +31,7 @@ const bbb = require('bigbluebutton-js');
 const BBB_SECRET = 'EyEuC9fSJ3ERtwljddesQpCXepX4VGOndDd1kw3amk';
 const BBB_URL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
 
-const https = require('https');
 const parseString = require('xml2js').parseString;
-// const parser = new xml2js.Parser();
 const exec = require('child-process-promise').exec;
 
 const ServerModule = class Server {
@@ -271,7 +269,7 @@ const ServerModule = class Server {
 
       // _this.app.use(cors());
 
-      _this.app.get('/products/:id', function (req, res, next) {
+      _this.app.get('/products/:id', function (req, res) {
         res.json({ msg: 'This is CORS-enabled for all origins!' });
       });
 
@@ -838,9 +836,9 @@ class BBB_ROOM {
       moderatorPW: mPw,
     });
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       // http method should be used in order to make calls
-      http(meetingCreateUrl).then((result) => {
+      http(meetingCreateUrl).then(() => {
         // console.log(result);
         _this.moderatorUrl = api.administration.join(
           'moderator',
