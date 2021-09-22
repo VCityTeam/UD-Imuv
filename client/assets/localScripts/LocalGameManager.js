@@ -211,7 +211,7 @@ module.exports = class LocalGameManager {
     this.cameraman.tick(
       localCtx.getDt(),
       localCtx.getGameView().getLastState(),
-      localCtx.getGameView().avatarUUID, //todo getter
+      localCtx.getGameView().getUserData('avatarUUID'),
       this.obstacle
     );
 
