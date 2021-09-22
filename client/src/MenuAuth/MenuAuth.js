@@ -181,6 +181,7 @@ export class MenuAuthView {
                 if (true || initialized || isGuest) {
                   distantGame.start({
                     firstGameView: true,
+                    isGuest: isGuest,
                   });
                   //notify server that app is ready to receive state
                   _this.webSocketService.emit(
@@ -196,6 +197,7 @@ export class MenuAuthView {
                     menuAvatar.dispose();
                     distantGame.start({
                       firstGameView: true,
+                      isGuest: isGuest,
                     });
                     //notify server that app is ready to receive state
                     _this.webSocketService.emit(

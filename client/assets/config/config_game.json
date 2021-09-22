@@ -42,6 +42,9 @@
       },
       "avatar_sound": {
         "path": "./assets/localScripts/AvatarSound.js"
+      },
+      "bbb": {
+        "path": "./assets/localScripts/BBB.js"
       }
     },
     "models": {

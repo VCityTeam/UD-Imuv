@@ -134,6 +134,7 @@ const ServerModule = class Server {
   createBBBRoom(params) {
     const room = new BBB_ROOM(params, this.bbbAPI);
     this.bbbRooms[room.getUUID()] = room;
+    console.warn('create bbb room ', params.name);
     return room.createRoom();
   }
 
@@ -543,19 +544,25 @@ const ServerModule = class Server {
             //create a bbb rooom
             socket.on(
               Shared.Components.Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM,
-              function () {
-                _this
-                  .createBBBRoom({ name: 'BBB_ROOM' })
-                  .then(function (newRoom) {
-                    console.log(_this.bbbAPI.monitoring.getMeetings());
-                    socket.emit(
-                      Shared.Components.Constants.WEBSOCKET.MSG_TYPES
-                        .ON_BBB_URL,
-                      { url: newRoom.getModeratorUrl(), name: newRoom.name }
-                    );
-                  });
+              function (name) {
+                _this.createBBBRoom({ name: name });
               }
             );
+
+            const sendBBBUrls = function () {
+              const data = [];
+              for (let key in _this.bbbRooms) {
+                const r = _this.bbbRooms[key];
+                const url = r.getAttendeeURL();
+                if (!url) continue;
+                data.push({ url: url, name: r.name });
+              }
+              socket.emit(
+                Shared.Components.Constants.WEBSOCKET.MSG_TYPES.ON_BBB_URLS,
+                data
+              );
+            };
+            setInterval(sendBBBUrls, 1000); //notify every second
           } else {
             socket.emit(
               Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
@@ -850,6 +857,10 @@ class BBB_ROOM {
         resolve(_this);
       });
     });
+  }
+
+  getAttendeeURL() {
+    return this.attendeeUrl;
   }
 
   getModeratorUrl() {
