@@ -120,16 +120,27 @@
       "tilt": 10
     }
   },
-  "3DTilesLayer": {
-    "id": "3d-tiles-layer-building",
-    "url": "./assets/models/lod_flying_campus/tileset.json",
-    "color": "0xFFFFFF",
-    "initTilesManager": "true"
-  },
-  "elevation_layer": {
-    "url": "https://download.data.grandlyon.com/wms/grandlyon",
-    "name": "MNT2018_Altitude_2m",
-    "format": "image/jpeg",
-    "layer_name": "wms_elevation_test"
-  }
+  "3DTilesLayers": [
+    {
+      "id": "3d-tiles-layer-building",
+      "url": "./assets/3DTiles/buildings/tileset.json",
+      "color": "0xFFFFFF"
+    },
+    {
+      "id": "3d-tiles-layer-relief",
+      "url": "./assets/3DTiles/relief/tileset.json",
+      "color": "0xd0ac7f"
+    },
+    {
+      "id": "3d-tiles-layer-road",
+      "url": "./assets/3DTiles/roads/tileset.json",
+      "color": "0x272727"
+    },
+    {
+      "id": "3d-tiles-layer-water",
+      "url": "./assets/3DTiles/water/tileset.json",
+      "color": "0x2ACAEA"
+    }
+  ],
+  "projection": "EPSG:3946"
 }
