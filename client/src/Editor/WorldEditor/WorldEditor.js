@@ -30,7 +30,7 @@ export class WorldEditorView {
       htmlParent: this.parentGameViewHtml,
       assetsManager: params.assetsManager,
       config: this.config,
-      firstGameView: false,
+      userData: { firstGameView: false },
       stateComputer: this.model.getWorldStateComputer(),
       updateGameObject: false,
     });

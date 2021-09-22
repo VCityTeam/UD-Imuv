@@ -242,7 +242,7 @@ export class EditorView {
       worldJSON: json,
       parentGameViewHtml: this.rootHtml,
       assetsManager: this.assetsManager,
-      firstGameView: false,
+      userData: { firstGameView: false },
       config: this.config,
     });
 
