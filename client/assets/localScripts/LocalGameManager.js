@@ -57,7 +57,7 @@ module.exports = class LocalGameManager {
     this.initInputs(localCtx);
     this.initUI(go, localCtx);
 
-    if (localCtx.getGameView().firstGameView) {
+    if (localCtx.getGameView().getUserData('firstGameView')) {
       this.initTraveling(localCtx.getGameView().getItownsView());
     }
 
