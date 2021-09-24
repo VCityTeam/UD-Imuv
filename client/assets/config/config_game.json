@@ -45,6 +45,9 @@
       },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"
+      },
+      "ui": {
+        "path": "./assets/localScripts/UI.js"
       }
     },
     "models": {

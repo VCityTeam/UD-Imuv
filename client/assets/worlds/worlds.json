@@ -23,7 +23,7 @@
         },
         "LocalScript": {
           "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
-          "idScripts": ["localGameManager", "bbb"],
+          "idScripts": ["localGameManager", "ui", "bbb"],
           "conf": { "traveling_time": 1500, "fog": { "near": 5, "far": 100 } },
           "type": "LocalScript"
         }
@@ -403,7 +403,7 @@
         },
         "LocalScript": {
           "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-          "idScripts": ["localGameManager", "bbb"],
+          "idScripts": ["localGameManager", "ui", "bbb"],
           "conf": { "fog": { "near": 5, "far": 100 } },
           "type": "LocalScript"
         }
@@ -770,7 +770,7 @@
         },
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-          "idScripts": ["localGameManager", "bbb"],
+          "idScripts": ["localGameManager", "ui", "bbb"],
           "conf": { "fog": { "near": 5, "far": 100 } },
           "type": "LocalScript"
         }
