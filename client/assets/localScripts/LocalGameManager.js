@@ -20,10 +20,6 @@ module.exports = class LocalGameManager {
 
     this.fogObject = null;
 
-    //dynamic html
-    this.fpsLabel = null;
-    this.avatarCount = null;
-
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
   }
@@ -54,27 +50,10 @@ module.exports = class LocalGameManager {
     );
 
     this.initInputs(localCtx);
-    this.initUI(go, localCtx);
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
       this.initTraveling(localCtx.getGameView().getItownsView());
     }
-
-    
-  }
-
-  initUI(go, localCtx) {
-    const gameView = localCtx.getGameView();
-
-    this.fpsLabel = document.createElement('div');
-    this.fpsLabel.classList.add('label_localGameManager');
-    gameView.appendToUI(this.fpsLabel);
-
-    this.avatarCount = document.createElement('div');
-    this.avatarCount.classList.add('label_localGameManager');
-    gameView.appendToUI(this.avatarCount);
-
-    this.updateUI(go, localCtx);
   }
 
   initTraveling(view) {
@@ -162,18 +141,6 @@ module.exports = class LocalGameManager {
       localCtx.getGameView().getUserData('avatarUUID'),
       this.obstacle
     );
-
-    this.updateUI(go, localCtx);
-  }
-
-  updateUI(go, localCtx) {
-    //update ui
-    this.fpsLabel.innerHTML = 'FPS = ' + Math.round(1000 / localCtx.getDt());
-    let avatarCount = 0;
-    go.traverse(function (g) {
-      if (g.name == 'avatar') avatarCount++;
-    });
-    this.avatarCount.innerHTML = 'Player: ' + avatarCount;
   }
 
   onNewGameObject() {
@@ -214,6 +181,7 @@ module.exports = class LocalGameManager {
     } else {
       view.scene.fog = null;
     }
+    view.scene.fog = null;
   }
 
   initInputs(localCtx) {
