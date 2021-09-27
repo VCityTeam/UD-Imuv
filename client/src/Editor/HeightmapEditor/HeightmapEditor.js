@@ -6,7 +6,7 @@ import { computeMapGO } from '../Components/EditorUtility';
 
 import './HeightmapEditor.css';
 
-const HEIGHTMAP_SIZE = 512;
+const HEIGHTMAP_SIZE = 1024;
 
 export class HeightmapEditorView {
   constructor(params) {
