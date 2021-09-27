@@ -37,6 +37,12 @@ export class AddPrefabEditorView {
     const _this = this;
     const a = this.assetsManager;
     const prefabs = a.getPrefabs();
+
+    const list = this.prefabList;
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+
     for (let key in prefabs) {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
