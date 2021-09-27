@@ -184,6 +184,7 @@ export class WorldEditorView {
         gameView: _this.gameView,
         parentOC: _this.orbitControls,
         assetsManager: _this.assetsManager,
+        goEV: _this.goEditorView,
       });
       cEV.setOnClose(function () {
         cEV.dispose();
