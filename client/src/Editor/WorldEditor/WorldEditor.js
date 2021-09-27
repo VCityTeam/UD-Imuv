@@ -69,6 +69,7 @@ export class WorldEditorView {
     this.heightmapButton = null;
     this.labelCurrentWorld = null;
     this.playWorldButton = null;
+    this.sliderOpacity = null;
 
     //ref children views to dispose them easily
     this.childrenViews = [this.goEditorView, this.addPrefabView]; //view always active
@@ -144,6 +145,19 @@ export class WorldEditorView {
     heightmapButton.innerHTML = 'Heightmap';
     ulButtons.appendChild(heightmapButton);
     this.heightmapButton = heightmapButton;
+
+    const sliderOpcacity = document.createElement('input');
+    sliderOpcacity.id = 'opacity';
+    sliderOpcacity.classList.add('input_Editor');
+    sliderOpcacity.setAttribute('type', 'range');
+    sliderOpcacity.value = '100';
+    this.ui.appendChild(sliderOpcacity);
+    this.sliderOpcacity = sliderOpcacity;
+
+    const labelSliderOp = document.createElement('label');
+    labelSliderOp.setAttribute('for', 'opacity');
+    labelSliderOp.innerHTML = 'Opacity';
+    this.ui.appendChild(labelSliderOp);
   }
 
   focusObject(objToFocus) {
