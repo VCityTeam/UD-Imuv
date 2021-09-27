@@ -11,7 +11,7 @@ export class ColliderEditorView {
 
     this.rootHtml = params.parentUIHtml;
     this.gameView = params.gameView;
-    this.canvas = this.gameView.rootItownsHtml;
+
     this.assetsManager = params.assetsManager;
 
     this.model = new ColliderEditorModel(this.gameView);
@@ -37,9 +37,10 @@ export class ColliderEditorView {
     this.saveButton = null;
 
     //controls
-    params.goEV.dispose();
+    params.goEV.dispose(); //TODO : merge transformcontrols of goEV and  cEV
     this.orbitControls = params.parentOC;
     this.transformControls = null;
+    this.tcChanged = false; //TODO : Find how to use transformControls.dragging correctly
 
     this.addPointMode = false;
 
@@ -52,6 +53,13 @@ export class ColliderEditorView {
       this.gameView
     );
     this.updateUI();
+  }
+
+  getCanvas() {
+    const canvas =
+      this.gameView.getItownsView().mainLoop.gfxEngine.renderer.domElement;
+    canvas.style.zIndex = 1;
+    return canvas;
   }
 
   getColliderComponent() {
@@ -244,7 +252,7 @@ export class ColliderEditorView {
     const scene = this.gameView.getItownsView().scene;
     const viewerDiv = this.gameView.rootItownsHtml;
 
-    this.transformControls = new TransformControls(camera, viewerDiv);
+    this.transformControls = new TransformControls(camera, this.getCanvas());
     scene.add(this.transformControls);
 
     const _this = this;
@@ -253,15 +261,18 @@ export class ColliderEditorView {
     this.transformControls.addEventListener(
       'dragging-changed',
       function (event) {
-        _this.orbitControls.enabled = !event.value;
+        _this.setOrbitControls(!event.value);
+        _this.tcChanged = true;
       }
     );
+
   }
 
   initCallbacks() {
     const _this = this;
     const currentGameView = this.gameView;
-    const canvas = this.canvas;
+    const canvas = this.getCanvas();
+    const viewerDiv = this.gameView.rootItownsHtml;
     const transformControls = this.transformControls;
     const manager = this.gameView.getInputManager();
 
@@ -342,7 +353,8 @@ export class ColliderEditorView {
           _this.model.setSelectedObject(sphere || null);
         }
       } else {
-        if (transformControls.dragging) {
+        if (_this.tcChanged) {
+          _this.tcChanged = false;
           if (_this.model.getSelectedObject().userData == 'Point') {
             getShape().updateMesh();
           } else if (_this.model.getSelectedObject().userData == 'Mesh') {
@@ -367,8 +379,8 @@ export class ColliderEditorView {
 
     manager.addKeyInput('Control', 'keydown', this.refAddPointKeyDown);
     manager.addKeyInput('Control', 'keyup', this.refAddPointKeyUp);
-    manager.addMouseInput(canvas, 'pointerup', this.onPointerupListener);
-    manager.addMouseInput(canvas, 'pointerdown', this.onPointerdownListener);
+    manager.addMouseInput(viewerDiv, 'pointerup', this.onPointerupListener);
+    manager.addMouseInput(viewerDiv, 'pointerdown', this.onPointerdownListener);
   }
 
   setOnClose(f) {
@@ -545,12 +557,13 @@ class Shape {
 
     const meshGeometry = new ConvexGeometry(vertices);
     meshGeometry.computeBoundingBox();
-    const center = meshGeometry.boundingBox.getCenter();
+    const vecCenter = new THREE.Vector3()
+    meshGeometry.boundingBox.getCenter(vecCenter);
     const positions = meshGeometry.attributes.position.array;
     for (let i = 0; i < positions.length; i += 3) {
-      positions[i] -= center.x;
-      positions[i + 1] -= center.y;
-      positions[i + 2] -= center.z;
+      positions[i] -= vecCenter.x;
+      positions[i + 1] -= vecCenter.y;
+      positions[i + 2] -= vecCenter.z;
     }
 
     meshGeometry.setAttribute(
@@ -562,7 +575,7 @@ class Shape {
     meshGeometry.boundingBox = null;
 
     this.mesh = new THREE.Mesh(meshGeometry, this.matMesh);
-    this.mesh.position.copy(center);
+    this.mesh.position.copy(vecCenter);
     this.mesh.updateMatrixWorld();
     this.mesh.userData = 'Mesh';
     this.previousMeshPosition = this.mesh.position.clone();
