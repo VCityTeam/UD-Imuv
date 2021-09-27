@@ -245,6 +245,11 @@ export class WorldEditorView {
       this.gameView.rootItownsHtml
     );
 
+    this.orbitControls.addEventListener(
+      'change',
+      this.gameView.computeNearFarCamera.bind(this.gameView)
+    );
+
     this.orbitControls.target.copy(this.gameView.getExtent().center());
     this.orbitControls.update();
   }
