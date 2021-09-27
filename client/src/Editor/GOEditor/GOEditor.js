@@ -39,7 +39,7 @@ export class GOEditorView {
 
     //go selected
     this.goSelected = null;
-    
+
     this.initTransformControls();
     this.initUI();
     this.initCallbacks();
@@ -52,8 +52,7 @@ export class GOEditorView {
     const scene = this.gameView.getItownsView().scene;
     const manager = this.gameView.getInputManager();
     const viewerDiv = this.gameView.rootItownsHtml;
-    const canvas =
-      this.gameView.getItownsView().mainLoop.gfxEngine.renderer.domElement;
+    const canvas = this.gameView.getRenderer().domElement;
     canvas.style.zIndex = 1; //patch
 
     this.transformControls = new TransformControls(camera, canvas);
