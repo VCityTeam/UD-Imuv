@@ -181,7 +181,7 @@ module.exports = class LocalGameManager {
     } else {
       view.scene.fog = null;
     }
-    view.scene.fog = null;
+    view.scene.fog = null; //TODO fix me for now cant interact with tile children material
   }
 
   initInputs(localCtx) {
