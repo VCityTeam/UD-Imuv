@@ -73,8 +73,6 @@ export class WorldEditorView {
     //ref children views to dispose them easily
     this.childrenViews = [this.goEditorView, this.addPrefabView]; //view always active
 
-    this.childrenViews = [];
-
     this.initUI();
     this.initCallbacks();
   }
