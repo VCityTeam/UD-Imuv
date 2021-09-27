@@ -227,7 +227,13 @@ module.exports = class LocalGameManager {
     manager.addKeyInput('a', 'keydown', function () {
       if (_this.cameraman.hasRoutine()) return; //already routine
 
-      const speed = 0.6;
+      const duration = 2000;
+      let currentTime = 0;
+      const camera = _this.cameraman.getCamera();
+
+      let startPos = camera.position.clone();
+      let startQuat = camera.quaternion.clone();
+
       if (view.controls) {
         //record
         const camera = _this.cameraman.getCamera();
@@ -241,14 +247,18 @@ module.exports = class LocalGameManager {
         _this.cameraman.addRoutine(
           new Routine(
             function (dt) {
-              const t = _this.cameraman.computeTransformTarget();
-              const camera = _this.cameraman.getCamera();
-              const amount = speed * dt;
-              const dist = t.position.distanceTo(camera.position);
-              let ratio = amount / dist;
+              currentTime += dt;
+              let ratio = currentTime / duration;
               ratio = Math.min(Math.max(0, ratio), 1);
-              camera.position.lerp(t.position, ratio);
-              camera.quaternion.slerp(t.quaternion, ratio);
+
+              const t = _this.cameraman.computeTransformTarget();
+
+              const p = t.position.lerp(startPos, 1 - ratio);
+              const q = t.quaternion.slerp(startQuat, 1 - ratio);
+
+              camera.position.copy(p);
+              camera.quaternion.copy(q);
+
               camera.updateProjectionMatrix();
 
               view.notifyChange(); //trigger camera event
@@ -290,13 +300,16 @@ module.exports = class LocalGameManager {
         _this.cameraman.addRoutine(
           new Routine(
             function (dt) {
-              const camera = _this.cameraman.getCamera();
-              const amount = speed * dt;
-              const dist = _this.itownsCamPos.distanceTo(camera.position);
-              let ratio = amount / dist;
+              currentTime += dt;
+              let ratio = currentTime / duration;
               ratio = Math.min(Math.max(0, ratio), 1);
-              camera.position.lerp(_this.itownsCamPos, ratio);
-              camera.quaternion.slerp(_this.itownsCamQuat, ratio);
+
+              const p = _this.itownsCamPos.clone().lerp(startPos, 1 - ratio);
+              const q = _this.itownsCamQuat.clone().slerp(startQuat, 1 - ratio);
+
+              camera.position.copy(p);
+              camera.quaternion.copy(q);
+
               camera.updateProjectionMatrix();
 
               view.notifyChange(); //trigger camera event
