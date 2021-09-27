@@ -146,13 +146,13 @@ export class WorldEditorView {
     ulButtons.appendChild(heightmapButton);
     this.heightmapButton = heightmapButton;
 
-    const sliderOpcacity = document.createElement('input');
-    sliderOpcacity.id = 'opacity';
-    sliderOpcacity.classList.add('input_Editor');
-    sliderOpcacity.setAttribute('type', 'range');
-    sliderOpcacity.value = '100';
-    this.ui.appendChild(sliderOpcacity);
-    this.sliderOpcacity = sliderOpcacity;
+    const sliderOpacity = document.createElement('input');
+    sliderOpacity.id = 'opacity';
+    sliderOpacity.classList.add('input_Editor');
+    sliderOpacity.setAttribute('type', 'range');
+    sliderOpacity.value = '100';
+    this.ui.appendChild(sliderOpacity);
+    this.sliderOpacity = sliderOpacity;
 
     const labelSliderOp = document.createElement('label');
     labelSliderOp.setAttribute('for', 'opacity');
@@ -231,6 +231,29 @@ export class WorldEditorView {
       });
 
       _this.childrenViews.push(hV);
+    };
+
+    const setTransparencyChild = function (GO, ratio) {
+      GO.children.forEach((child) => {
+        if (child.material) {
+          child.material.transparent = true;
+          child.material.opacity = ratio;
+        }
+        if(child.children)
+        {
+          setTransparencyChild(child,ratio);
+        }
+      });
+      
+    };
+
+    this.sliderOpacity.oninput = function (event) {
+      if (!_this.model) return;
+
+      const ratio = parseFloat(event.target.value) / 100;
+      const mapGo = computeMapGO(_this.gameView);
+      if (!mapGo) return;
+      setTransparencyChild(_this.gameView.object3D, ratio);
     };
 
     const manager = this.gameView.getInputManager();
