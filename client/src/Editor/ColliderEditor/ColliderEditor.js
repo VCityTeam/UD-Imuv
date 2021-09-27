@@ -37,6 +37,7 @@ export class ColliderEditorView {
     this.saveButton = null;
 
     //controls
+    params.goEV.dispose();
     this.orbitControls = params.parentOC;
     this.transformControls = null;
 
@@ -338,7 +339,7 @@ export class ColliderEditorView {
           getShape().getObject3D().add(sphere);
           sphere.updateMatrixWorld();
           getShape().addPoint(sphere);
-          _this.model.setSelectedObject(getShape().mesh || null);
+          _this.model.setSelectedObject(sphere || null);
         }
       } else {
         if (transformControls.dragging) {

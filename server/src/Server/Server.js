@@ -89,6 +89,7 @@ const ServerModule = class Server {
   }
 
   initBBB() {
+    return;
     this.bbbAPI = bbb.api(BBB_URL, BBB_SECRET);
     const api = this.bbbAPI;
 
