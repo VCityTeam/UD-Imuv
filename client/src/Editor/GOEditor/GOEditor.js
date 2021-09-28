@@ -227,15 +227,18 @@ export class GOEditorView {
       inputVector3.appendChild(zInput);
 
       xInput.onchange = function () {
-        obj[field].x = xInput.value;
+        obj[field].x = parseFloat(xInput.value);
+        if (isNaN(obj[field].x)) obj[field].x = 0;
       };
 
       yInput.onchange = function () {
-        obj[field].y = yInput.value;
+        obj[field].y = parseFloat(yInput.value);
+        if (isNaN(obj[field].y)) obj[field].y = 0;
       };
 
       zInput.onchange = function () {
-        obj[field].z = zInput.value;
+        obj[field].z = parseFloat(zInput.value);
+        if (isNaN(obj[field].z)) obj[field].z = 0;
       };
 
       return inputVector3;
