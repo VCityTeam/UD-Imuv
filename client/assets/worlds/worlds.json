@@ -1,1 +1,1090 @@
-[{"gameObject":{"name":"GameManager","type":"GameObject","static":true,"outdated":false,"uuid":"C9E1F773-4249-4BE5-A744-438207962D64","parentUUID":null,"components":{"WorldScript":{"uuid":"8789DBE9-B9BF-4F13-8E5D-617DED3EB218","idScripts":["worldGameManager"],"conf":{"mapUUID":"91114CBF-8AF6-4B34-8E80-E4EC13614451","spawnTransform":{"position":[20,20,0],"rotation":[0.21799999999999553,0,2.441505307179602],"scale":[1,1,1]}},"type":"WorldScript"},"LocalScript":{"uuid":"4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F","idScripts":["localGameManager","ui","bbb"],"conf":{"traveling_time":1500,"fog":{"near":5,"far":100}},"type":"LocalScript"}},"children":[{"name":"Flying_Campus_Map","type":"GameObject","static":true,"outdated":false,"uuid":"91114CBF-8AF6-4B34-8E80-E4EC13614451","parentUUID":"C9E1F773-4249-4BE5-A744-438207962D64","components":{"Collider":{"uuid":"F3A702FE-185F-4341-8E57-4E78E276E248","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":10}],"body":true},"Render":{"uuid":"5DAC9A92-E4B0-4EB1-8181-79A326E70D81","type":"Render","idModel":"flying_campus","color":[1,1,1]},"WorldScript":{"uuid":"0157ABA2-FC43-4FDD-90CF-00F797FB50E6","idScripts":["map"],"conf":{"heightmap_path":"./assets/img/uploaded/A3E93320-7C52-4F21-BE89-A3FE11A9A356.jpeg","heightmap_geometry":{"max":3,"min":-28,"size":220}},"type":"WorldScript"}},"children":[{"name":"Portal_Conf_Stairs","type":"GameObject","static":true,"outdated":true,"uuid":"7EE2EBC0-7323-4715-91B3-371D4118D428","parentUUID":"91114CBF-8AF6-4B34-8E80-E4EC13614451","components":{"Render":{"uuid":"146C6F3F-2BA2-4502-BE06-5F62DCD7FE8E","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"AFAC82B4-B224-4363-82FA-399617E078F9","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"80ADD0AF-DB8E-443B-B751-BB68B57BFC88","idScripts":["portal"],"conf":{"worldDestUUID":"7027C0BF-BC84-48B6-BCFD-FA97DAE8874C","portalUUID":"79F3FDBB-E348-47D8-BBD8-7A1E817A3887","spawnRotation":{"x":0.11522197265624445,"y":0,"z":6.253323407327942}},"type":"WorldScript"},"LocalScript":{"uuid":"5DF3924E-1822-42CA-9CEE-5DAA347322FA","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[-29.995319963200018,-46.84266984090209,-2.799337193664371],"rotation":[0,0,0,"ZXY"],"scale":[1,1,1]}},{"name":"Portal_Expo_Ouside","type":"GameObject","static":true,"outdated":true,"uuid":"ADFDDF30-BEDE-41FF-BDBA-00D19B38D663","parentUUID":"91114CBF-8AF6-4B34-8E80-E4EC13614451","components":{"Render":{"uuid":"769C8A89-A5F6-44B9-8F68-F458AEF20BB6","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"3F36190D-098B-41A7-8D48-8FED381AF656","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"BED7C964-45AA-4E10-9489-64BED47D8844","idScripts":["portal"],"conf":{"worldDestUUID":"9C632D7E-C466-426F-AC31-8FC74AB11D0D","portalUUID":"8181C246-16B9-4A09-B68E-8B5422DB18CC","spawnRotation":{"x":0.11522197265624445,"y":0,"z":6.253323407327942}},"type":"WorldScript"},"LocalScript":{"uuid":"7148E1C3-819F-4247-A7D2-06909149171F","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[12.87817530427128,0,1.2474362945645225],"rotation":[0.02277039099037559,3.1309498365464528,3.5788671724815178,"ZXY"],"scale":[1,1,1]}},{"name":"Zeppelin","type":"GameObject","static":false,"outdated":true,"uuid":"7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B","parentUUID":"91114CBF-8AF6-4B34-8E80-E4EC13614451","components":{"Render":{"uuid":"AE118224-36E8-44A4-BEED-697F0FD69BD3","type":"Render","idModel":"zeppelin","color":[1,1,1]},"WorldScript":{"uuid":"E355F75E-D0BC-46E5-B789-E34063B5A814","idScripts":["zeppelin"],"conf":{"duration":1000},"type":"WorldScript"}},"children":[],"transform":{"position":[156.02878437017222,110.58316746658542,131.3931481757054],"rotation":[0,0,4.866450965297645,"ZXY"],"scale":[1,1,1]}},{"name":"Video Intro","type":"GameObject","static":true,"outdated":false,"uuid":"470B029B-81FA-476B-9869-401CC6EF1E94","parentUUID":"91114CBF-8AF6-4B34-8E80-E4EC13614451","components":{"LocalScript":{"uuid":"C6BD0C6B-3026-47E7-9967-0E6017FA278C","idScripts":["video"],"conf":{"idVideo":"introduction_flying_campus","width":8.5,"height":5.3,"size":{"width":1280,"height":720}},"type":"LocalScript"},"Render":{"uuid":"9FE823BC-652A-4F02-82BF-D47F3A6B21E0","type":"Render","idModel":null,"color":[1,1,1]}},"children":[],"transform":{"position":[108.5,153.5,112.15],"rotation":[1.5707,0,3.1415,"ZXY"],"scale":[1,1,1]}},{"name":"Portal_Conf_Patio","type":"GameObject","static":true,"outdated":true,"uuid":"E1622182-EDE3-48EE-B189-EEF5AA94644E","parentUUID":"91114CBF-8AF6-4B34-8E80-E4EC13614451","components":{"Render":{"uuid":"85BC157C-DC5F-4123-8F4A-9678D36DD6B1","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"5E98CCE6-3F0C-4348-A4F4-CBDCB011934C","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"65415C23-576E-4144-A035-D2B77FCA3ACC","idScripts":["portal"],"conf":{"worldDestUUID":"7027C0BF-BC84-48B6-BCFD-FA97DAE8874C","portalUUID":"3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F","spawnRotation":{"x":0.11522197265624445,"y":0,"z":6.253323407327942}},"type":"WorldScript"},"LocalScript":{"uuid":"83241504-AE1E-46EC-B493-997283417F5C","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[69.11329386332072,83.04286698997021,105],"rotation":[0,-3.14,0,"ZXY"],"scale":[1,1,1]}},{"name":"Portal_Conf_Stairs balcon","type":"GameObject","static":true,"outdated":true,"uuid":"AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9","parentUUID":"91114CBF-8AF6-4B34-8E80-E4EC13614451","components":{"Render":{"uuid":"C61203C3-092C-463F-B9EF-634000F81F7F","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"CDEA6258-6CA3-4291-AFAE-41BE2A5738BA","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"7CCAE93A-9254-48C9-BAD4-7CAE4937D5C3","idScripts":["portal"],"conf":{"worldDestUUID":"7027C0BF-BC84-48B6-BCFD-FA97DAE8874C","portalUUID":"0B5A7494-B6A5-4E27-98EA-79BF2601AB0B","spawnRotation":{"x":0.11522197265624445,"y":0,"z":6.253323407327942}},"type":"WorldScript"},"LocalScript":{"uuid":"008101ED-9DC7-44E1-8855-78E8414DF6A8","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[44.129498086124656,78.77024507988244,102.18530654268488],"rotation":[0.00011183297909234113,3.1431813759860567,0.07027579007045226,"ZXY"],"scale":[1,1,1]}}],"transform":{"position":[0,0,0],"rotation":[0,0,0,"ZXY"],"scale":[1,1,1]}}],"transform":{"position":[0,0,0],"rotation":[0,0,0,"ZXY"],"scale":[1,1,1]}},"name":"Flying Campus World","origin":{"lat":45.7530993,"lng":4.8452654,"alt":300},"type":"World","uuid":"6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF"},{"gameObject":{"name":"GameManager","type":"GameObject","static":true,"outdated":false,"uuid":"FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332","parentUUID":null,"components":{"WorldScript":{"uuid":"204E8B0D-10C2-4737-833D-5F9BC07D464C","idScripts":["worldGameManager"],"conf":{"mapUUID":"18D77F3C-02AB-4F72-B429-2194070A1AE2","spawnTransform":{"position":[0,0,0],"rotation":[0.142,0,2.232],"scale":[1,1,1]}},"type":"WorldScript"},"LocalScript":{"uuid":"517F03AE-63E7-4220-90A9-7C26979A9E4D","idScripts":["localGameManager","ui","bbb"],"conf":{"fog":{"near":5,"far":100}},"type":"LocalScript"}},"children":[{"name":"Room Expo Map","type":"GameObject","static":true,"outdated":false,"uuid":"18D77F3C-02AB-4F72-B429-2194070A1AE2","parentUUID":"FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332","components":{"Render":{"uuid":"AE767B21-FFE1-483C-A4F4-EE4F4BD70FD5","type":"Render","idModel":"room_expo","color":[1,1,1]},"WorldScript":{"uuid":"B6696B41-3A93-4009-B69E-AD132DFF958C","idScripts":["map"],"conf":{"heightmap_path":"./assets/img/uploaded/F35BA5E8-F3E5-4878-813D-D850A1893FF9.jpeg","heightmap_geometry":{"max":8,"min":-2,"size":66}},"type":"WorldScript"},"Collider":{"uuid":"0D27CA19-B702-48C9-A461-F1429D2688C4","type":"Collider","shapes":[{"type":"Polygon","points":[{"x":4.142370422953423,"y":0.33340486337292674},{"x":4.233377485934831,"y":-0.4904696874118457},{"x":53.720497223823756,"y":-0.49849760124592635},{"x":53.428312424813356,"y":0.6367253576243321}]},{"type":"Polygon","points":[{"x":53.579149901869,"y":34.35386504560951},{"x":52.81669981509833,"y":34.32850853237633},{"x":52.82040690874415,"y":-0.21039266386336308},{"x":53.460008066342134,"y":-0.31633725083990427}]},{"type":"Polygon","points":[{"x":4.087804145169791,"y":34.48896597456275},{"x":4.053849236913663,"y":33.5973278310106},{"x":53.674383117117856,"y":33.40291348102022},{"x":53.38431136111396,"y":34.47459893286815}]},{"type":"Polygon","points":[{"x":4.022153595384896,"y":34.55039043947484},{"x":4.031987688277052,"y":24.691511604384385},{"x":4.857975282278613,"y":24.718981160386992},{"x":4.784603681940137,"y":34.57574695225742}]},{"type":"Polygon","points":[{"x":0.13084323405198006,"y":25.32506608272262},{"x":0.02489864719218815,"y":24.68546492437205},{"x":4.919399746740066,"y":24.784631710387345},{"x":4.83473181190843,"y":25.417893740366868}]},{"type":"Polygon","points":[{"x":0.13084323395963793,"y":25.32506608222012},{"x":0.032765921656825014,"y":16.798361857163968},{"x":1.108677459045257,"y":16.961358598691792},{"x":0.8954063635915652,"y":25.28688508871468}]},{"type":"Polygon","points":[{"x":0.13448442289564966,"y":17.56503802947252},{"x":0.03699200719399798,"y":16.671286842702074},{"x":4.80441809228137,"y":16.766227543114898},{"x":4.654099607377685,"y":17.460914036676016}]},{"type":"Polygon","points":[{"x":3.764574506145234,"y":17.431331437903975},{"x":4.095737324354481,"y":-0.17701023613878064},{"x":5.048799932570319,"y":-0.1453145941604248},{"x":4.781174621839458,"y":17.465140122214876}]},{"type":"Polygon","points":[{"x":11.565188778536813,"y":21.95248276409992},{"x":11.625589673962857,"y":8.660465496220905},{"x":12.328728339041493,"y":8.556633952222812},{"x":12.153930719008516,"y":21.46319909172998}]},{"type":"Polygon","points":[{"x":9.547072298154053,"y":25.25657926431103},{"x":9.58605031758994,"y":8.783460549347115},{"x":10.09646341820649,"y":8.736827384271653},{"x":10.114683777693173,"y":25.402671663697753}]},{"type":"Polygon","points":[{"x":9.674147312615819,"y":25.26080534984989},{"x":9.763041333079908,"y":24.500468305848276},{"x":20.128107182792526,"y":24.590744248341906},{"x":20.104863712328772,"y":25.289656827882034}]},{"type":"Polygon","points":[{"x":19.556854514306195,"y":32.204679902205235},{"x":19.554156574945097,"y":24.63526437064795},{"x":20.189531647253986,"y":24.656394798342262},{"x":20.317191558307425,"y":32.29357392266934}]},{"type":"Polygon","points":[{"x":19.74324095045999,"y":32.338094044975364},{"x":19.777049634770915,"y":31.32149392928064},{"x":34.21485507556873,"y":31.35639208732512},{"x":34.183159434027246,"y":32.30945469578893}]},{"type":"Polygon","points":[{"x":34.30812140571959,"y":32.377218288558716},{"x":33.35083271171739,"y":32.472597661479085},{"x":33.483661957895805,"y":24.653258186536977},{"x":34.2482250874359,"y":24.615077192539232}]},{"type":"Polygon","points":[{"x":33.57750429253679,"y":24.858315805255415},{"x":33.544928780583405,"y":23.229030154099064},{"x":34.744626842186335,"y":23.480025792091283},{"x":34.792341430729266,"y":24.77012264782934}]},{"type":"Polygon","points":[{"x":34.522488527796796,"y":18.47554523416936},{"x":33.76225014422087,"y":18.538875224835735},{"x":33.947426776296275,"y":5.445919520963189},{"x":34.78157335694794,"y":5.504018428337332}]},{"type":"Polygon","points":[{"x":34.57947214949013,"y":13.715668499844131},{"x":34.62035451103516,"y":14.613791312986876},{"x":19.2930259376011,"y":14.600500907717802},{"x":19.23378518758625,"y":13.89221035618139}]},{"type":"Polygon","points":[{"x":20.019341392935775,"y":8.48757591788758},{"x":20.088150561393995,"y":14.337235397882186},{"x":19.261747422937447,"y":14.328993146937012},{"x":19.129368782290275,"y":8.478699647638933}]},{"type":"Polygon","points":[{"x":19.956405940050285,"y":8.42337242639511},{"x":19.946895650498156,"y":9.376914509230053},{"x":11.620562832350762,"y":9.166719036096854},{"x":11.50103211961453,"y":8.40261733122195}]},{"type":"Polygon","points":[{"x":33.598481240197074,"y":25.655081157902263},{"x":33.68242277513298,"y":24.57013535614627},{"x":48.49827393244051,"y":24.36050889355746},{"x":48.47785445108724,"y":25.4429192498882}]},{"type":"Polygon","points":[{"x":47.65206775451287,"y":25.47588004041654},{"x":47.86721985745359,"y":5.362343981486989},{"x":48.63201994587057,"y":5.395440689966586},{"x":48.47785445108724,"y":25.4429192498882}]},{"type":"Polygon","points":[{"x":33.98378002253247,"y":6.616349119027689},{"x":34.06265066661785,"y":5.404359210106337},{"x":48.4439892305479,"y":5.466569079825026},{"x":48.48962724820255,"y":6.609966044313188}]}],"body":true}},"children":[{"name":"Portal_Campus","type":"GameObject","static":true,"outdated":true,"uuid":"8181C246-16B9-4A09-B68E-8B5422DB18CC","parentUUID":"18D77F3C-02AB-4F72-B429-2194070A1AE2","components":{"Render":{"uuid":"540A28B2-4AEE-425B-85B1-934BF95DD2ED","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"79F67F9B-74D1-42CC-9B3A-4F79ED819643","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"75D59547-7E33-4D13-90AE-D83C11461D27","idScripts":["portal"],"conf":{"worldDestUUID":"6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF","portalUUID":"ADFDDF30-BEDE-41FF-BDBA-00D19B38D663","spawnRotation":{"x":"0","y":0,"z":4.118258725148333}},"type":"WorldScript"},"LocalScript":{"uuid":"AA6956CE-E11D-4519-829B-99564C8AB969","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[-13.543805123539641,44.72298573050648,0.2],"rotation":[0,3.14,0,"ZXY"],"scale":[1,1,1]}},{"name":"Image_Test","type":"GameObject","static":true,"outdated":true,"uuid":"6056B5F6-F6B5-4754-8B41-A927D7C0E318","parentUUID":"18D77F3C-02AB-4F72-B429-2194070A1AE2","components":{"Render":{"uuid":"B64795E4-76DD-4447-B66D-D718DF4D13B0","type":"Render","idModel":null,"color":[1,1,1]},"LocalScript":{"uuid":"31204A5E-43FA-45AA-9B30-8DDA8D6718B7","idScripts":["image"],"conf":{"path":"./assets/img/uploaded/75415C30-50D7-433D-9420-6067D14F31B3.jpeg","width":832,"height":625},"type":"LocalScript"}},"children":[],"transform":{"position":[-15.48295276160352,31.182454681023955,3.6558164059147202],"rotation":[1.5707,3.14,0,"ZXY"],"scale":[0.005,0.005,0.005]}}],"transform":{"position":[0,0,0],"rotation":[0,0,0,"ZXY"],"scale":[1,1,1]}}],"transform":{"position":[0,0,0],"rotation":[0,0,0,"ZXY"],"scale":[1,1,1]}},"name":"Room Expo World","origin":{"lat":45.7530993,"lng":4.8452654,"alt":300},"type":"World","uuid":"9C632D7E-C466-426F-AC31-8FC74AB11D0D"},{"gameObject":{"name":"GameManager","type":"GameObject","static":true,"outdated":false,"uuid":"29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB","parentUUID":null,"components":{"WorldScript":{"uuid":"4EEA3596-90B5-48B5-94FC-6E49EA5E2689","idScripts":["worldGameManager"],"conf":{"mapUUID":"CCC809A1-C645-44CF-9B57-C4E0E9EA685A","spawnTransform":{"position":[0,0,0],"rotation":[0,0,0],"scale":[1,1,1]}},"type":"WorldScript"},"LocalScript":{"uuid":"1DD931A5-618B-473A-AC54-1989E781A240","idScripts":["localGameManager","ui","bbb"],"conf":{"fog":{"near":5,"far":100}},"type":"LocalScript"}},"children":[{"name":"Room_Conf_Modulable","type":"GameObject","static":true,"outdated":false,"uuid":"CCC809A1-C645-44CF-9B57-C4E0E9EA685A","parentUUID":"29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB","components":{"Render":{"uuid":"AA121FEF-68ED-4401-9759-C745AC32CE12","type":"Render","idModel":"room_conf_modulable","color":[1,1,1]},"WorldScript":{"uuid":"B7AD0A8B-6D3A-41AE-B260-583C25D46180","idScripts":["map"],"conf":{"heightmap_path":"./assets/img/uploaded/A8CFB150-BEF0-4C7B-88EE-AB0F5B3FD1DA.jpeg","heightmap_geometry":{"max":1,"min":-4,"size":36}},"type":"WorldScript"},"Collider":{"uuid":"2F7812A4-7CA5-499A-94B8-B814376F4712","type":"Collider","shapes":[{"type":"Polygon","points":[{"x":-0.0961858023940767,"y":17.734970227201487},{"x":-0.06347447440136733,"y":16.09940382756517},{"x":27.49424855529207,"y":16.138131245275872},{"x":27.43239966981593,"y":17.581271906386547}]},{"type":"Polygon","points":[{"x":-0.13773027195398058,"y":17.733081390525086},{"x":-0.011173261748634644,"y":-0.08614564639651334},{"x":1.2037740362226828,"y":-0.1620798525197582},{"x":1.153151232140548,"y":17.809015596648333}]},{"type":"Polygon","points":[{"x":-0.11241886991290251,"y":1.0528674454521658},{"x":-0.036484663789696725,"y":-0.212702656601925},{"x":27.603566365057826,"y":-0.23801405864300662},{"x":27.65418916913996,"y":1.1288016515754116}]},{"type":"Polygon","points":[{"x":25.75583401605979,"y":17.63183578236076},{"x":25.806456820141925,"y":-0.23801405864300307},{"x":27.628877767098906,"y":-0.2633254606840847},{"x":27.47700935485249,"y":17.5812129782786}]},{"type":"Polygon","points":[{"x":2.8490151688921816,"y":10.848380035350814},{"x":2.89963797297432,"y":6.36826187407933},{"x":6.949462299545385,"y":6.36826187407933},{"x":7.000085103627525,"y":10.873691437391896}]},{"type":"Polygon","points":[{"x":21.375381522360666,"y":14.036181096083924},{"x":21.392007688396827,"y":3.1962225096551737},{"x":21.846903017709515,"y":3.194483674663431},{"x":21.84453116705099,"y":14.06518579905924}]}],"body":true}},"children":[{"name":"Portal_Patio_balcon","type":"GameObject","static":true,"outdated":true,"uuid":"0B5A7494-B6A5-4E27-98EA-79BF2601AB0B","parentUUID":"CCC809A1-C645-44CF-9B57-C4E0E9EA685A","components":{"Render":{"uuid":"F88A0BC8-4CED-4565-BAA0-6AD08D42E0F2","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"32FCD13B-C4F5-4F2B-BA3F-748D2EF33031","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"C71626D8-7AEB-4B54-805E-E2AC62CE06C9","idScripts":["portal"],"conf":{"worldDestUUID":"6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF","portalUUID":"AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9","spawnRotation":{"x":0.05486912109374398,"y":0,"z":2.1576852042029397}},"type":"WorldScript"},"LocalScript":{"uuid":"4D210DC3-544C-4020-AB93-1D7598521019","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[2.1659162842202946,14.566619574278594,0.11599833500171153],"rotation":[0.00005595102656563711,3.1431843240777866,0.035137894925316715,"ZXY"],"scale":[1,1,1]}},{"name":"Portal_Campus_Outside","type":"GameObject","static":true,"outdated":true,"uuid":"79F3FDBB-E348-47D8-BBD8-7A1E817A3887","parentUUID":"CCC809A1-C645-44CF-9B57-C4E0E9EA685A","components":{"Render":{"uuid":"EFC4BFEE-FBF4-4514-9E30-42B5DF6F8A4E","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"A95047D6-FCCF-4F48-89BB-0F3A95725F38","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"3F8CB51D-6FF0-4512-9E70-E720A77C6861","idScripts":["portal"],"conf":{"worldDestUUID":"6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF","portalUUID":"7EE2EBC0-7323-4715-91B3-371D4118D428","spawnRotation":{"x":0.13232236328124714,"y":0,"z":0.01727539062500494}},"type":"WorldScript"},"LocalScript":{"uuid":"12C4C448-5065-4D81-A66D-AE3AB6E7CB60","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[6.663152822246775,1.8178348703309894,0.1],"rotation":[0,-3.14,0,"ZXY"],"scale":[1,1,1]}},{"name":"Video final IMU","type":"GameObject","static":true,"outdated":false,"uuid":"8B1F4A9C-D358-4295-B355-6D93315D229F","parentUUID":"CCC809A1-C645-44CF-9B57-C4E0E9EA685A","components":{"LocalScript":{"uuid":"2A81D699-E6C2-4A75-8D5E-E3AB956D0B14","idScripts":["video"],"conf":{"idVideo":"final_IMU","width":10,"height":6,"size":{"width":853,"height":480}},"type":"LocalScript"},"Render":{"uuid":"688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B","type":"Render","idModel":null,"color":[1,1,1]}},"children":[],"transform":{"position":[1.1,8.2,6.6],"rotation":[1.5707,1.5707,0,"ZXY"],"scale":[1,1,1]}},{"name":"Portal_Patio_Campus","type":"GameObject","static":true,"outdated":true,"uuid":"3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F","parentUUID":"CCC809A1-C645-44CF-9B57-C4E0E9EA685A","components":{"Render":{"uuid":"2E003489-9A20-48E0-A0CF-D7D9C4B92FDB","type":"Render","idModel":"spiral_spawn","color":[1,1,1]},"Collider":{"uuid":"F26AAE7B-9383-406A-A696-AB42DA89B0C5","type":"Collider","shapes":[{"type":"Circle","center":{"x":0,"y":0},"radius":1.689427617937126}],"body":false},"WorldScript":{"uuid":"648290B5-4F95-48D8-8678-C30E16AA16DD","idScripts":["portal"],"conf":{"worldDestUUID":"6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF","portalUUID":"E1622182-EDE3-48EE-B189-EEF5AA94644E","spawnRotation":{"x":0.05486912109374398,"y":0,"z":2.1576852042029397}},"type":"WorldScript"},"LocalScript":{"uuid":"D8FF3327-5695-497F-AC35-B1CE4D546696","idScripts":["rotate"],"conf":{"speed":0.001},"type":"LocalScript"}},"children":[],"transform":{"position":[23.769961774721743,15.285009373165668,3.091862372578112],"rotation":[0,-3.14,0,"ZXY"],"scale":[1,1,1]}}],"transform":{"position":[0,0,0],"rotation":[0,0,0,"ZXY"],"scale":[1,1,1]}}],"transform":{"position":[0,0,0],"rotation":[0,0,0,"ZXY"],"scale":[1,1,1]}},"name":"Room Conf Modulable","origin":{"lat":45.7530993,"lng":4.8452654,"alt":300},"type":"World","uuid":"7027C0BF-BC84-48B6-BCFD-FA97DAE8874C"}]
+[
+  {
+    "gameObject": {
+      "name": "GameManager",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "C9E1F773-4249-4BE5-A744-438207962D64",
+      "parentUUID": null,
+      "components": {
+        "WorldScript": {
+          "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
+          "idScripts": ["worldGameManager"],
+          "conf": {
+            "mapUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "spawnTransform": {
+              "position": [20, 20, 0],
+              "rotation": [0.21799999999999553, 0, 2.441505307179602],
+              "scale": [1, 1, 1]
+            }
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
+          "idScripts": ["localGameManager", "ui", "bbb"],
+          "conf": { "traveling_time": 1500, "fog": { "near": 5, "far": 100 } },
+          "type": "LocalScript"
+        }
+      },
+      "children": [
+        {
+          "name": "Flying_Campus_Map",
+          "type": "GameObject",
+          "static": true,
+          "outdated": false,
+          "uuid": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+          "parentUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
+          "components": {
+            "Collider": {
+              "uuid": "F3A702FE-185F-4341-8E57-4E78E276E248",
+              "type": "Collider",
+              "shapes": [
+                { "type": "Circle", "center": { "x": 0, "y": 0 }, "radius": 10 }
+              ],
+              "body": true
+            },
+            "Render": {
+              "uuid": "5DAC9A92-E4B0-4EB1-8181-79A326E70D81",
+              "type": "Render",
+              "idModel": "flying_campus",
+              "color": [1, 1, 1]
+            },
+            "WorldScript": {
+              "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
+              "idScripts": ["map"],
+              "conf": {
+                "heightmap_path": "./assets/img/uploaded/A3E93320-7C52-4F21-BE89-A3FE11A9A356.jpeg",
+                "heightmap_geometry": { "max": 3, "min": -28, "size": 220 }
+              },
+              "type": "WorldScript"
+            }
+          },
+          "children": [
+            {
+              "name": "Portal_Conf_Stairs",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "7EE2EBC0-7323-4715-91B3-371D4118D428",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "146C6F3F-2BA2-4502-BE06-5F62DCD7FE8E",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "AFAC82B4-B224-4363-82FA-399617E078F9",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "80ADD0AF-DB8E-443B-B751-BB68B57BFC88",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+                    "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
+                    "spawnRotation": {
+                      "x": 0.11522197265624445,
+                      "y": 0,
+                      "z": 6.253323407327942
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "5DF3924E-1822-42CA-9CEE-5DAA347322FA",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  51.386994485231114, 64.41746784374118, 102.18530654268488
+                ],
+                "rotation": [
+                  0.00005595102656563711,
+                  3.1431843240777866,
+                  0.035137894925316715,
+                  "ZXY"
+                ],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Portal_Expo_Ouside",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "769C8A89-A5F6-44B9-8F68-F458AEF20BB6",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "3F36190D-098B-41A7-8D48-8FED381AF656",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "BED7C964-45AA-4E10-9489-64BED47D8844",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+                    "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
+                    "spawnRotation": {
+                      "x": 0.11522197265624445,
+                      "y": 0,
+                      "z": 6.253323407327942
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "7148E1C3-819F-4247-A7D2-06909149171F",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [12.87817530427128, 0, 1.2474362945645225],
+                "rotation": [
+                  0.02277039099037559,
+                  3.1309498365464528,
+                  3.5788671724815178,
+                  "ZXY"
+                ],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Zeppelin",
+              "type": "GameObject",
+              "static": false,
+              "outdated": true,
+              "uuid": "7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "AE118224-36E8-44A4-BEED-697F0FD69BD3",
+                  "type": "Render",
+                  "idModel": "zeppelin",
+                  "color": [1, 1, 1]
+                },
+                "WorldScript": {
+                  "uuid": "E355F75E-D0BC-46E5-B789-E34063B5A814",
+                  "idScripts": ["zeppelin"],
+                  "conf": { "duration": 1000 },
+                  "type": "WorldScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  156.00460452642002, 110.73789800235082, 131.3931481757054
+                ],
+                "rotation": [0, 0, 4.868360824614747, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Video Intro",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "470B029B-81FA-476B-9869-401CC6EF1E94",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "LocalScript": {
+                  "uuid": "C6BD0C6B-3026-47E7-9967-0E6017FA278C",
+                  "idScripts": ["video"],
+                  "conf": {
+                    "idVideo": "introduction_flying_campus",
+                    "width": 8.5,
+                    "height": 5.3,
+                    "size": { "width": 1280, "height": 720 }
+                  },
+                  "type": "LocalScript"
+                },
+                "Render": {
+                  "uuid": "9FE823BC-652A-4F02-82BF-D47F3A6B21E0",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  27.05415969248861, 42.18608236499131, 7.227607159968301
+                ],
+                "rotation": [1.5707, 0, 3.1415, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Portal_Conf_Patio",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "85BC157C-DC5F-4123-8F4A-9678D36DD6B1",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "5E98CCE6-3F0C-4348-A4F4-CBDCB011934C",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "65415C23-576E-4144-A035-D2B77FCA3ACC",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+                    "portalUUID": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
+                    "spawnRotation": {
+                      "x": 0.11522197265624445,
+                      "y": 0,
+                      "z": 6.253323407327942
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "83241504-AE1E-46EC-B493-997283417F5C",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [69.11329386332072, 83.04286698997021, 105],
+                "rotation": [0, -3.14, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Portal_Conf_Stairs balcon",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "C61203C3-092C-463F-B9EF-634000F81F7F",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "CDEA6258-6CA3-4291-AFAE-41BE2A5738BA",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "7CCAE93A-9254-48C9-BAD4-7CAE4937D5C3",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+                    "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
+                    "spawnRotation": {
+                      "x": 0.11522197265624445,
+                      "y": 0,
+                      "z": 6.253323407327942
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "008101ED-9DC7-44E1-8855-78E8414DF6A8",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  44.129498086124656, 78.77024507988244, 102.18530654268488
+                ],
+                "rotation": [
+                  0.00011183297909234113,
+                  3.1431813759860567,
+                  0.07027579007045226,
+                  "ZXY"
+                ],
+                "scale": [1, 1, 1]
+              }
+            }
+          ],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
+        }
+      ],
+      "transform": {
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0, "ZXY"],
+        "scale": [1, 1, 1]
+      }
+    },
+    "name": "Flying Campus World",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "type": "World",
+    "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF"
+  },
+  {
+    "gameObject": {
+      "name": "GameManager",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
+      "parentUUID": null,
+      "components": {
+        "WorldScript": {
+          "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
+          "idScripts": ["worldGameManager"],
+          "conf": {
+            "mapUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "spawnTransform": {
+              "position": [0, 0, 0],
+              "rotation": [0.142, 0, 2.232],
+              "scale": [1, 1, 1]
+            }
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
+          "idScripts": ["localGameManager", "ui", "bbb"],
+          "conf": { "fog": { "near": 5, "far": 100 } },
+          "type": "LocalScript"
+        }
+      },
+      "children": [
+        {
+          "name": "Room Expo Map",
+          "type": "GameObject",
+          "static": true,
+          "outdated": false,
+          "uuid": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+          "parentUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
+          "components": {
+            "Render": {
+              "uuid": "AE767B21-FFE1-483C-A4F4-EE4F4BD70FD5",
+              "type": "Render",
+              "idModel": "room_expo",
+              "color": [1, 1, 1]
+            },
+            "WorldScript": {
+              "uuid": "B6696B41-3A93-4009-B69E-AD132DFF958C",
+              "idScripts": ["map"],
+              "conf": {
+                "heightmap_path": "./assets/img/uploaded/F35BA5E8-F3E5-4878-813D-D850A1893FF9.jpeg",
+                "heightmap_geometry": { "max": 8, "min": -2, "size": 66 }
+              },
+              "type": "WorldScript"
+            },
+            "Collider": {
+              "uuid": "0D27CA19-B702-48C9-A461-F1429D2688C4",
+              "type": "Collider",
+              "shapes": [
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 4.142370422953423, "y": 0.33340486337292674 },
+                    { "x": 4.233377485934831, "y": -0.4904696874118457 },
+                    { "x": 53.720497223823756, "y": -0.49849760124592635 },
+                    { "x": 53.428312424813356, "y": 0.6367253576243321 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 53.579149901869, "y": 34.35386504560951 },
+                    { "x": 52.81669981509833, "y": 34.32850853237633 },
+                    { "x": 52.82040690874415, "y": -0.21039266386336308 },
+                    { "x": 53.460008066342134, "y": -0.31633725083990427 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 4.087804145169791, "y": 34.48896597456275 },
+                    { "x": 4.053849236913663, "y": 33.5973278310106 },
+                    { "x": 53.674383117117856, "y": 33.40291348102022 },
+                    { "x": 53.38431136111396, "y": 34.47459893286815 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 4.022153595384896, "y": 34.55039043947484 },
+                    { "x": 4.031987688277052, "y": 24.691511604384385 },
+                    { "x": 4.857975282278613, "y": 24.718981160386992 },
+                    { "x": 4.784603681940137, "y": 34.57574695225742 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 0.13084323405198006, "y": 25.32506608272262 },
+                    { "x": 0.02489864719218815, "y": 24.68546492437205 },
+                    { "x": 4.919399746740066, "y": 24.784631710387345 },
+                    { "x": 4.83473181190843, "y": 25.417893740366868 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 0.13084323395963793, "y": 25.32506608222012 },
+                    { "x": 0.032765921656825014, "y": 16.798361857163968 },
+                    { "x": 1.108677459045257, "y": 16.961358598691792 },
+                    { "x": 0.8954063635915652, "y": 25.28688508871468 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 0.13448442289564966, "y": 17.56503802947252 },
+                    { "x": 0.03699200719399798, "y": 16.671286842702074 },
+                    { "x": 4.80441809228137, "y": 16.766227543114898 },
+                    { "x": 4.654099607377685, "y": 17.460914036676016 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 3.764574506145234, "y": 17.431331437903975 },
+                    { "x": 4.095737324354481, "y": -0.17701023613878064 },
+                    { "x": 5.048799932570319, "y": -0.1453145941604248 },
+                    { "x": 4.781174621839458, "y": 17.465140122214876 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 11.565188778536813, "y": 21.95248276409992 },
+                    { "x": 11.625589673962857, "y": 8.660465496220905 },
+                    { "x": 12.328728339041493, "y": 8.556633952222812 },
+                    { "x": 12.153930719008516, "y": 21.46319909172998 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 9.547072298154053, "y": 25.25657926431103 },
+                    { "x": 9.58605031758994, "y": 8.783460549347115 },
+                    { "x": 10.09646341820649, "y": 8.736827384271653 },
+                    { "x": 10.114683777693173, "y": 25.402671663697753 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 9.674147312615819, "y": 25.26080534984989 },
+                    { "x": 9.763041333079908, "y": 24.500468305848276 },
+                    { "x": 20.128107182792526, "y": 24.590744248341906 },
+                    { "x": 20.104863712328772, "y": 25.289656827882034 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 19.556854514306195, "y": 32.204679902205235 },
+                    { "x": 19.554156574945097, "y": 24.63526437064795 },
+                    { "x": 20.189531647253986, "y": 24.656394798342262 },
+                    { "x": 20.317191558307425, "y": 32.29357392266934 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 19.74324095045999, "y": 32.338094044975364 },
+                    { "x": 19.777049634770915, "y": 31.32149392928064 },
+                    { "x": 34.21485507556873, "y": 31.35639208732512 },
+                    { "x": 34.183159434027246, "y": 32.30945469578893 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 34.30812140571959, "y": 32.377218288558716 },
+                    { "x": 33.35083271171739, "y": 32.472597661479085 },
+                    { "x": 33.483661957895805, "y": 24.653258186536977 },
+                    { "x": 34.2482250874359, "y": 24.615077192539232 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 33.57750429253679, "y": 24.858315805255415 },
+                    { "x": 33.544928780583405, "y": 23.229030154099064 },
+                    { "x": 34.744626842186335, "y": 23.480025792091283 },
+                    { "x": 34.792341430729266, "y": 24.77012264782934 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 34.522488527796796, "y": 18.47554523416936 },
+                    { "x": 33.76225014422087, "y": 18.538875224835735 },
+                    { "x": 33.947426776296275, "y": 5.445919520963189 },
+                    { "x": 34.78157335694794, "y": 5.504018428337332 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 34.57947214949013, "y": 13.715668499844131 },
+                    { "x": 34.62035451103516, "y": 14.613791312986876 },
+                    { "x": 19.2930259376011, "y": 14.600500907717802 },
+                    { "x": 19.23378518758625, "y": 13.89221035618139 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 20.019341392935775, "y": 8.48757591788758 },
+                    { "x": 20.088150561393995, "y": 14.337235397882186 },
+                    { "x": 19.261747422937447, "y": 14.328993146937012 },
+                    { "x": 19.129368782290275, "y": 8.478699647638933 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 19.956405940050285, "y": 8.42337242639511 },
+                    { "x": 19.946895650498156, "y": 9.376914509230053 },
+                    { "x": 11.620562832350762, "y": 9.166719036096854 },
+                    { "x": 11.50103211961453, "y": 8.40261733122195 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 33.598481240197074, "y": 25.655081157902263 },
+                    { "x": 33.68242277513298, "y": 24.57013535614627 },
+                    { "x": 48.49827393244051, "y": 24.36050889355746 },
+                    { "x": 48.47785445108724, "y": 25.4429192498882 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 47.65206775451287, "y": 25.47588004041654 },
+                    { "x": 47.86721985745359, "y": 5.362343981486989 },
+                    { "x": 48.63201994587057, "y": 5.395440689966586 },
+                    { "x": 48.47785445108724, "y": 25.4429192498882 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 33.98378002253247, "y": 6.616349119027689 },
+                    { "x": 34.06265066661785, "y": 5.404359210106337 },
+                    { "x": 48.4439892305479, "y": 5.466569079825026 },
+                    { "x": 48.48962724820255, "y": 6.609966044313188 }
+                  ]
+                }
+              ],
+              "body": true
+            }
+          },
+          "children": [
+            {
+              "name": "Portal_Campus",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "540A28B2-4AEE-425B-85B1-934BF95DD2ED",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "79F67F9B-74D1-42CC-9B3A-4F79ED819643",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "75D59547-7E33-4D13-90AE-D83C11461D27",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
+                    "spawnRotation": {
+                      "x": "0",
+                      "y": 0,
+                      "z": 4.118258725148333
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "AA6956CE-E11D-4519-829B-99564C8AB969",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [-13.543805123539641, 44.72298573050648, 0.2],
+                "rotation": [0, 3.14, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Image_Test",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "6056B5F6-F6B5-4754-8B41-A927D7C0E318",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "B64795E4-76DD-4447-B66D-D718DF4D13B0",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "31204A5E-43FA-45AA-9B30-8DDA8D6718B7",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/75415C30-50D7-433D-9420-6067D14F31B3.jpeg",
+                    "width": 832,
+                    "height": 625
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  -15.48295276160352, 31.182454681023955, 3.6558164059147202
+                ],
+                "rotation": [1.5707, 3.14, 0, "ZXY"],
+                "scale": [0.005, 0.005, 0.005]
+              }
+            }
+          ],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
+        }
+      ],
+      "transform": {
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0, "ZXY"],
+        "scale": [1, 1, 1]
+      }
+    },
+    "name": "Room Expo World",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "type": "World",
+    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D"
+  },
+  {
+    "gameObject": {
+      "name": "GameManager",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+      "parentUUID": null,
+      "components": {
+        "WorldScript": {
+          "uuid": "4EEA3596-90B5-48B5-94FC-6E49EA5E2689",
+          "idScripts": ["worldGameManager"],
+          "conf": {
+            "mapUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+            "spawnTransform": {
+              "position": [0, 0, 0],
+              "rotation": [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
+          "idScripts": ["localGameManager", "ui", "bbb"],
+          "conf": { "fog": { "near": 5, "far": 100 } },
+          "type": "LocalScript"
+        }
+      },
+      "children": [
+        {
+          "name": "Room_Conf_Modulable",
+          "type": "GameObject",
+          "static": true,
+          "outdated": false,
+          "uuid": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+          "parentUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+          "components": {
+            "Render": {
+              "uuid": "AA121FEF-68ED-4401-9759-C745AC32CE12",
+              "type": "Render",
+              "idModel": "room_conf_modulable",
+              "color": [1, 1, 1]
+            },
+            "WorldScript": {
+              "uuid": "B7AD0A8B-6D3A-41AE-B260-583C25D46180",
+              "idScripts": ["map"],
+              "conf": {
+                "heightmap_path": "./assets/img/uploaded/A8CFB150-BEF0-4C7B-88EE-AB0F5B3FD1DA.jpeg",
+                "heightmap_geometry": { "max": 1, "min": -4, "size": 36 }
+              },
+              "type": "WorldScript"
+            },
+            "Collider": {
+              "uuid": "2F7812A4-7CA5-499A-94B8-B814376F4712",
+              "type": "Collider",
+              "shapes": [
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": -0.0961858023940767, "y": 17.734970227201487 },
+                    { "x": -0.06347447440136733, "y": 16.09940382756517 },
+                    { "x": 27.49424855529207, "y": 16.138131245275872 },
+                    { "x": 27.43239966981593, "y": 17.581271906386547 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": -0.13773027195398058, "y": 17.733081390525086 },
+                    { "x": -0.011173261748634644, "y": -0.08614564639651334 },
+                    { "x": 1.2037740362226828, "y": -0.1620798525197582 },
+                    { "x": 1.153151232140548, "y": 17.809015596648333 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": -0.11241886991290251, "y": 1.0528674454521658 },
+                    { "x": -0.036484663789696725, "y": -0.212702656601925 },
+                    { "x": 27.603566365057826, "y": -0.23801405864300662 },
+                    { "x": 27.65418916913996, "y": 1.1288016515754116 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 25.75583401605979, "y": 17.63183578236076 },
+                    { "x": 25.806456820141925, "y": -0.23801405864300307 },
+                    { "x": 27.628877767098906, "y": -0.2633254606840847 },
+                    { "x": 27.47700935485249, "y": 17.5812129782786 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 2.8490151688921816, "y": 10.848380035350814 },
+                    { "x": 2.89963797297432, "y": 6.36826187407933 },
+                    { "x": 6.949462299545385, "y": 6.36826187407933 },
+                    { "x": 7.000085103627525, "y": 10.873691437391896 }
+                  ]
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    { "x": 21.375381522360666, "y": 14.036181096083924 },
+                    { "x": 21.392007688396827, "y": 3.1962225096551737 },
+                    { "x": 21.846903017709515, "y": 3.194483674663431 },
+                    { "x": 21.84453116705099, "y": 14.06518579905924 }
+                  ]
+                }
+              ],
+              "body": true
+            }
+          },
+          "children": [
+            {
+              "name": "Portal_Patio_balcon",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
+              "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+              "components": {
+                "Render": {
+                  "uuid": "F88A0BC8-4CED-4565-BAA0-6AD08D42E0F2",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "32FCD13B-C4F5-4F2B-BA3F-748D2EF33031",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "C71626D8-7AEB-4B54-805E-E2AC62CE06C9",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
+                    "spawnRotation": {
+                      "x": 0.05486912109374398,
+                      "y": 0,
+                      "z": 2.1576852042029397
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "4D210DC3-544C-4020-AB93-1D7598521019",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  2.1659162842202946, 14.566619574278594, 0.11599833500171153
+                ],
+                "rotation": [
+                  0.00005595102656563711,
+                  3.1431843240777866,
+                  0.035137894925316715,
+                  "ZXY"
+                ],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Portal_Campus_Outside",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
+              "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+              "components": {
+                "Render": {
+                  "uuid": "EFC4BFEE-FBF4-4514-9E30-42B5DF6F8A4E",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "A95047D6-FCCF-4F48-89BB-0F3A95725F38",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "3F8CB51D-6FF0-4512-9E70-E720A77C6861",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "7EE2EBC0-7323-4715-91B3-371D4118D428",
+                    "spawnRotation": {
+                      "x": 0.13232236328124714,
+                      "y": 0,
+                      "z": 0.01727539062500494
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "12C4C448-5065-4D81-A66D-AE3AB6E7CB60",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [6.663152822246775, 1.8178348703309894, 0.1],
+                "rotation": [0, -3.14, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Video final IMU",
+              "type": "GameObject",
+              "static": true,
+              "outdated": false,
+              "uuid": "8B1F4A9C-D358-4295-B355-6D93315D229F",
+              "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+              "components": {
+                "LocalScript": {
+                  "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
+                  "idScripts": ["video"],
+                  "conf": {
+                    "idVideo": "final_IMU",
+                    "width": 10,
+                    "height": 6,
+                    "size": { "width": 853, "height": 480 }
+                  },
+                  "type": "LocalScript"
+                },
+                "Render": {
+                  "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [1.1, 8.2, 6.6],
+                "rotation": [1.5707, 1.5707, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Portal_Patio_Campus",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
+              "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+              "components": {
+                "Render": {
+                  "uuid": "2E003489-9A20-48E0-A0CF-D7D9C4B92FDB",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "F26AAE7B-9383-406A-A696-AB42DA89B0C5",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "648290B5-4F95-48D8-8678-C30E16AA16DD",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
+                    "spawnRotation": {
+                      "x": 0.05486912109374398,
+                      "y": 0,
+                      "z": 2.1576852042029397
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "D8FF3327-5695-497F-AC35-B1CE4D546696",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  23.769961774721743, 15.285009373165668, 3.091862372578112
+                ],
+                "rotation": [0, -3.14, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            }
+          ],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
+        }
+      ],
+      "transform": {
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0, "ZXY"],
+        "scale": [1, 1, 1]
+      }
+    },
+    "name": "Room Conf Modulable",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "type": "World",
+    "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C"
+  }
+]
