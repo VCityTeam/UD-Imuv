@@ -5,7 +5,7 @@ import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
-import { GameView } from 'ud-viz/src/Views/Views';
+import { GameView, View3D } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
@@ -69,6 +69,18 @@ export class WorldEditorView {
     this.heightmapButton = null;
     this.labelCurrentWorld = null;
     this.playWorldButton = null;
+    this.sliderOpacity = null;
+    this.filterText = null;
+    this.hideButton = null;
+    this.showButton = null;
+
+    //camera controller button
+    this.topButton = null;
+    this.bottomButton = null;
+    this.rightButton = null;
+    this.leftButton = null;
+    this.frontButton = null;
+    this.backButton = null;
 
     //ref children views to dispose them easily
     this.childrenViews = [this.goEditorView, this.addPrefabView]; //view always active
@@ -144,6 +156,53 @@ export class WorldEditorView {
     heightmapButton.innerHTML = 'Heightmap';
     ulButtons.appendChild(heightmapButton);
     this.heightmapButton = heightmapButton;
+
+    const sliderOpacity = document.createElement('input');
+    sliderOpacity.id = 'opacity';
+    sliderOpacity.classList.add('input_Editor');
+    sliderOpacity.setAttribute('type', 'range');
+    sliderOpacity.value = '100';
+    this.ui.appendChild(sliderOpacity);
+    this.sliderOpacity = sliderOpacity;
+
+    const filterDiv = document.createElement('div');
+    filterDiv.innerHTML = 'Filter : ';
+    this.ui.appendChild(filterDiv);
+
+    const filterText = document.createElement('input');
+    filterText.setAttribute('type', 'text');
+    filterDiv.appendChild(filterText);
+    this.filterText = filterText;
+
+    this.hideButton = this.buttonHtml('Hide', filterDiv);
+    this.showButton = this.buttonHtml('Show', filterDiv);
+
+    const labelSliderOp = document.createElement('label');
+    labelSliderOp.setAttribute('for', 'opacity');
+    labelSliderOp.innerHTML = 'Opacity';
+    this.ui.appendChild(labelSliderOp);
+
+    const labelUl = document.createElement('p');
+    labelUl.innerHTML = 'Camera Controller :';
+    this.ui.appendChild(labelUl);
+
+    const ulCameraControllerButtons = document.createElement('ul');
+    this.ui.appendChild(ulCameraControllerButtons);
+
+    this.topButton = this.buttonHtml('Top', ulCameraControllerButtons);
+    this.bottomButton = this.buttonHtml('Bottom', ulCameraControllerButtons);
+    this.rightButton = this.buttonHtml('Right', ulCameraControllerButtons);
+    this.leftButton = this.buttonHtml('Left', ulCameraControllerButtons);
+    this.frontButton = this.buttonHtml('Front', ulCameraControllerButtons);
+    this.backButton = this.buttonHtml('Back', ulCameraControllerButtons);
+  }
+
+  buttonHtml(name, parent) {
+    const button = document.createElement('li');
+    button.classList.add('button_Editor');
+    button.innerHTML = name;
+    parent.appendChild(button);
+    return button;
   }
 
   focusObject(objToFocus) {
@@ -184,6 +243,7 @@ export class WorldEditorView {
         gameView: _this.gameView,
         parentOC: _this.orbitControls,
         assetsManager: _this.assetsManager,
+        goEV: _this.goEditorView,
       });
       cEV.setOnClose(function () {
         cEV.dispose();
@@ -217,6 +277,88 @@ export class WorldEditorView {
 
       _this.childrenViews.push(hV);
     };
+
+    //TODO Maybe not the good way
+    const setTransparencyChild = function (GO, ratio) {
+      GO.children.forEach((child) => {
+        if (child.material) {
+          child.material.transparent = true;
+          child.material.opacity = ratio;
+        }
+        if (child.children) {
+          setTransparencyChild(child, ratio);
+        }
+      });
+    };
+
+    this.sliderOpacity.oninput = function (event) {
+      if (!_this.model) return;
+
+      const ratio = parseFloat(event.target.value) / 100;
+      const mapGo = computeMapGO(_this.gameView);
+      if (!mapGo) return;
+      setTransparencyChild(_this.gameView.object3D, ratio);
+    };
+
+    const rotateCamera = function (dir) {
+      const camera = _this.gameView.getItownsView().camera.camera3D;
+      const center = _this.orbitControls.target.clone();
+      const distance = camera.position.distanceTo(center);
+      const newPos = new THREE.Vector3().addVectors(
+        center.clone(),
+        dir.clone().multiplyScalar(distance)
+      );
+      camera.position.set(newPos.x, newPos.y, newPos.z);
+      camera.lookAt(center);
+      _this.orbitControls.update();
+      camera.updateProjectionMatrix();
+    };
+
+    const hideFilter = function (GO, filterText) {
+      GO.children.forEach((child) => {
+        if (child.name && child.name.includes(filterText) && filterText != '') {
+          child.visible = false;
+        } else {
+          child.visible = true;
+        }
+        if (child.children) {
+          hideFilter(child, filterText);
+        }
+      });
+    };
+
+    this.hideButton.onclick = function () {
+      const filterTxt = _this.filterText.value;
+
+      const mapGo = computeMapGO(_this.gameView);
+      if (!mapGo) return;
+      hideFilter(_this.gameView.object3D, filterTxt);
+    };
+
+    this.topButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, 0, 1)
+    );
+    this.bottomButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, 0, -1)
+    );
+    this.frontButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, 1, 0)
+    );
+    this.backButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, -1, 0)
+    );
+    this.rightButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(1, 0, 0)
+    );
+    this.leftButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(-1, 0, 0)
+    );
 
     const manager = this.gameView.getInputManager();
 

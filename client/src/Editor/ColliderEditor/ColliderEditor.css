@@ -8,5 +8,9 @@
 }
 
 .li_SelectedEditor{
-    background-color: green;
+    background-color: greenyellow;
+}
+
+.li_SelectedPointEditor{
+    background-color: skyblue;
 }
