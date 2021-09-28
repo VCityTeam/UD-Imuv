@@ -70,6 +70,9 @@ export class WorldEditorView {
     this.labelCurrentWorld = null;
     this.playWorldButton = null;
     this.sliderOpacity = null;
+    this.filterText = null;
+    this.hideButton = null;
+    this.showButton = null;
 
     //camera controller button
     this.topButton = null;
@@ -161,6 +164,18 @@ export class WorldEditorView {
     sliderOpacity.value = '100';
     this.ui.appendChild(sliderOpacity);
     this.sliderOpacity = sliderOpacity;
+
+    const filterDiv = document.createElement('div');
+    filterDiv.innerHTML = 'Filter : ';
+    this.ui.appendChild(filterDiv);
+
+    const filterText = document.createElement('input');
+    filterText.setAttribute('type', 'text');
+    filterDiv.appendChild(filterText);
+    this.filterText = filterText;
+
+    this.hideButton = this.buttonHtml('Hide', filterDiv);
+    this.showButton = this.buttonHtml('Show', filterDiv);
 
     const labelSliderOp = document.createElement('label');
     labelSliderOp.setAttribute('for', 'opacity');
@@ -263,6 +278,7 @@ export class WorldEditorView {
       _this.childrenViews.push(hV);
     };
 
+    //TODO Maybe not the good way
     const setTransparencyChild = function (GO, ratio) {
       GO.children.forEach((child) => {
         if (child.material) {
@@ -298,12 +314,51 @@ export class WorldEditorView {
       camera.updateProjectionMatrix();
     };
 
-    this.topButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, 0, 1));
-    this.bottomButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, 0, -1));
-    this.frontButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, 1, 0));
-    this.backButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, -1, 0));
-    this.rightButton.onclick = rotateCamera.bind(this,new THREE.Vector3(1, 0, 0));
-    this.leftButton.onclick = rotateCamera.bind(this,new THREE.Vector3(-1, 0, 0));
+    const hideFilter = function (GO, filterText) {
+      GO.children.forEach((child) => {
+        if (child.name && child.name.includes(filterText) && filterText != '') {
+          child.visible = false;
+        } else {
+          child.visible = true;
+        }
+        if (child.children) {
+          hideFilter(child, filterText);
+        }
+      });
+    };
+
+    this.hideButton.onclick = function () {
+      const filterTxt = _this.filterText.value;
+
+      const mapGo = computeMapGO(_this.gameView);
+      if (!mapGo) return;
+      hideFilter(_this.gameView.object3D, filterTxt);
+    };
+
+    this.topButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, 0, 1)
+    );
+    this.bottomButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, 0, -1)
+    );
+    this.frontButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, 1, 0)
+    );
+    this.backButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(0, -1, 0)
+    );
+    this.rightButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(1, 0, 0)
+    );
+    this.leftButton.onclick = rotateCamera.bind(
+      this,
+      new THREE.Vector3(-1, 0, 0)
+    );
 
     const manager = this.gameView.getInputManager();
 
