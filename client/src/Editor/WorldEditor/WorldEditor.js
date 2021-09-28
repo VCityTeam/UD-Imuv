@@ -5,7 +5,7 @@ import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
-import { GameView } from 'ud-viz/src/Views/Views';
+import { GameView, View3D } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
@@ -70,6 +70,14 @@ export class WorldEditorView {
     this.labelCurrentWorld = null;
     this.playWorldButton = null;
     this.sliderOpacity = null;
+
+    //camera controller button
+    this.topButton = null;
+    this.bottomButton = null;
+    this.rightButton = null;
+    this.leftButton = null;
+    this.frontButton = null;
+    this.backButton = null;
 
     //ref children views to dispose them easily
     this.childrenViews = [this.goEditorView, this.addPrefabView]; //view always active
@@ -158,6 +166,28 @@ export class WorldEditorView {
     labelSliderOp.setAttribute('for', 'opacity');
     labelSliderOp.innerHTML = 'Opacity';
     this.ui.appendChild(labelSliderOp);
+
+    const labelUl = document.createElement('p');
+    labelUl.innerHTML = 'Camera Controller :';
+    this.ui.appendChild(labelUl);
+
+    const ulCameraControllerButtons = document.createElement('ul');
+    this.ui.appendChild(ulCameraControllerButtons);
+
+    this.topButton = this.buttonHtml('Top', ulCameraControllerButtons);
+    this.bottomButton = this.buttonHtml('Bottom', ulCameraControllerButtons);
+    this.rightButton = this.buttonHtml('Right', ulCameraControllerButtons);
+    this.leftButton = this.buttonHtml('Left', ulCameraControllerButtons);
+    this.frontButton = this.buttonHtml('Front', ulCameraControllerButtons);
+    this.backButton = this.buttonHtml('Back', ulCameraControllerButtons);
+  }
+
+  buttonHtml(name, parent) {
+    const button = document.createElement('li');
+    button.classList.add('button_Editor');
+    button.innerHTML = name;
+    parent.appendChild(button);
+    return button;
   }
 
   focusObject(objToFocus) {
@@ -239,12 +269,10 @@ export class WorldEditorView {
           child.material.transparent = true;
           child.material.opacity = ratio;
         }
-        if(child.children)
-        {
-          setTransparencyChild(child,ratio);
+        if (child.children) {
+          setTransparencyChild(child, ratio);
         }
       });
-      
     };
 
     this.sliderOpacity.oninput = function (event) {
@@ -255,6 +283,26 @@ export class WorldEditorView {
       if (!mapGo) return;
       setTransparencyChild(_this.gameView.object3D, ratio);
     };
+
+    const rotateCamera = function (dir) {
+      const camera = _this.gameView.getItownsView().camera.camera3D;
+      const center = _this.orbitControls.target.clone();
+      const distance = camera.position.distanceTo(center);
+      const newPos = new THREE.Vector3().addVectors(
+        center.clone(),
+        dir.clone().multiplyScalar(distance)
+      );
+      camera.position.set(newPos.x, newPos.y, newPos.z);
+      camera.lookAt(center);
+      camera.updateProjectionMatrix();
+    };
+
+    this.topButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, 0, 1));
+    this.bottomButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, 0, -1));
+    this.frontButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, 1, 0));
+    this.backButton.onclick = rotateCamera.bind(this,new THREE.Vector3(0, -1, 0));
+    this.rightButton.onclick = rotateCamera.bind(this,new THREE.Vector3(1, 0, 0));
+    this.leftButton.onclick = rotateCamera.bind(this,new THREE.Vector3(-1, 0, 0));
 
     const manager = this.gameView.getInputManager();
 
