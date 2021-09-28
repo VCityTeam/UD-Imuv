@@ -206,9 +206,9 @@
               "children": [],
               "transform": {
                 "position": [
-                  155.99851339493853, 110.77657339860579, 131.3931481757054
+                  156.00460452642002, 110.73789800235082, 131.3931481757054
                 ],
-                "rotation": [0, 0, 4.868838289444023, "ZXY"],
+                "rotation": [0, 0, 4.868360824614747, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -216,7 +216,7 @@
               "name": "Video Intro",
               "type": "GameObject",
               "static": true,
-              "outdated": false,
+              "outdated": true,
               "uuid": "470B029B-81FA-476B-9869-401CC6EF1E94",
               "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
               "components": {
@@ -240,7 +240,9 @@
               },
               "children": [],
               "transform": {
-                "position": [108.5, 153.5, 112.15],
+                "position": [
+                  27.05415969248861, 42.18608236499131, 7.227607159968301
+                ],
                 "rotation": [1.5707, 0, 3.1415, "ZXY"],
                 "scale": [1, 1, 1]
               }
