@@ -120,6 +120,8 @@ export class ColliderEditorView {
     deleteButton.classList.add('button_Editor');
     deleteButton.innerHTML = 'Delete';
     deleteButton.onclick = function () {
+      if (shape.mesh && shape.mesh == _this.model.getSelectedObject())
+        _this.transformControls.detach();
       _this.model.removeShape(shape);
       _this.updateUI();
     };
@@ -147,12 +149,16 @@ export class ColliderEditorView {
     const liPointList = document.createElement('li');
     liPointList.classList.add('li_Editor');
     liPointList.classList.add('li_ColliderEditor');
+    if (point == this.model.getSelectedObject())
+      liPointList.classList.add('li_SelectedPointEditor');
     liPointList.innerHTML = point.name;
 
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
     deleteButton.innerHTML = 'Delete';
     deleteButton.onclick = function () {
+      if (point == _this.model.getSelectedObject())
+        _this.transformControls.detach();
       _this.model.getCurrentShape().removePoint(point);
       _this.updateUI();
     };
@@ -265,7 +271,6 @@ export class ColliderEditorView {
         _this.tcChanged = true;
       }
     );
-
   }
 
   initCallbacks() {
@@ -313,7 +318,6 @@ export class ColliderEditorView {
       transformControls.detach();
       if (!_this.model.getSelectedObject()) return;
       transformControls.attach(_this.model.getSelectedObject());
-      _this.orbitControls.target.copy(_this.model.getSelectedObject().position);
       transformControls.updateMatrixWorld();
       currentGameView.getItownsView().scene.add(transformControls);
     };
@@ -342,7 +346,7 @@ export class ColliderEditorView {
       if (_this.getAddPointMode()) {
         const intersect = throwRay(event, currentGameView.getObject3D());
         if (intersect) {
-          const geometry = new THREE.SphereGeometry(1, 32, 32);
+          const geometry = new THREE.SphereGeometry(1, 16, 16);
           const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
           const sphere = new THREE.Mesh(geometry, material);
           const pos = intersect.point;
@@ -381,6 +385,15 @@ export class ColliderEditorView {
     manager.addKeyInput('Control', 'keyup', this.refAddPointKeyUp);
     manager.addMouseInput(viewerDiv, 'pointerup', this.onPointerupListener);
     manager.addMouseInput(viewerDiv, 'pointerdown', this.onPointerdownListener);
+
+    manager.addKeyInput('f', 'keyup', function () {
+      if (_this.model.getSelectedObject()) {
+        _this.orbitControls.target.copy(
+          _this.model.getSelectedObject().position
+        );
+        _this.orbitControls.update();
+      }
+    });
   }
 
   setOnClose(f) {
@@ -488,11 +501,11 @@ class Shape {
     this.matMesh.side = THREE.DoubleSide;
 
     this.colMeshDefault = 0xff0000;
-    this.colMeshSelected = 0x00ff00;
+    this.colMeshSelected = 0x69B00B;
 
     this.colPointDefault = 0xffff00;
     this.colPointCurrentShape = 0x00ffff;
-    this.colPointSelected = 0x00ff00;
+    this.colPointSelected = 0x0B69B0;
 
     this.mesh = null;
 
@@ -557,7 +570,7 @@ class Shape {
 
     const meshGeometry = new ConvexGeometry(vertices);
     meshGeometry.computeBoundingBox();
-    const vecCenter = new THREE.Vector3()
+    const vecCenter = new THREE.Vector3();
     meshGeometry.boundingBox.getCenter(vecCenter);
     const positions = meshGeometry.attributes.position.array;
     for (let i = 0; i < positions.length; i += 3) {

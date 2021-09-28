@@ -294,6 +294,7 @@ export class WorldEditorView {
       );
       camera.position.set(newPos.x, newPos.y, newPos.z);
       camera.lookAt(center);
+      _this.orbitControls.update();
       camera.updateProjectionMatrix();
     };
 
