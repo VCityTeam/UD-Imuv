@@ -315,14 +315,19 @@ export class WorldEditorView {
     };
 
     const hideFilter = function (GO, filterText) {
-      GO.children.forEach((child) => {
-        if (child.name && child.name.includes(filterText) && filterText != '') {
+      GO.traverse(function (child) {
+        if (!child instanceof THREE.Mesh) {
+          child.visible = true;
+          return;
+        }
+        if (
+          child.name &&
+          child.name.toLowerCase().includes(filterText.toLowerCase()) &&
+          filterText != ''
+        ) {
           child.visible = false;
         } else {
           child.visible = true;
-        }
-        if (child.children) {
-          hideFilter(child, filterText);
         }
       });
     };
