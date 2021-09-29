@@ -281,13 +281,6 @@ export class ColliderEditorView {
     const transformControls = this.transformControls;
     const manager = this.gameView.getInputManager();
 
-    const computeObject3D = function (object3D) {
-      object3D.children.forEach(function (child) {
-        if (!child.visible) object3D.remove(child);
-        else if (child.children) computeObject3D(child);
-      });
-    };
-
     const throwRay = function (event, object3D) {
       //1. sets the mouse position with a coordinate system where the center of the screen is the origin
       const mouse = new THREE.Vector2(
@@ -302,12 +295,16 @@ export class ColliderEditorView {
       _this.raycaster.setFromCamera(mouse, camera);
       camera.near = oldNear;
 
-      const cloneObject = object3D.clone();
-      computeObject3D(cloneObject);
       //3. compute intersections
-      const intersects = _this.raycaster.intersectObject(cloneObject, true);
+      const intersects = _this.raycaster.intersectObject(object3D, true);
 
-      return intersects[0];
+      for (let i = 0; i < intersects.length; i++) {
+        if (intersects[i].object.visible) {
+          return intersects[i];
+        }
+      }
+
+      return null;
     };
 
     this.newButton.onclick = function () {
