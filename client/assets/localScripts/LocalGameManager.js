@@ -223,6 +223,10 @@ module.exports = class LocalGameManager {
 
     //INPUTS LOCAL
 
+    manager.addKeyInput('y', 'keydown', function () {
+      _this.cameraman.toggleMode();
+    });
+
     //SWITCH CONTROLS
     manager.addKeyInput('a', 'keydown', function () {
       if (_this.cameraman.hasRoutine()) return; //already routine
@@ -496,6 +500,9 @@ class Cameraman {
     this.raycaster = new Shared.THREE.Raycaster();
     this.raycaster.camera = camera;
 
+    //mode
+    this.isTPV = true;
+
     //routines
     this.routines = [];
   }
@@ -539,7 +546,7 @@ class Cameraman {
     this.camera.updateProjectionMatrix();
   }
 
-  computeTransformTarget(obstacle = null, distance) {
+  computeTransformTarget(obstacle = null) {
     if (!this.target) return null;
 
     //world transform
@@ -557,7 +564,8 @@ class Cameraman {
       .applyQuaternion(quaternion);
 
     //TODO compute dist so the bottom of the gameobject is at the bottom of the screen
-    if (!distance) distance = 3;
+    let distance = 3;
+    if (!this.isTPV) distance = -3;
 
     //compute intersection
     if (obstacle) {
@@ -582,6 +590,18 @@ class Cameraman {
 
   addRoutine(routine) {
     this.routines.push(routine);
+  }
+
+  toggleMode() {
+    this.isTPV = !this.isTPV;
+
+    if (this.isTPV) {
+      this.camera.fov = 60;
+    } else {
+      this.camera.fov = 90;
+    }
+
+    this.camera.updateProjectionMatrix();
   }
 
   hasRoutine() {
