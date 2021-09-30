@@ -271,10 +271,8 @@
               },
               "children": [],
               "transform": {
-                "position": [
-                  156.02276711432063, 110.6218544255021, 131.3931481757054
-                ],
-                "rotation": [0, 0, 4.8669284301269204, "ZXY"],
+                "position": [81.01471537412738, 12.673432559852483, 30],
+                "rotation": [0, 0, 4.867565049899287, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -440,7 +438,8 @@
     "name": "Flying Campus World",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
-    "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF"
+    "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+    "version": "2.33.2"
   },
   {
     "gameObject": {
@@ -604,7 +603,8 @@
     "name": "Room Expo World",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
-    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D"
+    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+    "version": "2.33.2"
   },
   {
     "gameObject": {
@@ -881,6 +881,7 @@
     "name": "Room Conf Modulable",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
-    "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C"
+    "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+    "version": "2.33.2"
   }
 ]
