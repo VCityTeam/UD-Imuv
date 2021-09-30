@@ -20,10 +20,6 @@ module.exports = class LocalGameManager {
 
     this.fogObject = null;
 
-    //dynamic html
-    this.fpsLabel = null;
-    this.avatarCount = null;
-
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
   }
@@ -54,27 +50,10 @@ module.exports = class LocalGameManager {
     );
 
     this.initInputs(localCtx);
-    this.initUI(go, localCtx);
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
       this.initTraveling(localCtx.getGameView().getItownsView());
     }
-
-    
-  }
-
-  initUI(go, localCtx) {
-    const gameView = localCtx.getGameView();
-
-    this.fpsLabel = document.createElement('div');
-    this.fpsLabel.classList.add('label_localGameManager');
-    gameView.appendToUI(this.fpsLabel);
-
-    this.avatarCount = document.createElement('div');
-    this.avatarCount.classList.add('label_localGameManager');
-    gameView.appendToUI(this.avatarCount);
-
-    this.updateUI(go, localCtx);
   }
 
   initTraveling(view) {
@@ -162,18 +141,6 @@ module.exports = class LocalGameManager {
       localCtx.getGameView().getUserData('avatarUUID'),
       this.obstacle
     );
-
-    this.updateUI(go, localCtx);
-  }
-
-  updateUI(go, localCtx) {
-    //update ui
-    this.fpsLabel.innerHTML = 'FPS = ' + Math.round(1000 / localCtx.getDt());
-    let avatarCount = 0;
-    go.traverse(function (g) {
-      if (g.name == 'avatar') avatarCount++;
-    });
-    this.avatarCount.innerHTML = 'Player: ' + avatarCount;
   }
 
   onNewGameObject() {
@@ -214,6 +181,7 @@ module.exports = class LocalGameManager {
     } else {
       view.scene.fog = null;
     }
+    view.scene.fog = null; //TODO fix me for now cant interact with tile children material
   }
 
   initInputs(localCtx) {
@@ -255,11 +223,21 @@ module.exports = class LocalGameManager {
 
     //INPUTS LOCAL
 
+    manager.addKeyInput('y', 'keydown', function () {
+      _this.cameraman.toggleMode();
+    });
+
     //SWITCH CONTROLS
     manager.addKeyInput('a', 'keydown', function () {
       if (_this.cameraman.hasRoutine()) return; //already routine
 
-      const speed = 0.6;
+      const duration = 2000;
+      let currentTime = 0;
+      const camera = _this.cameraman.getCamera();
+
+      let startPos = camera.position.clone();
+      let startQuat = camera.quaternion.clone();
+
       if (view.controls) {
         //record
         const camera = _this.cameraman.getCamera();
@@ -273,14 +251,18 @@ module.exports = class LocalGameManager {
         _this.cameraman.addRoutine(
           new Routine(
             function (dt) {
-              const t = _this.cameraman.computeTransformTarget();
-              const camera = _this.cameraman.getCamera();
-              const amount = speed * dt;
-              const dist = t.position.distanceTo(camera.position);
-              let ratio = amount / dist;
+              currentTime += dt;
+              let ratio = currentTime / duration;
               ratio = Math.min(Math.max(0, ratio), 1);
-              camera.position.lerp(t.position, ratio);
-              camera.quaternion.slerp(t.quaternion, ratio);
+
+              const t = _this.cameraman.computeTransformTarget();
+
+              const p = t.position.lerp(startPos, 1 - ratio);
+              const q = t.quaternion.slerp(startQuat, 1 - ratio);
+
+              camera.position.copy(p);
+              camera.quaternion.copy(q);
+
               camera.updateProjectionMatrix();
 
               view.notifyChange(); //trigger camera event
@@ -322,13 +304,16 @@ module.exports = class LocalGameManager {
         _this.cameraman.addRoutine(
           new Routine(
             function (dt) {
-              const camera = _this.cameraman.getCamera();
-              const amount = speed * dt;
-              const dist = _this.itownsCamPos.distanceTo(camera.position);
-              let ratio = amount / dist;
+              currentTime += dt;
+              let ratio = currentTime / duration;
               ratio = Math.min(Math.max(0, ratio), 1);
-              camera.position.lerp(_this.itownsCamPos, ratio);
-              camera.quaternion.slerp(_this.itownsCamQuat, ratio);
+
+              const p = _this.itownsCamPos.clone().lerp(startPos, 1 - ratio);
+              const q = _this.itownsCamQuat.clone().slerp(startQuat, 1 - ratio);
+
+              camera.position.copy(p);
+              camera.quaternion.copy(q);
+
               camera.updateProjectionMatrix();
 
               view.notifyChange(); //trigger camera event
@@ -515,6 +500,9 @@ class Cameraman {
     this.raycaster = new Shared.THREE.Raycaster();
     this.raycaster.camera = camera;
 
+    //mode
+    this.isTPV = true;
+
     //routines
     this.routines = [];
   }
@@ -558,7 +546,7 @@ class Cameraman {
     this.camera.updateProjectionMatrix();
   }
 
-  computeTransformTarget(obstacle = null, distance) {
+  computeTransformTarget(obstacle = null) {
     if (!this.target) return null;
 
     //world transform
@@ -576,7 +564,8 @@ class Cameraman {
       .applyQuaternion(quaternion);
 
     //TODO compute dist so the bottom of the gameobject is at the bottom of the screen
-    if (!distance) distance = 3;
+    let distance = 3;
+    if (!this.isTPV) distance = -3;
 
     //compute intersection
     if (obstacle) {
@@ -601,6 +590,18 @@ class Cameraman {
 
   addRoutine(routine) {
     this.routines.push(routine);
+  }
+
+  toggleMode() {
+    this.isTPV = !this.isTPV;
+
+    if (this.isTPV) {
+      this.camera.fov = 60;
+    } else {
+      this.camera.fov = 90;
+    }
+
+    this.camera.updateProjectionMatrix();
   }
 
   hasRoutine() {

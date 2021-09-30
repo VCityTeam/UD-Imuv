@@ -16,7 +16,7 @@ module.exports = class Zeppelin {
     const go = arguments[0];
     const worldContext = arguments[1];
 
-    this.centerCircle = new Shared.THREE.Vector3(75, 98, 131.3931481757054);
+    this.centerCircle = new Shared.THREE.Vector3(0, 0, 30);
   }
 
   computePosition(t, result) {
