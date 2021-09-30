@@ -5,7 +5,7 @@ import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
-import { GameView, View3D } from 'ud-viz/src/Views/Views';
+import { GameView } from 'ud-viz/src/Views/Views';
 import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
@@ -316,7 +316,7 @@ export class WorldEditorView {
 
     const hideFilter = function (GO, filterText) {
       GO.traverse(function (child) {
-        if (!child instanceof THREE.Mesh) {
+        if (!(child instanceof THREE.Mesh)) {
           child.visible = true;
           return;
         }

@@ -81,15 +81,14 @@ const ServerModule = class Server {
 
     this.initWorlds();
 
-    try {
-      this.initBBB();
-    } catch (e) {
-      console.error(e);
-    }
+    // try {
+    //   this.initBBB();
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 
   initBBB() {
-    return;
     this.bbbAPI = bbb.api(BBB_URL, BBB_SECRET);
     const api = this.bbbAPI;
 

@@ -256,7 +256,7 @@ export class ColliderEditorView {
 
     const camera = this.gameView.getItownsView().camera.camera3D;
     const scene = this.gameView.getItownsView().scene;
-    const viewerDiv = this.gameView.rootItownsHtml;
+    // const viewerDiv = this.gameView.rootItownsHtml;
 
     this.transformControls = new TransformControls(camera, this.getCanvas());
     scene.add(this.transformControls);
