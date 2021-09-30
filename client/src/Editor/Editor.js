@@ -8,6 +8,7 @@ import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
 import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
+import File from 'ud-viz/src/Components/SystemUtils/File';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -116,7 +117,7 @@ export class EditorView {
                   // get content as JPEG blob
                   // here the image is a blob
                   blobsBuffer.push({
-                    blob: blob,
+                    blob: blob.toString(),
                     componentUUID: componentUUID,
                     key: key,
                   });
@@ -136,32 +137,39 @@ export class EditorView {
         }
       };
 
-      const worldsJSON = _this.assetsManager.getWorldsJSON();
-      worldsJSON.forEach(function (worldJSON) {
-        const go = new GameObject(worldJSON.gameObject);
-        go.traverse(function (child) {
-          const ls = child.getComponent(LocalScriptModule.TYPE); //this way because assets are not initialized
-          if (ls && ls.idScripts.includes('image')) {
-            computeImagePromise(ls.getConf(), ls.getUUID(), 'path');
-          }
+      let worldsJSON = _this.assetsManager.getWorldsJSON();
 
-          const ws = child.getComponent(WorldScriptModule.TYPE);
-          if (ws && ws.idScripts.includes('map')) {
-            computeImagePromise(ws.getConf(), ws.getUUID(), 'heightmap_path');
-          }
+      File.loadJSON('./assets/worlds/buffer.json').then(function (data) {
+        worldsJSON = data;
+
+        worldsJSON.forEach(function (worldJSON) {
+          const go = new GameObject(worldJSON.gameObject);
+          go.traverse(function (child) {
+            const ls = child.getComponent(LocalScriptModule.TYPE); //this way because assets are not initialized
+            if (ls && ls.idScripts.includes('image')) {
+              computeImagePromise(ls.getConf(), ls.getUUID(), 'path');
+            }
+
+            const ws = child.getComponent(WorldScriptModule.TYPE);
+            if (ws && ws.idScripts.includes('map')) {
+              computeImagePromise(ws.getConf(), ws.getUUID(), 'heightmap_path');
+            }
+          });
         });
-      });
 
-      Promise.all(promises).then(function () {
-        const data = {
-          worlds: _this.assetsManager.getWorldsJSON(),
-          images: blobsBuffer,
-        };
-        console.log('send data server ', data);
-        _this.webSocketService.emit(
-          Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
-          data
-        );
+        Promise.all(promises).then(function () {
+          const data = {
+            worlds: worldsJSON,
+            images: blobsBuffer,
+          };
+
+          console.log('send data server ', data);
+
+          _this.webSocketService.streamData(
+            Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+            data
+          );
+        });
       });
     };
 
