@@ -132,6 +132,10 @@ const ServerModule = class Server {
   }
 
   createBBBRoom(params) {
+    if (!this.bbbAPI) {
+      console.warn('no bbb api');
+      return;
+    }
     const room = new BBB_ROOM(params, this.bbbAPI);
     this.bbbRooms[room.getUUID()] = room;
     console.warn('create bbb room ', params.name);
