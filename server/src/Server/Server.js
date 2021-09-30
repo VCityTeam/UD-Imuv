@@ -4,6 +4,8 @@
  * @format
  */
 
+const ss = require('socket.io-stream');
+
 const cors = require('cors');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
@@ -28,7 +30,7 @@ const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Rende
 const Buffer = require('buffer').Buffer;
 
 const bbb = require('bigbluebutton-js');
-const BBB_SECRET = 'EyEuC9fSJ3ERtwljddesQpCXepX4VGOndDd1kw3amk';
+const BBB_SECRET = 'EyEuC9fSJ3ERtwljddesQpCXepX4VGOndDd1kw3amk'; //TODO hide this
 const BBB_URL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
 
 const parseString = require('xml2js').parseString;
@@ -648,139 +650,144 @@ const ServerModule = class Server {
       });
     });
 
-    socket.on(Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS, function (data) {
-      if (!data) {
-        console.log('no data on save worlds');
-        return;
-      }
+    ss(socket).on(
+      Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+      function (stream, data) {
+        if (!data) {
+          console.log('no data on save worlds');
+          return;
+        } else {
+          console.log('TRY SAVE WORLDS');
+        }
 
-      const worlds = [];
-      data.worlds.forEach(function (json) {
-        worlds.push(
-          new World(json, {
-            isServerSide: true,
-            modules: { gm: gm, PNG: PNG },
-          })
-        );
-      });
+        const worlds = [];
+        data.worlds.forEach(function (json) {
+          worlds.push(
+            new World(json, {
+              isServerSide: true,
+              modules: { gm: gm, PNG: PNG },
+            })
+          );
+        });
 
-      const writeImagesOnDiskPromise = [];
+        const writeImagesOnDiskPromise = [];
 
-      data.images.forEach(function (i) {
-        writeImagesOnDiskPromise.push(
-          new Promise((resolve, reject) => {
-            const bitmap = Buffer.from(i.blob, 'base64');
-            const commonPath =
-              'assets/img/uploaded/' +
-              Shared.THREE.MathUtils.generateUUID() +
-              '.jpeg';
-            const serverPath = '../client/' + commonPath;
+        data.images.forEach(function (i) {
+          writeImagesOnDiskPromise.push(
+            new Promise((resolve, reject) => {
+              const bitmap = Buffer.from(i.blob, 'base64');
+              const commonPath =
+                'assets/img/uploaded/' +
+                Shared.THREE.MathUtils.generateUUID() +
+                '.jpeg';
+              const serverPath = '../client/' + commonPath;
 
-            //add attr on the fly (TODO clean ?)
-            i.serverPath = serverPath;
+              //add attr on the fly (TODO clean ?)
+              i.serverPath = serverPath;
 
-            //modify worldjson
-            worlds.forEach(function (w) {
-              w.getGameObject().traverse(function (child) {
-                const c = child.getComponentByUUID(i.componentUUID);
-                if (c) {
-                  c.getConf()[i.key] = './' + commonPath;
-                  return true;
-                }
-              });
-            });
-
-            fs.writeFile(serverPath, bitmap, function (err) {
-              if (err) {
-                reject();
-              }
-              resolve();
-            });
-          })
-        );
-      });
-
-      Promise.all(writeImagesOnDiskPromise).then(function () {
-        console.log('IMAGES WRITED ON DISK');
-
-        const assetsManager = new AssetsManagerServer();
-        assetsManager
-          .loadFromConfig(_this.config.assetsManager)
-          .then(function () {
-            const loadPromises = [];
-
-            worlds.forEach(function (w) {
-              const loadPromise = WorldStateComputer.WorldTest(
-                w,
-                assetsManager,
-                { Shared: Shared }
-              );
-              loadPromises.push(loadPromise);
-            });
-
-            try {
-              Promise.all(loadPromises).then(function () {
-                console.log('ALL WORLD HAVE LOADED');
-
-                //write on disks new worlds
-
-                const content = [];
-                worlds.forEach(function (w) {
-                  content.push(w.toJSON(true));
+              //modify worldjson
+              worlds.forEach(function (w) {
+                w.getGameObject().traverse(function (child) {
+                  const c = child.getComponentByUUID(i.componentUUID);
+                  if (c) {
+                    c.getConf()[i.key] = './' + commonPath;
+                    return true;
+                  }
                 });
+              });
 
-                fs.writeFile(
-                  _this.config.worldsPath,
-                  JSON.stringify(content),
-                  {
-                    encoding: 'utf8',
-                    flag: 'w',
-                    mode: 0o666,
-                  },
-                  function () {
-                    console.log('WORLD WRITED ON DISK');
+              fs.writeFile(serverPath, bitmap, function (err) {
+                if (err) {
+                  reject();
+                }
+                resolve();
+              });
+            })
+          );
+        });
 
-                    //disconnect all users in game
-                    for (let key in _this.currentUsersInGame) {
-                      const user = _this.currentUsersInGame[key];
-                      user.getSocket().disconnect();
-                      console.log(user.getUUID(), ' disnonnect');
-                      delete _this.currentUsersInGame[key];
+        Promise.all(writeImagesOnDiskPromise).then(function () {
+          console.log('IMAGES WRITED ON DISK');
+
+          const assetsManager = new AssetsManagerServer();
+          assetsManager
+            .loadFromConfig(_this.config.assetsManager)
+            .then(function () {
+              const loadPromises = [];
+
+              worlds.forEach(function (w) {
+                const loadPromise = WorldStateComputer.WorldTest(
+                  w,
+                  assetsManager,
+                  { Shared: Shared }
+                );
+                loadPromises.push(loadPromise);
+              });
+
+              try {
+                Promise.all(loadPromises).then(function () {
+                  console.log('ALL WORLD HAVE LOADED');
+
+                  //write on disks new worlds
+
+                  const content = [];
+                  worlds.forEach(function (w) {
+                    content.push(w.toJSON(true));
+                  });
+
+                  fs.writeFile(
+                    _this.config.worldsPath,
+                    JSON.stringify(content),
+                    {
+                      encoding: 'utf8',
+                      flag: 'w',
+                      mode: 0o666,
+                    },
+                    function () {
+                      console.log('WORLD WRITED ON DISK');
+
+                      //disconnect all users in game
+                      for (let key in _this.currentUsersInGame) {
+                        const user = _this.currentUsersInGame[key];
+                        user.getSocket().disconnect();
+                        console.log(user.getUUID(), ' disnonnect');
+                        delete _this.currentUsersInGame[key];
+                      }
+
+                      //reload worlds
+                      _this.initWorlds();
+
+                      _this.cleanUnusedImages();
+
+                      socket.emit(
+                        Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+                        'Worlds saved !'
+                      );
+                    }
+                  );
+                });
+              } catch (e) {
+                console.log(
+                  'Error occured while saving worlds remove images created'
+                );
+                data.images.forEach(function (i) {
+                  // delete a file
+                  fs.unlink(i.serverPath, (err) => {
+                    if (err) {
+                      throw err;
                     }
 
-                    //reload worlds
-                    _this.initWorlds();
-
-                    _this.cleanUnusedImages();
-
-                    socket.emit(
-                      Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-                      'Worlds saved !'
-                    );
-                  }
-                );
-              });
-            } catch (e) {
-              console.log(
-                'Error occured while saving worlds remove images created'
-              );
-              data.images.forEach(function (i) {
-                // delete a file
-                fs.unlink(i.serverPath, (err) => {
-                  if (err) {
-                    throw err;
-                  }
-
-                  console.log(i.serverPath + ' deleted.');
+                    console.log(i.serverPath + ' deleted.');
+                  });
                 });
-              });
 
-              console.error(e);
-              socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
-            }
-          });
-      });
-    });
+                console.error(e);
+                socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
+              }
+            });
+        });
+      }
+    );
   }
 
   cleanUnusedImages() {

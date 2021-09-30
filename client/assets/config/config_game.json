@@ -93,7 +93,7 @@
     }
   },
   "itowns": {
-    "radiusExtent": 1000,
+    "radiusExtent": 3000,
     "camera": {
       "range": 3000,
       "heading": -50,
