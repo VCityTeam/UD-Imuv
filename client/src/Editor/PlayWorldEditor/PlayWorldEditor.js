@@ -123,7 +123,7 @@ export class PlayWorldEditorView {
     ctx.beginPath();
     ctx.save();
     ctx.translate(center, center);
-    ctx.scale(1 / pixelSize, 1 / pixelSize);
+    ctx.scale(1 / pixelSize, -1 / pixelSize);
     world.getCollisions().draw(ctx);
     ctx.fillStyle = 'green';
     ctx.fill();

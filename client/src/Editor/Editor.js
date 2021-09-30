@@ -162,6 +162,7 @@ export class EditorView {
 
     this.playCurrentWorldButton.onclick = function () {
       if (!_this.currentWorldView) return;
+      _this.saveCurrentWorld();
 
       const worldUUID = _this.currentWorldView
         .getGameView()

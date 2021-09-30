@@ -154,7 +154,7 @@ module.exports = class Map {
         result = -1; //if negative means out
       } else {
         result = values[i + j * size];
-        if (Math.abs(result - hMin) < 0.0001) result = NaN; //nan => out
+        if (Math.abs(result - hMin) < 0.00001) result = NaN; //nan => out
       }
       return weight * result;
     };
