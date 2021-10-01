@@ -4,8 +4,6 @@
  * @format
  */
 
-const ss = require('socket.io-stream');
-
 const cors = require('cors');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
