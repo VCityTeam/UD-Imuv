@@ -41,81 +41,7 @@
               "uuid": "F3A702FE-185F-4341-8E57-4E78E276E248",
               "type": "Collider",
               "shapes": [
-                {
-                  "type": "Polygon",
-                  "points": [
-                    {
-                      "x": -10.50660656648688,
-                      "y": -45.75441920477897,
-                      "z": -2.86858989894057
-                    },
-                    {
-                      "x": -10.33953555393964,
-                      "y": -29.070801805704832,
-                      "z": -0.013249754563162242
-                    },
-                    {
-                      "x": -36.0278656182345,
-                      "y": -45.728716063313186,
-                      "z": -2.870045221595035
-                    },
-                    {
-                      "x": -35.75054496829398,
-                      "y": -29.25550820864737,
-                      "z": -0.013249754563162242
-                    }
-                  ]
-                },
-                {
-                  "type": "Polygon",
-                  "points": [
-                    {
-                      "x": 10.249656386906281,
-                      "y": -44.83693548664451,
-                      "z": -2.5341899238337646
-                    },
-                    {
-                      "x": 23.30518298293464,
-                      "y": -44.74138639681041,
-                      "z": -2.8685052094925254
-                    },
-                    {
-                      "x": 10.319476901553571,
-                      "y": -31.481721613556147,
-                      "z": 0.20681467990732472
-                    },
-                    {
-                      "x": 22.66206302680075,
-                      "y": -31.569550152868032,
-                      "z": -0.013249754563105398
-                    }
-                  ]
-                },
-                {
-                  "type": "Polygon",
-                  "points": [
-                    {
-                      "x": 23.876629123697057,
-                      "y": -41.90443681180477,
-                      "z": -2.8446304104271007
-                    },
-                    {
-                      "x": 38.16908792126924,
-                      "y": -41.79114350955933,
-                      "z": -2.814526875149852
-                    },
-                    {
-                      "x": 22.375710940686986,
-                      "y": -29.004619440063834,
-                      "z": 0.009763572057636338
-                    },
-                    {
-                      "x": 25.513681448297575,
-                      "y": -29.57073974609375,
-                      "z": 0.011373060295738924
-                    }
-                  ]
-                }
+                { "type": "Circle", "center": { "x": 0, "y": 0 }, "radius": 10 }
               ],
               "body": true
             },
@@ -271,10 +197,8 @@
               },
               "children": [],
               "transform": {
-                "position": [
-                  156.02276711432063, 110.6218544255021, 131.3931481757054
-                ],
-                "rotation": [0, 0, 4.8669284301269204, "ZXY"],
+                "position": [80.99851339493854, 12.776573398605786, 30],
+                "rotation": [0, 0, 4.868838289444023, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -307,7 +231,7 @@
               "children": [],
               "transform": {
                 "position": [
-                  27.05415969248861, 42.18608236499131, 7.227607159968301
+                  27.065533498302102, 42.21518998593092, 7.223115794814788
                 ],
                 "rotation": [1.5707, 0, 3.1415, "ZXY"],
                 "scale": [1, 1, 1]
@@ -440,7 +364,8 @@
     "name": "Flying Campus World",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
-    "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF"
+    "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+    "version": "2.33.2"
   },
   {
     "gameObject": {
@@ -554,26 +479,26 @@
               }
             },
             {
-              "name": "Image_Test",
+              "name": "Image1",
               "type": "GameObject",
               "static": true,
               "outdated": true,
-              "uuid": "6056B5F6-F6B5-4754-8B41-A927D7C0E318",
+              "uuid": "EA6303DB-3F27-4152-AC42-FCFF3429CE37",
               "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
               "components": {
                 "Render": {
-                  "uuid": "B64795E4-76DD-4447-B66D-D718DF4D13B0",
+                  "uuid": "3A615855-9115-4DAA-91E9-3656B6AB6527",
                   "type": "Render",
                   "idModel": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
-                  "uuid": "31204A5E-43FA-45AA-9B30-8DDA8D6718B7",
+                  "uuid": "30D59DE9-3D15-4650-9482-4EF3E602A9D0",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/75415C30-50D7-433D-9420-6067D14F31B3.jpeg",
-                    "width": 832,
-                    "height": 625
+                    "path": "./assets/img/uploaded/D901C355-DCCE-4A44-AE57-74E6080C29A6.jpeg",
+                    "width": 5,
+                    "height": 5
                   },
                   "type": "LocalScript"
                 }
@@ -581,10 +506,248 @@
               "children": [],
               "transform": {
                 "position": [
-                  13.55728549300693, -15.12629665248096, 3.4476945088408684
+                  9.027275915024802, -15.137116045691073, 3.4384698903865
                 ],
-                "rotation": [-1.5681609826029321, 0, 0, "ZXY"],
-                "scale": [0.005, 0.005, 0.005]
+                "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
+                "scale": [0.75, 0.5, 1]
+              }
+            },
+            {
+              "name": "Image2",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "A3414589-3105-4095-93BE-66555A3014BB",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "79030A47-3230-48E5-B613-451916323EF7",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "5616A6C5-B81F-48EE-813F-E1CAE559E4D7",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/7A76F77D-0710-49DF-AC4F-8174899D876F.jpeg",
+                    "width": 5,
+                    "height": 5
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  13.449535348685458, -15.137116045691073, 3.4384698903865
+                ],
+                "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
+                "scale": [0.75, 0.5, 1]
+              }
+            },
+            {
+              "name": "Image3",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "C6DFC197-3C19-47B2-A434-EB57763CA1DE",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "00A8D589-4136-4977-82B2-2E9F7AC5D155",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "FCF888B4-594C-49CC-8AB5-BEDD852E5B53",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/75ECE721-143E-4244-AAC0-7910E1C969A4.jpeg",
+                    "width": 5,
+                    "height": 5
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  17.919241348514333, -15.197473629377782, 3.4384698903865
+                ],
+                "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
+                "scale": [0.75, 0.5, 1]
+              }
+            },
+            {
+              "name": "Image4",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "7A64ED51-FEFC-4404-A353-5AC782A7A643",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "D410B63A-9F98-4536-B0CC-1E34B53CCB59",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "FFC3E56D-AA9F-48E1-8C54-CC8AAD456CBC",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/1919A7A7-CEDB-4768-AE12-49984F5A07D8.jpeg",
+                    "width": 5,
+                    "height": 5
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  20.324149628635496, -11.954995192587376, 3.4677172923472313
+                ],
+                "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
+                "scale": [0.75, 0.5, 1]
+              }
+            },
+            {
+              "name": "Image5",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "E90FCFB4-FEDD-4EB7-8B7F-27A6B8666B4D",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "38B1F877-4178-4F1A-AF9A-3A7AA0C82430",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "D9321027-4D92-4430-A2DF-4186E8A53B42",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/D31DE75D-7E20-47C6-9203-9532BB52CBAA.jpeg",
+                    "width": 5,
+                    "height": 5
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  20.324149628635496, -7.2587326150387526, 3.4677172923472313
+                ],
+                "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
+                "scale": [0.75, 0.5, 1]
+              }
+            },
+            {
+              "name": "Image6",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "BCB2714E-5FBE-4EE5-AC7C-979D62F720C9",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "764A1C6F-2F01-4C31-8829-7ADA1F8E9EFB",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "90015BE9-2A79-4987-AA91-6FBB6216A50D",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/AE351B4F-AF2A-4BBD-A808-40C60A4E667E.jpeg",
+                    "width": 5,
+                    "height": 5
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  20.324149628635496, -2.7260530572384596, 3.4677172923472313
+                ],
+                "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
+                "scale": [0.75, 0.5, 1]
+              }
+            },
+            {
+              "name": "Image7",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "B102A817-A891-4385-BA37-D56F4116A7CB",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "7FD59E1B-E61B-4B23-885F-B69C0BB6DDB9",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "151A802F-EE27-4E61-88DA-876A34917191",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/21F72029-3B90-454A-873F-BEC7F5B038F6.jpeg",
+                    "width": 5,
+                    "height": 5
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  6.490888266125694, -6.755357597023249, 3.4677172923472313
+                ],
+                "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
+                "scale": [0.75, 0.5, 1]
+              }
+            },
+            {
+              "name": "Image8",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "E5FAAECE-FFF0-43BB-9784-A63E1B8479F7",
+              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+              "components": {
+                "Render": {
+                  "uuid": "00DC69F3-64B7-45B6-83B2-0A47A68CC5A2",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
+                },
+                "LocalScript": {
+                  "uuid": "3F2CFDC5-0DB5-46E0-B53F-F7FEB50981C5",
+                  "idScripts": ["image"],
+                  "conf": {
+                    "path": "./assets/img/uploaded/DAA13CDC-8DB9-45ED-A58C-CF038CED9228.jpeg",
+                    "width": 5,
+                    "height": 5
+                  },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  6.490888266125694, -11.746453309431672, 3.4677172923472313
+                ],
+                "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
+                "scale": [0.75, 0.5, 1]
               }
             }
           ],
@@ -604,7 +767,8 @@
     "name": "Room Expo World",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
-    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D"
+    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+    "version": "2.33.2"
   },
   {
     "gameObject": {
@@ -881,6 +1045,7 @@
     "name": "Room Conf Modulable",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
-    "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C"
+    "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+    "version": "2.33.2"
   }
 ]
