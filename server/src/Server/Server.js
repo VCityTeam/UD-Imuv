@@ -35,6 +35,7 @@ const BBB_URL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
 
 const parseString = require('xml2js').parseString;
 const exec = require('child-process-promise').exec;
+const Pack = require('ud-viz/src/Game/Shared/Components/Pack');
 
 const ServerModule = class Server {
   constructor(config) {
@@ -291,6 +292,7 @@ const ServerModule = class Server {
       _this.io = socketio(_this.server, {
         pingInterval: 25000,
         pingTimeout: 20000,
+        transports: ['polling', 'websocket'],
       });
 
       //cb
@@ -654,142 +656,13 @@ const ServerModule = class Server {
       });
     });
 
-    ss(socket).on(
+    socket.on(
       Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
-      function (stream, data) {
-        if (!data) {
-          console.log('no data on save worlds');
-          return;
-        } else {
-          console.log('TRY SAVE WORLDS');
+      function (partialMessage) {
+        const fullMessage = Pack.recomposeMessage(partialMessage);
+        if (fullMessage) {
+          _this.saveWorlds(fullMessage, socket);
         }
-
-        const worlds = [];
-        data.worlds.forEach(function (json) {
-          worlds.push(
-            new World(json, {
-              isServerSide: true,
-              modules: { gm: gm, PNG: PNG },
-            })
-          );
-        });
-
-        const writeImagesOnDiskPromise = [];
-
-        data.images.forEach(function (i) {
-          writeImagesOnDiskPromise.push(
-            new Promise((resolve, reject) => {
-              const bitmap = Buffer.from(i.blob, 'base64');
-              const commonPath =
-                'assets/img/uploaded/' +
-                Shared.THREE.MathUtils.generateUUID() +
-                '.jpeg';
-              const serverPath = '../client/' + commonPath;
-
-              //add attr on the fly (TODO clean ?)
-              i.serverPath = serverPath;
-
-              //modify worldjson
-              worlds.forEach(function (w) {
-                w.getGameObject().traverse(function (child) {
-                  const c = child.getComponentByUUID(i.componentUUID);
-                  if (c) {
-                    c.getConf()[i.key] = './' + commonPath;
-                    return true;
-                  }
-                });
-              });
-
-              fs.writeFile(serverPath, bitmap, function (err) {
-                if (err) {
-                  reject();
-                }
-                resolve();
-              });
-            })
-          );
-        });
-
-        Promise.all(writeImagesOnDiskPromise).then(function () {
-          console.log('IMAGES WRITED ON DISK');
-
-          const assetsManager = new AssetsManagerServer();
-          assetsManager
-            .loadFromConfig(_this.config.assetsManager)
-            .then(function () {
-              const loadPromises = [];
-
-              worlds.forEach(function (w) {
-                const loadPromise = WorldStateComputer.WorldTest(
-                  w,
-                  assetsManager,
-                  { Shared: Shared }
-                );
-                loadPromises.push(loadPromise);
-              });
-
-              try {
-                Promise.all(loadPromises).then(function () {
-                  console.log('ALL WORLD HAVE LOADED');
-
-                  //write on disks new worlds
-
-                  const content = [];
-                  worlds.forEach(function (w) {
-                    content.push(w.toJSON(true));
-                  });
-
-                  fs.writeFile(
-                    _this.config.worldsPath,
-                    JSON.stringify(content),
-                    {
-                      encoding: 'utf8',
-                      flag: 'w',
-                      mode: 0o666,
-                    },
-                    function () {
-                      console.log('WORLD WRITED ON DISK');
-
-                      //disconnect all users in game
-                      for (let key in _this.currentUsersInGame) {
-                        const user = _this.currentUsersInGame[key];
-                        user.getSocket().disconnect();
-                        console.log(user.getUUID(), ' disnonnect');
-                        delete _this.currentUsersInGame[key];
-                      }
-
-                      //reload worlds
-                      _this.initWorlds();
-
-                      _this.cleanUnusedImages();
-
-                      socket.emit(
-                        Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-                        'Worlds saved !'
-                      );
-                    }
-                  );
-                });
-              } catch (e) {
-                console.log(
-                  'Error occured while saving worlds remove images created'
-                );
-                data.images.forEach(function (i) {
-                  // delete a file
-                  fs.unlink(i.serverPath, (err) => {
-                    if (err) {
-                      throw err;
-                    }
-
-                    console.log(i.serverPath + ' deleted.');
-                  });
-                });
-
-                console.error(e);
-                socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
-              }
-            });
-        });
       }
     );
   }
@@ -817,6 +690,186 @@ const ServerModule = class Server {
         });
       });
     });
+  }
+
+  saveWorlds(data, socket) {
+    console.log('Save Worlds');
+
+    const _this = this;
+
+    const worlds = [];
+    data.worlds.forEach(function (json) {
+      worlds.push(
+        new World(json, {
+          isServerSide: true,
+          modules: { gm: gm, PNG: PNG },
+        })
+      );
+    });
+
+    const writeImagesOnDiskPromise = [];
+
+    data.images.forEach(function (i) {
+      writeImagesOnDiskPromise.push(
+        new Promise((resolve, reject) => {
+          console.log(i.blob.slice(0, 10));
+
+          const bitmap = _this.dataUriToBuffer(i.blob);
+
+          const commonPath =
+            'assets/img/uploaded/' +
+            Shared.THREE.MathUtils.generateUUID() +
+            '.jpeg';
+          const serverPath = '../client/' + commonPath;
+
+          //add attr on the fly (TODO clean ?)
+          i.serverPath = serverPath;
+
+          //modify worldjson
+          worlds.forEach(function (w) {
+            w.getGameObject().traverse(function (child) {
+              const c = child.getComponentByUUID(i.componentUUID);
+              if (c) {
+                c.getConf()[i.key] = './' + commonPath;
+                return true;
+              }
+            });
+          });
+
+          fs.writeFile(serverPath, bitmap, function (err) {
+            if (err) {
+              reject();
+            }
+            resolve();
+          });
+        })
+      );
+    });
+
+    Promise.all(writeImagesOnDiskPromise).then(function () {
+      console.log('IMAGES WRITED ON DISK');
+
+      const assetsManager = new AssetsManagerServer();
+      assetsManager
+        .loadFromConfig(_this.config.assetsManager)
+        .then(function () {
+          const loadPromises = [];
+
+          worlds.forEach(function (w) {
+            const loadPromise = WorldStateComputer.WorldTest(w, assetsManager, {
+              Shared: Shared,
+            });
+            loadPromises.push(loadPromise);
+          });
+
+          try {
+            Promise.all(loadPromises).then(function () {
+              console.log('ALL WORLD HAVE LOADED');
+
+              //write on disks new worlds
+
+              const content = [];
+              worlds.forEach(function (w) {
+                content.push(w.toJSON(true));
+              });
+
+              fs.writeFile(
+                _this.config.worldsPath,
+                JSON.stringify(content),
+                {
+                  encoding: 'utf8',
+                  flag: 'w',
+                  mode: 0o666,
+                },
+                function () {
+                  console.log('WORLD WRITED ON DISK');
+
+                  //disconnect all users in game
+                  for (let key in _this.currentUsersInGame) {
+                    const user = _this.currentUsersInGame[key];
+                    user.getSocket().disconnect();
+                    console.log(user.getUUID(), ' disnonnect');
+                    delete _this.currentUsersInGame[key];
+                  }
+
+                  //reload worlds
+                  _this.initWorlds();
+
+                  _this.cleanUnusedImages();
+
+                  socket.emit(
+                    Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+                    'Worlds saved !'
+                  );
+                }
+              );
+            });
+          } catch (e) {
+            console.log(
+              'Error occured while saving worlds remove images created'
+            );
+            data.images.forEach(function (i) {
+              // delete a file
+              fs.unlink(i.serverPath, (err) => {
+                if (err) {
+                  throw err;
+                }
+
+                console.log(i.serverPath + ' deleted.');
+              });
+            });
+
+            console.error(e);
+            socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
+          }
+        });
+    });
+  }
+
+  dataUriToBuffer(uri) {
+    if (!/^data:/i.test(uri)) {
+      throw new TypeError(
+        '`uri` does not appear to be a Data URI (must begin with "data:")'
+      );
+    }
+    // strip newlines
+    uri = uri.replace(/\r?\n/g, '');
+    // split the URI up into the "metadata" and the "data" portions
+    const firstComma = uri.indexOf(',');
+    if (firstComma === -1 || firstComma <= 4) {
+      throw new TypeError('malformed data: URI');
+    }
+    // remove the "data:" scheme and parse the metadata
+    const meta = uri.substring(5, firstComma).split(';');
+    let charset = '';
+    let base64 = false;
+    const type = meta[0] || 'text/plain';
+    let typeFull = type;
+    for (let i = 1; i < meta.length; i++) {
+      if (meta[i] === 'base64') {
+        base64 = true;
+      } else {
+        typeFull += `;${meta[i]}`;
+        if (meta[i].indexOf('charset=') === 0) {
+          charset = meta[i].substring(8);
+        }
+      }
+    }
+    // defaults to US-ASCII only if type is not provided
+    if (!meta[0] && !charset.length) {
+      typeFull += ';charset=US-ASCII';
+      charset = 'US-ASCII';
+    }
+    // get the encoded data portion and decode URI-encoded chars
+    const encoding = base64 ? 'base64' : 'ascii';
+    const data = unescape(uri.substring(firstComma + 1));
+    const buffer = Buffer.from(data, encoding);
+    // set `.type` and `.typeFull` properties to MIME type
+    buffer.type = type;
+    buffer.typeFull = typeFull;
+    // set the `.charset` property
+    buffer.charset = charset;
+    return buffer;
   }
 };
 
