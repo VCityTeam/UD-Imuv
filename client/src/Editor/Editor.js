@@ -4,11 +4,9 @@ import './Editor.css';
 import { Game } from 'ud-viz';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
-import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
-import LocalScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/LocalScript';
-import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
-import File from 'ud-viz/src/Components/SystemUtils/File';
+import JSONUtils from 'ud-viz/src/Game/Shared/Components/JSONUtils';
+import Pack from 'ud-viz/src/Game/Shared/Components/Pack';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -94,82 +92,53 @@ export class EditorView {
       _this.saveCurrentWorld();
 
       //images upload
-      const promises = [];
       const blobsBuffer = [];
 
-      const c = document.createElement('canvas');
-      const ctx = c.getContext('2d');
-
-      const computeImagePromise = function (conf, componentUUID, key) {
+      const addImageToData = function (conf, componentUUID, key) {
         if (conf[key].startsWith('data:image')) {
-          const promise = new Promise((resolve, reject) => {
-            //compute blob
-            const img = new Image();
-            img.onload = function () {
-              c.width = this.naturalWidth; // update canvas size to match image
-              c.height = this.naturalHeight;
-
-              console.log('width ', c.width, ' height ', c.height);
-
-              ctx.drawImage(this, 0, 0); // draw in image
-              c.toBlob(
-                function (blob) {
-                  // get content as JPEG blob
-                  // here the image is a blob
-                  blobsBuffer.push({
-                    blob: blob.toString(),
-                    componentUUID: componentUUID,
-                    key: key,
-                  });
-                  console.log('pack image ', conf);
-                  resolve();
-                },
-                'image/jpeg',
-                0.75
-              );
-            };
-            img.crossOrigin = ''; // if from different origin
-            img.src = conf[key];
-            conf[key] = 'none'; //clear path
-            img.onerror = reject;
+          blobsBuffer.push({
+            blob: conf[key],
+            componentUUID: componentUUID,
+            key: key,
           });
-          promises.push(promise);
+          conf[key] = 'none'; //clear path
         }
       };
 
       let worldsJSON = _this.assetsManager.getWorldsJSON();
 
-      File.loadJSON('./assets/worlds/buffer.json').then(function (data) {
-        worldsJSON = data;
+      JSONUtils.parse(worldsJSON, function (json, key) {
+        if (
+          json[key] == 'LocalScript' &&
+          json.idScripts &&
+          json.idScripts.includes('image')
+        ) {
+          addImageToData(json.conf, json.uuid, 'path');
+        }
 
-        worldsJSON.forEach(function (worldJSON) {
-          const go = new GameObject(worldJSON.gameObject);
-          go.traverse(function (child) {
-            const ls = child.getComponent(LocalScriptModule.TYPE); //this way because assets are not initialized
-            if (ls && ls.idScripts.includes('image')) {
-              computeImagePromise(ls.getConf(), ls.getUUID(), 'path');
-            }
+        if (
+          json[key] == 'WorldScript' &&
+          json.idScripts &&
+          json.idScripts.includes('map')
+        ) {
+          addImageToData(json.conf, json.uuid, 'heightmap_path');
+        }
+      });
 
-            const ws = child.getComponent(WorldScriptModule.TYPE);
-            if (ws && ws.idScripts.includes('map')) {
-              computeImagePromise(ws.getConf(), ws.getUUID(), 'heightmap_path');
-            }
-          });
-        });
+      const messageWorlds = {
+        worlds: worldsJSON,
+        images: blobsBuffer,
+      };
 
-        Promise.all(promises).then(function () {
-          const data = {
-            worlds: worldsJSON,
-            images: blobsBuffer,
-          };
+      console.log('send data server ', messageWorlds);
 
-          console.log('send data server ', data);
-
-          _this.webSocketService.streamData(
-            Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
-            data
-          );
-        });
+      const messageSplitted = Pack.splitMessage(messageWorlds);
+      // console.log(messageSplitted);
+      messageSplitted.forEach(function (pM) {
+        _this.webSocketService.emit(
+          Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+          pM
+        );
       });
     };
 
