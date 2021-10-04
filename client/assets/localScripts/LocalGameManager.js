@@ -340,6 +340,10 @@ module.exports = class LocalGameManager {
     manager.addKeyInput('p', 'keydown', function () {
       console.log('Gameview ', gameView);
       console.log('Camera ', camera);
+      console.log('uuid ', udviz.THREE.MathUtils.generateUUID());
+
+      const avatar = gameView.getLastState().gameObject.findByName('avatar');
+      if (avatar) console.log(avatar.object3D);
     });
 
     //COMMANDS WORLD

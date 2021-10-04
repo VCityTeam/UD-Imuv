@@ -73,10 +73,8 @@
         "path": "./assets/models/Zeppelin_Labex_IMU.glb",
         "anchor": "center_min"
       },
-      "lyon_city": {
-        "path": "./assets/models/flyingCampus_cube50.glb",
-        "rotation": { "x": 0, "y": 0, "z": 0 },
-        "anchor": "center_min"
+      "studio_imu": {
+        "path": "./assets/models/Studio_IMU_A.glb"
       }
     }
   },

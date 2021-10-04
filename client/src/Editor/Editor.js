@@ -56,9 +56,8 @@ export class EditorView {
 
   initUI() {
     const title = document.createElement('h1');
-    title.innerHTML = 'Editeur'
+    title.innerHTML = 'Editeur';
     this.ui.appendChild(title);
-
 
     this.closeButton = document.createElement('div');
     this.closeButton.classList.add('button_Editor');
@@ -91,48 +90,11 @@ export class EditorView {
     this.saveWorldsButton.onclick = function () {
       _this.saveCurrentWorld();
 
-      //images upload
-      const blobsBuffer = [];
-
-      const addImageToData = function (conf, componentUUID, key) {
-        if (conf[key].startsWith('data:image')) {
-          blobsBuffer.push({
-            blob: conf[key],
-            componentUUID: componentUUID,
-            key: key,
-          });
-          conf[key] = 'none'; //clear path
-        }
-      };
-
       let worldsJSON = _this.assetsManager.getWorldsJSON();
 
-      JSONUtils.parse(worldsJSON, function (json, key) {
-        if (
-          json[key] == 'LocalScript' &&
-          json.idScripts &&
-          json.idScripts.includes('image')
-        ) {
-          addImageToData(json.conf, json.uuid, 'path');
-        }
+      console.log('send data server ', worldsJSON);
 
-        if (
-          json[key] == 'WorldScript' &&
-          json.idScripts &&
-          json.idScripts.includes('map')
-        ) {
-          addImageToData(json.conf, json.uuid, 'heightmap_path');
-        }
-      });
-
-      const messageWorlds = {
-        worlds: worldsJSON,
-        images: blobsBuffer,
-      };
-
-      console.log('send data server ', messageWorlds);
-
-      const messageSplitted = Pack.splitMessage(messageWorlds);
+      const messageSplitted = Pack.splitMessage(worldsJSON);
       // console.log(messageSplitted);
       messageSplitted.forEach(function (pM) {
         _this.webSocketService.emit(
