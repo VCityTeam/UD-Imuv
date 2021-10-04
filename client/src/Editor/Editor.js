@@ -56,9 +56,14 @@ export class EditorView {
   }
 
   initUI() {
+    const title = document.createElement('h1');
+    title.innerHTML = 'Editeur'
+    this.ui.appendChild(title);
+
+
     this.closeButton = document.createElement('div');
     this.closeButton.classList.add('button_Editor');
-    this.closeButton.innerHTML = 'close';
+    this.closeButton.innerHTML = 'Close';
     this.ui.appendChild(this.closeButton);
 
     const worldsList = document.createElement('ul');

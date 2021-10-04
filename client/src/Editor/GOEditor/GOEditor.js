@@ -17,6 +17,7 @@ export class GOEditorView {
     //html
     this.goList = null;
     this.goSelectedUI = null;
+    this.labelCurrentWorld = null;
 
     //parentView
     this.parentView = params.parentView;
@@ -557,6 +558,13 @@ export class GOEditorView {
   }
 
   initUI() {
+    const labelCurrentWorld = document.createElement('h2');
+    labelCurrentWorld.innerHTML =
+      this.gameView.getStateComputer().getWorldContext().getWorld().getName() +
+      ' :';
+    this.ui.appendChild(labelCurrentWorld);
+    this.labelCurrentWorld = labelCurrentWorld;
+
     this.goList = document.createElement('ul');
     this.goList.classList.add('ul_Editor');
     this.ui.appendChild(this.goList);
