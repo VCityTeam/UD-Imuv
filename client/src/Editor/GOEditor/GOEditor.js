@@ -232,16 +232,19 @@ export class GOEditorView {
       xInput.onchange = function () {
         obj[field].x = parseFloat(xInput.value);
         if (isNaN(obj[field].x)) obj[field].x = 0;
+        go.setTransformFromObject3D(obj);
       };
 
       yInput.onchange = function () {
         obj[field].y = parseFloat(yInput.value);
         if (isNaN(obj[field].y)) obj[field].y = 0;
+        go.setTransformFromObject3D(obj);
       };
 
       zInput.onchange = function () {
         obj[field].z = parseFloat(zInput.value);
         if (isNaN(obj[field].z)) obj[field].z = 0;
+        go.setTransformFromObject3D(obj);
       };
 
       return inputVector3;
