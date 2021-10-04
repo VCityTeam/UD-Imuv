@@ -55,8 +55,8 @@
               "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/A3E93320-7C52-4F21-BE89-A3FE11A9A356.jpeg",
-                "heightmap_geometry": { "max": 3, "min": -28, "size": 220 }
+                "heightmap_path": "./assets/img/uploaded/1180F582-D8DD-4B3E-831C-47BD809F3E43.jpeg",
+                "heightmap_geometry": { "max": 28, "min": -31, "size": 228 }
               },
               "type": "WorldScript"
             }
@@ -197,8 +197,8 @@
               },
               "children": [],
               "transform": {
-                "position": [80.99851339493854, 12.776573398605786, 30],
-                "rotation": [0, 0, 4.868838289444023, "ZXY"],
+                "position": [81.02878437017222, 12.583167466585426, 30],
+                "rotation": [0, 0, 4.866450965297645, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -1538,7 +1538,7 @@
               "uuid": "AC701FB0-0610-484C-BDF6-52A3A5A5EA3D",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/340744D7-1623-4474-8E8C-8EE424B5A602.jpeg",
+                "heightmap_path": "./assets/img/uploaded/DDC49A90-56E7-4478-95D4-E2C3A35698E9.jpeg",
                 "heightmap_geometry": { "max": 10, "min": -10, "size": 28 }
               },
               "type": "WorldScript"
