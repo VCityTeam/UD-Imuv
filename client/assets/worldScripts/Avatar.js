@@ -216,6 +216,12 @@ module.exports = class Avatar {
       scriptPortal.onAvatar(go, worldContext.getWorld());
     }
 
+    //check if is teleporter
+    const teleporterScript = colliderGO.fetchWorldScripts()['teleporter'];
+    if (teleporterScript) {
+      teleporterScript.onAvatar(go);
+    }
+
     this.collide(collider, go, result);
   }
 
