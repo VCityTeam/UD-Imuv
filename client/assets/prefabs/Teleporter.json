@@ -1,0 +1,45 @@
+{
+  "name": "Teleporter",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idModel": "cube",
+      "color": [1, 0, 0]
+    },
+    "Collider": {
+      "type": "Collider",
+      "shapes": [
+        {
+          "type": "Circle",
+          "center": { "x": 0, "y": 0 },
+          "radius": 1
+        }
+      ],
+      "body": false
+    },
+    "WorldScript": {
+      "idScripts": ["teleporter"],
+      "conf": {
+        "destinationTransform": {
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0, "ZXY"],
+          "scale": [1, 1, 1]
+        }
+      },
+      "type": "WorldScript"
+    },
+    "LocalScript": {
+      "idScripts": ["rotate"],
+      "conf": { "speed": 0.001 },
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 3.14, 0, "ZXY"],
+    "scale": [1, 1, 1]
+  }
+}

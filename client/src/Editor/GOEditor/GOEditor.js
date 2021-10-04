@@ -35,7 +35,6 @@ export class GOEditorView {
 
     //listeners
     this.escListener = null;
-    this.deleteListener = null;
     this.mouseDownListener = null;
 
     //go selected
@@ -83,29 +82,6 @@ export class GOEditorView {
       _this.setSelectedGO(null);
     };
 
-    this.deleteListener = function () {
-      if (_this.transformControls.object) {
-        const world = _this.gameView
-          .getStateComputer()
-          .getWorldContext()
-          .getWorld();
-        const go = world.getGameObject();
-        const deletedGO = go.find(
-          _this.transformControls.object.userData.gameObjectUUID
-        );
-
-        //TODO duplicate code with the delete button of the goUI
-
-        deletedGO.removeFromParent();
-
-        _this.transformControls.detach();
-
-        //force update gameview
-        _this.gameView.forceUpdate();
-
-        _this.updateUI();
-      }
-    };
     this.mouseDownListener = function (event) {
       if (_this.transformControls.object) return; //already assign to an object
 
@@ -161,7 +137,6 @@ export class GOEditorView {
     };
 
     //CALLBACKS
-    manager.addKeyInput('Delete', 'keydown', this.deleteListener);
     manager.addKeyInput('Escape', 'keydown', this.escListener);
     manager.addMouseInput(viewerDiv, 'pointerdown', this.mouseDownListener);
   }
@@ -325,11 +300,11 @@ export class GOEditorView {
         };
 
         yInput.onchange = function () {
-          refSpawnRot.y = xInput.value;
+          refSpawnRot.y = yInput.value;
         };
 
         zInput.onchange = function () {
-          refSpawnRot.z = xInput.value;
+          refSpawnRot.z = zInput.value;
         };
       }
 
@@ -435,6 +410,62 @@ export class GOEditorView {
       result.appendChild(portalInput);
     }
 
+    let teleporterInput = null;
+    if (worldScripts && worldScripts['teleporter']) {
+      teleporterInput = document.createElement('div');
+
+      {
+        const refDestinationTransform =
+          worldScripts['teleporter'].conf.destinationTransform;
+        if (!refDestinationTransform) throw new Error('no dest transform');
+
+        const labelDesT = document.createElement('div');
+        labelDesT.innerHTML = 'Teleporter destination transform';
+        teleporterInput.appendChild(labelDesT);
+
+        const createInputField = function (ref, label) {
+          const labelDiv = document.createElement('div');
+          labelDiv.innerHTML = label;
+          teleporterInput.appendChild(labelDiv);
+
+          const xInput = document.createElement('input');
+          xInput.type = 'number';
+          xInput.value = ref[0];
+          xInput.step = 0.1;
+          teleporterInput.appendChild(xInput);
+
+          const yInput = document.createElement('input');
+          yInput.type = 'number';
+          yInput.value = ref[1];
+          yInput.step = 0.1;
+          teleporterInput.appendChild(yInput);
+
+          const zInput = document.createElement('input');
+          zInput.type = 'number';
+          zInput.value = ref[2];
+          zInput.step = 0.1;
+          teleporterInput.appendChild(zInput);
+
+          xInput.onchange = function () {
+            ref[0] = xInput.value;
+          };
+
+          yInput.onchange = function () {
+            ref[1] = yInput.value;
+          };
+
+          zInput.onchange = function () {
+            ref[2] = zInput.value;
+          };
+        };
+
+        createInputField(refDestinationTransform.position, 'position');
+        createInputField(refDestinationTransform.rotation, 'rotation');
+      }
+
+      result.appendChild(teleporterInput);
+    }
+
     //delete
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
@@ -514,7 +545,6 @@ export class GOEditorView {
     this.transformControls.dispose();
     //remove listeners as well
     const manager = this.gameView.getInputManager();
-    manager.removeInputListener(this.deleteListener);
     manager.removeInputListener(this.escListener);
     manager.removeInputListener(this.mouseDownListener);
   }

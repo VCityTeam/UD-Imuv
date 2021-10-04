@@ -90,6 +90,9 @@
       },
       "portal": {
         "path": "./assets/worldScripts/Portal.js"
+      },
+      "teleporter": {
+        "path": "./assets/worldScripts/Teleporter.js"
       }
     },
     "prefabs": {
@@ -101,6 +104,9 @@
       },
       "portal": {
         "path": "./assets/prefabs/Portal.json"
+      },
+      "teleporter": {
+        "path": "./assets/prefabs/Teleporter.json"
       }
     },
     "worlds": {

@@ -55,8 +55,8 @@
               "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/1180F582-D8DD-4B3E-831C-47BD809F3E43.jpeg",
-                "heightmap_geometry": { "max": 28, "min": -31, "size": 228 }
+                "heightmap_path": "./assets/img/uploaded/ACF939D0-9C7E-4BC3-9185-669B71C4EB61.jpeg",
+                "heightmap_geometry": { "max": 31, "min": -29, "size": 232 }
               },
               "type": "WorldScript"
             }
@@ -197,8 +197,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.02878437017222, 12.583167466585426, 30],
-                "rotation": [0, 0, 4.866450965297645, "ZXY"],
+                "position": [81.01471537412738, 12.673432559852483, 30],
+                "rotation": [0, 0, 4.867565049899287, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -348,7 +348,7 @@
               }
             },
             {
-              "name": "Portal",
+              "name": "Portal studio",
               "type": "GameObject",
               "static": true,
               "outdated": true,
@@ -399,6 +399,124 @@
                   6.283130947850546,
                   6.3,
                   0.03413789619054697,
+                  "ZXY"
+                ],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Teleporter rosace stair up",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "20ECCA6D-9B16-4049-8FBA-F4035BA176E4",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "64BC64D5-504F-4699-A818-7758AC748E97",
+                  "type": "Render",
+                  "idModel": "cube",
+                  "color": [1, 0, 0]
+                },
+                "Collider": {
+                  "uuid": "949C4585-5499-49B8-BD17-1AE26B6158EC",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "9F8166DE-0062-4B32-8DF6-808A7D067F86",
+                  "idScripts": ["teleporter"],
+                  "conf": {
+                    "destinationTransform": {
+                      "position": ["66", "-76", "-23"],
+                      "rotation": ["0.2", 0, "4.91", "ZXY"],
+                      "scale": [1, 1, 1]
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "3400B116-DE9C-47FF-92F2-57C0E9CCD74B",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  69.02491878904402, -74.05338218063116, -14.293677824479971
+                ],
+                "rotation": [
+                  6.283115019211316,
+                  3.140001551750574,
+                  0.04414691673857973,
+                  "ZXY"
+                ],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Teleporter stair up arbre mort",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "A111F918-25DA-436A-B377-5BA8A7D53411",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "7890F385-3FAD-400B-916A-38C6AE58A89A",
+                  "type": "Render",
+                  "idModel": "cube",
+                  "color": [1, 0, 0]
+                },
+                "Collider": {
+                  "uuid": "412A7B7C-764D-485D-AB28-8E54DEDF6D7B",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "8C8C0553-2852-4F3C-8ABD-CDAA8EA2E8D1",
+                  "idScripts": ["teleporter"],
+                  "conf": {
+                    "destinationTransform": {
+                      "position": [-56, 53, 0],
+                      "rotation": [0.2, 0, 0.81, "ZXY"],
+                      "scale": [1, 1, 1]
+                    }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "FD0C8205-257C-49C7-A20F-913350238C5C",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  -53.697010489879176, 53.25464667379856, -5.493890957350061
+                ],
+                "rotation": [
+                  6.283059166085597,
+                  3.1400050031575955,
+                  0.07928481197537174,
                   "ZXY"
                 ],
                 "scale": [1, 1, 1]
@@ -1569,7 +1687,7 @@
           },
           "children": [
             {
-              "name": "Portal",
+              "name": "Portal campus",
               "type": "GameObject",
               "static": true,
               "outdated": true,
