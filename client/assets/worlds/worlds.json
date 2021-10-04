@@ -4,7 +4,7 @@
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": false,
+      "outdated": true,
       "uuid": "C9E1F773-4249-4BE5-A744-438207962D64",
       "parentUUID": null,
       "components": {
@@ -344,6 +344,63 @@
                   -37.22535731783137, -32.39721470326185, -2.920996962569461
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "Portal",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "9A86811A-7AE7-4B1D-A3D7-44F51A9F4B65",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "0A652315-AB58-4425-95A7-FC9BDB5DEE53",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "B08EA790-8C54-4985-AE78-F562F399241E",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "853ED33F-B457-4AFB-B048-C8DCC9A25042",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
+                    "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "C6B5C77D-C3B6-4F5E-90FF-12CBD7AC2AF9",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  -26.95766543992795, 4.684475755318999, 0.09728101920256904
+                ],
+                "rotation": [
+                  6.283130947850546,
+                  6.3,
+                  0.03413789619054697,
+                  "ZXY"
+                ],
                 "scale": [1, 1, 1]
               }
             }
@@ -846,7 +903,7 @@
               "children": [],
               "transform": {
                 "position": [
-                  25.275346181821078, 8.42891688272357, 11.230951392789507
+                  25.275346181821078, 5.010049852542579, 11.230951392789507
                 ],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
                 "scale": [1.5, 1, 1]
@@ -880,41 +937,7 @@
               "children": [],
               "transform": {
                 "position": [
-                  25.275346181821078, -3.921832351014018, 11.230951392789507
-                ],
-                "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
-              }
-            },
-            {
-              "name": "Image13",
-              "type": "GameObject",
-              "static": true,
-              "outdated": true,
-              "uuid": "4EBD524A-5653-4A30-8318-7A7B09CA644F",
-              "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-              "components": {
-                "Render": {
-                  "uuid": "21FB53A5-A26A-49BB-8B5C-715B9593502A",
-                  "type": "Render",
-                  "idModel": null,
-                  "color": [1, 1, 1]
-                },
-                "LocalScript": {
-                  "uuid": "71D325C8-52C1-4F4B-879E-83808790E28F",
-                  "idScripts": ["image"],
-                  "conf": {
-                    "path": "./assets/img/uploaded/7E12BD20-95D3-435E-8B3D-8FF86E822D91.jpeg",
-                    "width": 5,
-                    "height": 5
-                  },
-                  "type": "LocalScript"
-                }
-              },
-              "children": [],
-              "transform": {
-                "position": [
-                  25.275346181821078, -15.327570819295943, 11.230951392789507
+                  25.275346181821078, -11.253361359238625, 11.230951392789507
                 ],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
                 "scale": [1.5, 1, 1]
@@ -1538,13 +1561,66 @@
               "uuid": "AC701FB0-0610-484C-BDF6-52A3A5A5EA3D",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/DDC49A90-56E7-4478-95D4-E2C3A35698E9.jpeg",
-                "heightmap_geometry": { "max": 10, "min": -10, "size": 28 }
+                "heightmap_path": "./assets/img/uploaded/AE5FCE86-7196-4F42-8830-14E07F3F5D1D.jpeg",
+                "heightmap_geometry": { "max": 5, "min": -1, "size": 19 }
               },
               "type": "WorldScript"
             }
           },
-          "children": [],
+          "children": [
+            {
+              "name": "Portal",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "B4E03693-2431-466A-9B9B-22777E047422",
+              "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+              "components": {
+                "Render": {
+                  "uuid": "D8930BB9-7163-4E23-8E5C-869D5B2EAB93",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "81662D4F-DCF5-4C32-945B-00F72D26AED2",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "AF81C7FD-1701-49A3-86A7-08FD16B2D855",
+                  "idScripts": ["portal"],
+                  "conf": {
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "9A86811A-7AE7-4B1D-A3D7-44F51A9F4B65",
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "E1EFCD59-F789-4CF0-8320-C4EB47861338",
+                  "idScripts": ["rotate"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  6.855674427235499, 3.71155412402004, 2.64320013383076
+                ],
+                "rotation": [6.283105433539172, 6.3, 0.0501722997557561, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            }
+          ],
           "transform": {
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
