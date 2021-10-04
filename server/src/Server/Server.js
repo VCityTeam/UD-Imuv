@@ -694,52 +694,40 @@ const ServerModule = class Server {
     console.log('Save Worlds');
 
     const _this = this;
+    const writeImagesOnDiskPromise = [];
+
+    Shared.Components.JSONUtils.parse(data, function (json, key) {
+      if (typeof json[key] == 'string' && json[key].startsWith('data:image')) {
+        writeImagesOnDiskPromise.push(
+          new Promise((resolve, reject) => {
+            const bitmap = _this.dataUriToBuffer(json[key]);
+
+            const commonPath =
+              'assets/img/uploaded/' +
+              Shared.THREE.MathUtils.generateUUID() +
+              '.jpeg';
+            const serverPath = '../client/' + commonPath;
+
+            //ref path
+            json[key] = './' + commonPath;
+
+            fs.writeFile(serverPath, bitmap, function (err) {
+              if (err) {
+                reject();
+              }
+              resolve();
+            });
+          })
+        );
+      }
+    });
 
     const worlds = [];
-    data.worlds.forEach(function (json) {
+    data.forEach(function (json) {
       worlds.push(
         new World(json, {
           isServerSide: true,
           modules: { gm: gm, PNG: PNG },
-        })
-      );
-    });
-
-    const writeImagesOnDiskPromise = [];
-
-    data.images.forEach(function (i) {
-      writeImagesOnDiskPromise.push(
-        new Promise((resolve, reject) => {
-          console.log(i.blob.slice(0, 10));
-
-          const bitmap = _this.dataUriToBuffer(i.blob);
-
-          const commonPath =
-            'assets/img/uploaded/' +
-            Shared.THREE.MathUtils.generateUUID() +
-            '.jpeg';
-          const serverPath = '../client/' + commonPath;
-
-          //add attr on the fly (TODO clean ?)
-          i.serverPath = serverPath;
-
-          //modify worldjson
-          worlds.forEach(function (w) {
-            w.getGameObject().traverse(function (child) {
-              const c = child.getComponentByUUID(i.componentUUID);
-              if (c) {
-                c.getConf()[i.key] = './' + commonPath;
-                return true;
-              }
-            });
-          });
-
-          fs.writeFile(serverPath, bitmap, function (err) {
-            if (err) {
-              reject();
-            }
-            resolve();
-          });
         })
       );
     });
@@ -803,22 +791,7 @@ const ServerModule = class Server {
               );
             });
           } catch (e) {
-            console.log(
-              'Error occured while saving worlds remove images created'
-            );
-            data.images.forEach(function (i) {
-              // delete a file
-              fs.unlink(i.serverPath, (err) => {
-                if (err) {
-                  throw err;
-                }
-
-                console.log(i.serverPath + ' deleted.');
-              });
-            });
-
-            console.error(e);
-            socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, e);
+            throw new Error(e);
           }
         });
     });
