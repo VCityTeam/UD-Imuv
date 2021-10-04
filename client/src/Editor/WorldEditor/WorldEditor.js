@@ -212,7 +212,8 @@ export class WorldEditorView {
     const h = radius / Math.tan((camera.fov / 2) * THREE.Math.DEG2RAD);
 
     // get direction of camera
-    const dir = new THREE.Vector3().subVectors(camera.position, center);
+    const dir = objToFocus.getWorldDirection(new THREE.Vector3());
+    // const dir = new THREE.Vector3().subVectors(camera.position, center);
 
     // compute new camera position
     const newPos = new THREE.Vector3().addVectors(center, dir.setLength(h));
