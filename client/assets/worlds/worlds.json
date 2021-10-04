@@ -197,8 +197,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.00054582388397, 12.763681923053117, 30],
-                "rotation": [0, 0, 4.8686791345009315, "ZXY"],
+                "position": [81.00257620106161, 12.750790124192608, 30],
+                "rotation": [0, 0, 4.868519979557838, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -415,8 +415,8 @@
               "uuid": "B6696B41-3A93-4009-B69E-AD132DFF958C",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/F35BA5E8-F3E5-4878-813D-D850A1893FF9.jpeg",
-                "heightmap_geometry": { "max": 8, "min": -2, "size": 66 }
+                "heightmap_path": "./assets/img/uploaded/63FB0228-404C-4AD2-8121-D77B5F34FB86.jpeg",
+                "heightmap_geometry": { "max": 8, "min": -1, "size": 53 }
               },
               "type": "WorldScript"
             }
@@ -1194,9 +1194,7 @@
             }
           ],
           "transform": {
-            "position": [
-              -1.6249686987139285, -0.7619296051561832, -0.7720103658720063
-            ],
+            "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
           }
