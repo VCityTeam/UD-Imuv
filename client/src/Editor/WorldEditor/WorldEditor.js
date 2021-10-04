@@ -67,7 +67,6 @@ export class WorldEditorView {
     this.closeButton = null;
     this.colliderButton = null;
     this.heightmapButton = null;
-    this.labelCurrentWorld = null;
     this.playWorldButton = null;
     this.sliderOpacity = null;
     this.filterText = null;
@@ -128,16 +127,13 @@ export class WorldEditorView {
   }
 
   initUI() {
-    const ulButtons = document.createElement('div');
-    ulButtons.classList.add('ul_WorldEditor');
-    this.ui.appendChild(ulButtons);
+    const labelUlButtons = document.createElement('p');
+    labelUlButtons.innerHTML = 'Outils :';
+    this.ui.appendChild(labelUlButtons);
 
-    const labelCurrentWorld = document.createElement('p');
-    labelCurrentWorld.innerHTML =
-      this.gameView.getStateComputer().getWorldContext().getWorld().getName() +
-      ' :';
-    this.ui.appendChild(labelCurrentWorld);
-    this.labelCurrentWorld = labelCurrentWorld;
+    const ulButtons = document.createElement('ul');
+    ulButtons.classList.add('ul_Editor');
+    this.ui.appendChild(ulButtons);
 
     const closeButton = document.createElement('div');
     closeButton.classList.add('button_Editor');
@@ -182,9 +178,9 @@ export class WorldEditorView {
     labelSliderOp.innerHTML = 'Opacity';
     this.ui.appendChild(labelSliderOp);
 
-    const labelUl = document.createElement('p');
-    labelUl.innerHTML = 'Camera Controller :';
-    this.ui.appendChild(labelUl);
+    const labelUlCameraController = document.createElement('p');
+    labelUlCameraController.innerHTML = 'Camera Controller :';
+    this.ui.appendChild(labelUlCameraController);
 
     const ulCameraControllerButtons = document.createElement('ul');
     this.ui.appendChild(ulCameraControllerButtons);

@@ -1,18 +1,21 @@
 /** @format */
 
+:root {
+  color-scheme: light dark;
+
+  --color-one: #de425b;
+  --color-two: #ee6196;
+  --color-three: #f193b2;
+  --color-four: #fdc4c7;
+  --color-five: #ffd5d7;
+}
+
 .flex_Editor {
   display: flex;
 }
 
 .input_Editor {
   display: block;
-}
-
-.li_Editor {
-  display: flex;
-  cursor: pointer;
-  font-size: small;
-  margin: 0%;
 }
 
 .ui_Editor {
@@ -23,7 +26,7 @@
   width: 300px;
   display: inline-block;
   height: 100%;
-  background-color: burlywood;
+  background-color: var(--color-four);
   padding: 5px;
   overflow-y: auto;
   padding: 0px;
@@ -31,10 +34,19 @@
 
 .ul_Editor {
   margin: 0%;
+  background-color: var(--color-five);
 }
 
+.li_Editor {
+  display: flex;
+  cursor: pointer;
+  font-size: small;
+  margin: 0%;
+  background-color: var(--color-five);
+  border-left: solid var(--color-one);
+}
 .li_Editor:hover {
-  background-color: blueviolet;
+  background-color: var(--color-one);
 }
 
 .parentUI_Editor {
@@ -43,7 +55,7 @@
 
 .root_Editor {
   height: 100%;
-  background-color: chartreuse;
+  background-color: var(--color-three);
 }
 
 .hidden {
@@ -51,26 +63,20 @@
 }
 
 .button_Editor {
-  min-width: 75px;
-  background-color: blue;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  -ms-user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  -khtml-user-select: none;
-  user-select: none;
-  font-size: small;
-  margin: 2px;
+  border-bottom: solid var(--color-one);
+  background-color: var(--color-five);
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: inherit;
 }
 
 .button_Editor:hover {
-  background-color: red;
-  cursor: pointer;
+  background-color: var(--color-one);
 }
 
 .canvas_Editor {
