@@ -1489,5 +1489,79 @@
     "type": "World",
     "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
     "version": "2.33.2"
+  },
+  {
+    "gameObject": {
+      "name": "GameManager",
+      "type": "GameObject",
+      "static": true,
+      "outdated": false,
+      "uuid": "57538540-D500-45DA-BE83-F645EAC480EA",
+      "parentUUID": null,
+      "components": {
+        "WorldScript": {
+          "uuid": "022805AE-633B-42F6-B3FF-EAE277AF4BA8",
+          "idScripts": ["worldGameManager"],
+          "conf": {
+            "mapUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+            "spawnTransform": {
+              "position": [0, 0, 0],
+              "rotation": [0, 0, 0],
+              "scale": [1, 1, 1]
+            }
+          },
+          "type": "WorldScript"
+        },
+        "LocalScript": {
+          "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
+          "idScripts": ["localGameManager", "ui", "bbb"],
+          "conf": { "fog": { "near": 5, "far": 100 } },
+          "type": "LocalScript"
+        }
+      },
+      "children": [
+        {
+          "name": "Studio_IMU_MAP",
+          "type": "GameObject",
+          "static": true,
+          "outdated": false,
+          "uuid": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+          "parentUUID": "57538540-D500-45DA-BE83-F645EAC480EA",
+          "components": {
+            "Render": {
+              "uuid": "ED2DD2E6-7854-4BE4-B7CE-4619038624FF",
+              "type": "Render",
+              "idModel": "studio_imu",
+              "color": [1, 1, 1]
+            },
+            "WorldScript": {
+              "uuid": "AC701FB0-0610-484C-BDF6-52A3A5A5EA3D",
+              "idScripts": ["map"],
+              "conf": {
+                "heightmap_path": "./assets/img/uploaded/340744D7-1623-4474-8E8C-8EE424B5A602.jpeg",
+                "heightmap_geometry": { "max": 10, "min": -10, "size": 28 }
+              },
+              "type": "WorldScript"
+            }
+          },
+          "children": [],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
+        }
+      ],
+      "transform": {
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0, "ZXY"],
+        "scale": [1, 1, 1]
+      }
+    },
+    "name": "Studio_IMU_A",
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "type": "World",
+    "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
+    "version": "2.33.2"
   }
 ]

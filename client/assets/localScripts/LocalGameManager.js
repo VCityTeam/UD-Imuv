@@ -340,6 +340,7 @@ module.exports = class LocalGameManager {
     manager.addKeyInput('p', 'keydown', function () {
       console.log('Gameview ', gameView);
       console.log('Camera ', camera);
+      console.log('uuid ', udviz.THREE.MathUtils.generateUUID());
     });
 
     //COMMANDS WORLD
