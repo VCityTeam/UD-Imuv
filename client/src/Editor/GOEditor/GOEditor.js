@@ -98,6 +98,8 @@ export class GOEditorView {
 
         deletedGO.removeFromParent();
 
+        _this.transformControls.detach();
+
         //force update gameview
         _this.gameView.forceUpdate();
 
@@ -472,7 +474,10 @@ export class GOEditorView {
     }
 
     deleteButton.onclick = function () {
+      //TODOcode replicate
       go.removeFromParent();
+
+      _this.transformControls.detach();
 
       _this.gameView.forceUpdate();
 
