@@ -2,6 +2,7 @@ import './ColliderEditor.css';
 
 import { THREE, TransformControls } from 'ud-viz';
 import { ConvexGeometry } from 'ud-viz';
+const QuickHull = require('quickhull');
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 
 export class ColliderEditorView {
@@ -621,12 +622,32 @@ class Shape {
 
   toJSON(posOffset) {
     const result = [];
+
     this.points.forEach(function (p) {
       result.push(p.position.clone().sub(posOffset));
     });
+
+    const points2D = [];
+    result.forEach(function (r) {
+      points2D.push({ x: r.x, y: r.y });
+    });
+
+    const finalResult = [];
+
+    let hull = QuickHull(points2D);
+
+    for (let i = 0; i < hull.length - 1; i++) {
+      for (let y = 0; y < result.length; y++) {
+        if (hull[i].x == result[y].x && hull[i].y == result[y].y) {
+          finalResult.push(result[y]);
+          continue;
+        }
+      }
+    }
+
     const shape = {};
     shape.type = this.type;
-    shape.points = result;
+    shape.points = finalResult;
     return shape;
   }
 }
