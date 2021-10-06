@@ -67,7 +67,6 @@ export class WorldEditorView {
     this.closeButton = null;
     this.colliderButton = null;
     this.heightmapButton = null;
-    this.labelCurrentWorld = null;
     this.playWorldButton = null;
     this.sliderOpacity = null;
     this.filterText = null;
@@ -128,16 +127,13 @@ export class WorldEditorView {
   }
 
   initUI() {
-    const ulButtons = document.createElement('div');
-    ulButtons.classList.add('ul_WorldEditor');
-    this.ui.appendChild(ulButtons);
+    const labelUlButtons = document.createElement('p');
+    labelUlButtons.innerHTML = 'Outils :';
+    this.ui.appendChild(labelUlButtons);
 
-    const labelCurrentWorld = document.createElement('p');
-    labelCurrentWorld.innerHTML =
-      this.gameView.getStateComputer().getWorldContext().getWorld().getName() +
-      ' :';
-    this.ui.appendChild(labelCurrentWorld);
-    this.labelCurrentWorld = labelCurrentWorld;
+    const ulButtons = document.createElement('ul');
+    ulButtons.classList.add('ul_Editor');
+    this.ui.appendChild(ulButtons);
 
     const closeButton = document.createElement('div');
     closeButton.classList.add('button_Editor');
@@ -182,9 +178,9 @@ export class WorldEditorView {
     labelSliderOp.innerHTML = 'Opacity';
     this.ui.appendChild(labelSliderOp);
 
-    const labelUl = document.createElement('p');
-    labelUl.innerHTML = 'Camera Controller :';
-    this.ui.appendChild(labelUl);
+    const labelUlCameraController = document.createElement('p');
+    labelUlCameraController.innerHTML = 'Camera Controller :';
+    this.ui.appendChild(labelUlCameraController);
 
     const ulCameraControllerButtons = document.createElement('ul');
     this.ui.appendChild(ulCameraControllerButtons);
@@ -216,7 +212,8 @@ export class WorldEditorView {
     const h = radius / Math.tan((camera.fov / 2) * THREE.Math.DEG2RAD);
 
     // get direction of camera
-    const dir = new THREE.Vector3().subVectors(camera.position, center);
+    const dir = objToFocus.getWorldDirection(new THREE.Vector3());
+    // const dir = new THREE.Vector3().subVectors(camera.position, center);
 
     // compute new camera position
     const newPos = new THREE.Vector3().addVectors(center, dir.setLength(h));

@@ -15,6 +15,9 @@
       },
       "portal": {
         "path": "../client/assets/worldScripts/Portal.js"
+      },
+      "teleporter": {
+        "path": "../client/assets/worldScripts/Teleporter.js"
       }
     },
     "prefabs": {

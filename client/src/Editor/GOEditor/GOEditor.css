@@ -1,7 +1,7 @@
 /** @format */
 
 .root_GOEditor {
-  background-color: coral;
+  background-color: var(--color-five);
 }
 
 .goUI_GOEditor {

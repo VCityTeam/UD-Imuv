@@ -1,7 +1,7 @@
 /** @format */
 
 .ui_WorldEditor {
-  background-color: firebrick;
+  background-color:var(--color-four);
 }
 
 .ul_WorldEditor {
