@@ -99,36 +99,41 @@ const ServerModule = class Server {
     const meetingsURL = this.bbbAPI.monitoring.getMeetings();
     const pathTempXML = './assets/temp/bbb_data.xml';
     exec('wget ' + meetingsURL + ' -O ' + pathTempXML).then(function () {
-      fs.readFile(pathTempXML, 'utf-8', function (err, data) {
-        if (err) {
-          throw new Error(err);
-        }
-
-        parseString(data, function (errParser, jsData) {
-          if (errParser) {
-            throw new Error(errParser);
+      if (fs.existsSync(pathTempXML)) {
+        //file exists
+        fs.readFile(pathTempXML, 'utf-8', function (err, data) {
+          if (err) {
+            throw new Error(err);
           }
 
-          if (!jsData.response) throw new Error('no response');
+          parseString(data, function (errParser, jsData) {
+            if (errParser) {
+              throw new Error(errParser);
+            }
 
-          if (jsData.response.returncode[0] != 'SUCCESS')
-            throw new Error('response status is not SUCCESS');
+            if (!jsData.response) throw new Error('no response');
 
-          if (
-            jsData.response.messageKey &&
-            jsData.response.messageKey[0] == 'noMeetings'
-          ) {
-            console.warn('no bbb meetings running');
-            return;
-          }
+            if (jsData.response.returncode[0] != 'SUCCESS')
+              throw new Error('response status is not SUCCESS');
 
-          const meetings = jsData.response.meetings;
-          meetings[0].meeting.forEach(function (m) {
-            api.administration.end(m.meetingID[0], m.moderatorPW[0]);
-            console.log('end bbb meeting ', m.meetingID[0]);
+            if (
+              jsData.response.messageKey &&
+              jsData.response.messageKey[0] == 'noMeetings'
+            ) {
+              console.warn('no bbb meetings running');
+              return;
+            }
+
+            const meetings = jsData.response.meetings;
+            meetings[0].meeting.forEach(function (m) {
+              api.administration.end(m.meetingID[0], m.moderatorPW[0]);
+              console.log('end bbb meeting ', m.meetingID[0]);
+            });
           });
         });
-      });
+      } else {
+        console.warn('cant reach url meetings xml file');
+      }
     });
   }
 
