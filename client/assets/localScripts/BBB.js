@@ -89,14 +89,18 @@ module.exports = class BBB {
         }
       );
 
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((stream) => {
-          console.log('Video + audio allowed');
-        })
-        .catch((e) => {
-          console.log('e: ', e);
-        });
+      if (navigator && navigator.mediaDevices) {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((stream) => {
+            console.log('Video + audio allowed');
+          })
+          .catch((e) => {
+            console.log('e: ', e);
+          });
+      } else {
+        console.warn('cant request video and audio');
+      }
     }
   }
 
