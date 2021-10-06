@@ -13,7 +13,7 @@ module.exports = class AvatarSound {
 
   isMoving(go) {
     const currentPosition = go.getPosition();
-    const epsilon = 0.00001;
+    const epsilon = 0.0001;
     let result = true;
     if (currentPosition.distanceTo(this.oldPosition) < epsilon) {
       result = false;

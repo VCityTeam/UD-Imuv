@@ -28,8 +28,6 @@ const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Rende
 const Buffer = require('buffer').Buffer;
 
 const bbb = require('bigbluebutton-js');
-const BBB_SECRET = 'EyEuC9fSJ3ERtwljddesQpCXepX4VGOndDd1kw3amk'; //TODO hide this
-const BBB_URL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
 
 const parseString = require('xml2js').parseString;
 const exec = require('child-process-promise').exec;
@@ -81,16 +79,20 @@ const ServerModule = class Server {
     this.bbbRooms = {};
 
     this.initWorlds();
-
-    // try {
-    //   this.initBBB();
-    // } catch (e) {
-    //   console.error(e);
-    // }
   }
 
-  initBBB() {
-    this.bbbAPI = bbb.api(BBB_URL, BBB_SECRET);
+  initBBB(bbbUrl, bbbSecret) {
+    console.log('Try to init BBB with ', bbbUrl, bbbSecret);
+
+    this.bbbAPI = bbb.api(bbbUrl, bbbSecret);
+
+    if (!this.bbbAPI) {
+      console.warn('no bbb api');
+      return;
+    } else {
+      console.log('bbb initialized');
+    }
+
     const api = this.bbbAPI;
 
     //clean all meetings running
@@ -132,7 +134,7 @@ const ServerModule = class Server {
 
   createBBBRoom(params) {
     if (!this.bbbAPI) {
-      console.warn('no bbb api');
+      console.warn('cant create room because no bbb api');
       return;
     }
     const room = new BBB_ROOM(params, this.bbbAPI);

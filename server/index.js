@@ -13,6 +13,13 @@ try {
   //instanciate server
   const server = new gameServer.Server(config);
 
+  const bbbURL = process.argv[4];
+  const bbbSecret = process.argv[5];
+
+  if (bbbURL && bbbSecret) {
+    server.initBBB(bbbURL, bbbSecret);
+  }
+
   //start server
   server.start();
 } catch (e) {
