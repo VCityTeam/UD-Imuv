@@ -2,7 +2,7 @@ import './ColliderEditor.css';
 
 import { THREE, TransformControls } from 'ud-viz';
 import { ConvexGeometry } from 'ud-viz';
-const QuickHull = require('quickhull');
+import * as QuickHull from 'quickhull';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 
 export class ColliderEditorView {
