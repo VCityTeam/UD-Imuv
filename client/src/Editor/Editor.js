@@ -5,7 +5,6 @@ import { Game } from 'ud-viz';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
-import JSONUtils from 'ud-viz/src/Game/Shared/Components/JSONUtils';
 import Pack from 'ud-viz/src/Game/Shared/Components/Pack';
 
 export class EditorView {

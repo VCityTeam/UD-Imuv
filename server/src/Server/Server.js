@@ -28,8 +28,6 @@ const RenderModule = require('ud-viz/src/Game/Shared/GameObject/Components/Rende
 const Buffer = require('buffer').Buffer;
 
 const bbb = require('bigbluebutton-js');
-const BBB_SECRET = 'EyEuC9fSJ3ERtwljddesQpCXepX4VGOndDd1kw3amk'; //TODO hide this
-const BBB_URL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
 
 const parseString = require('xml2js').parseString;
 const exec = require('child-process-promise').exec;
@@ -81,58 +79,67 @@ const ServerModule = class Server {
     this.bbbRooms = {};
 
     this.initWorlds();
-
-    // try {
-    //   this.initBBB();
-    // } catch (e) {
-    //   console.error(e);
-    // }
   }
 
-  initBBB() {
-    this.bbbAPI = bbb.api(BBB_URL, BBB_SECRET);
+  initBBB(bbbUrl, bbbSecret) {
+    console.log('Try to init BBB with ', bbbUrl, bbbSecret);
+
+    this.bbbAPI = bbb.api(bbbUrl, bbbSecret);
+
+    if (!this.bbbAPI) {
+      console.warn('no bbb api');
+      return;
+    } else {
+      console.log('bbb initialized');
+    }
+
     const api = this.bbbAPI;
 
     //clean all meetings running
     const meetingsURL = this.bbbAPI.monitoring.getMeetings();
     const pathTempXML = './assets/temp/bbb_data.xml';
     exec('wget ' + meetingsURL + ' -O ' + pathTempXML).then(function () {
-      fs.readFile(pathTempXML, 'utf-8', function (err, data) {
-        if (err) {
-          throw new Error(err);
-        }
-
-        parseString(data, function (errParser, jsData) {
-          if (errParser) {
-            throw new Error(errParser);
+      if (fs.existsSync(pathTempXML)) {
+        //file exists
+        fs.readFile(pathTempXML, 'utf-8', function (err, data) {
+          if (err) {
+            throw new Error(err);
           }
 
-          if (!jsData.response) throw new Error('no response');
+          parseString(data, function (errParser, jsData) {
+            if (errParser) {
+              throw new Error(errParser);
+            }
 
-          if (jsData.response.returncode[0] != 'SUCCESS')
-            throw new Error('response status is not SUCCESS');
+            if (!jsData.response) throw new Error('no response');
 
-          if (
-            jsData.response.messageKey &&
-            jsData.response.messageKey[0] == 'noMeetings'
-          ) {
-            console.warn('no bbb meetings running');
-            return;
-          }
+            if (jsData.response.returncode[0] != 'SUCCESS')
+              throw new Error('response status is not SUCCESS');
 
-          const meetings = jsData.response.meetings;
-          meetings[0].meeting.forEach(function (m) {
-            api.administration.end(m.meetingID[0], m.moderatorPW[0]);
-            console.log('end bbb meeting ', m.meetingID[0]);
+            if (
+              jsData.response.messageKey &&
+              jsData.response.messageKey[0] == 'noMeetings'
+            ) {
+              console.warn('no bbb meetings running');
+              return;
+            }
+
+            const meetings = jsData.response.meetings;
+            meetings[0].meeting.forEach(function (m) {
+              api.administration.end(m.meetingID[0], m.moderatorPW[0]);
+              console.log('end bbb meeting ', m.meetingID[0]);
+            });
           });
         });
-      });
+      } else {
+        console.warn('cant reach url meetings xml file');
+      }
     });
   }
 
   createBBBRoom(params) {
     if (!this.bbbAPI) {
-      console.warn('no bbb api');
+      console.warn('cant create room because no bbb api');
       return;
     }
     const room = new BBB_ROOM(params, this.bbbAPI);

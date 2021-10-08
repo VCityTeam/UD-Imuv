@@ -10,9 +10,12 @@ module.exports = class Image {
     Shared = udviz.Game.Shared;
 
     this.plane = null;
+    this.billboard = null;
   }
 
   init() {
+    const gV = arguments[1].getGameView();
+
     if (this.plane && this.plane.parent) {
       this.plane.parent.remove(this.plane);
     }
@@ -28,6 +31,52 @@ module.exports = class Image {
     this.plane = new Shared.THREE.Mesh(geometry, material);
     const r = go.getComponent(Shared.Render.TYPE);
     r.addObject3D(this.plane);
+
+    const manager = gV.getInputManager();
+    const raycaster = new udviz.THREE.Raycaster();
+    const _this = this;
+    //TODO trigger an event onRemove for localscript
+    manager.addMouseInput(gV.getRootWebGL(), 'mousedown', function (event) {
+      const mouse = new udviz.THREE.Vector2(
+        -1 +
+          (2 * event.offsetX) /
+            (gV.getRootWebGL().clientWidth -
+              parseInt(gV.getRootWebGL().offsetLeft)),
+        1 -
+          (2 * event.offsetY) /
+            (gV.getRootWebGL().clientHeight -
+              parseInt(gV.getRootWebGL().offsetTop))
+      );
+
+      raycaster.setFromCamera(mouse, gV.itownsView.camera.camera3D);
+
+      const i = raycaster.intersectObject(_this.plane);
+
+      if (i.length) {
+        //image clicked
+        _this.billboard = _this.createBillboard(go, gV);
+        gV.appendBillboard(_this.billboard);
+      }
+    });
+  }
+
+  createBillboard(go, gV) {
+    
+
+    const ref = gV.getObject3D().position;
+    const worldTransform = go.computeWorldTransform();
+    worldTransform.position.add(ref);
+
+    worldTransform.scale.x *= this.conf.width;
+    worldTransform.scale.y *= this.conf.height;
+
+
+
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.w3schools.com/jsref/prop_style_filter.asp';
+    const result = new udviz.Widgets.Billboard(iframe, worldTransform);
+
+    return result;
   }
 
   update() {
