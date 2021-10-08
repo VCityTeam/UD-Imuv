@@ -627,27 +627,12 @@ class Shape {
       result.push(p.position.clone().sub(posOffset));
     });
 
-    const points2D = [];
-    result.forEach(function (r) {
-      points2D.push({ x: r.x, y: r.y });
-    });
-
-    const finalResult = [];
-
-    let hull = QuickHull(points2D);
-
-    for (let i = 0; i < hull.length - 1; i++) {
-      for (let y = 0; y < result.length; y++) {
-        if (hull[i].x == result[y].x && hull[i].y == result[y].y) {
-          finalResult.push(result[y]);
-          continue;
-        }
-      }
-    }
+    let hull = QuickHull(result);
+    hull.pop();
 
     const shape = {};
     shape.type = this.type;
-    shape.points = finalResult;
+    shape.points = hull;
     return shape;
   }
 }
