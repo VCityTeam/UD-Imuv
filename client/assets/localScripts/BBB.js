@@ -73,6 +73,7 @@ module.exports = class BBB {
               roomButton.onclick = function () {
                 const iframe = document.createElement('iframe');
                 iframe.src = dataRoom.url;
+                console.log(dataRoom.url)
                 iframe.style.width = '500px';
                 iframe.style.height = '500px';
                 const subdomain = '*';
