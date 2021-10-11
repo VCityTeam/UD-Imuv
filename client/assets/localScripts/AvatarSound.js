@@ -28,7 +28,6 @@ module.exports = class AvatarSound {
     this.walkSound = go.getComponent(udviz.Game.Shared.Audio.TYPE).getSounds()[
       'walk'
     ];
-    this.walkSound.play();
   }
 
   tick() {
