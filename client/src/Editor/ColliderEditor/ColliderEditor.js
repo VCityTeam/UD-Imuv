@@ -78,13 +78,7 @@ export class ColliderEditorView {
       const c = mapGo.addComponent(
         {
           type: 'Collider',
-          shapes: [
-            {
-              type: 'Circle',
-              center: { x: 0, y: 0 },
-              radius: 0.3244298395697931,
-            },
-          ],
+          shapes: [],
           body: true,
         },
         this.gameView.getInputManager(),
