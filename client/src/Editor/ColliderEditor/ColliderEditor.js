@@ -4,6 +4,7 @@ import { THREE, TransformControls } from 'ud-viz';
 import { ConvexGeometry } from 'ud-viz';
 import * as QuickHull from 'quickhull';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
+import { Shared } from 'ud-viz/src/Game/Game';
 
 export class ColliderEditorView {
   constructor(params) {
@@ -74,8 +75,25 @@ export class ColliderEditorView {
 
     let colliderComp = mapGo.getComponent(ColliderModule.TYPE);
     if (!colliderComp) {
-      colliderComp = new ColliderModule();
+      const c = mapGo.addComponent(
+        {
+          type: 'Collider',
+          shapes: [
+            {
+              type: 'Circle',
+              center: { x: 0, y: 0 },
+              radius: 0.3244298395697931,
+            },
+          ],
+          body: true,
+        },
+        this.gameView.getInputManager(),
+        Shared,
+        false
+      );
+      colliderComp = c;
     }
+
     return colliderComp;
   }
 
