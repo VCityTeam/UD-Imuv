@@ -28,6 +28,9 @@ module.exports = class AvatarSound {
     this.walkSound = go.getComponent(udviz.Game.Shared.Audio.TYPE).getSounds()[
       'walk'
     ];
+
+    const currentPosition = go.getPosition();
+    this.oldPosition.copy(currentPosition);
   }
 
   tick() {
