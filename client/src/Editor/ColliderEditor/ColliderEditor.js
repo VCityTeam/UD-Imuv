@@ -4,6 +4,7 @@ import { THREE, TransformControls } from 'ud-viz';
 import { ConvexGeometry } from 'ud-viz';
 import * as QuickHull from 'quickhull';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
+import { Shared } from 'ud-viz/src/Game/Game';
 
 export class ColliderEditorView {
   constructor(params) {
@@ -74,8 +75,19 @@ export class ColliderEditorView {
 
     let colliderComp = mapGo.getComponent(ColliderModule.TYPE);
     if (!colliderComp) {
-      colliderComp = new ColliderModule();
+      const c = mapGo.addComponent(
+        {
+          type: 'Collider',
+          shapes: [],
+          body: true,
+        },
+        this.gameView.getInputManager(),
+        Shared,
+        false
+      );
+      colliderComp = c;
     }
+
     return colliderComp;
   }
 
@@ -627,27 +639,12 @@ class Shape {
       result.push(p.position.clone().sub(posOffset));
     });
 
-    const points2D = [];
-    result.forEach(function (r) {
-      points2D.push({ x: r.x, y: r.y });
-    });
-
-    const finalResult = [];
-
-    let hull = QuickHull(points2D);
-
-    for (let i = 0; i < hull.length - 1; i++) {
-      for (let y = 0; y < result.length; y++) {
-        if (hull[i].x == result[y].x && hull[i].y == result[y].y) {
-          finalResult.push(result[y]);
-          continue;
-        }
-      }
-    }
+    let hull = QuickHull(result);
+    hull.pop();
 
     const shape = {};
     shape.type = this.type;
-    shape.points = finalResult;
+    shape.points = hull;
     return shape;
   }
 }
