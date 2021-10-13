@@ -157,11 +157,9 @@ const ApplicationModule = class Application {
       _this.serviceWrapper
         .createAccount(data)
         .then(function (userUUID) {
-          _this
-            .addUserInLocalJSON(data.nameUser, userUUID, _this.assetsManager)
-            .then(function () {
-              socket.emit(MSG_TYPES.SERVER_ALERT, 'Account created');
-            });
+          _this.addUserInLocalJSON(data.nameUser, userUUIDfix).then(function () {
+            socket.emit(MSG_TYPES.SERVER_ALERT, 'Account created');
+          });
         })
         .catch((error) => {
           socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
