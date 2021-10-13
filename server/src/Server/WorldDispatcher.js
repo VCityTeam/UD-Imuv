@@ -13,6 +13,39 @@ const WorldDispatcherModule = class WorldDispatcher {
     this.worldToThread = {};
   }
 
+  fetchUserInWorldWithUUID(uuid) {
+    for (let key in this.worldToThread) {
+      const thread = this.worldToThread[key];
+      const user = thread.getUsers()[uuid];
+      if (user) return user;
+    }
+    return null;
+  }
+
+  fetchUserWithSocketUUID(socketUUID) {
+    for (let key in this.worldToThread) {
+      const thread = this.worldToThread[key];
+      const users = thread.getUsers();
+      for (let userUUID in users) {
+        const uuid = users[userUUID].getSocket().id;
+        if (socketUUID == uuid) return users[userUUID];
+      }
+    }
+    return null;
+  }
+
+  fetchUserWithAvatarUUID(avatarUUID) {
+    for (let key in this.worldToThread) {
+      const thread = this.worldToThread[key];
+      const users = thread.getUsers();
+      for (let userUUID in users) {
+        const uuid = users[userUUID].getAvatarID();
+        if (avatarUUID == uuid) return users[userUUID];
+      }
+    }
+    return null;
+  }
+
   initWorlds() {
     console.log(this.constructor.name, 'init worlds');
 
@@ -65,41 +98,43 @@ const WorldDispatcherModule = class WorldDispatcher {
     });
   }
 
-  placeAvatarInWorld(avatarUUID, worldUUID, portalUUID) {
-    //find user with avatar uuid
-    let user = null;
-    for (let id in this.currentUsersInGame) {
-      const u = this.currentUsersInGame[id];
-      if (u.getAvatarID() == avatarUUID) {
-        user = u;
-        break;
-      }
+  addUser(user) {
+    if (this.fetchUserInWorldWithUUID(user.getUUID()))
+      throw new Error('add user already added');
+
+    const avatarUUID = user.getAvatarID();
+    const worldUUID = this.config.uuidEntryWorld;
+
+    this.placeAvatarInWorld(avatarUUID, worldUUID, null, user);
+  }
+
+  removeUser(socketUUID) {
+    const user = this.fetchUserWithSocketUUID(socketUUID);
+    if (!user) {
+      console.warn('no user to remove');
+      return;
     }
 
-    if (!user)
-      throw new Error(
-        'no user with avatar id ',
-        avatarUUID,
-        ' in ',
-        this.currentUsersInGame
-      );
+    user.getThread().removeUser(user);
+  }
+
+  placeAvatarInWorld(avatarUUID, worldUUID, portalUUID, user) {
+    //find user with avatar uuid
+    if (!user) user = this.fetchUserWithAvatarUUID(avatarUUID);
+
+    if (!user) throw new Error('no user with avatar id ', avatarUUID);
 
     const thread = this.worldToThread[worldUUID];
 
-    if (!thread)
-      throw new Error(
-        'no thread with world uuid ',
-        worldUUID,
-        this.worldToThread
-      );
+    if (!thread) throw new Error('no thread with world uuid ', worldUUID);
 
-    user.initThread(thread);
+    //remove from last world if one
+    const oldThread = user.getThread();
+    if (oldThread) {
+      oldThread.removeUser(user);
+    }
 
-    //add avatar in the new world
-    thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
-      gameObject: user.getAvatarJSON(),
-      portalUUID: portalUUID,
-    });
+    thread.addUser(user, portalUUID);
   }
 };
 

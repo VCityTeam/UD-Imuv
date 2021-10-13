@@ -8,10 +8,9 @@ const WorldState = udvShared.WorldState;
 const WorldThread = require('./WorldThread');
 
 const UserModule = class User {
-  constructor(uuid, socket, worldUUID, data, isGuest = false) {
+  constructor(uuid, socket, data, isGuest = false) {
     this.uuid = uuid;
     this.socket = socket;
-    this.worldUUID = worldUUID;
     this.isGuest = isGuest;
 
     //to know if just joined or not
@@ -58,38 +57,32 @@ const UserModule = class User {
     return this.thread;
   }
 
-  initThread(thread) {
-    if (!thread) throw new Error('no thread to init user');
-
-    const _this = this;
-
-    //remove from last world
-    if (this.thread) {
-      this.thread.post(
-        WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
-        this.getAvatarID()
-      );
-    }
-
+  setThread(thread) {
     //assign
     this.thread = thread;
     this.lastState = null;
     this.socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.COMMANDS);
 
-    //cmds are now sent to the new thread
-    this.socket.on(Constants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
-      const commands = [];
+    if (thread) {
+      //cmds are now sent to the new thread
+      const _this = this;
+      this.socket.on(
+        Constants.WEBSOCKET.MSG_TYPES.COMMANDS,
+        function (cmdsJSON) {
+          const commands = [];
 
-      //parse
-      cmdsJSON.forEach(function (cmdJSON) {
-        const command = new Command(cmdJSON);
-        command.setUserID(_this.getUUID());
-        command.setAvatarID(_this.getAvatarID());
-        commands.push(command);
-      });
+          //parse
+          cmdsJSON.forEach(function (cmdJSON) {
+            const command = new Command(cmdJSON);
+            command.setUserID(_this.getUUID());
+            command.setAvatarID(_this.getAvatarID());
+            commands.push(command);
+          });
 
-      _this.thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
-    });
+          _this.thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
+        }
+      );
+    }
   }
 
   getUUID() {

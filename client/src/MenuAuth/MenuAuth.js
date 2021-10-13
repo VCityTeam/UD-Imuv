@@ -178,7 +178,7 @@ export class MenuAuthView {
                 );
 
                 //TODO menu avatar is broken reafcto needed
-                if (initialized || isGuest) {
+                if (initialized || isGuest || true) {
                   distantGame.start({
                     firstGameView: true,
                     isGuest: isGuest,

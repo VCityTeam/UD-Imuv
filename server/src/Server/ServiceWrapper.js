@@ -1,9 +1,5 @@
-const Shared = require('ud-viz/src/Game/Shared/Shared');
-
 const firebase = require('firebase/app');
 require('firebase/auth');
-
-const fs = require('fs');
 
 const ServiceWrapperModule = class ServiceWrapper {
   constructor() {
@@ -24,7 +20,7 @@ const ServiceWrapperModule = class ServiceWrapper {
     console.log(this.constructor.name, 'created');
   }
 
-  createAccount(data, assetsManager) {
+  createAccount(data) {
     const _this = this;
     return new Promise((resolve, reject) => {
       const nameUser = data.nameUser;
@@ -48,10 +44,7 @@ const ServiceWrapperModule = class ServiceWrapper {
               reject(error);
             });
 
-          //TODO these informations should not be stock locally but inside a firebase db
-          _this
-            .addUserInLocalJSON(nameUser, user.uid, assetsManager)
-            .then(resolve);
+          resolve(user.uid);
         })
         .catch((error) => {
           reject(error);
@@ -59,45 +52,25 @@ const ServiceWrapperModule = class ServiceWrapper {
     });
   }
 
-  fetchUserDefaultExtraData(nameUser = 'default_name', assetsManager) {
-    let avatarJSON = assetsManager.fetchPrefabJSON('avatar');
-    avatarJSON.components.LocalScript.conf.name = nameUser;
-    avatarJSON = new Shared.GameObject(avatarJSON).toJSON(true); //fill missing fields
-
-    return {
-      nameUser: nameUser,
-      initialized: false,
-      avatarJSON: avatarJSON,
-    };
-  }
-
-  addUserInLocalJSON(nameUser, uuid, assetsManager) {
-    const usersJSONPath = './assets/data/users.json';
-
-    const _this = this;
+  signIn(data) {
+    const password = data.password;
+    const email = data.email;
 
     return new Promise((resolve, reject) => {
-      fs.readFile(usersJSONPath, 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-          reject();
-        }
-        const usersJSON = JSON.parse(data);
-        usersJSON[uuid] = _this.fetchUserDefaultExtraData(
-          nameUser,
-          assetsManager
-        );
-        fs.writeFile(
-          usersJSONPath,
-          JSON.stringify(usersJSON),
-          {
-            encoding: 'utf8',
-            flag: 'w',
-            mode: 0o666,
-          },
-          resolve
-        );
-      });
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(function (userCredential) {
+          const user = userCredential.user;
+          if (user.emailVerified) {
+            resolve();
+          } else {
+            reject(new Error('Email is not verified'));
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
     });
   }
 };
