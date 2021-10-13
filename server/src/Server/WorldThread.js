@@ -47,6 +47,22 @@ const WorldThreadModule = class WorldThread {
     this.post(WorldThreadModule.MSG_TYPES.STOP, {});
   }
 
+  addUser(user, portalUUID) {
+    user.setThread(this);
+
+    this.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+      gameObject: user.getAvatarJSON(),
+      portalUUID: portalUUID,
+    });
+
+    this.users[user.getUUID()] = user;
+  }
+
+  removeUser(user) {
+    this.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarID());
+    delete this.users[user.getUUID()];
+  }
+
   //parent thread => child thread
   post(msgType, data) {
     this.worker.postMessage(

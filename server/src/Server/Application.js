@@ -4,12 +4,22 @@ const ServiceWrapper = require('./ServiceWrapper');
 //http server
 const express = require('express');
 
+//io system
+const fs = require('fs');
+
 //websocket
 const socketio = require('socket.io');
+
+//user in game
+const User = require('./User');
 
 //Shared => TODO @ud-viz/core
 const Shared = require('ud-viz/src/Game/Shared/Shared');
 const AssetsManagerServer = require('./AssetsManagerServer');
+
+const USERS_JSON_PATH = './assets/data/users.json';
+
+//TODO need to handle save worlds + bbb
 
 const ApplicationModule = class Application {
   constructor(config) {
@@ -70,6 +80,73 @@ const ApplicationModule = class Application {
     this.io.on('connection', this.onSocketConnexion.bind(this));
   }
 
+  fetchUserDefaultExtraData(nameUser = 'default_name') {
+    let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+    avatarJSON.components.LocalScript.conf.name = nameUser;
+    avatarJSON = new Shared.GameObject(avatarJSON).toJSON(true); //fill missing fields
+
+    return {
+      nameUser: nameUser,
+      initialized: false,
+      avatarJSON: avatarJSON,
+    };
+  }
+
+  fetchUserExtraData(uuid) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(USERS_JSON_PATH, 'utf8', (err, data) => {
+        if (err) reject(err);
+
+        if (!data) data = '{}';
+
+        const usersJSON = JSON.parse(data);
+
+        resolve(usersJSON[uuid]);
+      });
+    });
+  }
+
+  //TODO these informations should not be stock locally but inside a firebase db
+  addUserInLocalJSON(nameUser, uuid) {
+    const _this = this;
+
+    return new Promise((resolve, reject) => {
+      fs.readFile(USERS_JSON_PATH, 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          reject();
+        }
+        const usersJSON = JSON.parse(data);
+        usersJSON[uuid] = _this.fetchUserDefaultExtraData(nameUser);
+        fs.writeFile(
+          usersJSONPath,
+          JSON.stringify(usersJSON),
+          {
+            encoding: 'utf8',
+            flag: 'w',
+            mode: 0o666,
+          },
+          resolve
+        );
+      });
+    });
+  }
+
+  writeUsersJSON(json) {
+    return new Promise((resolve, reject) => {
+      fs.writeFile(
+        USERS_JSON_PATH,
+        JSON.stringify(json),
+        {
+          encoding: 'utf8',
+          flag: 'w',
+          mode: 0o666,
+        },
+        resolve
+      );
+    });
+  }
+
   onSocketConnexion(socket) {
     const _this = this;
 
@@ -78,14 +155,94 @@ const ApplicationModule = class Application {
     //SIGN UP
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
       _this.serviceWrapper
-        .createAccount(data, _this.assetsManager)
-        .then(function () {
-          socket.emit(MSG_TYPES.SERVER_ALERT, 'Account created');
+        .createAccount(data)
+        .then(function (userUUID) {
+          _this
+            .addUserInLocalJSON(data.nameUser, userUUID, _this.assetsManager)
+            .then(function () {
+              socket.emit(MSG_TYPES.SERVER_ALERT, 'Account created');
+            });
         })
         .catch((error) => {
           socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
         });
     });
+
+    socket.on(MSG_TYPES.SIGN_IN, function (data) {
+      _this.serviceWrapper
+        .signIn(data)
+        .then(function (userUUID) {
+          //check if already connected in one world
+          if (_this.worldDispatcher.fetchUserInWorldWithUUID(userUUID)) {
+            socket.emit(MSG_TYPES.SERVER_ALERT, 'You are already connected');
+          } else {
+            //user is signed
+            _this.fetchUserExtraData(userUUID).then(function (extraData) {
+              if (!extraData) extraData = _this.fetchUserDefaultExtraData(); //robust
+              console.log(extraData.nameUser + ' is connected');
+
+              //inform client that he is connected and ready to game
+              socket.emit(
+                MSG_TYPES.SIGNED,
+                extraData.initialized, //first or not connected
+                false //is not guest
+              );
+
+              //wait for client to be ready
+              socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
+                const user = new User(userUUID, socket, extraData, false);
+                _this.worldDispatcher.addUser(user);
+              });
+            });
+          }
+        })
+        .catch((error) => {
+          socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
+        });
+    });
+
+    socket.on(MSG_TYPES.GUEST_CONNECTION, function () {
+      //inform client that he is ready to game
+      socket.emit(
+        MSG_TYPES.SIGNED,
+        true, //considered not the first connexion
+        true //is guest
+      );
+
+      //wait for client to be ready
+      socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
+        const user = _this.createGuestUser(socket);
+        _this.worldDispatcher.addUser(user);
+      });
+    });
+
+    socket.on('disconnect', () => {
+      console.log('socket', socket.id, 'disconnected');
+      _this.worldDispatcher.removeUser(socket.id); //remove user with the socket uuid
+    });
+  }
+
+  createGuestUser(socket) {
+    const nameUser = 'Guest';
+    let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+    avatarJSON.components.LocalScript.conf.name = nameUser;
+    Shared.Render.bindColor(avatarJSON, [
+      Math.random(),
+      Math.random(),
+      Math.random(),
+    ]);
+    avatarJSON = new Shared.GameObject(avatarJSON).toJSON(true); //fill missing fields
+
+    const uuid = Shared.THREE.MathUtils.generateUUID();
+
+    const extraData = {
+      uuid: uuid,
+      nameUser: nameUser,
+      initialized: true,
+      avatarJSON: avatarJSON,
+    };
+
+    return new User(uuid, socket, extraData, true);
   }
 };
 
