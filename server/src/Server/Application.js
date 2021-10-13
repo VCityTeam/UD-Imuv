@@ -80,10 +80,7 @@ const ApplicationModule = class Application {
       _this.serviceWrapper
         .createAccount(data, _this.assetsManager)
         .then(function () {
-          socket.emit(
-            Shared.Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-            'Account created'
-          );
+          socket.emit(MSG_TYPES.SERVER_ALERT, 'Account created');
         })
         .catch((error) => {
           socket.emit(MSG_TYPES.SERVER_ALERT, error.message);

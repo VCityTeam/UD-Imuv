@@ -49,7 +49,9 @@ const ServiceWrapperModule = class ServiceWrapper {
             });
 
           //TODO these informations should not be stock locally but inside a firebase db
-          _this.addUserInLocalJSON(user.uid, assetsManager).then(resolve);
+          _this
+            .addUserInLocalJSON(nameUser, user.uid, assetsManager)
+            .then(resolve);
         })
         .catch((error) => {
           reject(error);
@@ -69,7 +71,7 @@ const ServiceWrapperModule = class ServiceWrapper {
     };
   }
 
-  addUserInLocalJSON(uuid, assetsManager) {
+  addUserInLocalJSON(nameUser, uuid, assetsManager) {
     const usersJSONPath = './assets/data/users.json';
 
     const _this = this;
