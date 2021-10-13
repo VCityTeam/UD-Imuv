@@ -24,6 +24,9 @@ const WorldThreadModule = class WorldThread {
     //callbacks
     this.callbacks = {};
 
+    //users register inside this thread
+    this.users = {};
+
     //listen
     this.worker.on(
       'message',
@@ -34,6 +37,10 @@ const WorldThreadModule = class WorldThread {
         }
       }.bind(this)
     );
+  }
+
+  getUsers() {
+    return this.users;
   }
 
   stop() {
@@ -81,7 +88,7 @@ WorldThreadModule.routine = function (serverConfig) {
   assetsManager.loadFromConfig(serverConfig.assetsManager).then(function () {
     const worldStateComputer = new Shared.WorldStateComputer(
       assetsManager,
-      serverConfig.thread.fps,
+      serverConfig.worldDispatcher.worldThread.fps,
       { Shared: Shared }
     );
 

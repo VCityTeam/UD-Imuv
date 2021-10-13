@@ -8,11 +8,11 @@ const printExec = function (result) {
   console.log('stderr: \n', result.stderr);
 };
 
-console.log('Build Imuv server\n');
+console.log('Build IMUV server\n');
 exec('npm run build-debug')
   .then(printExec)
   .then(function () {
-    console.log('Launch bundle\n');
+    console.log('Start IMUV server\n');
     let child = spawn('node', ['--trace-warnings', './index.js']);
     child.stdout.on('data', (data) => {
       console.log(`child stdout:\n${data}`);

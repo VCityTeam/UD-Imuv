@@ -26,11 +26,13 @@
       }
     }
   },
-  "thread": {
-    "fps": 30,
-    "script": "./assets/scripts/thread.js"
+  "worldDispatcher": {
+    "worldThread": {
+      "fps": 30,
+      "script": "./assets/scripts/thread.js"
+    },
+    "worldsPath": "../client/assets/worlds/worlds.json"
   },
   "port": 8000,
-  "folder": "../client/",
-  "worldsPath": "../client/assets/worlds/worlds.json"
+  "folder": "../client/"
 }

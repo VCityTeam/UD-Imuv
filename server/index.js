@@ -10,20 +10,23 @@ try {
   if (port) config.port = port;
   if (folder) config.folder = folder;
 
-  //instanciate server
-  const server = new gameServer.Server(config);
+  // //instanciate server
+  // const server = new gameServer.Server(config);
 
-  // const bbbURL = process.argv[4];
-  const bbbURL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
-  // const bbbSecret = process.argv[5];
-  const bbbSecret = 'ZMNZNVnyi0IqPPJiXI9H4JuznNCEGPfbKCoYIkDOKp';
+  // // const bbbURL = process.argv[4];
+  // const bbbURL = 'https://manager.bigbluemeeting.com/bigbluebutton/';
+  // // const bbbSecret = process.argv[5];
+  // const bbbSecret = 'ZMNZNVnyi0IqPPJiXI9H4JuznNCEGPfbKCoYIkDOKp';
 
-  if (bbbURL && bbbSecret) {
-    server.initBBB(bbbURL, bbbSecret);
-  }
+  // if (bbbURL && bbbSecret) {
+  //   server.initBBB(bbbURL, bbbSecret);
+  // }
 
-  //start server
-  server.start();
+  // //start server
+  // server.start();
+
+  const app = new gameServer.Application(config);
+  app.start();
 } catch (e) {
   console.error(e);
 }
