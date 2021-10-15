@@ -54,6 +54,7 @@ export class ColliderEditorView {
       this.colliderObject3D,
       this.gameView
     );
+    this.attachTC();
     this.updateUI();
   }
 
@@ -152,6 +153,25 @@ export class ColliderEditorView {
       _this.updateUI();
     };
     liShapesList.appendChild(selectButton);
+
+    const cloneButton = document.createElement('div');
+    cloneButton.classList.add('button_Editor');
+    cloneButton.innerHTML = 'Clone';
+    cloneButton.onclick = function () {
+      const cloneShape = new Shape(_this.colliderObject3D);
+      _this.model.addNewShape(cloneShape);
+      shape.points.forEach((point) => {
+        const newPoint = _this.model.createSphere();
+        newPoint.position.copy(point.position.clone());
+        cloneShape.addPoint(newPoint);
+
+        if (newPoint) _this.model.setSelectedObject(newPoint);
+        if (cloneShape) _this.model.setSelectedObject(cloneShape.mesh);
+      });
+      _this.attachTC();
+      _this.updateUI();
+    };
+    liShapesList.appendChild(cloneButton);
 
     return liShapesList;
   }
@@ -365,15 +385,12 @@ export class ColliderEditorView {
       if (_this.getAddPointMode()) {
         const intersect = throwRay(event, currentGameView.getObject3D());
         if (intersect) {
-          const geometry = new THREE.SphereGeometry(1, 16, 16);
-          const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-          const sphere = new THREE.Mesh(geometry, material);
+          const newPoint =_this.model.createSphere();
           const pos = intersect.point;
-          sphere.position.set(pos.x, pos.y, pos.z);
-          getShape().getObject3D().add(sphere);
-          sphere.updateMatrixWorld();
-          getShape().addPoint(sphere);
-          _this.model.setSelectedObject(sphere || null);
+          newPoint.position.set(pos.x, pos.y, pos.z);
+
+          getShape().addPoint(newPoint);
+          _this.model.setSelectedObject(newPoint || null);
         }
       } else {
         if (_this.tcChanged) {
@@ -440,7 +457,7 @@ export class ColliderEditorModel {
     }
     const index = this.shapes.indexOf(shape);
     if (index >= 0) this.shapes.splice(index, 1);
-    shape.shapeObject.parent.remove(shape.shapeObject);
+    shape.getObject3D().parent.remove(shape.getObject3D());
   }
 
   setCurrentShape(shape) {
@@ -471,6 +488,13 @@ export class ColliderEditorModel {
     return this.selectedObject;
   }
 
+  createSphere() {
+    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const sphere = new THREE.Mesh(geometry, material);
+    return sphere;
+  };
+
   loadShapesFromJSON(colliderComp, object3D) {
     const _this = this;
     const json = colliderComp.shapesJSON;
@@ -480,18 +504,16 @@ export class ColliderEditorModel {
       const shape = new Shape(object3D);
       _this.addNewShape(shape);
       col.points.forEach(function (p) {
-        const geometry = new THREE.SphereGeometry(1, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        const sphere = new THREE.Mesh(geometry, material);
+        const newPoint = _this.createSphere();
         const posOffset = _this.gameViewObject.position;
-        sphere.position.set(
+        newPoint.position.set(
           posOffset.x + p.x,
           posOffset.y + p.y,
           posOffset.z + (p.z || 150)
         );
-        _this.getCurrentShape().getObject3D().add(sphere);
-        sphere.updateMatrixWorld();
-        _this.getCurrentShape().addPoint(sphere);
+        shape.addPoint(newPoint);
+        if (newPoint) _this.setSelectedObject(newPoint);
+        if (shape.mesh) _this.setSelectedObject(shape.mesh);
       });
     });
   }
@@ -559,7 +581,14 @@ class Shape {
     });
   }
 
+  /**
+   *
+   * @param {Mesh} point : sphere
+   */
   addPoint(point) {
+    this.getObject3D().add(point);
+    point.updateMatrixWorld();
+
     this.points.push(point);
     point.name = 'Point' + this.points.length;
     point.userData = 'Point';
@@ -611,7 +640,7 @@ class Shape {
     this.mesh.updateMatrixWorld();
     this.mesh.userData = 'Mesh';
     this.previousMeshPosition = this.mesh.position.clone();
-    this.shapeObject.add(this.mesh);
+    this.getObject3D().add(this.mesh);
   }
 
   adjustPoints() {
