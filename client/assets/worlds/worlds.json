@@ -24,7 +24,15 @@
         "LocalScript": {
           "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
           "idScripts": ["localGameManager", "ui", "bbb"],
-          "conf": { "traveling_time": 1500, "fog": { "near": 5, "far": 100 } },
+          "conf": {
+            "traveling_time": 1500,
+            "fog": { "near": 5, "far": 100 },
+            "bbb_room_tag": {
+              "uuid": "06344893-0C44-42B3-BCA4-0F7E4E07BBAD",
+              "url": null,
+              "name": "Flying Campus Room"
+            }
+          },
           "type": "LocalScript"
         }
       },
@@ -766,7 +774,14 @@
         "LocalScript": {
           "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
           "idScripts": ["localGameManager", "ui", "bbb"],
-          "conf": { "fog": { "near": 5, "far": 100 } },
+          "conf": {
+            "fog": { "near": 5, "far": 100 },
+            "bbb_room_tag": {
+              "uuid": "EE7CB6DA-945E-496A-BA54-50AD1012FECF",
+              "url": null,
+              "name": "Room Expo Room"
+            }
+          },
           "type": "LocalScript"
         }
       },
@@ -1855,7 +1870,14 @@
         "LocalScript": {
           "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
           "idScripts": ["localGameManager", "ui", "bbb"],
-          "conf": { "fog": { "near": 5, "far": 100 } },
+          "conf": {
+            "fog": { "near": 5, "far": 100 },
+            "bbb_room_tag": {
+              "uuid": "AF7DBDC7-8B1B-4DC9-B176-0736B57FE025",
+              "url": null,
+              "name": "Studio IMU Room"
+            }
+          },
           "type": "LocalScript"
         }
       },
