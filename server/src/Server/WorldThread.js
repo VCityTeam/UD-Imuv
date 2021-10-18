@@ -45,6 +45,12 @@ const WorldThreadModule = class WorldThread {
 
   stop() {
     this.post(WorldThreadModule.MSG_TYPES.STOP, {});
+
+    //disconnect users
+    for (let key in this.users) {
+      this.users[key].getSocket().disconnect();
+      console.log(this.users[key].getUUID(), 'disconnected');
+    }
   }
 
   addUser(user, portalUUID) {

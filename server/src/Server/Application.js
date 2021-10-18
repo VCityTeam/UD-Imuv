@@ -1,6 +1,9 @@
 const WorldDispatcher = require('./WorldDispatcher');
 const ServiceWrapper = require('./ServiceWrapper');
 
+const gm = require('gm');
+const PNG = require('pngjs').PNG;
+
 //http server
 const express = require('express');
 
@@ -16,6 +19,9 @@ const User = require('./User');
 //Shared => TODO @ud-viz/core
 const Shared = require('ud-viz/src/Game/Shared/Shared');
 const AssetsManagerServer = require('./AssetsManagerServer');
+const Pack = require('ud-viz/src/Game/Shared/Components/Pack');
+const JSONUtils = require('ud-viz/src/Game/Shared/Components/JSONUtils');
+const { WorldStateComputer } = require('ud-viz/src/Game/Shared/Shared');
 
 const USERS_JSON_PATH = './assets/data/users.json';
 
@@ -218,9 +224,138 @@ const ApplicationModule = class Application {
       });
     });
 
+    socket.on(MSG_TYPES.SAVE_WORLDS, function (partialMessage) {
+      const fullMessage = Pack.recomposeMessage(partialMessage);
+      if (fullMessage) {
+        _this.saveWorlds(fullMessage, socket);
+      }
+    });
+
     socket.on('disconnect', () => {
       console.log('socket', socket.id, 'disconnected');
       _this.worldDispatcher.removeUser(socket.id); //remove user with the socket uuid
+    });
+  }
+
+  saveWorlds(data, socket) {
+    console.log('Save Worlds');
+
+    const MSG_TYPES = Shared.Components.Constants.WEBSOCKET.MSG_TYPES;
+
+    const _this = this;
+    const writeImagesOnDiskPromise = [];
+
+    JSONUtils.parse(data, function (json, key) {
+      if (typeof json[key] == 'string' && json[key].startsWith('data:image')) {
+        writeImagesOnDiskPromise.push(
+          new Promise((resolve, reject) => {
+            const bitmap = Pack.dataUriToBuffer(json[key]);
+
+            const commonPath =
+              'assets/img/uploaded/' +
+              Shared.THREE.MathUtils.generateUUID() +
+              '.jpeg';
+            const serverPath = '../client/' + commonPath;
+
+            //ref path
+            json[key] = './' + commonPath;
+
+            fs.writeFile(serverPath, bitmap, function (err) {
+              if (err) {
+                reject();
+              }
+              resolve();
+            });
+          })
+        );
+      }
+    });
+
+    const worlds = [];
+    data.forEach(function (json) {
+      worlds.push(
+        new Shared.World(json, {
+          isServerSide: true,
+          modules: { gm: gm, PNG: PNG },
+        })
+      );
+    });
+
+    Promise.all(writeImagesOnDiskPromise).then(function () {
+      console.log('IMAGES WRITED ON DISK');
+
+      const loadPromises = [];
+
+      worlds.forEach(function (w) {
+        const loadPromise = WorldStateComputer.WorldTest(
+          w,
+          _this.assetsManager,
+          {
+            Shared: Shared,
+          }
+        );
+        loadPromises.push(loadPromise);
+      });
+
+      try {
+        Promise.all(loadPromises).then(function () {
+          console.log('ALL WORLD HAVE LOADED');
+
+          //write on disks new worlds
+
+          const content = [];
+          worlds.forEach(function (w) {
+            content.push(w.toJSON(true));
+          });
+
+          fs.writeFile(
+            _this.config.worldDispatcher.worldsPath,
+            JSON.stringify(content),
+            {
+              encoding: 'utf8',
+              flag: 'w',
+              mode: 0o666,
+            },
+            function () {
+              console.log('WORLD WRITED ON DISK');
+
+              //reload worlds
+              _this.worldDispatcher.initWorlds();
+
+              _this.cleanUnusedImages();
+
+              socket.emit(MSG_TYPES.SERVER_ALERT, 'Worlds saved !');
+            }
+          );
+        });
+      } catch (e) {
+        throw new Error(e);
+      }
+    });
+  }
+
+  cleanUnusedImages() {
+    const folderPath = '../client/assets/img/uploaded/';
+
+    fs.readFile(this.config.worldDispatcher.worldsPath, 'utf8', (err, data) => {
+      if (err) throw new Error('cant load world ', err);
+
+      fs.readdir(folderPath, (err, files) => {
+        files.forEach((file) => {
+          //check if ref by something in worlds
+          if (!data.includes(file)) {
+            //delete it
+            // delete a file
+            fs.unlink(folderPath + file, (err) => {
+              if (err) {
+                throw err;
+              }
+
+              console.log(folderPath + file + ' deleted.');
+            });
+          }
+        });
+      });
     });
   }
 
