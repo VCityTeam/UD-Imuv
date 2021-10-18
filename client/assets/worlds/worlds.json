@@ -404,8 +404,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.00460452642002, 12.737898002350816, 30],
-                "rotation": [0, 0, 4.868360824614747, "ZXY"],
+                "position": [81.02276711432062, 12.621854425502091, 30],
+                "rotation": [0, 0, 4.8669284301269204, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -1592,9 +1592,7 @@
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
           "idScripts": ["localGameManager", "ui"],
-          "conf": {
-            "fog": { "near": 5, "far": 100 }
-          },
+          "conf": { "fog": { "near": 5, "far": 100 } },
           "type": "LocalScript"
         }
       },
