@@ -3,6 +3,11 @@
   "type": "GameObject",
   "static": true,
   "components": {
+    "Render": {
+      "type": "Render",
+      "idModel": "torus",
+      "color": [1, 0, 0]
+    },
     "LocalScript": {
       "idScripts": ["butterfly_spawner"],
       "conf": {},
@@ -12,7 +17,7 @@
   "children": [],
   "transform": {
     "position": [0, 0, 0],
-    "rotation": [0, 3.14, 0, "ZXY"],
+    "rotation": [0, 0, 0, "ZXY"],
     "scale": [1, 1, 1]
   }
 }
