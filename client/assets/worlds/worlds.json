@@ -764,8 +764,8 @@
           "conf": {
             "mapUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
             "spawnTransform": {
-              "position": [0, 0, 0],
-              "rotation": [0.142, 0, 2.232],
+              "position": [12, 0, 0],
+              "rotation": [0.14, 0, 1.57],
               "scale": [1, 1, 1]
             }
           },
@@ -1582,8 +1582,8 @@
           "conf": {
             "mapUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
             "spawnTransform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0],
+              "position": [12, 0, 0],
+              "rotation": [0.14, 0, 1.57],
               "scale": [1, 1, 1]
             }
           },
@@ -1591,8 +1591,10 @@
         },
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-          "idScripts": ["localGameManager", "ui", "bbb"],
-          "conf": { "fog": { "near": 5, "far": 100 } },
+          "idScripts": ["localGameManager", "ui"],
+          "conf": {
+            "fog": { "near": 5, "far": 100 }
+          },
           "type": "LocalScript"
         }
       },
@@ -1735,7 +1737,7 @@
               }
             },
             {
-              "name": "Video final IMU",
+              "name": "BBB screen",
               "type": "GameObject",
               "static": true,
               "outdated": true,
@@ -1744,20 +1746,15 @@
               "components": {
                 "LocalScript": {
                   "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
-                  "idScripts": ["video"],
+                  "idScripts": ["bbb_screen"],
                   "conf": {
-                    "idVideo": "final_IMU",
-                    "width": 10,
-                    "height": 6,
-                    "size": { "width": 853, "height": 480 }
+                    "bbb_room_tag": {
+                      "uuid": "BEB27E1C-AC0D-404B-9F23-0387C5564DAF",
+                      "url": null,
+                      "name": "Room Conf Screen Room"
+                    }
                   },
                   "type": "LocalScript"
-                },
-                "Render": {
-                  "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
-                  "type": "Render",
-                  "idModel": null,
-                  "color": [1, 1, 1]
                 }
               },
               "children": [],
@@ -1766,7 +1763,7 @@
                   -10.461478681629524, -0.397637543454767, 3.6774688264795596
                 ],
                 "rotation": [1.5707, 1.5707, 0, "ZXY"],
-                "scale": [0.999865525927484, 0.9361825705076754, 1]
+                "scale": [3.1, 2.3, 1]
               }
             },
             {

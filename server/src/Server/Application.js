@@ -50,9 +50,10 @@ const ApplicationModule = class Application {
     this.assetsManager
       .loadFromConfig(this.config.assetsManager)
       .then(function () {
-        const httpServer = _this.initExpress();
-        _this.initWebSocket(httpServer);
-        _this.worldDispatcher.initWorlds();
+        _this.worldDispatcher.initWorlds().then(function () {
+          const httpServer = _this.initExpress();
+          _this.initWebSocket(httpServer);
+        });
       });
   }
 

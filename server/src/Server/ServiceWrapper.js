@@ -115,6 +115,8 @@ const ServiceWrapperModule = class ServiceWrapper {
       attendeePW: aPw,
       moderatorPW: mPw,
       duration: 0, //no limit
+      meetingExpireWhenLastUserLeftInMinutes: 0, //no limit
+      meetingExpireIfNoUserJoinedInMinutes: 0, //no limit
     });
 
     return new Promise((resolve, reject) => {
