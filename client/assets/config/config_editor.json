@@ -46,6 +46,9 @@
       },
       "ui": {
         "path": "./assets/localScripts/UI.js"
+      },
+      "butterfly_spawner": {
+        "path": "./assets/localScripts/ButterflySpawner.js"
       }
     },
     "models": {
@@ -107,6 +110,9 @@
       },
       "teleporter": {
         "path": "./assets/prefabs/Teleporter.json"
+      },
+      "butterfly_area": {
+        "path": "./assets/prefabs/ButterflyArea.json"
       }
     },
     "worlds": {
