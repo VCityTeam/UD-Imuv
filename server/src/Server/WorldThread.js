@@ -90,6 +90,7 @@ WorldThreadModule.MSG_TYPES = {
   QUERY_GAMEOBJECT: 'query_gameobject',
   GAMEOBJECT_RESPONSE: 'gameobject_response',
   STOP: 'stop_thread',
+  EDIT_CONF_COMPONENT: 'edit_conf_component',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -211,6 +212,30 @@ WorldThreadModule.routine = function (serverConfig) {
             data: go.toJSON(true),
           };
           parentPort.postMessage(Pack.pack(message));
+          break;
+        }
+        case WorldThreadModule.MSG_TYPES.EDIT_CONF_COMPONENT: {
+          const goUUID = msg.data.goUUID;
+          const componentUUID = msg.data.componentUUID;
+          const key = msg.data.key;
+          const value = msg.data.value;
+
+          if (!goUUID || !componentUUID || !key || !value) {
+            console.log('data are imcomplete', msg.data);
+            break;
+          }
+
+          const go = worldStateComputer
+            .getWorldContext()
+            .getWorld()
+            .getGameObject()
+            .find(goUUID);
+
+          const component = go.getComponentByUUID(componentUUID);
+          component.getConf()[key] = value;
+
+          go.setOutdated(true); //force to send new go state
+
           break;
         }
         case WorldThreadModule.MSG_TYPES.STOP:

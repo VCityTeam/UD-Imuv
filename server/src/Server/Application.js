@@ -28,14 +28,17 @@ const ApplicationModule = class Application {
     //express app
     this.expressApp = express();
 
+    //third module (firebase)
+    this.serviceWrapper = new ServiceWrapper();
+
     //world handling
-    this.worldDispatcher = new WorldDispatcher(this.config.worldDispatcher);
+    this.worldDispatcher = new WorldDispatcher(
+      this.config.worldDispatcher,
+      this.serviceWrapper //to handle bbb rooms with worlds
+    );
 
     //assets worlds
     this.assetsManager = new AssetsManagerServer();
-
-    //third module (firebase)
-    this.serviceWrapper = new ServiceWrapper();
 
     //websocket
     this.io = null;
