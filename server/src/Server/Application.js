@@ -129,7 +129,7 @@ const ApplicationModule = class Application {
         const usersJSON = JSON.parse(data);
         usersJSON[uuid] = _this.fetchUserDefaultExtraData(nameUser);
         fs.writeFile(
-          usersJSONPath,
+          USERS_JSON_PATH,
           JSON.stringify(usersJSON),
           {
             encoding: 'utf8',
@@ -152,7 +152,10 @@ const ApplicationModule = class Application {
           flag: 'w',
           mode: 0o666,
         },
-        resolve
+        function (err) {
+          if (err) reject();
+          resolve();
+        }
       );
     });
   }
