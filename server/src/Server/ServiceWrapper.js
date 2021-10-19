@@ -32,8 +32,6 @@ const ServiceWrapperModule = class ServiceWrapper {
   }
 
   queryBBBRooms() {
-    const _this = this;
-
     return new Promise((resolve, reject) => {
       const meetingsURL = BBB_API.monitoring.getMeetings();
       const pathTempXML = './assets/temp/bbb_data.xml';
@@ -137,7 +135,6 @@ const ServiceWrapperModule = class ServiceWrapper {
   }
 
   createAccount(data) {
-    const _this = this;
     return new Promise((resolve, reject) => {
       const nameUser = data.nameUser;
       const password = data.password;

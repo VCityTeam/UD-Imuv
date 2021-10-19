@@ -385,7 +385,7 @@ export class ColliderEditorView {
       if (_this.getAddPointMode()) {
         const intersect = throwRay(event, currentGameView.getObject3D());
         if (intersect) {
-          const newPoint =_this.model.createSphere();
+          const newPoint = _this.model.createSphere();
           const pos = intersect.point;
           newPoint.position.set(pos.x, pos.y, pos.z);
 
@@ -493,7 +493,7 @@ export class ColliderEditorModel {
     const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
     const sphere = new THREE.Mesh(geometry, material);
     return sphere;
-  };
+  }
 
   loadShapesFromJSON(colliderComp, object3D) {
     const _this = this;
