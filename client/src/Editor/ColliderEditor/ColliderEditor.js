@@ -82,7 +82,7 @@ export class ColliderEditorView {
           shapes: [],
           body: true,
         },
-        this.gameView.getInputManager(),
+        this.gameView.getAssetsManager(),
         Shared,
         false
       );
