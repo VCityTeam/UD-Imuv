@@ -7,3 +7,4 @@ TODO.txt
 .vs
 .vscode
 Test/**
+server/env.json
