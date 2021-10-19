@@ -26,11 +26,12 @@
       }
     }
   },
-  "thread": {
-    "fps": 30,
-    "script": "./assets/scripts/thread.js"
-  },
-  "port": 8000,
-  "folder": "../client/",
-  "worldsPath": "../client/assets/worlds/worlds.json"
+  "worldDispatcher": {
+    "worldThread": {
+      "fps": 30,
+      "script": "./assets/scripts/thread.js"
+    },
+    "worldsPath": "../client/assets/worlds/worlds.json",
+    "uuidEntryWorld": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF"
+  }
 }

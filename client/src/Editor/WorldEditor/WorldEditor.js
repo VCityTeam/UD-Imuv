@@ -311,7 +311,7 @@ export class WorldEditorView {
       camera.updateProjectionMatrix();
     };
 
-    const hideFilter = function (GO, filterText) {
+    const showHideFilter = function (GO, filterText, show) {
       GO.traverse(function (child) {
         if (!(child instanceof THREE.Mesh)) {
           child.visible = true;
@@ -322,9 +322,9 @@ export class WorldEditorView {
           child.name.toLowerCase().includes(filterText.toLowerCase()) &&
           filterText != ''
         ) {
-          child.visible = false;
+          child.visible = show;
         } else {
-          child.visible = true;
+          child.visible = !show;
         }
       });
     };
@@ -334,7 +334,14 @@ export class WorldEditorView {
 
       const mapGo = computeMapGO(_this.gameView);
       if (!mapGo) return;
-      hideFilter(_this.gameView.object3D, filterTxt);
+      showHideFilter(_this.gameView.object3D, filterTxt, false);
+    };
+
+    this.showButton.onclick = function () {
+      const filterTxt = _this.filterText.value;
+      const mapGo = computeMapGO(_this.gameView);
+      if (!mapGo) return;
+      showHideFilter(_this.gameView.object3D, filterTxt, true);
     };
 
     this.topButton.onclick = rotateCamera.bind(
@@ -371,6 +378,20 @@ export class WorldEditorView {
         currentGO.getUUID()
       );
       _this.focusObject(objectInScene);
+    });
+
+    const bufferInvisible = [];
+    manager.addKeyInput('Alt', 'keydown', function () {
+      _this.gameView.object3D.traverse(function (child) {
+        if (!child.visible) bufferInvisible.push(child);
+        child.visible = true;
+      });
+    });
+
+    manager.addKeyInput('Alt', 'keyup', function () {
+      while (bufferInvisible.length > 0) {
+        bufferInvisible.pop().visible = false;
+      }
     });
   }
 

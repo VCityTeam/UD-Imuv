@@ -24,6 +24,9 @@ const WorldThreadModule = class WorldThread {
     //callbacks
     this.callbacks = {};
 
+    //users register inside this thread
+    this.users = {};
+
     //listen
     this.worker.on(
       'message',
@@ -36,8 +39,34 @@ const WorldThreadModule = class WorldThread {
     );
   }
 
+  getUsers() {
+    return this.users;
+  }
+
   stop() {
     this.post(WorldThreadModule.MSG_TYPES.STOP, {});
+
+    //disconnect users
+    for (let key in this.users) {
+      this.users[key].getSocket().disconnect();
+      console.log(this.users[key].getUUID(), 'disconnected');
+    }
+  }
+
+  addUser(user, portalUUID) {
+    user.setThread(this);
+
+    this.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+      gameObject: user.getAvatarJSON(),
+      portalUUID: portalUUID,
+    });
+
+    this.users[user.getUUID()] = user;
+  }
+
+  removeUser(user) {
+    this.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarID());
+    delete this.users[user.getUUID()];
   }
 
   //parent thread => child thread
@@ -67,6 +96,7 @@ WorldThreadModule.MSG_TYPES = {
   QUERY_GAMEOBJECT: 'query_gameobject',
   GAMEOBJECT_RESPONSE: 'gameobject_response',
   STOP: 'stop_thread',
+  EDIT_CONF_COMPONENT: 'edit_conf_component',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -81,7 +111,7 @@ WorldThreadModule.routine = function (serverConfig) {
   assetsManager.loadFromConfig(serverConfig.assetsManager).then(function () {
     const worldStateComputer = new Shared.WorldStateComputer(
       assetsManager,
-      serverConfig.thread.fps,
+      serverConfig.worldDispatcher.worldThread.fps,
       { Shared: Shared }
     );
 
@@ -98,7 +128,7 @@ WorldThreadModule.routine = function (serverConfig) {
 
           worldStateComputer.start(world);
 
-          worldStateComputer.setOnAfterTick(function () {
+          worldStateComputer.addAfterTickRequester(function () {
             const currentState = worldStateComputer.computeCurrentState(false);
             //post worldstate to main thread
             const message = {
@@ -188,6 +218,30 @@ WorldThreadModule.routine = function (serverConfig) {
             data: go.toJSON(true),
           };
           parentPort.postMessage(Pack.pack(message));
+          break;
+        }
+        case WorldThreadModule.MSG_TYPES.EDIT_CONF_COMPONENT: {
+          const goUUID = msg.data.goUUID;
+          const componentUUID = msg.data.componentUUID;
+          const key = msg.data.key;
+          const value = msg.data.value;
+
+          if (!goUUID || !componentUUID || !key || !value) {
+            console.log('data are imcomplete', msg.data);
+            break;
+          }
+
+          const go = worldStateComputer
+            .getWorldContext()
+            .getWorld()
+            .getGameObject()
+            .find(goUUID);
+
+          const component = go.getComponentByUUID(componentUUID);
+          component.getConf()[key] = value;
+
+          go.setOutdated(true); //force to send new go state
+
           break;
         }
         case WorldThreadModule.MSG_TYPES.STOP:

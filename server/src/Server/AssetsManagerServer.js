@@ -14,6 +14,8 @@ module.exports = class AssetsManagerServer {
     const worldScripts = this.worldScripts;
     const prefabs = this.prefabs;
 
+    if (!config) throw new Error('no config');
+
     const worldScriptsPromise = new Promise((resolve, reject) => {
       let count = 0;
       for (let idScript in config.worldScripts) {
