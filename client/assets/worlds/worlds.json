@@ -24,7 +24,15 @@
         "LocalScript": {
           "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
           "idScripts": ["localGameManager", "ui", "bbb"],
-          "conf": { "traveling_time": 1500, "fog": { "near": 5, "far": 100 } },
+          "conf": {
+            "traveling_time": 1500,
+            "fog": { "near": 5, "far": 100 },
+            "bbb_room_tag": {
+              "uuid": "06344893-0C44-42B3-BCA4-0F7E4E07BBAD",
+              "url": null,
+              "name": "Flying Campus Room"
+            }
+          },
           "type": "LocalScript"
         }
       },
@@ -396,8 +404,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.00460452642002, 12.737898002350816, 30],
-                "rotation": [0, 0, 4.868360824614747, "ZXY"],
+                "position": [81.02276711432062, 12.621854425502091, 30],
+                "rotation": [0, 0, 4.8669284301269204, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -756,8 +764,8 @@
           "conf": {
             "mapUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
             "spawnTransform": {
-              "position": [0, 0, 0],
-              "rotation": [0.142, 0, 2.232],
+              "position": [12, 0, 0],
+              "rotation": [0.14, 0, 1.57],
               "scale": [1, 1, 1]
             }
           },
@@ -766,7 +774,14 @@
         "LocalScript": {
           "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
           "idScripts": ["localGameManager", "ui", "bbb"],
-          "conf": { "fog": { "near": 5, "far": 100 } },
+          "conf": {
+            "fog": { "near": 5, "far": 100 },
+            "bbb_room_tag": {
+              "uuid": "EE7CB6DA-945E-496A-BA54-50AD1012FECF",
+              "url": null,
+              "name": "Room Expo Room"
+            }
+          },
           "type": "LocalScript"
         }
       },
@@ -1567,8 +1582,8 @@
           "conf": {
             "mapUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
             "spawnTransform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0],
+              "position": [12, 0, 0],
+              "rotation": [0.14, 0, 1.57],
               "scale": [1, 1, 1]
             }
           },
@@ -1576,7 +1591,7 @@
         },
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-          "idScripts": ["localGameManager", "ui", "bbb"],
+          "idScripts": ["localGameManager", "ui"],
           "conf": { "fog": { "near": 5, "far": 100 } },
           "type": "LocalScript"
         }
@@ -1720,7 +1735,7 @@
               }
             },
             {
-              "name": "Video final IMU",
+              "name": "BBB screen",
               "type": "GameObject",
               "static": true,
               "outdated": true,
@@ -1729,20 +1744,15 @@
               "components": {
                 "LocalScript": {
                   "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
-                  "idScripts": ["video"],
+                  "idScripts": ["bbb_screen"],
                   "conf": {
-                    "idVideo": "final_IMU",
-                    "width": 10,
-                    "height": 6,
-                    "size": { "width": 853, "height": 480 }
+                    "bbb_room_tag": {
+                      "uuid": "BEB27E1C-AC0D-404B-9F23-0387C5564DAF",
+                      "url": null,
+                      "name": "Room Conf Screen Room"
+                    }
                   },
                   "type": "LocalScript"
-                },
-                "Render": {
-                  "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
-                  "type": "Render",
-                  "idModel": null,
-                  "color": [1, 1, 1]
                 }
               },
               "children": [],
@@ -1751,7 +1761,7 @@
                   -10.461478681629524, -0.397637543454767, 3.6774688264795596
                 ],
                 "rotation": [1.5707, 1.5707, 0, "ZXY"],
-                "scale": [0.999865525927484, 0.9361825705076754, 1]
+                "scale": [3.1, 2.3, 1]
               }
             },
             {
@@ -1855,7 +1865,14 @@
         "LocalScript": {
           "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
           "idScripts": ["localGameManager", "ui", "bbb"],
-          "conf": { "fog": { "near": 5, "far": 100 } },
+          "conf": {
+            "fog": { "near": 5, "far": 100 },
+            "bbb_room_tag": {
+              "uuid": "AF7DBDC7-8B1B-4DC9-B176-0736B57FE025",
+              "url": null,
+              "name": "Studio IMU Room"
+            }
+          },
           "type": "LocalScript"
         }
       },
