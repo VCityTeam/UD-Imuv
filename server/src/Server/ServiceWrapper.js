@@ -2,29 +2,29 @@ const firebase = require('firebase/app');
 require('firebase/auth');
 
 const bbb = require('bigbluebutton-js');
-//TODO hide these informations
-const BBB_API = bbb.api(
-  'https://manager.bigbluemeeting.com/bigbluebutton/',
-  'ZMNZNVnyi0IqPPJiXI9H4JuznNCEGPfbKCoYIkDOKp'
-);
 
 const exec = require('child-process-promise').exec;
 const fs = require('fs');
 const parseString = require('xml2js').parseString;
 
 const ServiceWrapperModule = class ServiceWrapper {
-  constructor() {
+  constructor(config) {
+    this.config = config;
+
+    //TODO hide these informations
+    this.bbbAPI = bbb.api(config.ENV.BBB_URL, config.ENV.BBB_SECRET);
+
     //TODO like BBB these informations should not be public
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
-      apiKey: 'AIzaSyCKMd8dIyrDWjUxuLAps9Gix782nK9Bu_o',
-      authDomain: 'imuv-da2d9.firebaseapp.com',
-      projectId: 'imuv-da2d9',
-      storageBucket: 'imuv-da2d9.appspot.com',
-      messagingSenderId: '263590659720',
-      appId: '1:263590659720:web:ae6f9ba09907c746ab813d',
-      measurementId: 'G-RRJ79PGETS',
+      apiKey: config.ENV.FIREBASE_API_KEY,
+      authDomain: config.ENV.FIREBASE_AUTH_DOMAIN,
+      projectId: config.ENV.FIREBASE_PROJECT_ID,
+      storageBucket: config.ENV.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: config.ENV.FIREBASE_MESSAGING_SENDER_ID,
+      appId: config.ENV.FIREBASE_APP_ID,
+      measurementId: config.ENV.FIREBASE_MEASUREMENT_ID,
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -32,8 +32,9 @@ const ServiceWrapperModule = class ServiceWrapper {
   }
 
   queryBBBRooms() {
+    const _this = this;
     return new Promise((resolve, reject) => {
-      const meetingsURL = BBB_API.monitoring.getMeetings();
+      const meetingsURL = _this.bbbAPI.monitoring.getMeetings();
       const pathTempXML = './assets/temp/bbb_data.xml';
 
       try {
@@ -87,11 +88,12 @@ const ServiceWrapperModule = class ServiceWrapper {
   }
 
   endBBBRooms() {
+    const api = this.bbbAPI;
     return new Promise((resolve, reject) => {
       this.queryBBBRooms()
         .then(function (rooms) {
           rooms.forEach(function (r) {
-            r.end();
+            r.end(api);
           });
 
           console.log('clean bbb rooms on the server');
@@ -109,7 +111,7 @@ const ServiceWrapperModule = class ServiceWrapper {
     const mPw = 'mpw';
     const aPw = 'apw';
 
-    const meetingCreateUrl = BBB_API.administration.create(name, uuid, {
+    const meetingCreateUrl = this.bbbAPI.administration.create(name, uuid, {
       attendeePW: aPw,
       moderatorPW: mPw,
       duration: 0, //no limit
@@ -123,7 +125,7 @@ const ServiceWrapperModule = class ServiceWrapper {
         .then(() => {
           console.log(name, 'created');
           resolve({
-            url: BBB_API.administration.join('attendee', uuid, aPw),
+            url: this.bbbAPI.administration.join('attendee', uuid, aPw),
             name: name,
             uuid: uuid,
           });
@@ -195,9 +197,10 @@ class BBBRoom {
     this.params = params;
   }
 
-  end() {
+  end(api) {
     console.log('end ', this.params.meetingName[0], this.params.meetingID[0]);
-    BBB_API.administration.end(
+
+    api.administration.end(
       this.params.meetingID[0],
       this.params.moderatorPW[0]
     );

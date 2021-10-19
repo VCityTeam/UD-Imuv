@@ -35,7 +35,7 @@ const ApplicationModule = class Application {
     this.expressApp = express();
 
     //third module (firebase)
-    this.serviceWrapper = new ServiceWrapper();
+    this.serviceWrapper = new ServiceWrapper(config);
 
     //world handling
     this.worldDispatcher = new WorldDispatcher(
@@ -67,11 +67,11 @@ const ApplicationModule = class Application {
     console.log(this.constructor.name, 'init express');
 
     //serve the folder pass in config
-    this.expressApp.use(express.static(this.config.folder));
+    this.expressApp.use(express.static(this.config.ENV.FOLDER));
 
     //http server
-    const port = this.config.port;
-    const folder = this.config.folder;
+    const port = this.config.ENV.PORT;
+    const folder = this.config.ENV.FOLDER;
     const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');
       console.log('HTTP server on Port', port, 'folder ' + folder);
