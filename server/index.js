@@ -32,6 +32,8 @@ try {
     };
   }
 
+  console.log('environement', config.ENV);
+
   const app = new gameServer.Application(config);
   app.start();
 } catch (e) {
