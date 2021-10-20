@@ -11,29 +11,48 @@ const ServiceWrapperModule = class ServiceWrapper {
   constructor(config) {
     this.config = config;
 
-    //TODO hide these informations
-    this.bbbAPI = bbb.api(config.ENV.BBB_URL, config.ENV.BBB_SECRET);
+    //or not bbb api
+    if (config.ENV.BBB_URL && config.ENV.BBB_SECRET) {
+      this.bbbAPI = bbb.api(config.ENV.BBB_URL, config.ENV.BBB_SECRET);
+    } else {
+      this.bbbAPI = null;
+    }
 
-    //TODO like BBB these informations should not be public
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: config.ENV.FIREBASE_API_KEY,
-      authDomain: config.ENV.FIREBASE_AUTH_DOMAIN,
-      projectId: config.ENV.FIREBASE_PROJECT_ID,
-      storageBucket: config.ENV.FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: config.ENV.FIREBASE_MESSAGING_SENDER_ID,
-      appId: config.ENV.FIREBASE_APP_ID,
-      measurementId: config.ENV.FIREBASE_MEASUREMENT_ID,
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    console.log(this.constructor.name, 'created');
+    if (
+      (config.ENV.FIREBASE_API_KEY &&
+        config.ENV.FIREBASE_AUTH_DOMAIN &&
+        config.ENV.FIREBASE_PROJECT_ID &&
+        config.ENV.FIREBASE_STORAGE_BUCKET &&
+        config.ENV.FIREBASE_MESSAGING_SENDER_ID,
+      config.ENV.FIREBASE_APP_ID && config.ENV.FIREBASE_MEASUREMENT_ID)
+    ) {
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: config.ENV.FIREBASE_API_KEY,
+        authDomain: config.ENV.FIREBASE_AUTH_DOMAIN,
+        projectId: config.ENV.FIREBASE_PROJECT_ID,
+        storageBucket: config.ENV.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: config.ENV.FIREBASE_MESSAGING_SENDER_ID,
+        appId: config.ENV.FIREBASE_APP_ID,
+        measurementId: config.ENV.FIREBASE_MEASUREMENT_ID,
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      this.firebaseInitialized = true;
+    } else {
+      this.firebaseInitialized = false;
+    }
   }
 
   queryBBBRooms() {
     const _this = this;
     return new Promise((resolve, reject) => {
+      if (!_this.bbbAPI) {
+        reject('queryRooms no bbb api');
+        return;
+      }
+
       const meetingsURL = _this.bbbAPI.monitoring.getMeetings();
       const pathTempXML = './assets/temp/bbb_data.xml';
 
@@ -90,6 +109,11 @@ const ServiceWrapperModule = class ServiceWrapper {
   endBBBRooms() {
     const api = this.bbbAPI;
     return new Promise((resolve, reject) => {
+      if (!api) {
+        resolve(); //nothing to end
+        return;
+      }
+
       this.queryBBBRooms()
         .then(function (rooms) {
           rooms.forEach(function (r) {
@@ -106,20 +130,27 @@ const ServiceWrapperModule = class ServiceWrapper {
   }
 
   createBBBRoom(uuid, name) {
-    name = name || 'default_BBB_ROOM_Name';
-
-    const mPw = 'mpw';
-    const aPw = 'apw';
-
-    const meetingCreateUrl = this.bbbAPI.administration.create(name, uuid, {
-      attendeePW: aPw,
-      moderatorPW: mPw,
-      duration: 0, //no limit
-      meetingExpireWhenLastUserLeftInMinutes: 0, //no limit
-      meetingExpireIfNoUserJoinedInMinutes: 0, //no limit
-    });
+    const api = this.bbbAPI;
 
     return new Promise((resolve, reject) => {
+      if (!api) {
+        reject('create rooms no bbb api');
+        return;
+      }
+
+      name = name || 'default_BBB_ROOM_Name';
+
+      const mPw = 'mpw';
+      const aPw = 'apw';
+
+      const meetingCreateUrl = api.administration.create(name, uuid, {
+        attendeePW: aPw,
+        moderatorPW: mPw,
+        duration: 0, //no limit
+        meetingExpireWhenLastUserLeftInMinutes: 0, //no limit
+        meetingExpireIfNoUserJoinedInMinutes: 0, //no limit
+      });
+
       bbb
         .http(meetingCreateUrl)
         .then(() => {
@@ -137,7 +168,13 @@ const ServiceWrapperModule = class ServiceWrapper {
   }
 
   createAccount(data) {
+    const _this = this;
     return new Promise((resolve, reject) => {
+      if (!_this.firebaseInitialized) {
+        reject('firebase no initialized');
+        return;
+      }
+
       const nameUser = data.nameUser;
       const password = data.password;
       const email = data.email;
@@ -171,7 +208,14 @@ const ServiceWrapperModule = class ServiceWrapper {
     const password = data.password;
     const email = data.email;
 
+    const _this = this;
+
     return new Promise((resolve, reject) => {
+      if (!_this.firebaseInitialized) {
+        reject('firebase no initialized');
+        return;
+      }
+
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
