@@ -18,6 +18,9 @@
       },
       "teleporter": {
         "path": "../client/assets/worldScripts/Teleporter.js"
+      },
+      "butterfly_trigger_zone": {
+        "path": "../client/assets/worldScripts/ButterflyTriggerZone.js"
       }
     },
     "prefabs": {

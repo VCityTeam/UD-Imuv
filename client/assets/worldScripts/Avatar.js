@@ -222,6 +222,13 @@ module.exports = class Avatar {
       teleporterScript.onAvatar(go);
     }
 
+    //check if is butterfly_trigger_zone
+    const butterflyTriggerZone =
+      colliderGO.fetchWorldScripts()['butterfly_trigger_zone'];
+    if (butterflyTriggerZone) {
+      butterflyTriggerZone.onAvatarEnter(go);
+    }
+
     this.collide(collider, go, result);
   }
 

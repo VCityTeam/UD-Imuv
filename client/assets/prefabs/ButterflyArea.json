@@ -3,6 +3,17 @@
   "type": "GameObject",
   "static": true,
   "components": {
+    "Collider": {
+      "type": "Collider",
+      "shapes": [
+        {
+          "type": "Circle",
+          "center": { "x": 0, "y": 0 },
+          "radius": 5
+        }
+      ],
+      "body": false
+    },
     "Render": {
       "type": "Render",
       "idModel": "torus",
@@ -12,6 +23,11 @@
       "idScripts": ["butterfly_spawner"],
       "conf": {},
       "type": "LocalScript"
+    },
+    "WorldScript": {
+      "idScripts": ["butterfly_trigger_zone"],
+      "conf": {},
+      "type": "WorldScript"
     }
   },
   "children": [],

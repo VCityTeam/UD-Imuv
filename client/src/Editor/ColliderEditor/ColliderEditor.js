@@ -76,7 +76,7 @@ export class ColliderEditorView {
 
     let colliderComp = mapGo.getComponent(ColliderModule.TYPE);
     if (!colliderComp) {
-      const c = mapGo.addComponent(
+      colliderComp = mapGo.addComponent(
         {
           type: 'Collider',
           shapes: [],
@@ -86,7 +86,6 @@ export class ColliderEditorView {
         Shared,
         false
       );
-      colliderComp = c;
     }
 
     return colliderComp;

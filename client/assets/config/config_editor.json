@@ -99,6 +99,9 @@
       },
       "teleporter": {
         "path": "./assets/worldScripts/Teleporter.js"
+      },
+      "butterfly_trigger_zone":{
+        "path": "./assets/worldScripts/ButterflyTriggerZone.js"
       }
     },
     "prefabs": {
