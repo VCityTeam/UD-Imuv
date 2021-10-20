@@ -125,6 +125,9 @@ const WorldDispatcherModule = class WorldDispatcher {
                         key: BBB_ROOM_TAG,
                         value: value,
                       });
+                    })
+                    .catch((error) => {
+                      console.error(json.name, 'not created');
                     });
                 }
               }

@@ -33,7 +33,5 @@
     },
     "worldsPath": "../client/assets/worlds/worlds.json",
     "uuidEntryWorld": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF"
-  },
-  "port": 8000,
-  "folder": "../client/"
+  }
 }

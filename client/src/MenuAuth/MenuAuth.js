@@ -3,7 +3,6 @@
 import './MenuAuth.css';
 
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
-import { MenuAvatarView } from '../MenuAvatar/MenuAvatar';
 import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { EditorView } from '../Editor/Editor';
@@ -177,35 +176,15 @@ export class MenuAuthView {
                   config
                 );
 
-                //TODO menu avatar is broken reafcto needed
-                if (initialized || isGuest || true) {
-                  distantGame.start({
-                    firstGameView: true,
-                    isGuest: isGuest,
-                  });
-                  //notify server that app is ready to receive state
-                  _this.webSocketService.emit(
-                    Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
-                  );
-                } else {
-                  const menuAvatar = new MenuAvatarView(
-                    _this.webSocketService,
-                    config,
-                    assetsManager
-                  );
-                  menuAvatar.setOnClose(function () {
-                    menuAvatar.dispose();
-                    distantGame.start({
-                      firstGameView: true,
-                      isGuest: isGuest,
-                    });
-                    //notify server that app is ready to receive state
-                    _this.webSocketService.emit(
-                      Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
-                    );
-                  });
-                  document.body.appendChild(menuAvatar.html());
-                }
+                distantGame.start({
+                  firstGameView: true,
+                  isGuest: isGuest,
+                });
+                //notify server that app is ready to receive state
+                //TODO move this fonction in the template distant game
+                _this.webSocketService.emit(
+                  Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
+                );
               });
           }
         );

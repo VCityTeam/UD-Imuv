@@ -35,7 +35,7 @@ const ApplicationModule = class Application {
     this.expressApp = express();
 
     //third module (firebase)
-    this.serviceWrapper = new ServiceWrapper();
+    this.serviceWrapper = new ServiceWrapper(config);
 
     //world handling
     this.worldDispatcher = new WorldDispatcher(
@@ -66,12 +66,16 @@ const ApplicationModule = class Application {
   initExpress() {
     console.log(this.constructor.name, 'init express');
 
+    const defaultFolder = '../client';
+
     //serve the folder pass in config
-    this.expressApp.use(express.static(this.config.folder));
+    this.expressApp.use(
+      express.static(this.config.ENV.FOLDER || defaultFolder)
+    );
 
     //http server
-    const port = this.config.port;
-    const folder = this.config.folder;
+    const port = this.config.ENV.PORT || 8000;
+    const folder = this.config.ENV.FOLDER || defaultFolder;
     const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');
       console.log('HTTP server on Port', port, 'folder ' + folder);
@@ -126,10 +130,11 @@ const ApplicationModule = class Application {
           console.error(err);
           reject();
         }
+        if (!data) data = '{}';
         const usersJSON = JSON.parse(data);
         usersJSON[uuid] = _this.fetchUserDefaultExtraData(nameUser);
         fs.writeFile(
-          usersJSONPath,
+          USERS_JSON_PATH,
           JSON.stringify(usersJSON),
           {
             encoding: 'utf8',
@@ -152,7 +157,10 @@ const ApplicationModule = class Application {
           flag: 'w',
           mode: 0o666,
         },
-        resolve
+        function (err) {
+          if (err) reject();
+          resolve();
+        }
       );
     });
   }
