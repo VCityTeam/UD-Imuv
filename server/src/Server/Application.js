@@ -66,12 +66,16 @@ const ApplicationModule = class Application {
   initExpress() {
     console.log(this.constructor.name, 'init express');
 
+    const defaultFolder = '../client';
+
     //serve the folder pass in config
-    this.expressApp.use(express.static(this.config.ENV.FOLDER));
+    this.expressApp.use(
+      express.static(this.config.ENV.FOLDER || defaultFolder)
+    );
 
     //http server
-    const port = this.config.ENV.PORT;
-    const folder = this.config.ENV.FOLDER;
+    const port = this.config.ENV.PORT || 8000;
+    const folder = this.config.ENV.FOLDER || defaultFolder;
     const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');
       console.log('HTTP server on Port', port, 'folder ' + folder);
