@@ -404,8 +404,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.11682576808975, 12.002523789160696, 30],
-                "rotation": [0, 0, 4.8592889928585095, "ZXY"],
+                "position": [81.02678067063708, 12.596063438728544, 30],
+                "rotation": [0, 0, 4.866610120240736, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2124,7 +2124,7 @@
                   "idScripts": ["portal"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-                    "portalUUID": "null",
+                    "portalUUID": "385DB463-DE88-485B-B6B3-05C3990D9654",
                     "spawnRotation": { "x": 0, "y": 0, "z": 0 }
                   },
                   "type": "WorldScript"

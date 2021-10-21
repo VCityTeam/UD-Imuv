@@ -328,11 +328,14 @@ const ApplicationModule = class Application {
               console.log('WORLD WRITED ON DISK');
 
               //reload worlds
-              _this.worldDispatcher.initWorlds();
+              _this.worldDispatcher.initWorlds().then(function () {
+                socket.emit(
+                  MSG_TYPES.SERVER_ALERT,
+                  'Worlds saved and reloaded !'
+                );
+              });
 
               _this.cleanUnusedImages();
-
-              socket.emit(MSG_TYPES.SERVER_ALERT, 'Worlds saved !');
             }
           );
         });
