@@ -55,7 +55,7 @@ module.exports = class Image {
       if (i.length) {
         //image clicked
         _this.billboard = _this.createBillboard(go, gV);
-        gV.appendBillboard(_this.billboard);
+        // gV.appendBillboard(_this.billboard);
       }
     });
   }
