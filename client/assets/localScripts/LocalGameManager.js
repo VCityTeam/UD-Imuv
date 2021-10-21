@@ -255,7 +255,7 @@ module.exports = class LocalGameManager {
 
           //look down
           const endQuaternion = new Shared.THREE.Quaternion().setFromEuler(
-            new Shared.THREE.Euler(Math.PI / 5, 0, 0)
+            new Shared.THREE.Euler(0, 0, 0)
           );
 
           _this.itownsCamPos = endPosition;
