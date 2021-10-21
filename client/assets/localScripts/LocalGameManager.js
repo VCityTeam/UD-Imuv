@@ -211,11 +211,14 @@ module.exports = class LocalGameManager {
         _this.cameraman.addRoutine(
           new Routine(
             function (dt) {
+              const t = _this.cameraman.computeTransformTarget();
+
+              //no avatar yet
+              if (!t) return false;
+
               currentTime += dt;
               let ratio = currentTime / duration;
               ratio = Math.min(Math.max(0, ratio), 1);
-
-              const t = _this.cameraman.computeTransformTarget();
 
               const p = t.position.lerp(startPos, 1 - ratio);
               const q = t.quaternion.slerp(startQuat, 1 - ratio);

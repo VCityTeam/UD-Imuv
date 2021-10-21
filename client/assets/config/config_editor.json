@@ -130,8 +130,8 @@
         "b": 0.8
       },
       "sun_position": {
-        "phi": 1.5,
-        "theta": 1.5
+        "phi": 1,
+        "theta": 0.3
       }
     }
   },
