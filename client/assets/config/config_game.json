@@ -79,8 +79,11 @@
         "path": "./assets/models/Zeppelin_Labex_IMU.glb",
         "anchor": "center_min"
       },
-      "studio_imu": {
+      "studio_imu_A": {
         "path": "./assets/models/Studio_IMU_A.glb"
+      },
+      "studio_imu_B": {
+        "path": "./assets/models/Studio_IMU_B.glb"
       }
     }
   },
