@@ -23,7 +23,13 @@
         },
         "LocalScript": {
           "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
-          "idScripts": ["localGameManager", "static_object", "ui", "bbb"],
+          "idScripts": [
+            "localGameManager",
+            "static_object",
+            "ui",
+            "bbb",
+            "mini_map"
+          ],
           "conf": {
             "traveling_time": 1500,
             "fog": { "near": 5, "far": 100 },
@@ -31,7 +37,8 @@
               "uuid": "06344893-0C44-42B3-BCA4-0F7E4E07BBAD",
               "url": null,
               "name": "Flying Campus Room"
-            }
+            },
+            "mini_map_size": 232
           },
           "type": "LocalScript"
         }

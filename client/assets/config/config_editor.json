@@ -52,6 +52,9 @@
       },
       "ui": {
         "path": "./assets/localScripts/UI.js"
+      },
+      "mini_map": {
+        "path": "./assets/localScripts/MiniMap.js"
       }
     },
     "models": {
