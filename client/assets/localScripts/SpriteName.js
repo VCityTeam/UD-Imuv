@@ -58,7 +58,7 @@ module.exports = class SpriteName {
     }
 
     const renderComp = go.getComponent(Shared.Render.TYPE);
-    const bb = renderComp.computeBoundingBox();
+    const bb = new Shared.THREE.Box3().setFromObject(renderComp.getObject3D());
     const sprite = this.createSprite(this.config.name);
     const bbSprite = new Shared.THREE.Box3().setFromObject(sprite);
     sprite.position.z = bb.max.z + 0.5 * (bbSprite.max.y - bbSprite.min.y);

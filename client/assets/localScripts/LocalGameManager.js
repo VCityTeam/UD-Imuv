@@ -13,9 +13,6 @@ module.exports = class LocalGameManager {
     Shared = udviz.Game.Shared;
     itowns = udviz.itowns;
 
-    this.obstacle = new Shared.THREE.Object3D();
-    this.obstacle.name = 'LocalGameManager_Obstacle';
-
     this.cameraman = null;
 
     this.fogObject = null;
@@ -24,19 +21,13 @@ module.exports = class LocalGameManager {
     this.itownsCamQuat = null;
   }
 
+  fetchStaticObject(go) {
+    const scriptStaticObject = go.fetchLocalScripts()['static_object'];
+    return scriptStaticObject.getObject();
+  }
+
   init() {
-    const go = arguments[0];
     const localCtx = arguments[1];
-
-    //init obstacle
-    const state = localCtx.getGameView().getLastState();
-    const o = state.getOrigin();
-    if (!o) debugger; //DEBUG
-    const [x, y] = Shared.proj4.default('EPSG:3946').forward([o.lng, o.lat]);
-
-    this.obstacle.position.x = x;
-    this.obstacle.position.y = y;
-    this.obstacle.position.z = o.alt;
 
     this.fogObject = new Shared.THREE.Fog(
       localCtx.getGameView().getSkyColor(),
@@ -49,7 +40,7 @@ module.exports = class LocalGameManager {
       localCtx.getGameView().getItownsView().camera.camera3D
     );
 
-    this.initInputs(localCtx);
+    this.initInputs(arguments[0], localCtx);
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
       this.initTraveling(localCtx.getGameView().getItownsView());
@@ -135,44 +126,13 @@ module.exports = class LocalGameManager {
   tick() {
     const go = arguments[0];
     const localCtx = arguments[1];
+
     this.cameraman.tick(
       localCtx.getDt(),
       localCtx.getGameView().getLastState(),
       localCtx.getGameView().getUserData('avatarUUID'),
-      this.obstacle
+      this.fetchStaticObject(go)
     );
-  }
-
-  onNewGameObject() {
-    const newGO = arguments[2];
-
-    const _this = this;
-
-    //add static object to obstacle
-    if (newGO.isStatic()) {
-      //register in obstacle
-      const r = newGO.getComponent(Shared.Render.TYPE);
-      if (r) {
-        const clone = r.computeOriginalObject3D();
-
-        const wT = newGO.computeWorldTransform();
-
-        clone.position.x = wT.position.x;
-        clone.position.y = wT.position.y;
-        clone.position.z = wT.position.z;
-
-        clone.rotation.x = wT.rotation.x;
-        clone.rotation.y = wT.rotation.y;
-        clone.rotation.z = wT.rotation.z;
-
-        clone.scale.x = wT.scale.x;
-        clone.scale.y = wT.scale.y;
-        clone.scale.z = wT.scale.z;
-
-        _this.obstacle.add(clone);
-        _this.obstacle.updateMatrixWorld();
-      }
-    }
   }
 
   setFog(view, value) {
@@ -184,7 +144,7 @@ module.exports = class LocalGameManager {
     view.scene.fog = null; //TODO fix me for now cant interact with tile children material
   }
 
-  initInputs(localCtx) {
+  initInputs(go, localCtx) {
     const _this = this;
 
     const gameView = localCtx.getGameView();
@@ -328,6 +288,7 @@ module.exports = class LocalGameManager {
                 handleCollision: false,
                 focusOnMouseOver: false, //TODO itowns bug not working
                 focusOnMouseClick: false,
+                zoomFactor: 0.4, //TODO working ?
               });
 
               _this.cameraman.setFilmingTarget(false);
@@ -413,7 +374,10 @@ module.exports = class LocalGameManager {
       //3. compute intersections
       //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
 
-      const intersects = raycaster.intersectObject(_this.obstacle, true);
+      const intersects = raycaster.intersectObject(
+        _this.fetchStaticObject(go),
+        true
+      );
 
       if (intersects.length) {
         let minDist = Infinity;
@@ -426,15 +390,8 @@ module.exports = class LocalGameManager {
           }
         });
 
-        //transform p map referentiel
-        const bb = new Shared.THREE.Box3().setFromObject(_this.obstacle);
-        p.sub(bb.min);
-
-        //DEBUG
-        console.log(p);
-
-        _this.pointerMouseObject.position.copy(p.clone());
-        _this.pointerMouseObject.updateMatrixWorld();
+        //ref transform
+        p.sub(localCtx.getGameView().getObject3D().position);
 
         return new Command({
           type: Command.TYPE.MOVE_TO,

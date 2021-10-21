@@ -23,6 +23,9 @@
       }
     },
     "localScripts": {
+      "static_object": {
+        "path": "./assets/localScripts/StaticObject.js"
+      },
       "video": {
         "path": "./assets/localScripts/Video.js"
       },
@@ -119,13 +122,17 @@
   "game": {
     "fps": 30,
     "shadowMapSize": 2046,
-    "skyColor": {
-      "r": 0.4,
-      "g": 0.6,
-      "b": 0.8
-    },
     "sky": {
-      "path": "./assets/img/sky.jpg"
+      "path": "./assets/img/sky.jpg",
+      "color": {
+        "r": 0.4,
+        "g": 0.6,
+        "b": 0.8
+      },
+      "sun_position": {
+        "phi": 1.5,
+        "theta": 1.5
+      }
     }
   },
   "itowns": {
