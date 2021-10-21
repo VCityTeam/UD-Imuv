@@ -1,6 +1,8 @@
 let udviz = null;
 
 const MINI_MAP_SIZE = 512;
+const AVATAR_RADIUS_MIN = 5;
+const AVATAR_RADIUS_MAX = 15;
 
 module.exports = class MiniMap {
   constructor(conf, udvizBundle) {
@@ -25,6 +27,8 @@ module.exports = class MiniMap {
     this.ui.style.width = MINI_MAP_SIZE + 'px';
     this.ui.style.height = MINI_MAP_SIZE + 'px';
     this.ui.style.background = 'red';
+
+    this.currentDT = 0;
   }
 
   init() {
@@ -107,6 +111,8 @@ module.exports = class MiniMap {
     const destCtx = this.ui.getContext('2d');
     destCtx.drawImage(this.backgroundImage, 0, 0);
 
+    this.currentDT += localCtx.getDt() * 0.002;
+
     //draw avatar
     const avatarGO = go
       .computeRoot()
@@ -115,14 +121,19 @@ module.exports = class MiniMap {
       const avatarPos = avatarGO.getPosition();
       const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
 
+      const radius =
+        AVATAR_RADIUS_MIN +
+        (AVATAR_RADIUS_MAX - AVATAR_RADIUS_MIN) *
+          Math.abs(Math.cos(this.currentDT));
+
       const avatarPosCanavs = {
         x: MINI_MAP_SIZE * 0.5 + avatarPos.x / pixelSize,
         y: MINI_MAP_SIZE * 0.5 - avatarPos.y / pixelSize,
       };
       destCtx.beginPath();
-      destCtx.strokeStyle = 'red';
-      destCtx.arc(avatarPosCanavs.x, avatarPosCanavs.y, 10, 0, Math.PI * 2);
-      destCtx.stroke();
+      destCtx.fillStyle = 'red';
+      destCtx.arc(avatarPosCanavs.x, avatarPosCanavs.y, radius, 0, Math.PI * 2);
+      destCtx.fill();
     }
   }
 };
