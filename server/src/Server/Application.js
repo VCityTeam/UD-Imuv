@@ -130,6 +130,7 @@ const ApplicationModule = class Application {
           console.error(err);
           reject();
         }
+        if (!data) data = '{}';
         const usersJSON = JSON.parse(data);
         usersJSON[uuid] = _this.fetchUserDefaultExtraData(nameUser);
         fs.writeFile(

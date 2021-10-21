@@ -127,7 +127,7 @@ const WorldDispatcherModule = class WorldDispatcher {
                       });
                     })
                     .catch((error) => {
-                      console.error(json.name, 'not created');
+                      console.error(json.name, 'not created cause', error);
                     });
                 }
               }
