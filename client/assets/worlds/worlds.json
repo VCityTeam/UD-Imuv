@@ -1814,8 +1814,8 @@
               "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/ACF939D0-9C7E-4BC3-9185-669B71C4EB61.jpeg",
-                "heightmap_geometry": { "max": 31, "min": -29, "size": 232 }
+                "heightmap_path": "./assets/img/uploaded/0DC2758B-4002-4DD8-BFF8-3C2C927E54BD.jpeg",
+                "heightmap_geometry": { "max": 28, "min": -29, "size": 216 }
               },
               "type": "WorldScript"
             }
@@ -1956,8 +1956,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.09375471083244, 12.157423530474732, 30],
-                "rotation": [0, 0, 4.861198852175612, "ZXY"],
+                "position": [80.99851339493854, 12.776573398605786, 30],
+                "rotation": [0, 0, 4.868838289444023, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2413,8 +2413,8 @@
               "uuid": "B6696B41-3A93-4009-B69E-AD132DFF958C",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/FADB6A77-E6CB-403C-903F-3583E35FDD4D.jpeg",
-                "heightmap_geometry": { "max": 7, "min": -4, "size": 59 }
+                "heightmap_path": "./assets/img/uploaded/FD53596E-DEB1-453C-9D99-3DFD9698C08A.jpeg",
+                "heightmap_geometry": { "max": 8, "min": -2, "size": 59 }
               },
               "type": "WorldScript"
             },
@@ -4069,8 +4069,8 @@
               "uuid": "AC701FB0-0610-484C-BDF6-52A3A5A5EA3D",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/B7CE3B3B-95CF-4AF9-8854-8DC613F95AB6.jpeg",
-                "heightmap_geometry": { "max": 5, "min": -2, "size": 19 }
+                "heightmap_path": "./assets/img/uploaded/ABAE6622-636A-4099-B215-AF42BCEBD505.jpeg",
+                "heightmap_geometry": { "max": 5, "min": -1, "size": 20 }
               },
               "type": "WorldScript"
             },
@@ -4360,8 +4360,8 @@
               "uuid": "9C4B4F22-EFF9-4BFE-B81E-E9A0AD5E7D08",
               "idScripts": ["map"],
               "conf": {
-                "heightmap_path": "./assets/img/uploaded/29D46D64-AB8C-4387-9A08-2EEEEB838F9F.jpeg",
-                "heightmap_geometry": { "max": 5, "min": -2, "size": 19 }
+                "heightmap_path": "./assets/img/uploaded/1E6900C8-E27A-44BC-ADF2-85020DB53438.jpeg",
+                "heightmap_geometry": { "max": 6, "min": -2, "size": 19 }
               },
               "type": "WorldScript"
             }
