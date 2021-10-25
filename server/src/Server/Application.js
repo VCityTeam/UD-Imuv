@@ -95,7 +95,7 @@ const ApplicationModule = class Application {
   }
 
   fetchUserDefaultExtraData(nameUser = 'default_name') {
-    let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+    let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
     avatarJSON = new Shared.GameObject(avatarJSON).toJSON(true); //fill missing fields
 
@@ -372,7 +372,7 @@ const ApplicationModule = class Application {
 
   createGuestUser(socket) {
     const nameUser = 'Guest';
-    let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+    let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
     Shared.Render.bindColor(avatarJSON, [
       Math.random(),

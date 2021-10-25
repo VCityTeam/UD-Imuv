@@ -1,6 +1,7 @@
 /** @format */
 
 const fs = require('fs');
+const JSONUtils = require('ud-viz/src/Game/Shared/Components/JSONUtils');
 const Shared = require('ud-viz/src/Game/Shared/Shared');
 
 //server manager load script
@@ -71,5 +72,25 @@ module.exports = class AssetsManagerServer {
   fetchPrefabJSON(idprefab) {
     if (!this.prefabs[idprefab]) console.error('no prefab with id ', idprefab);
     return JSON.parse(JSON.stringify(this.prefabs[idprefab]));
+  }
+
+  //TODO waiting the avatar full customization to remove !
+  createAvatarJSON() {
+    const json = this.fetchPrefabJSON('avatar');
+    JSONUtils.parse(json, function (j, k) {
+      if (k == 'idModel') {
+        const random = Math.random();
+
+        if (random < 0.33) {
+          j[k] = 'avatar_capuchon';
+        } else if (random < 0.66) {
+          j[k] = 'sphere';
+        } else {
+          j[k] = 'cube';
+        }
+      }
+    });
+
+    return json;
   }
 };
