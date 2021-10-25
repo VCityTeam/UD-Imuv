@@ -1,2 +1,196 @@
-<?xml version="1.0"?>
-<response><returncode>SUCCESS</returncode><messageKey>noMeetings</messageKey><message>no meetings were found on this server</message></response>
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+    <returncode>SUCCESS</returncode>
+    <meetings>
+        
+        
+        
+    
+        <meeting>
+            <meetingName>Room Conf Screen Room</meetingName>
+            <meetingID>BEB27E1C-AC0D-404B-9F23-0387C5564DAF</meetingID>
+            <internalMeetingID>220e464c79cb44319f02dcbd4a74321584d6601a-1635175024118</internalMeetingID>
+            <createTime>1635175024118</createTime>
+            <createDate>Mon Oct 25 17:17:04 CEST 2021</createDate>
+            <voiceBridge>93022</voiceBridge>
+            <dialNumber>613-555-1234</dialNumber>
+            <attendeePW>apw</attendeePW>
+            <moderatorPW>mpw</moderatorPW>
+            <running>false</running>
+            <duration>0</duration>
+            <hasUserJoined>false</hasUserJoined>
+            <recording>false</recording>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <startTime>1635175024166</startTime>
+            <endTime>0</endTime>
+            <participantCount>0</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>0</voiceParticipantCount>
+            <videoCount>0</videoCount>
+            <maxUsers>0</maxUsers>
+            <moderatorCount>0</moderatorCount>
+            <attendees/>
+            <metadata>
+                <bigbluemanagerhost>manager.bigbluemeeting.com</bigbluemanagerhost>
+                <bigbluemanageruserid>1267</bigbluemanageruserid>
+            </metadata>
+            <isBreakout>false</isBreakout>
+        </meeting>
+        <meeting>
+            <meetingName>Studio IMU Room</meetingName>
+            <meetingID>AF7DBDC7-8B1B-4DC9-B176-0736B57FE025</meetingID>
+            <internalMeetingID>33920cb8c097d3c36594a1768fce85694f5ca15c-1635175024188</internalMeetingID>
+            <createTime>1635175024188</createTime>
+            <createDate>Mon Oct 25 17:17:04 CEST 2021</createDate>
+            <voiceBridge>10861</voiceBridge>
+            <dialNumber>613-555-1234</dialNumber>
+            <attendeePW>apw</attendeePW>
+            <moderatorPW>mpw</moderatorPW>
+            <running>false</running>
+            <duration>0</duration>
+            <hasUserJoined>false</hasUserJoined>
+            <recording>false</recording>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <startTime>1635175024222</startTime>
+            <endTime>0</endTime>
+            <participantCount>0</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>0</voiceParticipantCount>
+            <videoCount>0</videoCount>
+            <maxUsers>0</maxUsers>
+            <moderatorCount>0</moderatorCount>
+            <attendees/>
+            <metadata>
+                <bigbluemanagerhost>manager.bigbluemeeting.com</bigbluemanagerhost>
+                <bigbluemanageruserid>1267</bigbluemanageruserid>
+            </metadata>
+            <isBreakout>false</isBreakout>
+        </meeting>
+        <meeting>
+            <meetingName>Flying Campus Room</meetingName>
+            <meetingID>06344893-0C44-42B3-BCA4-0F7E4E07BBAD</meetingID>
+            <internalMeetingID>086762267884680045dcbf974157142f8ab39305-1635175024187</internalMeetingID>
+            <createTime>1635175024187</createTime>
+            <createDate>Mon Oct 25 17:17:04 CEST 2021</createDate>
+            <voiceBridge>46108</voiceBridge>
+            <dialNumber>613-555-1234</dialNumber>
+            <attendeePW>apw</attendeePW>
+            <moderatorPW>mpw</moderatorPW>
+            <running>false</running>
+            <duration>0</duration>
+            <hasUserJoined>false</hasUserJoined>
+            <recording>false</recording>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <startTime>1635175024222</startTime>
+            <endTime>0</endTime>
+            <participantCount>0</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>0</voiceParticipantCount>
+            <videoCount>0</videoCount>
+            <maxUsers>0</maxUsers>
+            <moderatorCount>0</moderatorCount>
+            <attendees/>
+            <metadata>
+                <bigbluemanagerhost>manager.bigbluemeeting.com</bigbluemanagerhost>
+                <bigbluemanageruserid>1267</bigbluemanageruserid>
+            </metadata>
+            <isBreakout>false</isBreakout>
+        </meeting>
+        <meeting>
+            <meetingName>Studio B IMU Room</meetingName>
+            <meetingID>FDC80800-8457-4273-86BC-CD100ADDA3E6</meetingID>
+            <internalMeetingID>5ddd6fb69819e3131bdf1bb54df466fa1aa19245-1635175024017</internalMeetingID>
+            <createTime>1635175024017</createTime>
+            <createDate>Mon Oct 25 17:17:04 CEST 2021</createDate>
+            <voiceBridge>13611</voiceBridge>
+            <dialNumber>613-555-1234</dialNumber>
+            <attendeePW>apw</attendeePW>
+            <moderatorPW>mpw</moderatorPW>
+            <running>false</running>
+            <duration>0</duration>
+            <hasUserJoined>false</hasUserJoined>
+            <recording>false</recording>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <startTime>1635175024044</startTime>
+            <endTime>0</endTime>
+            <participantCount>0</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>0</voiceParticipantCount>
+            <videoCount>0</videoCount>
+            <maxUsers>0</maxUsers>
+            <moderatorCount>0</moderatorCount>
+            <attendees/>
+            <metadata>
+                <bigbluemanagerhost>manager.bigbluemeeting.com</bigbluemanagerhost>
+                <bigbluemanageruserid>1267</bigbluemanageruserid>
+            </metadata>
+            <isBreakout>false</isBreakout>
+        </meeting>
+        <meeting>
+            <meetingName>Room Expo Room</meetingName>
+            <meetingID>EE7CB6DA-945E-496A-BA54-50AD1012FECF</meetingID>
+            <internalMeetingID>57c5790749279eada19f4f5c888a094db6ea7983-1635175024037</internalMeetingID>
+            <createTime>1635175024037</createTime>
+            <createDate>Mon Oct 25 17:17:04 CEST 2021</createDate>
+            <voiceBridge>26130</voiceBridge>
+            <dialNumber>613-555-1234</dialNumber>
+            <attendeePW>apw</attendeePW>
+            <moderatorPW>mpw</moderatorPW>
+            <running>false</running>
+            <duration>0</duration>
+            <hasUserJoined>false</hasUserJoined>
+            <recording>false</recording>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <startTime>1635175024063</startTime>
+            <endTime>0</endTime>
+            <participantCount>0</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>0</voiceParticipantCount>
+            <videoCount>0</videoCount>
+            <maxUsers>0</maxUsers>
+            <moderatorCount>0</moderatorCount>
+            <attendees/>
+            <metadata>
+                <bigbluemanagerhost>manager.bigbluemeeting.com</bigbluemanagerhost>
+                <bigbluemanageruserid>1267</bigbluemanageruserid>
+            </metadata>
+            <isBreakout>false</isBreakout>
+        </meeting>
+        
+    
+        
+    
+        
+        
+    
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+    </meetings>
+</response>
