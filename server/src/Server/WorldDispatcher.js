@@ -154,7 +154,7 @@ const WorldDispatcherModule = class WorldDispatcher {
   removeUser(socketUUID) {
     const user = this.fetchUserWithSocketUUID(socketUUID);
     if (!user) {
-      console.warn('no user to remove');
+      console.warn('no user in thread to remove');
       return;
     }
 

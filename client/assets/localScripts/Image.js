@@ -10,7 +10,7 @@ module.exports = class Image {
     Shared = udviz.Game.Shared;
 
     this.plane = null;
-    this.billboard = null;
+    this.popupPlane = null;
   }
 
   init() {
@@ -54,30 +54,15 @@ module.exports = class Image {
 
       if (i.length) {
         //image clicked
-        _this.billboard = _this.createBillboard(go, gV);
-        // gV.appendBillboard(_this.billboard);
+        _this.displayPopup(true);
       }
     });
+
+    //init popup
+    const mapLyon = new Shared.THREE.TextureLoader().load(this.conf.map_path);
   }
 
-  createBillboard(go, gV) {
-    
-
-    const ref = gV.getObject3D().position;
-    const worldTransform = go.computeWorldTransform();
-    worldTransform.position.add(ref);
-
-    worldTransform.scale.x *= this.conf.width;
-    worldTransform.scale.y *= this.conf.height;
-
-
-
-    const iframe = document.createElement('iframe');
-    iframe.src = 'https://www.w3schools.com/jsref/prop_style_filter.asp';
-    const result = new udviz.Widgets.Billboard(iframe, worldTransform);
-
-    return result;
-  }
+  displayPopup(value) {}
 
   update() {
     const go = arguments[0];
