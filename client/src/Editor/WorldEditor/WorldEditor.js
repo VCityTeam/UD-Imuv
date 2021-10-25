@@ -235,6 +235,10 @@ export class WorldEditorView {
         const element = _this.childrenViews[index];
         if (element instanceof ColliderEditorView) return;
       }
+      if (!_this.goEditorView.getSelectedGO()) {
+        console.warn('not GO selected');
+        return;
+      }
       const cEV = new ColliderEditorView({
         parentUIHtml: _this.ui.parentElement,
         gameView: _this.gameView,
