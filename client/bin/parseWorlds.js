@@ -4,9 +4,7 @@ const Shared = require('../node_modules/ud-viz/src/Game/Shared/Shared');
 
 Shared.Components.JSONUtils.parse(worldsJSON, function (json, key) {
   if (json[key] == 'LocalScript' && json['idScripts'].includes('image')) {
-    json.conf.map_path =
-      './assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg';
-    // console.log(json);
+    json.conf.popup_position = { ratioX: Math.random(), ratioY: Math.random() };
   }
 });
 
