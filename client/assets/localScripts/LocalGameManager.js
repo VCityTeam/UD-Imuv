@@ -308,6 +308,8 @@ module.exports = class LocalGameManager {
 
       const avatar = gameView.getLastState().gameObject.findByName('avatar');
       if (avatar) console.log(avatar.object3D);
+
+      console.log(new Shared.GameObject({}).toJSON(true));
     });
 
     //COMMANDS WORLD

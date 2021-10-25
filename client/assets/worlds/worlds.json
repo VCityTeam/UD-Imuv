@@ -1892,6 +1892,34 @@
           },
           "children": [
             {
+              "name": "audio_fontain",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "A38912AB-3E84-4B1B-A638-8983CA6473FD",
+              "parentUUID": null,
+              "components": {
+                "Audio": {
+                  "uuid": "ECC6C5E3-A0E8-4564-8776-A0E3C563E964",
+                  "sounds": ["fontain"],
+                  "conf": { "autoplay": true, "spatialized": true },
+                  "type": "Audio"
+                },
+                "Render": {
+                  "uuid": "01F3E607-ACF4-4335-B274-3A6B0360FF84",
+                  "type": "Render",
+                  "idModel": "cube",
+                  "color": [1, 1, 1]
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [0, 0, 0.7223426946215454],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
               "name": "Portal_Conf_Stairs",
               "type": "GameObject",
               "static": true,
@@ -2026,8 +2054,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.01471537412738, 12.673432559852483, 30],
-                "rotation": [0, 0, 4.867565049899287, "ZXY"],
+                "position": [81.02276711432062, 12.621854425502091, 30],
+                "rotation": [0, 0, 4.8669284301269204, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },

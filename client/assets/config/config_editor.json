@@ -1,12 +1,9 @@
 {
   "assetsManager": {
     "sounds": {
-      "walk": {
-        "path": "./assets/sounds/walk.mp3",
+      "fontain": {
+        "path": "./assets/sounds/fontain.webm",
         "loop": true
-      },
-      "cat": {
-        "path": "./assets/sounds/cat.mp3"
       }
     },
     "css": {
@@ -40,9 +37,6 @@
       },
       "localGameManager": {
         "path": "./assets/localScripts/LocalGameManager.js"
-      },
-      "avatar_sound": {
-        "path": "./assets/localScripts/AvatarSound.js"
       },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"
