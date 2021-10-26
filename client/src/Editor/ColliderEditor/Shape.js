@@ -185,7 +185,7 @@ export class CircleShape extends AbstractShape {
   }
 
   adjustPoints() {
-    this.points[0].position = this.mesh.position.clone();
+    this.points[0].position.copy(this.mesh.position.clone());
   }
 
   updateMesh() {
