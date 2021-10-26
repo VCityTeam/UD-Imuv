@@ -1,7 +1,6 @@
 import './ColliderEditor.css';
 
 import { THREE, TransformControls } from 'ud-viz';
-import * as QuickHull from 'quickhull';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 import { Shared } from 'ud-viz/src/Game/Game';
 import { PolygonShape, CircleShape, POLYGON_TYPE, CIRCLE_TYPE } from './Shape';
