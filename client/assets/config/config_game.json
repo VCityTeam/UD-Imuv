@@ -5,8 +5,16 @@
   "assetsManager": {
     "sounds": {
       "fontain": {
-        "path": "./assets/sounds/fontain.webm",
-        "loop": true
+        "path": "./assets/sounds/fontain.webm"
+      },
+      "zeppelin_engine": {
+        "path": "./assets/sounds/zeppelin_engine.webm"
+      },
+      "birds": {
+        "path": "./assets/sounds/birds.webm"
+      },
+      "city": {
+        "path": "./assets/sounds/city.webm"
       }
     },
     "css": {

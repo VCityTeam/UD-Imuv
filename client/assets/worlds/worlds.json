@@ -1892,17 +1892,55 @@
           },
           "children": [
             {
+              "name": "audio birds",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "3E115628-AC54-4E47-A8B8-FD3B2441C3EE",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Audio": {
+                  "uuid": "FC6F575C-31AA-4A4A-9740-EB7DCCD4F751",
+                  "sounds": ["birds"],
+                  "conf": {
+                    "autoplay": true,
+                    "spatialized": true,
+                    "loop": true
+                  },
+                  "type": "Audio"
+                },
+                "Render": {
+                  "uuid": "239318BE-BADA-45B2-B270-8F157E021674",
+                  "type": "Render",
+                  "idModel": "cube",
+                  "color": [1, 1, 0]
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  -20.86221952480264, -61.948699534870684, -2.371400168014304
+                ],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
               "name": "audio_fontain",
               "type": "GameObject",
               "static": true,
               "outdated": true,
               "uuid": "A38912AB-3E84-4B1B-A638-8983CA6473FD",
-              "parentUUID": null,
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
               "components": {
                 "Audio": {
                   "uuid": "ECC6C5E3-A0E8-4564-8776-A0E3C563E964",
                   "sounds": ["fontain"],
-                  "conf": { "autoplay": true, "spatialized": true },
+                  "conf": {
+                    "autoplay": true,
+                    "spatialized": true,
+                    "loop": true
+                  },
                   "type": "Audio"
                 },
                 "Render": {
@@ -2039,6 +2077,16 @@
               "uuid": "7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B",
               "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
               "components": {
+                "Audio": {
+                  "uuid": "168ECC64-550D-4652-8230-EF173C235DDB",
+                  "sounds": ["zeppelin_engine"],
+                  "conf": {
+                    "autoplay": true,
+                    "spatialized": true,
+                    "loop": true
+                  },
+                  "type": "Audio"
+                },
                 "Render": {
                   "uuid": "AE118224-36E8-44A4-BEED-697F0FD69BD3",
                   "type": "Render",
@@ -2054,8 +2102,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.02276711432062, 12.621854425502091, 30],
-                "rotation": [0, 0, 4.8669284301269204, "ZXY"],
+                "position": [81.11300113674666, 12.028343468247552, 30],
+                "rotation": [0, 0, 4.859607302744692, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2434,6 +2482,74 @@
                   "ZXY"
                 ],
                 "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "audio birds (clone)",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "78A72F87-E84E-4E41-9F51-E169BE18A877",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Audio": {
+                  "uuid": "73FB01A4-6796-4CE0-867D-E9E799D9E0CA",
+                  "sounds": ["birds"],
+                  "conf": {
+                    "autoplay": true,
+                    "spatialized": true,
+                    "loop": true
+                  },
+                  "type": "Audio"
+                },
+                "Render": {
+                  "uuid": "ABF0D078-7DD0-428D-B7E5-164E0EB39544",
+                  "type": "Render",
+                  "idModel": "cube",
+                  "color": [1, 1, 0]
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  -7.544161318568513, 70.74564842693508, 4.3000414315607145
+                ],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "audio city",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "8F3E58ED-2F47-4053-AE4C-C4898814819E",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Audio": {
+                  "uuid": "3B314089-16E5-4F9C-AD6F-72E2CFF3F699",
+                  "sounds": ["city"],
+                  "conf": {
+                    "autoplay": true,
+                    "spatialized": true,
+                    "loop": true
+                  },
+                  "type": "Audio"
+                },
+                "Render": {
+                  "uuid": "99F968B7-6DD1-4A98-B3A1-24F538540C71",
+                  "type": "Render",
+                  "idModel": "cube",
+                  "color": [0.5, 0, 0]
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  79.7744876013603, 108.1954710772261, -20.079090879626904
+                ],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [10, 10, 10]
               }
             }
           ],
