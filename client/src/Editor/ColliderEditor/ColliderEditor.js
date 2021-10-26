@@ -35,8 +35,10 @@ export class ColliderEditorView {
     this.closeButton = null;
     this.newPolygonButton = null;
     this.saveButton = null;
+    this.bodyCheckbox = null;
 
     this.goSelected = params.goEV.getSelectedGO();
+    this.colliderComp = this.getColliderComponent();
 
     //controls
     params.goEV.dispose(); //TODO : merge transformcontrols of goEV and  cEV
@@ -48,14 +50,14 @@ export class ColliderEditorView {
 
     this.model = new ColliderEditorModel(this.computePosOffset());
 
-    this.initUI();
-    this.initTransformControls();
-    this.initCallbacks();
     this.model.loadShapesFromJSON(
-      this.getColliderComponent(),
+      this.colliderComp,
       this.colliderObject3D,
       this.gameView
     );
+    this.initUI();
+    this.initTransformControls();
+    this.initCallbacks();
 
     this.attachTC();
     this.updateUI();
@@ -265,6 +267,16 @@ export class ColliderEditorView {
     wrapper.appendChild(saveButton);
     this.saveButton = saveButton;
 
+    const labelBodyCheckbox = document.createElement('label');
+    labelBodyCheckbox.innerHTML = 'Body';
+    wrapper.appendChild(labelBodyCheckbox);
+
+    const bodyCheckbox = document.createElement('input');
+    bodyCheckbox.setAttribute('type', 'checkbox');
+    bodyCheckbox.checked = this.colliderComp.body;
+    labelBodyCheckbox.appendChild(bodyCheckbox);
+    this.bodyCheckbox = bodyCheckbox;
+
     const uiCurrentShape = document.createElement('p');
     uiCurrentShape.innerHTML = 'Current Shape : None';
     wrapper.appendChild(uiCurrentShape);
@@ -359,6 +371,7 @@ export class ColliderEditorView {
 
       const colliderComp = _this.getColliderComponent();
       colliderComp.shapesJSON = _this.model.toJSON();
+      colliderComp.body = _this.bodyCheckbox.checked;
     };
 
     this.attachTC = function () {
