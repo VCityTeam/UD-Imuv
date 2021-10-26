@@ -43,6 +43,13 @@ class AbstractShape {
     this.updateMesh();
   }
 
+  removePoint(point) {
+    const index = this.points.indexOf(point);
+    if (index >= 0) this.points.splice(index, 1);
+    point.parent.remove(point);
+    this.updateMesh();
+  }
+
   setDefaultColor() {
     const _this = this;
     this.matMesh.color.set(this.colMeshDefault);
@@ -87,13 +94,6 @@ export class PolygonShape extends AbstractShape {
 
   addPoint(point) {
     super.addPoint(point);
-  }
-
-  removePoint(point) {
-    const index = this.points.indexOf(point);
-    if (index >= 0) this.points.splice(index, 1);
-    point.parent.remove(point);
-    this.updateMesh();
   }
 
   updateMesh() {
@@ -177,8 +177,15 @@ export class CircleShape extends AbstractShape {
   }
 
   addPoint(point) {
-    this.points = [];
+    const _this = this;
+    this.points.forEach(function (p) {
+      _this.removePoint(p);
+    });
     super.addPoint(point);
+  }
+
+  adjustPoints() {
+    this.points[0].position = this.mesh.position.clone();
   }
 
   updateMesh() {
@@ -198,6 +205,14 @@ export class CircleShape extends AbstractShape {
     this.getObject3D().add(this.mesh);
   }
 
+  getRadius() {
+    return this.radius;
+  }
+
+  setRadius(r) {
+    this.radius = r;
+    this.updateMesh();
+  }
   toJSON(posOffset) {
     const shape = {};
     shape.type = this.type;

@@ -34,6 +34,7 @@ export class ColliderEditorView {
 
     this.closeButton = null;
     this.newPolygonButton = null;
+    this.newCircleButton = null;
     this.saveButton = null;
     this.bodyCheckbox = null;
 
@@ -162,7 +163,7 @@ export class ColliderEditorView {
       let cloneShape = null;
       if (shape.getType() == POLYGON_TYPE)
         cloneShape = new PolygonShape(_this.colliderObject3D);
-      else if (shape.getType() == CircleShape)
+      else if (shape.getType() == CIRCLE_TYPE)
         cloneShape = new CircleShape(_this.colliderObject3D, shape.radius);
 
       if (!cloneShape) {
@@ -182,6 +183,20 @@ export class ColliderEditorView {
       _this.updateUI();
     };
     liShapesList.appendChild(cloneButton);
+
+    if (shape.getType() == CIRCLE_TYPE) {
+      const radiusInput = document.createElement('input');
+      radiusInput.setAttribute('type', 'number');
+      radiusInput.setAttribute('step', 0.1);
+      radiusInput.value = shape.getRadius();
+      radiusInput.onchange = function () {
+        shape.setRadius(radiusInput.value);
+        _this.model.setSelectedObject(shape.mesh);
+        _this.attachTC();
+        _this.updateUI();
+      };
+      liShapesList.appendChild(radiusInput);
+    }
 
     return liShapesList;
   }
@@ -256,6 +271,11 @@ export class ColliderEditorView {
     newPolygonButton.innerHTML = 'New Polygon';
     wrapper.appendChild(newPolygonButton);
     this.newPolygonButton = newPolygonButton;
+
+    const newCircleButton = document.createElement('button');
+    newCircleButton.innerHTML = 'New Circle';
+    wrapper.appendChild(newCircleButton);
+    this.newCircleButton = newCircleButton;
 
     const closeButton = document.createElement('button');
     closeButton.innerHTML = 'Close';
@@ -362,6 +382,12 @@ export class ColliderEditorView {
 
     this.newPolygonButton.onclick = function () {
       _this.model.addNewShape(new PolygonShape(_this.colliderObject3D));
+      transformControls.detach();
+      _this.updateUI();
+    };
+
+    this.newCircleButton.onclick = function () {
+      _this.model.addNewShape(new CircleShape(_this.colliderObject3D));
       transformControls.detach();
       _this.updateUI();
     };
