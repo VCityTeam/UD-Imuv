@@ -1,12 +1,17 @@
 {
   "assetsManager": {
     "sounds": {
-      "walk": {
-        "path": "./assets/sounds/walk.mp3",
-        "loop": true
+      "fontain": {
+        "path": "./assets/sounds/fontain.webm"
       },
-      "cat": {
-        "path": "./assets/sounds/cat.mp3"
+      "zeppelin_engine": {
+        "path": "./assets/sounds/zeppelin_engine.webm"
+      },
+      "birds": {
+        "path": "./assets/sounds/birds.webm"
+      },
+      "city": {
+        "path": "./assets/sounds/city.webm"
       }
     },
     "css": {
@@ -23,6 +28,9 @@
       }
     },
     "localScripts": {
+      "static_object": {
+        "path": "./assets/localScripts/StaticObject.js"
+      },
       "video": {
         "path": "./assets/localScripts/Video.js"
       },
@@ -38,9 +46,6 @@
       "localGameManager": {
         "path": "./assets/localScripts/LocalGameManager.js"
       },
-      "avatar_sound": {
-        "path": "./assets/localScripts/AvatarSound.js"
-      },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"
       },
@@ -52,6 +57,9 @@
       },
       "butterfly_spawner": {
         "path": "./assets/localScripts/ButterflySpawner.js"
+      },
+      "mini_map": {
+        "path": "./assets/localScripts/MiniMap.js"
       }
     },
     "models": {
@@ -77,8 +85,11 @@
         "path": "./assets/models/Zeppelin_Labex_IMU.glb",
         "anchor": "center_min"
       },
-      "studio_imu": {
+      "studio_imu_A": {
         "path": "./assets/models/Studio_IMU_A.glb"
+      },
+      "studio_imu_B": {
+        "path": "./assets/models/Studio_IMU_B.glb"
       }
     },
     "worldScripts": {
@@ -128,13 +139,17 @@
   "game": {
     "fps": 30,
     "shadowMapSize": 2046,
-    "skyColor": {
-      "r": 0.4,
-      "g": 0.6,
-      "b": 0.8
-    },
     "sky": {
-      "path": "./assets/img/sky.jpg"
+      "path": "./assets/img/sky.jpg",
+      "color": {
+        "r": 0.4,
+        "g": 0.6,
+        "b": 0.8
+      },
+      "sun_position": {
+        "phi": 1,
+        "theta": 0.3
+      }
     }
   },
   "itowns": {

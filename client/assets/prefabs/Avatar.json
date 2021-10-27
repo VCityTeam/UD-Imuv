@@ -15,7 +15,7 @@
     },
     "Audio": {
       "type": "Audio",
-      "sounds": ["walk", "cat"]
+      "sounds": []
     },
     "Render": {
       "type": "Render",
@@ -29,7 +29,7 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["sprite_name", "avatar_sound"],
+      "idScripts": ["sprite_name"],
       "conf": { "name": "default_name" },
       "type": "LocalScript"
     }
