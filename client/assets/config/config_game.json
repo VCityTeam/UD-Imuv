@@ -70,6 +70,9 @@
       "ui": {
         "path": "./assets/localScripts/UI.js"
       },
+      "butterfly_spawner": {
+        "path": "./assets/localScripts/ButterflySpawner.js"
+      },
       "mini_map": {
         "path": "./assets/localScripts/MiniMap.js"
       }

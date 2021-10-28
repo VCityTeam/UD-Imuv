@@ -67,6 +67,9 @@
       "ui": {
         "path": "./assets/localScripts/UI.js"
       },
+      "butterfly_spawner": {
+        "path": "./assets/localScripts/ButterflySpawner.js"
+      },
       "mini_map": {
         "path": "./assets/localScripts/MiniMap.js"
       }
@@ -119,6 +122,9 @@
       },
       "teleporter": {
         "path": "./assets/worldScripts/Teleporter.js"
+      },
+      "butterfly_trigger_zone":{
+        "path": "./assets/worldScripts/ButterflyTriggerZone.js"
       }
     },
     "prefabs": {
@@ -133,6 +139,9 @@
       },
       "teleporter": {
         "path": "./assets/prefabs/Teleporter.json"
+      },
+      "butterfly_area": {
+        "path": "./assets/prefabs/ButterflyArea.json"
       }
     },
     "worlds": {

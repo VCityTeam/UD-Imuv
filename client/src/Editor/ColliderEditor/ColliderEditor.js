@@ -76,7 +76,7 @@ export class ColliderEditorView {
 
     let colliderComp = go.getComponent(ColliderModule.TYPE);
     if (!colliderComp) {
-      const c = go.addComponent(
+      colliderComp = go.addComponent(
         {
           type: 'Collider',
           shapes: [],
@@ -86,7 +86,6 @@ export class ColliderEditorView {
         Shared,
         false
       );
-      colliderComp = c;
     }
 
     return colliderComp;
