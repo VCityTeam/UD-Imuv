@@ -1,6 +1,6 @@
 {
   "worldStateInterpolator": {
-    "renderDelay": 100
+    "renderDelay": 150
   },
   "assetsManager": {
     "sounds": {
