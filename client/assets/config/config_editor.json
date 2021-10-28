@@ -21,6 +21,9 @@
       },
       "video_happy_song": {
         "path": "./assets/sounds/video_happy_song.webm"
+      },
+      "cantina": {
+        "path": "./assets/sounds/cantina.webm"
       }
     },
     "css": {
@@ -123,7 +126,7 @@
       "teleporter": {
         "path": "./assets/worldScripts/Teleporter.js"
       },
-      "butterfly_trigger_zone":{
+      "butterfly_trigger_zone": {
         "path": "./assets/worldScripts/ButterflyTriggerZone.js"
       }
     },
