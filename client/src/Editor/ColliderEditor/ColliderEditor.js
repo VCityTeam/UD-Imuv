@@ -76,7 +76,7 @@ export class ColliderEditorView {
 
     let colliderComp = go.getComponent(ColliderModule.TYPE);
     if (!colliderComp) {
-      colliderComp = mapGo.addComponent(
+      colliderComp = go.addComponent(
         {
           type: 'Collider',
           shapes: [],

@@ -191,6 +191,7 @@ module.exports = class Avatar {
     const gameObject = arguments[0];
     const worldContext = arguments[1];
 
+    //TODO see if still necessary
     if (this.firstTick) {
       this.firstTick = false;
       gameObject.setOutdated(true);
@@ -226,7 +227,7 @@ module.exports = class Avatar {
     const butterflyTriggerZone =
       colliderGO.fetchWorldScripts()['butterfly_trigger_zone'];
     if (butterflyTriggerZone) {
-      butterflyTriggerZone.onAvatarEnter(go);
+      butterflyTriggerZone.onAvatarEnter();
     }
 
     this.collide(collider, go, result);
@@ -245,6 +246,12 @@ module.exports = class Avatar {
     const result = arguments[1];
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
+
+    const butterflyTriggerZone =
+      colliderGO.fetchWorldScripts()['butterfly_trigger_zone'];
+    if (butterflyTriggerZone) {
+      butterflyTriggerZone.onAvatarColliding();
+    }
 
     this.collide(collider, go, result);
   }

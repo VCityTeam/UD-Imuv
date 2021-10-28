@@ -1,5 +1,7 @@
 /**@format */
 let Shared;
+
+let count = 0
 module.exports = class ButterflyTriggerZone {
   constructor(conf, SharedModule) {
     this.conf = conf;
@@ -8,15 +10,24 @@ module.exports = class ButterflyTriggerZone {
 
   init() {
     console.log('Init Butterfly Trigger Zone');
-    const go = arguments[0];
-    if (!go) return;
+    this.go = arguments[0];
   }
 
-  onAvatarEnter(avatarGO) {
-    console.log('Papillon de lumiere');
+  onAvatarEnter() {
+    const butterflySpawnerLS = this.go.getComponent(Shared.LocalScript.TYPE);
+    butterflySpawnerLS.conf.onEnter = true;
+    this.go.setOutdated(true);
+    console.log('outdated',count);
+    count++
   }
 
-  onAvatarExit(avatarGO) {
-    avatarGO.setFromTransformJSON(this.conf.destinationTransform);
+  onAvatarColliding() {
+    const butterflySpawnerLS = this.go.getComponent(Shared.LocalScript.TYPE);
+
+    if (butterflySpawnerLS.conf.onEnter === false) return;
+    
+    //notify only when changes occur
+    butterflySpawnerLS.conf.onEnter = false;
+    this.go.setOutdated(true);
   }
 };

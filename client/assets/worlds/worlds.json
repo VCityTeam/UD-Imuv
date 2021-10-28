@@ -2066,8 +2066,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.11300113674666, 12.028343468247552, 30],
-                "rotation": [0, 0, 4.859607302744692, "ZXY"],
+                "position": [81.15087755557762, 11.770092266403395, 30],
+                "rotation": [0, 0, 4.856424203882854, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2514,6 +2514,52 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [10, 10, 10]
+              }
+            },
+            {
+              "name": "ButterflyArea",
+              "type": "GameObject",
+              "static": true,
+              "outdated": true,
+              "uuid": "2BFECCDC-4AA7-4439-90E3-404D80FED934",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Collider": {
+                  "uuid": "D5527C13-0AA6-4F22-923F-46B8F44BC860",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 10
+                    }
+                  ],
+                  "body": false
+                },
+                "Render": {
+                  "uuid": "F2E950C9-7E3C-4164-BA4F-0C10D0FB719C",
+                  "type": "Render",
+                  "idModel": "torus",
+                  "color": [1, 0, 0]
+                },
+                "LocalScript": {
+                  "uuid": "B05FFD54-B9B8-4A94-BC5C-71FE73E41950",
+                  "idScripts": ["butterfly_spawner"],
+                  "conf": { "onEnter": false },
+                  "type": "LocalScript"
+                },
+                "WorldScript": {
+                  "uuid": "50F72606-8885-4592-AB9A-58E23C7BDBEE",
+                  "idScripts": ["butterfly_trigger_zone"],
+                  "conf": {},
+                  "type": "WorldScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [14.675804103258997, 44.69449153915048, 0],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [1, 1, 1]
               }
             }
           ],

@@ -21,7 +21,9 @@
     },
     "LocalScript": {
       "idScripts": ["butterfly_spawner"],
-      "conf": {},
+      "conf": {
+        "onEnter": false
+      },
       "type": "LocalScript"
     },
     "WorldScript": {
