@@ -15,11 +15,23 @@
       },
       "city": {
         "path": "./assets/sounds/city.webm"
+      },
+      "open_popup": {
+        "path": "./assets/sounds/open_popup.webm"
+      },
+      "close_popup": {
+        "path": "./assets/sounds/close_popup.webm"
+      },
+      "video_happy_song": {
+        "path": "./assets/sounds/video_happy_song.webm"
       }
     },
     "css": {
       "localGameManager": {
         "path": "./assets/css/localGameManager.css"
+      },
+      "ui": {
+        "path": "./assets/css/ui.css"
       }
     },
     "videos": {

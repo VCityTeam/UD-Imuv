@@ -5,6 +5,10 @@ module.exports = class UI {
     this.conf = conf;
 
     udviz = udvizBundle;
+
+    this.fpsLabel = null;
+    this.avatarCount = null;
+    this.globalVolumeSlider = null;
   }
 
   init() {
@@ -19,6 +23,20 @@ module.exports = class UI {
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_localGameManager');
     gameView.appendToUI(this.avatarCount);
+
+    this.globalVolumeSlider = document.createElement('input');
+    this.globalVolumeSlider.type = 'range';
+    this.globalVolumeSlider.step = 0.05;
+    this.globalVolumeSlider.min = 0;
+    this.globalVolumeSlider.max = 1;
+    this.globalVolumeSlider.value = Howler.volume();
+    gameView.appendToUI(this.globalVolumeSlider);
+
+    //callbakc
+    this.globalVolumeSlider.onchange = function () {
+      //Howler is global
+      Howler.volume(this.value);
+    };
 
     this.updateUI(go, localCtx);
   }

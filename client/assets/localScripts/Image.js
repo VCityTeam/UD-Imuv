@@ -12,13 +12,11 @@ module.exports = class Image {
     Shared = udviz.Game.Shared;
 
     this.imagePlane = null;
-    this.popupPlane = null;
+
+    this.popupUI = null;
   }
 
-  init() {
-    const go = arguments[0];
-    const gV = arguments[1].getGameView();
-
+  createImagePlane() {
     //image
     if (this.imagePlane && this.imagePlane.parent) {
       this.imagePlane.parent.remove(this.imagePlane);
@@ -32,13 +30,20 @@ module.exports = class Image {
       32
     );
     this.imagePlane = new Shared.THREE.Mesh(geometry, material);
+  }
+
+  init() {
+    const go = arguments[0];
+    const gV = arguments[1].getGameView();
+    const _this = this;
+
+    this.createImagePlane();
     const r = go.getComponent(Shared.Render.TYPE);
     r.addObject3D(this.imagePlane);
 
     //init popup
     const mapImg = document.createElement('img');
     mapImg.src = this.conf.map_path;
-    const _this = this;
 
     mapImg.onload = function () {
       const canvas = document.createElement('canvas');
@@ -63,17 +68,9 @@ module.exports = class Image {
       );
       ctx.stroke();
 
-      const mapLyon = new Shared.THREE.TextureLoader().load(canvas.toDataURL());
-      const materialMap = new Shared.THREE.MeshBasicMaterial({ map: mapLyon });
-      const geometryMap = new Shared.THREE.PlaneGeometry(2, 2, 32);
-      _this.popupPlane = new Shared.THREE.Mesh(geometryMap, materialMap);
-
-      const offset = go.computeForwardVector();
-
-      _this.popupPlane.position.add(offset);
-
-      _this.popupPlane.visible = false;
-      r.addObject3D(_this.popupPlane);
+      _this.popupUI = document.createElement('img');
+      _this.popupUI.src = canvas.toDataURL();
+      _this.popupUI.classList.add('popup_ui');
 
       const manager = gV.getInputManager();
       const raycaster = new udviz.THREE.Raycaster();
@@ -96,27 +93,49 @@ module.exports = class Image {
 
         if (i.length) {
           //image clicked
-          _this.displayPopup(true);
+          _this.displayPopup(true, go, gV);
           go.computeRoot().traverse(function (g) {
             if (g == go) return false;
             const ls = g.fetchLocalScripts();
             if (ls && ls['image']) {
-              ls['image'].displayPopup(false);
+              ls['image'].displayPopup(false, g, gV, false);
             }
           });
         } else {
-          _this.displayPopup(false);
+          _this.displayPopup(false, go, gV);
         }
       });
 
       manager.addKeyInput('Escape', 'keyup', function () {
-        _this.displayPopup(false);
+        _this.displayPopup(false, go, gV);
       });
     };
   }
 
-  displayPopup(value) {
-    this.popupPlane.visible = value;
+  displayPopup(value, go, gV, playSound = true) {
+    //if no change nothing
+    if (!this.popupUI.parentNode == !value) return;
+
+    if (value) {
+      gV.appendToUI(this.popupUI);
+    } else {
+      this.popupUI.remove();
+    }
+
+    if (!playSound) return;
+
+    const audioComp = go.getComponent(Shared.Audio.TYPE);
+    if (!audioComp) return;
+
+    const sounds = audioComp.getSounds();
+    if (!sounds) debugger;
+    if (value) {
+      //play open sound
+      sounds['open_popup'].play();
+    } else {
+      //play close sound
+      sounds['close_popup'].play();
+    }
   }
 
   update() {

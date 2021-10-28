@@ -3,8 +3,14 @@ const worldsJSON = require('../assets/worlds/worlds.json');
 const Shared = require('../node_modules/ud-viz/src/Game/Shared/Shared');
 
 Shared.Components.JSONUtils.parse(worldsJSON, function (json, key) {
-  if (json[key] == 'LocalScript' && json['idScripts'].includes('image')) {
-    json.conf.popup_position = { ratioX: Math.random(), ratioY: Math.random() };
+  if (key == 'name' && json[key].includes('Image')) {
+    //&& json[key][idScripts].includes('image')) {
+    json.components.Audio = {
+      sounds: ['open_popup', 'close_popup'],
+      conf: { shared: true },
+      type: 'Audio',
+    };
+    // console.log(json);
   }
 });
 
