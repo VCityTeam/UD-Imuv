@@ -128,6 +128,9 @@ export class PlayWorldEditorView {
     ctx.fillStyle = 'green';
     ctx.fill();
     ctx.restore();
+
+    //draw axis
+    
   }
 
   initUI() {

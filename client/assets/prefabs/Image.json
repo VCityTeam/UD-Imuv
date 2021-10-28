@@ -13,7 +13,14 @@
       "conf": {
         "path": "./assets/img/labex_imu.jpeg",
         "width": 5,
-        "height": 5
+        "height": 5,
+        "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
+        "popup_position": { "ratioX": 0.5, "ratioY": 0.5 }
+      },
+      "Audio": {
+        "sounds": ["open_popup", "close_popup"],
+        "conf": { "shared": true },
+        "type": "Audio"
       },
       "type": "LocalScript"
     }

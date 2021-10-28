@@ -1,5 +1,7 @@
 /** @format */
 
+const OFFSET_ELEVATION = 0.2;
+
 module.exports = class Map {
   constructor(conf) {
     this.conf = conf;
@@ -169,7 +171,7 @@ module.exports = class Map {
     );
 
     if (!isNaN(elevation)) {
-      gameObject.getPosition().z = elevation;
+      gameObject.getPosition().z = OFFSET_ELEVATION + elevation;
       return true;
     } else {
       return false;

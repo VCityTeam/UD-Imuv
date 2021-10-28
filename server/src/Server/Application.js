@@ -95,7 +95,7 @@ const ApplicationModule = class Application {
   }
 
   fetchUserDefaultExtraData(nameUser = 'default_name') {
-    let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+    let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
     avatarJSON = new Shared.GameObject(avatarJSON).toJSON(true); //fill missing fields
 
@@ -328,11 +328,14 @@ const ApplicationModule = class Application {
               console.log('WORLD WRITED ON DISK');
 
               //reload worlds
-              _this.worldDispatcher.initWorlds();
+              _this.worldDispatcher.initWorlds().then(function () {
+                socket.emit(
+                  MSG_TYPES.SERVER_ALERT,
+                  'Worlds saved and reloaded !'
+                );
+              });
 
               _this.cleanUnusedImages();
-
-              socket.emit(MSG_TYPES.SERVER_ALERT, 'Worlds saved !');
             }
           );
         });
@@ -369,7 +372,7 @@ const ApplicationModule = class Application {
 
   createGuestUser(socket) {
     const nameUser = 'Guest';
-    let avatarJSON = this.assetsManager.fetchPrefabJSON('avatar');
+    let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
     Shared.Render.bindColor(avatarJSON, [
       Math.random(),

@@ -5,6 +5,7 @@
   "main": "./src/bootstrap.js",
   "scripts": {
     "travis": "npm run eslint && npm run build",
+    "parseWorlds": "node ./bin/parseWorlds.js",
     "eslint": "./node_modules/.bin/eslint ./src",
     "eslint-fix": "./node_modules/.bin/eslint ./src --fix",
     "build": "cross-env NODE_ENV=production webpack",
@@ -18,7 +19,7 @@
     "keycharm": "^0.4.0",
     "quickhull": "^1.0.3",
     "timsort": "^0.3.0",
-    "ud-viz": "^2.33.2",
+    "ud-viz": "2.33.5",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },

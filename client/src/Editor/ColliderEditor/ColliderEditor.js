@@ -1,10 +1,9 @@
 import './ColliderEditor.css';
 
 import { THREE, TransformControls } from 'ud-viz';
-import { ConvexGeometry } from 'ud-viz';
-import * as QuickHull from 'quickhull';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 import { Shared } from 'ud-viz/src/Game/Game';
+import { PolygonShape, CircleShape, POLYGON_TYPE, CIRCLE_TYPE } from './Shape';
 
 export class ColliderEditorView {
   constructor(params) {
@@ -15,8 +14,6 @@ export class ColliderEditorView {
     this.gameView = params.gameView;
 
     this.assetsManager = params.assetsManager;
-
-    this.model = new ColliderEditorModel(this.gameView);
 
     this.colliderObject3D = new THREE.Object3D();
     this.colliderObject3D.name = 'ColliderObject';
@@ -35,8 +32,13 @@ export class ColliderEditorView {
     this.uiMode = null;
 
     this.closeButton = null;
-    this.newButton = null;
+    this.newPolygonButton = null;
+    this.newCircleButton = null;
     this.saveButton = null;
+    this.bodyCheckbox = null;
+
+    this.goSelected = params.goEV.getSelectedGO();
+    this.colliderComp = this.getColliderComponent();
 
     //controls
     params.goEV.dispose(); //TODO : merge transformcontrols of goEV and  cEV
@@ -46,14 +48,17 @@ export class ColliderEditorView {
 
     this.addPointMode = false;
 
-    this.initUI();
-    this.initTransformControls();
-    this.initCallbacks();
+    this.model = new ColliderEditorModel(this.computePosOffset());
+
     this.model.loadShapesFromJSON(
-      this.getColliderComponent(),
+      this.colliderComp,
       this.colliderObject3D,
       this.gameView
     );
+    this.initUI();
+    this.initTransformControls();
+    this.initCallbacks();
+
     this.attachTC();
     this.updateUI();
   }
@@ -66,17 +71,12 @@ export class ColliderEditorView {
   }
 
   getColliderComponent() {
-    const world = this.gameView.getStateComputer().getWorldContext().getWorld();
+    const go = this.goSelected;
+    if (!go) throw new Error('no map object in world');
 
-    const go = world.getGameObject();
-    const wS = go.fetchWorldScripts()['worldGameManager'];
-    const mapGo = wS.getMap();
-
-    if (!mapGo) throw new Error('no map object in world');
-
-    let colliderComp = mapGo.getComponent(ColliderModule.TYPE);
+    let colliderComp = go.getComponent(ColliderModule.TYPE);
     if (!colliderComp) {
-      const c = mapGo.addComponent(
+      colliderComp = go.addComponent(
         {
           type: 'Collider',
           shapes: [],
@@ -86,7 +86,6 @@ export class ColliderEditorView {
         Shared,
         false
       );
-      colliderComp = c;
     }
 
     return colliderComp;
@@ -152,13 +151,23 @@ export class ColliderEditorView {
       _this.attachTC();
       _this.updateUI();
     };
+
     liShapesList.appendChild(selectButton);
 
     const cloneButton = document.createElement('div');
     cloneButton.classList.add('button_Editor');
     cloneButton.innerHTML = 'Clone';
     cloneButton.onclick = function () {
-      const cloneShape = new Shape(_this.colliderObject3D);
+      let cloneShape = null;
+      if (shape.getType() == POLYGON_TYPE)
+        cloneShape = new PolygonShape(_this.colliderObject3D);
+      else if (shape.getType() == CIRCLE_TYPE)
+        cloneShape = new CircleShape(_this.colliderObject3D, shape.radius);
+
+      if (!cloneShape) {
+        console.error('Type incorrect of ', shape);
+        return;
+      }
       _this.model.addNewShape(cloneShape);
       shape.points.forEach((point) => {
         const newPoint = _this.model.createSphere();
@@ -172,6 +181,20 @@ export class ColliderEditorView {
       _this.updateUI();
     };
     liShapesList.appendChild(cloneButton);
+
+    if (shape.getType() == CIRCLE_TYPE) {
+      const radiusInput = document.createElement('input');
+      radiusInput.setAttribute('type', 'number');
+      radiusInput.setAttribute('step', 0.1);
+      radiusInput.value = shape.getRadius();
+      radiusInput.onchange = function () {
+        shape.setRadius(radiusInput.value);
+        _this.model.setSelectedObject(shape.mesh);
+        _this.attachTC();
+        _this.updateUI();
+      };
+      liShapesList.appendChild(radiusInput);
+    }
 
     return liShapesList;
   }
@@ -242,10 +265,15 @@ export class ColliderEditorView {
 
   initUI() {
     const wrapper = document.createElement('div');
-    const newButton = document.createElement('button');
-    newButton.innerHTML = 'New';
-    wrapper.appendChild(newButton);
-    this.newButton = newButton;
+    const newPolygonButton = document.createElement('button');
+    newPolygonButton.innerHTML = 'New Polygon';
+    wrapper.appendChild(newPolygonButton);
+    this.newPolygonButton = newPolygonButton;
+
+    const newCircleButton = document.createElement('button');
+    newCircleButton.innerHTML = 'New Circle';
+    wrapper.appendChild(newCircleButton);
+    this.newCircleButton = newCircleButton;
 
     const closeButton = document.createElement('button');
     closeButton.innerHTML = 'Close';
@@ -256,6 +284,16 @@ export class ColliderEditorView {
     saveButton.innerHTML = 'Save';
     wrapper.appendChild(saveButton);
     this.saveButton = saveButton;
+
+    const labelBodyCheckbox = document.createElement('label');
+    labelBodyCheckbox.innerHTML = 'Body';
+    wrapper.appendChild(labelBodyCheckbox);
+
+    const bodyCheckbox = document.createElement('input');
+    bodyCheckbox.setAttribute('type', 'checkbox');
+    bodyCheckbox.checked = this.colliderComp.body;
+    labelBodyCheckbox.appendChild(bodyCheckbox);
+    this.bodyCheckbox = bodyCheckbox;
 
     const uiCurrentShape = document.createElement('p');
     uiCurrentShape.innerHTML = 'Current Shape : None';
@@ -340,8 +378,14 @@ export class ColliderEditorView {
       return null;
     };
 
-    this.newButton.onclick = function () {
-      _this.model.addNewShape(new Shape(_this.colliderObject3D));
+    this.newPolygonButton.onclick = function () {
+      _this.model.addNewShape(new PolygonShape(_this.colliderObject3D));
+      transformControls.detach();
+      _this.updateUI();
+    };
+
+    this.newCircleButton.onclick = function () {
+      _this.model.addNewShape(new CircleShape(_this.colliderObject3D));
       transformControls.detach();
       _this.updateUI();
     };
@@ -351,6 +395,7 @@ export class ColliderEditorView {
 
       const colliderComp = _this.getColliderComponent();
       colliderComp.shapesJSON = _this.model.toJSON();
+      colliderComp.body = _this.bodyCheckbox.checked;
     };
 
     this.attachTC = function () {
@@ -435,14 +480,21 @@ export class ColliderEditorView {
   setOnClose(f) {
     this.closeButton.onclick = f;
   }
+
+  computePosOffset() {
+    return this.gameView
+      .getObject3D()
+      .position.clone()
+      .add(this.goSelected.computeWorldTransform().position);
+  }
 }
 
 export class ColliderEditorModel {
-  constructor(gameView) {
+  constructor(posOffset) {
     this.shapes = [];
     this.currentShape = null;
     this.selectedObject = null;
-    this.gameViewObject = gameView.getObject3D();
+    this.posOffset = posOffset;
   }
 
   addNewShape(shape) {
@@ -499,22 +551,39 @@ export class ColliderEditorModel {
     const _this = this;
     const json = colliderComp.shapesJSON;
 
+    const posOffset = this.posOffset;
+
     json.forEach(function (col) {
-      if (typeof col.points === 'undefined') return;
-      const shape = new Shape(object3D);
-      _this.addNewShape(shape);
-      col.points.forEach(function (p) {
+      if (col.type == POLYGON_TYPE) {
+        const shape = new PolygonShape(object3D);
+        _this.addNewShape(shape);
+        col.points.forEach(function (p) {
+          const newPoint = _this.createSphere();
+          newPoint.position.set(
+            posOffset.x + p.x,
+            posOffset.y + p.y,
+            posOffset.z + (p.z || 0)
+          );
+          shape.addPoint(newPoint);
+          if (newPoint) _this.setSelectedObject(newPoint);
+          if (shape.mesh) _this.setSelectedObject(shape.mesh);
+        });
+      } else if (col.type == CIRCLE_TYPE) {
+        const shape = new CircleShape(object3D, col.radius);
+
+        _this.addNewShape(shape);
+
+        const p = col.center;
         const newPoint = _this.createSphere();
-        const posOffset = _this.gameViewObject.position;
         newPoint.position.set(
           posOffset.x + p.x,
           posOffset.y + p.y,
-          posOffset.z + (p.z || 150)
+          posOffset.z + (p.z || 0)
         );
         shape.addPoint(newPoint);
         if (newPoint) _this.setSelectedObject(newPoint);
         if (shape.mesh) _this.setSelectedObject(shape.mesh);
-      });
+      }
     });
   }
 
@@ -522,158 +591,8 @@ export class ColliderEditorModel {
     const result = [];
     const _this = this;
     this.shapes.forEach(function (s) {
-      result.push(s.toJSON(_this.gameViewObject.position));
+      result.push(s.toJSON(_this.posOffset));
     });
     return result;
-  }
-}
-
-class Shape {
-  constructor(parent) {
-    this.points = [];
-
-    this.shapeObject = new THREE.Object3D();
-    this.shapeObject.name = 'ShapeObject3D';
-    this.shapeObject.shape = this;
-    parent.add(this.shapeObject);
-
-    this.name = 'Shape' + this.shapeObject.uuid;
-    this.matMesh = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-    this.matMesh.side = THREE.DoubleSide;
-
-    this.colMeshDefault = 0xff0000;
-    this.colMeshSelected = 0x69b00b;
-
-    this.colPointDefault = 0xffff00;
-    this.colPointCurrentShape = 0x00ffff;
-    this.colPointSelected = 0x0b69b0;
-
-    this.mesh = null;
-
-    this.previousMeshPosition = null;
-
-    this.type = 'Polygon';
-  }
-
-  setDefaultColor() {
-    const _this = this;
-    this.matMesh.color.set(this.colMeshDefault);
-    if (this.mesh) {
-      this.mesh.material = this.matMesh;
-    }
-    this.points.forEach(function (p) {
-      p.material.color.set(_this.colPointDefault);
-    });
-  }
-
-  setSelectedColor(objectSelected) {
-    const _this = this;
-    this.matMesh.color.set(this.colMeshSelected);
-    if (this.mesh) {
-      this.mesh.material = this.matMesh;
-    }
-    this.points.forEach(function (p) {
-      if (objectSelected == p) {
-        p.material.color.set(_this.colPointSelected);
-      } else {
-        p.material.color.set(_this.colPointCurrentShape);
-      }
-    });
-  }
-
-  /**
-   *
-   * @param {Mesh} point : sphere
-   */
-  addPoint(point) {
-    this.getObject3D().add(point);
-    point.updateMatrixWorld();
-
-    this.points.push(point);
-    point.name = 'Point' + this.points.length;
-    point.userData = 'Point';
-    this.updateMesh();
-  }
-
-  removePoint(point) {
-    const index = this.points.indexOf(point);
-    if (index >= 0) this.points.splice(index, 1);
-    point.parent.remove(point);
-    this.updateMesh();
-  }
-
-  updateMesh() {
-    const points = this.points;
-    if (this.mesh) {
-      this.mesh.parent.remove(this.mesh);
-      this.mesh = null;
-    }
-
-    if (points.length < 4) return;
-
-    const vertices = [];
-    points.forEach((element) => {
-      vertices.push(element.position);
-    });
-
-    const meshGeometry = new ConvexGeometry(vertices);
-    meshGeometry.computeBoundingBox();
-    const vecCenter = new THREE.Vector3();
-    meshGeometry.boundingBox.getCenter(vecCenter);
-    const positions = meshGeometry.attributes.position.array;
-    for (let i = 0; i < positions.length; i += 3) {
-      positions[i] -= vecCenter.x;
-      positions[i + 1] -= vecCenter.y;
-      positions[i + 2] -= vecCenter.z;
-    }
-
-    meshGeometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(positions, 3)
-    );
-
-    //If you want the ray intersect the mesh you have to remove this boudingbox
-    meshGeometry.boundingBox = null;
-
-    this.mesh = new THREE.Mesh(meshGeometry, this.matMesh);
-    this.mesh.position.copy(vecCenter);
-    this.mesh.updateMatrixWorld();
-    this.mesh.userData = 'Mesh';
-    this.previousMeshPosition = this.mesh.position.clone();
-    this.getObject3D().add(this.mesh);
-  }
-
-  adjustPoints() {
-    const _this = this;
-    this.points.forEach((point) => {
-      const newPosition = point.position
-        .clone()
-        .add(
-          _this.mesh.position.clone().sub(_this.previousMeshPosition.clone())
-        );
-
-      point.position.copy(newPosition);
-    });
-    this.previousMeshPosition = this.mesh.position.clone();
-  }
-
-  getObject3D() {
-    return this.shapeObject;
-  }
-
-  toJSON(posOffset) {
-    const result = [];
-
-    this.points.forEach(function (p) {
-      result.push(p.position.clone().sub(posOffset));
-    });
-
-    let hull = QuickHull(result);
-    hull.pop();
-
-    const shape = {};
-    shape.type = this.type;
-    shape.points = hull;
-    return shape;
   }
 }
