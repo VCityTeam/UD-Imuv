@@ -10,6 +10,7 @@ import { THREE, OrbitControls } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
 import { computeMapGO } from '../Components/EditorUtility';
+import { WorldStateInterpolator } from 'ud-viz/src/Templates/DistantGame/WorldStateInterpolator';
 
 export class WorldEditorView {
   constructor(params) {
@@ -31,11 +32,11 @@ export class WorldEditorView {
       assetsManager: params.assetsManager,
       config: this.config,
       userData: { firstGameView: false },
-      stateComputer: this.model.getWorldStateComputer(),
+      stateComputer: this.model.getInterpolator(),
       updateGameObject: false,
     });
     this.gameView.start(
-      this.model.getWorldStateComputer().computeCurrentState(),
+      this.model.getInterpolator().computeCurrentState(),
       null
     );
     //offset the gameview
@@ -424,19 +425,24 @@ export class WorldEditorView {
 
 class WorldEditorModel {
   constructor(assetsManager, json) {
-    this.worldStateComputer = new Shared.WorldStateComputer(assetsManager, 30, {
-      udviz: udviz,
-      Shared: Shared,
-    });
+    const worldStateComputer = new Shared.WorldStateComputer(
+      assetsManager,
+      30,
+      {
+        udviz: udviz,
+        Shared: Shared,
+      }
+    );
 
-    this.onWorldJSON(json);
+    worldStateComputer.start(new Shared.World(json));
+    //smooth rendering with delay
+    this.interpolator = new WorldStateInterpolator(
+      { renderDelay: 50 },
+      worldStateComputer
+    );
   }
 
-  onWorldJSON(json) {
-    this.worldStateComputer.start(new Shared.World(json));
-  }
-
-  getWorldStateComputer() {
-    return this.worldStateComputer;
+  getInterpolator() {
+    return this.interpolator;
   }
 }
