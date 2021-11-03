@@ -20,10 +20,10 @@ module.exports = class ButterflySpawner {
   }
 
   tick() {
-    if (this.triggerAnimate) this.animate();
+    if (this.triggerAnimate) this.animate(5);
   }
 
-  animate() {
+  animate(duration) {
     const time = this.clock.getElapsedTime();
     const particleGroup = this.particleGroup;
     const particleAttributes = this.particleAttributes;
@@ -37,8 +37,15 @@ module.exports = class ButterflySpawner {
       sprite.position.x = particleAttributes.startPosition[c].x * pulseFactor;
       sprite.position.y = particleAttributes.startPosition[c].y * pulseFactor;
       sprite.position.z = particleAttributes.startPosition[c].z * pulseFactor;
+      //fade in
+      if (time > duration - a && sprite.material.opacity > 0) {
+        sprite.material.opacity -=0.1;
+      }
+      else if (time > a && sprite.material.opacity < 0.8) {
+        sprite.material.opacity += 0.1;
+      }
     }
-    if (time > 5) {
+    if (time > duration) {
       this.triggerAnimate = false;
       particleGroup.parent.remove(particleGroup);
       this.particleGroup = null;
@@ -55,7 +62,7 @@ module.exports = class ButterflySpawner {
       startPosition: [],
       randomness: [],
     };
-    const totalParticles = 20;
+    const totalParticles = 10;
     const radiusRange = 10;
     for (let i = 0; i < totalParticles; i++) {
       const spriteMaterial = new THREE.SpriteMaterial({
@@ -78,7 +85,7 @@ module.exports = class ButterflySpawner {
       // sprite.material.color.setRGB(0, 0, 0);
       sprite.material.color.setHSL(Math.random(), 0.9, 0.7);
 
-      sprite.material.opacity = 0.8; // translucent particles
+      sprite.material.opacity = 0; // translucent particles
 
       this.particleGroup.add(sprite);
       // add variable qualities to arrays, if they need to be accessed later
