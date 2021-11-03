@@ -2,12 +2,14 @@
 
 let udviz = null;
 let Shared = null;
+let THREE = null;
 
 module.exports = class ButterflySpawner {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
     Shared = udviz.Game.Shared;
+    THREE = Shared.THREE;
   }
 
   init() {
@@ -16,7 +18,7 @@ module.exports = class ButterflySpawner {
     if (!this.go) return;
     this.triggerAnimate = false;
     this.particleGroup = null;
-    this.clock = new Shared.THREE.Clock();
+    this.clock = new THREE.Clock();
   }
 
   tick() {
@@ -39,9 +41,8 @@ module.exports = class ButterflySpawner {
       sprite.position.z = particleAttributes.startPosition[c].z * pulseFactor;
       //fade in
       if (time > duration - a && sprite.material.opacity > 0) {
-        sprite.material.opacity -=0.1;
-      }
-      else if (time > a && sprite.material.opacity < 0.8) {
+        sprite.material.opacity -= 0.1;
+      } else if (time > a && sprite.material.opacity < 0.8) {
         sprite.material.opacity += 0.1;
       }
     }
@@ -52,10 +53,40 @@ module.exports = class ButterflySpawner {
     }
   }
 
-  createParticles(go) {
-    const THREE = Shared.THREE;
+  createParticuleGroup() {
     if (this.particleGroup) return;
-    this.clock = new Shared.THREE.Clock();
+
+    const defaultAttributes = {
+      startPosition: new THREE.Vector3(
+        Math.random() - 0.5,
+        Math.random() - 0.5,
+        Math.random()
+      ),
+      startSize: new THREE.Vector3(1, 1, 1),
+      material: new THREE.SpriteMaterial({
+        map: THREE.ImageUtils.loadTexture('/assets/img/butterflySprite.png'),
+        useScreenCoordinates: false,
+        color: 0xffffff,
+      }),
+      color: new THREE.Color().setHSL(Math.random(), 0.9, 0.7),
+      opacity: 0.8,
+    };
+
+    this.particleGroup = new ParticleGroup({
+      nParticles: 10,
+      radiusRange: 10,
+      defaultAttributes,
+    });
+
+    this.go
+      .getComponent(Shared.Render.TYPE)
+      .addObject3D(this.particleGroup.getObject3D());
+  }
+
+  createParticles(go) {
+    const THREE = THREE;
+    if (this.particleGroup) return;
+    this.clock = new THREE.Clock();
     this.particleGroup = new THREE.Object3D();
     this.particleAttributes = {
       startSize: [],
@@ -99,8 +130,86 @@ module.exports = class ButterflySpawner {
 
   update() {
     if (this.conf.onEnter) {
-      this.createParticles(this.go);
+      this.createParticuleGroup();
     } else {
     }
   }
 };
+
+class ParticleGroup {
+  constructor(params) {
+    this.object3D = new THREE.Object3D();
+    this.particles = [];
+    this.nParticles = params.nParticles;
+    this.radiusRange = params.radiusRange;
+
+    this.initParticles(params.defaultAttributes);
+  }
+
+  initParticles(spriteDefault) {
+    for (let p = 0; p < this.nParticles; p++) {
+      spriteDefault.startPosition.setLength(this.radiusRange * Math.random());
+      const newSpriteParticle = new SpriteParticle(spriteDefault);
+      this.object3D.add(newSpriteParticle.getSprite());
+      this.particles.push(newSpriteParticle);
+    }
+  }
+
+  getParticles() {
+    return this.particles;
+  }
+
+  getObject3D() {
+    return this.object3D;
+  }
+}
+
+class AbstractParticle {
+  constructor(params) {
+    if (this.constructor === AbstractParticle) {
+      throw new TypeError(
+        'Abstract class "AbstractParticle" cannot be instantiated directly'
+      );
+    }
+    this.startPosition = params.startPosition;
+    this.startSize = params.startSize;
+    this.randomness = Math.random();
+    this.material = params.material;
+    this.material.color.copy(params.color);
+    this.material.opacity = params.opacity || 1;
+  }
+
+  getStartPosition() {
+    return this.startPosition;
+  }
+
+  getStartSize() {
+    return this.startSize;
+  }
+
+  getRandomness() {
+    return this.randomness;
+  }
+
+  getMaterial() {
+    return this.material;
+  }
+}
+
+class SpriteParticle extends AbstractParticle {
+  constructor(params) {
+    super(params);
+    this.sprite = null;
+    this.initSprite();
+  }
+
+  initSprite() {
+    this.sprite = new THREE.Sprite(super.getMaterial());
+    this.sprite.scale.copy(super.getStartSize());
+    this.sprite.position.copy(super.getStartPosition());
+  }
+
+  getSprite() {
+    return this.sprite;
+  }
+}
