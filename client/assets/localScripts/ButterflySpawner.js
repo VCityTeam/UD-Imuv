@@ -67,7 +67,7 @@ module.exports = class ButterflySpawner {
         return 10 * Math.random();
       },
       minLife: 5,
-      opacity: 0.8,
+      startOpacity: 0.8,
     };
 
     this.particleGroup = new ParticleGroup({
@@ -141,7 +141,8 @@ class AbstractParticle {
     this.lifeTime = this.randomness * (maxLife - minLife) + minLife;
     this.material = params.material();
     this.material.color.copy(params.color());
-    this.material.opacity = params.opacity || 1;
+    this.startOpacity = params.startOpacity || 1;
+    this.material.opacity = this.startOpacity;
   }
 
   getStartPosition() {
@@ -150,6 +151,10 @@ class AbstractParticle {
 
   getStartSize() {
     return this.startSize;
+  }
+
+  getStartOpacity() {
+    return this.startOpacity;
   }
 
   getRandomness() {
@@ -189,5 +194,22 @@ class SpriteParticle extends AbstractParticle {
     this.sprite.position.copy(
       super.getStartPosition().clone().multiplyScalar(pulseFactor)
     );
+
+    this.fade(super.getLifeTime() * 0.2, super.getLifeTime() * 0.8, time);
+  }
+
+  fade(inTime, outTime, time) {
+    const startOpacity = super.getStartOpacity();
+    const lifeTime = super.getLifeTime();
+    let spriteOpacity = this.sprite.material.opacity;
+
+    if (time <= inTime && spriteOpacity <= startOpacity)
+      spriteOpacity = (time * startOpacity) / inTime;
+    else if (time >= outTime && spriteOpacity >= 0) {
+      spriteOpacity =
+        startOpacity - ((time - outTime) / (lifeTime - outTime)) * startOpacity;
+    }
+
+    this.sprite.material.opacity = spriteOpacity;
   }
 }
