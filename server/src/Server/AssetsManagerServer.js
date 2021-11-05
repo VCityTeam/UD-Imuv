@@ -82,11 +82,11 @@ module.exports = class AssetsManagerServer {
         const random = Math.random();
 
         if (random < 0.33) {
-          j[k] = 'avatar_capuchon';
+          j[k] = 'avatar_petit';
         } else if (random < 0.66) {
-          j[k] = 'sphere';
+          j[k] = 'avatar_moyen';
         } else {
-          j[k] = 'cube';
+          j[k] = 'avatar_grand';
         }
       }
     });
