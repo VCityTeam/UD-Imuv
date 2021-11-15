@@ -55,6 +55,9 @@
       "sprite_name": {
         "path": "./assets/localScripts/SpriteName.js"
       },
+      "texture_face": {
+        "path": "./assets/localScripts/TextureFace.js"
+      },
       "image": {
         "path": "./assets/localScripts/Image.js"
       },
@@ -115,6 +118,11 @@
         "path": "./assets/models/Studio_IMU_B.glb"
       }
     },
+    "face_textures": [
+      "./assets/textures/chat.png",
+      "./assets/textures/Yael.png",
+      "./assets/textures/Did.png"
+    ],
     "worldScripts": {
       "avatar": {
         "path": "./assets/worldScripts/Avatar.js"

@@ -29,10 +29,10 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["sprite_name"],
+      "idScripts": ["sprite_name", "texture_face"],
       "conf": {
         "name": "default_name",
-        "face_texture": "./assets/textures/Yael.png"
+        "index_face_texture": 0
       },
       "type": "LocalScript"
     }
