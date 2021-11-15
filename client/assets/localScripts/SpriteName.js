@@ -17,6 +17,25 @@ module.exports = class SpriteName {
   init() {
     const go = arguments[0];
     this.updateSprite(go);
+    this.setFaceTexture(go);
+  }
+  
+  setFaceTexture(go) {
+    const _this = this;
+    const renderComp = go.getComponent(Shared.Render.TYPE);
+    const renderObject = renderComp.getObject3D();
+    renderObject.traverse(function (o) {
+      console.log(o.name);
+      if (o.name == 'Face') {
+        const texture = new Shared.THREE.TextureLoader().load(
+          _this.config.face_texture
+        );
+        texture.flipY = false;
+        o.material = new Shared.THREE.MeshBasicMaterial({ map: texture });
+        o.setRotationFromAxisAngle(new Shared.THREE.Vector3(0, 0, 0), 10);
+        return o;
+      }
+    });
   }
 
   createSprite(label) {

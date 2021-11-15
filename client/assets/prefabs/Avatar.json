@@ -19,7 +19,7 @@
     },
     "Render": {
       "type": "Render",
-      "idModel": "avatar_capuchon",
+      "idModel": "avatar_moyen",
       "name": "avatar_name",
       "color": null
     },
@@ -30,7 +30,10 @@
     },
     "LocalScript": {
       "idScripts": ["sprite_name"],
-      "conf": { "name": "default_name" },
+      "conf": {
+        "name": "default_name",
+        "face_texture": "./assets/textures/Yael.png"
+      },
       "type": "LocalScript"
     }
   },
