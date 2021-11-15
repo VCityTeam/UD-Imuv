@@ -60,6 +60,13 @@ module.exports = class ButterflySpawner {
           color: 0xffffff,
         });
       },
+      material2: function () {
+        return new THREE.SpriteMaterial({
+          map: THREE.ImageUtils.loadTexture('/assets/img/butterflySprite2.png'),
+          useScreenCoordinates: false,
+          color: 0xffffff,
+        });
+      },
       color: function () {
         return new THREE.Color().setHSL(Math.random(), 0.9, 0.7);
       },
@@ -140,9 +147,12 @@ class AbstractParticle {
 
     this.lifeTime = this.randomness * (maxLife - minLife) + minLife;
     this.material = params.material();
+    this.material2 = params.material2();
     this.material.color.copy(params.color());
+    this.material2.color.copy(this.material.color);
     this.startOpacity = params.startOpacity || 1;
     this.material.opacity = this.startOpacity;
+    this.material2.opacity = this.startOpacity;
   }
 
   getStartPosition() {
@@ -163,6 +173,10 @@ class AbstractParticle {
 
   getMaterial() {
     return this.material;
+  }
+
+  getMaterial2() {
+    return this.material2;
   }
 
   getLifeTime() {
@@ -194,6 +208,9 @@ class SpriteParticle extends AbstractParticle {
     this.sprite.position.copy(
       super.getStartPosition().clone().multiplyScalar(pulseFactor)
     );
+
+    this.sprite.material =
+      Math.floor(time) % 2 == 0 ? super.getMaterial() : super.getMaterial2();
 
     this.fade(super.getLifeTime() * 0.2, super.getLifeTime() * 0.8, time);
   }
