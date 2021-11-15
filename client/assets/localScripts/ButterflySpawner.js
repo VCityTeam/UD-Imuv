@@ -210,7 +210,9 @@ class SpriteParticle extends AbstractParticle {
     );
 
     this.sprite.material =
-      Math.floor(time) % 2 == 0 ? super.getMaterial() : super.getMaterial2();
+      Math.floor(time + this.randomness) % 2 == 0
+        ? super.getMaterial()
+        : super.getMaterial2();
 
     this.fade(super.getLifeTime() * 0.2, super.getLifeTime() * 0.8, time);
   }
