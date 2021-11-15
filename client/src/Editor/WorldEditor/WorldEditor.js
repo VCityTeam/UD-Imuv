@@ -32,7 +32,7 @@ export class WorldEditorView {
       assetsManager: params.assetsManager,
       config: this.config,
       userData: { firstGameView: false },
-      stateComputer: this.model.getInterpolator(),
+      interpolator: this.model.getInterpolator(),
       updateGameObject: false,
     });
     this.gameView.start(
