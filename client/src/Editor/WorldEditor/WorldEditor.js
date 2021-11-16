@@ -91,7 +91,7 @@ export class WorldEditorView {
 
   addGameObject(newGo, onLoad) {
     //find the map
-    const wCxt = this.gameView.getStateComputer().getWorldContext();
+    const wCxt = this.gameView.getInterpolator().getWorldContext();
     const world = wCxt.getWorld();
     const mapGo = computeMapGO(this.gameView);
 

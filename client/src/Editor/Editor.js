@@ -109,7 +109,7 @@ export class EditorView {
 
       const worldUUID = _this.currentWorldView
         .getGameView()
-        .getStateComputer()
+        .getInterpolator()
         .getWorldContext()
         .getWorld()
         .getUUID();
@@ -143,7 +143,7 @@ export class EditorView {
     //world loaded
     const world = this.currentWorldView
       .getGameView()
-      .getStateComputer()
+      .getInterpolator()
       .getWorldContext()
       .getWorld();
 

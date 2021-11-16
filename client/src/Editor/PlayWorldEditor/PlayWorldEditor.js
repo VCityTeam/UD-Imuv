@@ -56,15 +56,15 @@ export class PlayWorldEditorView {
 
         world.addGameObject(
           avatar,
-          gV.getStateComputer().getWorldContext(),
+          gV.getInterpolator().getWorldContext(),
           computeMapGO(gV)
         );
 
         //resize
         gV.setDisplaySize(new THREE.Vector2(_this.parentUIHtml.clientWidth, 0));
 
-        gV.getStateComputer().addAfterTickRequester(function () {
-          const worldComputer = gV.getStateComputer();
+        gV.getInterpolator().addAfterTickRequester(function () {
+          const worldComputer = gV.getInterpolator();
           const inputManager = gV.getInputManager();
           const cmds = inputManager.computeCommands();
           cmds.forEach(function (c) {
@@ -117,7 +117,7 @@ export class PlayWorldEditorView {
     //draw collison body
     const world = this.localGameApp
       .getGameView()
-      .getStateComputer()
+      .getInterpolator()
       .getWorldContext()
       .getWorld();
     ctx.beginPath();
