@@ -61,6 +61,9 @@
       "sprite_name": {
         "path": "./assets/localScripts/SpriteName.js"
       },
+      "texture_face": {
+        "path": "./assets/localScripts/TextureFace.js"
+      },
       "localGameManager": {
         "path": "./assets/localScripts/LocalGameManager.js"
       },

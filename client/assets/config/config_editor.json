@@ -55,6 +55,9 @@
       "sprite_name": {
         "path": "./assets/localScripts/SpriteName.js"
       },
+      "texture_face": {
+        "path": "./assets/localScripts/TextureFace.js"
+      },
       "image": {
         "path": "./assets/localScripts/Image.js"
       },

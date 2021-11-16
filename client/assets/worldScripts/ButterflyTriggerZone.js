@@ -17,7 +17,6 @@ module.exports = class ButterflyTriggerZone {
     const butterflySpawnerLS = this.go.getComponent(Shared.LocalScript.TYPE);
     butterflySpawnerLS.conf.onEnter = true;
     this.go.setOutdated(true);
-    console.log('outdated',count);
     count++
   }
 

@@ -89,6 +89,10 @@ module.exports = class AssetsManagerServer {
           j[k] = 'avatar_grand';
         }
       }
+      if (k == 'index_face_texture') {
+        const random = Math.floor(Math.random() * 3); //get length of face_textures in AssetsManager.json
+        j[k] = random;
+      }
     });
 
     return json;
