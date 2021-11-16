@@ -258,5 +258,16 @@ module.exports = class Avatar {
 
   onLeaveCollision() {
     // console.log('on leave');
+    const uuidGoLeft = arguments[1];
+    const wCtxt = arguments[2];
+    let goLeft = null;
+    wCtxt
+      .getWorld()
+      .getGameObject()
+      .traverse(function (child) {
+        if (child.getUUID() == uuidGoLeft) {
+          goLeft = child;
+        }
+      });
   }
 };

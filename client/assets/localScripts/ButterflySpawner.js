@@ -14,7 +14,6 @@ module.exports = class ButterflySpawner {
 
   init() {
     this.go = arguments[0];
-    console.log('Init Butterfly Spawner', this.go);
     if (!this.go) return;
     this.triggerAnimate = false;
     this.particleGroup = null;
