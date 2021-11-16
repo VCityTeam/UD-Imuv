@@ -120,12 +120,7 @@
       "studio_imu_B": {
         "path": "./assets/models/Studio_IMU_B.glb"
       }
-    },
-    "face_textures": [
-      "./assets/textures/chat.png",
-      "./assets/textures/Yael.png",
-      "./assets/textures/Did.png"
-    ]
+    }
   },
   "game": {
     "fps": 30,

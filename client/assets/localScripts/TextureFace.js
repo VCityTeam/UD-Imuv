@@ -15,8 +15,8 @@ module.exports = class TextureFace {
     console.log('INIT Texture Face');
     const go = arguments[0];
     const localCtx = arguments[1];
-    const texture_path = localCtx.getGameView().getAssetsManager().conf
-      .face_textures[this.config.index_face_texture];
+    const conf = this.config;
+    const texture_path = conf.face_textures[conf.index_face_texture];
     this.setFaceTexture(go, texture_path);
   }
 

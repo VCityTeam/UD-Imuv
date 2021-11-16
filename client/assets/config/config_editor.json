@@ -118,11 +118,6 @@
         "path": "./assets/models/Studio_IMU_B.glb"
       }
     },
-    "face_textures": [
-      "./assets/textures/chat.png",
-      "./assets/textures/Yael.png",
-      "./assets/textures/Did.png"
-    ],
     "worldScripts": {
       "avatar": {
         "path": "./assets/worldScripts/Avatar.js"
