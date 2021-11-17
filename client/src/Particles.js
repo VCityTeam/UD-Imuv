@@ -81,7 +81,7 @@ export class SpriteParticle extends AbstractParticle {
   }
 
   initSprite() {
-    const sprite = this.sprite;
+    let sprite = this.sprite;
     sprite = new THREE.Sprite(super.getMaterial());
     sprite.scale.set(super.getStartSize());
     sprite.position.set(super.getStartPosition());
