@@ -230,6 +230,12 @@ module.exports = class Avatar {
       butterflyTriggerZone.onAvatarEnter();
     }
 
+    //check if is interaction_zone
+    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
+    if (interactionZone) {
+      interactionZone.onAvatarEnter();
+    }
+
     this.collide(collider, go, result);
   }
 
@@ -253,21 +259,29 @@ module.exports = class Avatar {
       butterflyTriggerZone.onAvatarColliding();
     }
 
+    //check if is interaction_zone
+    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
+    if (interactionZone) {
+      interactionZone.onAvatarColliding();
+    }
+
     this.collide(collider, go, result);
   }
 
   onLeaveCollision() {
     // console.log('on leave');
-    const uuidGoLeft = arguments[1];
+    const uuidColliderGO = arguments[1];
     const wCtxt = arguments[2];
-    let goLeft = null;
-    wCtxt
+    const colliderGO = wCtxt
       .getWorld()
       .getGameObject()
-      .traverse(function (child) {
-        if (child.getUUID() == uuidGoLeft) {
-          goLeft = child;
-        }
-      });
+      .computeRoot()
+      .find(uuidColliderGO);
+
+    //check if is interaction_zone
+    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
+    if (interactionZone) {
+      interactionZone.onAvatarLeave();
+    }
   }
 };

@@ -81,6 +81,9 @@
       },
       "mini_map": {
         "path": "./assets/localScripts/MiniMap.js"
+      },
+      "local_interactions": {
+        "path": "./assets/localScripts/LocalInteractions.js"
       }
     },
     "models": {
