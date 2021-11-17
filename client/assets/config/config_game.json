@@ -84,6 +84,9 @@
       },
       "local_interactions": {
         "path": "./assets/localScripts/LocalInteractions.js"
+      },
+      "default_interactions": {
+        "path": "./assets/localScripts/DefaultInteractions.js"
       }
     },
     "models": {

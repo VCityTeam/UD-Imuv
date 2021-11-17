@@ -18,27 +18,32 @@ module.exports = class InteractionZone {
   }
 
   onAvatarEnter() {
-    this.localScript.conf.onLeave = false;
-    this.localScript.conf.isColliding = false;
+    const confLS = this.localScript.conf;
 
-    this.localScript.conf.onEnter = true;
+    confLS.onLeave = false;
+    confLS.isColliding = false;
+
+    confLS.onEnter = true;
     this.go.setOutdated(true);
   }
 
   onAvatarColliding() {
-    if (this.localScript.conf.isColliding === true) return;
-    this.localScript.conf.onEnter = false;
-    this.localScript.conf.onLeave = false;
+    const confLS = this.localScript.conf;
 
-    this.localScript.conf.isColliding = true;
+    confLS.onEnter = false;
+    confLS.onLeave = false;
+    if (confLS.isColliding === true) return;
+    confLS.isColliding = true;
     this.go.setOutdated(true);
   }
 
   onAvatarLeave() {
-    this.localScript.conf.onEnter = false;
-    this.localScript.conf.isColliding = false;
+    const confLS = this.localScript.conf;
 
-    this.localScript.conf.onLeave = true;
+    confLS.onEnter = false;
+    confLS.isColliding = false;
+
+    confLS.onLeave = true;
     this.go.setOutdated(true);
   }
 };

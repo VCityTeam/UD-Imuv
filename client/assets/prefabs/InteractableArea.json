@@ -20,7 +20,7 @@
       "color": [0, 1, 0]
     },
     "LocalScript": {
-      "idScripts": ["local_interactions"],
+      "idScripts": ["local_interactions", "default_interactions"],
       "conf": {
         "onEnter": false,
         "isColliding": false,

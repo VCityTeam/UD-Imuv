@@ -1,10 +1,10 @@
 /**@format */
-let udviz = null;
-let Shared = null;
-
+let Shared;
 module.exports = class LocalInteractions {
   constructor(conf, udvizBundle) {
     this.conf = conf;
+    this.tickIsColliding = null;
+    Shared = udvizBundle.Game.Shared;
   }
 
   init() {
@@ -16,15 +16,22 @@ module.exports = class LocalInteractions {
     this.initInputs(localCtx);
   }
 
+  tick() {
+    if (this.tickIsColliding) {
+      this.tickIsColliding();
+    }
+  }
+
   initInputs(localCtx) {
-    const conf = this.conf;
+    const _this = this;
     const localScripts = this.localScripts;
     const gameView = localCtx.getGameView();
     const manager = gameView.getInputManager();
     let interactionFunction;
     manager.addKeyInput('e', 'keydown', function () {
       localScripts.forEach((ls) => {
-        if (conf.isColliding && (interactionFunction = ls.interaction)) {
+        debugger;
+        if (_this.conf.isColliding && (interactionFunction = ls.interaction)) {
           interactionFunction();
         }
       });
@@ -32,17 +39,20 @@ module.exports = class LocalInteractions {
   }
 
   update() {
+    const _this = this;
     const conf = this.conf;
-    let onEnterFunction, isCollidingFunction, onLeaveFunction;
+    let onEnterFunction, onCollidingFunction, onLeaveFunction;
     this.localScripts.forEach((ls) => {
       if (conf.onEnter && (onEnterFunction = ls.onEnter)) {
         onEnterFunction();
+        _this.tickIsColliding = null;
       }
-      if (conf.isColliding && (isCollidingFunction = ls.isColliding)) {
-        isCollidingFunction();
+      if (conf.isColliding && (onCollidingFunction = ls.onColliding)) {
+        _this.tickIsColliding = onCollidingFunction;
       }
       if (conf.onLeave && (onLeaveFunction = ls.onLeave)) {
         onLeaveFunction();
+        _this.tickIsColliding = null;
       }
     });
   }
