@@ -6,7 +6,8 @@ module.exports = class UI {
 
     udviz = udvizBundle;
 
-    this.fpsLabel = null;
+    this.gameViewFps = null;
+    this.worldComputerFps = null;
     this.avatarCount = null;
     this.globalVolumeSlider = null;
   }
@@ -16,9 +17,13 @@ module.exports = class UI {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
 
-    this.fpsLabel = document.createElement('div');
-    this.fpsLabel.classList.add('label_localGameManager');
-    gameView.appendToUI(this.fpsLabel);
+    this.gameViewFps = document.createElement('div');
+    this.gameViewFps.classList.add('label_localGameManager');
+    gameView.appendToUI(this.gameViewFps);
+
+    this.worldComputerFps = document.createElement('div');
+    this.worldComputerFps.classList.add('label_localGameManager');
+    gameView.appendToUI(this.worldComputerFps);
 
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_localGameManager');
@@ -42,14 +47,23 @@ module.exports = class UI {
   }
 
   tick() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-    this.updateUI(go, localCtx);
+    this.updateUI(arguments[0], arguments[1]);
+  }
+
+  update() {
+    this.updateUI(arguments[0], arguments[1]);
   }
 
   updateUI(go, localCtx) {
     //update ui
-    this.fpsLabel.innerHTML = 'FPS = ' + Math.round(1000 / localCtx.getDt());
+    this.gameViewFps.innerHTML =
+      'Client FPS = ' + Math.round(1000 / localCtx.getDt());
+
+    let worldFps = -1;
+    if (this.conf.world_computer_dt)
+      worldFps = Math.round(1000 / this.conf.world_computer_dt);
+    this.worldComputerFps.innerHTML = 'World FPS = ' + worldFps;
+
     let avatarCount = 0;
     go.traverse(function (g) {
       if (g.name == 'avatar') avatarCount++;

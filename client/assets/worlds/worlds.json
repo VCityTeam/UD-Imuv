@@ -38,7 +38,8 @@
               "url": null,
               "name": "Flying Campus Room"
             },
-            "mini_map_size": 232
+            "mini_map_size": 232,
+            "world_computer_dt": null
           },
           "type": "LocalScript"
         }
@@ -2604,7 +2605,8 @@
               "uuid": "EE7CB6DA-945E-496A-BA54-50AD1012FECF",
               "url": null,
               "name": "Room Expo Room"
-            }
+            },
+            "world_computer_dt": null
           },
           "type": "LocalScript"
         }
@@ -4038,7 +4040,10 @@
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
           "idScripts": ["localGameManager", "static_object", "ui"],
-          "conf": { "fog": { "near": 5, "far": 100 } },
+          "conf": {
+            "fog": { "near": 5, "far": 100 },
+            "world_computer_dt": null
+          },
           "type": "LocalScript"
         }
       },
@@ -4474,7 +4479,8 @@
               "uuid": "AF7DBDC7-8B1B-4DC9-B176-0736B57FE025",
               "url": null,
               "name": "Studio IMU Room"
-            }
+            },
+            "world_computer_dt": null
           },
           "type": "LocalScript"
         }
@@ -4765,7 +4771,8 @@
               "uuid": "FDC80800-8457-4273-86BC-CD100ADDA3E6",
               "url": null,
               "name": "Studio B IMU Room"
-            }
+            },
+            "world_computer_dt": null
           },
           "type": "LocalScript"
         }
