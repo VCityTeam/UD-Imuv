@@ -8,6 +8,7 @@ module.exports = class UI {
 
     this.gameViewFps = null;
     this.worldComputerFps = null;
+    this.pingUI = null;
     this.avatarCount = null;
     this.globalVolumeSlider = null;
   }
@@ -24,6 +25,10 @@ module.exports = class UI {
     this.worldComputerFps = document.createElement('div');
     this.worldComputerFps.classList.add('label_localGameManager');
     gameView.appendToUI(this.worldComputerFps);
+
+    this.pingUI = document.createElement('div');
+    this.pingUI.classList.add('label_localGameManager');
+    gameView.appendToUI(this.pingUI);
 
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_localGameManager');
@@ -63,6 +68,9 @@ module.exports = class UI {
     if (this.conf.world_computer_dt)
       worldFps = Math.round(1000 / this.conf.world_computer_dt);
     this.worldComputerFps.innerHTML = 'World FPS = ' + worldFps;
+
+    this.pingUI.innerHTML =
+      'Ping = ' + localCtx.getGameView().getInterpolator().getPing();
 
     let avatarCount = 0;
     go.traverse(function (g) {
