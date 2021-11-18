@@ -8,4 +8,4 @@ TODO.txt
 .vscode
 Test/**
 server/env.json
-server/assets/temp/bbb_data.xml
+*.xml
