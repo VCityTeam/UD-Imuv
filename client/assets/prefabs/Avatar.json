@@ -19,7 +19,7 @@
     },
     "Render": {
       "type": "Render",
-      "idModel": "avatar_capuchon",
+      "idModel": "avatar_moyen",
       "name": "avatar_name",
       "color": null
     },
@@ -29,8 +29,16 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["sprite_name"],
-      "conf": { "name": "default_name" },
+      "idScripts": ["sprite_name", "texture_face"],
+      "conf": {
+        "name": "default_name",
+        "index_face_texture": 0,
+        "face_textures": [
+          "./assets/textures/chat.png",
+          "./assets/textures/Yael.png",
+          "./assets/textures/Did.png"
+        ]
+      },
       "type": "LocalScript"
     }
   },

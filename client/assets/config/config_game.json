@@ -61,6 +61,9 @@
       "sprite_name": {
         "path": "./assets/localScripts/SpriteName.js"
       },
+      "texture_face": {
+        "path": "./assets/localScripts/TextureFace.js"
+      },
       "localGameManager": {
         "path": "./assets/localScripts/LocalGameManager.js"
       },
@@ -84,8 +87,16 @@
       "room_conf_modulable": {
         "path": "./assets/models/Room_Conf_Modulable.glb"
       },
-      "avatar_capuchon": {
-        "path": "./assets/models/avatar_capuchon.glb",
+      "avatar_petit": {
+        "path": "./assets/models/Avatar_petit.glb",
+        "anchor": "center_min"
+      },
+      "avatar_moyen": {
+        "path": "./assets/models/Avatar_moyen.glb",
+        "anchor": "center_min"
+      },
+      "avatar_grand": {
+        "path": "./assets/models/Avatar_grand.glb",
         "anchor": "center_min"
       },
       "flying_campus": {

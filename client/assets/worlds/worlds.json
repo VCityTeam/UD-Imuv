@@ -2066,8 +2066,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.12445037383108, 11.95088078527347, 30],
-                "rotation": [0, 0, 4.858652373086141, "ZXY"],
+                "position": [81.00663079990784, 12.725005557854297, 30],
+                "rotation": [0, 0, 4.868201669671656, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2273,130 +2273,12 @@
               "children": [],
               "transform": {
                 "position": [
-                  -26.95766543992795, 4.684475755318999, 0.09728101920256904
+                  -26.95766543992795, 8.513990392908454, 0.9133055604198148
                 ],
                 "rotation": [
                   6.283130947850546,
                   6.3,
                   0.03413789619054697,
-                  "ZXY"
-                ],
-                "scale": [1, 1, 1]
-              }
-            },
-            {
-              "name": "Teleporter rosace stair up",
-              "type": "GameObject",
-              "static": true,
-              "outdated": false,
-              "uuid": "20ECCA6D-9B16-4049-8FBA-F4035BA176E4",
-              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-              "components": {
-                "Render": {
-                  "uuid": "64BC64D5-504F-4699-A818-7758AC748E97",
-                  "type": "Render",
-                  "idModel": "cube",
-                  "color": [1, 0, 0]
-                },
-                "Collider": {
-                  "uuid": "949C4585-5499-49B8-BD17-1AE26B6158EC",
-                  "type": "Collider",
-                  "shapes": [
-                    {
-                      "type": "Circle",
-                      "center": { "x": 0, "y": 0 },
-                      "radius": 1
-                    }
-                  ],
-                  "body": false
-                },
-                "WorldScript": {
-                  "uuid": "9F8166DE-0062-4B32-8DF6-808A7D067F86",
-                  "idScripts": ["teleporter"],
-                  "conf": {
-                    "destinationTransform": {
-                      "position": ["66", "-76", "-23"],
-                      "rotation": ["0.2", 0, "4.91", "ZXY"],
-                      "scale": [1, 1, 1]
-                    }
-                  },
-                  "type": "WorldScript"
-                },
-                "LocalScript": {
-                  "uuid": "3400B116-DE9C-47FF-92F2-57C0E9CCD74B",
-                  "idScripts": ["rotate"],
-                  "conf": { "speed": 0.001 },
-                  "type": "LocalScript"
-                }
-              },
-              "children": [],
-              "transform": {
-                "position": [
-                  69.02491878904402, -74.05338218063116, -14.293677824479971
-                ],
-                "rotation": [
-                  6.283115019211316,
-                  3.140001551750574,
-                  0.04414691673857973,
-                  "ZXY"
-                ],
-                "scale": [1, 1, 1]
-              }
-            },
-            {
-              "name": "Teleporter stair up arbre mort",
-              "type": "GameObject",
-              "static": true,
-              "outdated": false,
-              "uuid": "A111F918-25DA-436A-B377-5BA8A7D53411",
-              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-              "components": {
-                "Render": {
-                  "uuid": "7890F385-3FAD-400B-916A-38C6AE58A89A",
-                  "type": "Render",
-                  "idModel": "cube",
-                  "color": [1, 0, 0]
-                },
-                "Collider": {
-                  "uuid": "412A7B7C-764D-485D-AB28-8E54DEDF6D7B",
-                  "type": "Collider",
-                  "shapes": [
-                    {
-                      "type": "Circle",
-                      "center": { "x": 0, "y": 0 },
-                      "radius": 1
-                    }
-                  ],
-                  "body": false
-                },
-                "WorldScript": {
-                  "uuid": "8C8C0553-2852-4F3C-8ABD-CDAA8EA2E8D1",
-                  "idScripts": ["teleporter"],
-                  "conf": {
-                    "destinationTransform": {
-                      "position": [-56, 53, 0],
-                      "rotation": [0.2, 0, 0.81, "ZXY"],
-                      "scale": [1, 1, 1]
-                    }
-                  },
-                  "type": "WorldScript"
-                },
-                "LocalScript": {
-                  "uuid": "FD0C8205-257C-49C7-A20F-913350238C5C",
-                  "idScripts": ["rotate"],
-                  "conf": { "speed": 0.001 },
-                  "type": "LocalScript"
-                }
-              },
-              "children": [],
-              "transform": {
-                "position": [
-                  -53.697010489879176, 53.25464667379856, -5.493890957350061
-                ],
-                "rotation": [
-                  6.283059166085597,
-                  3.1400050031575955,
-                  0.07928481197537174,
                   "ZXY"
                 ],
                 "scale": [1, 1, 1]
@@ -2448,7 +2330,7 @@
               "children": [],
               "transform": {
                 "position": [
-                  -26.95766543992795, 15.291244455613196, 0.09728101920256904
+                  -26.95766543992795, 11.344134252518415, 0.9079655714667751
                 ],
                 "rotation": [
                   6.282506075846946,
@@ -2526,6 +2408,150 @@
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [10, 10, 10]
               }
+            },
+            {
+              "name": "ButterflyArea",
+              "type": "GameObject",
+              "static": true,
+              "outdated": false,
+              "uuid": "66ECAE57-3495-428F-BD2B-46262DD3603E",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Collider": {
+                  "uuid": "E2DA8C69-45A6-4374-BB2B-00A363C28CE5",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0, "z": 0 },
+                      "radius": "5"
+                    }
+                  ],
+                  "body": false
+                },
+                "Render": {
+                  "uuid": "1E36A149-CCC3-464A-BABB-41BEEC3B1802",
+                  "type": "Render",
+                  "idModel": "torus",
+                  "color": [1, 0, 0]
+                },
+                "LocalScript": {
+                  "uuid": "3E81DF23-E872-4855-A237-E7A75C64EEDC",
+                  "idScripts": ["butterfly_spawner"],
+                  "conf": { "onEnter": false },
+                  "type": "LocalScript"
+                },
+                "WorldScript": {
+                  "uuid": "FF56C704-1139-4D51-863E-C756A2427956",
+                  "idScripts": ["butterfly_trigger_zone"],
+                  "conf": {},
+                  "type": "WorldScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  64.27197855524719, 12.621256566606462, -11.86296368256933
+                ],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [0.5, 0.5, 0.5]
+              }
+            },
+            {
+              "name": "ButterflyArea2",
+              "type": "GameObject",
+              "static": true,
+              "outdated": false,
+              "uuid": "753DC33F-5E6B-421E-8EAA-6006261ECD0B",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Collider": {
+                  "uuid": "F04133F5-EF4D-4909-A58D-E20EDE374AE8",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0, "z": 0 },
+                      "radius": "5"
+                    }
+                  ],
+                  "body": false
+                },
+                "Render": {
+                  "uuid": "49D17642-8163-406A-9646-2F63470197AD",
+                  "type": "Render",
+                  "idModel": "torus",
+                  "color": [1, 0, 0]
+                },
+                "LocalScript": {
+                  "uuid": "02AA64CF-0B65-4EE4-BF5C-B6AB7BCC4E71",
+                  "idScripts": ["butterfly_spawner"],
+                  "conf": { "onEnter": false },
+                  "type": "LocalScript"
+                },
+                "WorldScript": {
+                  "uuid": "8836A49E-0B9B-4F6A-920B-C57DB8C8BD4B",
+                  "idScripts": ["butterfly_trigger_zone"],
+                  "conf": {},
+                  "type": "WorldScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  36.85867241444066, -76.27439526468515, -13.78722257744397
+                ],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [0.5, 0.5, 0.5]
+              }
+            },
+            {
+              "name": "ButterflyArea3",
+              "type": "GameObject",
+              "static": true,
+              "outdated": false,
+              "uuid": "F35C510C-6824-4E92-B8CE-E8A2DABD82DD",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Collider": {
+                  "uuid": "9CE517B1-8F7C-4A2B-AF65-C62D8A56BC43",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0, "z": 0 },
+                      "radius": "5"
+                    }
+                  ],
+                  "body": false
+                },
+                "Render": {
+                  "uuid": "47C17FCA-D7A6-42E5-950F-C5A42F3DC1D6",
+                  "type": "Render",
+                  "idModel": "torus",
+                  "color": [1, 0, 0]
+                },
+                "LocalScript": {
+                  "uuid": "33E4FE6B-3866-41A1-8EDE-49CD11A922E5",
+                  "idScripts": ["butterfly_spawner"],
+                  "conf": { "onEnter": false },
+                  "type": "LocalScript"
+                },
+                "WorldScript": {
+                  "uuid": "01EC6629-B898-4D90-A8E5-490D78256C21",
+                  "idScripts": ["butterfly_trigger_zone"],
+                  "conf": {},
+                  "type": "WorldScript"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [
+                  -38.10314799984917, 61.913111416622996, -1.409841681112539
+                ],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [0.5, 0.5, 0.5]
+              }
             }
           ],
           "transform": {
@@ -2545,7 +2571,7 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-    "version": "2.33.4"
+    "version": "2.33.5"
   },
   {
     "gameObject": {
@@ -3985,7 +4011,7 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-    "version": "2.33.4"
+    "version": "2.33.5"
   },
   {
     "gameObject": {
@@ -4415,7 +4441,7 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-    "version": "2.33.4"
+    "version": "2.33.5"
   },
   {
     "gameObject": {
@@ -4706,7 +4732,7 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
-    "version": "2.33.4"
+    "version": "2.33.5"
   },
   {
     "gameObject": {
@@ -4972,6 +4998,6 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-    "version": "2.33.4"
+    "version": "2.33.5"
   }
 ]

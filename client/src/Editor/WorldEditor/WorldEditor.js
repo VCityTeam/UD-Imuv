@@ -32,7 +32,7 @@ export class WorldEditorView {
       assetsManager: params.assetsManager,
       config: this.config,
       userData: { firstGameView: false },
-      stateComputer: this.model.getInterpolator(),
+      interpolator: this.model.getInterpolator(),
       updateGameObject: false,
     });
     this.gameView.start(
@@ -91,7 +91,7 @@ export class WorldEditorView {
 
   addGameObject(newGo, onLoad) {
     //find the map
-    const wCxt = this.gameView.getStateComputer().getWorldContext();
+    const wCxt = this.gameView.getInterpolator().getWorldContext();
     const world = wCxt.getWorld();
     const mapGo = computeMapGO(this.gameView);
 

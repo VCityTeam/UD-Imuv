@@ -3,7 +3,7 @@ import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/Worl
 export function computeMapGO(g) {
   let result = null;
   //find the map
-  const wCxt = g.getStateComputer().getWorldContext();
+  const wCxt = g.getInterpolator().getWorldContext();
   const world = wCxt.getWorld();
   world.getGameObject().traverse(function (child) {
     const ws = child.getComponent(WorldScriptModule.TYPE);

@@ -146,7 +146,7 @@ export class GOEditorView {
   }
 
   setSelectedGO(uuid) {
-    const world = this.gameView.getStateComputer().getWorldContext().getWorld();
+    const world = this.gameView.getInterpolator().getWorldContext().getWorld();
     const go = world.getGameObject();
     this.goSelected = go.find(uuid);
 
@@ -310,7 +310,7 @@ export class GOEditorView {
 
       //world uuid
       const worldsJSON = this.gameView.getAssetsManager().getWorldsJSON();
-      const wCxt = this.gameView.getStateComputer().getWorldContext();
+      const wCxt = this.gameView.getInterpolator().getWorldContext();
       const currentWorld = wCxt.getWorld();
       //replace current world json because it can be modified
       for (let index = 0; index < worldsJSON.length; index++) {
@@ -556,7 +556,7 @@ export class GOEditorView {
       list.removeChild(list.firstChild);
     }
 
-    const world = this.gameView.getStateComputer().getWorldContext().getWorld();
+    const world = this.gameView.getInterpolator().getWorldContext().getWorld();
     const go = world.getGameObject();
     const _this = this;
     go.traverse(function (child) {
@@ -598,7 +598,7 @@ export class GOEditorView {
   initUI() {
     const labelCurrentWorld = document.createElement('h2');
     labelCurrentWorld.innerHTML =
-      this.gameView.getStateComputer().getWorldContext().getWorld().getName() +
+      this.gameView.getInterpolator().getWorldContext().getWorld().getName() +
       ' :';
     this.ui.appendChild(labelCurrentWorld);
     this.labelCurrentWorld = labelCurrentWorld;
