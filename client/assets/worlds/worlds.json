@@ -2099,7 +2099,7 @@
                 },
                 "Audio": {
                   "uuid": "15930333-026E-4D2C-A248-234E663202B2",
-                  "sounds": ["cantina"],
+                  "sounds": ["video_happy_song"],
                   "conf": {
                     "autoplay": true,
                     "spatialized": true,

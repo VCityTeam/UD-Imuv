@@ -24,9 +24,6 @@
       },
       "video_happy_song": {
         "path": "./assets/sounds/video_happy_song.webm"
-      },
-      "cantina": {
-        "path": "./assets/sounds/cantina.webm"
       }
     },
     "css": {
