@@ -55,15 +55,17 @@ module.exports = class ButterflySpawner {
       },
       material: function () {
         return new THREE.SpriteMaterial({
-          map: THREE.ImageUtils.loadTexture('/assets/img/butterflySprite.png'),
-          useScreenCoordinates: false,
+          map: new THREE.TextureLoader().load(
+            '/assets/img/butterflySprite.png'
+          ),
           color: 0xffffff,
         });
       },
       material2: function () {
         return new THREE.SpriteMaterial({
-          map: THREE.ImageUtils.loadTexture('/assets/img/butterflySprite2.png'),
-          useScreenCoordinates: false,
+          map: new THREE.TextureLoader().load(
+            '/assets/img/butterflySprite2.png'
+          ),
           color: 0xffffff,
         });
       },
