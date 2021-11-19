@@ -26,7 +26,6 @@ module.exports = class ButterflySpawner {
       const renderGO = render.getObject3D();
       renderGO.traverse(function (c) {
         if (c.material) {
-          debugger;
           c.removeFromParent();
         }
       });
