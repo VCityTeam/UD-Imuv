@@ -4,7 +4,7 @@
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": false,
+      "outdated": true,
       "uuid": "C9E1F773-4249-4BE5-A744-438207962D64",
       "parentUUID": null,
       "components": {
@@ -39,7 +39,7 @@
               "name": "Flying Campus Room"
             },
             "mini_map_size": 232,
-            "world_computer_dt": null
+            "world_computer_dt": 16
           },
           "type": "LocalScript"
         }
@@ -1835,6 +1835,15 @@
                     "z": 0.17307336628437042
                   },
                   "radius": "2.4"
+                },
+                {
+                  "type": "Circle",
+                  "center": {
+                    "x": 33.2399233027827,
+                    "y": 32.63104034308344,
+                    "z": 1.3205640598224022
+                  },
+                  "radius": "1.5"
                 }
               ],
               "body": true
@@ -1884,10 +1893,10 @@
               "children": [],
               "transform": {
                 "position": [
-                  -20.86221952480264, -61.948699534870684, -2.371400168014304
+                  -20.86221952480264, -61.350304623134434, -2.967018976222789
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
-                "scale": [1, 1, 1]
+                "scale": [0.1, 0.1, 0.1]
               }
             },
             {
@@ -1919,7 +1928,7 @@
               "transform": {
                 "position": [0, 0, 0.7223426946215454],
                 "rotation": [0, 0, 0, "ZXY"],
-                "scale": [1, 1, 1]
+                "scale": [0.1, 0.1, 0.1]
               }
             },
             {
@@ -2067,8 +2076,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.00663079990784, 12.725005557854297, 30],
-                "rotation": [0, 0, 4.868201669671656, "ZXY"],
+                "position": [81.15835418392548, 11.71842763157691, 30],
+                "rotation": [0, 0, 4.855787584110487, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2370,10 +2379,10 @@
               "children": [],
               "transform": {
                 "position": [
-                  -7.544161318568513, 70.74564842693508, 4.3000414315607145
+                  -5.080751614179462, 70.74564842693508, 4.3000414315607145
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
-                "scale": [1, 1, 1]
+                "scale": [0.1, 0.1, 0.1]
               }
             },
             {
@@ -2404,10 +2413,10 @@
               "children": [],
               "transform": {
                 "position": [
-                  79.7744876013603, 108.1954710772261, -20.079090879626904
+                  79.7744876013603, 102.4414828363806, -27.147228363506883
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
-                "scale": [10, 10, 10]
+                "scale": [0.1, 0.1, 0.1]
               }
             },
             {
@@ -2579,7 +2588,7 @@
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": false,
+      "outdated": true,
       "uuid": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
       "parentUUID": null,
       "components": {
@@ -2606,7 +2615,7 @@
               "url": null,
               "name": "Room Expo Room"
             },
-            "world_computer_dt": null
+            "world_computer_dt": 17
           },
           "type": "LocalScript"
         }
@@ -4020,7 +4029,7 @@
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": false,
+      "outdated": true,
       "uuid": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
       "parentUUID": null,
       "components": {
@@ -4040,10 +4049,7 @@
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
           "idScripts": ["localGameManager", "static_object", "ui"],
-          "conf": {
-            "fog": { "near": 5, "far": 100 },
-            "world_computer_dt": null
-          },
+          "conf": { "fog": { "near": 5, "far": 100 }, "world_computer_dt": 16 },
           "type": "LocalScript"
         }
       },
@@ -4453,7 +4459,7 @@
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": false,
+      "outdated": true,
       "uuid": "57538540-D500-45DA-BE83-F645EAC480EA",
       "parentUUID": null,
       "components": {
@@ -4480,7 +4486,7 @@
               "url": null,
               "name": "Studio IMU Room"
             },
-            "world_computer_dt": null
+            "world_computer_dt": 17
           },
           "type": "LocalScript"
         }
@@ -4772,7 +4778,7 @@
               "url": null,
               "name": "Studio B IMU Room"
             },
-            "world_computer_dt": null
+            "world_computer_dt": 17
           },
           "type": "LocalScript"
         }
