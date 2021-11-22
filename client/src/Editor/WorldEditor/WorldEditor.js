@@ -35,14 +35,16 @@ export class WorldEditorView {
       interpolator: this.model.getInterpolator(),
       updateGameObject: false,
     });
-    this.gameView.start(
-      this.model.getInterpolator().computeCurrentState(),
-      null
-    );
+    this.gameView.start();
     //offset the gameview
     this.gameView.setDisplaySize(
       new THREE.Vector2(this.parentUIHtml.clientWidth, 0)
     );
+    const _this = this;
+    //focus gameview go when new go
+    this.gameView.addOnNewGORequester(function () {
+      _this.focusObject(_this.gameView.getObject3D());
+    });
 
     //controls
     this.orbitControls = null;
@@ -203,7 +205,7 @@ export class WorldEditorView {
   }
 
   focusObject(objToFocus) {
-    const camera = this.gameView.getItownsView().camera.camera3D;
+    const camera = this.gameView.getCamera();
 
     const bb = new THREE.Box3().setFromObject(objToFocus);
     const center = bb.getCenter(new THREE.Vector3());
@@ -214,7 +216,6 @@ export class WorldEditorView {
 
     // get direction of camera
     const dir = objToFocus.getWorldDirection(new THREE.Vector3());
-    // const dir = new THREE.Vector3().subVectors(camera.position, center);
 
     // compute new camera position
     const newPos = new THREE.Vector3().addVectors(center, dir.setLength(h));
@@ -303,7 +304,7 @@ export class WorldEditorView {
     };
 
     const rotateCamera = function (dir) {
-      const camera = _this.gameView.getItownsView().camera.camera3D;
+      const camera = _this.gameView.getCamera();
       const center = _this.orbitControls.target.clone();
       const distance = camera.position.distanceTo(center);
       const newPos = new THREE.Vector3().addVectors(
@@ -409,7 +410,7 @@ export class WorldEditorView {
     if (this.orbitControls) this.orbitControls.dispose();
 
     this.orbitControls = new OrbitControls(
-      this.gameView.getItownsView().camera.camera3D,
+      this.gameView.getCamera(),
       this.gameView.rootItownsHtml
     );
 

@@ -87,7 +87,7 @@ module.exports = class Image {
                 parseInt(gV.getRootWebGL().offsetTop))
         );
 
-        raycaster.setFromCamera(mouse, gV.itownsView.camera.camera3D);
+        raycaster.setFromCamera(mouse, gV.getCamera());
 
         const i = raycaster.intersectObject(_this.imagePlane);
 

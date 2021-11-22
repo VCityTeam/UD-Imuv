@@ -3981,7 +3981,7 @@
       }
     },
     "name": "Room Expo World",
-    "origin": null,
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
     "version": "2.33.5"
@@ -4311,7 +4311,7 @@
               }
             },
             {
-              "name": "BBB screen",
+              "name": "Video final IMU",
               "type": "GameObject",
               "static": true,
               "outdated": true,
@@ -4320,15 +4320,20 @@
               "components": {
                 "LocalScript": {
                   "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
-                  "idScripts": ["bbb_screen"],
+                  "idScripts": ["video"],
                   "conf": {
-                    "bbb_room_tag": {
-                      "uuid": "BEB27E1C-AC0D-404B-9F23-0387C5564DAF",
-                      "url": null,
-                      "name": "Room Conf Screen Room"
-                    }
+                    "idVideo": "final_IMU",
+                    "width": 10,
+                    "height": 6,
+                    "size": { "width": 853, "height": 480 }
                   },
                   "type": "LocalScript"
+                },
+                "Render": {
+                  "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
+                  "type": "Render",
+                  "idModel": null,
+                  "color": [1, 1, 1]
                 }
               },
               "children": [],
@@ -4337,7 +4342,7 @@
                   -10.461478681629524, -0.397637543454767, 3.6774688264795596
                 ],
                 "rotation": [1.5707, 1.5707, 0, "ZXY"],
-                "scale": [3.1, 2.3, 1]
+                "scale": [0.999865525927484, 0.9361825705076754, 1]
               }
             },
             {
@@ -4411,7 +4416,7 @@
       }
     },
     "name": "Room Conf Modulable",
-    "origin": null,
+    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
     "version": "2.33.5"

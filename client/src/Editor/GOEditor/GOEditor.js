@@ -48,8 +48,8 @@ export class GOEditorView {
   initTransformControls() {
     if (this.transformControls) this.transformControls.dispose();
 
-    const camera = this.gameView.getItownsView().camera.camera3D;
-    const scene = this.gameView.getItownsView().scene;
+    const camera = this.gameView.getCamera();
+    const scene = this.gameView.getScene();
     const manager = this.gameView.getInputManager();
     const viewerDiv = this.gameView.rootItownsHtml;
     const canvas = this.gameView.getRenderer().domElement;

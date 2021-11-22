@@ -161,6 +161,7 @@
   },
   "game": {
     "fps": 30,
+    "radiusExtent": 1000,
     "shadowMapSize": 2046,
     "sky": {
       "path": "./assets/img/sky.jpg",
@@ -176,7 +177,6 @@
     }
   },
   "itowns": {
-    "radiusExtent": 1000,
     "camera": {
       "range": 3000,
       "heading": -50,
