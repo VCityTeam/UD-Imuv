@@ -22,7 +22,7 @@ module.exports = class ButterflySpawner {
     const render = this.go.getComponent(Shared.Render.TYPE);
     const editorMode = arguments[1].getGameView().getUserData('editorMode');
 
-    if (!editorMode) {
+    if (editorMode === false) {
       const renderGO = render.getObject3D();
       renderGO.traverse(function (c) {
         if (c.material) {
