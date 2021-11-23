@@ -12,7 +12,6 @@ module.exports = class BBB {
     this.bbbIframe = null;
     this.joinWorldBBB = null;
     this.loadingUIEl = null;
-
   }
 
   createLoadingUIEl(gameView) {
@@ -29,6 +28,7 @@ module.exports = class BBB {
   }
 
   removeLoadingUIEl() {
+    if (!this.loadingUIEl) return;
     this.loadingUIEl.remove();
     this.loadingUIEl = null;
   }
