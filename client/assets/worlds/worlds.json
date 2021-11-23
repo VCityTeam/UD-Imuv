@@ -4,7 +4,7 @@
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": true,
+      "outdated": false,
       "uuid": "C9E1F773-4249-4BE5-A744-438207962D64",
       "parentUUID": null,
       "components": {
@@ -23,13 +23,7 @@
         },
         "LocalScript": {
           "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
-          "idScripts": [
-            "localGameManager",
-            "static_object",
-            "ui",
-            "bbb",
-            "mini_map"
-          ],
+          "idScripts": ["localGameManager", "static_object", "bbb", "mini_map"],
           "conf": {
             "traveling_time": 1500,
             "fog": { "near": 5, "far": 100 },
@@ -38,8 +32,7 @@
               "url": null,
               "name": "Flying Campus Room"
             },
-            "mini_map_size": 232,
-            "world_computer_dt": 16
+            "mini_map_size": 232
           },
           "type": "LocalScript"
         }
@@ -2076,8 +2069,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.02878437017222, 12.583167466585426, 30],
-                "rotation": [0, 0, 4.866450965297645, "ZXY"],
+                "position": [81.02075725764095, 12.634749439479224, 30],
+                "rotation": [0, 0, 4.867087585070012, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2569,6 +2562,34 @@
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
           }
+        },
+        {
+          "name": "UI_GO",
+          "type": "GameObject",
+          "static": false,
+          "outdated": true,
+          "uuid": "8EE2385E-E924-436F-8F94-D816B62979A2",
+          "parentUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
+          "components": {
+            "LocalScript": {
+              "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
+              "idScripts": ["ui"],
+              "conf": { "world_computer_dt": 17 },
+              "type": "LocalScript"
+            },
+            "WorldScript": {
+              "uuid": "2D01EB3B-482D-4DCE-994E-F9F8EF7E864E",
+              "idScripts": ["ui"],
+              "conf": {},
+              "type": "WorldScript"
+            }
+          },
+          "children": [],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
         }
       ],
       "transform": {
@@ -2581,14 +2602,14 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-    "version": "2.33.5"
+    "version": "2.33.6"
   },
   {
     "gameObject": {
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": true,
+      "outdated": false,
       "uuid": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
       "parentUUID": null,
       "components": {
@@ -2607,15 +2628,14 @@
         },
         "LocalScript": {
           "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-          "idScripts": ["localGameManager", "static_object", "ui", "bbb"],
+          "idScripts": ["localGameManager", "static_object", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
               "uuid": "EE7CB6DA-945E-496A-BA54-50AD1012FECF",
               "url": null,
               "name": "Room Expo Room"
-            },
-            "world_computer_dt": 17
+            }
           },
           "type": "LocalScript"
         }
@@ -3972,6 +3992,34 @@
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
           }
+        },
+        {
+          "name": "UI_GO",
+          "type": "GameObject",
+          "static": false,
+          "outdated": true,
+          "uuid": "F22A0B50-E633-464C-B2B4-A665986EEE65",
+          "parentUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
+          "components": {
+            "LocalScript": {
+              "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
+              "idScripts": ["ui"],
+              "conf": { "world_computer_dt": 16 },
+              "type": "LocalScript"
+            },
+            "WorldScript": {
+              "uuid": "229103D2-2B5E-44B4-A9BE-A15263D6FAD4",
+              "idScripts": ["ui"],
+              "conf": {},
+              "type": "WorldScript"
+            }
+          },
+          "children": [],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
         }
       ],
       "transform": {
@@ -3984,14 +4032,14 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-    "version": "2.33.5"
+    "version": "2.33.6"
   },
   {
     "gameObject": {
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": true,
+      "outdated": false,
       "uuid": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
       "parentUUID": null,
       "components": {
@@ -4010,8 +4058,15 @@
         },
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-          "idScripts": ["localGameManager", "static_object", "ui"],
-          "conf": { "fog": { "near": 5, "far": 100 }, "world_computer_dt": 16 },
+          "idScripts": ["localGameManager", "static_object", "bbb"],
+          "conf": {
+            "fog": { "near": 5, "far": 100 },
+            "bbb_room_tag": {
+              "uuid": "D5F4F0B0-4CC0-40BF-BBCA-765281E9CB2D",
+              "url": null,
+              "name": "Room Conf Room"
+            }
+          },
           "type": "LocalScript"
         }
       },
@@ -4202,7 +4257,7 @@
               "name": "Portal_Patio_balcon",
               "type": "GameObject",
               "static": true,
-              "outdated": true,
+              "outdated": false,
               "uuid": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
               "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
               "components": {
@@ -4258,7 +4313,7 @@
               "name": "Portal_Campus_Outside",
               "type": "GameObject",
               "static": true,
-              "outdated": true,
+              "outdated": false,
               "uuid": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
               "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
               "components": {
@@ -4314,7 +4369,7 @@
               "name": "Video final IMU",
               "type": "GameObject",
               "static": true,
-              "outdated": true,
+              "outdated": false,
               "uuid": "8B1F4A9C-D358-4295-B355-6D93315D229F",
               "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
               "components": {
@@ -4349,7 +4404,7 @@
               "name": "Portal_Patio_Campus",
               "type": "GameObject",
               "static": true,
-              "outdated": true,
+              "outdated": false,
               "uuid": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
               "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
               "components": {
@@ -4407,6 +4462,34 @@
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
           }
+        },
+        {
+          "name": "UI_GO",
+          "type": "GameObject",
+          "static": false,
+          "outdated": true,
+          "uuid": "51072C32-C638-4304-B513-D8ED4FAA60C1",
+          "parentUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+          "components": {
+            "LocalScript": {
+              "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
+              "idScripts": ["ui"],
+              "conf": { "world_computer_dt": 16 },
+              "type": "LocalScript"
+            },
+            "WorldScript": {
+              "uuid": "1C5BD77A-6C82-45B0-A637-8E39F872BCF5",
+              "idScripts": ["ui"],
+              "conf": {},
+              "type": "WorldScript"
+            }
+          },
+          "children": [],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
         }
       ],
       "transform": {
@@ -4419,14 +4502,14 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-    "version": "2.33.5"
+    "version": "2.33.6"
   },
   {
     "gameObject": {
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": true,
+      "outdated": false,
       "uuid": "57538540-D500-45DA-BE83-F645EAC480EA",
       "parentUUID": null,
       "components": {
@@ -4445,15 +4528,14 @@
         },
         "LocalScript": {
           "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
-          "idScripts": ["localGameManager", "static_object", "ui", "bbb"],
+          "idScripts": ["localGameManager", "static_object", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
               "uuid": "AF7DBDC7-8B1B-4DC9-B176-0736B57FE025",
               "url": null,
               "name": "Studio IMU Room"
-            },
-            "world_computer_dt": 17
+            }
           },
           "type": "LocalScript"
         }
@@ -4645,7 +4727,7 @@
               "name": "Portal campus",
               "type": "GameObject",
               "static": true,
-              "outdated": true,
+              "outdated": false,
               "uuid": "B4E03693-2431-466A-9B9B-22777E047422",
               "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
               "components": {
@@ -4699,6 +4781,34 @@
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
           }
+        },
+        {
+          "name": "UI_GO",
+          "type": "GameObject",
+          "static": false,
+          "outdated": true,
+          "uuid": "94C4A49E-C0E4-4301-9832-69939C95695C",
+          "parentUUID": "57538540-D500-45DA-BE83-F645EAC480EA",
+          "components": {
+            "LocalScript": {
+              "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
+              "idScripts": ["ui"],
+              "conf": { "world_computer_dt": 16 },
+              "type": "LocalScript"
+            },
+            "WorldScript": {
+              "uuid": "FD5FAD5B-AFBB-4511-B757-E1F6EB1D2512",
+              "idScripts": ["ui"],
+              "conf": {},
+              "type": "WorldScript"
+            }
+          },
+          "children": [],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
         }
       ],
       "transform": {
@@ -4711,14 +4821,14 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
-    "version": "2.33.5"
+    "version": "2.33.6"
   },
   {
     "gameObject": {
       "name": "GameManager",
       "type": "GameObject",
       "static": true,
-      "outdated": true,
+      "outdated": false,
       "uuid": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
       "parentUUID": null,
       "components": {
@@ -4737,15 +4847,14 @@
         },
         "LocalScript": {
           "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
-          "idScripts": ["localGameManager", "static_object", "ui", "bbb"],
+          "idScripts": ["localGameManager", "static_object", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
               "uuid": "FDC80800-8457-4273-86BC-CD100ADDA3E6",
               "url": null,
               "name": "Studio B IMU Room"
-            },
-            "world_computer_dt": 15
+            }
           },
           "type": "LocalScript"
         }
@@ -4912,7 +5021,7 @@
               "name": "Portal",
               "type": "GameObject",
               "static": true,
-              "outdated": true,
+              "outdated": false,
               "uuid": "3266ECA0-571E-45A7-B63D-44BC303FE783",
               "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
               "components": {
@@ -4966,6 +5075,34 @@
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
           }
+        },
+        {
+          "name": "UI_GO",
+          "type": "GameObject",
+          "static": false,
+          "outdated": true,
+          "uuid": "0CC069A2-AA64-42A9-9E81-7FA4444C862F",
+          "parentUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
+          "components": {
+            "LocalScript": {
+              "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
+              "idScripts": ["ui"],
+              "conf": { "world_computer_dt": 16 },
+              "type": "LocalScript"
+            },
+            "WorldScript": {
+              "uuid": "20A3A96E-0D55-4465-A27E-823ACF6381B7",
+              "idScripts": ["ui"],
+              "conf": {},
+              "type": "WorldScript"
+            }
+          },
+          "children": [],
+          "transform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0, "ZXY"],
+            "scale": [1, 1, 1]
+          }
         }
       ],
       "transform": {
@@ -4978,6 +5115,6 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-    "version": "2.33.5"
+    "version": "2.33.6"
   }
 ]

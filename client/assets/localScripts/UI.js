@@ -34,6 +34,11 @@ module.exports = class UI {
     this.avatarCount.classList.add('label_localGameManager');
     gameView.appendToUI(this.avatarCount);
 
+    const labelGlobalSound = document.createElement('div');
+    labelGlobalSound.classList.add('label_localGameManager');
+    labelGlobalSound.innerHTML = 'Volume';
+    gameView.appendToUI(labelGlobalSound);
+
     this.globalVolumeSlider = document.createElement('input');
     this.globalVolumeSlider.type = 'range';
     this.globalVolumeSlider.step = 0.05;

@@ -1,7 +1,6 @@
 const fs = require('fs');
-const LocalScriptModule = require('ud-viz/src/Game/Shared/GameObject/Components/LocalScript');
-const { World } = require('ud-viz/src/Game/Shared/Shared');
 const WorldThread = require('./WorldThread');
+const Shared = require('ud-viz/src/Game/Shared/Shared');
 
 const BBB_ROOM_TAG = 'bbb_room_tag';
 
@@ -52,89 +51,70 @@ const WorldDispatcherModule = class WorldDispatcher {
     return null;
   }
 
+  fetchWorldJSONWithUUID(worldUUID) {
+    for (let index = 0; index < this.worldsJSON.length; index++) {
+      const element = this.worldsJSON[index];
+      if (element.uuid == worldUUID) return element;
+    }
+
+    return null;
+  }
+
   initWorlds() {
     return new Promise((resolve, reject) => {
       console.log(this.constructor.name, 'init worlds');
       const _this = this;
 
-      this.serviceWrapper.endBBBRooms().then(function () {
-        //clean
-        for (let key in _this.worldToThread) {
-          const thread = _this.worldToThread[key];
-          thread.stop();
-          delete _this.worldToThread[key];
+      //clean
+      for (let key in _this.worldToThread) {
+        const thread = _this.worldToThread[key];
+        thread.stop();
+        delete _this.worldToThread[key];
+      }
+
+      fs.readFile(_this.config.worldsPath, 'utf8', (err, data) => {
+        if (err) {
+          reject(err);
+          return;
         }
 
-        fs.readFile(_this.config.worldsPath, 'utf8', (err, data) => {
-          if (err) {
-            reject(err);
-            return;
-          }
+        const worldsJSON = JSON.parse(data);
 
-          const worldsJSON = JSON.parse(data);
+        _this.worldsJSON = worldsJSON;
 
-          _this.worldsJSON = worldsJSON;
+        worldsJSON.forEach(function (worldJSON) {
+          //create a worldThread
+          const thread = new WorldThread(_this.config.worldThread.script);
 
-          worldsJSON.forEach(function (worldJSON) {
-            //create a worldThread
-            const thread = new WorldThread(_this.config.worldThread.script);
+          //post data to create world
+          thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
 
-            //post data to create world
-            thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
+          //mapping between world and thread
+          _this.worldToThread[worldJSON.uuid] = thread;
 
-            //mapping between world and thread
-            _this.worldToThread[worldJSON.uuid] = thread;
+          //callbacks
 
-            //callbacks
-
-            //worldstate notification
-            thread.on(
-              WorldThread.MSG_TYPES.WORLDSTATE,
-              function (worldstateJSON) {
-                const users = thread.getUsers();
-                for (let key in users) {
-                  users[key].sendWorldState(worldstateJSON);
-                }
+          //worldstate notification
+          thread.on(
+            WorldThread.MSG_TYPES.WORLDSTATE,
+            function (worldstateJSON) {
+              const users = thread.getUsers();
+              for (let key in users) {
+                users[key].sendWorldState(worldstateJSON);
               }
+            }
+          );
+
+          //avatar portal
+          thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
+            _this.placeAvatarInWorld(
+              data.avatarUUID,
+              data.worldUUID,
+              data.portalUUID
             );
-
-            //avatar portal
-            thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
-              _this.placeAvatarInWorld(
-                data.avatarUUID,
-                data.worldUUID,
-                data.portalUUID
-              );
-            });
-
-            //create BBB rooms on server
-            const worldInstance = new World(worldJSON);
-
-            worldInstance.getGameObject().traverse(function (g) {
-              const localScript = g.getComponent(LocalScriptModule.TYPE);
-              if (localScript) {
-                const json = localScript.getConf()[BBB_ROOM_TAG];
-                if (json) {
-                  _this.serviceWrapper
-                    .createBBBRoom(json.uuid, json.name)
-                    .then(function (value) {
-                      //write dynamically bbb urls in localscript conf
-                      thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, {
-                        goUUID: g.getUUID(),
-                        componentUUID: localScript.getUUID(),
-                        key: BBB_ROOM_TAG,
-                        value: value,
-                      });
-                    })
-                    .catch((error) => {
-                      console.error(json.name, 'not created cause', error);
-                    });
-                }
-              }
-            });
-
-            resolve();
           });
+
+          resolve();
         });
       });
     });
@@ -178,6 +158,28 @@ const WorldDispatcherModule = class WorldDispatcher {
     }
 
     thread.addUser(user, portalUUID);
+
+    const socket = user.getSocket();
+    const Constants = Shared.Components.Constants;
+    const _this = this;
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
+      const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
+
+      console.log(params);
+
+      _this.serviceWrapper
+        .createBBBRoom(worldUUID, worldJSON.name)
+        .then(function (value) {
+          //write dynamically bbb urls in localscript conf
+          thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, {
+            goUUID: params.goUUID,
+            componentUUID: params.componentUUID,
+            key: BBB_ROOM_TAG,
+            value: value,
+          });
+          console.log(worldJSON.name, ' create bbb room');
+        });
+    });
   }
 };
 

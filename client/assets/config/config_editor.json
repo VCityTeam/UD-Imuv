@@ -136,6 +136,9 @@
       },
       "butterfly_trigger_zone": {
         "path": "./assets/worldScripts/ButterflyTriggerZone.js"
+      },
+      "ui": {
+        "path": "./assets/worldScripts/Ui.js"
       }
     },
     "prefabs": {
