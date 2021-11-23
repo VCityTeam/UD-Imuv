@@ -18,6 +18,18 @@ module.exports = class ButterflySpawner {
     if (!this.go) return;
     this.triggerAnimate = false;
     this.particleGroup = null;
+
+    const render = this.go.getComponent(Shared.Render.TYPE);
+    const editorMode = arguments[1].getGameView().getUserData('editorMode');
+
+    if (editorMode === false) {
+      const renderGO = render.getObject3D();
+      renderGO.traverse(function (c) {
+        if (c.material) {
+          c.removeFromParent();
+        }
+      });
+    }
   }
 
   tick() {
@@ -55,15 +67,17 @@ module.exports = class ButterflySpawner {
       },
       material: function () {
         return new THREE.SpriteMaterial({
-          map: THREE.ImageUtils.loadTexture('/assets/img/butterflySprite.png'),
-          useScreenCoordinates: false,
+          map: new THREE.TextureLoader().load(
+            '/assets/img/butterflySprite.png'
+          ),
           color: 0xffffff,
         });
       },
       material2: function () {
         return new THREE.SpriteMaterial({
-          map: THREE.ImageUtils.loadTexture('/assets/img/butterflySprite2.png'),
-          useScreenCoordinates: false,
+          map: new THREE.TextureLoader().load(
+            '/assets/img/butterflySprite2.png'
+          ),
           color: 0xffffff,
         });
       },

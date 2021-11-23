@@ -24,9 +24,6 @@
       },
       "video_happy_song": {
         "path": "./assets/sounds/video_happy_song.webm"
-      },
-      "cantina": {
-        "path": "./assets/sounds/cantina.webm"
       }
     },
     "css": {
@@ -124,6 +121,7 @@
   },
   "game": {
     "fps": 30,
+    "radiusExtent": 3000,
     "shadowMapSize": 2046,
     "sky": {
       "path": "./assets/img/sky.jpg",
@@ -139,7 +137,6 @@
     }
   },
   "itowns": {
-    "radiusExtent": 3000,
     "camera": {
       "range": 3000,
       "heading": -50,

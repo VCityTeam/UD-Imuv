@@ -28,7 +28,7 @@ module.exports = class BBBScreen {
 
     const src = this.conf.bbb_room_tag.url;
     if (!src) {
-      console.error('no bbb url');
+      console.warn('no bbb url');
       return;
     }
     console.log(src);

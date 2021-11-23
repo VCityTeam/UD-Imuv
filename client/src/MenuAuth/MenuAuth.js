@@ -179,6 +179,7 @@ export class MenuAuthView {
                 distantGame.start({
                   firstGameView: true,
                   isGuest: isGuest,
+                  editorMode: false,
                 });
                 //notify server that app is ready to receive state
                 //TODO move this fonction in the template distant game

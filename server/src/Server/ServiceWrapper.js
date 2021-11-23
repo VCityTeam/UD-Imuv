@@ -146,15 +146,11 @@ const ServiceWrapperModule = class ServiceWrapper {
       const meetingCreateUrl = api.administration.create(name, uuid, {
         attendeePW: aPw,
         moderatorPW: mPw,
-        duration: 0, //no limit
-        meetingExpireWhenLastUserLeftInMinutes: 0, //no limit
-        meetingExpireIfNoUserJoinedInMinutes: 0, //no limit
       });
 
       bbb
         .http(meetingCreateUrl)
         .then(() => {
-          console.log(name, 'created');
           resolve({
             url: this.bbbAPI.administration.join('attendee', uuid, aPw),
             name: name,

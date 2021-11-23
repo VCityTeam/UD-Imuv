@@ -21,9 +21,6 @@
       },
       "video_happy_song": {
         "path": "./assets/sounds/video_happy_song.webm"
-      },
-      "cantina": {
-        "path": "./assets/sounds/cantina.webm"
       }
     },
     "css": {
@@ -139,6 +136,9 @@
       },
       "butterfly_trigger_zone": {
         "path": "./assets/worldScripts/ButterflyTriggerZone.js"
+      },
+      "ui": {
+        "path": "./assets/worldScripts/Ui.js"
       }
     },
     "prefabs": {
@@ -164,6 +164,7 @@
   },
   "game": {
     "fps": 30,
+    "radiusExtent": 1000,
     "shadowMapSize": 2046,
     "sky": {
       "path": "./assets/img/sky.jpg",
@@ -179,7 +180,6 @@
     }
   },
   "itowns": {
-    "radiusExtent": 1000,
     "camera": {
       "range": 3000,
       "heading": -50,
