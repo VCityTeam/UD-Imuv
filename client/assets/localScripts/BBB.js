@@ -11,6 +11,26 @@ module.exports = class BBB {
 
     this.bbbIframe = null;
     this.joinWorldBBB = null;
+    this.loadingUIEl = null;
+
+  }
+
+  createLoadingUIEl(gameView) {
+    if (this.loadingUIEl) return;
+    const loadingUIEl = document.createElement('div');
+    loadingUIEl.classList.add('lds-default');
+    for (let i = 0; i < 12; i++) {
+      const element = document.createElement('div');
+      loadingUIEl.appendChild(element);
+    }
+    this.loadingUIEl = loadingUIEl;
+    gameView.appendToUI(loadingUIEl);
+    return loadingUIEl;
+  }
+
+  removeLoadingUIEl() {
+    this.loadingUIEl.remove();
+    this.loadingUIEl = null;
   }
 
   init() {
@@ -42,6 +62,7 @@ module.exports = class BBB {
       if (_this.bbbIframe) {
         _this.removeIframe();
       } else {
+        _this.createLoadingUIEl(localCtx.getGameView());
         const Constants = udviz.Game.Shared.Components.Constants;
         const webSocketService = localCtx.getWebSocketService();
         if (!webSocketService) return;
@@ -80,6 +101,7 @@ module.exports = class BBB {
 
     const localCtx = arguments[1];
 
+    this.removeLoadingUIEl();
     this.joinWorldBBB.innerHTML = LABEL_LEAVE;
 
     const iframe = document.createElement('iframe');
