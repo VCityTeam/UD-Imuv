@@ -30,7 +30,6 @@ module.exports = class LocalInteractions {
     let interactionFunction;
     manager.addKeyInput('e', 'keydown', function () {
       localScripts.forEach((ls) => {
-        debugger;
         if (_this.conf.isColliding && (interactionFunction = ls.interaction)) {
           interactionFunction();
         }
