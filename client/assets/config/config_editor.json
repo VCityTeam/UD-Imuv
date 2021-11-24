@@ -140,9 +140,6 @@
       "teleporter": {
         "path": "./assets/worldScripts/Teleporter.js"
       },
-      "butterfly_trigger_zone": {
-        "path": "./assets/worldScripts/ButterflyTriggerZone.js"
-      },
       "ui": {
         "path": "./assets/worldScripts/Ui.js"
       },
@@ -166,8 +163,8 @@
       "butterfly_area": {
         "path": "./assets/prefabs/ButterflyArea.json"
       },
-      "interactable_area": {
-        "path": "./assets/prefabs/InteractableArea.json"
+      "template_interactable_area": {
+        "path": "./assets/prefabs/TemplateInteractableArea.json"
       }
     },
     "worlds": {

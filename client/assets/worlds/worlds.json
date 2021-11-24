@@ -2440,13 +2440,13 @@
                 },
                 "LocalScript": {
                   "uuid": "3E81DF23-E872-4855-A237-E7A75C64EEDC",
-                  "idScripts": ["butterfly_spawner"],
+                  "idScripts": ["local_interactions", "butterfly_spawner"],
                   "conf": { "onEnter": false },
                   "type": "LocalScript"
                 },
                 "WorldScript": {
                   "uuid": "FF56C704-1139-4D51-863E-C756A2427956",
-                  "idScripts": ["butterfly_trigger_zone"],
+                  "idScripts": ["interaction_zone"],
                   "conf": {},
                   "type": "WorldScript"
                 }
@@ -2488,13 +2488,13 @@
                 },
                 "LocalScript": {
                   "uuid": "02AA64CF-0B65-4EE4-BF5C-B6AB7BCC4E71",
-                  "idScripts": ["butterfly_spawner"],
+                  "idScripts": ["local_interactions", "butterfly_spawner"],
                   "conf": { "onEnter": false },
                   "type": "LocalScript"
                 },
                 "WorldScript": {
                   "uuid": "8836A49E-0B9B-4F6A-920B-C57DB8C8BD4B",
-                  "idScripts": ["butterfly_trigger_zone"],
+                  "idScripts": ["interaction_zone"],
                   "conf": {},
                   "type": "WorldScript"
                 }
@@ -2536,13 +2536,13 @@
                 },
                 "LocalScript": {
                   "uuid": "33E4FE6B-3866-41A1-8EDE-49CD11A922E5",
-                  "idScripts": ["butterfly_spawner"],
+                  "idScripts": ["local_interactions", "butterfly_spawner"],
                   "conf": { "onEnter": false },
                   "type": "LocalScript"
                 },
                 "WorldScript": {
                   "uuid": "01EC6629-B898-4D90-A8E5-490D78256C21",
-                  "idScripts": ["butterfly_trigger_zone"],
+                  "idScripts": ["interaction_zone"],
                   "conf": {},
                   "type": "WorldScript"
                 }

@@ -20,14 +20,14 @@
       "color": [1, 0, 0]
     },
     "LocalScript": {
-      "idScripts": ["butterfly_spawner"],
+      "idScripts": ["local_interactions", "butterfly_spawner"],
       "conf": {
         "onEnter": false
       },
       "type": "LocalScript"
     },
     "WorldScript": {
-      "idScripts": ["butterfly_trigger_zone"],
+      "idScripts": ["interaction_zone"],
       "conf": {},
       "type": "WorldScript"
     }

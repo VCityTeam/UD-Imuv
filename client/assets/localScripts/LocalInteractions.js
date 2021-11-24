@@ -43,14 +43,14 @@ module.exports = class LocalInteractions {
     let onEnterFunction, onCollidingFunction, onLeaveFunction;
     this.localScripts.forEach((ls) => {
       if (conf.onEnter && (onEnterFunction = ls.onEnter)) {
-        onEnterFunction();
+        onEnterFunction.call(ls);
         _this.tickIsColliding = null;
       }
       if (conf.isColliding && (onCollidingFunction = ls.onColliding)) {
-        _this.tickIsColliding = onCollidingFunction;
+        _this.tickIsColliding = onCollidingFunction.bind(ls);
       }
       if (conf.onLeave && (onLeaveFunction = ls.onLeave)) {
-        onLeaveFunction();
+        onLeaveFunction.call(ls);
         _this.tickIsColliding = null;
       }
     });

@@ -223,13 +223,6 @@ module.exports = class Avatar {
       teleporterScript.onAvatar(go);
     }
 
-    //check if is butterfly_trigger_zone
-    const butterflyTriggerZone =
-      colliderGO.fetchWorldScripts()['butterfly_trigger_zone'];
-    if (butterflyTriggerZone) {
-      butterflyTriggerZone.onAvatarEnter();
-    }
-
     //check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
@@ -253,11 +246,6 @@ module.exports = class Avatar {
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
 
-    const butterflyTriggerZone =
-      colliderGO.fetchWorldScripts()['butterfly_trigger_zone'];
-    if (butterflyTriggerZone) {
-      butterflyTriggerZone.onAvatarColliding();
-    }
 
     //check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];

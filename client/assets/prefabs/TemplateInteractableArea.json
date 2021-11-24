@@ -1,5 +1,5 @@
 {
-  "name": "InteractableArea",
+  "name": "TemplateInteractableArea",
   "type": "GameObject",
   "static": true,
   "components": {
