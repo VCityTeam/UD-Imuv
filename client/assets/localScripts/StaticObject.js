@@ -21,14 +21,11 @@ module.exports = class StaticObject {
     const localCtx = arguments[1];
 
     //init obstacle
-    const state = localCtx.getGameView().getLastState();
-    const o = state.getOrigin();
-    if (!o) debugger; //DEBUG
-    const [x, y] = Shared.proj4.default('EPSG:3946').forward([o.lng, o.lat]);
+    const ref = localCtx.getGameView().getObject3D().position;
 
-    this.object.position.x = x;
-    this.object.position.y = y;
-    this.object.position.z = o.alt;
+    this.object.position.x = ref.x;
+    this.object.position.y = ref.y;
+    this.object.position.z = ref.z;
   }
 
   getObject() {

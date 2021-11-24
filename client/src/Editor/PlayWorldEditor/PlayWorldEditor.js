@@ -49,7 +49,7 @@ export class PlayWorldEditorView {
     this.localGameApp
       .start(world, './assets/config/config_editor.json', {
         htmlParent: this.htmlParent,
-        avatarUUID: avatar.getUUID(),
+        userData: { avatarUUID: avatar.getUUID(), editorMode: true },
       })
       .then(function () {
         const gV = _this.localGameApp.getGameView();
@@ -130,7 +130,6 @@ export class PlayWorldEditorView {
     ctx.restore();
 
     //draw axis
-    
   }
 
   initUI() {

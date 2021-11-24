@@ -36,9 +36,7 @@ module.exports = class LocalGameManager {
     );
 
     //init cameraman
-    this.cameraman = new Cameraman(
-      localCtx.getGameView().getItownsView().camera.camera3D
-    );
+    this.cameraman = new Cameraman(localCtx.getGameView().getCamera());
 
     this.initInputs(arguments[0], localCtx);
 
@@ -148,15 +146,14 @@ module.exports = class LocalGameManager {
     const _this = this;
 
     const gameView = localCtx.getGameView();
-    const view = gameView.getItownsView();
-    const viewerDiv = view.domElement;
-    const camera = view.camera.camera3D;
+    const div = gameView.getRenderer().domElement;
+    const camera = gameView.getCamera();
     const manager = gameView.getInputManager();
     const Routine = Shared.Components.Routine;
     const Command = Shared.Command;
 
-    viewerDiv.requestPointerLock =
-      viewerDiv.requestPointerLock || viewerDiv.mozRequestPointerLock;
+    div.requestPointerLock =
+      div.requestPointerLock || div.mozRequestPointerLock;
     document.exitPointerLock =
       document.exitPointerLock || document.mozExitPointerLock;
 
@@ -173,7 +170,7 @@ module.exports = class LocalGameManager {
           document.exitPointerLock();
           break;
         case MODE.POINTER_LOCK:
-          viewerDiv.requestPointerLock();
+          div.requestPointerLock();
           break;
 
         default:
@@ -188,118 +185,123 @@ module.exports = class LocalGameManager {
     });
 
     //SWITCH CONTROLS
-    manager.addKeyInput('a', 'keydown', function () {
-      if (_this.cameraman.hasRoutine()) return; //already routine
+    const view = gameView.getItownsView();
+    if (view) {
+      manager.addKeyInput('a', 'keydown', function () {
+        if (_this.cameraman.hasRoutine()) return; //already routine
 
-      const duration = 2000;
-      let currentTime = 0;
-      const camera = _this.cameraman.getCamera();
-
-      let startPos = camera.position.clone();
-      let startQuat = camera.quaternion.clone();
-
-      if (view.controls) {
-        //record
+        const duration = 2000;
+        let currentTime = 0;
         const camera = _this.cameraman.getCamera();
-        _this.itownsCamPos.set(
-          camera.position.x,
-          camera.position.y,
-          camera.position.z
-        );
-        _this.itownsCamQuat.setFromEuler(camera.rotation);
 
-        _this.cameraman.addRoutine(
-          new Routine(
-            function (dt) {
-              const t = _this.cameraman.computeTransformTarget();
+        let startPos = camera.position.clone();
+        let startQuat = camera.quaternion.clone();
 
-              //no avatar yet
-              if (!t) return false;
-
-              currentTime += dt;
-              let ratio = currentTime / duration;
-              ratio = Math.min(Math.max(0, ratio), 1);
-
-              const p = t.position.lerp(startPos, 1 - ratio);
-              const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-              camera.position.copy(p);
-              camera.quaternion.copy(q);
-
-              camera.updateProjectionMatrix();
-
-              view.notifyChange(); //trigger camera event
-
-              return ratio >= 1;
-            },
-            function () {
-              view.controls.dispose();
-              view.controls = null;
-              _this.cameraman.setFilmingTarget(true);
-              _this.setFog(view, true);
-            }
-          )
-        );
-      } else {
-        if (!_this.itownsCamPos && !_this.itownsCamQuat) {
-          //first time camera in sky
-
-          const currentPosition = new Shared.THREE.Vector3().copy(
-            _this.cameraman.getCamera().position
+        if (view.controls) {
+          //record
+          const camera = _this.cameraman.getCamera();
+          _this.itownsCamPos.set(
+            camera.position.x,
+            camera.position.y,
+            camera.position.z
           );
+          _this.itownsCamQuat.setFromEuler(camera.rotation);
 
-          //200 meters up
-          const endPosition = new Shared.THREE.Vector3(0, 0, 200).add(
-            currentPosition
+          _this.cameraman.addRoutine(
+            new Routine(
+              function (dt) {
+                const t = _this.cameraman.computeTransformTarget();
+
+                //no avatar yet
+                if (!t) return false;
+
+                currentTime += dt;
+                let ratio = currentTime / duration;
+                ratio = Math.min(Math.max(0, ratio), 1);
+
+                const p = t.position.lerp(startPos, 1 - ratio);
+                const q = t.quaternion.slerp(startQuat, 1 - ratio);
+
+                camera.position.copy(p);
+                camera.quaternion.copy(q);
+
+                camera.updateProjectionMatrix();
+
+                view.notifyChange(); //trigger camera event
+
+                return ratio >= 1;
+              },
+              function () {
+                view.controls.dispose();
+                view.controls = null;
+                _this.cameraman.setFilmingTarget(true);
+                _this.setFog(view, true);
+              }
+            )
           );
+        } else {
+          if (!_this.itownsCamPos && !_this.itownsCamQuat) {
+            //first time camera in sky
 
-          //look down
-          const endQuaternion = new Shared.THREE.Quaternion().setFromEuler(
-            new Shared.THREE.Euler(0, 0, 0)
+            const currentPosition = new Shared.THREE.Vector3().copy(
+              _this.cameraman.getCamera().position
+            );
+
+            //200 meters up
+            const endPosition = new Shared.THREE.Vector3(0, 0, 200).add(
+              currentPosition
+            );
+
+            //look down
+            const endQuaternion = new Shared.THREE.Quaternion().setFromEuler(
+              new Shared.THREE.Euler(0, 0, 0)
+            );
+
+            _this.itownsCamPos = endPosition;
+            _this.itownsCamQuat = endQuaternion;
+          }
+
+          _this.setFog(view, false);
+
+          _this.cameraman.addRoutine(
+            new Routine(
+              function (dt) {
+                currentTime += dt;
+                let ratio = currentTime / duration;
+                ratio = Math.min(Math.max(0, ratio), 1);
+
+                const p = _this.itownsCamPos.clone().lerp(startPos, 1 - ratio);
+                const q = _this.itownsCamQuat
+                  .clone()
+                  .slerp(startQuat, 1 - ratio);
+
+                camera.position.copy(p);
+                camera.quaternion.copy(q);
+
+                camera.updateProjectionMatrix();
+
+                view.notifyChange(); //trigger camera event
+
+                return ratio >= 1;
+              },
+              function () {
+                swicthMode(MODE.DEFAULT);
+
+                //creating controls like put it in _this.view.controls
+                const c = new itowns.PlanarControls(view, {
+                  handleCollision: false,
+                  focusOnMouseOver: false, //TODO itowns bug not working
+                  focusOnMouseClick: false,
+                  zoomFactor: 0.4, //TODO working ?
+                });
+
+                _this.cameraman.setFilmingTarget(false);
+              }
+            )
           );
-
-          _this.itownsCamPos = endPosition;
-          _this.itownsCamQuat = endQuaternion;
         }
-
-        _this.setFog(view, false);
-
-        _this.cameraman.addRoutine(
-          new Routine(
-            function (dt) {
-              currentTime += dt;
-              let ratio = currentTime / duration;
-              ratio = Math.min(Math.max(0, ratio), 1);
-
-              const p = _this.itownsCamPos.clone().lerp(startPos, 1 - ratio);
-              const q = _this.itownsCamQuat.clone().slerp(startQuat, 1 - ratio);
-
-              camera.position.copy(p);
-              camera.quaternion.copy(q);
-
-              camera.updateProjectionMatrix();
-
-              view.notifyChange(); //trigger camera event
-
-              return ratio >= 1;
-            },
-            function () {
-              swicthMode(MODE.DEFAULT);
-
-              //creating controls like put it in _this.view.controls
-              const c = new itowns.PlanarControls(view, {
-                handleCollision: false,
-                focusOnMouseOver: false, //TODO itowns bug not working
-                focusOnMouseClick: false,
-                zoomFactor: 0.4, //TODO working ?
-              });
-
-              _this.cameraman.setFilmingTarget(false);
-            }
-          )
-        );
-      }
-    });
+      });
+    }
 
     manager.addKeyInput('p', 'keydown', function () {
       console.log('Gameview ', gameView);
@@ -367,9 +369,8 @@ module.exports = class LocalGameManager {
       //1. sets the mouse position with a coordinate system where the center
       //   of the screen is the origin
       const mouse = new Shared.THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) / (viewerDiv.clientWidth - viewerDiv.offsetLeft),
-        1 - (2 * event.offsetY) / (viewerDiv.clientHeight - viewerDiv.offsetTop)
+        -1 + (2 * event.offsetX) / (div.clientWidth - div.offsetLeft),
+        1 - (2 * event.offsetY) / (div.clientHeight - div.offsetTop)
       );
 
       //2. set the picking ray from the camera position and mouse coordinates

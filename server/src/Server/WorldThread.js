@@ -49,7 +49,7 @@ const WorldThreadModule = class WorldThread {
     //disconnect users
     for (let key in this.users) {
       this.users[key].getSocket().disconnect();
-      console.log(this.users[key].getUUID(), 'disconnected');
+      console.warn(this.users[key].getUUID(), 'disconnected');
     }
   }
 
@@ -227,7 +227,7 @@ WorldThreadModule.routine = function (serverConfig) {
           const value = msg.data.value;
 
           if (!goUUID || !componentUUID || !key || !value) {
-            console.log('data are imcomplete', msg.data);
+            console.warn('data are imcomplete', msg.data);
             break;
           }
 
@@ -236,6 +236,11 @@ WorldThreadModule.routine = function (serverConfig) {
             .getWorld()
             .getGameObject()
             .find(goUUID);
+
+          if (!go) {
+            console.warn('no go with UUID', goUUID);
+            break;
+          }
 
           const component = go.getComponentByUUID(componentUUID);
           component.getConf()[key] = value;
@@ -246,7 +251,7 @@ WorldThreadModule.routine = function (serverConfig) {
         }
         case WorldThreadModule.MSG_TYPES.STOP:
           {
-            console.log(
+            console.warn(
               worldStateComputer.getWorldContext().getWorld().getName(),
               ' stop'
             );
@@ -254,7 +259,7 @@ WorldThreadModule.routine = function (serverConfig) {
           }
           break;
         default:
-          console.log('default msg ', msg.data);
+          console.warn('default msg ', msg.data);
       }
     });
   });

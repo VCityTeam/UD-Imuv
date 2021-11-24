@@ -1,8 +1,13 @@
 /** @format */
 
+let Shared;
+
 module.exports = class WorldGameManager {
-  constructor(conf) {
+  constructor(conf, SharedBundle) {
     this.conf = conf;
+
+    Shared = SharedBundle;
+
     //go
     this.map = null;
   }
