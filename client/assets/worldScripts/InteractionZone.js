@@ -10,11 +10,14 @@ module.exports = class InteractionZone {
 
   init() {
     this.go = arguments[0];
-    if (!this.go.fetchLocalScripts()['local_interactions']) {
-      console.error('GameObject needs local_interactions local Script');
+    this.localScript = this.go.getComponent(Shared.LocalScript.TYPE);
+    if (!this.localScript || !this.localScript.idScripts.includes('local_interactions')) {
+      console.error(
+        this.go.name,
+        'Prefab needs *local_interactions* local Script'
+      );
     }
     console.log('Init Interaction Zone', this.go.name);
-    this.localScript = this.go.getComponent(Shared.LocalScript.TYPE);
   }
 
   onAvatarEnter() {
