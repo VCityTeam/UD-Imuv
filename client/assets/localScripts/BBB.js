@@ -1,6 +1,9 @@
 /** @format */
 
+const udvizType = require('ud-viz');
+/** @type {udvizType} */
 let udviz = null;
+
 const LABEL_JOIN = 'JOIN BBB Room';
 const LABEL_LEAVE = 'LEAVE BBB Room';
 

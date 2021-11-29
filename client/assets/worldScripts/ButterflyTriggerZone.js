@@ -1,7 +1,11 @@
 /**@format */
-let Shared;
 
-let count = 0
+const sharedType = require('ud-viz/src/Game/Shared/Shared');
+/** @type {sharedType} */
+let Shared = null;
+
+let count = 0;
+
 module.exports = class ButterflyTriggerZone {
   constructor(conf, SharedModule) {
     this.conf = conf;
@@ -17,14 +21,14 @@ module.exports = class ButterflyTriggerZone {
     const butterflySpawnerLS = this.go.getComponent(Shared.LocalScript.TYPE);
     butterflySpawnerLS.conf.onEnter = true;
     this.go.setOutdated(true);
-    count++
+    count++;
   }
 
   onAvatarColliding() {
     const butterflySpawnerLS = this.go.getComponent(Shared.LocalScript.TYPE);
 
     if (butterflySpawnerLS.conf.onEnter === false) return;
-    
+
     //notify only when changes occur
     butterflySpawnerLS.conf.onEnter = false;
     this.go.setOutdated(true);
