@@ -1,8 +1,13 @@
 /** @format */
 
-//dynamics modules
+const udvizType = require('ud-viz');
+/** @type {udvizType} */
 let udviz = null;
+const sharedType = require('ud-viz/src/Game/Shared/Shared');
+/** @type {sharedType} */
 let Shared = null;
+const itownsType = require('itowns');
+/** @type {itownsType} */
 let itowns = null;
 
 module.exports = class LocalGameManager {
@@ -134,6 +139,7 @@ module.exports = class LocalGameManager {
   }
 
   setFog(view, value) {
+    return;
     if (value) {
       view.scene.fog = this.fogObject;
     } else {

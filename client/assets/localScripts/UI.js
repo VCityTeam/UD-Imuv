@@ -1,3 +1,5 @@
+const udvizType = require('ud-viz');
+/** @type {udvizType} */
 let udviz = null;
 
 module.exports = class UI {

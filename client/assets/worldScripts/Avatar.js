@@ -10,7 +10,9 @@ const AVATAR_SPEED_ROTATION_X = 0.00004;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
-let Shared;
+const sharedType = require('ud-viz/src/Game/Shared/Shared');
+/** @type {sharedType} */
+let Shared = null;
 
 module.exports = class Avatar {
   constructor(conf, SharedModule) {

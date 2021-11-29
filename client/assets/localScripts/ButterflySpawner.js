@@ -1,7 +1,13 @@
 /** @format */
 
+const udvizType = require('ud-viz');
+/** @type {udvizType} */
 let udviz = null;
+const sharedType = require('ud-viz/src/Game/Shared/Shared');
+/** @type {sharedType} */
 let Shared = null;
+const threeType = require('three');
+/** @type {threeType} */
 let THREE = null;
 
 module.exports = class ButterflySpawner {
