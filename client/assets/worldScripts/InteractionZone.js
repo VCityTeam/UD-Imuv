@@ -11,13 +11,22 @@ module.exports = class InteractionZone {
   init() {
     this.go = arguments[0];
     this.localScript = this.go.getComponent(Shared.LocalScript.TYPE);
-    if (!this.localScript || !this.localScript.idScripts.includes('local_interactions')) {
+    if (
+      !this.localScript ||
+      !this.localScript.idScripts.includes('local_interactions')
+    ) {
       console.error(
         this.go.name,
         'Prefab needs *local_interactions* local Script'
       );
     }
     console.log('Init Interaction Zone', this.go.name);
+    this.localScript.conf = {
+      onEnter: false,
+      isColliding: false,
+      onLeave: false,
+      avatarsOn: [],
+    };
   }
 
   onAvatarEnter() {
@@ -27,6 +36,8 @@ module.exports = class InteractionZone {
     confLS.isColliding = false;
 
     confLS.onEnter = true;
+    confLS.avatarsOn.push(this.go.getUUID());
+    debugger;
     this.go.setOutdated(true);
   }
 
@@ -47,6 +58,7 @@ module.exports = class InteractionZone {
     confLS.isColliding = false;
 
     confLS.onLeave = true;
+    confLS.avatarsOn.splice(confLS.avatarsOn.indexOf(this.go.getUUID()), 1);
     this.go.setOutdated(true);
   }
 };

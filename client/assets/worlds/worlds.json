@@ -2585,11 +2585,7 @@
                 "LocalScript": {
                   "uuid": "A008A29A-9E32-4A25-B329-4F0681009863",
                   "idScripts": ["local_interactions", "default_interactions"],
-                  "conf": {
-                    "onEnter": false,
-                    "isColliding": false,
-                    "onLeave": false
-                  },
+                  "conf": {},
                   "type": "LocalScript"
                 },
                 "WorldScript": {

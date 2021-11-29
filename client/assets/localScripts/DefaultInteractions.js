@@ -1,6 +1,6 @@
 /**@format */
 
-module.exports = class DefaultInteraction {
+module.exports = class DefaultInteractions {
   constructor() {}
 
   init() {}
