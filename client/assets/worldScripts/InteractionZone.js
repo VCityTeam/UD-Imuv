@@ -29,7 +29,6 @@ module.exports = class InteractionZone {
   }
 
   onAvatarEnter(avatarGO) {
-    console.log('onEnter');
     const confLS = this.localScript.conf;
     const goUUID = avatarGO.getUUID();
     let index;
@@ -49,7 +48,6 @@ module.exports = class InteractionZone {
     const goUUID = avatarGO.getUUID();
     let index;
     if ((index = confLS.avatarsOnEnter.indexOf(goUUID)) >= 0) {
-      console.log(confLS.avatarsOnEnter);
       confLS.avatarsOnEnter.splice(index, 1);
     }
     if ((index = confLS.avatarsOnLeave.indexOf(goUUID)) >= 0) {
@@ -62,7 +60,6 @@ module.exports = class InteractionZone {
   }
 
   onAvatarLeave(avatarGO) {
-    console.log('onLeave');
     const confLS = this.localScript.conf;
     const goUUID = avatarGO.getUUID();
 
