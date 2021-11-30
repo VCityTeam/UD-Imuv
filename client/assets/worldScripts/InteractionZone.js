@@ -30,49 +30,49 @@ module.exports = class InteractionZone {
 
   onAvatarEnter(avatarGO) {
     const confLS = this.localScript.conf;
-    const goUUID = avatarGO.getUUID();
+    const avatarGOUUID = avatarGO.getUUID();
     let index;
-    if ((index = confLS.avatarsOnLeave.indexOf(goUUID)) >= 0) {
+    if ((index = confLS.avatarsOnLeave.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsOnLeave.splice(index, 1);
     }
-    if ((index = confLS.avatarsColliding.indexOf(goUUID)) >= 0) {
+    if ((index = confLS.avatarsColliding.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsColliding.splice(index, 1);
     }
-    if (confLS.avatarsOnEnter.includes(goUUID)) return;
-    confLS.avatarsOnEnter.push(goUUID);
+    if (confLS.avatarsOnEnter.includes(avatarGOUUID)) return;
+    confLS.avatarsOnEnter.push(avatarGOUUID);
     this.go.setOutdated(true);
   }
 
   onAvatarColliding(avatarGO) {
     const confLS = this.localScript.conf;
-    const goUUID = avatarGO.getUUID();
+    const avatarGOUUID = avatarGO.getUUID();
     let index;
-    if ((index = confLS.avatarsOnEnter.indexOf(goUUID)) >= 0) {
+    if ((index = confLS.avatarsOnEnter.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsOnEnter.splice(index, 1);
     }
-    if ((index = confLS.avatarsOnLeave.indexOf(goUUID)) >= 0) {
+    if ((index = confLS.avatarsOnLeave.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsOnLeave.splice(index, 1);
     }
 
-    if (confLS.avatarsColliding.includes(goUUID)) return;
-    confLS.avatarsColliding.push(goUUID);
+    if (confLS.avatarsColliding.includes(avatarGOUUID)) return;
+    confLS.avatarsColliding.push(avatarGOUUID);
     this.go.setOutdated(true);
   }
 
   onAvatarLeave(avatarGO) {
     const confLS = this.localScript.conf;
-    const goUUID = avatarGO.getUUID();
+    const avatarGOUUID = avatarGO.getUUID();
 
     let index;
-    if ((index = confLS.avatarsOnEnter.indexOf(goUUID)) >= 0) {
+    if ((index = confLS.avatarsOnEnter.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsOnEnter.splice(index, 1);
     }
-    if ((index = confLS.avatarsColliding.indexOf(goUUID)) >= 0) {
+    if ((index = confLS.avatarsColliding.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsColliding.splice(index, 1);
     }
 
-    if (confLS.avatarsOnLeave.includes(goUUID)) return;
-    confLS.avatarsOnLeave.push(goUUID);
+    if (confLS.avatarsOnLeave.includes(avatarGOUUID)) return;
+    confLS.avatarsOnLeave.push(avatarGOUUID);
     this.go.setOutdated(true);
   }
 };

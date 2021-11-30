@@ -2,10 +2,11 @@
 
 import './Editor.css';
 import { Game } from 'ud-viz';
-// import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
+import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
-// import Pack from 'ud-viz/src/Game/Shared/Components/Pack';
+import Pack from '../../../../UD-Viz/src/Game/Shared/Components/Pack';
+
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -89,19 +90,18 @@ export class EditorView {
     this.saveWorldsButton.onclick = function () {
       _this.saveCurrentWorld();
 
-      // let worldsJSON = _this.assetsManager.getWorldsJSON();
+      let worldsJSON = _this.assetsManager.getWorldsJSON();
 
-      //TODO uncomment me
-      // console.log('send data server ', worldsJSON);
+      console.log('send data server ', worldsJSON);
 
-      // const messageSplitted = Pack.splitMessage(worldsJSON);
-      // // console.log(messageSplitted);
-      // messageSplitted.forEach(function (pM) {
-      //   _this.webSocketService.emit(
-      //     Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
-      //     pM
-      //   );
-      // });
+      const messageSplitted = Pack.splitMessage(worldsJSON);
+      // console.log(messageSplitted);
+      messageSplitted.forEach(function (pM) {
+        _this.webSocketService.emit(
+          Constants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+          pM
+        );
+      });
     };
 
     this.playCurrentWorldButton.onclick = function () {
