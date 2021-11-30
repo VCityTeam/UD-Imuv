@@ -4041,7 +4041,7 @@
       }
     },
     "name": "Room Expo World",
-    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "origin": null,
     "type": "World",
     "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
     "version": "2.33.7"
@@ -4511,7 +4511,7 @@
       }
     },
     "name": "Room Conf Modulable",
-    "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+    "origin": null,
     "type": "World",
     "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
     "version": "2.33.7"

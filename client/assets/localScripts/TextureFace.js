@@ -1,7 +1,11 @@
 /** @format */
 
-let Shared = null;
+const udvizType = require('ud-viz');
+/** @type {udvizType} */
 let udviz = null;
+const sharedType = require('ud-viz/src/Game/Shared/Shared');
+/** @type {sharedType} */
+let Shared = null;
 
 module.exports = class TextureFace {
   constructor(config, udvizBundle) {

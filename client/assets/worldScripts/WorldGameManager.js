@@ -1,6 +1,8 @@
 /** @format */
 
-let Shared;
+const sharedType = require('ud-viz/src/Game/Shared/Shared');
+/** @type {sharedType} */
+let Shared = null;
 
 module.exports = class WorldGameManager {
   constructor(conf, SharedBundle) {
