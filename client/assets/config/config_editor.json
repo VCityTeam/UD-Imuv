@@ -75,6 +75,12 @@
       },
       "mini_map": {
         "path": "./assets/localScripts/MiniMap.js"
+      },
+      "local_interactions": {
+        "path": "./assets/localScripts/LocalInteractions.js"
+      },
+      "default_interactions": {
+        "path": "./assets/localScripts/DefaultInteractions.js"
       }
     },
     "models": {
@@ -134,11 +140,11 @@
       "teleporter": {
         "path": "./assets/worldScripts/Teleporter.js"
       },
-      "butterfly_trigger_zone": {
-        "path": "./assets/worldScripts/ButterflyTriggerZone.js"
-      },
       "ui": {
         "path": "./assets/worldScripts/Ui.js"
+      },
+      "interaction_zone": {
+        "path": "./assets/worldScripts/InteractionZone.js"
       }
     },
     "prefabs": {
@@ -156,6 +162,9 @@
       },
       "butterfly_area": {
         "path": "./assets/prefabs/ButterflyArea.json"
+      },
+      "template_interactable_area": {
+        "path": "./assets/prefabs/TemplateInteractableArea.json"
       }
     },
     "worlds": {

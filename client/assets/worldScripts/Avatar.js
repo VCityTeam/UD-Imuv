@@ -225,11 +225,10 @@ module.exports = class Avatar {
       teleporterScript.onAvatar(go);
     }
 
-    //check if is butterfly_trigger_zone
-    const butterflyTriggerZone =
-      colliderGO.fetchWorldScripts()['butterfly_trigger_zone'];
-    if (butterflyTriggerZone) {
-      butterflyTriggerZone.onAvatarEnter();
+    //check if is interaction_zone
+    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
+    if (interactionZone) {
+      interactionZone.onAvatarEnter(go);
     }
 
     this.collide(collider, go, result);
@@ -248,17 +247,32 @@ module.exports = class Avatar {
     const result = arguments[1];
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
-
-    const butterflyTriggerZone =
-      colliderGO.fetchWorldScripts()['butterfly_trigger_zone'];
-    if (butterflyTriggerZone) {
-      butterflyTriggerZone.onAvatarColliding();
+    
+    
+    //check if is interaction_zone
+    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
+    if (interactionZone) {
+      interactionZone.onAvatarColliding(go);
     }
-
+    
     this.collide(collider, go, result);
   }
-
+  
   onLeaveCollision() {
     // console.log('on leave');
+    const go = arguments[0];
+    const uuidColliderGO = arguments[1];
+    const wCtxt = arguments[2];
+    const colliderGO = wCtxt
+      .getWorld()
+      .getGameObject()
+      .computeRoot()
+      .find(uuidColliderGO);
+
+    //check if is interaction_zone
+    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
+    if (interactionZone) {
+      interactionZone.onAvatarLeave(go);
+    }
   }
 };

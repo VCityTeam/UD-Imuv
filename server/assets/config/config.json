@@ -19,11 +19,11 @@
       "teleporter": {
         "path": "../client/assets/worldScripts/Teleporter.js"
       },
-      "butterfly_trigger_zone": {
-        "path": "../client/assets/worldScripts/ButterflyTriggerZone.js"
-      },
       "ui": {
         "path": "../client/assets/worldScripts/Ui.js"
+      },
+      "interaction_zone": {
+        "path": "../client/assets/worldScripts/InteractionZone.js"
       }
     },
     "prefabs": {

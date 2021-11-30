@@ -1,5 +1,5 @@
 {
-  "name": "ButterflyArea",
+  "name": "TemplateInteractableArea",
   "type": "GameObject",
   "static": true,
   "components": {
@@ -17,12 +17,14 @@
     "Render": {
       "type": "Render",
       "idModel": "torus",
-      "color": [1, 0, 0]
+      "color": [0, 1, 0]
     },
     "LocalScript": {
-      "idScripts": ["local_interactions", "butterfly_spawner"],
+      "idScripts": ["local_interactions", "default_interactions"],
       "conf": {
-        "onEnter": false
+        "onEnter": false,
+        "isColliding": false,
+        "onLeave": false
       },
       "type": "LocalScript"
     },
