@@ -27,10 +27,15 @@ module.exports = class LocalInteractions {
     const localScripts = this.localScripts;
     const gameView = localCtx.getGameView();
     const manager = gameView.getInputManager();
+    const avatarUUIDLC = localCtx.getGameView().getUserData('avatarUUID');
+
     let interactionFunction;
     manager.addKeyInput('e', 'keydown', function () {
       localScripts.forEach((ls) => {
-        if (_this.conf.isColliding && (interactionFunction = ls.interaction)) {
+        if (
+          _this.conf.avatarsColliding.includes(avatarUUIDLC) &&
+          (interactionFunction = ls.interaction)
+        ) {
           interactionFunction();
         }
       });
@@ -41,16 +46,26 @@ module.exports = class LocalInteractions {
     const _this = this;
     const conf = this.conf;
     let onEnterFunction, onCollidingFunction, onLeaveFunction;
+    const localCtx = arguments[1];
+    const avatarUUIDLC = localCtx.getGameView().getUserData('avatarUUID');
     this.localScripts.forEach((ls) => {
-      if (conf.onEnter && (onEnterFunction = ls.onEnter)) {
-        onEnterFunction.call(ls);
+      if (conf.avatarsOnEnter.includes(avatarUUIDLC)) {
+        if ((onEnterFunction = ls.onEnter)) {
+          onEnterFunction.call(ls);
+        }
         _this.tickIsColliding = null;
       }
-      if (conf.isColliding && (onCollidingFunction = ls.onColliding)) {
-        _this.tickIsColliding = onCollidingFunction.bind(ls);
+
+      if (conf.avatarsColliding.includes(avatarUUIDLC)) {
+        if ((onCollidingFunction = ls.onColliding)) {
+          _this.tickIsColliding = onCollidingFunction.bind(ls);
+        }
       }
-      if (conf.onLeave && (onLeaveFunction = ls.onLeave)) {
-        onLeaveFunction.call(ls);
+
+      if (conf.avatarsOnLeave.includes(avatarUUIDLC)) {
+        if ((onLeaveFunction = ls.onLeave)) {
+          onLeaveFunction.call(ls);
+        }
         _this.tickIsColliding = null;
       }
     });

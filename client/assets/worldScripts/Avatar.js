@@ -226,7 +226,7 @@ module.exports = class Avatar {
     //check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
-      interactionZone.onAvatarEnter();
+      interactionZone.onAvatarEnter(go);
     }
 
     this.collide(collider, go, result);
@@ -245,19 +245,20 @@ module.exports = class Avatar {
     const result = arguments[1];
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
-
-
+    
+    
     //check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
-      interactionZone.onAvatarColliding();
+      interactionZone.onAvatarColliding(go);
     }
-
+    
     this.collide(collider, go, result);
   }
-
+  
   onLeaveCollision() {
     // console.log('on leave');
+    const go = arguments[0];
     const uuidColliderGO = arguments[1];
     const wCtxt = arguments[2];
     const colliderGO = wCtxt
@@ -269,7 +270,7 @@ module.exports = class Avatar {
     //check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
-      interactionZone.onAvatarLeave();
+      interactionZone.onAvatarLeave(go);
     }
   }
 };
