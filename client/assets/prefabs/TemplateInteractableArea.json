@@ -21,11 +21,7 @@
     },
     "LocalScript": {
       "idScripts": ["local_interactions", "default_interactions"],
-      "conf": {
-        "onEnter": false,
-        "isColliding": false,
-        "onLeave": false
-      },
+      "conf": {},
       "type": "LocalScript"
     },
     "WorldScript": {
