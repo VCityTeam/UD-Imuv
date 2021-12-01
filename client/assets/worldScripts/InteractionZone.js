@@ -21,11 +21,9 @@ module.exports = class InteractionZone {
       );
     }
     console.log('Init Interaction Zone', this.go.name);
-    this.localScript.conf = {
-      avatarsOnEnter: [],
-      avatarsColliding: [],
-      avatarsOnLeave: [],
-    };
+    this.localScript.conf.avatarsOnEnter = [];
+    this.localScript.conf.avatarsColliding = [];
+    this.localScript.conf.avatarsOnLeave = [];
   }
 
   onAvatarEnter(avatarGO) {
