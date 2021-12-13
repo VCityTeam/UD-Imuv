@@ -411,7 +411,7 @@ export class WorldEditorView {
 
     this.orbitControls = new OrbitControls(
       this.gameView.getCamera(),
-      this.gameView.rootItownsHtml
+      this.gameView.getRootWebGL()
     );
 
     this.orbitControls.addEventListener(
