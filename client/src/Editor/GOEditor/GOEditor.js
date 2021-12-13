@@ -51,7 +51,7 @@ export class GOEditorView {
     const camera = this.gameView.getCamera();
     const scene = this.gameView.getScene();
     const manager = this.gameView.getInputManager();
-    const viewerDiv = this.gameView.rootItownsHtml;
+    const viewerDiv = this.gameView.getRootWebGL();
     const canvas = this.gameView.getRenderer().domElement;
     canvas.style.zIndex = 1; //patch
 
