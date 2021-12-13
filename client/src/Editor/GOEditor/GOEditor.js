@@ -118,102 +118,35 @@ export class GOEditorView {
 
     if (this.goSelected) {
       //attach transform ctrl
-      this.goSelectedUI = new GameObjectUI(this.goSelected, object).getRootElementUI();
+      this.goSelectedUI = this.createGOUI(this.goSelected, object);
       this.ui.appendChild(this.goSelectedUI);
     }
   }
 
-  createGOUI(go, obj) {
+  createGOUI(go, object) {
+    const goUI = new GameObjectUI(go, object).getRootElementUI();
+    const lS = go.fetchLocalScripts();
+    if (lS) {
+      if (lS['image']) {
+        goUI.appendLSImageUI();
+      }
+    }
+
+    const wS = go.fetchWorldScripts();
+    if (wS) {
+      if (wS['portal']) {
+        goUI.appendPortalUI(wS);
+      }
+    }
+
+    return goUI;
+  }
+
+  createGOUIOld(go, obj) {
     const result = document.createElement('div');
     result.classList.add('goUI_GOEditor');
 
-    const uuidlabel = document.createElement('div');
-    uuidlabel.innerHTML = go.getUUID();
-    result.appendChild(uuidlabel);
 
-    //name
-    const inputName = document.createElement('input');
-    inputName.type = 'text';
-    inputName.value = go.getName();
-    result.appendChild(inputName);
-
-    const createInputVector3 = function (field) {
-      const inputVector3 = document.createElement('div');
-
-      const xInput = document.createElement('input');
-      xInput.type = 'number';
-      xInput.value = obj[field].x;
-      xInput.step = 0.1;
-      inputVector3.appendChild(xInput);
-
-      const yInput = document.createElement('input');
-      yInput.type = 'number';
-      yInput.value = obj[field].y;
-      yInput.step = 0.1;
-      inputVector3.appendChild(yInput);
-
-      const zInput = document.createElement('input');
-      zInput.type = 'number';
-      zInput.value = obj[field].z;
-      zInput.step = 0.1;
-      inputVector3.appendChild(zInput);
-
-      xInput.onchange = function () {
-        obj[field].x = parseFloat(xInput.value);
-        if (isNaN(obj[field].x)) obj[field].x = 0;
-        go.setTransformFromObject3D(obj);
-      };
-
-      yInput.onchange = function () {
-        obj[field].y = parseFloat(yInput.value);
-        if (isNaN(obj[field].y)) obj[field].y = 0;
-        go.setTransformFromObject3D(obj);
-      };
-
-      zInput.onchange = function () {
-        obj[field].z = parseFloat(zInput.value);
-        if (isNaN(obj[field].z)) obj[field].z = 0;
-        go.setTransformFromObject3D(obj);
-      };
-
-      return inputVector3;
-    };
-
-    //transform mode
-    const translateButton = document.createElement('div');
-    translateButton.innerHTML = 'translate';
-    translateButton.classList.add('button_Editor');
-    result.appendChild(translateButton);
-
-    result.appendChild(createInputVector3('position'));
-
-    const rotateButton = document.createElement('div');
-    rotateButton.classList.add('button_Editor');
-    rotateButton.innerHTML = 'rotate';
-    result.appendChild(rotateButton);
-
-    result.appendChild(createInputVector3('rotation'));
-
-    const scaleButton = document.createElement('div');
-    scaleButton.classList.add('button_Editor');
-    scaleButton.innerHTML = 'scale';
-    result.appendChild(scaleButton);
-
-    result.appendChild(createInputVector3('scale'));
-
-    //clone
-    const cloneButton = document.createElement('div');
-    cloneButton.classList.add('button_Editor');
-    cloneButton.innerHTML = 'Clone';
-    result.appendChild(cloneButton);
-
-    let imageInput = null;
-    const localScripts = go.fetchLocalScripts();
-    if (localScripts && localScripts['image']) {
-      imageInput = document.createElement('input');
-      imageInput.type = 'file';
-      result.appendChild(imageInput);
-    }
 
     let portalInput = null;
     let selectWorldUUID = null;
