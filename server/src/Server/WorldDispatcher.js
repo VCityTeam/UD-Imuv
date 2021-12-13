@@ -1,3 +1,5 @@
+/** @format */
+
 const fs = require('fs');
 const WorldThread = require('./WorldThread');
 const Shared = require('ud-viz/src/Game/Shared/Shared');
@@ -165,7 +167,10 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
       const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
 
-      console.log(params);
+      if (!_this.serviceWrapper.hasBBBApi()) {
+        socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'no bbb api');
+        return;
+      }
 
       _this.serviceWrapper
         .createBBBRoom(worldUUID, worldJSON.name)

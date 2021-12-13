@@ -6,6 +6,7 @@ import File from 'ud-viz/src/Components/SystemUtils/File';
 import { GameObject, World } from 'ud-viz/src/Game/Shared/Shared';
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
+import { GameObjectUI } from '../GameObjectUI';
 
 export class GOEditorView {
   constructor(params) {
@@ -25,147 +26,100 @@ export class GOEditorView {
     //gameview
     this.gameView = params.gameView;
 
-    this.orbitControls = params.orbitControls;
-
-    //raycaster
-    this.raycaster = new THREE.Raycaster();
-
     //controls
-    this.transformControls = null;
-
-    //listeners
-    this.escListener = null;
-    this.mouseDownListener = null;
+    this.transformControls = this.gameView.getTransformControls();
+    this.orbitControls = this.gameView.getOrbitControls();
 
     //go selected
     this.goSelected = null;
 
-    this.initTransformControls();
-    this.initUI();
     this.initCallbacks();
+    this.initUI();
+  }
+
+  initCallbacks() {
+    const gV = this.gameView;
+
+    const cbPointerUp = function (event) {
+      const controlChanged = gV.hasBeenRotate() || gV.tcHasBeenDragged();
+      if (event.button != 0 || controlChanged) return; // just a right click no drag
+      const intersect = gV.throwRay(event, gV.getObject3D());
+      const o = intersect ? gV.tryFindGOParent(intersect.object) : null;
+      this.setSelectedGO(o);
+    };
+
+    gV.setCallbackPointerUp(cbPointerUp.bind(this));
   }
 
   initTransformControls() {
-    if (this.transformControls) this.transformControls.dispose();
-
-    const camera = this.gameView.getCamera();
-    const scene = this.gameView.getScene();
-    const manager = this.gameView.getInputManager();
-    const viewerDiv = this.gameView.getRootWebGL();
-    const canvas = this.gameView.getRenderer().domElement;
-    canvas.style.zIndex = 1; //patch
-
-    this.transformControls = new TransformControls(camera, canvas);
-    scene.add(this.transformControls);
+    const gameView = this.gameView;
+    const manager = gameView.getInputManager();
+    const viewerDiv = gameView.getRootWebGL();
 
     const _this = this;
-
     //cant handle this callback with our input manager
-    this.transformControls.addEventListener(
-      'dragging-changed',
-      function (event) {
-        _this.orbitControls.enabled = !event.value;
+    // this.transformControls.addEventListener(
+    //   'dragging-changed',
+    //   function (event) {
+    //     const gameViewGO = gameView
+    //       .getLastState()
+    //       .getGameObject()
+    //       .find(_this.goSelected.getUUID());
 
-        const gameViewGO = _this.gameView
-          .getLastState()
-          .getGameObject()
-          .find(_this.goSelected.getUUID());
+    //     _this.goSelected.setTransformFromGO(gameViewGO);
+    //     //update go menu ui
+    //     _this.setSelectedGO(_this.goSelected.getUUID());
+    //   }
+    // );
 
-        _this.goSelected.setTransformFromGO(gameViewGO);
+    // this.onPointerUpListener = function (event) {
+    //   const controlChanged =
+    //     gameView.hasBeenRotate() || gameView.tcHasBeenDragged();
+    //   if (event.button != 0 || controlChanged) return;
 
-        //update go menu ui
-        _this.setSelectedGO(_this.goSelected.getUUID());
-      }
-    );
+    //   const intersect = gameView.throwRay(event, gameView.getObject3D());
 
-    this.escListener = function () {
-      _this.setSelectedGO(null);
-    };
+    //   if (intersect) {
+    //     const objectClicked = intersect.object;
+    //     let current = objectClicked;
+    //     while (!current.userData.gameObjectUUID) {
+    //       if (!current.parent) {
+    //         console.warn('didnt find gameobject uuid');
+    //         current = null;
+    //         break;
+    //       }
+    //       current = current.parent;
+    //     }
 
-    this.mouseDownListener = function (event) {
-      if (_this.transformControls.object) return; //already assign to an object
-
-      //1. sets the mouse position with a coordinate system where the center
-      //   of the screen is the origin
-      const mouse = new THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) /
-            (canvas.clientWidth - parseInt(canvas.offsetLeft)),
-        1 -
-          (2 * event.offsetY) /
-            (canvas.clientHeight - parseInt(canvas.offsetTop))
-      );
-
-      //2. set the picking ray from the camera position and mouse coordinates
-      _this.raycaster.setFromCamera(mouse, camera);
-
-      //3. compute intersections
-      //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
-      const intersects = _this.raycaster.intersectObject(
-        _this.gameView.getObject3D(),
-        true
-      );
-
-      if (intersects.length) {
-        let minDist = Infinity;
-        let info = null;
-
-        intersects.forEach(function (i) {
-          if (i.distance < minDist) {
-            info = i;
-            minDist = i.distance;
-          }
-        });
-
-        if (info) {
-          const objectClicked = info.object;
-          let current = objectClicked;
-          while (!current.userData.gameObjectUUID) {
-            if (!current.parent) {
-              console.warn('didnt find gameobject uuid');
-              current = null;
-              break;
-            }
-            current = current.parent;
-          }
-
-          if (current) {
-            _this.setSelectedGO(current.userData.gameObjectUUID);
-          }
-        }
-      }
-    };
-
-    //CALLBACKS
-    manager.addKeyInput('Escape', 'keydown', this.escListener);
-    manager.addMouseInput(viewerDiv, 'pointerdown', this.mouseDownListener);
+    //     if (current) {
+    //       _this.setSelectedGO(current.userData.gameObjectUUID);
+    //       return;
+    //     }
+    //   }
+    //   _this.setSelectedGO(null);
+    // };
   }
 
   getSelectedGO() {
     return this.goSelected;
   }
 
-  setSelectedGO(uuid) {
-    const world = this.gameView.getInterpolator().getWorldContext().getWorld();
-    const go = world.getGameObject();
-    this.goSelected = go.find(uuid);
-
+  setSelectedGO(object) {
+    this.gameView.attachTCToObject(object);
     //clean
-    const parent = this.goSelectedUI;
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild);
-    }
+    if (this.goSelectedUI) this.goSelectedUI.remove();
+
+    if (!object) return;
+
+    const world = this.gameView.getInterpolator().getWorldContext().getWorld();
+    const worldGo = world.getGameObject();
+    const uuid = object.userData.gameObjectUUID;
+    this.goSelected = worldGo.find(uuid);
 
     if (this.goSelected) {
       //attach transform ctrl
-
-      let object3D = this.computeObject3D(uuid);
-
-      this.transformControls.attach(object3D);
-      this.transformControls.updateMatrixWorld();
-      this.goSelectedUI.appendChild(this.createGOUI(this.goSelected, object3D));
-    } else {
-      this.transformControls.detach();
+      this.goSelectedUI = new GameObjectUI(this.goSelected, object).getRootElementUI();
+      this.ui.appendChild(this.goSelectedUI);
     }
   }
 
@@ -540,13 +494,6 @@ export class GOEditorView {
 
   dispose() {
     this.ui.remove();
-
-    this.transformControls.detach();
-    this.transformControls.dispose();
-    //remove listeners as well
-    const manager = this.gameView.getInputManager();
-    manager.removeInputListener(this.escListener);
-    manager.removeInputListener(this.mouseDownListener);
   }
 
   updateUI() {
@@ -607,11 +554,6 @@ export class GOEditorView {
     this.goList.classList.add('ul_Editor');
     this.ui.appendChild(this.goList);
 
-    this.goSelectedUI = document.createElement('div');
-    this.ui.appendChild(this.goSelectedUI);
-
     this.updateUI();
   }
-
-  initCallbacks() {}
 }

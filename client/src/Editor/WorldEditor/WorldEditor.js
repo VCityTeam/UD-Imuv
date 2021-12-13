@@ -5,12 +5,12 @@ import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
-import { GameView } from 'ud-viz/src/Views/Views';
-import { THREE, OrbitControls } from 'ud-viz';
+import { THREE } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
 import { computeMapGO } from '../Components/EditorUtility';
 import { WorldStateInterpolator } from 'ud-viz/src/Templates/DistantGame/WorldStateInterpolator';
+import { EditorGameView } from '../EditorGameView';
 
 export class WorldEditorView {
   constructor(params) {
@@ -27,7 +27,7 @@ export class WorldEditorView {
     this.assetsManager = params.assetsManager;
     this.model = new WorldEditorModel(this.assetsManager, params.worldJSON);
 
-    this.gameView = new GameView({
+    this.gameView = new EditorGameView({
       htmlParent: this.parentGameViewHtml,
       assetsManager: params.assetsManager,
       config: this.config,
@@ -35,7 +35,7 @@ export class WorldEditorView {
       interpolator: this.model.getInterpolator(),
       updateGameObject: false,
     });
-    this.gameView.start();
+
     //offset the gameview
     this.gameView.setDisplaySize(
       new THREE.Vector2(this.parentUIHtml.clientWidth, 0)
@@ -47,14 +47,12 @@ export class WorldEditorView {
     });
 
     //controls
-    this.orbitControls = null;
-    this.initOrbitControls();
+    this.orbitControls = this.gameView.getOrbitControls();
 
     //view to edit go
     this.goEditorView = new GOEditorView({
       parentUIHtml: this.ui,
       gameView: this.gameView,
-      orbitControls: this.orbitControls,
       parentView: this,
     });
 
@@ -405,23 +403,6 @@ export class WorldEditorView {
     this.closeButton.onclick = f;
   }
 
-  initOrbitControls() {
-    //new controls
-    if (this.orbitControls) this.orbitControls.dispose();
-
-    this.orbitControls = new OrbitControls(
-      this.gameView.getCamera(),
-      this.gameView.getRootWebGL()
-    );
-
-    this.orbitControls.addEventListener(
-      'change',
-      this.gameView.computeNearFarCamera.bind(this.gameView)
-    );
-
-    this.orbitControls.target.copy(this.gameView.getExtent().center());
-    this.orbitControls.update();
-  }
 }
 
 class WorldEditorModel {

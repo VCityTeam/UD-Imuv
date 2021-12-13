@@ -17,7 +17,7 @@ export class ColliderEditorView {
 
     this.colliderObject3D = new THREE.Object3D();
     this.colliderObject3D.name = 'ColliderObject';
-    this.gameView.getItownsView().scene.add(this.colliderObject3D);
+    this.gameView.getScene().add(this.colliderObject3D);
 
     //where html goes
     this.ui = document.createElement('div');
@@ -65,7 +65,7 @@ export class ColliderEditorView {
 
   getCanvas() {
     const canvas =
-      this.gameView.getItownsView().mainLoop.gfxEngine.renderer.domElement;
+      this.gameView.getRenderer().domElement;
     canvas.style.zIndex = 1;
     return canvas;
   }
@@ -101,8 +101,8 @@ export class ColliderEditorView {
     manager.removeInputListener(this.refAddPointKeyUp);
     manager.removeInputListener(this.onPointerupListener);
     manager.removeInputListener(this.onPointerdownListener);
-    if (this.gameView.getItownsView().scene)
-      this.gameView.getItownsView().scene.remove(this.colliderObject3D);
+    if (this.gameView.getScene())
+      this.gameView.getScene().remove(this.colliderObject3D);
   }
 
   setOrbitControls(value) {
@@ -325,9 +325,8 @@ export class ColliderEditorView {
   initTransformControls() {
     if (this.transformControls) this.transformControls.dispose();
 
-    const camera = this.gameView.getItownsView().camera.camera3D;
-    const scene = this.gameView.getItownsView().scene;
-    // const viewerDiv = this.gameView.getRootWebGL();
+    const camera = this.gameView.getCamera();
+    const scene = this.gameView.getScene();
 
     this.transformControls = new TransformControls(camera, this.getCanvas());
     scene.add(this.transformControls);
@@ -360,11 +359,7 @@ export class ColliderEditorView {
       );
 
       //2. set the picking ray from the camera position and mouse coordinates
-      const camera = currentGameView.getItownsView().camera.camera3D;
-      const oldNear = camera.near;
-      camera.near = 0;
       _this.raycaster.setFromCamera(mouse, camera);
-      camera.near = oldNear;
 
       //3. compute intersections
       const intersects = _this.raycaster.intersectObject(object3D, true);
@@ -403,7 +398,7 @@ export class ColliderEditorView {
       if (!_this.model.getSelectedObject()) return;
       transformControls.attach(_this.model.getSelectedObject());
       transformControls.updateMatrixWorld();
-      currentGameView.getItownsView().scene.add(transformControls);
+      currentGameView.getScene().add(transformControls);
     };
 
     const getShape = function () {

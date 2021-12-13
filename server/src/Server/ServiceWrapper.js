@@ -1,3 +1,5 @@
+/** @format */
+
 const firebase = require('firebase/app');
 require('firebase/auth');
 
@@ -43,6 +45,10 @@ const ServiceWrapperModule = class ServiceWrapper {
     } else {
       this.firebaseInitialized = false;
     }
+  }
+
+  hasBBBApi() {
+    return !!this.bbbAPI;
   }
 
   queryBBBRooms() {
