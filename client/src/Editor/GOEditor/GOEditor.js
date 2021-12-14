@@ -118,28 +118,32 @@ export class GOEditorView {
 
     if (this.goSelected) {
       //attach transform ctrl
-      this.goSelectedUI = this.createGOUI(this.goSelected, object);
+      this.goSelectedUI = this.createGOUI(object);
       this.ui.appendChild(this.goSelectedUI);
     }
   }
 
-  createGOUI(go, object) {
-    const goUI = new GameObjectUI(go, object).getRootElementUI();
+  createGOUI(object) {
+    const go = this.goSelected;
+    const goUI = new GameObjectUI(go, object,this);
     const lS = go.fetchLocalScripts();
     if (lS) {
       if (lS['image']) {
-        goUI.appendLSImageUI();
+        goUI.appendLSImageUI(this.gameView);
       }
     }
 
     const wS = go.fetchWorldScripts();
     if (wS) {
       if (wS['portal']) {
-        goUI.appendPortalUI(wS);
+        goUI.appendWSPortalUI(wS, this.gameView);
+      }
+      if(wS['teleporter']){
+        goUI.appendWSTeleporterUI(wS);
       }
     }
 
-    return goUI;
+    return goUI.getRootElementUI();
   }
 
   createGOUIOld(go, obj) {
@@ -147,252 +151,8 @@ export class GOEditorView {
     result.classList.add('goUI_GOEditor');
 
 
-
-    let portalInput = null;
-    let selectWorldUUID = null;
-    let selectPortalUUID = null;
-    const worldScripts = go.fetchWorldScripts();
-    if (worldScripts && worldScripts['portal']) {
-      portalInput = document.createElement('div');
-
-      //spawn rot input
-      {
-        const refSpawnRot = worldScripts['portal'].conf.spawnRotation;
-        if (!refSpawnRot) throw new Error('no spawn rotation');
-
-        const labelSpawnRot = document.createElement('div');
-        labelSpawnRot.innerHTML = 'Portal spawn rotation';
-        portalInput.appendChild(labelSpawnRot);
-
-        const xInput = document.createElement('input');
-        xInput.type = 'number';
-        xInput.value = refSpawnRot.x;
-        xInput.step = 0.1;
-        portalInput.appendChild(xInput);
-
-        const yInput = document.createElement('input');
-        yInput.type = 'number';
-        yInput.value = refSpawnRot.y;
-        yInput.step = 0.1;
-        portalInput.appendChild(yInput);
-
-        const zInput = document.createElement('input');
-        zInput.type = 'number';
-        zInput.value = refSpawnRot.z;
-        zInput.step = 0.1;
-        portalInput.appendChild(zInput);
-
-        xInput.onchange = function () {
-          refSpawnRot.x = xInput.value;
-        };
-
-        yInput.onchange = function () {
-          refSpawnRot.y = yInput.value;
-        };
-
-        zInput.onchange = function () {
-          refSpawnRot.z = zInput.value;
-        };
-      }
-
-      //world uuid
-      const worldsJSON = this.gameView.getAssetsManager().getWorldsJSON();
-      const wCxt = this.gameView.getInterpolator().getWorldContext();
-      const currentWorld = wCxt.getWorld();
-      //replace current world json because it can be modified
-      for (let index = 0; index < worldsJSON.length; index++) {
-        const json = worldsJSON[index];
-        if (json.uuid == currentWorld.getUUID()) {
-          //found
-          const newContent = currentWorld.toJSON();
-          worldsJSON[index] = newContent;
-          break;
-        }
-      }
-
-      const labelWorlds = document.createElement('div');
-      labelWorlds.innerHTML = 'World Destination';
-      portalInput.appendChild(labelWorlds);
-
-      selectWorldUUID = document.createElement('select');
-      selectWorldUUID.multiple = false;
-      portalInput.appendChild(selectWorldUUID);
-
-      const unsetOption = document.createElement('option');
-      unsetOption.value = 'null';
-      unsetOption.innerHTML = 'None';
-      selectWorldUUID.appendChild(unsetOption);
-
-      worldsJSON.forEach(function (wjson) {
-        const optionWorld = document.createElement('option');
-        optionWorld.value = wjson.uuid;
-        optionWorld.innerHTML = wjson.name;
-        selectWorldUUID.appendChild(optionWorld);
-      });
-
-      //select option in a select html
-      const selectOption = function (select, value) {
-        let found = false;
-
-        if (value === null) value = 'null'; //dynamic cast
-
-        // console.log('value param ', value);
-        for (let index = 0; index < select.children.length; index++) {
-          const o = select.children[index];
-          const optValue = o.value;
-          // console.log('opt value ', optValue);
-          if (optValue == value) {
-            o.selected = true;
-            found = true;
-            break;
-          } else {
-            o.selected = false;
-          }
-        }
-
-        if (!found) {
-          //select null option
-          selectOption(select, null);
-        }
-      };
-
-      //select right value
-      const currentWorldValue = worldScripts['portal'].conf.worldDestUUID;
-      selectOption(selectWorldUUID, currentWorldValue);
-
-      //portal uuid
-      let worldPortal;
-      worldsJSON.forEach(function (wjson) {
-        if (wjson.uuid == selectWorldUUID.selectedOptions[0].value) {
-          worldPortal = new World(wjson);
-        }
-      });
-
-      selectPortalUUID = document.createElement('select');
-      selectPortalUUID.multiple = false;
-      portalInput.appendChild(selectPortalUUID);
-
-      const unsetOptionPortal = document.createElement('option');
-      unsetOptionPortal.value = 'null';
-      unsetOptionPortal.innerHTML = 'None';
-      selectPortalUUID.appendChild(unsetOptionPortal);
-
-      //add option portal
-      if (worldPortal) {
-        worldPortal.getGameObject().traverse(function (child) {
-          const s = child.getComponent(WorldScriptModule.TYPE); //this way because assets are not initialized
-          if (s && s.idScripts.includes('portal')) {
-            const optionPortal = document.createElement('option');
-            optionPortal.value = child.getUUID();
-            optionPortal.innerHTML = child.getName();
-            selectPortalUUID.appendChild(optionPortal);
-          }
-        });
-      }
-
-      //select right value
-      const currentPortalValue = worldScripts['portal'].conf.portalUUID;
-      selectOption(selectPortalUUID, currentPortalValue);
-
-      result.appendChild(portalInput);
-    }
-
-    let teleporterInput = null;
-    if (worldScripts && worldScripts['teleporter']) {
-      teleporterInput = document.createElement('div');
-
-      {
-        const refDestinationTransform =
-          worldScripts['teleporter'].conf.destinationTransform;
-        if (!refDestinationTransform) throw new Error('no dest transform');
-
-        const labelDesT = document.createElement('div');
-        labelDesT.innerHTML = 'Teleporter destination transform';
-        teleporterInput.appendChild(labelDesT);
-
-        const createInputField = function (ref, label) {
-          const labelDiv = document.createElement('div');
-          labelDiv.innerHTML = label;
-          teleporterInput.appendChild(labelDiv);
-
-          const xInput = document.createElement('input');
-          xInput.type = 'number';
-          xInput.value = ref[0];
-          xInput.step = 0.1;
-          teleporterInput.appendChild(xInput);
-
-          const yInput = document.createElement('input');
-          yInput.type = 'number';
-          yInput.value = ref[1];
-          yInput.step = 0.1;
-          teleporterInput.appendChild(yInput);
-
-          const zInput = document.createElement('input');
-          zInput.type = 'number';
-          zInput.value = ref[2];
-          zInput.step = 0.1;
-          teleporterInput.appendChild(zInput);
-
-          xInput.onchange = function () {
-            ref[0] = xInput.value;
-          };
-
-          yInput.onchange = function () {
-            ref[1] = yInput.value;
-          };
-
-          zInput.onchange = function () {
-            ref[2] = zInput.value;
-          };
-        };
-
-        createInputField(refDestinationTransform.position, 'position');
-        createInputField(refDestinationTransform.rotation, 'rotation');
-      }
-
-      result.appendChild(teleporterInput);
-    }
-
-    //delete
-    const deleteButton = document.createElement('div');
-    deleteButton.classList.add('button_Editor');
-    deleteButton.innerHTML = 'Delete';
-    result.appendChild(deleteButton);
-
     //CALLBACKS
     const _this = this;
-
-    cloneButton.onclick = function () {
-      const clone = GameObject.deepCopy(go);
-      _this.parentView.addGameObject(clone, function () {
-        _this.setSelectedGO(clone.getUUID());
-      });
-    };
-
-    if (portalInput) {
-      const updatePortalUI = function () {
-        const ws = go.fetchWorldScripts()['portal'];
-
-        ws.conf.worldDestUUID =
-          selectWorldUUID.children[selectWorldUUID.selectedIndex].value;
-        ws.conf.portalUUID =
-          selectPortalUUID.children[selectPortalUUID.selectedIndex].value;
-        _this.updateUI();
-      };
-
-      selectPortalUUID.onchange = updatePortalUI.bind(_this);
-      selectWorldUUID.onchange = updatePortalUI.bind(_this);
-    }
-
-    if (imageInput) {
-      imageInput.onchange = function (e) {
-        File.readSingleFileAsDataUrl(e, function (data) {
-          const url = data.target.result;
-          go.components.LocalScript.conf.path = url;
-          _this.gameView.forceUpdate();
-        });
-      };
-    }
 
     deleteButton.onclick = function () {
       //TODOcode replicate
