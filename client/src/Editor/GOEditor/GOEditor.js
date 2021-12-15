@@ -1,10 +1,6 @@
 /** @format */
 
 import './GOEditor.css';
-import { THREE, TransformControls } from 'ud-viz';
-import File from 'ud-viz/src/Components/SystemUtils/File';
-import { GameObject, World } from 'ud-viz/src/Game/Shared/Shared';
-import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 import { GameObjectUI } from '../GameObjectUI';
 
@@ -41,63 +37,18 @@ export class GOEditorView {
     const gV = this.gameView;
 
     const cbPointerUp = function (event) {
+      const go = this.goSelected;
+      let o = go ? this.computeObject3D(go.getUUID()) : null;
       const controlChanged = gV.hasBeenRotate() || gV.tcHasBeenDragged();
-      if (event.button != 0 || controlChanged) return; // just a right click no drag
-      const intersect = gV.throwRay(event, gV.getObject3D());
-      const o = intersect ? gV.tryFindGOParent(intersect.object) : null;
+      if (event.button == 0 && !controlChanged) {
+        // just a right click no drag
+        const intersect = gV.throwRay(event, gV.getObject3D());
+        o = intersect ? gV.tryFindGOParent(intersect.object) : null;
+      }
       this.setSelectedGO(o);
     };
 
     gV.setCallbackPointerUp(cbPointerUp.bind(this));
-  }
-
-  initTransformControls() {
-    const gameView = this.gameView;
-    const manager = gameView.getInputManager();
-    const viewerDiv = gameView.getRootWebGL();
-
-    const _this = this;
-    //cant handle this callback with our input manager
-    // this.transformControls.addEventListener(
-    //   'dragging-changed',
-    //   function (event) {
-    //     const gameViewGO = gameView
-    //       .getLastState()
-    //       .getGameObject()
-    //       .find(_this.goSelected.getUUID());
-
-    //     _this.goSelected.setTransformFromGO(gameViewGO);
-    //     //update go menu ui
-    //     _this.setSelectedGO(_this.goSelected.getUUID());
-    //   }
-    // );
-
-    // this.onPointerUpListener = function (event) {
-    //   const controlChanged =
-    //     gameView.hasBeenRotate() || gameView.tcHasBeenDragged();
-    //   if (event.button != 0 || controlChanged) return;
-
-    //   const intersect = gameView.throwRay(event, gameView.getObject3D());
-
-    //   if (intersect) {
-    //     const objectClicked = intersect.object;
-    //     let current = objectClicked;
-    //     while (!current.userData.gameObjectUUID) {
-    //       if (!current.parent) {
-    //         console.warn('didnt find gameobject uuid');
-    //         current = null;
-    //         break;
-    //       }
-    //       current = current.parent;
-    //     }
-
-    //     if (current) {
-    //       _this.setSelectedGO(current.userData.gameObjectUUID);
-    //       return;
-    //     }
-    //   }
-    //   _this.setSelectedGO(null);
-    // };
   }
 
   getSelectedGO() {
@@ -125,7 +76,7 @@ export class GOEditorView {
 
   createGOUI(object) {
     const go = this.goSelected;
-    const goUI = new GameObjectUI(go, object,this);
+    const goUI = new GameObjectUI(go, object, this);
     const lS = go.fetchLocalScripts();
     if (lS) {
       if (lS['image']) {
@@ -138,51 +89,12 @@ export class GOEditorView {
       if (wS['portal']) {
         goUI.appendWSPortalUI(wS, this.gameView);
       }
-      if(wS['teleporter']){
+      if (wS['teleporter']) {
         goUI.appendWSTeleporterUI(wS);
       }
     }
 
     return goUI.getRootElementUI();
-  }
-
-  createGOUIOld(go, obj) {
-    const result = document.createElement('div');
-    result.classList.add('goUI_GOEditor');
-
-
-    //CALLBACKS
-    const _this = this;
-
-    deleteButton.onclick = function () {
-      //TODOcode replicate
-      go.removeFromParent();
-
-      _this.transformControls.detach();
-
-      _this.gameView.forceUpdate();
-
-      _this.updateUI();
-    };
-
-    translateButton.onclick = function () {
-      _this.transformControls.setMode('translate');
-    };
-
-    rotateButton.onclick = function () {
-      _this.transformControls.setMode('rotate');
-    };
-
-    scaleButton.onclick = function () {
-      _this.transformControls.setMode('scale');
-    };
-
-    inputName.onchange = function () {
-      go.setName(inputName.value);
-      _this.updateUI();
-    };
-
-    return result;
   }
 
   dispose() {
@@ -209,12 +121,12 @@ export class GOEditorView {
       li.onclick = _this.goButtonClicked.bind(_this, child.getUUID());
     });
 
+    let selectedGO = null;
     //goeditor view
     if (this.goSelected) {
-      this.setSelectedGO(this.goSelected.getUUID());
-    } else {
-      this.setSelectedGO(null);
+      selectedGO = this.computeObject3D(this.goSelected.getUUID());
     }
+    this.setSelectedGO(selectedGO);
   }
 
   goButtonClicked(uuid) {
@@ -224,7 +136,7 @@ export class GOEditorView {
 
     this.parentView.focusObject(obj);
 
-    this.setSelectedGO(uuid);
+    this.setSelectedGO(obj);
   }
 
   computeObject3D(uuid) {

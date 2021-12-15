@@ -21,14 +21,13 @@ export class GameObjectUI {
     inputName.value = go.getName();
     this.rootElementUI.appendChild(inputName);
 
+    inputName.onchange = function () {
+      go.setName(inputName.value);
+      goEditor.updateUI();
+    };
+
     //Transfom UI
-    const onChangeCB = function (iInput, setVec3) {
-      const value = parseFloat(this.value);
-      setVec3(
-        iInput == 0 ? value : null,
-        iInput == 1 ? value : null,
-        iInput == 2 ? value : null
-      );
+    const cbOnChange = function () {
       go.setTransformFromObject3D(obj);
     };
 
@@ -36,51 +35,58 @@ export class GameObjectUI {
     translateButton.innerHTML = 'Translate';
     translateButton.classList.add('button_Editor');
     this.rootElementUI.appendChild(translateButton);
-    this.rootElementUI.appendChild(
-      this.createInputVector3(obj.position, onChangeCB, function (x, y, z) {
-        obj.position.set(
-          x ? x : obj.position.x,
-          y ? y : obj.position.y,
-          z ? y : obj.position.y
-        );
-      })
+
+    translateButton.onclick = function () {
+      goEditor.gameView.getTransformControls().setMode('translate');
+    };
+
+    const vec3InputPosition = this.createInputFromVector3(
+      obj.position,
+      cbOnChange
     );
+
+    this.rootElementUI.appendChild(vec3InputPosition);
 
     const rotateButton = document.createElement('div');
     rotateButton.classList.add('button_Editor');
     rotateButton.innerHTML = 'rotate';
     this.rootElementUI.appendChild(rotateButton);
 
-    this.rootElementUI.appendChild(
-      this.createInputVector3(obj['rotation'], onChangeCB, function (x, y, z) {
-        obj.rotation.set(
-          x ? x : obj.rotation.x,
-          y ? y : obj.rotation.y,
-          z ? y : obj.rotation.y
-        );
-      })
+    rotateButton.onclick = function () {
+      goEditor.gameView.getTransformControls().setMode('rotate');
+    };
+
+    const vec3InputRotation = this.createInputFromVector3(
+      obj.rotation,
+      cbOnChange
     );
+    this.rootElementUI.appendChild(vec3InputRotation);
 
     const scaleButton = document.createElement('div');
     scaleButton.classList.add('button_Editor');
     scaleButton.innerHTML = 'scale';
     this.rootElementUI.appendChild(scaleButton);
 
-    this.rootElementUI.appendChild(
-      this.createInputVector3(obj['scale'], onChangeCB, function (x, y, z) {
-        obj.scale.set(
-          x ? x : obj.scale.x,
-          y ? y : obj.scale.y,
-          z ? y : obj.scale.y
-        );
-      })
-    );
+    scaleButton.onclick = function () {
+      goEditor.gameView.getTransformControls().setMode('scale');
+    };
+
+    const vec3InputScale = this.createInputFromVector3(obj.scale, cbOnChange);
+
+    this.rootElementUI.appendChild(vec3InputScale);
 
     //clone
     const cloneButton = document.createElement('div');
     cloneButton.classList.add('button_Editor');
     cloneButton.innerHTML = 'Clone';
     this.rootElementUI.appendChild(cloneButton);
+
+    cloneButton.onclick = function () {
+      const clone = GameObject.deepCopy(go);
+      goEditor.parentView.addGameObject(clone, function () {
+        goEditor.setSelectedGO(clone.getUUID());
+      });
+    };
 
     this.content = document.createElement('div');
     this.rootElementUI.appendChild(this.content);
@@ -90,14 +96,6 @@ export class GameObjectUI {
     deleteButton.innerHTML = 'Delete';
     this.rootElementUI.appendChild(deleteButton);
 
-    //BUTTONS CALLBACKS
-    cloneButton.onclick = function () {
-      const clone = GameObject.deepCopy(go);
-      goEditor.parentView.addGameObject(clone, function () {
-        goEditor.setSelectedGO(clone.getUUID());
-      });
-    };
-
     deleteButton.onclick = function () {
       goEditor.setSelectedGO(null);
       go.removeFromParent();
@@ -105,8 +103,9 @@ export class GameObjectUI {
     };
   }
 
-  createInputVector3(vec3, cbOnChange, setVec3) {
+  createInputFromVector3(vec3, cbSetFunc = null) {
     const inputVector3 = document.createElement('div');
+
     for (let iInput = 0; iInput < 3; iInput++) {
       let component = iInput === 0 ? vec3.x : iInput === 1 ? vec3.y : vec3.z;
       const componentElement = document.createElement('input');
@@ -115,12 +114,15 @@ export class GameObjectUI {
       componentElement.step = 0.1;
       inputVector3.appendChild(componentElement);
 
-      if (cbOnChange)
-        componentElement.onchange = cbOnChange.bind(
-          componentElement,
-          iInput,
-          setVec3
+      componentElement.onchange = function () {
+        const value = parseFloat(componentElement.value);
+        vec3.set(
+          iInput === 0 ? value : vec3.x,
+          iInput === 1 ? value : vec3.y,
+          iInput === 2 ? value : vec3.z
         );
+        if (cbSetFunc) cbSetFunc();
+      };
     }
 
     return inputVector3;
@@ -166,15 +168,7 @@ export class GameObjectUI {
       );
     };
 
-    portalInput.appendChild(
-      this.createInputVector3(refSpawnRot, cbOnChange, function (x, y, z) {
-        refSpawnRot.set(
-          x ? x : refSpawnRot.x,
-          y ? y : refSpawnRot.y,
-          z ? y : refSpawnRot.y
-        );
-      })
-    );
+    portalInput.appendChild(this.createInputFromVector3(refSpawnRot));
 
     //world uuid
     const worldsJSON = gV.getAssetsManager().getWorldsJSON();
@@ -270,33 +264,13 @@ export class GameObjectUI {
     const labelPosition = document.createElement('div');
     labelPosition.innerHTML = 'position';
     labelPosition.appendChild(
-      this.createInputVector3(
-        refDestinationTransform.position,
-        cbOnChange,
-        function (x, y, z) {
-          refDestinationTransform.position.set(
-            x ? x : refDestinationTransform.position.x,
-            y ? y : refDestinationTransform.position.y,
-            z ? y : refDestinationTransform.position.y
-          );
-        }
-      )
+      this.createInputFromVector3(refDestinationTransform.position)
     );
 
     const labelRotation = document.createElement('div');
     labelRotation.innerHTML = 'rotation';
     labelRotation.appendChild(
-      this.createInputVector3(
-        refDestinationTransform.rotation,
-        cbOnChange,
-        function (x, y, z) {
-          refDestinationTransform.rotation.set(
-            x ? x : refDestinationTransform.rotation.x,
-            y ? y : refDestinationTransform.rotation.y,
-            z ? y : refDestinationTransform.rotation.y
-          );
-        }
-      )
+      this.createInputFromVector3(refDestinationTransform.rotation)
     );
 
     teleporterInput.appendChild(labelPosition);

@@ -1,5 +1,4 @@
 import { THREE, OrbitControls, TransformControls } from 'ud-viz';
-import { createTileGroupsFromBatchIDs } from 'ud-viz/src/Components/3DTiles/3DTilesUtils';
 import { GameView } from 'ud-viz/src/Views/Views';
 
 export class EditorGameView extends GameView {
