@@ -54,6 +54,7 @@ export class WorldEditorView {
       parentUIHtml: this.ui,
       gameView: this.gameView,
       parentView: this,
+      assetsManager: this.assetsManager,
     });
 
     //view to add prefab
@@ -66,7 +67,6 @@ export class WorldEditorView {
 
     //html
     this.closeButton = null;
-    this.colliderButton = null;
     this.heightmapButton = null;
     this.playWorldButton = null;
     this.sliderOpacity = null;
@@ -141,12 +141,6 @@ export class WorldEditorView {
     closeButton.innerHTML = 'Close';
     this.ui.appendChild(closeButton);
     this.closeButton = closeButton;
-
-    const colliderButton = document.createElement('li');
-    colliderButton.classList.add('li_Editor');
-    colliderButton.innerHTML = 'Collider';
-    ulButtons.appendChild(colliderButton);
-    this.colliderButton = colliderButton;
 
     const heightmapButton = document.createElement('li');
     heightmapButton.classList.add('li_Editor');
@@ -228,32 +222,6 @@ export class WorldEditorView {
 
   initCallbacks() {
     const _this = this;
-
-    this.colliderButton.onclick = function () {
-      //check if one already exist
-      for (let index = 0; index < _this.childrenViews.length; index++) {
-        const element = _this.childrenViews[index];
-        if (element instanceof ColliderEditorView) return;
-      }
-      if (!_this.goEditorView.getSelectedGO()) {
-        console.warn('not GO selected');
-        return;
-      }
-      const cEV = new ColliderEditorView({
-        parentUIHtml: _this.ui.parentElement,
-        gameView: _this.gameView,
-        parentOC: _this.orbitControls,
-        assetsManager: _this.assetsManager,
-        goEV: _this.goEditorView,
-      });
-      cEV.setOnClose(function () {
-        cEV.dispose();
-        const index = _this.childrenViews.indexOf(cEV);
-        _this.childrenViews.splice(index, 1);
-      });
-
-      _this.childrenViews.push(cEV);
-    };
 
     this.heightmapButton.onclick = function () {
       //check if one already exist
@@ -402,7 +370,6 @@ export class WorldEditorView {
   setOnClose(f) {
     this.closeButton.onclick = f;
   }
-
 }
 
 class WorldEditorModel {

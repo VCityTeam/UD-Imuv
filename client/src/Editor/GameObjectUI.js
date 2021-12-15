@@ -1,6 +1,7 @@
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { GameObject, World } from 'ud-viz/src/Game/Shared/Shared';
 import File from 'ud-viz/src/Components/SystemUtils/File';
+import { ColliderEditorView } from './ColliderEditor/ColliderEditor';
 
 export class GameObjectUI {
   constructor(go, obj, goEditor) {
@@ -100,6 +101,39 @@ export class GameObjectUI {
       goEditor.setSelectedGO(null);
       go.removeFromParent();
       goEditor.gameView.forceUpdate();
+    };
+
+    const ulButtons = document.createElement('ul');
+    ulButtons.classList.add('ul_Editor');
+    this.rootElementUI.appendChild(ulButtons);
+
+    const colliderButton = document.createElement('li');
+    colliderButton.classList.add('li_Editor');
+    colliderButton.innerHTML = 'Collider';
+    ulButtons.appendChild(colliderButton);
+
+    const rootHtml = this.rootElementUI;
+    let cEV = null;
+    colliderButton.onclick = function () {
+      if (!goEditor.getSelectedGO()) {
+        console.error('not GO selected');
+        return;
+      }
+      if (cEV) return;
+      cEV = new ColliderEditorView({
+        goEditor: goEditor,
+        rootHtml : rootHtml
+      });
+
+      cEV.setOnClose(function () {
+        cEV.dispose();
+        cEV = null;
+        this.initCallbacks();
+        this.setSelectedGO(
+          this.computeObject3D(this.getSelectedGO().getUUID())
+        );
+      }.bind(goEditor));
+      
     };
   }
 

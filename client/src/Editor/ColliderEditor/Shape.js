@@ -39,7 +39,7 @@ class AbstractShape {
 
     this.points.push(point);
     point.name = 'Point' + this.points.length;
-    point.userData = 'Point';
+    point.userData = { type: 'Point' };
     this.updateMesh();
   }
 
@@ -132,7 +132,7 @@ export class PolygonShape extends AbstractShape {
     this.mesh = new THREE.Mesh(meshGeometry, this.matMesh);
     this.mesh.position.copy(vecCenter);
     this.mesh.updateMatrixWorld();
-    this.mesh.userData = 'Mesh';
+    this.mesh.userData = { type: 'Mesh' };
     this.previousMeshPosition = this.mesh.position.clone();
     this.getObject3D().add(this.mesh);
   }
@@ -201,7 +201,7 @@ export class CircleShape extends AbstractShape {
     this.mesh = new THREE.Mesh(geometry, this.matMesh);
     this.mesh.position.copy(this.center);
     this.mesh.updateMatrixWorld();
-    this.mesh.userData = 'Mesh';
+    this.mesh.userData = { type: 'Mesh' };
     this.getObject3D().add(this.mesh);
   }
 

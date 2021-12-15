@@ -22,6 +22,9 @@ export class GOEditorView {
     //gameview
     this.gameView = params.gameView;
 
+    //assetsManagers
+    this.assetsManager = params.assetsManager;
+
     //controls
     this.transformControls = this.gameView.getTransformControls();
     this.orbitControls = this.gameView.getOrbitControls();
@@ -39,12 +42,13 @@ export class GOEditorView {
     const cbPointerUp = function (event) {
       const go = this.goSelected;
       let o = go ? this.computeObject3D(go.getUUID()) : null;
-      const controlChanged = gV.hasBeenRotate() || gV.tcHasBeenDragged();
+      const controlChanged = (gV.hasBeenRotate() || gV.tcHasBeenDragged());
       if (event.button == 0 && !controlChanged) {
         // just a right click no drag
         const intersect = gV.throwRay(event, gV.getObject3D());
         o = intersect ? gV.tryFindGOParent(intersect.object) : null;
       }
+      //update UI
       this.setSelectedGO(o);
     };
 
@@ -66,7 +70,7 @@ export class GOEditorView {
     const worldGo = world.getGameObject();
     const uuid = object.userData.gameObjectUUID;
     this.goSelected = worldGo.find(uuid);
-
+    this.initCallbacks();
     if (this.goSelected) {
       //attach transform ctrl
       this.goSelectedUI = this.createGOUI(object);
