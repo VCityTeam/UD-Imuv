@@ -120,7 +120,6 @@ export class WorldEditorView {
   dispose() {
     this.gameView.dispose();
     this.ui.remove();
-    this.orbitControls.dispose();
 
     this.childrenViews.forEach(function (v) {
       v.dispose();

@@ -5,12 +5,23 @@ import { ColliderEditorView } from './ColliderEditor/ColliderEditor';
 
 export class GameObjectUI {
   constructor(go, obj, goEditor) {
-    this.obj = obj;
     this.go = go;
 
     this.rootElementUI = document.createElement('div');
     this.rootElementUI.classList.add('goUI_GOEditor');
 
+    this.cEV = null;
+
+    this.initBaseUI(go, obj, goEditor);
+  }
+
+  dispose() {
+    if (this.cEV) this.cEV.dispose();
+    this.cEV = null;
+    this.rootElementUI.remove();
+  }
+
+  initBaseUI(go, obj, goEditor) {
     //UUID
     const uuidLabel = document.createElement('div');
     uuidLabel.innerHTML = go.getUUID();
@@ -113,27 +124,29 @@ export class GameObjectUI {
     ulButtons.appendChild(colliderButton);
 
     const rootHtml = this.rootElementUI;
-    let cEV = null;
+
+    const _this = this;
     colliderButton.onclick = function () {
       if (!goEditor.getSelectedGO()) {
         console.error('not GO selected');
         return;
       }
-      if (cEV) return;
-      cEV = new ColliderEditorView({
+      if (_this.cEV) return;
+      _this.cEV = new ColliderEditorView({
         goEditor: goEditor,
-        rootHtml : rootHtml
+        rootHtml: rootHtml,
       });
 
-      cEV.setOnClose(function () {
-        cEV.dispose();
-        cEV = null;
-        this.initCallbacks();
-        this.setSelectedGO(
-          this.computeObject3D(this.getSelectedGO().getUUID())
-        );
-      }.bind(goEditor));
-      
+      _this.cEV.setOnClose(
+        function () {
+          _this.cEV.dispose();
+          _this.cEV = null;
+          this.initPointerUpCallback();
+          this.setSelectedGO(
+            this.computeObject3D(this.getSelectedGO().getUUID())
+          );
+        }.bind(goEditor)
+      );
     };
   }
 

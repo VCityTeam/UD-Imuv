@@ -349,7 +349,7 @@ export class ColliderEditorView {
       _this.updateUI();
     };
 
-    gV.setCallbackPointerUp(cbPointerUp.bind(this));
+    gV.setCallbackPointerUp(cbPointerUp.bind(this), 'Collider');
 
     this.refAddPointKeyDown = this.setAddPointMode.bind(this, true);
     this.refAddPointKeyUp = this.setAddPointMode.bind(this, false);

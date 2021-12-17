@@ -19,6 +19,7 @@ export class EditorGameView extends GameView {
     this.object3DToRaycast = this.object3D;
 
     this.callbackPointerUp = function () {};
+    this.linkedHtmlElementTypeCbPointerUp = null;
 
     this.initTransformControls();
     this.initOrbitControls();
@@ -101,10 +102,13 @@ export class EditorGameView extends GameView {
     this.transformControls.detach();
   }
 
-  setCallbackPointerUp(cb = null) {
+  setCallbackPointerUp(cb = null, type = null) {
     if (!cb) cb = function () {};
 
     this.callbackPointerUp = cb;
+
+    this.linkedHtmlElementTypeCbPointerUp.innerHTML =
+      'CB Pointer UP Type : ' + (type || '');
   }
 
   /**Attach TransformControls to the result of intersect of a THREE.Raycast(). Return the object attached.*/
