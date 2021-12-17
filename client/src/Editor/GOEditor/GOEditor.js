@@ -15,6 +15,7 @@ export class GOEditorView {
     this.goList = null;
     this.goSelectedUI = null;
     this.labelCurrentWorld = null;
+    this.typeCbPU = null;
 
     //parentView
     this.parentView = params.parentView;
@@ -32,17 +33,17 @@ export class GOEditorView {
     //go selected
     this.goSelected = null;
 
-    this.initCallbacks();
     this.initUI();
+    this.initPointerUpCallback();
   }
 
-  initCallbacks() {
+  initPointerUpCallback() {
     const gV = this.gameView;
 
     const cbPointerUp = function (event) {
       const go = this.goSelected;
       let o = go ? this.computeObject3D(go.getUUID()) : null;
-      const controlChanged = (gV.hasBeenRotate() || gV.tcHasBeenDragged());
+      const controlChanged = gV.hasBeenRotate() || gV.tcHasBeenDragged();
       if (event.button == 0 && !controlChanged) {
         // just a right click no drag
         const intersect = gV.throwRay(event, gV.getObject3D());
@@ -52,7 +53,7 @@ export class GOEditorView {
       this.setSelectedGO(o);
     };
 
-    gV.setCallbackPointerUp(cbPointerUp.bind(this));
+    gV.setCallbackPointerUp(cbPointerUp.bind(this), 'GameObject');
   }
 
   getSelectedGO() {
@@ -62,7 +63,7 @@ export class GOEditorView {
   setSelectedGO(object) {
     this.gameView.attachTCToObject(object);
     //clean
-    if (this.goSelectedUI) this.goSelectedUI.remove();
+    if (this.goSelectedUI) this.goSelectedUI.dispose();
 
     if (!object) return;
 
@@ -70,11 +71,11 @@ export class GOEditorView {
     const worldGo = world.getGameObject();
     const uuid = object.userData.gameObjectUUID;
     this.goSelected = worldGo.find(uuid);
-    this.initCallbacks();
+    this.initPointerUpCallback();
     if (this.goSelected) {
       //attach transform ctrl
       this.goSelectedUI = this.createGOUI(object);
-      this.ui.appendChild(this.goSelectedUI);
+      this.ui.appendChild(this.goSelectedUI.getRootElementUI());
     }
   }
 
@@ -98,7 +99,7 @@ export class GOEditorView {
       }
     }
 
-    return goUI.getRootElementUI();
+    return goUI;
   }
 
   dispose() {
@@ -162,6 +163,11 @@ export class GOEditorView {
     this.goList = document.createElement('ul');
     this.goList.classList.add('ul_Editor');
     this.ui.appendChild(this.goList);
+
+    const typeCbPU = document.createElement('p');
+    typeCbPU.innerHTML = 'Prout';
+    this.ui.appendChild(typeCbPU);
+    this.gameView.linkedHtmlElementTypeCbPointerUp = typeCbPU;
 
     this.updateUI();
   }
