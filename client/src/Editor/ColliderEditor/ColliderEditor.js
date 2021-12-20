@@ -1,23 +1,22 @@
 import './ColliderEditor.css';
 
-import { THREE, TransformControls } from 'ud-viz';
+import { THREE } from 'ud-viz';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 import { Shared } from 'ud-viz/src/Game/Game';
 import { PolygonShape, CircleShape, POLYGON_TYPE, CIRCLE_TYPE } from './Shape';
 
 export class ColliderEditorView {
   constructor(params) {
-    //raycaster
-    this.raycaster = new THREE.Raycaster();
+    this.goEditor = params.goEditor;
 
-    this.rootHtml = params.parentUIHtml;
-    this.gameView = params.gameView;
+    this.rootHtml = params.rootHtml;
+    this.gameView = this.goEditor.gameView;
 
-    this.assetsManager = params.assetsManager;
+    this.assetsManager = this.goEditor.assetsManager;
 
     this.colliderObject3D = new THREE.Object3D();
     this.colliderObject3D.name = 'ColliderObject';
-    this.gameView.getItownsView().scene.add(this.colliderObject3D);
+    this.gameView.getScene().add(this.colliderObject3D);
 
     //where html goes
     this.ui = document.createElement('div');
@@ -37,37 +36,31 @@ export class ColliderEditorView {
     this.saveButton = null;
     this.bodyCheckbox = null;
 
-    this.goSelected = params.goEV.getSelectedGO();
+    this.goSelected = this.goEditor.getSelectedGO();
     this.colliderComp = this.getColliderComponent();
 
     //controls
-    params.goEV.dispose(); //TODO : merge transformcontrols of goEV and  cEV
-    this.orbitControls = params.parentOC;
-    this.transformControls = null;
+    this.orbitControls = this.gameView.getOrbitControls();
+    this.transformControls = this.gameView.getTransformControls();
     this.tcChanged = false; //TODO : Find how to use transformControls.dragging correctly
 
     this.addPointMode = false;
 
-    this.model = new ColliderEditorModel(this.computePosOffset());
+    this.model = new ColliderEditorModel(
+      this.computePosOffset(),
+      this.gameView
+    );
 
+    this.gameView.attachTCToObject(null);
     this.model.loadShapesFromJSON(
       this.colliderComp,
       this.colliderObject3D,
       this.gameView
     );
     this.initUI();
-    this.initTransformControls();
     this.initCallbacks();
 
-    this.attachTC();
     this.updateUI();
-  }
-
-  getCanvas() {
-    const canvas =
-      this.gameView.getItownsView().mainLoop.gfxEngine.renderer.domElement;
-    canvas.style.zIndex = 1;
-    return canvas;
   }
 
   getColliderComponent() {
@@ -92,17 +85,12 @@ export class ColliderEditorView {
   }
 
   dispose() {
-    this.setOrbitControls(true);
     this.ui.remove();
-    this.transformControls.detach();
-    this.transformControls.dispose();
     const manager = this.gameView.getInputManager();
     manager.removeInputListener(this.refAddPointKeyDown);
     manager.removeInputListener(this.refAddPointKeyUp);
-    manager.removeInputListener(this.onPointerupListener);
-    manager.removeInputListener(this.onPointerdownListener);
-    if (this.gameView.getItownsView().scene)
-      this.gameView.getItownsView().scene.remove(this.colliderObject3D);
+    this.colliderObject3D.removeFromParent();
+    this.colliderObject3D = null;
   }
 
   setOrbitControls(value) {
@@ -148,7 +136,6 @@ export class ColliderEditorView {
       if (shape.mesh) {
         _this.model.setSelectedObject(shape.mesh);
       }
-      _this.attachTC();
       _this.updateUI();
     };
 
@@ -170,14 +157,9 @@ export class ColliderEditorView {
       }
       _this.model.addNewShape(cloneShape);
       shape.points.forEach((point) => {
-        const newPoint = _this.model.createSphere();
-        newPoint.position.copy(point.position.clone());
-        cloneShape.addPoint(newPoint);
-
-        if (newPoint) _this.model.setSelectedObject(newPoint);
+        _this.model.placeSphereAtPoint(point.position.clone(), cloneShape);
         if (cloneShape) _this.model.setSelectedObject(cloneShape.mesh);
       });
-      _this.attachTC();
       _this.updateUI();
     };
     liShapesList.appendChild(cloneButton);
@@ -190,7 +172,6 @@ export class ColliderEditorView {
       radiusInput.onchange = function () {
         shape.setRadius(radiusInput.value);
         _this.model.setSelectedObject(shape.mesh);
-        _this.attachTC();
         _this.updateUI();
       };
       liShapesList.appendChild(radiusInput);
@@ -322,150 +303,59 @@ export class ColliderEditorView {
     this.ui.appendChild(wrapper);
   }
 
-  initTransformControls() {
-    if (this.transformControls) this.transformControls.dispose();
-
-    const camera = this.gameView.getItownsView().camera.camera3D;
-    const scene = this.gameView.getItownsView().scene;
-    // const viewerDiv = this.gameView.getRootWebGL();
-
-    this.transformControls = new TransformControls(camera, this.getCanvas());
-    scene.add(this.transformControls);
-
-    const _this = this;
-
-    //cant handle this callback with our input manager
-    this.transformControls.addEventListener(
-      'dragging-changed',
-      function (event) {
-        _this.setOrbitControls(!event.value);
-        _this.tcChanged = true;
-      }
-    );
-  }
-
   initCallbacks() {
     const _this = this;
-    const currentGameView = this.gameView;
-    const canvas = this.getCanvas();
-    const viewerDiv = this.gameView.getRootWebGL();
-    const transformControls = this.transformControls;
     const manager = this.gameView.getInputManager();
-
-    const throwRay = function (event, object3D) {
-      //1. sets the mouse position with a coordinate system where the center of the screen is the origin
-      const mouse = new THREE.Vector2(
-        -1 + (2 * event.offsetX) / canvas.clientWidth,
-        1 - (2 * event.offsetY) / canvas.clientHeight
-      );
-
-      //2. set the picking ray from the camera position and mouse coordinates
-      const camera = currentGameView.getItownsView().camera.camera3D;
-      const oldNear = camera.near;
-      camera.near = 0;
-      _this.raycaster.setFromCamera(mouse, camera);
-      camera.near = oldNear;
-
-      //3. compute intersections
-      const intersects = _this.raycaster.intersectObject(object3D, true);
-
-      for (let i = 0; i < intersects.length; i++) {
-        if (intersects[i].object.visible) {
-          return intersects[i];
-        }
-      }
-
-      return null;
-    };
 
     this.newPolygonButton.onclick = function () {
       _this.model.addNewShape(new PolygonShape(_this.colliderObject3D));
-      transformControls.detach();
       _this.updateUI();
     };
 
     this.newCircleButton.onclick = function () {
       _this.model.addNewShape(new CircleShape(_this.colliderObject3D));
-      transformControls.detach();
       _this.updateUI();
     };
 
     this.saveButton.onclick = function () {
       console.log('Save Collider');
-
       const colliderComp = _this.getColliderComponent();
       colliderComp.shapesJSON = _this.model.toJSON();
       colliderComp.body = _this.bodyCheckbox.checked;
     };
 
-    this.attachTC = function () {
-      transformControls.detach();
-      if (!_this.model.getSelectedObject()) return;
-      transformControls.attach(_this.model.getSelectedObject());
-      transformControls.updateMatrixWorld();
-      currentGameView.getItownsView().scene.add(transformControls);
-    };
+    const gV = this.gameView;
 
-    const getShape = function () {
-      return _this.model.getCurrentShape();
-    };
-
-    const computeAngle = function () {
-      return (
-        _this.orbitControls.getAzimuthalAngle() +
-        _this.orbitControls.getPolarAngle()
-      );
-    };
-
-    let angle = 0;
-
-    this.onPointerdownListener = function (event) {
-      if (event.button != 0) return;
-      angle = computeAngle();
-    };
-
-    this.onPointerupListener = function (event) {
-      const isRotating = Math.abs(angle - computeAngle()) > 0;
+    const cbPointerUp = function (event) {
       if (event.button != 0) return;
       if (_this.getAddPointMode()) {
-        const intersect = throwRay(event, currentGameView.getObject3D());
+        const intersect = gV.throwRay(event, gV.getObject3D());
         if (intersect) {
-          const newPoint = _this.model.createSphere();
-          const pos = intersect.point;
-          newPoint.position.set(pos.x, pos.y, pos.z);
-
-          getShape().addPoint(newPoint);
-          _this.model.setSelectedObject(newPoint || null);
+          _this.model.placeSphereAtPoint(
+            intersect.point,
+            _this.model.getCurrentShape()
+          );
         }
       } else {
-        if (_this.tcChanged) {
-          _this.tcChanged = false;
-          if (_this.model.getSelectedObject().userData == 'Point') {
-            getShape().updateMesh();
-          } else if (_this.model.getSelectedObject().userData == 'Mesh') {
-            getShape().adjustPoints();
-          }
+        if (gV.tcHasBeenDragged()) {
+          _this.model.updateShape();
           return;
         }
-        if (isRotating) return;
-        const intersect = throwRay(event, _this.colliderObject3D);
-        if (intersect) {
-          _this.model.setSelectedObject(intersect.object);
-        } else {
-          _this.model.setSelectedObject(null);
-        }
+        if (gV.hasBeenRotate()) return;
+        const intersect = gV.throwRay(event, _this.colliderObject3D);
+
+        _this.model.setSelectedObject(intersect ? intersect.object : null);
       }
-      _this.attachTC();
       _this.updateUI();
     };
+
+    gV.setCallbackPointerUp(cbPointerUp.bind(this), 'Collider');
 
     this.refAddPointKeyDown = this.setAddPointMode.bind(this, true);
     this.refAddPointKeyUp = this.setAddPointMode.bind(this, false);
 
     manager.addKeyInput('Control', 'keydown', this.refAddPointKeyDown);
     manager.addKeyInput('Control', 'keyup', this.refAddPointKeyUp);
-    manager.addMouseInput(viewerDiv, 'pointerup', this.onPointerupListener);
-    manager.addMouseInput(viewerDiv, 'pointerdown', this.onPointerdownListener);
 
     manager.addKeyInput('f', 'keyup', function () {
       if (_this.model.getSelectedObject()) {
@@ -490,11 +380,12 @@ export class ColliderEditorView {
 }
 
 export class ColliderEditorModel {
-  constructor(posOffset) {
+  constructor(posOffset, gameView) {
     this.shapes = [];
     this.currentShape = null;
     this.selectedObject = null;
     this.posOffset = posOffset;
+    this.gameView = gameView;
   }
 
   addNewShape(shape) {
@@ -520,6 +411,7 @@ export class ColliderEditorModel {
   }
 
   setSelectedObject(object) {
+    this.gameView.attachTCToObject(object);
     this.selectedObject = object;
     if (object && object.parent.shape) {
       this.setCurrentShape(object.parent.shape);
@@ -541,10 +433,34 @@ export class ColliderEditorModel {
   }
 
   createSphere() {
+    console.warn('don\'t use this method');
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    const sphere = new THREE.Mesh(geometry, material);
-    return sphere;
+    const sphereP = new THREE.Mesh(geometry, material);
+
+    return sphereP;
+  }
+
+  /**Create sphere as new point of shape at a position */
+  placeSphereAtPoint(point, shape) {
+    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const sphereP = new THREE.Mesh(geometry, material);
+    sphereP.position.set(point.x, point.y, point.z);
+
+    shape.addPoint(sphereP);
+    this.setSelectedObject(sphereP);
+
+    return sphereP;
+  }
+
+  updateShape() {
+    const type = this.getSelectedObject().userData.type;
+    if (type == 'Point') {
+      this.getCurrentShape().updateMesh();
+    } else if (type == 'Mesh') {
+      this.getCurrentShape().adjustPoints();
+    }
   }
 
   loadShapesFromJSON(colliderComp, object3D) {
@@ -557,31 +473,30 @@ export class ColliderEditorModel {
       if (col.type == POLYGON_TYPE) {
         const shape = new PolygonShape(object3D);
         _this.addNewShape(shape);
+
         col.points.forEach(function (p) {
-          const newPoint = _this.createSphere();
-          newPoint.position.set(
+          const pos = new THREE.Vector3(
             posOffset.x + p.x,
             posOffset.y + p.y,
             posOffset.z + (p.z || 0)
           );
-          shape.addPoint(newPoint);
-          if (newPoint) _this.setSelectedObject(newPoint);
+
+          _this.placeSphereAtPoint(pos, shape);
+
           if (shape.mesh) _this.setSelectedObject(shape.mesh);
         });
       } else if (col.type == CIRCLE_TYPE) {
         const shape = new CircleShape(object3D, col.radius);
-
         _this.addNewShape(shape);
 
-        const p = col.center;
-        const newPoint = _this.createSphere();
-        newPoint.position.set(
-          posOffset.x + p.x,
-          posOffset.y + p.y,
-          posOffset.z + (p.z || 0)
+        const pos = new THREE.Vector3(
+          posOffset.x + col.center.x,
+          posOffset.y + col.center.y,
+          posOffset.z + (col.center.z || 0)
         );
-        shape.addPoint(newPoint);
-        if (newPoint) _this.setSelectedObject(newPoint);
+
+        _this.placeSphereAtPoint(pos, shape);
+
         if (shape.mesh) _this.setSelectedObject(shape.mesh);
       }
     });

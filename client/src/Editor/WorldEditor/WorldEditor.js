@@ -1,16 +1,15 @@
 /** @format */
 
 import './WorldEditor.css';
-import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
-import { GameView } from 'ud-viz/src/Views/Views';
-import { THREE, OrbitControls } from 'ud-viz';
+import { THREE } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
 import { computeMapGO } from '../Components/EditorUtility';
 import { WorldStateInterpolator } from 'ud-viz/src/Templates/DistantGame/WorldStateInterpolator';
+import { EditorGameView } from '../EditorGameView';
 
 export class WorldEditorView {
   constructor(params) {
@@ -27,7 +26,7 @@ export class WorldEditorView {
     this.assetsManager = params.assetsManager;
     this.model = new WorldEditorModel(this.assetsManager, params.worldJSON);
 
-    this.gameView = new GameView({
+    this.gameView = new EditorGameView({
       htmlParent: this.parentGameViewHtml,
       assetsManager: params.assetsManager,
       config: this.config,
@@ -35,7 +34,7 @@ export class WorldEditorView {
       interpolator: this.model.getInterpolator(),
       updateGameObject: false,
     });
-    this.gameView.start();
+
     //offset the gameview
     this.gameView.setDisplaySize(
       new THREE.Vector2(this.parentUIHtml.clientWidth, 0)
@@ -47,15 +46,14 @@ export class WorldEditorView {
     });
 
     //controls
-    this.orbitControls = null;
-    this.initOrbitControls();
+    this.orbitControls = this.gameView.getOrbitControls();
 
     //view to edit go
     this.goEditorView = new GOEditorView({
       parentUIHtml: this.ui,
       gameView: this.gameView,
-      orbitControls: this.orbitControls,
       parentView: this,
+      assetsManager: this.assetsManager,
     });
 
     //view to add prefab
@@ -68,7 +66,6 @@ export class WorldEditorView {
 
     //html
     this.closeButton = null;
-    this.colliderButton = null;
     this.heightmapButton = null;
     this.playWorldButton = null;
     this.sliderOpacity = null;
@@ -122,7 +119,6 @@ export class WorldEditorView {
   dispose() {
     this.gameView.dispose();
     this.ui.remove();
-    this.orbitControls.dispose();
 
     this.childrenViews.forEach(function (v) {
       v.dispose();
@@ -143,12 +139,6 @@ export class WorldEditorView {
     closeButton.innerHTML = 'Close';
     this.ui.appendChild(closeButton);
     this.closeButton = closeButton;
-
-    const colliderButton = document.createElement('li');
-    colliderButton.classList.add('li_Editor');
-    colliderButton.innerHTML = 'Collider';
-    ulButtons.appendChild(colliderButton);
-    this.colliderButton = colliderButton;
 
     const heightmapButton = document.createElement('li');
     heightmapButton.classList.add('li_Editor');
@@ -230,32 +220,6 @@ export class WorldEditorView {
 
   initCallbacks() {
     const _this = this;
-
-    this.colliderButton.onclick = function () {
-      //check if one already exist
-      for (let index = 0; index < _this.childrenViews.length; index++) {
-        const element = _this.childrenViews[index];
-        if (element instanceof ColliderEditorView) return;
-      }
-      if (!_this.goEditorView.getSelectedGO()) {
-        console.warn('not GO selected');
-        return;
-      }
-      const cEV = new ColliderEditorView({
-        parentUIHtml: _this.ui.parentElement,
-        gameView: _this.gameView,
-        parentOC: _this.orbitControls,
-        assetsManager: _this.assetsManager,
-        goEV: _this.goEditorView,
-      });
-      cEV.setOnClose(function () {
-        cEV.dispose();
-        const index = _this.childrenViews.indexOf(cEV);
-        _this.childrenViews.splice(index, 1);
-      });
-
-      _this.childrenViews.push(cEV);
-    };
 
     this.heightmapButton.onclick = function () {
       //check if one already exist
@@ -403,24 +367,6 @@ export class WorldEditorView {
 
   setOnClose(f) {
     this.closeButton.onclick = f;
-  }
-
-  initOrbitControls() {
-    //new controls
-    if (this.orbitControls) this.orbitControls.dispose();
-
-    this.orbitControls = new OrbitControls(
-      this.gameView.getCamera(),
-      this.gameView.getRootWebGL()
-    );
-
-    this.orbitControls.addEventListener(
-      'change',
-      this.gameView.computeNearFarCamera.bind(this.gameView)
-    );
-
-    this.orbitControls.target.copy(this.gameView.getExtent().center());
-    this.orbitControls.update();
   }
 }
 
