@@ -283,9 +283,39 @@ export class GameObjectUI {
       buttonCreateNewProject.innerHTML = 'Create';
       modalContent.appendChild(buttonCreateNewProject);
 
-      buttonCreateNewProject = function(){
-        
-      }
+      buttonCreateNewProject.onclick = function () {
+        let x, y, z;
+        const firstEl = transformElement.firstElementChild;
+        if (firstEl) {
+          x = parseFloat(firstEl.children[0].value);
+          y = parseFloat(firstEl.children[1].value);
+          z = parseFloat(firstEl.children[2].value);
+        }
+        const validVector3 = isNaN(x) || isNaN(y) || isNaN(z);
+
+        const isValidURL = function (string) {
+          let url;
+
+          try {
+            url = new URL(string);
+          } catch (_) {
+            return false;
+          }
+
+          return url.protocol === 'http:' || url.protocol === 'https:';
+        };
+
+        if (!titleNewProject.value || !isValidURL(url.value) || validVector3) {
+          alert('Fields are not correct');
+          return;
+        }
+
+        _this.go.components.LocalScript.conf.projects.push({
+          title: titleNewProject.value,
+          url: url.value,
+          position: [x, y, z],
+        });
+      };
 
       const buttonClose = document.createElement('button');
       buttonClose.innerHTML = 'Close';

@@ -17,6 +17,7 @@ module.exports = class SignageDisplayer {
     Shared = udviz.Game.Shared;
     THREE = Shared.THREE;
     this.displayPopUp = null;
+    this.conf.projects = [];
   }
 
   init() {
@@ -52,14 +53,14 @@ module.exports = class SignageDisplayer {
     ulProjects.innerHTML = 'Projets :';
     displayPopUp.appendChild(ulProjects);
 
-    const projects = this.conf.pathsProjects;
+    const projects = this.conf.projects;
     if (!projects) return;
 
 
-    projects.forEach((project) => {
+   /* projects.forEach((project) => {
       const liProject = _this.projectHtml(project);
       ulProjects.appendChild(liProject);
-    });
+    });*/
 
     localCtx.getGameView().appendToUI(displayPopUp);
     return displayPopUp;
