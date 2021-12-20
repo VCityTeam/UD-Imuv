@@ -288,6 +288,7 @@ export class ColliderEditorView {
 
     const shapesList = document.createElement('ul');
     shapesList.classList.add('ul_Editor');
+    shapesList.classList.add('ul_ShapeEditor');
     wrapper.appendChild(shapesList);
     this.shapesList = shapesList;
 
