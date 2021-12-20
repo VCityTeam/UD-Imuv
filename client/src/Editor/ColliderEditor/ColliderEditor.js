@@ -1,6 +1,6 @@
 import './ColliderEditor.css';
 
-import { THREE, TransformControls } from 'ud-viz';
+import { THREE } from 'ud-viz';
 import ColliderModule from 'ud-viz/src/Game/Shared/GameObject/Components/Collider';
 import { Shared } from 'ud-viz/src/Game/Game';
 import { PolygonShape, CircleShape, POLYGON_TYPE, CIRCLE_TYPE } from './Shape';
@@ -433,7 +433,7 @@ export class ColliderEditorModel {
   }
 
   createSphere() {
-    console.warn("don't use this method");
+    console.warn('don\'t use this method');
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
     const sphereP = new THREE.Mesh(geometry, material);

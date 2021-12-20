@@ -206,15 +206,6 @@ export class GameObjectUI {
     labelSpawnRot.innerHTML = 'Portal spawn rotation';
     portalInput.appendChild(labelSpawnRot);
 
-    const cbOnChange = function (iInput, setVec3) {
-      const value = parse(this.value);
-      setVec3(
-        iInput == 0 ? value : null,
-        iInput == 1 ? value : null,
-        iInput == 2 ? value : null
-      );
-    };
-
     portalInput.appendChild(this.createInputFromVector3(refSpawnRot));
 
     //world uuid
@@ -298,15 +289,6 @@ export class GameObjectUI {
     const labelDesT = document.createElement('div');
     labelDesT.innerHTML = 'Teleporter destination transform';
     teleporterInput.appendChild(labelDesT);
-
-    const cbOnChange = function (iInput, setVec3) {
-      const value = parse(this.value);
-      setVec3(
-        iInput == 0 ? value : null,
-        iInput == 1 ? value : null,
-        iInput == 2 ? value : null
-      );
-    };
 
     const labelPosition = document.createElement('div');
     labelPosition.innerHTML = 'position';

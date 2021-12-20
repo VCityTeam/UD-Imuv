@@ -1,7 +1,6 @@
 /** @format */
 
 import './WorldEditor.css';
-import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import Shared from 'ud-viz/src/Game/Shared/Shared';
 import * as udviz from 'ud-viz';
