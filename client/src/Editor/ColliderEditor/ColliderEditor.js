@@ -433,15 +433,6 @@ export class ColliderEditorModel {
     return this.selectedObject;
   }
 
-  createSphere() {
-    console.warn('don\'t use this method');
-    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    const sphereP = new THREE.Mesh(geometry, material);
-
-    return sphereP;
-  }
-
   /**Create sphere as new point of shape at a position */
   placeSphereAtPoint(point, shape) {
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);

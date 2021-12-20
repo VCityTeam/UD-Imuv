@@ -81,6 +81,9 @@
       },
       "default_interactions": {
         "path": "./assets/localScripts/DefaultInteractions.js"
+      },
+      "signage_displayer": {
+        "path": "./assets/localScripts/SignageDisplayer.js"
       }
     },
     "models": {
@@ -165,6 +168,9 @@
       },
       "template_interactable_area": {
         "path": "./assets/prefabs/TemplateInteractableArea.json"
+      },
+      "signage_area": {
+        "path": "./assets/prefabs/SignageArea.json"
       }
     },
     "worlds": {

@@ -3,6 +3,7 @@
 import './GOEditor.css';
 import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 import { GameObjectUI } from '../GameObjectUI';
+import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
 
 export class GOEditorView {
   constructor(params) {
@@ -41,16 +42,16 @@ export class GOEditorView {
     const gV = this.gameView;
 
     const cbPointerUp = function (event) {
+      if (gV.hasBeenRotate()) return;
       const go = this.goSelected;
       let o = go ? this.computeObject3D(go.getUUID()) : null;
-      const controlChanged = gV.hasBeenRotate() || gV.tcHasBeenDragged();
-      if (event.button == 0 && !controlChanged) {
+      if (event.button == 0 && !gV.tcHasBeenDragged()) {
         // just a right click no drag
         const intersect = gV.throwRay(event, gV.getObject3D());
         o = intersect ? gV.tryFindGOParent(intersect.object) : null;
       }
       //update UI
-      this.setSelectedGO(o);
+      this.setSelectedGOWithObject3D(o);
     };
 
     gV.setCallbackPointerUp(cbPointerUp.bind(this), 'GameObject');
@@ -60,7 +61,7 @@ export class GOEditorView {
     return this.goSelected;
   }
 
-  setSelectedGO(object) {
+  setSelectedGOWithObject3D(object) {
     this.gameView.attachTCToObject(object);
     //clean
     if (this.goSelectedUI) this.goSelectedUI.dispose();
@@ -82,10 +83,14 @@ export class GOEditorView {
   createGOUI(object) {
     const go = this.goSelected;
     const goUI = new GameObjectUI(go, object, this);
+    go.setTransformFromObject3D(object);
     const lS = go.fetchLocalScripts();
     if (lS) {
       if (lS['image']) {
         goUI.appendLSImageUI(this.gameView);
+      }
+      if (lS['signage_displayer']) {
+        goUI.appendLSSignageDisplayerUI(this.gameView);
       }
     }
 
@@ -131,7 +136,7 @@ export class GOEditorView {
     if (this.goSelected) {
       selectedGO = this.computeObject3D(this.goSelected.getUUID());
     }
-    this.setSelectedGO(selectedGO);
+    this.setSelectedGOWithObject3D(selectedGO);
   }
 
   goButtonClicked(uuid) {
@@ -141,7 +146,7 @@ export class GOEditorView {
 
     this.parentView.focusObject(obj);
 
-    this.setSelectedGO(obj);
+    this.setSelectedGOWithObject3D(obj);
   }
 
   computeObject3D(uuid) {

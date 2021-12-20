@@ -1,12 +1,12 @@
 import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
 import { GameObject, World } from 'ud-viz/src/Game/Shared/Shared';
+import { THREE } from 'ud-viz';
 import File from 'ud-viz/src/Components/SystemUtils/File';
 import { ColliderEditorView } from './ColliderEditor/ColliderEditor';
-
 export class GameObjectUI {
   constructor(go, obj, goEditor) {
     this.go = go;
-
+    this.goEditor = goEditor;
     this.rootElementUI = document.createElement('div');
     this.rootElementUI.classList.add('goUI_GOEditor');
 
@@ -96,7 +96,9 @@ export class GameObjectUI {
     cloneButton.onclick = function () {
       const clone = GameObject.deepCopy(go);
       goEditor.parentView.addGameObject(clone, function () {
-        goEditor.setSelectedGO(clone.getUUID());
+        goEditor.setSelectedGOWithObject3D(
+          goEditor.computeObject3D(clone.getUUID())
+        );
       });
     };
 
@@ -109,9 +111,10 @@ export class GameObjectUI {
     this.rootElementUI.appendChild(deleteButton);
 
     deleteButton.onclick = function () {
-      goEditor.setSelectedGO(null);
+      goEditor.setSelectedGOWithObject3D(null);
       go.removeFromParent();
       goEditor.gameView.forceUpdate();
+      goEditor.updateUI();
     };
 
     const ulButtons = document.createElement('ul');
@@ -142,7 +145,7 @@ export class GameObjectUI {
           _this.cEV.dispose();
           _this.cEV = null;
           this.initPointerUpCallback();
-          this.setSelectedGO(
+          this.setSelectedGOWithObject3D(
             this.computeObject3D(this.getSelectedGO().getUUID())
           );
         }.bind(goEditor)
@@ -192,6 +195,121 @@ export class GameObjectUI {
         go.components.LocalScript.conf.path = url;
         gV.forceUpdate();
       });
+    };
+  }
+
+  appendLSSignageDisplayerUI(gV) {
+    const _this = this;
+    const content = this.content;
+    const addNewProjectButton = document.createElement('button');
+    addNewProjectButton.innerHTML = 'Add New Project';
+    content.appendChild(addNewProjectButton);
+
+    let modal = null;
+    const createModalDiv = function () {
+      modal = document.createElement('div');
+      modal.classList.add('modal');
+
+      const modalContent = document.createElement('div');
+      modalContent.classList.add('modal_content');
+      modal.appendChild(modalContent);
+
+      const labelNewProject = document.createElement('p');
+      labelNewProject.innerHTML = 'Infos new project';
+      modalContent.appendChild(labelNewProject);
+
+      const titleNewProject = document.createElement('input');
+      titleNewProject.type = 'text';
+      titleNewProject.placeholder = 'Titre';
+      modalContent.appendChild(titleNewProject);
+
+      const url = document.createElement('input');
+      url.type = 'url';
+      url.placeholder = 'https://example.com';
+      url.pattern = 'https://.*';
+      url.size = '30';
+      url.attributes['required'] = 'required';
+      modalContent.appendChild(url);
+
+      const buttonAddTransform = document.createElement('button');
+      buttonAddTransform.innerHTML = 'Add BillBoard Transform';
+      modalContent.appendChild(buttonAddTransform);
+
+      const transformElement = document.createElement('div');
+      transformElement.innerHTML = '';
+      modalContent.appendChild(transformElement);
+
+      buttonAddTransform.onclick = function () {
+        modal.hidden = true;
+        _this.goEditor.ui.hidden = true;
+
+        const transformObject3D = new THREE.Object3D();
+        transformObject3D.name = 'TransformObject';
+        gV.getScene().add(transformObject3D);
+        gV.setCallbackPointerUp(null);
+
+        const geometry = new THREE.SphereGeometry(5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        const sphereP = new THREE.Mesh(geometry, material);
+        transformObject3D.add(sphereP);
+        const posOffset = gV
+          .getObject3D()
+          .position.clone()
+          .add(_this.go.computeWorldTransform().position);
+        sphereP.position.copy(posOffset);
+        gV.orbitControls.target.copy(sphereP.position);
+        gV.orbitControls.update();
+
+        gV.attachTCToObject(sphereP);
+        transformObject3D.updateMatrixWorld();
+
+        const validateButton = document.createElement('button');
+        validateButton.innerHTML = 'VALIDATE';
+        _this.goEditor.ui.parentElement.appendChild(validateButton);
+        validateButton.onclick = function () {
+          modal.hidden = false;
+          _this.goEditor.ui.hidden = false;
+          transformElement.innerHTML = '';
+          transformElement.appendChild(
+            _this.createInputFromVector3(sphereP.position)
+          );
+
+          transformObject3D.removeFromParent();
+          validateButton.remove();
+        };
+      };
+
+      const buttonCreateNewProject = document.createElement('button');
+      buttonCreateNewProject.innerHTML = 'Create';
+      modalContent.appendChild(buttonCreateNewProject);
+
+      buttonCreateNewProject = function(){
+        
+      }
+
+      const buttonClose = document.createElement('button');
+      buttonClose.innerHTML = 'Close';
+      modalContent.appendChild(buttonClose);
+
+      buttonClose.onclick = function () {
+        modal.remove();
+        modal = null;
+        addNewProjectButton.disabled = false;
+      };
+
+      return modal;
+    };
+
+    addNewProjectButton.onclick = function () {
+      if (modal) {
+        addNewProjectButton.disabled = false;
+        modal.remove();
+        modal = null;
+      } else {
+        addNewProjectButton.disabled = true;
+        modal = createModalDiv();
+        content.appendChild(modal);
+      }
     };
   }
 
