@@ -198,12 +198,45 @@ export class GameObjectUI {
     };
   }
 
+  //TODO : Too long and modify projects
   appendLSSignageDisplayerUI(gV) {
     const _this = this;
     const content = this.content;
     const addNewProjectButton = document.createElement('button');
     addNewProjectButton.innerHTML = 'Add New Project';
     content.appendChild(addNewProjectButton);
+
+    const projectsUl = document.createElement('ul');
+    content.appendChild(projectsUl);
+    const projectHtml = function (project) {
+      const projectLi = document.createElement('li');
+      projectLi.innerHTML =
+        project.title + ' ' + project.url + ' ' + project.position;
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = 'Delete';
+
+      deleteButton.onclick = function () {
+        const projects = _this.go.components.LocalScript.conf.projects;
+        for (let i = 0; i < projects.length; i++) {
+          const p = projects[i];
+          if (p.uuid === project.uuid) {
+            projects.splice(i, 1);
+          }
+        }
+        projectLi.remove();
+      };
+
+      projectLi.appendChild(deleteButton);
+      return projectLi;
+    };
+    const fillProjectsUl = function () {
+      projectsUl.innerHTML = '';
+      const projects = _this.go.components.LocalScript.conf.projects;
+      projects.forEach(function (p) {
+        projectsUl.appendChild(projectHtml(p));
+      });
+    };
+    fillProjectsUl();
 
     let modal = null;
     const createModalDiv = function () {
@@ -241,8 +274,6 @@ export class GameObjectUI {
 
       buttonAddTransform.onclick = function () {
         modal.hidden = true;
-        _this.goEditor.ui.hidden = true;
-
         const transformObject3D = new THREE.Object3D();
         transformObject3D.name = 'TransformObject';
         gV.getScene().add(transformObject3D);
@@ -263,19 +294,25 @@ export class GameObjectUI {
         gV.attachTCToObject(sphereP);
         transformObject3D.updateMatrixWorld();
 
+        const cloneClearUiEditor = document.createElement('div');
+        cloneClearUiEditor.classList.add('ui_Editor');
+        _this.goEditor.ui.offsetParent.parentElement.appendChild(
+          cloneClearUiEditor
+        );
+
         const validateButton = document.createElement('button');
         validateButton.innerHTML = 'VALIDATE';
-        _this.goEditor.ui.parentElement.appendChild(validateButton);
+        validateButton.classList = 'validate_button';
+        cloneClearUiEditor.appendChild(validateButton);
         validateButton.onclick = function () {
           modal.hidden = false;
-          _this.goEditor.ui.hidden = false;
           transformElement.innerHTML = '';
           transformElement.appendChild(
             _this.createInputFromVector3(sphereP.position)
           );
 
           transformObject3D.removeFromParent();
-          validateButton.remove();
+          cloneClearUiEditor.remove();
         };
       };
 
@@ -314,7 +351,9 @@ export class GameObjectUI {
           title: titleNewProject.value,
           url: url.value,
           position: [x, y, z],
+          uuid: THREE.MathUtils.generateUUID(),
         });
+        fillProjectsUl();
       };
 
       const buttonClose = document.createElement('button');
@@ -331,15 +370,8 @@ export class GameObjectUI {
     };
 
     addNewProjectButton.onclick = function () {
-      if (modal) {
-        addNewProjectButton.disabled = false;
-        modal.remove();
-        modal = null;
-      } else {
-        addNewProjectButton.disabled = true;
-        modal = createModalDiv();
-        content.appendChild(modal);
-      }
+      modal = createModalDiv();
+      content.appendChild(modal);
     };
   }
 
