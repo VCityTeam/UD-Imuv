@@ -1,16 +1,21 @@
 /** @format */
-
+let Shared = null;
 module.exports = class Portal {
-  constructor(conf) {
+  constructor(conf, SharedModule) {
     this.conf = conf;
     this.go = null;
+    Shared = SharedModule;
   }
 
   init() {
     this.go = arguments[0];
+    this.worldCtxt = arguments[1];
+    this.localScript = this.go.getComponent(Shared.LocalScript.TYPE);
   }
 
-  onAvatar(avatarGo, world) {
+  notifyEnter(avatarGo) {
+    const world = this.worldCtxt.getWorld();
+    const avatarGo = avatarGo;
     world.notify('portalEvent', [
       avatarGo,
       this.conf.worldDestUUID,
