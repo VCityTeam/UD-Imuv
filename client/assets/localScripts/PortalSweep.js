@@ -27,5 +27,11 @@ module.exports = class PortalSweep {
     const sounds = audioComp.getSounds();
     if (!sounds) debugger;
     sounds['portal_in'].play();
+
+    const gV = this.localCtxt.getGameView();
+
+    const fadeInOutHtmlEl = document.createElement('div');
+    fadeInOutHtmlEl.classList.add('fadeInOut');
+    gV.ui.parentElement.parentElement.appendChild(fadeInOutHtmlEl);
   }
 };
