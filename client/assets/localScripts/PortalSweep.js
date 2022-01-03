@@ -30,8 +30,9 @@ module.exports = class PortalSweep {
 
     const gV = this.localCtxt.getGameView();
 
-    const fadeInOutHtmlEl = document.createElement('div');
-    fadeInOutHtmlEl.classList.add('fadeInOut');
-    gV.ui.parentElement.parentElement.appendChild(fadeInOutHtmlEl);
+    const fadeInHtmlEl = document.createElement('div');
+    fadeInHtmlEl.classList.add('fadeIn');
+    gV.ui.parentElement.parentElement.appendChild(fadeInHtmlEl);
+    //fade out when avatar arrived in world  
   }
 };

@@ -3,17 +3,21 @@ const worldsJSON = require('../assets/worlds/worlds.json');
 const Shared = require('../node_modules/ud-viz/src/Game/Shared/Shared');
 
 Shared.Components.JSONUtils.parse(worldsJSON, function (json, key) {
-  if (key == 'name' && json[key].includes('Butterfly')) {
+  if (key == 'name' && json[key].includes('Portal')) {
     json.components.LocalScript.idScripts = [
+      'rotate',
       'local_interactions',
-      'butterfly_spawner',
+      'portal_sweep',
     ];
-    json.components.WorldScript.idScripts = ['interaction_zone'];
-    console.log(
-      json.components.LocalScript,
-      json.components.WorldScript,
-      json.components
-    );
+    json.components.WorldScript.idScripts = ['portal', 'interaction_zone'];
+    json.components.LocalScript.conf = { speed: 0.001 };
+    // console.log(
+    //   json.components.LocalScript,
+    //   json.components.WorldScript,
+    //   json.components
+    // );
+    // console.log(json.components.LocalScript.conf);
+    console.log(json.components);
   }
 });
 

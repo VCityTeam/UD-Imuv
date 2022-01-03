@@ -88,7 +88,7 @@
       "default_interactions": {
         "path": "./assets/localScripts/DefaultInteractions.js"
       },
-      "fade_in_out": {
+      "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
       }
     },
