@@ -20,19 +20,12 @@ module.exports = class PortalSweep {
   }
 
   onEnter() {
-    console.log('onEnter');
     const go = this.go;
     const audioComp = go.getComponent(Shared.Audio.TYPE);
     if (!audioComp) return;
 
     const sounds = audioComp.getSounds();
     if (!sounds) debugger;
-
     sounds['portal_in'].play();
-    debugger;
-    const avatarUUIDLC = this.localCtxt.getGameView().getUserData('avatarUUID');
-    go.getComponent(Shared.LocalScript.TYPE).conf.notifyEnterFunction(
-      avatarUUIDLC
-    );
   }
 };

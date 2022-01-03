@@ -11,16 +11,22 @@ module.exports = class Portal {
     this.go = arguments[0];
     this.worldCtxt = arguments[1];
     this.localScript = this.go.getComponent(Shared.LocalScript.TYPE);
+    this.conf.delay = 1000; // Test antoher way than a delay :O
   }
 
   notifyEnter(avatarGo) {
+    const conf = this.conf;
+    const delayInMilliseconds = conf.delay;
+    console.log(delayInMilliseconds);
     const world = this.worldCtxt.getWorld();
-    const avatarGo = avatarGo;
-    world.notify('portalEvent', [
-      avatarGo,
-      this.conf.worldDestUUID,
-      this.conf.portalUUID,
-    ]);
+    setTimeout(function () {
+      console.log('Teleport');
+      world.notify('portalEvent', [
+        avatarGo,
+        conf.worldDestUUID,
+        conf.portalUUID,
+      ]);
+    }, delayInMilliseconds);
   }
 
   setTransformOf(go) {
