@@ -36,7 +36,7 @@ module.exports = class LocalInteractions {
           _this.conf.avatarsColliding.includes(avatarUUIDLC) &&
           (interactionFunction = ls.interaction)
         ) {
-          interactionFunction();
+          interactionFunction.call(ls);
         }
       });
     });

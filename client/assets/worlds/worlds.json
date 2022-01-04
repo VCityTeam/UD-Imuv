@@ -1952,7 +1952,7 @@
                 },
                 "WorldScript": {
                   "uuid": "80ADD0AF-DB8E-443B-B751-BB68B57BFC88",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
                     "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
@@ -1966,7 +1966,7 @@
                 },
                 "LocalScript": {
                   "uuid": "5DF3924E-1822-42CA-9CEE-5DAA347322FA",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -2008,7 +2008,7 @@
                 },
                 "WorldScript": {
                   "uuid": "BED7C964-45AA-4E10-9489-64BED47D8844",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
                     "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
@@ -2022,7 +2022,7 @@
                 },
                 "LocalScript": {
                   "uuid": "7148E1C3-819F-4247-A7D2-06909149171F",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -2069,8 +2069,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.16021820171787, 11.705510729974247, 30],
-                "rotation": [0, 0, 4.855628429167396, "ZXY"],
+                "position": [81.27177046144492, 10.904096755908352, 30],
+                "rotation": [0, 0, 4.8457608226956985, "ZXY"],
                 "scale": [1, 1, 1]
               }
             },
@@ -2148,7 +2148,7 @@
                 },
                 "WorldScript": {
                   "uuid": "65415C23-576E-4144-A035-D2B77FCA3ACC",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
                     "portalUUID": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
@@ -2162,7 +2162,7 @@
                 },
                 "LocalScript": {
                   "uuid": "83241504-AE1E-46EC-B493-997283417F5C",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -2202,7 +2202,7 @@
                 },
                 "WorldScript": {
                   "uuid": "7CCAE93A-9254-48C9-BAD4-7CAE4937D5C3",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
                     "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
@@ -2216,7 +2216,7 @@
                 },
                 "LocalScript": {
                   "uuid": "008101ED-9DC7-44E1-8855-78E8414DF6A8",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -2258,7 +2258,7 @@
                 },
                 "WorldScript": {
                   "uuid": "853ED33F-B457-4AFB-B048-C8DCC9A25042",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
                     "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
@@ -2268,7 +2268,7 @@
                 },
                 "LocalScript": {
                   "uuid": "C6B5C77D-C3B6-4F5E-90FF-12CBD7AC2AF9",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -2315,7 +2315,7 @@
                 },
                 "WorldScript": {
                   "uuid": "45DBEB4E-BF39-4163-958A-2307FCDE811A",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
                     "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
@@ -2325,7 +2325,7 @@
                 },
                 "LocalScript": {
                   "uuid": "329F3D84-3F0B-4B01-AE54-D0F20B2D1276",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -2567,6 +2567,118 @@
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.5, 0.5, 0.5]
               }
+            },
+            {
+              "name": "PortalForWork",
+              "type": "GameObject",
+              "static": true,
+              "outdated": false,
+              "uuid": "0E85F19F-156C-46DD-A9A2-47367B0B4555",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "A02360B3-B7EC-4DBD-AB62-87585BE75B4B",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "E8028967-8CB7-4AEA-9E82-53A295AB1A83",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "E074D951-F0AF-492A-8BE7-0A9D14EDA53D",
+                  "idScripts": ["portal", "interaction_zone"],
+                  "conf": {
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "1F9767A3-6EDC-4A50-8126-0CB287DE11A6",
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "9B7896EE-7125-446A-B0C9-EA1C72CBB5CF",
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                },
+                "Audio": {
+                  "uuid": "FA6F272E-77F3-4D5D-862A-3F70102EC125",
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [28.3, 52.9, 0],
+                "rotation": [0, 0, 6.248046147023336, "ZXY"],
+                "scale": [1, 1, 1]
+              }
+            },
+            {
+              "name": "PortalForWork (clone)",
+              "type": "GameObject",
+              "static": true,
+              "outdated": false,
+              "uuid": "1F9767A3-6EDC-4A50-8126-0CB287DE11A6",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "810311D5-EB0F-4686-87D6-FA7748AB1755",
+                  "type": "Render",
+                  "idModel": "spiral_spawn",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "7678B319-A6DE-4D1F-91D3-7FEF169F437B",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1.689427617937126
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "505841BC-21C1-4657-82E6-5AEADB3FB453",
+                  "idScripts": ["portal", "interaction_zone"],
+                  "conf": {
+                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                    "portalUUID": "0E85F19F-156C-46DD-A9A2-47367B0B4555",
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                  },
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "78C1AB05-5C85-4DF8-B2F2-96A4E36382AD",
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                  "conf": { "speed": 0.001 },
+                  "type": "LocalScript"
+                },
+                "Audio": {
+                  "uuid": "C017DCE9-2861-4ED0-B2C4-5B20F4E8F98A",
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [28.3, 49.8, 0],
+                "rotation": [0, 0, 6.3, "ZXY"],
+                "scale": [1, 1, 1]
+              }
             }
           ],
           "transform": {
@@ -2614,7 +2726,7 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-    "version": "2.33.7"
+    "version": "2.33.8"
   },
   {
     "gameObject": {
@@ -3114,7 +3226,7 @@
                 },
                 "WorldScript": {
                   "uuid": "75D59547-7E33-4D13-90AE-D83C11461D27",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
@@ -3128,7 +3240,7 @@
                 },
                 "LocalScript": {
                   "uuid": "AA6956CE-E11D-4519-829B-99564C8AB969",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -4044,7 +4156,7 @@
     "origin": null,
     "type": "World",
     "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-    "version": "2.33.7"
+    "version": "2.33.8"
   },
   {
     "gameObject": {
@@ -4293,7 +4405,7 @@
                 },
                 "WorldScript": {
                   "uuid": "C71626D8-7AEB-4B54-805E-E2AC62CE06C9",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
@@ -4307,7 +4419,7 @@
                 },
                 "LocalScript": {
                   "uuid": "4D210DC3-544C-4020-AB93-1D7598521019",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -4349,7 +4461,7 @@
                 },
                 "WorldScript": {
                   "uuid": "3F8CB51D-6FF0-4512-9E70-E720A77C6861",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "7EE2EBC0-7323-4715-91B3-371D4118D428",
@@ -4363,7 +4475,7 @@
                 },
                 "LocalScript": {
                   "uuid": "12C4C448-5065-4D81-A66D-AE3AB6E7CB60",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -4440,7 +4552,7 @@
                 },
                 "WorldScript": {
                   "uuid": "648290B5-4F95-48D8-8678-C30E16AA16DD",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
@@ -4454,7 +4566,7 @@
                 },
                 "LocalScript": {
                   "uuid": "D8FF3327-5695-497F-AC35-B1CE4D546696",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -4514,7 +4626,7 @@
     "origin": null,
     "type": "World",
     "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-    "version": "2.33.7"
+    "version": "2.33.8"
   },
   {
     "gameObject": {
@@ -4763,7 +4875,7 @@
                 },
                 "WorldScript": {
                   "uuid": "AF81C7FD-1701-49A3-86A7-08FD16B2D855",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "9A86811A-7AE7-4B1D-A3D7-44F51A9F4B65",
@@ -4773,7 +4885,7 @@
                 },
                 "LocalScript": {
                   "uuid": "E1EFCD59-F789-4CF0-8320-C4EB47861338",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -4805,7 +4917,7 @@
             "LocalScript": {
               "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 15 },
+              "conf": { "world_computer_dt": 31 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4833,7 +4945,7 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
-    "version": "2.33.7"
+    "version": "2.33.8"
   },
   {
     "gameObject": {
@@ -5057,7 +5169,7 @@
                 },
                 "WorldScript": {
                   "uuid": "39A9CB98-B49B-4CD1-9C38-8407728268EF",
-                  "idScripts": ["portal"],
+                  "idScripts": ["portal", "interaction_zone"],
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "385DB463-DE88-485B-B6B3-05C3990D9654",
@@ -5067,7 +5179,7 @@
                 },
                 "LocalScript": {
                   "uuid": "89D210AC-4766-4D67-986D-364747A1AB5D",
-                  "idScripts": ["rotate"],
+                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
                 }
@@ -5099,7 +5211,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5127,6 +5239,6 @@
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-    "version": "2.33.7"
+    "version": "2.33.8"
   }
 ]

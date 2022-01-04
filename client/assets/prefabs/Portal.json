@@ -20,7 +20,7 @@
       "body": false
     },
     "WorldScript": {
-      "idScripts": ["portal"],
+      "idScripts": ["portal", "interaction_zone"],
       "conf": {
         "worldDestUUID": null,
         "portalUUID": null,
@@ -33,9 +33,14 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["rotate"],
+      "idScripts": ["rotate", "local_interactions", "portal_sweep"],
       "conf": { "speed": 0.001 },
       "type": "LocalScript"
+    },
+    "Audio": {
+      "sounds": ["portal_in"],
+      "conf": {},
+      "type": "Audio"
     }
   },
   "children": [],

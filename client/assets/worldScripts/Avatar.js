@@ -213,22 +213,22 @@ module.exports = class Avatar {
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
 
-    //check if this is a portal
-    const scriptPortal = colliderGO.fetchWorldScripts()['portal'];
-    if (scriptPortal) {
-      scriptPortal.onAvatar(go, worldContext.getWorld());
+    //check if is interaction_zone
+    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
+    if (interactionZone) {
+      interactionZone.onAvatarEnter(go);
+    }
+
+    //check if is interaction_zone
+    const portal = colliderGO.fetchWorldScripts()['portal'];
+    if (portal) {
+      portal.notifyEnter(go);
     }
 
     //check if is teleporter
     const teleporterScript = colliderGO.fetchWorldScripts()['teleporter'];
     if (teleporterScript) {
       teleporterScript.onAvatar(go);
-    }
-
-    //check if is interaction_zone
-    const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
-    if (interactionZone) {
-      interactionZone.onAvatarEnter(go);
     }
 
     this.collide(collider, go, result);
@@ -247,17 +247,16 @@ module.exports = class Avatar {
     const result = arguments[1];
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
-    
-    
+
     //check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
       interactionZone.onAvatarColliding(go);
     }
-    
+
     this.collide(collider, go, result);
   }
-  
+
   onLeaveCollision() {
     // console.log('on leave');
     const go = arguments[0];
