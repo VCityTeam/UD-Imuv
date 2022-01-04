@@ -34,7 +34,7 @@
     },
     "LocalScript": {
       "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-      "conf": { "speed": 0.001, "duration_transition": 1 },
+      "conf": { "speed": 0.001 },
       "type": "LocalScript"
     },
     "Audio": {
