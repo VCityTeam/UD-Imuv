@@ -22,6 +22,7 @@ module.exports = class SignageDisplayer {
   }
 
   init() {
+    this.go = arguments[0];
     this.localCtx = arguments[1];
   }
 
@@ -38,6 +39,7 @@ module.exports = class SignageDisplayer {
 
   //TODO : create a Popup Class in order to dispose correctly ; Top view ? ; Rotate billboard look at avatar ?
   createPopup(localCtx) {
+    const _this = this;
     const displayPopUp = document.createElement('div');
     displayPopUp.classList.add('popup-signage');
     localCtx.getGameView().appendToUI(displayPopUp);
@@ -62,15 +64,39 @@ module.exports = class SignageDisplayer {
         const iframe = document.createElement('iframe');
         iframe.src = project.url;
 
-        const pos = project.position;
+        const billboardPos = new THREE.Vector3(
+          project.position[0],
+          project.position[1],
+          project.position[2]
+        );
+
+        const vecForward = _this.go
+          .computeObject3D()
+          .getWorldDirection(new THREE.Vector3());
+
+        const realPositionGO = _this.go
+          .computeObject3D()
+          .getWorldPosition(new THREE.Vector3());
+
+        const dirVec = realPositionGO.clone().sub(billboardPos);
+
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(
+          vecForward.normalize(),
+          dirVec.normalize()
+        );
+
+        const euler = new THREE.Euler();
+        euler.setFromQuaternion(quaternion);
+        euler.z = 0;
         const transform = new THREEUtils.Transform(
-          new THREE.Vector3(pos[0], pos[1], pos[2]),
-          new THREE.Vector3(Math.PI * 0.5, 0, 0),
+          billboardPos,
+          euler.toVector3(),
           new THREE.Vector3(5, 5, 5)
         );
 
-        //TODO Billboard to fix
         const billboard = new udviz.Widgets.Billboard(iframe, transform, 50);
+        billboard.getMaskObject().material.color.set(new THREE.Color(0, 0, 0));
 
         localCtx.getGameView().appendBillboard(billboard);
 

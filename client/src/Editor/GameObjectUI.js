@@ -283,10 +283,10 @@ export class GameObjectUI {
         const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         const sphereP = new THREE.Mesh(geometry, material);
         transformObject3D.add(sphereP);
-        const posOffset = gV
-          .getObject3D()
-          .position.clone()
-          .add(_this.go.computeWorldTransform().position);
+        const posOffset = _this.go
+          .computeObject3D()
+          .getWorldPosition(new THREE.Vector3());
+          
         sphereP.position.copy(posOffset);
         gV.orbitControls.target.copy(sphereP.position);
         gV.orbitControls.update();
