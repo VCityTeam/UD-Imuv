@@ -14,13 +14,15 @@ module.exports = class Portal {
     this.conf.delay = 1000; // Test antoher way than a delay :O
   }
 
-  notifyEnter(avatarGo) {
+  notifyEnter(avatarGo, avatarWS) {
+    avatarWS.setPause(true);
     const conf = this.conf;
     const delayInMilliseconds = conf.delay;
     console.log(delayInMilliseconds);
     const world = this.worldCtxt.getWorld();
     setTimeout(function () {
       console.log('Teleport');
+      avatarWS.setPause(false);
       world.notify('portalEvent', [
         avatarGo,
         conf.worldDestUUID,

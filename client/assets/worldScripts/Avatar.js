@@ -19,9 +19,14 @@ module.exports = class Avatar {
     this.conf = conf;
 
     Shared = SharedModule;
+    this.setPause(false);
 
     this.commands = {};
     this.firstTick = true;
+  }
+
+  setPause(value) {
+    this.pause = value;
   }
 
   init() {
@@ -190,6 +195,7 @@ module.exports = class Avatar {
   }
 
   tick() {
+    if (this.pause) return;
     const gameObject = arguments[0];
     const worldContext = arguments[1];
 
@@ -222,7 +228,7 @@ module.exports = class Avatar {
     //check if is interaction_zone
     const portal = colliderGO.fetchWorldScripts()['portal'];
     if (portal) {
-      portal.notifyEnter(go);
+      portal.notifyEnter(go,this);
     }
 
     //check if is teleporter
