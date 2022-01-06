@@ -3,7 +3,6 @@
 import './GOEditor.css';
 import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
 import { GameObjectUI } from '../GameObjectUI';
-import { GameObject } from 'ud-viz/src/Game/Shared/Shared';
 
 export class GOEditorView {
   constructor(params) {

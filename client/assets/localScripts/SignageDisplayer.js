@@ -33,7 +33,6 @@ module.exports = class SignageDisplayer {
     if (!this.popup) {
       this.createPopup();
     }
-    console.log('interaction', this);
   }
 
   onLeave() {
