@@ -1,3 +1,33 @@
+.fadeIn {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0);
+  animation: fadein 1s linear forwards;
+  opacity: 0;
+}
+
+@keyframes fadein {
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeOut {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0);
+  animation: fadeinout 1s linear forwards;
+  opacity: 1;
+}
+
+@keyframes fadeout {
+  100% {
+    opacity: 0;
+  }
+}
+
 .popup_ui {
   width: 300px;
   position: fixed;

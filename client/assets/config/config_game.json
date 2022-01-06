@@ -24,6 +24,9 @@
       },
       "video_happy_song": {
         "path": "./assets/sounds/video_happy_song.webm"
+      },
+      "portal_in": {
+        "path": "./assets/sounds/sweep_transition.webm"
       }
     },
     "css": {
@@ -87,6 +90,9 @@
       },
       "signage_displayer": {
         "path": "./assets/localScripts/SignageDisplayer.js"
+      },
+      "portal_sweep": {
+        "path": "./assets/localScripts/PortalSweep.js"
       }
     },
     "models": {

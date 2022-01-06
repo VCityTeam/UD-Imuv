@@ -29,7 +29,6 @@ module.exports = class SignageDisplayer {
   }
 
   interaction() {
-    debugger;
     if (!this.popup) {
       this.createPopup();
     }
