@@ -16,7 +16,7 @@
     },
     "Render": {
       "type": "Render",
-      "idModel": "torus",
+      "idRenderData": "torus",
       "color": [0, 1, 0]
     },
     "LocalScript": {

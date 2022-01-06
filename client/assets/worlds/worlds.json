@@ -1844,7 +1844,7 @@
             "Render": {
               "uuid": "5DAC9A92-E4B0-4EB1-8181-79A326E70D81",
               "type": "Render",
-              "idModel": "flying_campus",
+              "idRenderData": "flying_campus",
               "color": [1, 1, 1]
             },
             "WorldScript": {
@@ -1879,7 +1879,7 @@
                 "Render": {
                   "uuid": "239318BE-BADA-45B2-B270-8F157E021674",
                   "type": "Render",
-                  "idModel": "cube",
+                  "idRenderData": "cube",
                   "color": [1, 1, 0]
                 }
               },
@@ -1913,7 +1913,7 @@
                 "Render": {
                   "uuid": "01F3E607-ACF4-4335-B274-3A6B0360FF84",
                   "type": "Render",
-                  "idModel": "cube",
+                  "idRenderData": "cube",
                   "color": [1, 1, 1]
                 }
               },
@@ -1935,7 +1935,7 @@
                 "Render": {
                   "uuid": "146C6F3F-2BA2-4502-BE06-5F62DCD7FE8E",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -1996,7 +1996,7 @@
                 "Render": {
                   "uuid": "769C8A89-A5F6-44B9-8F68-F458AEF20BB6",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -2067,7 +2067,7 @@
                 "Render": {
                   "uuid": "AE118224-36E8-44A4-BEED-697F0FD69BD3",
                   "type": "Render",
-                  "idModel": "zeppelin",
+                  "idRenderData": "zeppelin",
                   "color": [1, 1, 1]
                 },
                 "WorldScript": {
@@ -2106,7 +2106,7 @@
                 "Render": {
                   "uuid": "9FE823BC-652A-4F02-82BF-D47F3A6B21E0",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "Audio": {
@@ -2141,7 +2141,7 @@
                 "Render": {
                   "uuid": "85BC157C-DC5F-4123-8F4A-9678D36DD6B1",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -2200,7 +2200,7 @@
                 "Render": {
                   "uuid": "C61203C3-092C-463F-B9EF-634000F81F7F",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -2261,7 +2261,7 @@
                 "Render": {
                   "uuid": "0A652315-AB58-4425-95A7-FC9BDB5DEE53",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -2323,7 +2323,7 @@
                 "Render": {
                   "uuid": "77D8D7AB-CEDC-4298-9F5B-59A34F839E93",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -2395,7 +2395,7 @@
                 "Render": {
                   "uuid": "ABF0D078-7DD0-428D-B7E5-164E0EB39544",
                   "type": "Render",
-                  "idModel": "cube",
+                  "idRenderData": "cube",
                   "color": [1, 1, 0]
                 }
               },
@@ -2429,7 +2429,7 @@
                 "Render": {
                   "uuid": "99F968B7-6DD1-4A98-B3A1-24F538540C71",
                   "type": "Render",
-                  "idModel": "cube",
+                  "idRenderData": "cube",
                   "color": [0.5, 0, 0]
                 }
               },
@@ -2465,7 +2465,7 @@
                 "Render": {
                   "uuid": "1E36A149-CCC3-464A-BABB-41BEEC3B1802",
                   "type": "Render",
-                  "idModel": "torus",
+                  "idRenderData": "torus",
                   "color": [1, 0, 0]
                 },
                 "LocalScript": {
@@ -2517,7 +2517,7 @@
                 "Render": {
                   "uuid": "49D17642-8163-406A-9646-2F63470197AD",
                   "type": "Render",
-                  "idModel": "torus",
+                  "idRenderData": "torus",
                   "color": [1, 0, 0]
                 },
                 "LocalScript": {
@@ -2569,7 +2569,7 @@
                 "Render": {
                   "uuid": "47C17FCA-D7A6-42E5-950F-C5A42F3DC1D6",
                   "type": "Render",
-                  "idModel": "torus",
+                  "idRenderData": "torus",
                   "color": [1, 0, 0]
                 },
                 "LocalScript": {
@@ -2621,7 +2621,7 @@
                 "Render": {
                   "uuid": "2BC022EC-0E1E-4B83-8269-148EE4C8EB7F",
                   "type": "Render",
-                  "idModel": "torus",
+                  "idRenderData": "torus",
                   "color": [0, 1, 0]
                 },
                 "LocalScript": {
@@ -2767,7 +2767,7 @@
             "Render": {
               "uuid": "AE767B21-FFE1-483C-A4F4-EE4F4BD70FD5",
               "type": "Render",
-              "idModel": "room_expo",
+              "idRenderData": "room_expo",
               "color": [1, 1, 1]
             },
             "WorldScript": {
@@ -3200,7 +3200,7 @@
                 "Render": {
                   "uuid": "540A28B2-4AEE-425B-85B1-934BF95DD2ED",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -3261,7 +3261,7 @@
                 "Render": {
                   "uuid": "3A615855-9115-4DAA-91E9-3656B6AB6527",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3306,7 +3306,7 @@
                 "Render": {
                   "uuid": "79030A47-3230-48E5-B613-451916323EF7",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3349,7 +3349,7 @@
                 "Render": {
                   "uuid": "00A8D589-4136-4977-82B2-2E9F7AC5D155",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3392,7 +3392,7 @@
                 "Render": {
                   "uuid": "D410B63A-9F98-4536-B0CC-1E34B53CCB59",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3435,7 +3435,7 @@
                 "Render": {
                   "uuid": "38B1F877-4178-4F1A-AF9A-3A7AA0C82430",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3478,7 +3478,7 @@
                 "Render": {
                   "uuid": "764A1C6F-2F01-4C31-8829-7ADA1F8E9EFB",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3521,7 +3521,7 @@
                 "Render": {
                   "uuid": "7FD59E1B-E61B-4B23-885F-B69C0BB6DDB9",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3564,7 +3564,7 @@
                 "Render": {
                   "uuid": "00DC69F3-64B7-45B6-83B2-0A47A68CC5A2",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3607,7 +3607,7 @@
                 "Render": {
                   "uuid": "816498B3-433B-4581-8DC5-4495B29EE84D",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3650,7 +3650,7 @@
                 "Render": {
                   "uuid": "E31DC288-3562-4C29-BFF6-E29E8B37A472",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3693,7 +3693,7 @@
                 "Render": {
                   "uuid": "C5CA8789-6DF2-4493-9E6F-67B53B9FC3BB",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3736,7 +3736,7 @@
                 "Render": {
                   "uuid": "8D9802FF-D8EF-47D9-95F0-3F6C4D46CE92",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3779,7 +3779,7 @@
                 "Render": {
                   "uuid": "D43760C2-B2FA-450F-A76C-C0D93D3F5E49",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3822,7 +3822,7 @@
                 "Render": {
                   "uuid": "51AEC18D-5421-4130-8DCB-3E5BA15355BA",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3865,7 +3865,7 @@
                 "Render": {
                   "uuid": "A735A9A1-89F8-4E70-B42E-0DEBD75605F7",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3908,7 +3908,7 @@
                 "Render": {
                   "uuid": "618DFF2F-F909-46E1-9BDC-53E345B92CA1",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3951,7 +3951,7 @@
                 "Render": {
                   "uuid": "3212901A-79D0-4F65-B157-67C6B5DA90F8",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -3994,7 +3994,7 @@
                 "Render": {
                   "uuid": "A4A32233-22BF-4235-AF9B-22BE6D3838BC",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -4037,7 +4037,7 @@
                 "Render": {
                   "uuid": "08BE9C42-222A-4D70-AC95-7DE43304728E",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -4080,7 +4080,7 @@
                 "Render": {
                   "uuid": "450A652F-4D76-4616-A52D-35CAD15D8734",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 },
                 "LocalScript": {
@@ -4202,7 +4202,7 @@
             "Render": {
               "uuid": "AA121FEF-68ED-4401-9759-C745AC32CE12",
               "type": "Render",
-              "idModel": "room_conf_modulable",
+              "idRenderData": "room_conf_modulable",
               "color": [1, 1, 1]
             },
             "WorldScript": {
@@ -4384,7 +4384,7 @@
                 "Render": {
                   "uuid": "F88A0BC8-4CED-4565-BAA0-6AD08D42E0F2",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -4445,7 +4445,7 @@
                 "Render": {
                   "uuid": "EFC4BFEE-FBF4-4514-9E30-42B5DF6F8A4E",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -4517,7 +4517,7 @@
                 "Render": {
                   "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
                   "type": "Render",
-                  "idModel": null,
+                  "idRenderData": null,
                   "color": [1, 1, 1]
                 }
               },
@@ -4541,7 +4541,7 @@
                 "Render": {
                   "uuid": "2E003489-9A20-48E0-A0CF-D7D9C4B92FDB",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -4687,7 +4687,7 @@
             "Render": {
               "uuid": "ED2DD2E6-7854-4BE4-B7CE-4619038624FF",
               "type": "Render",
-              "idModel": "studio_imu_A",
+              "idRenderData": "studio_imu_A",
               "color": [1, 1, 1]
             },
             "WorldScript": {
@@ -4869,7 +4869,7 @@
                 "Render": {
                   "uuid": "D8930BB9-7163-4E23-8E5C-869D5B2EAB93",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
@@ -5011,7 +5011,7 @@
             "Render": {
               "uuid": "6F76A145-2DA7-43BA-BBD7-AF024BCC0F9E",
               "type": "Render",
-              "idModel": "studio_imu_B",
+              "idRenderData": "studio_imu_B",
               "color": [1, 1, 1]
             },
             "WorldScript": {
@@ -5168,7 +5168,7 @@
                 "Render": {
                   "uuid": "D9804A53-E721-4823-8C33-E896F16D0B4D",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
+                  "idRenderData": "spiral_spawn",
                   "color": [1, 1, 1]
                 },
                 "Collider": {

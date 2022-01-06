@@ -78,7 +78,7 @@ module.exports = class AssetsManagerServer {
   createAvatarJSON() {
     const json = this.fetchPrefabJSON('avatar');
     JSONUtils.parse(json, function (j, k) {
-      if (k == 'idModel') {
+      if (k == 'idRenderData') {
         const random = Math.random();
 
         if (random < 0.33) {
