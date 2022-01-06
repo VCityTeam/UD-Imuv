@@ -298,7 +298,7 @@ module.exports = class LocalGameManager {
                   handleCollision: false,
                   focusOnMouseOver: false, //TODO itowns bug not working
                   focusOnMouseClick: false,
-                  zoomFactor: 0.4, //TODO working ?
+                  zoomFactor: 0.9, //TODO working ?
                 });
 
                 _this.cameraman.setFilmingTarget(false);

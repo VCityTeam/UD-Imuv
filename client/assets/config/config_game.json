@@ -88,6 +88,9 @@
       "default_interactions": {
         "path": "./assets/localScripts/DefaultInteractions.js"
       },
+      "signage_displayer": {
+        "path": "./assets/localScripts/SignageDisplayer.js"
+      },
       "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
       }

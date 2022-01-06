@@ -1969,6 +1969,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -2025,6 +2030,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -2069,6 +2079,8 @@
               },
               "children": [],
               "transform": {
+                "position": [81.0487084706055, 12.454190268612415, 30],
+                "rotation": [0, 0, 4.864859415866725, "ZXY"],
                 "position": [81.27177046144492, 10.904096755908352, 30],
                 "rotation": [0, 0, 4.8457608226956985, "ZXY"],
                 "scale": [1, 1, 1]
@@ -2165,6 +2177,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -2219,6 +2236,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -2271,6 +2293,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -2328,6 +2355,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -2569,115 +2601,76 @@
               }
             },
             {
-              "name": "PortalForWork",
+              "name": "SignageArea",
               "type": "GameObject",
               "static": true,
               "outdated": false,
-              "uuid": "0E85F19F-156C-46DD-A9A2-47367B0B4555",
+              "uuid": "6064BC69-9FB5-4054-A35A-3D2C50A5B8D0",
               "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
               "components": {
-                "Render": {
-                  "uuid": "A02360B3-B7EC-4DBD-AB62-87585BE75B4B",
-                  "type": "Render",
-                  "idModel": "spiral_spawn",
-                  "color": [1, 1, 1]
-                },
                 "Collider": {
-                  "uuid": "E8028967-8CB7-4AEA-9E82-53A295AB1A83",
+                  "uuid": "79B77840-3D5A-4E8E-AAE0-F4DB81912195",
                   "type": "Collider",
                   "shapes": [
                     {
                       "type": "Circle",
-                      "center": { "x": 0, "y": 0 },
-                      "radius": 1.689427617937126
+                      "center": { "x": 0, "y": 0, "z": 0 },
+                      "radius": "3"
                     }
                   ],
                   "body": false
                 },
-                "WorldScript": {
-                  "uuid": "E074D951-F0AF-492A-8BE7-0A9D14EDA53D",
-                  "idScripts": ["portal", "interaction_zone"],
-                  "conf": {
-                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-                    "portalUUID": "1F9767A3-6EDC-4A50-8126-0CB287DE11A6",
-                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
-                  },
-                  "type": "WorldScript"
-                },
-                "LocalScript": {
-                  "uuid": "9B7896EE-7125-446A-B0C9-EA1C72CBB5CF",
-                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
-                  "type": "LocalScript"
-                },
-                "Audio": {
-                  "uuid": "FA6F272E-77F3-4D5D-862A-3F70102EC125",
-                  "sounds": ["portal_in"],
-                  "conf": {},
-                  "type": "Audio"
-                }
-              },
-              "children": [],
-              "transform": {
-                "position": [28.3, 52.9, 0],
-                "rotation": [0, 0, 6.248046147023336, "ZXY"],
-                "scale": [1, 1, 1]
-              }
-            },
-            {
-              "name": "PortalForWork (clone)",
-              "type": "GameObject",
-              "static": true,
-              "outdated": false,
-              "uuid": "1F9767A3-6EDC-4A50-8126-0CB287DE11A6",
-              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-              "components": {
                 "Render": {
-                  "uuid": "810311D5-EB0F-4686-87D6-FA7748AB1755",
+                  "uuid": "2BC022EC-0E1E-4B83-8269-148EE4C8EB7F",
                   "type": "Render",
-                  "idModel": "spiral_spawn",
-                  "color": [1, 1, 1]
-                },
-                "Collider": {
-                  "uuid": "7678B319-A6DE-4D1F-91D3-7FEF169F437B",
-                  "type": "Collider",
-                  "shapes": [
-                    {
-                      "type": "Circle",
-                      "center": { "x": 0, "y": 0 },
-                      "radius": 1.689427617937126
-                    }
-                  ],
-                  "body": false
-                },
-                "WorldScript": {
-                  "uuid": "505841BC-21C1-4657-82E6-5AEADB3FB453",
-                  "idScripts": ["portal", "interaction_zone"],
-                  "conf": {
-                    "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-                    "portalUUID": "0E85F19F-156C-46DD-A9A2-47367B0B4555",
-                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
-                  },
-                  "type": "WorldScript"
+                  "idModel": "torus",
+                  "color": [0, 1, 0]
                 },
                 "LocalScript": {
-                  "uuid": "78C1AB05-5C85-4DF8-B2F2-96A4E36382AD",
-                  "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "uuid": "EAA88684-FFA5-44FB-9966-3E73472EA7AB",
+                  "idScripts": ["local_interactions", "signage_displayer"],
+                  "conf": {
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": [],
+                    "projects": [
+                      {
+                        "title": "Nouveau Projet",
+                        "url": "https:/example.com",
+                        "position": [
+                          1843575.1910103103, 5174379.1578006, 297.7920694283085
+                        ],
+                        "uuid": "A8FBF405-F65E-4FCC-9796-F3A501B5D3E8"
+                      },
+                      {
+                        "title": "Projet numero 2",
+                        "url": "https://example.com/",
+                        "position": [
+                          1843518.2509959326, 5174362.820450245,
+                          297.7920694283085
+                        ],
+                        "uuid": "BBD6FA7B-6552-4F22-BBD8-2C2413388F0F"
+                      }
+                    ]
+                  },
                   "type": "LocalScript"
                 },
-                "Audio": {
-                  "uuid": "C017DCE9-2861-4ED0-B2C4-5B20F4E8F98A",
-                  "sounds": ["portal_in"],
+                "WorldScript": {
+                  "uuid": "ACF25D8E-BB81-46F8-9C40-F958819D3860",
+                  "idScripts": ["interaction_zone"],
                   "conf": {},
-                  "type": "Audio"
+                  "type": "WorldScript"
                 }
               },
               "children": [],
               "transform": {
-                "position": [28.3, 49.8, 0],
-                "rotation": [0, 0, 6.3, "ZXY"],
-                "scale": [1, 1, 1]
+                "position": [
+                  36.490845372201875, 71.51142087206244, -2.20793057169152
+                ],
+                "rotation": [0, 0, 0, "ZXY"],
+                "scale": [
+                  0.2926460686026723, 0.2926460686026723, 0.2926460686026723
+                ]
               }
             }
           ],
@@ -3243,6 +3236,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -4128,7 +4126,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 31 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4422,6 +4420,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -4478,6 +4481,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -4569,6 +4577,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -4598,7 +4611,7 @@
             "LocalScript": {
               "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4888,6 +4901,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],
@@ -5182,6 +5200,11 @@
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
                   "conf": { "speed": 0.001 },
                   "type": "LocalScript"
+                },
+                "Audio": {
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
                 }
               },
               "children": [],

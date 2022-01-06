@@ -1,0 +1,39 @@
+{
+  "name": "SignageArea",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Collider": {
+      "type": "Collider",
+      "shapes": [
+        {
+          "type": "Circle",
+          "center": { "x": 0, "y": 0 },
+          "radius": 10
+        }
+      ],
+      "body": false
+    },
+    "Render": {
+      "type": "Render",
+      "idModel": "torus",
+      "color": [0, 1, 0]
+    },
+    "LocalScript": {
+      "idScripts": ["local_interactions", "signage_displayer"],
+      "conf": {},
+      "type": "LocalScript"
+    },
+    "WorldScript": {
+      "idScripts": ["interaction_zone"],
+      "conf": {},
+      "type": "WorldScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0, "ZXY"],
+    "scale": [1, 1, 1]
+  }
+}

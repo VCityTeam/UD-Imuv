@@ -1,16 +1,21 @@
-.ui_ColliderEditor{
-    background-color: violet;
+.ui_ColliderEditor {
+  background-color: violet;
 }
 
-.li_ColliderEditor{
-    display: block;
-    list-style: none;
+.li_ColliderEditor {
+  display: block;
+  list-style: none;
 }
 
-.li_SelectedEditor{
-    background-color: greenyellow;
+.li_SelectedEditor {
+  background-color: greenyellow;
 }
 
-.li_SelectedPointEditor{
-    background-color: skyblue;
+.li_SelectedPointEditor {
+  background-color: skyblue;
+}
+
+.ul_ShapeEditor {
+  max-height: 500px;
+  overflow: auto;
 }

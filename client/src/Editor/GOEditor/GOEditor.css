@@ -7,3 +7,37 @@
 .goUI_GOEditor {
   background-color: crimson;
 }
+
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 3; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Fallback color */
+}
+
+.modal_content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.validate_button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 20%;
+  width: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}

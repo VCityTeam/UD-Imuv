@@ -288,6 +288,7 @@ export class ColliderEditorView {
 
     const shapesList = document.createElement('ul');
     shapesList.classList.add('ul_Editor');
+    shapesList.classList.add('ul_ShapeEditor');
     wrapper.appendChild(shapesList);
     this.shapesList = shapesList;
 
@@ -430,15 +431,6 @@ export class ColliderEditorModel {
 
   getSelectedObject() {
     return this.selectedObject;
-  }
-
-  createSphere() {
-    console.warn('don\'t use this method');
-    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    const sphereP = new THREE.Mesh(geometry, material);
-
-    return sphereP;
   }
 
   /**Create sphere as new point of shape at a position */

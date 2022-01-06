@@ -35,6 +35,15 @@
   bottom: 0px;
 }
 
+.popup-signage {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: white;
+}
+
 .lds-default {
   display: inline-block;
   position: relative;

@@ -85,6 +85,9 @@
       "default_interactions": {
         "path": "./assets/localScripts/DefaultInteractions.js"
       },
+      "signage_displayer": {
+        "path": "./assets/localScripts/SignageDisplayer.js"
+      },
       "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
       }
@@ -171,6 +174,9 @@
       },
       "template_interactable_area": {
         "path": "./assets/prefabs/TemplateInteractableArea.json"
+      },
+      "signage_area": {
+        "path": "./assets/prefabs/SignageArea.json"
       }
     },
     "worlds": {
