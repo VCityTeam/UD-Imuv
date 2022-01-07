@@ -163,7 +163,7 @@ export class EditorGameView extends GameView {
     return null;
   }
 
-  hasBeenRotate() {
+  hasBeenRotated() {
     return this.angleOrbitControls != this.computeAngle();
   }
 
