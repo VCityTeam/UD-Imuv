@@ -169,7 +169,6 @@ export class GOEditorView {
     this.ui.appendChild(this.goList);
 
     const typeCbPU = document.createElement('p');
-    typeCbPU.innerHTML = 'Prout';
     this.ui.appendChild(typeCbPU);
     this.gameView.linkedHtmlElementTypeCbPointerUp = typeCbPU;
 
