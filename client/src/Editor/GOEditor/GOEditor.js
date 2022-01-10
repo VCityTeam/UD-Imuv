@@ -41,7 +41,7 @@ export class GOEditorView {
     const gV = this.gameView;
 
     const cbPointerUp = function (event) {
-      if (gV.hasBeenRotate()) return;
+      if (gV.hasBeenRotated()) return;
       const go = this.goSelected;
       let o = go ? this.computeObject3D(go.getUUID()) : null;
       if (event.button == 0 && !gV.tcHasBeenDragged()) {
@@ -169,7 +169,6 @@ export class GOEditorView {
     this.ui.appendChild(this.goList);
 
     const typeCbPU = document.createElement('p');
-    typeCbPU.innerHTML = 'Prout';
     this.ui.appendChild(typeCbPU);
     this.gameView.linkedHtmlElementTypeCbPointerUp = typeCbPU;
 

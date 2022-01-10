@@ -342,7 +342,7 @@ export class ColliderEditorView {
           _this.model.updateShape();
           return;
         }
-        if (gV.hasBeenRotate()) return;
+        if (gV.hasBeenRotated()) return;
         const intersect = gV.throwRay(event, _this.colliderObject3D);
 
         _this.model.setSelectedObject(intersect ? intersect.object : null);
