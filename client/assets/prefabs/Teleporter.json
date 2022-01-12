@@ -5,7 +5,7 @@
   "components": {
     "Render": {
       "type": "Render",
-      "idModel": "cube",
+      "idRenderData": "cube",
       "color": [1, 0, 0]
     },
     "Collider": {

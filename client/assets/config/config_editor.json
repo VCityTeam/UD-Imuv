@@ -92,7 +92,7 @@
         "path": "./assets/localScripts/PortalSweep.js"
       }
     },
-    "models": {
+    "renderData": {
       "room_conf_modulable": {
         "path": "./assets/models/Room_Conf_Modulable.glb"
       },

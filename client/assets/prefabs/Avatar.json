@@ -19,7 +19,7 @@
     },
     "Render": {
       "type": "Render",
-      "idModel": "avatar_moyen",
+      "idRenderData": "avatar_moyen",
       "name": "avatar_name",
       "color": null
     },

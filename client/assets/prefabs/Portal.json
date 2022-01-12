@@ -5,7 +5,7 @@
   "components": {
     "Render": {
       "type": "Render",
-      "idModel": "spiral_spawn",
+      "idRenderData": "spiral_spawn",
       "color": [1, 1, 1]
     },
     "Collider": {
