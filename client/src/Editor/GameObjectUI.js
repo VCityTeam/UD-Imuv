@@ -198,7 +198,6 @@ export class GameObjectUI {
     };
   }
 
-  //TODO : Too long and modify projects
   appendLSSignageDisplayerUI(gV) {
     const _this = this;
     const content = this.content;
@@ -212,6 +211,27 @@ export class GameObjectUI {
       const projectLi = document.createElement('li');
       projectLi.innerHTML =
         project.title + ' ' + project.url + ' ' + project.position;
+
+      const modifyButton = document.createElement('button');
+      modifyButton.innerHTML = 'Modify';
+
+      modifyButton.onclick = function () {
+        modal = createModalDiv({
+          title: project.title,
+          url: project.url,
+          position: new THREE.Vector3(
+            project.position[0],
+            project.position[1],
+            project.position[2]
+          ),
+          uuid: project.uuid,
+        });
+
+        content.appendChild(modal);
+      };
+
+      projectLi.appendChild(modifyButton);
+
       const deleteButton = document.createElement('button');
       deleteButton.innerHTML = 'Delete';
 
@@ -239,7 +259,7 @@ export class GameObjectUI {
     fillProjectsUl();
 
     let modal = null;
-    const createModalDiv = function () {
+    const createModalDiv = function (params = {}) {
       modal = document.createElement('div');
       modal.classList.add('modal');
 
@@ -248,15 +268,17 @@ export class GameObjectUI {
       modal.appendChild(modalContent);
 
       const labelNewProject = document.createElement('p');
-      labelNewProject.innerHTML = 'Infos new project';
+      labelNewProject.innerHTML = 'Infos project';
       modalContent.appendChild(labelNewProject);
 
       const titleNewProject = document.createElement('input');
+      titleNewProject.value = params.title || '';
       titleNewProject.type = 'text';
       titleNewProject.placeholder = 'Titre';
       modalContent.appendChild(titleNewProject);
 
       const url = document.createElement('input');
+      url.value = params.url || '';
       url.type = 'url';
       url.placeholder = 'https://example.com';
       url.pattern = 'https://.*';
@@ -271,6 +293,12 @@ export class GameObjectUI {
       const transformElement = document.createElement('div');
       transformElement.innerHTML = '';
       modalContent.appendChild(transformElement);
+      if (params.position) {
+        transformElement.appendChild(
+          _this.createInputFromVector3(params.position)
+        );
+        buttonAddTransform.innerHTML = 'Modify BillBoard Transform';
+      }
 
       buttonAddTransform.onclick = function () {
         modal.hidden = true;
@@ -283,11 +311,12 @@ export class GameObjectUI {
         const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         const sphereP = new THREE.Mesh(geometry, material);
         transformObject3D.add(sphereP);
-        const posOffset = _this.go
-          .computeObject3D()
-          .getWorldPosition(new THREE.Vector3());
-          
-        sphereP.position.copy(posOffset);
+        const posOffset = gV
+          .getObject3D()
+          .position.clone()
+          .add(_this.go.computeWorldTransform().position);
+
+        sphereP.position.copy(params.position || posOffset);
         gV.orbitControls.target.copy(sphereP.position);
         gV.orbitControls.update();
 
@@ -347,12 +376,23 @@ export class GameObjectUI {
           return;
         }
 
-        _this.go.components.LocalScript.conf.projects.push({
-          title: titleNewProject.value,
-          url: url.value,
-          position: [x, y, z],
-          uuid: THREE.MathUtils.generateUUID(),
-        });
+        const projects = _this.go.components.LocalScript.conf.projects;
+        if (params.uuid) {
+          projects.forEach(function (p) {
+            if (p.uuid === params.uuid) {
+              p.title = titleNewProject.value;
+              p.url = url.value;
+              p.position = [x, y, z];
+            }
+          });
+        } else {
+          projects.push({
+            title: titleNewProject.value,
+            url: url.value,
+            position: [x, y, z],
+            uuid: THREE.MathUtils.generateUUID(),
+          });
+        }
         fillProjectsUl();
       };
 
@@ -363,7 +403,7 @@ export class GameObjectUI {
       buttonClose.onclick = function () {
         modal.remove();
         modal = null;
-        addNewProjectButton.disabled = false;
+        _this.goEditor.initPointerUpCallback();
       };
 
       return modal;
