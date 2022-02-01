@@ -43,6 +43,7 @@ You can also refer to the installation steps with this [Dockerfile](https://gith
 FIXME: unmature section
 
 If at runtime the imuv server displayed images errors then you should check the installation of thoses binary dependencies. 
+> ⚠️ allias `gm` doesn't work in powershell because it conflicts with the command Get-Member !!!!
 
 ## Installing Imuv applications
 
