@@ -196,6 +196,38 @@ export class GameObjectUI {
         gV.forceUpdate();
       });
     };
+
+    const conf = this.go.components.LocalScript.conf;
+
+    const inputLat = document.createElement('input');
+    inputLat.type = 'number';
+    inputLat.step = 0.01;
+    inputLat.value = conf.Lat || 0;
+    this.content.appendChild(inputLat);
+
+    const labelLat = document.createElement('label');
+    labelLat.innerHTML = 'Lat';
+    this.content.appendChild(labelLat);
+
+    const inputLng = document.createElement('input');
+    inputLng.type = 'number';
+    inputLng.step = 0.01;
+    inputLng.value = conf.Lng || 0;
+    this.content.appendChild(inputLng);
+
+    const labelLng = document.createElement('label');
+    labelLng.innerHTML = 'Lng';
+    this.content.appendChild(labelLng);
+
+    inputLat.onchange = function () {
+      const value = parseFloat(inputLat.value);
+      conf.Lat = value;
+    };
+
+    inputLng.onchange = function () {
+      const value = parseFloat(inputLng.value);
+      conf.Lng = value;
+    };
   }
 
   appendLSSignageDisplayerUI(gV) {

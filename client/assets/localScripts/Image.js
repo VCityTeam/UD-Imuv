@@ -49,6 +49,12 @@ module.exports = class Image {
     const mapImg = document.createElement('img');
     mapImg.src = this.conf.map_path;
 
+    //Coordinates Image map path. src  https://commons.wikimedia.org/wiki/File:Lyon_et_ses_arrondissements_map.svg
+    const topIP = 45.81186;
+    const bottomIP = 45.70455;
+    const leftIP = 4.76623;
+    const rightIP = 4.90291;
+
     mapImg.onload = function () {
       const canvas = document.createElement('canvas');
       canvas.width = this.naturalWidth;
@@ -56,9 +62,11 @@ module.exports = class Image {
 
       const ctx = canvas.getContext('2d');
       ctx.drawImage(this, 0, 0);
+      const lat = _this.conf.Lat || 0;
+      const lng = _this.conf.Lng || 0;
 
-      const ratioX = _this.conf.popup_position.ratioX;
-      const ratioY = _this.conf.popup_position.ratioY;
+      const ratioX = (lng - leftIP) / (rightIP - leftIP);
+      const ratioY = (lat - bottomIP) / (topIP - bottomIP);
 
       ctx.beginPath();
       ctx.lineWidth = 5;
