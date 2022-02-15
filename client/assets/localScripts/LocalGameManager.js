@@ -158,32 +158,6 @@ module.exports = class LocalGameManager {
     const Routine = Shared.Components.Routine;
     const Command = Shared.Command;
 
-    div.requestPointerLock =
-      div.requestPointerLock || div.mozRequestPointerLock;
-    document.exitPointerLock =
-      document.exitPointerLock || document.mozExitPointerLock;
-
-    const MODE = {
-      DEFAULT: 0,
-      POINTER_LOCK: 1,
-    };
-    let currentMode = MODE.DEFAULT;
-    const swicthMode = function (newMode) {
-      currentMode = newMode;
-
-      switch (currentMode) {
-        case MODE.DEFAULT:
-          document.exitPointerLock();
-          break;
-        case MODE.POINTER_LOCK:
-          div.requestPointerLock();
-          break;
-
-        default:
-          break;
-      }
-    };
-
     //INPUTS LOCAL
 
     manager.addKeyInput('y', 'keydown', function () {
@@ -328,7 +302,7 @@ module.exports = class LocalGameManager {
       Command.TYPE.MOVE_FORWARD,
       ['z', 'ArrowUp'],
       function () {
-        swicthMode(MODE.POINTER_LOCK);
+        manager.setPointerLock(true);
         if (manager.isPressed('c')) {
           return new Command({ type: Command.TYPE.RUN });
         } else {
@@ -342,7 +316,7 @@ module.exports = class LocalGameManager {
       Command.TYPE.MOVE_BACKWARD,
       ['s', 'ArrowDown'],
       function () {
-        swicthMode(MODE.POINTER_LOCK);
+        manager.setPointerLock(true);
         return new Command({ type: Command.TYPE.MOVE_BACKWARD });
       }
     );
@@ -352,7 +326,7 @@ module.exports = class LocalGameManager {
       Command.TYPE.MOVE_LEFT,
       ['q', 'ArrowLeft'],
       function () {
-        swicthMode(MODE.POINTER_LOCK);
+        manager.setPointerLock(true);
         return new Command({ type: Command.TYPE.MOVE_LEFT });
       }
     );
@@ -362,14 +336,14 @@ module.exports = class LocalGameManager {
       Command.TYPE.MOVE_RIGHT,
       ['d', 'ArrowRight'],
       function () {
-        swicthMode(MODE.POINTER_LOCK);
+        manager.setPointerLock(true);
         return new Command({ type: Command.TYPE.MOVE_RIGHT });
       }
     );
 
     manager.addMouseCommand('mousedown', function () {
       const event = this.event('mousedown');
-      swicthMode(MODE.DEFAULT);
+      manager.setPointerLock(false);
       if (event.which != 3) return; //if its not a right click
 
       //1. sets the mouse position with a coordinate system where the center
@@ -417,8 +391,8 @@ module.exports = class LocalGameManager {
     //ROTATE
     manager.addMouseCommand('mousemove', function () {
       if (
-        currentMode == MODE.POINTER_LOCK ||
-        (this.isDragging() && currentMode == MODE.DEFAULT)
+        manager.getPointerLock() ||
+        (this.isDragging() && !manager.getPointerLock())
       ) {
         const event = this.event('mousemove');
         if (event.movementX != 0 || event.movementY != 0) {
