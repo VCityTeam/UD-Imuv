@@ -265,7 +265,7 @@ module.exports = class LocalGameManager {
                 return ratio >= 1;
               },
               function () {
-                swicthMode(MODE.DEFAULT);
+                manager.setPointerLock(false);
 
                 //creating controls like put it in _this.view.controls
                 const c = new itowns.PlanarControls(view, {
