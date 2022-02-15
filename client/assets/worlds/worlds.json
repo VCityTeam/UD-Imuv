@@ -2122,8 +2122,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.00460452642002, 12.737898002350816, 30],
-                "rotation": [0, 0, 4.868360824614747, "ZXY"],
+                "position": [81.01471537412738, 12.673432559852483, 30],
+                "rotation": [0, 0, 4.867565049899287, "ZXY"],
                 "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
@@ -2773,7 +2773,7 @@
             "LocalScript": {
               "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -3345,7 +3345,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image1",
+              "name": "Image7",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3362,7 +3362,7 @@
                   "uuid": "30D59DE9-3D15-4650-9482-4EF3E602A9D0",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/6184DE44-AA5D-4FD3-8EAA-A5D0574CA328.jpeg",
+                    "path": "./assets/img/uploaded/3CD20CD2-FB48-44CD-BA0A-4E2239ED5572.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3383,7 +3383,7 @@
               "children": [],
               "transform": {
                 "position": [
-                  2.487976643256843, -6.803802199661732, 3.4384698903865
+                  2.487976643256843, -6.803802199661732, 2.674915539370695
                 ],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
                 "scale": [0.75, 0.5, 1]
@@ -3391,7 +3391,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image2",
+              "name": "Image4",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3408,7 +3408,7 @@
                   "uuid": "5616A6C5-B81F-48EE-813F-E1CAE559E4D7",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/33850062-2053-42DA-88AE-B6BCE3119194.jpeg",
+                    "path": "./assets/img/uploaded/7F262CFE-7E48-4818-B3FC-739FEBC6CFF1.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3452,7 +3452,7 @@
                   "uuid": "FCF888B4-594C-49CC-8AB5-BEDD852E5B53",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/80849568-50F4-44D4-A5FB-F90EB6951C01.jpeg",
+                    "path": "./assets/img/uploaded/2D3AAB79-DEA2-4BE7-B9F2-21E30A4B7881.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3479,7 +3479,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image4",
+              "name": "Image2",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3496,7 +3496,7 @@
                   "uuid": "FFC3E56D-AA9F-48E1-8C54-CC8AAD456CBC",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/D7D1C8E3-5DEF-4C4C-B34D-55363CDDB0E4.jpeg",
+                    "path": "./assets/img/uploaded/B1425E3B-EA66-44CF-B7ED-E068745CD19D.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3523,7 +3523,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image5",
+              "name": "Image8",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3540,7 +3540,7 @@
                   "uuid": "D9321027-4D92-4430-A2DF-4186E8A53B42",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/9E95611D-10FB-4771-BBFA-CE7260D1B9B3.jpeg",
+                    "path": "./assets/img/uploaded/EEEB1702-207F-4A0F-9BF4-30208586386D.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3567,7 +3567,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image6",
+              "name": "Image1",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3584,7 +3584,7 @@
                   "uuid": "90015BE9-2A79-4987-AA91-6FBB6216A50D",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/70B081F9-E194-493A-A7D0-31F73F08289C.jpeg",
+                    "path": "./assets/img/uploaded/ACA87A1B-4FE5-47DE-B242-02DCE166C572.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3611,7 +3611,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image7",
+              "name": "Image6",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3628,7 +3628,7 @@
                   "uuid": "151A802F-EE27-4E61-88DA-876A34917191",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/B6D526D6-6A3A-4B7F-B324-53F3EA5CBCF9.jpeg",
+                    "path": "./assets/img/uploaded/9BD9CE60-CA1F-4CF7-867D-0A342947BE56.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3655,7 +3655,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image8",
+              "name": "Image5",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3672,7 +3672,7 @@
                   "uuid": "3F2CFDC5-0DB5-46E0-B53F-F7FEB50981C5",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/F6A87871-FF2B-4788-B2D0-31A035586532.jpeg",
+                    "path": "./assets/img/uploaded/EF3FA99A-67F4-47F8-A864-E756B34480F4.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3699,7 +3699,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image9",
+              "name": "Image19",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3716,7 +3716,7 @@
                   "uuid": "53A38072-999B-4EF2-AF61-D658B09DD672",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/E8B61406-8B5C-430A-A4F3-71BE3005912C.jpeg",
+                    "path": "./assets/img/uploaded/FC6C6115-875B-478C-B1C1-3B611AAA73E0.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3743,7 +3743,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image10",
+              "name": "Image18",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3760,7 +3760,7 @@
                   "uuid": "A6E2C4BF-132E-4CC7-B048-9540B24BAD5E",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/D3FB0C7B-F172-432F-B4AB-F5AEBC7808DF.jpeg",
+                    "path": "./assets/img/uploaded/4F3F8526-E94A-47B3-8572-59D615366F6F.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3787,7 +3787,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image11",
+              "name": "Image14",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3804,7 +3804,7 @@
                   "uuid": "7B4953B3-78DD-4AB4-955D-34ECD3C03532",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/6A6D6EC4-4827-43BF-8F9A-6E7CC8F823A7.jpeg",
+                    "path": "./assets/img/uploaded/3BCB3F27-D68D-47A3-851B-0C069A07AB68.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3831,7 +3831,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image12",
+              "name": "Image13",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3848,7 +3848,7 @@
                   "uuid": "CEF79019-105D-4C03-B711-FCA631A3983C",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/B76BDD00-154D-422D-8C05-8EAB642A18B4.jpeg",
+                    "path": "./assets/img/uploaded/96628225-7C61-4DF3-8055-E1768768E8C6.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3875,7 +3875,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image14",
+              "name": "Image12",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3892,7 +3892,7 @@
                   "uuid": "690B9725-B4FF-41B6-B2EF-970A2BE11229",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/71227051-141B-414A-B70E-0340F7E4FB76.jpeg",
+                    "path": "./assets/img/uploaded/9477B87A-980A-46F0-976D-03265FDB6F79.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3919,7 +3919,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image15",
+              "name": "Image11",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3936,7 +3936,7 @@
                   "uuid": "03696363-0BBF-4D5C-97AD-CCB3385A91F3",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/3748532D-27A1-4DCF-AB65-3237D45DA212.jpeg",
+                    "path": "./assets/img/uploaded/880B3F9B-21B3-4572-9FA2-82994A17464E.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -3963,7 +3963,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image16",
+              "name": "Image10",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3980,7 +3980,7 @@
                   "uuid": "6BBF17AA-6771-4FE9-95D0-A5096F0A89D8",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/33156ABC-B86C-4FF2-9756-AB057F672748.jpeg",
+                    "path": "./assets/img/uploaded/BD9028FD-1418-4303-91C0-55B615D7113F.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -4007,7 +4007,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image17",
+              "name": "Image9",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4024,7 +4024,7 @@
                   "uuid": "C303AAA3-122A-420B-AC99-6E1E257A2E07",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/635AB97F-B9D4-4A6B-B388-E64EA05566F5.jpeg",
+                    "path": "./assets/img/uploaded/93814843-1790-4570-A2D3-F5E263636B23.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -4051,7 +4051,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image18",
+              "name": "Image17",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4068,7 +4068,7 @@
                   "uuid": "7B0F1E83-E332-460A-A4B9-597B15F716FA",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/16A7BB30-618D-4375-B2AE-397C864DABCA.jpeg",
+                    "path": "./assets/img/uploaded/D7D7703C-B2FB-42AB-BFD8-A1D7DFD8170C.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -4095,7 +4095,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image19",
+              "name": "Image16",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4112,7 +4112,7 @@
                   "uuid": "42379AA3-F47F-42E5-ADF8-3C10463892D6",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/187EECBA-688C-4C44-B7C3-E3251F1CD36E.jpeg",
+                    "path": "./assets/img/uploaded/5AC21FF6-7DD5-4145-8385-B752FD4CB268.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -4139,7 +4139,7 @@
               "noLocalUpdate": false
             },
             {
-              "name": "Image20",
+              "name": "Image15",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4156,7 +4156,7 @@
                   "uuid": "36A24A71-589A-49D3-8C55-B06494716A7D",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/DD7EAE25-4472-4769-9F80-7B03F3914590.jpeg",
+                    "path": "./assets/img/uploaded/29C8C22E-78CC-4D7A-AE28-A743E3567448.jpeg",
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -4239,7 +4239,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 31 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5087,7 +5087,7 @@
             "LocalScript": {
               "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 15 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5397,7 +5397,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 31 },
               "type": "LocalScript"
             },
             "WorldScript": {
