@@ -3,14 +3,15 @@ const worldsJSON = require('../assets/worlds/worlds.json');
 const Shared = require('../node_modules/ud-viz/src/Game/Shared/Shared');
 
 Shared.Components.JSONUtils.parse(worldsJSON, function (json, key) {
-  if (key == 'name' && json[key].includes('Portal')) {
-    json.components.LocalScript.idScripts = [
-      'rotate',
-      'local_interactions',
-      'portal_sweep',
-    ];
-    json.components.WorldScript.idScripts = ['portal', 'interaction_zone'];
-    json.components.LocalScript.conf = { speed: 0.001 };
+  if (key == 'name' && json[key].includes('Image')) {
+    json.components.LocalScript.conf = {
+      path: './assets/img/labex_imu.jpeg',
+      width: 5,
+      height: 5,
+      map_path:
+        './assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg',
+      GPS_Coord: { Lng: null, Lat: null },
+    };
     // console.log(
     //   json.components.LocalScript,
     //   json.components.WorldScript,
@@ -38,4 +39,4 @@ const save = function () {
   );
 };
 
-save();
+// save();
