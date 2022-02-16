@@ -1,7 +1,7 @@
 /** @format */
 
 import './Editor.css';
-import { Game } from 'ud-viz';
+import { Views } from 'ud-viz';
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
@@ -28,7 +28,7 @@ export class EditorView {
     this.playCurrentWorldButton = null;
 
     //assets
-    this.assetsManager = new Game.Components.AssetsManager();
+    this.assetsManager = new Views.AssetsManager();
 
     //gameview
     this.currentWorldView = null;
@@ -201,7 +201,7 @@ export class EditorView {
     return new Promise((resolve, reject) => {
       try {
         _this.assetsManager
-          .loadFromConfig(_this.config.assetsManager)
+          .loadFromConfig(_this.config.assetsManager, document.body)
           .then(function () {
             _this.initUI();
             _this.initCallbacks();

@@ -3,7 +3,7 @@
 import './MenuAuth.css';
 
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
-import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager/AssetsManager';
+import { AssetsManager } from 'ud-viz/src/Views/AssetsManager/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { EditorView } from '../Editor/Editor';
 import { DistantGame } from 'ud-viz/src/Templates/Templates';
@@ -185,14 +185,10 @@ export class MenuAuthView {
     this.confidentialButton.onclick = function () {
       _this.dispose();
 
-      const loadingView = _this.createLoadingView();
-      document.body.appendChild(loadingView);
-
       SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
         function (config) {
           _this.editor = new EditorView(_this.webSocketService, config);
           _this.editor.load().then(function () {
-            loadingView.remove();
             document.body.appendChild(_this.editor.html());
 
             _this.editor.setOnClose(function () {
