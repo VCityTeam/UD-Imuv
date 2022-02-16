@@ -186,48 +186,89 @@ export class GameObjectUI {
     const imageInput = document.createElement('input');
     imageInput.type = 'file';
     imageInput.accept = 'image/*';
-    this.content.appendChild(imageInput);
 
     const go = this.go;
+
     imageInput.onchange = function (e) {
       File.readSingleFileAsDataUrl(e, function (data) {
         const url = data.target.result;
         go.components.LocalScript.conf.path = url;
+        go.setOutdated(true);
         gV.forceUpdate();
       });
     };
 
     const conf = this.go.components.LocalScript.conf;
+    const divGPSCoord = document.createElement('div');
 
-    const inputLat = document.createElement('input');
-    inputLat.type = 'number';
-    inputLat.step = 0.01;
-    inputLat.value = conf.Lat || 0;
-    this.content.appendChild(inputLat);
+    const initGPSCoordHTMLElements = function () {
+      const inputLat = document.createElement('input');
+      inputLat.type = 'number';
+      inputLat.step = 0.001;
+      inputLat.value = conf.GPS_Coord.Lat || 0;
+      divGPSCoord.appendChild(inputLat);
 
-    const labelLat = document.createElement('label');
-    labelLat.innerHTML = 'Lat';
-    this.content.appendChild(labelLat);
+      const labelLat = document.createElement('label');
+      labelLat.innerHTML = 'Lat';
+      divGPSCoord.appendChild(labelLat);
 
-    const inputLng = document.createElement('input');
-    inputLng.type = 'number';
-    inputLng.step = 0.01;
-    inputLng.value = conf.Lng || 0;
-    this.content.appendChild(inputLng);
+      const inputLng = document.createElement('input');
+      inputLng.type = 'number';
+      inputLng.step = 0.001;
+      inputLng.value = conf.GPS_Coord.Lng || 0;
+      divGPSCoord.appendChild(inputLng);
 
-    const labelLng = document.createElement('label');
-    labelLng.innerHTML = 'Lng';
-    this.content.appendChild(labelLng);
+      const labelLng = document.createElement('label');
+      labelLng.innerHTML = 'Lng';
+      divGPSCoord.appendChild(labelLng);
 
-    inputLat.onchange = function () {
-      const value = parseFloat(inputLat.value);
-      conf.Lat = value;
+      inputLat.onchange = function () {
+        const value = parseFloat(inputLat.value);
+        conf.GPS_Coord.Lat = value;
+      };
+
+      inputLng.onchange = function () {
+        const value = parseFloat(inputLng.value);
+        conf.GPS_Coord.Lng = value;
+      };
+
+      const refreshMapButton = document.createElement('button');
+      refreshMapButton.innerHTML = 'Refresh Map';
+      divGPSCoord.appendChild(refreshMapButton);
+      refreshMapButton.onclick = function () {
+        go.setOutdated(true);
+        gV.forceUpdate();
+      };
     };
 
-    inputLng.onchange = function () {
-      const value = parseFloat(inputLng.value);
-      conf.Lng = value;
+    const divCheckboxLabel = document.createElement('div');
+
+    const checkboxGPSCoord = document.createElement('input');
+    checkboxGPSCoord.type = 'checkbox';
+    checkboxGPSCoord.onchange = function (event) {
+      const value = event.target.checked;
+      conf.GPS_Coord.checked = value;
+      if (value) {
+        initGPSCoordHTMLElements();
+      } else {
+        divGPSCoord.innerHTML = '';
+        conf.GPS_Coord.Lat = null;
+        conf.GPS_Coord.Lng = null;
+      }
     };
+    checkboxGPSCoord.checked = conf.GPS_Coord.checked || false;
+    checkboxGPSCoord.dispatchEvent(new Event('change'));
+
+    divCheckboxLabel.appendChild(checkboxGPSCoord);
+
+    const labelGPSCoord = document.createElement('label');
+    labelGPSCoord.innerHTML = 'GPSCoord';
+    labelGPSCoord.htmlFor = checkboxGPSCoord.id;
+    divCheckboxLabel.appendChild(labelGPSCoord);
+
+    this.content.appendChild(imageInput);
+    this.content.appendChild(divCheckboxLabel);
+    this.content.appendChild(divGPSCoord);
   }
 
   appendLSSignageDisplayerUI(gV) {
