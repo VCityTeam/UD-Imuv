@@ -15,7 +15,7 @@
         "width": 5,
         "height": 5,
         "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-        "popup_position": { "ratioX": 0.5, "ratioY": 0.5 }
+        "GPS_Coord": { "Lng": null, "Lat": null, "Checked": false }
       },
       "Audio": {
         "sounds": ["open_popup", "close_popup"],
