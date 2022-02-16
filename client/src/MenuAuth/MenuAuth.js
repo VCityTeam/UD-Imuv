@@ -3,7 +3,7 @@
 import './MenuAuth.css';
 
 import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
-import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
+import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { EditorView } from '../Editor/Editor';
 import { DistantGame } from 'ud-viz/src/Templates/Templates';
@@ -163,7 +163,7 @@ export class MenuAuthView {
             //load assets
             const assetsManager = new AssetsManager();
             assetsManager
-              .loadFromConfig(config.assetsManager)
+              .loadFromConfig(config.assetsManager, document.body)
               .then(function () {
                 const distantGame = new DistantGame(
                   _this.webSocketService,
