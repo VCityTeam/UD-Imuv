@@ -157,9 +157,6 @@ export class MenuAuthView {
       function (initialized, isGuest) {
         _this.dispose();
 
-        const loadingView = _this.createLoadingView();
-        document.body.appendChild(loadingView);
-
         //load config
         SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
           function (config) {
@@ -168,8 +165,6 @@ export class MenuAuthView {
             assetsManager
               .loadFromConfig(config.assetsManager)
               .then(function () {
-                loadingView.remove();
-
                 const distantGame = new DistantGame(
                   _this.webSocketService,
                   assetsManager,
@@ -181,11 +176,6 @@ export class MenuAuthView {
                   isGuest: isGuest,
                   editorMode: false,
                 });
-                //notify server that app is ready to receive state
-                //TODO move this fonction in the template distant game
-                _this.webSocketService.emit(
-                  Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
-                );
               });
           }
         );
