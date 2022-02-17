@@ -9,6 +9,12 @@ let Shared = null;
 
 const RADIUS_MAP = 20;
 
+//Coordinates Image map path. src  https://commons.wikimedia.org/wiki/File:Lyon_et_ses_arrondissements_map.svg
+const topIP = 45.81186;
+const bottomIP = 45.70455;
+const leftIP = 4.76623;
+const rightIP = 4.90291;
+
 module.exports = class Image {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -134,12 +140,12 @@ module.exports = class Image {
     });
   }
 
-  createCanvasDrawed(img) {
-    //Coordinates Image map path. src  https://commons.wikimedia.org/wiki/File:Lyon_et_ses_arrondissements_map.svg
-    const topIP = 45.81186;
-    const bottomIP = 45.70455;
-    const leftIP = 4.76623;
-    const rightIP = 4.90291;
+  createCanvasDrawed(img, ratioX = null, ratioY = null) {
+    const lat = this.conf.GPS_Coord.Lat || 0;
+    const lng = this.conf.GPS_Coord.Lng || 0;
+
+    ratioX = ratioX || (lng - leftIP) / (rightIP - leftIP);
+    ratioY = ratioY || 1 - (lat - bottomIP) / (topIP - bottomIP);
 
     const canvas = document.createElement('canvas');
     canvas.width = img.naturalWidth;
@@ -147,12 +153,6 @@ module.exports = class Image {
 
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    const lat = this.conf.GPS_Coord.Lat || 0;
-    const lng = this.conf.GPS_Coord.Lng || 0;
-
-    const ratioX = (lng - leftIP) / (rightIP - leftIP);
-    const ratioY = 1 - (lat - bottomIP) / (topIP - bottomIP);
-
     ctx.beginPath();
     ctx.lineWidth = 5;
     ctx.strokeStyle = 'red';
@@ -166,6 +166,15 @@ module.exports = class Image {
     ctx.stroke();
 
     return canvas;
+  }
+
+  ratioToCoordinates(ratioX, ratioY) {
+    const Lng = leftIP + ratioX * (rightIP - leftIP);
+    const Lat = bottomIP + ratioY * (topIP - bottomIP);
+    return {
+      Lng: Lng,
+      Lat: Lat,
+    };
   }
 
   update() {

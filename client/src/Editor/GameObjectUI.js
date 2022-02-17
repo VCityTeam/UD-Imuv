@@ -188,6 +188,7 @@ export class GameObjectUI {
     imageInput.accept = 'image/*';
 
     const go = this.go;
+    const content = this.content;
 
     imageInput.onchange = function (e) {
       File.readSingleFileAsDataUrl(e, function (data) {
@@ -238,6 +239,76 @@ export class GameObjectUI {
       refreshMapButton.onclick = function () {
         go.setOutdated(true);
         gV.forceUpdate();
+      };
+
+      const choseOnMapButton = document.createElement('button');
+      choseOnMapButton.innerHTML = 'Chose on map';
+      divGPSCoord.appendChild(choseOnMapButton);
+      choseOnMapButton.onclick = function () {
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+
+        const modalContent = document.createElement('div');
+        modalContent.classList.add('modal_content');
+        modal.appendChild(modalContent);
+
+        const coordinatesText = document.createElement('p');
+
+        const img = document.createElement('img');
+        img.src = conf.map_path;
+        img.style.width = '40%';
+
+        const validateButton = document.createElement('button');
+        validateButton.innerHTML = 'Validate';
+        const cancelButton = document.createElement('button');
+        cancelButton.innerHTML = 'Cancel';
+        modalContent.appendChild(coordinatesText);
+        modalContent.appendChild(img);
+        modalContent.appendChild(validateButton);
+        modalContent.appendChild(cancelButton);
+
+        img.onload = function () {
+          const imgDrawed = document.createElement('img');
+          imgDrawed.src = conf.map_path;
+          img.onclick = function (event) {
+            const x = event.pageX;
+            const y = event.pageY;
+            const rect = this.getBoundingClientRect();
+            const ratioX = (x - rect.left) / (rect.right - rect.left);
+            const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
+            const coords = go
+              .fetchLocalScripts()
+              ['image'].ratioToCoordinates(ratioX, ratioY);
+            coordinatesText.innerHTML =
+              'Coordinates selected \nLat: ' +
+              coords.Lat +
+              ' Lng: ' +
+              coords.Lng;
+
+            const canvas = go
+              .fetchLocalScripts()
+              ['image'].createCanvasDrawed(imgDrawed, ratioX, 1 - ratioY);
+
+            this.src = canvas.toDataURL();
+
+            validateButton.onclick = function () {
+              if (coords.Lat) {
+                inputLat.value = coords.Lat;
+                inputLat.dispatchEvent(new Event('change'));
+              }
+              if (coords.Lng) {
+                inputLng.value = coords.Lng;
+                inputLng.dispatchEvent(new Event('change'));
+              }
+              modal.remove();
+            };
+          };
+        };
+
+        cancelButton.onclick = function () {
+          modal.remove();
+        };
+        content.appendChild(modal);
       };
     };
 
@@ -563,7 +634,7 @@ export class GameObjectUI {
     //select right value
     const currentPortalValue = wS['portal'].conf.portalUUID;
     const options = selectPortal.getElementsByTagName('option');
-    for (var i = 0; i < options.length; i++) {
+    for (let i = 0; i < options.length; i++) {
       if (options[i].value == currentPortalValue) {
         options[i].selected = true;
         selectPortal.dispatchEvent(new Event('change'));
