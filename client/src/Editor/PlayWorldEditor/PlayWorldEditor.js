@@ -10,6 +10,7 @@ export class PlayWorldEditorView {
   constructor(params) {
     this.htmlParent = params.parentGameViewHtml;
     this.assetsManager = params.assetsManager;
+    this.config = params.config;
     this.parentUIHtml = params.parentUIHtml;
     this.parentView = params.parentView;
 
@@ -47,7 +48,7 @@ export class PlayWorldEditorView {
     this.avatarGO = avatar;
 
     this.localGameApp
-      .start(world, './assets/config/config_editor.json', {
+      .startWithAssetsLoaded(world, this.assetsManager, this.config, {
         htmlParent: this.htmlParent,
         userData: { avatarUUID: avatar.getUUID(), editorMode: true },
       })

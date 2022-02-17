@@ -127,6 +127,7 @@ export class EditorView {
         parentUIHtml: _this.ui,
         parentView: _this,
         assetsManager: _this.assetsManager,
+        config: _this.config,
         worldJSON: wJson,
         parentGameViewHtml: _this.rootHtml,
       });
