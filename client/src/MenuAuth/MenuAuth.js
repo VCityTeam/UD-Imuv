@@ -2,7 +2,7 @@
 
 import './MenuAuth.css';
 
-import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
+import Constants from 'ud-viz/src/Game/Components/Constants';
 import { AssetsManager } from 'ud-viz/src/Views/AssetsManager/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { EditorView } from '../Editor/Editor';

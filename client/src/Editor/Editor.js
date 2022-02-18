@@ -2,10 +2,10 @@
 
 import './Editor.css';
 import { Views } from 'ud-viz';
-import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
+import Constants from 'ud-viz/src/Game/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
-import Pack from 'ud-viz/src/Game/Shared/Components/Pack';
+import Pack from 'ud-viz/src/Game/Components/Pack';
 
 export class EditorView {
   constructor(webSocketService, config) {

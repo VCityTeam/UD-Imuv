@@ -1,8 +1,8 @@
 const fs = require('fs');
 const worldsJSON = require('../assets/worlds/worlds.json');
-const Shared = require('../node_modules/ud-viz/src/Game/Shared/Shared');
+const Game = require('ud-viz/src/Game/Game');
 
-Shared.Components.JSONUtils.parse(worldsJSON, function (json, key) {
+Game.Components.JSONUtils.parse(worldsJSON, function (json, key) {
   if (key == 'name' && json[key].includes('Portal')) {
     json.components.LocalScript.idScripts = [
       'rotate',

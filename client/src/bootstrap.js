@@ -2,7 +2,7 @@
 
 import { ReceptionView } from './Reception/Reception';
 import { WebSocketService } from 'ud-viz/src/Components/WebSocketService';
-import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
+import Constants from 'ud-viz/src/Game/Components/Constants';
 
 const webSocketService = new WebSocketService();
 webSocketService.connectToServer();

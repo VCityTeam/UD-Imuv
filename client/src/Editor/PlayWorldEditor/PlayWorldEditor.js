@@ -1,6 +1,6 @@
 /** @format */
 
-import { World } from 'ud-viz/src/Game/Shared/Shared';
+import { World } from 'ud-viz/src/Game/Game';
 import { LocalGame } from 'ud-viz/src/Templates/Templates';
 import { THREE } from 'ud-viz';
 import './PlayWorldEditor.css';

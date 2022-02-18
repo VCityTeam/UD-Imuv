@@ -2,13 +2,13 @@
 
 import './WorldEditor.css';
 import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
-import Shared from 'ud-viz/src/Game/Shared/Shared';
+import Game from 'ud-viz/src/Game/Game';
 import * as udviz from 'ud-viz';
 import { THREE } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
 import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
 import { computeMapGO } from '../Components/EditorUtility';
-import { WorldStateInterpolator } from 'ud-viz/src/Templates/DistantGame/WorldStateInterpolator';
+const WorldStateInterpolator = Game.WorldStateInterpolator;
 import { EditorGameView } from '../EditorGameView';
 
 export class WorldEditorView {
@@ -372,16 +372,12 @@ export class WorldEditorView {
 
 class WorldEditorModel {
   constructor(assetsManager, json) {
-    const worldStateComputer = new Shared.WorldStateComputer(
-      assetsManager,
-      30,
-      {
-        udviz: udviz,
-        Shared: Shared,
-      }
-    );
+    const worldStateComputer = new Game.WorldStateComputer(assetsManager, 30, {
+      udviz: udviz,
+      Game: Game,
+    });
 
-    worldStateComputer.start(new Shared.World(json));
+    worldStateComputer.start(new Game.World(json));
     //smooth rendering with delay
     this.interpolator = new WorldStateInterpolator(
       { renderDelay: 50 },

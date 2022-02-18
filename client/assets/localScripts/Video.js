@@ -3,16 +3,16 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 module.exports = class Video {
   constructor(conf, udvizBundle) {
     this.conf = conf;
 
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
+    Game = udviz.Game;
 
     this.video = null;
     this.videoImageContext = null;
@@ -42,21 +42,21 @@ module.exports = class Video {
     videoImageContext.fillStyle = '#000000';
     videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
 
-    const videoTexture = new Shared.THREE.Texture(videoImage);
-    videoTexture.minFilter = Shared.THREE.LinearFilter;
-    videoTexture.magFilter = Shared.THREE.LinearFilter;
+    const videoTexture = new Game.THREE.Texture(videoImage);
+    videoTexture.minFilter = Game.THREE.LinearFilter;
+    videoTexture.magFilter = Game.THREE.LinearFilter;
 
-    const movieMaterial = new Shared.THREE.MeshBasicMaterial({
+    const movieMaterial = new Game.THREE.MeshBasicMaterial({
       map: videoTexture,
-      side: Shared.THREE.DoubleSide,
+      side: Game.THREE.DoubleSide,
     });
-    const movieGeometry = new Shared.THREE.PlaneGeometry(
+    const movieGeometry = new Game.THREE.PlaneGeometry(
       this.conf.width,
       this.conf.height
     );
-    const movieScreen = new Shared.THREE.Mesh(movieGeometry, movieMaterial);
+    const movieScreen = new Game.THREE.Mesh(movieGeometry, movieMaterial);
 
-    const r = go.getComponent(Shared.Render.TYPE);
+    const r = go.getComponent(Game.Render.TYPE);
     r.addObject3D(movieScreen);
 
     this.video = video;

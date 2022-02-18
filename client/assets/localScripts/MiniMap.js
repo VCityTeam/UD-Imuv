@@ -57,12 +57,12 @@ module.exports = class MiniMap {
 
     if (newGO.isStatic()) {
       const scene = new udviz.THREE.Scene();
-      const utils = udviz.Game.Shared.Components.THREEUtils;
+      const utils = udviz.Game.Components.THREEUtils;
       utils.addLights(scene);
 
       newGO.computeRoot().traverse(function (g) {
         if (g.isStatic()) {
-          const r = g.getComponent(udviz.Game.Shared.Render.TYPE);
+          const r = g.getComponent(udviz.Game.Render.TYPE);
           if (r) {
             const clone = r.getObject3D().clone();
 

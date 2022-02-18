@@ -3,9 +3,9 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 const RADIUS_MAP = 20;
 
@@ -13,7 +13,7 @@ module.exports = class Image {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
+    Game = udviz.Game;
 
     this.imagePlane = null;
 
@@ -26,14 +26,14 @@ module.exports = class Image {
       this.imagePlane.parent.remove(this.imagePlane);
     }
 
-    const texture = new Shared.THREE.TextureLoader().load(this.conf.path);
-    const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
-    const geometry = new Shared.THREE.PlaneGeometry(
+    const texture = new Game.THREE.TextureLoader().load(this.conf.path);
+    const material = new Game.THREE.MeshBasicMaterial({ map: texture });
+    const geometry = new Game.THREE.PlaneGeometry(
       this.conf.width,
       this.conf.height,
       32
     );
-    this.imagePlane = new Shared.THREE.Mesh(geometry, material);
+    this.imagePlane = new Game.THREE.Mesh(geometry, material);
   }
 
   init() {
@@ -42,7 +42,7 @@ module.exports = class Image {
     const _this = this;
 
     this.createImagePlane();
-    const r = go.getComponent(Shared.Render.TYPE);
+    const r = go.getComponent(Game.Render.TYPE);
     r.addObject3D(this.imagePlane);
 
     //init popup
@@ -128,7 +128,7 @@ module.exports = class Image {
 
     if (!playSound) return;
 
-    const audioComp = go.getComponent(Shared.Audio.TYPE);
+    const audioComp = go.getComponent(Game.Audio.TYPE);
     if (!audioComp) return;
 
     const sounds = audioComp.getSounds();
@@ -144,8 +144,8 @@ module.exports = class Image {
 
   update() {
     const go = arguments[0];
-    const texture = new Shared.THREE.TextureLoader().load(this.conf.path);
-    const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
+    const texture = new Game.THREE.TextureLoader().load(this.conf.path);
+    const material = new Game.THREE.MeshBasicMaterial({ map: texture });
     this.imagePlane.material = material;
   }
 };

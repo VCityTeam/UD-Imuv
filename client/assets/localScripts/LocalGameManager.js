@@ -3,9 +3,9 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 const itownsType = require('itowns');
 /** @type {itownsType} */
 let itowns = null;
@@ -15,7 +15,7 @@ module.exports = class LocalGameManager {
     this.conf = conf;
 
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
+    Game = udviz.Game;
     itowns = udviz.itowns;
 
     this.cameraman = null;
@@ -34,7 +34,7 @@ module.exports = class LocalGameManager {
   init() {
     const localCtx = arguments[1];
 
-    this.fogObject = new Shared.THREE.Fog(
+    this.fogObject = new Game.THREE.Fog(
       localCtx.getGameView().getSkyColor(),
       this.conf.fog.near,
       this.conf.fog.far
@@ -63,12 +63,12 @@ module.exports = class LocalGameManager {
     let currentTime = 0;
     cameraman.setFilmingTarget(false);
     const camera = cameraman.getCamera();
-    const startPos = new Shared.THREE.Vector3(
+    const startPos = new Game.THREE.Vector3(
       1843660.0895859331,
       5174613.11242678,
       485.8525534292738
     );
-    const startQuat = new Shared.THREE.Quaternion(
+    const startQuat = new Game.THREE.Quaternion(
       0.027576004167469807,
       0.6755682684405119,
       0.736168525226603,
@@ -81,7 +81,7 @@ module.exports = class LocalGameManager {
 
     //first travelling
     cameraman.addRoutine(
-      new Shared.Components.Routine(
+      new Game.Components.Routine(
         function (dt) {
           const t = cameraman.computeTransformTarget();
 
@@ -155,8 +155,8 @@ module.exports = class LocalGameManager {
     const div = gameView.getRenderer().domElement;
     const camera = gameView.getCamera();
     const manager = gameView.getInputManager();
-    const Routine = Shared.Components.Routine;
-    const Command = Shared.Command;
+    const Routine = Game.Components.Routine;
+    const Command = Game.Command;
 
     //INPUTS LOCAL
 
@@ -223,18 +223,18 @@ module.exports = class LocalGameManager {
           if (!_this.itownsCamPos && !_this.itownsCamQuat) {
             //first time camera in sky
 
-            const currentPosition = new Shared.THREE.Vector3().copy(
+            const currentPosition = new Game.THREE.Vector3().copy(
               _this.cameraman.getCamera().position
             );
 
             //200 meters up
-            const endPosition = new Shared.THREE.Vector3(0, 0, 200).add(
+            const endPosition = new Game.THREE.Vector3(0, 0, 200).add(
               currentPosition
             );
 
             //look down
-            const endQuaternion = new Shared.THREE.Quaternion().setFromEuler(
-              new Shared.THREE.Euler(0, 0, 0)
+            const endQuaternion = new Game.THREE.Quaternion().setFromEuler(
+              new Game.THREE.Euler(0, 0, 0)
             );
 
             _this.itownsCamPos = endPosition;
@@ -291,7 +291,7 @@ module.exports = class LocalGameManager {
       const avatar = gameView.getLastState().gameObject.findByName('avatar');
       if (avatar) console.log(avatar.object3D);
 
-      console.log(new Shared.GameObject({}).toJSON(true));
+      console.log(new Game.GameObject({}).toJSON(true));
     });
 
     //COMMANDS WORLD
@@ -348,13 +348,13 @@ module.exports = class LocalGameManager {
 
       //1. sets the mouse position with a coordinate system where the center
       //   of the screen is the origin
-      const mouse = new Shared.THREE.Vector2(
+      const mouse = new Game.THREE.Vector2(
         -1 + (2 * event.offsetX) / (div.clientWidth - div.offsetLeft),
         1 - (2 * event.offsetY) / (div.clientHeight - div.offsetTop)
       );
 
       //2. set the picking ray from the camera position and mouse coordinates
-      const raycaster = new Shared.THREE.Raycaster();
+      const raycaster = new Game.THREE.Raycaster();
       raycaster.setFromCamera(mouse, camera);
 
       //3. compute intersections
@@ -381,7 +381,7 @@ module.exports = class LocalGameManager {
 
         return new Command({
           type: Command.TYPE.MOVE_TO,
-          data: { target: new Shared.THREE.Vector2(p.x, p.y) },
+          data: { target: new Game.THREE.Vector2(p.x, p.y) },
         });
       } else {
         return null;
@@ -408,7 +408,7 @@ module.exports = class LocalGameManager {
           return new Command({
             type: Command.TYPE.ROTATE,
             data: {
-              vector: new Shared.THREE.Vector3(pixelY, 0, pixelX),
+              vector: new Game.THREE.Vector3(pixelY, 0, pixelX),
             },
           });
         }
@@ -425,11 +425,11 @@ const THIRD_PERSON_FOV = 60;
 class Cameraman {
   constructor(camera) {
     //quaternion
-    this.quaternionCam = new Shared.THREE.Quaternion().setFromEuler(
-      new Shared.THREE.Euler(Math.PI * 0.5, 0, 0)
+    this.quaternionCam = new Game.THREE.Quaternion().setFromEuler(
+      new Game.THREE.Euler(Math.PI * 0.5, 0, 0)
     );
-    this.quaternionAngle = new Shared.THREE.Quaternion().setFromEuler(
-      new Shared.THREE.Euler(-CAMERA_ANGLE, 0, 0)
+    this.quaternionAngle = new Game.THREE.Quaternion().setFromEuler(
+      new Game.THREE.Euler(-CAMERA_ANGLE, 0, 0)
     );
 
     //three js camera
@@ -444,7 +444,7 @@ class Cameraman {
     this.enabled = true;
 
     //raycaster
-    this.raycaster = new Shared.THREE.Raycaster();
+    this.raycaster = new Game.THREE.Raycaster();
     this.raycaster.camera = camera;
 
     //mode
@@ -475,7 +475,7 @@ class Cameraman {
       //follow tps
       this.camera.fov = THIRD_PERSON_FOV;
       const obj = this.target.computeObject3D();
-      this.bbTarget = new Shared.THREE.Box3().setFromObject(obj); //compute here one time
+      this.bbTarget = new Game.THREE.Box3().setFromObject(obj); //compute here one time
       this.camera.updateProjectionMatrix();
     }
   }
@@ -498,9 +498,9 @@ class Cameraman {
 
     //world transform
     const obj = this.target.computeObject3D();
-    let position = new Shared.THREE.Vector3();
-    let quaternion = new Shared.THREE.Quaternion();
-    obj.matrixWorld.decompose(position, quaternion, new Shared.THREE.Vector3());
+    let position = new Game.THREE.Vector3();
+    let quaternion = new Game.THREE.Quaternion();
+    obj.matrixWorld.decompose(position, quaternion, new Game.THREE.Vector3());
 
     const zDiff = this.bbTarget.max.z - this.bbTarget.min.z;
     position.z += zDiff;
