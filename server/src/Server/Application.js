@@ -18,12 +18,12 @@ const socketio = require('socket.io');
 //user in game
 const User = require('./User');
 
-//Shared => TODO @ud-viz/core
-const Shared = require('ud-viz/src/Game/Shared/Shared');
+//Game require
+const Game = require('ud-viz/src/Game/Game');
 const AssetsManagerServer = require('./AssetsManagerServer');
-const Pack = require('ud-viz/src/Game/Shared/Components/Pack');
-const JSONUtils = require('ud-viz/src/Game/Shared/Components/JSONUtils');
-const { WorldStateComputer } = require('ud-viz/src/Game/Shared/Shared');
+const Pack = require('ud-viz/src/Game/Components/Pack');
+const JSONUtils = require('ud-viz/src/Game/Components/JSONUtils');
+const { WorldStateComputer } = require('ud-viz/src/Game/Game');
 
 const USERS_JSON_PATH = './assets/data/users.json';
 
@@ -117,7 +117,7 @@ const ApplicationModule = class Application {
   fetchUserDefaultExtraData(nameUser = 'default_name') {
     let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
-    avatarJSON = new Shared.GameObject(avatarJSON).toJSON(true); //fill missing fields
+    avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
 
     return {
       nameUser: nameUser,
@@ -193,7 +193,7 @@ const ApplicationModule = class Application {
   onSocketConnexion(socket) {
     const _this = this;
 
-    const MSG_TYPES = Shared.Components.Constants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = Game.Components.Constants.WEBSOCKET.MSG_TYPES;
 
     //SIGN UP
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
@@ -273,7 +273,7 @@ const ApplicationModule = class Application {
   saveWorlds(data, socket) {
     console.log('Save Worlds');
 
-    const MSG_TYPES = Shared.Components.Constants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = Game.Components.Constants.WEBSOCKET.MSG_TYPES;
 
     const _this = this;
     const writeImagesOnDiskPromise = [];
@@ -286,7 +286,7 @@ const ApplicationModule = class Application {
 
             const commonPath =
               'assets/img/uploaded/' +
-              Shared.THREE.MathUtils.generateUUID() +
+              Game.THREE.MathUtils.generateUUID() +
               '.jpeg';
             const serverPath = '../client/' + commonPath;
 
@@ -307,7 +307,7 @@ const ApplicationModule = class Application {
     const worlds = [];
     data.forEach(function (json) {
       worlds.push(
-        new Shared.World(json, {
+        new Game.World(json, {
           isServerSide: true,
           modules: { gm: gm, PNG: PNG },
         })
@@ -324,7 +324,7 @@ const ApplicationModule = class Application {
           w,
           _this.assetsManager,
           {
-            Shared: Shared,
+            Game: Game,
           }
         );
         loadPromises.push(loadPromise);
@@ -399,14 +399,14 @@ const ApplicationModule = class Application {
     const nameUser = 'Guest';
     let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
-    Shared.Render.bindColor(avatarJSON, [
+    Game.Render.bindColor(avatarJSON, [
       Math.random(),
       Math.random(),
       Math.random(),
     ]);
-    avatarJSON = new Shared.GameObject(avatarJSON).toJSON(true); //fill missing fields
+    avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
 
-    const uuid = Shared.THREE.MathUtils.generateUUID();
+    const uuid = Game.THREE.MathUtils.generateUUID();
 
     const extraData = {
       uuid: uuid,

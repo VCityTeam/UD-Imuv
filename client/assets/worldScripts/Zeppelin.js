@@ -1,14 +1,14 @@
 /** @format */
 
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 module.exports = class Zeppelin {
-  constructor(conf, SharedModule) {
+  constructor(conf, GameModule) {
     this.conf = conf;
 
-    Shared = SharedModule;
+    Game = GameModule;
 
     this.currentTime = 0;
     this.radius = 82;
@@ -18,7 +18,7 @@ module.exports = class Zeppelin {
     const go = arguments[0];
     const worldContext = arguments[1];
 
-    this.centerCircle = new Shared.THREE.Vector3(0, 0, 30);
+    this.centerCircle = new Game.THREE.Vector3(0, 0, 30);
   }
 
   computePosition(t, result) {

@@ -1,6 +1,6 @@
 /** @format */
 
-//scripts are commonJs module witout dependency all game context is pass as udvGameShared
+//scripts are commonJs module witout dependency all game context is pass as udvGameGame
 //this is due to the fact that the code is import as a string then eval() in code by the AsssetsManager
 
 const AVATAR_SPEED_MOVE = 0.01;
@@ -10,15 +10,15 @@ const AVATAR_SPEED_ROTATION_X = 0.00004;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 module.exports = class Avatar {
-  constructor(conf, SharedModule) {
+  constructor(conf, GameModule) {
     this.conf = conf;
 
-    Shared = SharedModule;
+    Game = GameModule;
     this.setPause(false);
 
     this.commands = {};
@@ -38,13 +38,13 @@ module.exports = class Avatar {
     go.setFromTransformJSON(script.getSpawnTransform());
 
     //init commands
-    for (let type in Shared.Command.TYPE) {
-      this.commands[Shared.Command.TYPE[type]] = [];
+    for (let type in Game.Command.TYPE) {
+      this.commands[Game.Command.TYPE[type]] = [];
     }
   }
 
   fetchCommands(commands, gameObject) {
-    const Command = Shared.Command;
+    const Command = Game.Command;
 
     //get commands sign by its user
     let addMoveTo = false;
@@ -79,8 +79,8 @@ module.exports = class Avatar {
   }
 
   applyCommands(gameObject, dt) {
-    const Command = Shared.Command;
-    const THREE = Shared.THREE;
+    const Command = Game.Command;
+    const THREE = Game.THREE;
 
     const gmGo = gameObject.computeRoot();
     const scriptGM = gmGo.fetchWorldScripts()['worldGameManager'];

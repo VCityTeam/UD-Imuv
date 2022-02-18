@@ -7,11 +7,11 @@
 const workerThreads = require('worker_threads');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
-const Shared = require('ud-viz/src/Game/Shared/Shared');
-const Pack = Shared.Components.Pack;
-const Command = Shared.Command;
-const GameObject = Shared.GameObject;
-const World = Shared.World;
+const Game = require('ud-viz/src/Game/Game');
+const Pack = Game.Components.Pack;
+const Command = Game.Command;
+const GameObject = Game.GameObject;
+const World = Game.World;
 const process = require('process');
 
 const AssetsManagerServer = require('./AssetsManagerServer');
@@ -109,10 +109,10 @@ WorldThreadModule.routine = function (serverConfig) {
 
   //load scripts
   assetsManager.loadFromConfig(serverConfig.assetsManager).then(function () {
-    const worldStateComputer = new Shared.WorldStateComputer(
+    const worldStateComputer = new Game.WorldStateComputer(
       assetsManager,
       serverConfig.worldDispatcher.worldThread.fps,
-      { Shared: Shared }
+      { Game: Game }
     );
 
     //listening parentPort
