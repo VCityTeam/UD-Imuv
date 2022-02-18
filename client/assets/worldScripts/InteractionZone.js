@@ -20,7 +20,7 @@ module.exports = class InteractionZone {
         'Prefab needs *local_interactions* local Script'
       );
     }
-    console.log('Init Interaction Zone', this.go.name);
+    // console.log('Init Interaction Zone', this.go.name);
     this.localScript.conf.avatarsOnEnter = [];
     this.localScript.conf.avatarsColliding = [];
     this.localScript.conf.avatarsOnLeave = [];

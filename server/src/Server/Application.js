@@ -1,3 +1,5 @@
+/** @format */
+
 const WorldDispatcher = require('./WorldDispatcher');
 const ServiceWrapper = require('./ServiceWrapper');
 
@@ -25,8 +27,10 @@ const { WorldStateComputer } = require('ud-viz/src/Game/Shared/Shared');
 
 const USERS_JSON_PATH = './assets/data/users.json';
 
-//TODO need to handle save worlds + bbb
-
+/**
+ * Main application of the UD-Imuv server
+ * @param {JSON} config json file to configure the application see (./assets/config/config.json)
+ */
 const ApplicationModule = class Application {
   constructor(config) {
     this.config = config;
@@ -50,6 +54,9 @@ const ApplicationModule = class Application {
     this.io = null;
   }
 
+  /**
+   * Start the application
+   */
   start() {
     const _this = this;
 
@@ -63,6 +70,10 @@ const ApplicationModule = class Application {
       });
   }
 
+  /**
+   * Start a http server using the node module express
+   * @returns {HttpServer} the http server
+   */
   initExpress() {
     console.log(this.constructor.name, 'init express');
 
@@ -84,16 +95,25 @@ const ApplicationModule = class Application {
     return httpServer;
   }
 
+  /**
+   * Initialize a websocket communication on a http server
+   * @param {HttpServer} httpServer the http server to use
+   */
   initWebSocket(httpServer) {
     //websocket
     this.io = socketio(httpServer, {
-      pingInterval: 25000, //TODO debug values pass this with config
-      pingTimeout: 20000,
+      pingInterval: this.config.websocket.pingInterval,
+      pingTimeout: this.config.websocket.pingTimeout,
     });
 
     this.io.on('connection', this.onSocketConnexion.bind(this));
   }
 
+  /**
+   * Create default data to instanciate a new User
+   * @param {String} nameUser
+   * @returns {Object} to pass to the User constructor
+   */
   fetchUserDefaultExtraData(nameUser = 'default_name') {
     let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
@@ -106,6 +126,11 @@ const ApplicationModule = class Application {
     };
   }
 
+  /**
+   * Retrieve an user in USERS_JSON_PATH file according its uuid
+   * @param {String} uuid
+   * @returns {Object} to pass to the User constructor
+   */
   fetchUserExtraData(uuid) {
     return new Promise((resolve, reject) => {
       fs.readFile(USERS_JSON_PATH, 'utf8', (err, data) => {
