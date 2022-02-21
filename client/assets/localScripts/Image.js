@@ -26,7 +26,11 @@ module.exports = class Image {
     this.mapImg = null;
 
     this.popupUI = null;
-    this.popupMapGPS = null;
+    this.imgMapGPS = null;
+
+    if (!this.conf.GPS_Coord) {
+      this.conf.GPS_Coord = {};
+    }
   }
 
   createImagePlane() {
@@ -56,30 +60,63 @@ module.exports = class Image {
     this.initRaycaster();
   }
 
-  //CreateOrUpdatePopUp
-  createPopupGPS() {
-    if (this.popupMapGPS) {
-      this.popupMapGPS.remove();
+  //CreateOrUpdate
+  createImgElementMapGPS() {
+    if (this.imgMapGPS) {
+      this.imgMapGPS.remove();
     }
     if (!this.conf.GPS_Coord.checked) return;
     const mapImg = document.createElement('img');
     const _this = this;
     mapImg.addEventListener('load', function () {
-      const canvas = _this.createCanvasDrawed(mapImg);
-      _this.popupMapGPS = document.createElement('img');
-      _this.popupMapGPS.src = canvas.toDataURL();
-      _this.popupMapGPS.classList.add('popup_ui');
+      const figure2 = document.createElement('figure');
+      figure2.classList.add('grid_item--2');
 
-      _this.gV.appendToUI(_this.popupMapGPS);
+      const canvas = _this.createCanvasDrawed(mapImg);
+      _this.imgMapGPS = document.createElement('img');
+      _this.imgMapGPS.src = canvas.toDataURL();
+      _this.imgMapGPS.classList.add('popup_gps');
+      figure2.appendChild(_this.imgMapGPS);
+      _this.popupUI.appendChild(figure2);
     });
     mapImg.src = this.conf.map_path;
   }
 
-  displayPopupMapGPS(value, playSound = true) {
+  createPopup() {
+    if (this.popupUI) {
+      this.popupUI.remove();
+    }
+    this.popupUI = document.createElement('div');
+    this.popupUI.classList.add('popup_wrapper');
+    this.createImgElementMapGPS();
+
+    const figure = document.createElement('figure');
+    figure.classList.add('grid_item--1');
+
+    const fullscreenImg = document.createElement('img');
+    fullscreenImg.classList.add('popup_fullscreen');
+    fullscreenImg.src = this.conf.path;
+    figure.appendChild(fullscreenImg);
+
+    const figure3 = document.createElement('figure');
+    figure3.classList.add('grid_item--3');
+
+    const descriptionText = document.createElement('div');
+    descriptionText.classList.add('popup_descr');
+    descriptionText.innerHTML =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sollicitudin posuere massa ut bibendum. Etiam nunc massa, eleifend in elit eget, hendrerit auctor quam. Vestibulum luctus nulla a orci viverra placerat. Duis tincidunt rhoncus ante. Donec bibendum neque eget mollis pretium. In efficitur et sem non bibendum. Quisque ac euismod nibh. Aliquam mattis, urna sed pharetra lobortis, tellus elit efficitur mauris, sit amet interdum ex lorem tempus massa. Sed porta, mi at efficitur dictum, nulla felis interdum ante, quis rhoncus ex quam eget lectus. Sed interdum neque at iaculis molestie. Sed sodales, diam ac scelerisque ultrices, quam turpis tristique dui, sit amet placerat ante felis nec nisl. Curabitur lacinia in tortor sit amet imperdiet. Curabitur laoreet quam ac erat pulvinar, sed pulvinar lacus maximus. Pellentesque et tortor et felis dapibus tempus. Curabitur feugiat leo ut velit pharetra, nec posuere libero bibendum. In dapibus velit vitae dapibus mollis. ';
+    figure3.appendChild(descriptionText);
+
+    this.popupUI.appendChild(figure);
+    this.popupUI.appendChild(figure3);
+    this.gV.appendToUI(this.popupUI);
+  }
+
+  displayPopup(value, playSound = true) {
     if (value) {
-      this.createPopupGPS();
+      this.createPopup();
     } else {
-      if (this.popupMapGPS) this.popupMapGPS.remove();
+      if (this.popupUI) this.popupUI.remove();
     }
     if (!playSound) return;
 
@@ -119,24 +156,23 @@ module.exports = class Image {
       raycaster.setFromCamera(mouse, gV.getCamera());
 
       const i = raycaster.intersectObject(_this.imagePlane);
-
       if (i.length) {
         //image clicked
-        _this.displayPopupMapGPS(true);
+        _this.displayPopup(true);
         go.computeRoot().traverse(function (g) {
           if (g == go) return false;
           const ls = g.fetchLocalScripts();
           if (ls && ls['image']) {
-            ls['image'].displayPopupMapGPS(false);
+            ls['image'].displayPopup(false);
           }
         });
       } else {
-        _this.displayPopupMapGPS(false);
+        _this.displayPopup(false);
       }
     });
 
     manager.addKeyInput('Escape', 'keyup', function () {
-      _this.displayPopupMapGPS(false);
+      _this.displayPopup(false);
     });
   }
 
@@ -185,6 +221,6 @@ module.exports = class Image {
 
     this.imagePlane.material = material;
 
-    this.displayPopupMapGPS(this.popupMapGPS != null);
+    this.displayPopup(this.imgMapGPS != null);
   }
 };

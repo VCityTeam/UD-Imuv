@@ -2122,8 +2122,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.0126973086347, 12.686326291702127, 30],
-                "rotation": [0, 0, 4.8677242048423786, "ZXY"],
+                "position": [81.20070638956247, 11.421264458722089, 30],
+                "rotation": [0, 0, 4.852127020419374, "ZXY"],
                 "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
@@ -2773,7 +2773,7 @@
             "LocalScript": {
               "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 29 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -3532,7 +3532,11 @@
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.836218552631579,
+                      "Lat": 45.76018534602076,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -4147,10 +4151,7 @@
                     "width": 5,
                     "height": 5,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.1398090797828062,
-                      "ratioY": 0.8086875921637702
-                    }
+                    "GPS_Coord": {}
                   },
                   "type": "LocalScript"
                 }
@@ -4182,7 +4183,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 17 },
+              "conf": { "world_computer_dt": 18 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4695,7 +4696,7 @@
             "LocalScript": {
               "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 17 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5340,7 +5341,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 30 },
+              "conf": { "world_computer_dt": 32 },
               "type": "LocalScript"
             },
             "WorldScript": {
