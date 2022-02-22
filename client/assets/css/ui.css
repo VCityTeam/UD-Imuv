@@ -53,6 +53,12 @@
   overflow: hidden;
 }
 
+.popup_close_button {
+  float: right;
+  height: 50%;
+  width: 50%;
+}
+
 .grid_item--1 {
   grid-column-start: 1;
   grid-column-end: 7;
@@ -72,6 +78,13 @@
   grid-column-end: 9;
   grid-row-start: 1;
   grid-row-end: 5;
+}
+
+.grid_item--4 {
+  grid-column-start: 6;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 2;
 }
 
 .popup-signage {

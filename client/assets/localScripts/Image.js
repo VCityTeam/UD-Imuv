@@ -85,6 +85,7 @@ module.exports = class Image {
   createPopup() {
     if (this.popupUI) {
       this.popupUI.remove();
+      this.popupUI = null;
     }
     this.popupUI = document.createElement('div');
     this.popupUI.classList.add('popup_wrapper');
@@ -101,14 +102,24 @@ module.exports = class Image {
     const figure3 = document.createElement('figure');
     figure3.classList.add('grid_item--3');
 
-    const descriptionText = document.createElement('div');
+    const descriptionText = document.createElement('figure');
     descriptionText.classList.add('popup_descr');
     descriptionText.innerHTML =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sollicitudin posuere massa ut bibendum. Etiam nunc massa, eleifend in elit eget, hendrerit auctor quam. Vestibulum luctus nulla a orci viverra placerat. Duis tincidunt rhoncus ante. Donec bibendum neque eget mollis pretium. In efficitur et sem non bibendum. Quisque ac euismod nibh. Aliquam mattis, urna sed pharetra lobortis, tellus elit efficitur mauris, sit amet interdum ex lorem tempus massa. Sed porta, mi at efficitur dictum, nulla felis interdum ante, quis rhoncus ex quam eget lectus. Sed interdum neque at iaculis molestie. Sed sodales, diam ac scelerisque ultrices, quam turpis tristique dui, sit amet placerat ante felis nec nisl. Curabitur lacinia in tortor sit amet imperdiet. Curabitur laoreet quam ac erat pulvinar, sed pulvinar lacus maximus. Pellentesque et tortor et felis dapibus tempus. Curabitur feugiat leo ut velit pharetra, nec posuere libero bibendum. In dapibus velit vitae dapibus mollis. ';
     figure3.appendChild(descriptionText);
 
+    const figure4 = document.createElement('figure4');
+    figure4.classList.add('grid_item--4');
+
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('popup_close_button');
+    closeButton.innerHTML = 'Close';
+    figure4.appendChild(closeButton);
+    closeButton.onclick = this.displayPopup.bind(this, false);
+
     this.popupUI.appendChild(figure);
     this.popupUI.appendChild(figure3);
+    this.popupUI.appendChild(figure4);
     this.gV.appendToUI(this.popupUI);
   }
 
@@ -140,7 +151,8 @@ module.exports = class Image {
     const _this = this;
     const manager = gV.getInputManager();
     const raycaster = new udviz.THREE.Raycaster();
-    manager.addMouseInput(gV.getRootWebGL(), 'mousedown', function (event) {
+    manager.addMouseInput(gV.getRootWebGL(), 'dblclick', function (event) {
+      if (gV.constructor.name != 'GameView') return;
       if (event.button != 0) return;
       const mouse = new udviz.THREE.Vector2(
         -1 +
