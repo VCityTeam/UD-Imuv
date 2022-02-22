@@ -12,8 +12,8 @@
       "idScripts": ["image"],
       "conf": {
         "path": "./assets/img/labex_imu.jpeg",
-        "width": 5,
-        "height": 5,
+        "factorWidth": 3,
+        "factorHeight": 3,
         "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
         "GPS_Coord": { "Lng": null, "Lat": null, "Checked": false }
       },

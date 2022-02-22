@@ -233,14 +233,6 @@ export class GameObjectUI {
         conf.GPS_Coord.Lng = value;
       };
 
-      const refreshMapButton = document.createElement('button');
-      refreshMapButton.innerHTML = 'Refresh Map';
-      divGPSCoord.appendChild(refreshMapButton);
-      refreshMapButton.onclick = function () {
-        go.setOutdated(true);
-        gV.forceUpdate();
-      };
-
       const choseOnMapButton = document.createElement('button');
       choseOnMapButton.innerHTML = 'Chose on map';
       divGPSCoord.appendChild(choseOnMapButton);
@@ -312,9 +304,10 @@ export class GameObjectUI {
       };
     };
 
-    const divCheckboxLabel = document.createElement('div');
+    const divCheckboxLabelGPSCoord = document.createElement('div');
 
     const checkboxGPSCoord = document.createElement('input');
+    checkboxGPSCoord.id = 'checkbox_gpscoord';
     checkboxGPSCoord.type = 'checkbox';
     checkboxGPSCoord.onchange = function (event) {
       const value = event.target.checked;
@@ -329,17 +322,57 @@ export class GameObjectUI {
     };
     checkboxGPSCoord.checked = conf.GPS_Coord.checked || false;
     checkboxGPSCoord.dispatchEvent(new Event('change'));
-
-    divCheckboxLabel.appendChild(checkboxGPSCoord);
+    divCheckboxLabelGPSCoord.appendChild(checkboxGPSCoord);
 
     const labelGPSCoord = document.createElement('label');
     labelGPSCoord.innerHTML = 'GPSCoord';
     labelGPSCoord.htmlFor = checkboxGPSCoord.id;
-    divCheckboxLabel.appendChild(labelGPSCoord);
+    divCheckboxLabelGPSCoord.appendChild(labelGPSCoord);
+
+    const inputFactorHeight = document.createElement('input');
+    inputFactorHeight.type = 'number';
+    inputFactorHeight.step = 0.1;
+    inputFactorHeight.value = conf.factorHeight || 1;
+    divGPSCoord.appendChild(inputFactorHeight);
+    inputFactorHeight.onchange = function (event) {
+      conf.factorHeight = event.target.value;
+    };
+
+    const labelFactorHeight = document.createElement('label');
+    labelFactorHeight.innerHTML = 'Factor Height';
+    divGPSCoord.appendChild(labelFactorHeight);
+
+    const inputFactorWidth = document.createElement('input');
+    inputFactorWidth.type = 'number';
+    inputFactorWidth.step = 0.1;
+    inputFactorWidth.value = conf.factorWidth || 1;
+    divGPSCoord.appendChild(inputFactorWidth);
+    inputFactorWidth.onchange = function (event) {
+      conf.factorWidth = event.target.value;
+    };
+
+    const labelFactorWidth = document.createElement('label');
+    labelFactorWidth.innerHTML = 'Factor Width';
+    divGPSCoord.appendChild(labelFactorWidth);
+
+    const refresh = document.createElement('button');
+    refresh.innerHTML = 'Refresh';
+    divGPSCoord.appendChild(refresh);
+    refresh.onclick = function () {
+      go.setOutdated(true);
+      gV.forceUpdate();
+    };
 
     this.content.appendChild(imageInput);
-    this.content.appendChild(divCheckboxLabel);
+    this.content.appendChild(divCheckboxLabelGPSCoord);
     this.content.appendChild(divGPSCoord);
+
+    this.content.appendChild(inputFactorHeight);
+    this.content.appendChild(labelFactorHeight);
+    this.content.appendChild(inputFactorWidth);
+    this.content.appendChild(labelFactorWidth);
+
+    this.content.appendChild(refresh);
   }
 
   appendLSSignageDisplayerUI(gV) {

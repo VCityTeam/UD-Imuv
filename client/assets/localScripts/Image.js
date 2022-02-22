@@ -39,14 +39,24 @@ module.exports = class Image {
       this.imagePlane.parent.remove(this.imagePlane);
     }
 
-    const texture = new Shared.THREE.TextureLoader().load(this.conf.path);
-    const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
-    const geometry = new Shared.THREE.PlaneGeometry(
-      this.conf.width,
-      this.conf.height,
-      32
+    const onLoad = function (texture) {
+      const image = texture.image;
+      const ratio = image.width / image.height;
+      const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
+      const geometry = new Shared.THREE.PlaneGeometry(
+        this.conf.factorWidth * ratio,
+        this.conf.factorHeight / ratio,
+        32
+      );
+      this.imagePlane = new Shared.THREE.Mesh(geometry, material);
+      const r = this.go.getComponent(Shared.Render.TYPE);
+      r.addObject3D(this.imagePlane);
+    };
+
+    const texture = new Shared.THREE.TextureLoader().load(
+      this.conf.path,
+      onLoad.bind(this)
     );
-    this.imagePlane = new Shared.THREE.Mesh(geometry, material);
   }
 
   init() {
@@ -54,8 +64,6 @@ module.exports = class Image {
     this.go = arguments[0];
     this.gV = arguments[1].getGameView();
     this.createImagePlane();
-    const r = this.go.getComponent(Shared.Render.TYPE);
-    r.addObject3D(this.imagePlane);
 
     this.initRaycaster();
   }
@@ -228,10 +236,7 @@ module.exports = class Image {
   update() {
     const go = arguments[0];
     console.log('update image', go);
-    const texture = new Shared.THREE.TextureLoader().load(this.conf.path);
-    const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
-
-    this.imagePlane.material = material;
+    this.createImagePlane();
 
     this.displayPopup(this.imgMapGPS != null);
   }

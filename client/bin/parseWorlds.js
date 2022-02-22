@@ -3,15 +3,21 @@ const worldsJSON = require('../assets/worlds/worlds.json');
 const Shared = require('../node_modules/ud-viz/src/Game/Shared/Shared');
 
 Shared.Components.JSONUtils.parse(worldsJSON, function (json, key) {
-  if (key == 'name' && json[key].includes('Image')) {
+  if (
+    key == 'name' &&
+    json.components &&
+    json.components.LocalScript &&
+    json.components.LocalScript.idScripts.includes('image')
+  ) {
     json.components.LocalScript.conf = {
-      path: './assets/img/labex_imu.jpeg',
-      width: 5,
-      height: 5,
+      path: json.components.LocalScript.conf.path,
+      factorWidth: 3,
+      factorHeight: 3,
       map_path:
         './assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg',
-      GPS_Coord: { Lng: null, Lat: null },
+      GPS_Coord: { Lng: null, Lat: null, checked: false },
     };
+    json.transform.scale = [1, 1, 1];
     // console.log(
     //   json.components.LocalScript,
     //   json.components.WorldScript,

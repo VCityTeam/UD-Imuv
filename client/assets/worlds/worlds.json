@@ -3363,8 +3363,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/967EB3FF-9170-40CD-8DE4-D314E8A8D8AD.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3383,7 +3383,7 @@
                   2.487976643256843, -6.803802199661732, 2.674915539370695
                 ],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3406,8 +3406,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/65A4FE8B-8780-4D65-9E72-C9E1A3CA05D6.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3424,7 +3424,7 @@
               "transform": {
                 "position": [9.865009346278384, -15.137116045691073, 2.7],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3447,8 +3447,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/CD1BCDD0-74BD-49BC-8401-03EE63149F63.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3465,7 +3465,7 @@
               "transform": {
                 "position": [16.37363406876102, -15.197473629377782, 2.7],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3488,8 +3488,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/F84DE871-F9DC-4A0B-B95C-FBB7F5D898C7.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3506,7 +3506,7 @@
               "transform": {
                 "position": [20.324149628635496, -11.954995192587376, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3529,14 +3529,10 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/4FDB62D8-87ED-44DB-96AF-9AA8F70D248F.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": {
-                      "Lng": 4.836218552631579,
-                      "Lat": 45.76018534602076,
-                      "checked": true
-                    }
+                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
                   "type": "LocalScript"
                 },
@@ -3551,7 +3547,7 @@
               "transform": {
                 "position": [-3.897221867227927, -6.815741938538849, 2.7],
                 "rotation": [1.5707000000020088, 0, 3.1077148802050143, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3574,8 +3570,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/A2CAD276-8A80-40BC-B874-8DF61FED1FDA.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3592,7 +3588,7 @@
               "transform": {
                 "position": [20.324149628635496, -6.991599121131003, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3615,8 +3611,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/AA1C2979-6CEF-4E15-BAF0-64311B92BD29.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3633,7 +3629,7 @@
               "transform": {
                 "position": [6.490888266125694, -6.755357597023249, 2.7],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3656,8 +3652,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/E70722EB-FAE0-40BF-B7A2-F42FDDFCADFF.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3674,7 +3670,7 @@
               "transform": {
                 "position": [6.490888266125694, -11.746453309431672, 2.7],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3697,8 +3693,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/4B5E52F6-73A7-4FB3-BCF0-B83BF288C3F1.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3715,7 +3711,7 @@
               "transform": {
                 "position": [-23.250901921419427, -9.180381101556122, 10],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3738,8 +3734,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/CF9F802D-EFF6-49A4-9122-96C0B6ADBFBF.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3756,7 +3752,7 @@
               "transform": {
                 "position": [-23.250901921419427, 8.227311057969928, 10],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3779,8 +3775,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/10667677-C489-442A-B427-3CE7D8D7EB21.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3797,7 +3793,7 @@
               "transform": {
                 "position": [25.275346181821078, 5.010049852542579, 10],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3820,8 +3816,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/48234C62-8228-4502-B2F8-73790FF9B2F3.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3838,7 +3834,7 @@
               "transform": {
                 "position": [25.275346181821078, -11.253361359238625, 10],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3861,8 +3857,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/6953213E-48CA-4DE9-957D-0B5CC43D4C57.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3879,7 +3875,7 @@
               "transform": {
                 "position": [18.55301780300215, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3902,8 +3898,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/6304963A-E40F-479F-AAEB-BF107EB1D630.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3920,7 +3916,7 @@
               "transform": {
                 "position": [7.057493497850373, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3943,8 +3939,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/2CF7C5B6-5709-482D-ACFE-A38D4682E383.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -3961,7 +3957,7 @@
               "transform": {
                 "position": [-4.370733732590452, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -3984,8 +3980,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/70F9E9B6-31DE-492C-91A2-19B212217117.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -4002,7 +3998,7 @@
               "transform": {
                 "position": [-15.973096884321421, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -4025,8 +4021,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/4D13BA03-3C24-480A-B41D-94B31AA0D4B4.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -4043,7 +4039,7 @@
               "transform": {
                 "position": [-18.201377030927688, 12.933364816009998, 10],
                 "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -4066,8 +4062,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/61B90FB6-24E3-4E90-B4A5-D89CB9107B51.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -4084,7 +4080,7 @@
               "transform": {
                 "position": [8.096792634343728, 12.586669554933906, 10],
                 "rotation": [1.5707000000020088, 0, 0, "ZXY"],
-                "scale": [0.667, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -4107,8 +4103,8 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/7B8F6470-A846-4275-8C9F-48A3B1102F8E.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                     "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
@@ -4125,7 +4121,7 @@
               "transform": {
                 "position": [18.887739738449454, 12.586669554933906, 10],
                 "rotation": [1.5707000000020088, 0, 0, "ZXY"],
-                "scale": [0.667, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             },
@@ -4148,10 +4144,10 @@
                   "idScripts": ["image"],
                   "conf": {
                     "path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": {}
+                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
                   },
                   "type": "LocalScript"
                 }
@@ -4160,7 +4156,7 @@
               "transform": {
                 "position": [20.324149628635496, -0.35783779062330723, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
             }
