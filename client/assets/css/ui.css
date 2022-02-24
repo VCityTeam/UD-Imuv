@@ -54,15 +54,14 @@
 }
 
 .popup_close_button {
-  float: right;
-  height: 50%;
-  width: 50%;
+  height: 100%;
+  width: 100%;
 }
 
 .grid_item--image {
   grid-column-start: 2;
   grid-column-end: 7;
-  grid-row-start: 2;
+  grid-row-start: 3;
   grid-row-end: 10;
 }
 

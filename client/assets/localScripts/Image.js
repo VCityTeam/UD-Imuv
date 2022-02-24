@@ -44,8 +44,8 @@ module.exports = class Image {
       const ratio = image.width / image.height;
       const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
       const geometry = new Shared.THREE.PlaneGeometry(
-        this.conf.factorWidth * ratio,
-        this.conf.factorHeight / ratio,
+        ratio > 1 ? this.conf.factorWidth : this.conf.factorWidth * ratio,
+        ratio < 1 ? this.conf.factorHeight : this.conf.factorHeight / ratio,
         32
       );
       this.imagePlane = new Shared.THREE.Mesh(geometry, material);
