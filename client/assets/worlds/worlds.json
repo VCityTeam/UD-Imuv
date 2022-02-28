@@ -2122,8 +2122,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.20070638956247, 11.421264458722089, 30],
-                "rotation": [0, 0, 4.852127020419374, "ZXY"],
+                "position": [80.97602127462572, 12.918358197981773, 30],
+                "rotation": [0, 0, 4.870588993818034, "ZXY"],
                 "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
@@ -2773,7 +2773,7 @@
             "LocalScript": {
               "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 29 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -3362,11 +3362,15 @@
                   "uuid": "30D59DE9-3D15-4650-9482-4EF3E602A9D0",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/967EB3FF-9170-40CD-8DE4-D314E8A8D8AD.jpeg",
+                    "path": "./assets/img/uploaded/671B5C8B-F3BB-46B5-9B5E-62331152738E.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.840056,
+                      "Lat": 45.78075,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3405,11 +3409,15 @@
                   "uuid": "5616A6C5-B81F-48EE-813F-E1CAE559E4D7",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/65A4FE8B-8780-4D65-9E72-C9E1A3CA05D6.jpeg",
+                    "path": "./assets/img/uploaded/F0059545-FAB1-4536-920C-873A934129C6.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.815,
+                      "Lat": 45.730306,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3446,11 +3454,15 @@
                   "uuid": "FCF888B4-594C-49CC-8AB5-BEDD852E5B53",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/CD1BCDD0-74BD-49BC-8401-03EE63149F63.jpeg",
+                    "path": "./assets/img/uploaded/C678DE9F-7148-4F61-ADC3-3F4834D1E1B3.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.817083,
+                      "Lat": 45.736028,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3487,11 +3499,15 @@
                   "uuid": "FFC3E56D-AA9F-48E1-8C54-CC8AAD456CBC",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/F84DE871-F9DC-4A0B-B95C-FBB7F5D898C7.jpeg",
+                    "path": "./assets/img/uploaded/58F1B857-1509-4E6E-8053-95B99E1AA698.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.839917,
+                      "Lat": 45.756389,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3528,11 +3544,15 @@
                   "uuid": "D9321027-4D92-4430-A2DF-4186E8A53B42",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/4FDB62D8-87ED-44DB-96AF-9AA8F70D248F.jpeg",
+                    "path": "./assets/img/uploaded/F88E505D-40F9-4865-A103-03E979C08FB0.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.813333,
+                      "Lat": 45.774583,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3569,11 +3589,15 @@
                   "uuid": "90015BE9-2A79-4987-AA91-6FBB6216A50D",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/A2CAD276-8A80-40BC-B874-8DF61FED1FDA.jpeg",
+                    "path": "./assets/img/uploaded/CE4F52BE-AC20-4B58-8530-0984D99883B1.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.838167,
+                      "Lat": 45.753472,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3610,11 +3634,15 @@
                   "uuid": "151A802F-EE27-4E61-88DA-876A34917191",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/AA1C2979-6CEF-4E15-BAF0-64311B92BD29.jpeg",
+                    "path": "./assets/img/uploaded/43368117-905F-416E-B36D-CF65619022B0.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.906056,
+                      "Lat": 45.766889,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3651,11 +3679,15 @@
                   "uuid": "3F2CFDC5-0DB5-46E0-B53F-F7FEB50981C5",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/E70722EB-FAE0-40BF-B7A2-F42FDDFCADFF.jpeg",
+                    "path": "./assets/img/uploaded/FCB052AB-5FAE-4C34-8CFC-6AD9EE9C179A.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.819667,
+                      "Lat": 45.752167,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3733,11 +3765,15 @@
                   "uuid": "A6E2C4BF-132E-4CC7-B048-9540B24BAD5E",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/CF9F802D-EFF6-49A4-9122-96C0B6ADBFBF.jpeg",
+                    "path": "./assets/img/uploaded/F8D9BDBF-00F7-43A5-A380-3F0BD99AEFC2.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.828889,
+                      "Lat": 45.759472,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3774,11 +3810,15 @@
                   "uuid": "7B4953B3-78DD-4AB4-955D-34ECD3C03532",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/10667677-C489-442A-B427-3CE7D8D7EB21.jpeg",
+                    "path": "./assets/img/uploaded/BB9C2694-3E2E-4F49-B6D2-1EA6F54C6B94.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.829111,
+                      "Lat": 45.764972,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3815,11 +3855,15 @@
                   "uuid": "CEF79019-105D-4C03-B711-FCA631A3983C",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/48234C62-8228-4502-B2F8-73790FF9B2F3.jpeg",
+                    "path": "./assets/img/uploaded/3BA0C92F-6360-458A-BA65-D35854D51678.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.852278,
+                      "Lat": 45.760667,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3856,11 +3900,15 @@
                   "uuid": "690B9725-B4FF-41B6-B2EF-970A2BE11229",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/6953213E-48CA-4DE9-957D-0B5CC43D4C57.jpeg",
+                    "path": "./assets/img/uploaded/74C0891A-799F-4CDF-96D5-524E8A21F354.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.852722,
+                      "Lat": 45.757056,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3897,11 +3945,15 @@
                   "uuid": "03696363-0BBF-4D5C-97AD-CCB3385A91F3",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/6304963A-E40F-479F-AAEB-BF107EB1D630.jpeg",
+                    "path": "./assets/img/uploaded/12A0CD13-18EC-454B-BC5D-E2C681BEFECC.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.83375,
+                      "Lat": 45.760556,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3938,11 +3990,15 @@
                   "uuid": "6BBF17AA-6771-4FE9-95D0-A5096F0A89D8",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/2CF7C5B6-5709-482D-ACFE-A38D4682E383.jpeg",
+                    "path": "./assets/img/uploaded/BC2586D4-40D4-4B38-AF92-D5F40A8E43C9.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.860278,
+                      "Lat": 45.785972,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -3979,11 +4035,15 @@
                   "uuid": "C303AAA3-122A-420B-AC99-6E1E257A2E07",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/70F9E9B6-31DE-492C-91A2-19B212217117.jpeg",
+                    "path": "./assets/img/uploaded/19387331-44B8-48DA-B881-A417BE4CD592.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.797167,
+                      "Lat": 45.782444,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -4020,11 +4080,15 @@
                   "uuid": "7B0F1E83-E332-460A-A4B9-597B15F716FA",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/4D13BA03-3C24-480A-B41D-94B31AA0D4B4.jpeg",
+                    "path": "./assets/img/uploaded/7CB7FC3B-AFC4-4DF1-B193-2F522DD78435.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.825083,
+                      "Lat": 45.766111,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -4061,11 +4125,15 @@
                   "uuid": "42379AA3-F47F-42E5-ADF8-3C10463892D6",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/61B90FB6-24E3-4E90-B4A5-D89CB9107B51.jpeg",
+                    "path": "./assets/img/uploaded/BAC8CE3A-72E0-4C36-AD5A-245AACBA4B3A.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.832167,
+                      "Lat": 45.772028,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -4102,11 +4170,15 @@
                   "uuid": "36A24A71-589A-49D3-8C55-B06494716A7D",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/7B8F6470-A846-4275-8C9F-48A3B1102F8E.jpeg",
+                    "path": "./assets/img/uploaded/086B8EE4-6001-476E-A7CA-07B90925BC53.jpeg",
                     "factorWidth": 3,
                     "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "GPS_Coord": { "Lng": null, "Lat": null, "checked": false }
+                    "GPS_Coord": {
+                      "Lng": 4.840389,
+                      "Lat": 45.757139,
+                      "checked": true
+                    }
                   },
                   "type": "LocalScript"
                 },
@@ -4179,7 +4251,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 18 },
+              "conf": { "world_computer_dt": 17 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4692,7 +4764,7 @@
             "LocalScript": {
               "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5027,7 +5099,7 @@
             "LocalScript": {
               "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 30 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5337,7 +5409,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 32 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
