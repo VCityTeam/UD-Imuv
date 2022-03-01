@@ -1,5 +1,3 @@
-import './ColliderEditor.css';
-
 import { THREE } from 'ud-viz';
 import ColliderModule from 'ud-viz/src/Game/GameObject/Components/Collider';
 import { Shared } from 'ud-viz/src/Game/Game';

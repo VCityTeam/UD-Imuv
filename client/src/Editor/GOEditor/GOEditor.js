@@ -1,8 +1,8 @@
 /** @format */
 
 import './GOEditor.css';
-import GameObjectModule from 'ud-viz/src/Game/GameObject/GameObject';
-import { GameObjectUI } from '../GameObjectUI';
+import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
+import { GameObjectUI } from './GameObjectUI';
 
 export class GOEditorView {
   constructor(params) {
