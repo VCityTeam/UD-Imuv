@@ -2,8 +2,8 @@
 
 import './MenuAuth.css';
 
-import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
-import { AssetsManager } from 'ud-viz/src/Game/Components/AssetsManager';
+import Constants from 'ud-viz/src/Game/Components/Constants';
+import { AssetsManager } from 'ud-viz/src/Views/AssetsManager/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { EditorView } from '../Editor/Editor';
 import { DistantGame } from 'ud-viz/src/Templates/Templates';
@@ -157,19 +157,14 @@ export class MenuAuthView {
       function (initialized, isGuest) {
         _this.dispose();
 
-        const loadingView = _this.createLoadingView();
-        document.body.appendChild(loadingView);
-
         //load config
         SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
           function (config) {
             //load assets
             const assetsManager = new AssetsManager();
             assetsManager
-              .loadFromConfig(config.assetsManager)
+              .loadFromConfig(config.assetsManager, document.body)
               .then(function () {
-                loadingView.remove();
-
                 const distantGame = new DistantGame(
                   _this.webSocketService,
                   assetsManager,
@@ -181,11 +176,6 @@ export class MenuAuthView {
                   isGuest: isGuest,
                   editorMode: false,
                 });
-                //notify server that app is ready to receive state
-                //TODO move this fonction in the template distant game
-                _this.webSocketService.emit(
-                  Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
-                );
               });
           }
         );
@@ -195,14 +185,10 @@ export class MenuAuthView {
     this.confidentialButton.onclick = function () {
       _this.dispose();
 
-      const loadingView = _this.createLoadingView();
-      document.body.appendChild(loadingView);
-
       SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
         function (config) {
           _this.editor = new EditorView(_this.webSocketService, config);
           _this.editor.load().then(function () {
-            loadingView.remove();
             document.body.appendChild(_this.editor.html());
 
             _this.editor.setOnClose(function () {

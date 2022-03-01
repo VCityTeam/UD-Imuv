@@ -3,16 +3,16 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 module.exports = class SpriteName {
   constructor(config, udvizBundle) {
     this.config = config;
 
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
+    Game = udviz.Game;
 
     //THREE.Object3D
     this.sprite = null;
@@ -25,11 +25,11 @@ module.exports = class SpriteName {
 
   createSprite(label) {
     const texture = this.createLabelTexture(label, 'rgba(255, 255, 255, 0)');
-    const material = new Shared.THREE.SpriteMaterial({
+    const material = new Game.THREE.SpriteMaterial({
       map: texture,
     });
     material.alphaTest = 0.5;
-    const result = new Shared.THREE.Sprite(material);
+    const result = new Game.THREE.Sprite(material);
     result.scale.set(1, 0.3, 1);
     return result;
   }
@@ -47,7 +47,7 @@ module.exports = class SpriteName {
     const wT = ctx.measureText(text).width;
     ctx.fillText(text, (canvas.width - wT) * 0.5, canvas.height * 0.5);
 
-    const texture = new Shared.THREE.TextureLoader().load(
+    const texture = new Game.THREE.TextureLoader().load(
       canvas.toDataURL('image/png')
     );
     texture.flipY = true;
@@ -61,10 +61,10 @@ module.exports = class SpriteName {
       this.sprite.parent.remove(this.sprite);
     }
 
-    const renderComp = go.getComponent(Shared.Render.TYPE);
-    const bb = new Shared.THREE.Box3().setFromObject(renderComp.getObject3D());
+    const renderComp = go.getComponent(Game.Render.TYPE);
+    const bb = new Game.THREE.Box3().setFromObject(renderComp.getObject3D());
     const sprite = this.createSprite(this.config.name);
-    const bbSprite = new Shared.THREE.Box3().setFromObject(sprite);
+    const bbSprite = new Game.THREE.Box3().setFromObject(sprite);
     sprite.position.z = bb.max.z + 0.5 * (bbSprite.max.y - bbSprite.min.y);
     sprite.position.z -= bb.min.z;
     renderComp.addObject3D(sprite);

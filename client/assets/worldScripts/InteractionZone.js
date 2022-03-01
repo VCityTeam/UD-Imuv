@@ -1,16 +1,18 @@
 /**@format */
 
-let Shared;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 module.exports = class InteractionZone {
-  constructor(conf, SharedModule) {
+  constructor(conf, GameModule) {
     this.conf = conf;
-    Shared = SharedModule;
+    Game = GameModule;
   }
 
   init() {
     this.go = arguments[0];
-    this.localScript = this.go.getComponent(Shared.LocalScript.TYPE);
+    this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
     if (
       !this.localScript ||
       !this.localScript.idScripts.includes('local_interactions')
@@ -20,7 +22,7 @@ module.exports = class InteractionZone {
         'Prefab needs *local_interactions* local Script'
       );
     }
-    console.log('Init Interaction Zone', this.go.name);
+    // console.log('Init Interaction Zone', this.go.name);
     this.localScript.conf.avatarsOnEnter = [];
     this.localScript.conf.avatarsColliding = [];
     this.localScript.conf.avatarsOnLeave = [];

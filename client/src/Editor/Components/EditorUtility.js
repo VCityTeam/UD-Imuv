@@ -1,4 +1,4 @@
-import WorldScriptModule from 'ud-viz/src/Game/Shared/GameObject/Components/WorldScript';
+import WorldScriptModule from 'ud-viz/src/Game/GameObject/Components/WorldScript';
 
 export function computeMapGO(g) {
   let result = null;

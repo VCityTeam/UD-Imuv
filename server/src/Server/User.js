@@ -1,10 +1,10 @@
 /** @format */
 
-const { GameObject } = require('ud-viz/src/Game/Shared/Shared');
-const udvShared = require('ud-viz/src/Game/Shared/Shared');
-const Constants = udvShared.Components.Constants;
-const Command = udvShared.Command;
-const WorldState = udvShared.WorldState;
+const { GameObject } = require('ud-viz/src/Game/Game');
+const Game = require('ud-viz/src/Game/Game');
+const Constants = Game.Components.Constants;
+const Command = Game.Command;
+const WorldState = Game.WorldState;
 const WorldThread = require('./WorldThread');
 
 const UserModule = class User {

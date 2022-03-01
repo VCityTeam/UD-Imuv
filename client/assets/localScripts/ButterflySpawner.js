@@ -3,9 +3,9 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 const threeType = require('three');
 /** @type {threeType} */
 let THREE = null;
@@ -14,8 +14,8 @@ module.exports = class ButterflySpawner {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
-    THREE = Shared.THREE;
+    Game = udviz.Game;
+    THREE = Game.THREE;
   }
 
   init() {
@@ -25,7 +25,7 @@ module.exports = class ButterflySpawner {
     this.particleGroup = null;
 
     //TODO in UserData add attribute "editorMode" ? 
-    const render = this.go.getComponent(Shared.Render.TYPE);
+    const render = this.go.getComponent(Game.Render.TYPE);
     const editorMode = arguments[1].getGameView().getUserData('editorMode');
 
     if (editorMode === false) {
@@ -108,7 +108,7 @@ module.exports = class ButterflySpawner {
     });
 
     this.go
-      .getComponent(Shared.Render.TYPE)
+      .getComponent(Game.Render.TYPE)
       .addObject3D(this.particleGroup.getObject3D());
     this.triggerAnimate = true;
   }

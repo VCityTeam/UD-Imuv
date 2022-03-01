@@ -1,16 +1,20 @@
 /** @format */
-let Shared = null;
+
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
+
 module.exports = class Portal {
-  constructor(conf, SharedModule) {
+  constructor(conf, GameModule) {
     this.conf = conf;
     this.go = null;
-    Shared = SharedModule;
+    Game = GameModule;
   }
 
   init() {
     this.go = arguments[0];
     this.worldCtxt = arguments[1];
-    this.localScript = this.go.getComponent(Shared.LocalScript.TYPE);
+    this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
     this.conf.delay = 1000; // Test antoher way than a delay :O
   }
 

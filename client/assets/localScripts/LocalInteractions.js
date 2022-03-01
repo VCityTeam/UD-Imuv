@@ -4,7 +4,7 @@ module.exports = class LocalInteractions {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     this.tickIsColliding = null;
-    Shared = udvizBundle.Game.Shared;
+    Shared = udvizBundle.Game;
   }
 
   init() {

@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const WorldThread = require('./WorldThread');
-const Shared = require('ud-viz/src/Game/Shared/Shared');
+const Game = require('ud-viz/src/Game/Game');
 
 const BBB_ROOM_TAG = 'bbb_room_tag';
 
@@ -162,7 +162,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     thread.addUser(user, portalUUID);
 
     const socket = user.getSocket();
-    const Constants = Shared.Components.Constants;
+    const Constants = Game.Components.Constants;
     const _this = this;
     socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
       const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);

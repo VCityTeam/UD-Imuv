@@ -66,10 +66,10 @@ module.exports = class BBB {
         _this.removeIframe();
       } else {
         _this.createLoadingUIEl(localCtx.getGameView());
-        const Constants = udviz.Game.Shared.Components.Constants;
+        const Constants = udviz.Game.Components.Constants;
         const webSocketService = localCtx.getWebSocketService();
         if (!webSocketService) return;
-        const localScript = go.getComponent(udviz.Game.Shared.LocalScript.TYPE);
+        const localScript = go.getComponent(udviz.Game.LocalScript.TYPE);
         webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, {
           goUUID: go.getUUID(),
           componentUUID: localScript.getUUID(),
@@ -88,7 +88,7 @@ module.exports = class BBB {
     const localCtx = arguments[1];
     const webSocketService = localCtx.getWebSocketService();
     if (!webSocketService) return;
-    const Constants = udviz.Game.Shared.Components.Constants;
+    const Constants = udviz.Game.Components.Constants;
     webSocketService.reset([Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
   }
 
