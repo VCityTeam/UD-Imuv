@@ -1,7 +1,7 @@
 /** @format */
 
 import { THREE } from 'ud-viz';
-import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
+import GameObjectModule from 'ud-viz/src/Game/GameObject/GameObject';
 import { computeMapGO } from '../../Components/EditorUtility';
 
 import './HeightmapEditor.css';
