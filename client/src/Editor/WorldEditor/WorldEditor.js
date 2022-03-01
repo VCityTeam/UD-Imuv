@@ -1,15 +1,15 @@
 /** @format */
 
 import './WorldEditor.css';
-import { AddPrefabEditorView } from '../AddPrefabEditor/AddPrefabEditor';
 import Game from 'ud-viz/src/Game/Game';
+import { AddPrefabEditorView } from './AddPrefabEditor/AddPrefabEditor';
 import * as udviz from 'ud-viz';
 import { THREE } from 'ud-viz';
 import { GOEditorView } from '../GOEditor/GOEditor';
-import { HeightmapEditorView } from '../HeightmapEditor/HeightmapEditor';
+import { HeightmapEditorView } from './HeightmapEditor/HeightmapEditor';
 import { computeMapGO } from '../Components/EditorUtility';
 const WorldStateInterpolator = Game.WorldStateInterpolator;
-import { EditorGameView } from '../EditorGameView';
+import { EditorGameView } from '../Components/EditorGameView';
 
 export class WorldEditorView {
   constructor(params) {

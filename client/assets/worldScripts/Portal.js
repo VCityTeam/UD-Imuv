@@ -15,24 +15,21 @@ module.exports = class Portal {
     this.go = arguments[0];
     this.worldCtxt = arguments[1];
     this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
-    this.conf.delay = 1000; // Test antoher way than a delay :O
   }
 
   notifyEnter(avatarGo, avatarWS) {
-    avatarWS.setPause(true);
+    avatarGo.setFreeze(true);
+
     const conf = this.conf;
-    const delayInMilliseconds = conf.delay;
-    console.log(delayInMilliseconds);
     const world = this.worldCtxt.getWorld();
     setTimeout(function () {
-      console.log('Teleport');
       avatarWS.setPause(false);
       world.notify('portalEvent', [
         avatarGo,
         conf.worldDestUUID,
         conf.portalUUID,
       ]);
-    }, delayInMilliseconds);
+    }, 1000);
   }
 
   setTransformOf(go) {

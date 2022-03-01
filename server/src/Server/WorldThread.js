@@ -187,6 +187,7 @@ WorldThreadModule.routine = function (serverConfig) {
                 .find(portalUUID);
               if (portal) {
                 portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
+                //fade out could be handle there
                 worldStateComputer
                   .getWorldContext()
                   .getWorld()
