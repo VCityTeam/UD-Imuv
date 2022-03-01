@@ -109,12 +109,12 @@ module.exports = class Image {
 
     const figureDescr = document.createElement('figure');
     figureDescr.classList.add('grid_item--descr');
-
-    const descriptionText = document.createElement('div');
-    descriptionText.classList.add('popup_descr');
-    descriptionText.innerHTML =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sollicitudin posuere massa ut bibendum. Etiam nunc massa, eleifend in elit eget, hendrerit auctor quam. Vestibulum luctus nulla a orci viverra placerat. Duis tincidunt rhoncus ante. Donec bibendum neque eget mollis pretium. In efficitur et sem non bibendum. Quisque ac euismod nibh. Aliquam mattis, urna sed pharetra lobortis, tellus elit efficitur mauris, sit amet interdum ex lorem tempus massa. Sed porta, mi at efficitur dictum, nulla felis interdum ante, quis rhoncus ex quam eget lectus. Sed interdum neque at iaculis molestie. Sed sodales, diam ac scelerisque ultrices, quam turpis tristique dui, sit amet placerat ante felis nec nisl. Curabitur lacinia in tortor sit amet imperdiet. Curabitur laoreet quam ac erat pulvinar, sed pulvinar lacus maximus. Pellentesque et tortor et felis dapibus tempus. Curabitur feugiat leo ut velit pharetra, nec posuere libero bibendum. In dapibus velit vitae dapibus mollis. ';
-    figureDescr.appendChild(descriptionText);
+    if (this.conf.descriptionText) {
+      const descriptionText = document.createElement('div');
+      descriptionText.classList.add('popup_descr');
+      descriptionText.innerHTML = this.conf.descriptionText;
+      figureDescr.appendChild(descriptionText);
+    }
 
     const figureClose = document.createElement('figure');
     figureClose.classList.add('grid_item--close');

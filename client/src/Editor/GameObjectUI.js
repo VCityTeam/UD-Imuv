@@ -189,17 +189,53 @@ export class GameObjectUI {
 
     const go = this.go;
     const content = this.content;
+    const conf = this.go.components.LocalScript.conf;
 
     imageInput.onchange = function (e) {
       File.readSingleFileAsDataUrl(e, function (data) {
         const url = data.target.result;
-        go.components.LocalScript.conf.path = url;
+        conf.path = url;
         go.setOutdated(true);
         gV.forceUpdate();
       });
     };
 
-    const conf = this.go.components.LocalScript.conf;
+    const buttonDescription = document.createElement('button');
+    buttonDescription.innerHTML = 'Change Description';
+    buttonDescription.onclick = function () {
+      const modal = document.createElement('div');
+      modal.classList.add('modal');
+
+      const modalContent = document.createElement('div');
+      modalContent.classList.add('modal_content');
+      modal.appendChild(modalContent);
+
+      const inputTextDescription = document.createElement('input');
+      inputTextDescription.classList.add('input_description');
+      inputTextDescription.type = 'text';
+      inputTextDescription.value = conf.descriptionText || '';
+      modalContent.appendChild(inputTextDescription);
+
+      const validateButton = document.createElement('button');
+      validateButton.innerHTML = 'Validate';
+      validateButton.onclick = function (e) {
+        const value = inputTextDescription.value;
+        const newValue = value != '' ? value : null;
+        conf.descriptionText = newValue;
+        modal.remove();
+      };
+      modalContent.appendChild(validateButton);
+
+      const cancelButton = document.createElement('button');
+      cancelButton.innerHTML = 'Cancel';
+      cancelButton.onclick = function () {
+        modal.remove();
+      };
+      modalContent.appendChild(cancelButton);
+
+      content.appendChild(modal);
+    };
+
     const divGPSCoord = document.createElement('div');
 
     const initGPSCoordHTMLElements = function () {
@@ -364,6 +400,7 @@ export class GameObjectUI {
     };
 
     this.content.appendChild(imageInput);
+    this.content.appendChild(buttonDescription);
     this.content.appendChild(divCheckboxLabelGPSCoord);
     this.content.appendChild(divGPSCoord);
 
