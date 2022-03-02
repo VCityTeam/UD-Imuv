@@ -49,9 +49,12 @@
 
 .popup_descr {
   background-color: white;
-  height: 100%;
+  height: fit-content;
+  max-height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
+  text-align: center;
+  padding: 1%;
 }
 
 .popup_close_button {
@@ -69,7 +72,7 @@
 .grid_item--map {
   grid-column-start: 7;
   grid-column-end: 10;
-  grid-row-start: 6;
+  grid-row-start: 5;
   grid-row-end: 10;
 }
 
@@ -77,14 +80,15 @@
   grid-column-start: 7;
   grid-column-end: 10;
   grid-row-start: 2;
-  grid-row-end: 6;
+  grid-row-end: 5;
 }
 
 .grid_item--close {
-  grid-column-start: 5;
-  grid-column-end: 6;
+  grid-column-start: 2;
+  grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 2;
+  margin: 0;
 }
 
 .popup-signage {

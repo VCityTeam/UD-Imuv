@@ -73,7 +73,7 @@ module.exports = class Image {
     if (this.imgMapGPS) {
       this.imgMapGPS.remove();
     }
-    if (!this.conf.GPS_Coord.checked) return;
+    if (!this.conf.GPS_Coord.checked) return false;
     const mapImg = document.createElement('img');
     const _this = this;
     mapImg.addEventListener('load', function () {
@@ -88,6 +88,7 @@ module.exports = class Image {
       _this.popupUI.appendChild(figureMap);
     });
     mapImg.src = this.conf.map_path;
+    return true;
   }
 
   createPopup() {
@@ -97,7 +98,10 @@ module.exports = class Image {
     }
     this.popupUI = document.createElement('div');
     this.popupUI.classList.add('popup_wrapper');
-    this.createImgElementMapGPS();
+    let rowEndDescriptionItem = 5;
+    if (!this.createImgElementMapGPS()) {
+      rowEndDescriptionItem = 10;
+    }
 
     const figureImage = document.createElement('figure');
     figureImage.classList.add('grid_item--image');
@@ -109,6 +113,7 @@ module.exports = class Image {
 
     const figureDescr = document.createElement('figure');
     figureDescr.classList.add('grid_item--descr');
+    figureDescr.style.gridRowEnd = rowEndDescriptionItem;
     if (this.conf.descriptionText) {
       const descriptionText = document.createElement('div');
       descriptionText.classList.add('popup_descr');

@@ -210,10 +210,10 @@ export class GameObjectUI {
       modalContent.classList.add('modal_content');
       modal.appendChild(modalContent);
 
-      const inputTextDescription = document.createElement('input');
+      const inputTextDescription = document.createElement('textarea');
       inputTextDescription.classList.add('input_description');
-      inputTextDescription.type = 'text';
-      inputTextDescription.value = conf.descriptionText || '';
+      inputTextDescription.innerHTML = conf.descriptionText || '';
+
       modalContent.appendChild(inputTextDescription);
 
       const validateButton = document.createElement('button');
