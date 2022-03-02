@@ -98,10 +98,6 @@ module.exports = class Image {
     }
     this.popupUI = document.createElement('div');
     this.popupUI.classList.add('popup_wrapper');
-    let rowEndDescriptionItem = 5;
-    if (!this.createImgElementMapGPS()) {
-      rowEndDescriptionItem = 10;
-    }
 
     const figureImage = document.createElement('figure');
     figureImage.classList.add('grid_item--image');
@@ -113,12 +109,14 @@ module.exports = class Image {
 
     const figureDescr = document.createElement('figure');
     figureDescr.classList.add('grid_item--descr');
-    figureDescr.style.gridRowEnd = rowEndDescriptionItem;
     if (this.conf.descriptionText) {
       const descriptionText = document.createElement('div');
       descriptionText.classList.add('popup_descr');
       descriptionText.innerHTML = this.conf.descriptionText;
       figureDescr.appendChild(descriptionText);
+    }
+    if (!this.createImgElementMapGPS()) {
+      figureDescr.style.gridRowEnd = 10;
     }
 
     const figureClose = document.createElement('figure');
