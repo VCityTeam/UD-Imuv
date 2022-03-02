@@ -2122,8 +2122,8 @@
               },
               "children": [],
               "transform": {
-                "position": [81.08405446499415, 12.22195203385536, 30],
-                "rotation": [0, 0, 4.861994626891072, "ZXY"],
+                "position": [81.33457226994915, 10.425322712723048, 30],
+                "rotation": [0, 0, 4.839872089801299, "ZXY"],
                 "scale": [1, 1, 1]
               },
               "noLocalUpdate": false
@@ -2773,7 +2773,7 @@
             "LocalScript": {
               "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 31 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -3511,7 +3511,7 @@
                       "Lat": 45.756389,
                       "checked": true
                     },
-                    "descriptionText": "Quai Claude Bernard, Lyon"
+                    "descriptionText": "Berges du Rhône – Guillotière, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -4271,7 +4271,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 15 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4784,7 +4784,7 @@
             "LocalScript": {
               "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5119,7 +5119,7 @@
             "LocalScript": {
               "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5429,7 +5429,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 30 },
+              "conf": { "world_computer_dt": 31 },
               "type": "LocalScript"
             },
             "WorldScript": {
