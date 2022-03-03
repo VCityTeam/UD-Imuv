@@ -30,8 +30,8 @@
       }
     },
     "css": {
-      "localGameManager": {
-        "path": "./assets/css/localGameManager.css"
+      "controller": {
+        "path": "./assets/css/controller.css"
       },
       "ui": {
         "path": "./assets/css/ui.css"
@@ -64,8 +64,8 @@
       "texture_face": {
         "path": "./assets/localScripts/TextureFace.js"
       },
-      "localGameManager": {
-        "path": "./assets/localScripts/LocalGameManager.js"
+      "controller": {
+        "path": "./assets/localScripts/Controller.js"
       },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"

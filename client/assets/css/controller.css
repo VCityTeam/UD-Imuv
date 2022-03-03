@@ -1,10 +1,10 @@
 /** @format */
 
-.label_localGameManager {
+.label_controller {
   color: red;
 }
 
-.splash_localGameManager {
+.splash_controller {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -14,14 +14,14 @@
   align-items: center;
 }
 
-.label_splash_localGameManager {
+.label_splash_controller {
   opacity: unset;
   font-size: xxx-large;
   z-index: 1;
   font-family: sans-serif;
 }
 
-.bg_splash_localGameManager {
+.bg_splash_controller {
   background-color: gray;
   opacity: 0.5;
   width: 100%;

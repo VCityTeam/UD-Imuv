@@ -10,7 +10,7 @@ const itownsType = require('itowns');
 /** @type {itownsType} */
 let itowns = null;
 
-module.exports = class LocalGameManager {
+module.exports = class Controller {
   constructor(conf, udvizBundle) {
     this.conf = conf;
 
@@ -18,10 +18,15 @@ module.exports = class LocalGameManager {
     Game = udviz.Game;
     itowns = udviz.itowns;
 
-    this.cameraman = null;
+    //Avatar controller
+    this.targetGO = null;
+    this.avatarCameraman = null;
+    this.avatarController = false;
 
-    this.fogObject = null;
+    //routines camera
+    this.routines = [];
 
+    //buffer
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
   }
@@ -33,24 +38,45 @@ module.exports = class LocalGameManager {
 
   init() {
     const localCtx = arguments[1];
+    const gameView = localCtx.getGameView();
+    const camera = gameView.getCamera();
+    const manager = gameView.getInputManager();
 
-    this.fogObject = new Game.THREE.Fog(
-      localCtx.getGameView().getSkyColor(),
-      this.conf.fog.near,
-      this.conf.fog.far
-    );
+    //DEBUG inputs
+    const _this = this;
+    manager.addKeyInput('p', 'keydown', function () {
+      console.log('Gameview ', gameView);
+      console.log('Camera ', camera);
+      console.log('uuid ', udviz.THREE.MathUtils.generateUUID());
 
-    //init cameraman
-    this.cameraman = new Cameraman(localCtx.getGameView().getCamera());
+      const avatar = gameView.getLastState().gameObject.findByName('avatar');
+      if (avatar) console.log(avatar.object3D);
 
-    this.initInputs(arguments[0], localCtx);
+      console.log(new Game.GameObject({}).toJSON(true));
+    });
+    manager.addKeyInput('a', 'keydown', function () {
+      _this.setAvatarController(!_this.avatarController, localCtx);
+    });
+
+    //init avatarCameraman
+    this.initAvatarController(localCtx);
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
-      this.initTraveling(localCtx.getGameView().getItownsView());
+      this.initTraveling(localCtx);
+    } else {
+      this.setAvatarController(true, localCtx);
     }
   }
 
-  initTraveling(view) {
+  addRoutine(r) {
+    this.routines.push(r);
+  }
+
+  hasRoutine() {
+    return this.routines.length;
+  }
+
+  initTraveling(localCtx) {
     const splash = this.createSplashScreen();
     const duration = this.conf.traveling_time;
     if (!duration) return; //if no traveling time return
@@ -58,35 +84,34 @@ module.exports = class LocalGameManager {
     const _this = this;
 
     document.body.appendChild(splash);
+    const camera = localCtx.getGameView().getCamera();
 
-    const cameraman = this.cameraman;
+    //buffer
+    let startPos = null;
+    let startQuat = null;
     let currentTime = 0;
-    cameraman.setFilmingTarget(false);
-    const camera = cameraman.getCamera();
-    const startPos = new Game.THREE.Vector3(
-      1843660.0895859331,
-      5174613.11242678,
-      485.8525534292738
-    );
-    const startQuat = new Game.THREE.Quaternion(
-      0.027576004167469807,
-      0.6755682684405119,
-      0.736168525226603,
-      0.030049644525890727
-    );
-
-    camera.position.copy(startPos);
-    camera.quaternion.copy(startQuat);
-    camera.updateProjectionMatrix();
 
     //first travelling
-    cameraman.addRoutine(
+    this.addRoutine(
       new Game.Components.Routine(
         function (dt) {
-          const t = cameraman.computeTransformTarget();
+          if (!_this.targetGO) return false;
+          _this.avatarCameraman.setTarget(_this.targetGO);
+          const t = _this.avatarCameraman.computeTransformTarget();
 
-          //no avatar yet
-          if (!t) return false;
+          //init relatively
+          if (!startPos && !startQuat) {
+            startPos = t.position
+              .clone()
+              .sub(new Game.THREE.Vector3(-1000, -1000, -1000));
+            startQuat = t.quaternion
+              .clone()
+              .multiply(
+                new Game.THREE.Quaternion().setFromEuler(
+                  new Game.THREE.Euler(-Math.PI * 0.5, 0, 0)
+                )
+              );
+          }
 
           currentTime += dt;
           const ratio = Math.min(Math.max(0, currentTime / duration), 1);
@@ -103,23 +128,134 @@ module.exports = class LocalGameManager {
         },
         function () {
           splash.remove();
-          cameraman.setFilmingTarget(true);
-          _this.setFog(view, true);
+          _this.setAvatarController(true, localCtx);
         }
       )
     );
   }
 
+  initAvatarController(localCtx) {
+    const gameView = localCtx.getGameView();
+    const div = gameView.getRenderer().domElement;
+    const camera = gameView.getCamera();
+    const manager = gameView.getInputManager();
+    const Routine = Game.Components.Routine;
+    const Command = Game.Command;
+
+    //cameraman
+    this.avatarCameraman = new AvatarCameraman(camera);
+
+    //force listening so isPressed works
+    manager.listenKeys(['c']);
+  }
+
+  setAvatarController(value, localCtx) {
+    if (value == this.avatarController) {
+      console.warn('same value');
+      return;
+    }
+
+    this.avatarController = value;
+
+    //FORWARD
+    const gameView = localCtx.getGameView();
+    const div = gameView.getRenderer().domElement;
+    const camera = gameView.getCamera();
+    const manager = gameView.getInputManager();
+    const Routine = Game.Components.Routine;
+    const Command = Game.Command;
+
+    if (value) {
+      //forward
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_FORWARD,
+        ['z', 'ArrowUp'],
+        function () {
+          manager.setPointerLock(true);
+          if (manager.isPressed('c')) {
+            return new Command({ type: Command.TYPE.RUN });
+          } else {
+            return new Command({ type: Command.TYPE.MOVE_FORWARD });
+          }
+        }
+      );
+
+      //BACKWARD
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_BACKWARD,
+        ['s', 'ArrowDown'],
+        function () {
+          manager.setPointerLock(true);
+          return new Command({ type: Command.TYPE.MOVE_BACKWARD });
+        }
+      );
+
+      //LEFT
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_LEFT,
+        ['q', 'ArrowLeft'],
+        function () {
+          manager.setPointerLock(true);
+          return new Command({ type: Command.TYPE.MOVE_LEFT });
+        }
+      );
+
+      //RIGHT
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_RIGHT,
+        ['d', 'ArrowRight'],
+        function () {
+          manager.setPointerLock(true);
+          return new Command({ type: Command.TYPE.MOVE_RIGHT });
+        }
+      );
+
+      //ROTATE
+      manager.addMouseCommand('mousemove', function () {
+        if (
+          manager.getPointerLock() ||
+          (this.isDragging() && !manager.getPointerLock())
+        ) {
+          const event = this.event('mousemove');
+          if (event.movementX != 0 || event.movementY != 0) {
+            let pixelX = -event.movementX;
+            let pixelY = -event.movementY;
+
+            if (this.isDragging()) {
+              const dragRatio = 2; //TODO conf ?
+              pixelX *= dragRatio;
+              pixelY *= dragRatio;
+            }
+
+            return new Command({
+              type: Command.TYPE.ROTATE,
+              data: {
+                vector: new Game.THREE.Vector3(pixelY, 0, pixelX),
+              },
+            });
+          }
+        }
+        return null;
+      });
+    } else {
+      manager.removeKeyCommand(Command.TYPE.MOVE_FORWARD, ['z', 'ArrowUp']);
+      manager.removeKeyCommand(Command.TYPE.MOVE_BACKWARD, ['s', 'ArrowDown']);
+      manager.removeKeyCommand(Command.TYPE.MOVE_RIGHT, ['d', 'ArrowRight']);
+      manager.removeKeyCommand(Command.TYPE.MOVE_LEFT, ['q', 'ArrowLeft']);
+      manager.removeMouseCommand('mousemove');
+    }
+  }
+
   createSplashScreen() {
     const result = document.createElement('div');
-    result.classList.add('splash_localGameManager');
+    result.classList.add('splash_controller');
 
     const bg = document.createElement('div');
-    bg.classList.add('bg_splash_localGameManager');
+    bg.classList.add('bg_splash_controller');
     result.appendChild(bg);
 
     const label = document.createElement('div');
-    label.classList.add('label_splash_localGameManager');
+    label.classList.add('label_splash_controller');
     label.innerHTML = 'Welcome to Flying Campus';
     result.appendChild(label);
 
@@ -130,12 +266,27 @@ module.exports = class LocalGameManager {
     const go = arguments[0];
     const localCtx = arguments[1];
 
-    this.cameraman.tick(
-      localCtx.getDt(),
-      localCtx.getGameView().getLastState(),
-      localCtx.getGameView().getUserData('avatarUUID'),
-      this.fetchStaticObject(go)
-    );
+    const avatarGO = localCtx
+      .getGameView()
+      .getLastState()
+      .getGameObject()
+      .find(localCtx.getGameView().getUserData('avatarUUID'));
+
+    this.targetGO = avatarGO;
+
+    //routines are prior
+    if (this.hasRoutine()) {
+      const currentRoutine = this.routines[0];
+      const finished = currentRoutine.tick(localCtx.getDt());
+      if (finished) {
+        currentRoutine.onEnd();
+        this.routines.shift(); //remove
+      }
+    } else {
+      if (this.avatarController) {
+        this.avatarCameraman.focusTarget(this.fetchStaticObject(go));
+      }
+    }
   }
 
   setFog(view, value) {
@@ -161,25 +312,25 @@ module.exports = class LocalGameManager {
     //INPUTS LOCAL
 
     manager.addKeyInput('y', 'keydown', function () {
-      _this.cameraman.toggleMode();
+      _this.avatarCameraman.toggleMode();
     });
 
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
       manager.addKeyInput('a', 'keydown', function () {
-        if (_this.cameraman.hasRoutine()) return; //already routine
+        if (_this.avatarCameraman.hasRoutine()) return; //already routine
 
         const duration = 2000;
         let currentTime = 0;
-        const camera = _this.cameraman.getCamera();
+        const camera = _this.avatarCameraman.getCamera();
 
         let startPos = camera.position.clone();
         let startQuat = camera.quaternion.clone();
 
         if (view.controls) {
           //record
-          const camera = _this.cameraman.getCamera();
+          const camera = _this.avatarCameraman.getCamera();
           _this.itownsCamPos.set(
             camera.position.x,
             camera.position.y,
@@ -187,10 +338,10 @@ module.exports = class LocalGameManager {
           );
           _this.itownsCamQuat.setFromEuler(camera.rotation);
 
-          _this.cameraman.addRoutine(
+          _this.avatarCameraman.addRoutine(
             new Routine(
               function (dt) {
-                const t = _this.cameraman.computeTransformTarget();
+                const t = _this.avatarCameraman.computeTransformTarget();
 
                 //no avatar yet
                 if (!t) return false;
@@ -214,7 +365,7 @@ module.exports = class LocalGameManager {
               function () {
                 view.controls.dispose();
                 view.controls = null;
-                _this.cameraman.setFilmingTarget(true);
+                _this.avatarCameraman.setFilmingTarget(true);
                 _this.setFog(view, true);
               }
             )
@@ -224,7 +375,7 @@ module.exports = class LocalGameManager {
             //first time camera in sky
 
             const currentPosition = new Game.THREE.Vector3().copy(
-              _this.cameraman.getCamera().position
+              _this.avatarCameraman.getCamera().position
             );
 
             //200 meters up
@@ -243,7 +394,7 @@ module.exports = class LocalGameManager {
 
           _this.setFog(view, false);
 
-          _this.cameraman.addRoutine(
+          _this.avatarCameraman.addRoutine(
             new Routine(
               function (dt) {
                 currentTime += dt;
@@ -275,154 +426,21 @@ module.exports = class LocalGameManager {
                   zoomFactor: 0.9, //TODO working ?
                 });
 
-                _this.cameraman.setFilmingTarget(false);
+                _this.avatarCameraman.setFilmingTarget(false);
               }
             )
           );
         }
       });
     }
-
-    manager.addKeyInput('p', 'keydown', function () {
-      console.log('Gameview ', gameView);
-      console.log('Camera ', camera);
-      console.log('uuid ', udviz.THREE.MathUtils.generateUUID());
-
-      const avatar = gameView.getLastState().gameObject.findByName('avatar');
-      if (avatar) console.log(avatar.object3D);
-
-      console.log(new Game.GameObject({}).toJSON(true));
-    });
-
-    //COMMANDS WORLD
-
-    //FORWARD
-    manager.listenKeys(['c']);
-    manager.addKeyCommand(
-      Command.TYPE.MOVE_FORWARD,
-      ['z', 'ArrowUp'],
-      function () {
-        manager.setPointerLock(true);
-        if (manager.isPressed('c')) {
-          return new Command({ type: Command.TYPE.RUN });
-        } else {
-          return new Command({ type: Command.TYPE.MOVE_FORWARD });
-        }
-      }
-    );
-
-    //BACKWARD
-    manager.addKeyCommand(
-      Command.TYPE.MOVE_BACKWARD,
-      ['s', 'ArrowDown'],
-      function () {
-        manager.setPointerLock(true);
-        return new Command({ type: Command.TYPE.MOVE_BACKWARD });
-      }
-    );
-
-    //LEFT
-    manager.addKeyCommand(
-      Command.TYPE.MOVE_LEFT,
-      ['q', 'ArrowLeft'],
-      function () {
-        manager.setPointerLock(true);
-        return new Command({ type: Command.TYPE.MOVE_LEFT });
-      }
-    );
-
-    //RIGHT
-    manager.addKeyCommand(
-      Command.TYPE.MOVE_RIGHT,
-      ['d', 'ArrowRight'],
-      function () {
-        manager.setPointerLock(true);
-        return new Command({ type: Command.TYPE.MOVE_RIGHT });
-      }
-    );
-
-    manager.addMouseCommand('mousedown', function () {
-      const event = this.event('mousedown');
-      manager.setPointerLock(false);
-      if (event.which != 3) return; //if its not a right click
-
-      //1. sets the mouse position with a coordinate system where the center
-      //   of the screen is the origin
-      const mouse = new Game.THREE.Vector2(
-        -1 + (2 * event.offsetX) / (div.clientWidth - div.offsetLeft),
-        1 - (2 * event.offsetY) / (div.clientHeight - div.offsetTop)
-      );
-
-      //2. set the picking ray from the camera position and mouse coordinates
-      const raycaster = new Game.THREE.Raycaster();
-      raycaster.setFromCamera(mouse, camera);
-
-      //3. compute intersections
-      //TODO opti en enlevant la recursive et en selectionnant seulement les bon object3D
-
-      const intersects = raycaster.intersectObject(
-        _this.fetchStaticObject(go),
-        true
-      );
-
-      if (intersects.length) {
-        let minDist = Infinity;
-        let p = null;
-
-        intersects.forEach(function (i) {
-          if (i.distance < minDist) {
-            p = i.point;
-            minDist = i.distance;
-          }
-        });
-
-        //ref transform
-        p.sub(localCtx.getGameView().getObject3D().position);
-
-        return new Command({
-          type: Command.TYPE.MOVE_TO,
-          data: { target: new Game.THREE.Vector2(p.x, p.y) },
-        });
-      } else {
-        return null;
-      }
-    });
-
-    //ROTATE
-    manager.addMouseCommand('mousemove', function () {
-      if (
-        manager.getPointerLock() ||
-        (this.isDragging() && !manager.getPointerLock())
-      ) {
-        const event = this.event('mousemove');
-        if (event.movementX != 0 || event.movementY != 0) {
-          let pixelX = -event.movementX;
-          let pixelY = -event.movementY;
-
-          if (this.isDragging()) {
-            const dragRatio = 2; //TODO conf ?
-            pixelX *= dragRatio;
-            pixelY *= dragRatio;
-          }
-
-          return new Command({
-            type: Command.TYPE.ROTATE,
-            data: {
-              vector: new Game.THREE.Vector3(pixelY, 0, pixelX),
-            },
-          });
-        }
-      }
-      return null;
-    });
   }
 };
 
-//Cameraman
+//avatarCameraman
 const CAMERA_ANGLE = Math.PI / 12;
 const THIRD_PERSON_FOV = 60;
 
-class Cameraman {
+class AvatarCameraman {
   constructor(camera) {
     //quaternion
     this.quaternionCam = new Game.THREE.Quaternion().setFromEuler(
@@ -438,10 +456,6 @@ class Cameraman {
     //target
     this.target = null;
     this.bbTarget = null;
-    this.filmingTarget = true;
-
-    //updating or not
-    this.enabled = true;
 
     //raycaster
     this.raycaster = new Game.THREE.Raycaster();
@@ -449,17 +463,6 @@ class Cameraman {
 
     //mode
     this.isTPV = true;
-
-    //routines
-    this.routines = [];
-  }
-
-  isFilmingTarget() {
-    return this.filmingTarget;
-  }
-
-  setFilmingTarget(value) {
-    this.filmingTarget = value;
   }
 
   getCamera() {
@@ -535,10 +538,6 @@ class Cameraman {
     return { position: position, quaternion: quaternion };
   }
 
-  addRoutine(routine) {
-    this.routines.push(routine);
-  }
-
   toggleMode() {
     this.isTPV = !this.isTPV;
 
@@ -549,28 +548,5 @@ class Cameraman {
     }
 
     this.camera.updateProjectionMatrix();
-  }
-
-  hasRoutine() {
-    return this.routines.length;
-  }
-
-  tick(dt, state, targetUUID, obstacle) {
-    if (!this.enabled) return;
-
-    if (!state) throw new Error('no state');
-    const target = state.getGameObject().find(targetUUID); //TODO peut etre pas obligé de le reset a chaque fois
-    this.setTarget(target);
-
-    if (this.hasRoutine()) {
-      const currentRoutine = this.routines[0];
-      const finished = currentRoutine.tick(dt);
-      if (finished) {
-        currentRoutine.onEnd();
-        this.routines.shift(); //remove
-      }
-    } else if (this.isFilmingTarget()) {
-      this.focusTarget(obstacle);
-    }
   }
 }

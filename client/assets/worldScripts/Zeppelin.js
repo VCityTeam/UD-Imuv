@@ -34,15 +34,16 @@ module.exports = class Zeppelin {
     const worldContext = arguments[1];
     const dt = worldContext.dt;
 
-    this.currentTime += dt;
+    //circle travel
+    // this.currentTime += dt;
 
-    let ratio = this.currentTime / this.conf.duration;
-    ratio /= 2 * Math.PI;
+    // let ratio = this.currentTime / this.conf.duration;
+    // ratio /= 2 * Math.PI;
 
-    const rot = go.getRotation();
-    rot.z = ratio - Math.PI * 0.5;
+    // const rot = go.getRotation();
+    // rot.z = ratio - Math.PI * 0.5;
 
-    go.setRotation(rot);
-    go.setPosition(this.computePosition(ratio, go.getPosition()));
+    // go.setRotation(rot);
+    // go.setPosition(this.computePosition(ratio, go.getPosition()));
   }
 };
