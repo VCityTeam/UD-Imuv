@@ -176,6 +176,11 @@ export class MenuAuthView {
                   isGuest: isGuest,
                   editorMode: false,
                 });
+
+                //distant game started and is ready to receive worldstate
+                _this.webSocketService.emit(
+                  Constants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
+                );
               });
           }
         );
