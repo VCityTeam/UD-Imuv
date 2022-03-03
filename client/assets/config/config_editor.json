@@ -85,6 +85,9 @@
       "default_interactions": {
         "path": "./assets/localScripts/DefaultInteractions.js"
       },
+      "zeppelin_start": {
+        "path": "./assets/localScripts/ZeppelinStart.js"
+      },
       "signage_displayer": {
         "path": "./assets/localScripts/SignageDisplayer.js"
       },
@@ -157,6 +160,9 @@
       }
     },
     "prefabs": {
+      "zeppelin_start": {
+        "path": "./assets/prefabs/ZeppelinStart.json"
+      },
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
       },
