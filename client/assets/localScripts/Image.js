@@ -163,7 +163,6 @@ module.exports = class Image {
     const manager = gV.getInputManager();
     const raycaster = new udviz.THREE.Raycaster();
     manager.addMouseInput(gV.getRootWebGL(), 'dblclick', function (event) {
-      if (gV.constructor.name != 'GameView') return;
       if (event.button != 0) return;
       const mouse = new udviz.THREE.Vector2(
         -1 +
