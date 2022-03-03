@@ -19,14 +19,8 @@ module.exports = class Avatar {
     this.conf = conf;
 
     Game = GameModule;
-    this.setPause(false);
 
     this.commands = {};
-    this.firstTick = true;
-  }
-
-  setPause(value) {
-    this.pause = value;
   }
 
   init() {
@@ -195,18 +189,8 @@ module.exports = class Avatar {
   }
 
   tick() {
-    if (this.pause) return;
     const gameObject = arguments[0];
     const worldContext = arguments[1];
-
-    //TODO see if still necessary
-    if (this.firstTick) {
-      this.firstTick = false;
-      gameObject.setOutdated(true);
-    } else {
-      gameObject.setOutdated(false);
-    }
-
     this.fetchCommands(worldContext.getCommands(), gameObject);
     this.applyCommands(gameObject, worldContext.getDt());
   }

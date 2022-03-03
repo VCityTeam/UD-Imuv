@@ -23,7 +23,7 @@ module.exports = class Portal {
     const conf = this.conf;
     const world = this.worldCtxt.getWorld();
     setTimeout(function () {
-      avatarWS.setPause(false);
+      avatarGo.setFreeze(false);
       world.notify('portalEvent', [
         avatarGo,
         conf.worldDestUUID,
