@@ -49,6 +49,9 @@
       "static_object": {
         "path": "./assets/localScripts/StaticObject.js"
       },
+      "zeppelin_start": {
+        "path": "./assets/localScripts/ZeppelinStart.js"
+      },
       "video": {
         "path": "./assets/localScripts/Video.js"
       },

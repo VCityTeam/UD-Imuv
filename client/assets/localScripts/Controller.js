@@ -19,7 +19,7 @@ module.exports = class Controller {
     itowns = udviz.itowns;
 
     //Avatar controller
-    this.targetGO = null;
+    this.avatarGO = null;
     this.avatarCameraman = null;
     this.avatarController = false;
 
@@ -57,12 +57,15 @@ module.exports = class Controller {
     manager.addKeyInput('a', 'keydown', function () {
       _this.setAvatarController(!_this.avatarController, localCtx);
     });
+    manager.addMouseInput(manager.element, 'click', function () {
+      manager.setPointerLock(false);
+    });
 
-    //init avatarCameraman
+    //init controllers
     this.initAvatarController(localCtx);
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
-      this.initTraveling(localCtx);
+      this.addTravelingRoutine(localCtx);
     } else {
       this.setAvatarController(true, localCtx);
     }
@@ -76,7 +79,7 @@ module.exports = class Controller {
     return this.routines.length;
   }
 
-  initTraveling(localCtx) {
+  addTravelingRoutine(localCtx) {
     const splash = this.createSplashScreen();
     const duration = this.conf.traveling_time;
     if (!duration) return; //if no traveling time return
@@ -95,8 +98,7 @@ module.exports = class Controller {
     this.addRoutine(
       new Game.Components.Routine(
         function (dt) {
-          if (!_this.targetGO) return false;
-          _this.avatarCameraman.setTarget(_this.targetGO);
+          if (!_this.avatarGO) return false;
           const t = _this.avatarCameraman.computeTransformTarget();
 
           //init relatively
@@ -136,17 +138,19 @@ module.exports = class Controller {
 
   initAvatarController(localCtx) {
     const gameView = localCtx.getGameView();
-    const div = gameView.getRenderer().domElement;
     const camera = gameView.getCamera();
     const manager = gameView.getInputManager();
-    const Routine = Game.Components.Routine;
-    const Command = Game.Command;
 
     //cameraman
     this.avatarCameraman = new AvatarCameraman(camera);
 
     //force listening so isPressed works
     manager.listenKeys(['c']);
+
+    const _this = this;
+    manager.addKeyInput('y', 'keydown', function () {
+      _this.avatarCameraman.toggleMode();
+    });
   }
 
   setAvatarController(value, localCtx) {
@@ -159,10 +163,7 @@ module.exports = class Controller {
 
     //FORWARD
     const gameView = localCtx.getGameView();
-    const div = gameView.getRenderer().domElement;
-    const camera = gameView.getCamera();
     const manager = gameView.getInputManager();
-    const Routine = Game.Components.Routine;
     const Command = Game.Command;
 
     if (value) {
@@ -266,13 +267,17 @@ module.exports = class Controller {
     const go = arguments[0];
     const localCtx = arguments[1];
 
-    const avatarGO = localCtx
-      .getGameView()
-      .getLastState()
-      .getGameObject()
-      .find(localCtx.getGameView().getUserData('avatarUUID'));
+    //if not initialized look for avatar go
+    if (!this.avatarGO) {
+      this.avatarGO = localCtx
+        .getGameView()
+        .getLastState()
+        .getGameObject()
+        .find(localCtx.getGameView().getUserData('avatarUUID'));
 
-    this.targetGO = avatarGO;
+      //init dynamically
+      this.avatarCameraman.setTarget(this.avatarGO);
+    }
 
     //routines are prior
     if (this.hasRoutine()) {
@@ -289,17 +294,7 @@ module.exports = class Controller {
     }
   }
 
-  setFog(view, value) {
-    return;
-    if (value) {
-      view.scene.fog = this.fogObject;
-    } else {
-      view.scene.fog = null;
-    }
-    view.scene.fog = null; //TODO fix me for now cant interact with tile children material
-  }
-
-  initInputs(go, localCtx) {
+  initSwitchItownsController(localCtx) {
     const _this = this;
 
     const gameView = localCtx.getGameView();
@@ -308,12 +303,6 @@ module.exports = class Controller {
     const manager = gameView.getInputManager();
     const Routine = Game.Components.Routine;
     const Command = Game.Command;
-
-    //INPUTS LOCAL
-
-    manager.addKeyInput('y', 'keydown', function () {
-      _this.avatarCameraman.toggleMode();
-    });
 
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
@@ -365,8 +354,6 @@ module.exports = class Controller {
               function () {
                 view.controls.dispose();
                 view.controls = null;
-                _this.avatarCameraman.setFilmingTarget(true);
-                _this.setFog(view, true);
               }
             )
           );
@@ -391,8 +378,6 @@ module.exports = class Controller {
             _this.itownsCamPos = endPosition;
             _this.itownsCamQuat = endQuaternion;
           }
-
-          _this.setFog(view, false);
 
           _this.avatarCameraman.addRoutine(
             new Routine(
@@ -425,8 +410,6 @@ module.exports = class Controller {
                   focusOnMouseClick: false,
                   zoomFactor: 0.9, //TODO working ?
                 });
-
-                _this.avatarCameraman.setFilmingTarget(false);
               }
             )
           );

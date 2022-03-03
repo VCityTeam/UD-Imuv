@@ -1890,7 +1890,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.1, 0.1, 0.1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "audio_fontain",
@@ -1922,7 +1924,9 @@
                 "position": [0, 0, 0.7223426946215454],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.1, 0.1, 0.1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal_Conf_Stairs",
@@ -1967,10 +1971,16 @@
                 "LocalScript": {
                   "uuid": "5DF3924E-1822-42CA-9CEE-5DAA347322FA",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "1F80BFF8-B3FA-49F5-B2B7-FCB4A2A40610",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -1983,7 +1993,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal_Expo_Ouside",
@@ -2028,10 +2040,16 @@
                 "LocalScript": {
                   "uuid": "7148E1C3-819F-4247-A7D2-06909149171F",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "5E2CEC61-5502-4270-B4E4-9A6BF4CDE0E1",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2044,13 +2062,15 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Zeppelin",
               "type": "GameObject",
               "static": false,
-              "outdated": true,
+              "outdated": false,
               "uuid": "7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B",
               "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
               "components": {
@@ -2082,7 +2102,9 @@
                 "position": [81.0487084706055, 12.454190268612415, 30],
                 "rotation": [0, 0, 4.864859415866725, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Video Intro",
@@ -2128,7 +2150,9 @@
                 ],
                 "rotation": [1.5707, 0, 3.1415, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal_Conf_Patio",
@@ -2173,10 +2197,16 @@
                 "LocalScript": {
                   "uuid": "83241504-AE1E-46EC-B493-997283417F5C",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "EE3D4053-F4D2-413A-A809-CFDD81E728CC",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2187,7 +2217,9 @@
                 "position": [-12.47268271446228, -28.112542466260493, 0],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal_Conf_Stairs balcon",
@@ -2232,10 +2264,16 @@
                 "LocalScript": {
                   "uuid": "008101ED-9DC7-44E1-8855-78E8414DF6A8",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "4CB8598B-6F76-4425-9E52-5C8178030118",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2248,7 +2286,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal studio A",
@@ -2289,10 +2329,16 @@
                 "LocalScript": {
                   "uuid": "C6B5C77D-C3B6-4F5E-90FF-12CBD7AC2AF9",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "D83F07D6-9179-4C57-8501-F3231D8E597A",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2310,7 +2356,9 @@
                   "ZXY"
                 ],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal studio B",
@@ -2351,10 +2399,16 @@
                 "LocalScript": {
                   "uuid": "329F3D84-3F0B-4B01-AE54-D0F20B2D1276",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "A1BFABA0-AA12-44BA-B947-B6E7916B8E94",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2372,7 +2426,9 @@
                   "ZXY"
                 ],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "audio birds (clone)",
@@ -2406,7 +2462,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.1, 0.1, 0.1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "audio city",
@@ -2440,7 +2498,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.1, 0.1, 0.1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "ButterflyArea",
@@ -2492,7 +2552,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.5, 0.5, 0.5]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "ButterflyArea2",
@@ -2544,7 +2606,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.5, 0.5, 0.5]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "ButterflyArea3",
@@ -2596,7 +2660,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [0.5, 0.5, 0.5]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "SignageArea",
@@ -2669,14 +2735,81 @@
                 "scale": [
                   0.2926460686026723, 0.2926460686026723, 0.2926460686026723
                 ]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
+            },
+            {
+              "name": "ZeppelinStart",
+              "type": "GameObject",
+              "static": true,
+              "outdated": false,
+              "uuid": "F06B2870-3AF7-47EA-9DA6-33B5C7A6CD3C",
+              "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+              "components": {
+                "Render": {
+                  "uuid": "6A458A3C-4892-4F24-888F-57DC860F443B",
+                  "type": "Render",
+                  "idRenderData": "zeppelin",
+                  "color": [1, 1, 1]
+                },
+                "Collider": {
+                  "uuid": "E8AAD193-0DB3-492E-8B62-C0DB410C87D4",
+                  "type": "Collider",
+                  "shapes": [
+                    {
+                      "type": "Circle",
+                      "center": { "x": 0, "y": 0 },
+                      "radius": 1
+                    }
+                  ],
+                  "body": false
+                },
+                "WorldScript": {
+                  "uuid": "000C750F-7420-48E1-B2E3-BE57DF2B2559",
+                  "idScripts": ["interaction_zone"],
+                  "conf": {},
+                  "type": "WorldScript"
+                },
+                "LocalScript": {
+                  "uuid": "D8DCFD62-178D-47B7-93E4-FFDC8376CD2A",
+                  "idScripts": [
+                    "rotate",
+                    "local_interactions",
+                    "zeppelin_start"
+                  ],
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
+                  "type": "LocalScript"
+                },
+                "Audio": {
+                  "uuid": "FA524C8B-4109-4401-BE34-C9F5B6C5A62F",
+                  "sounds": ["portal_in"],
+                  "conf": {},
+                  "type": "Audio"
+                }
+              },
+              "children": [],
+              "transform": {
+                "position": [22.677764346124604, 47.11935334838927, 0],
+                "rotation": [0, 0, 6.242808109913961, "ZXY"],
+                "scale": [0.1, 0.1, 0.1]
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             }
           ],
           "transform": {
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         },
         {
           "name": "UI_GO",
@@ -2689,7 +2822,7 @@
             "LocalScript": {
               "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 15 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -2704,20 +2837,24 @@
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         }
       ],
       "transform": {
         "position": [0, 0, 0],
         "rotation": [0, 0, 0, "ZXY"],
         "scale": [1, 1, 1]
-      }
+      },
+      "noLocalUpdate": false,
+      "freeze": false
     },
     "name": "Flying Campus World",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-    "version": "2.33.8"
+    "version": "2.36.0"
   },
   {
     "gameObject": {
@@ -3232,10 +3369,16 @@
                 "LocalScript": {
                   "uuid": "AA6956CE-E11D-4519-829B-99564C8AB969",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "A925A875-FEB9-40DD-8BFB-A24E7CC1D1A1",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -3248,7 +3391,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image1",
@@ -3293,7 +3438,9 @@
                 ],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image2",
@@ -3336,7 +3483,9 @@
                 "position": [9.865009346278384, -15.137116045691073, 2.7],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image3",
@@ -3379,7 +3528,9 @@
                 "position": [16.37363406876102, -15.197473629377782, 2.7],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image4",
@@ -3422,7 +3573,9 @@
                 "position": [20.324149628635496, -11.954995192587376, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image5",
@@ -3465,7 +3618,9 @@
                 "position": [-3.897221867227927, -6.815741938538849, 2.7],
                 "rotation": [1.5707000000020088, 0, 3.1077148802050143, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image6",
@@ -3508,7 +3663,9 @@
                 "position": [20.324149628635496, -6.991599121131003, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image7",
@@ -3551,7 +3708,9 @@
                 "position": [6.490888266125694, -6.755357597023249, 2.7],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image8",
@@ -3594,7 +3753,9 @@
                 "position": [6.490888266125694, -11.746453309431672, 2.7],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image9",
@@ -3637,7 +3798,9 @@
                 "position": [-23.250901921419427, -9.180381101556122, 10],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image10",
@@ -3680,7 +3843,9 @@
                 "position": [-23.250901921419427, 8.227311057969928, 10],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image11",
@@ -3723,7 +3888,9 @@
                 "position": [25.275346181821078, 5.010049852542579, 10],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image12",
@@ -3766,7 +3933,9 @@
                 "position": [25.275346181821078, -11.253361359238625, 10],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image14",
@@ -3809,7 +3978,9 @@
                 "position": [18.55301780300215, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image15",
@@ -3852,7 +4023,9 @@
                 "position": [7.057493497850373, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image16",
@@ -3895,7 +4068,9 @@
                 "position": [-4.370733732590452, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image17",
@@ -3938,7 +4113,9 @@
                 "position": [-15.973096884321421, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image18",
@@ -3981,7 +4158,9 @@
                 "position": [-18.201377030927688, 12.933364816009998, 10],
                 "rotation": [1.5707000000008564, 0, 0, "ZXY"],
                 "scale": [1.5, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image19",
@@ -4024,7 +4203,9 @@
                 "position": [8.096792634343728, 12.586669554933906, 10],
                 "rotation": [1.5707000000020088, 0, 0, "ZXY"],
                 "scale": [0.667, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Image20",
@@ -4067,7 +4248,9 @@
                 "position": [18.887739738449454, 12.586669554933906, 10],
                 "rotation": [1.5707000000020088, 0, 0, "ZXY"],
                 "scale": [0.667, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "maplyon",
@@ -4104,14 +4287,18 @@
                 "position": [20.324149628635496, -0.35783779062330723, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
                 "scale": [0.75, 0.5, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             }
           ],
           "transform": {
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         },
         {
           "name": "UI_GO",
@@ -4124,7 +4311,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 31 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4139,20 +4326,24 @@
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         }
       ],
       "transform": {
         "position": [0, 0, 0],
         "rotation": [0, 0, 0, "ZXY"],
         "scale": [1, 1, 1]
-      }
+      },
+      "noLocalUpdate": false,
+      "freeze": false
     },
     "name": "Room Expo World",
     "origin": null,
     "type": "World",
     "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-    "version": "2.33.8"
+    "version": "2.36.0"
   },
   {
     "gameObject": {
@@ -4416,10 +4607,16 @@
                 "LocalScript": {
                   "uuid": "4D210DC3-544C-4020-AB93-1D7598521019",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "9BD8EF1F-0344-4DA9-8ECF-2431350C7F82",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -4432,7 +4629,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal_Campus_Outside",
@@ -4477,10 +4676,16 @@
                 "LocalScript": {
                   "uuid": "12C4C448-5065-4D81-A66D-AE3AB6E7CB60",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "7A4FACE2-42C1-4A77-827C-C0B4046CE2C1",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -4493,7 +4698,9 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Video final IMU",
@@ -4528,7 +4735,9 @@
                 ],
                 "rotation": [1.5707, 1.5707, 0, "ZXY"],
                 "scale": [0.999865525927484, 0.9361825705076754, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             },
             {
               "name": "Portal_Patio_Campus",
@@ -4573,10 +4782,16 @@
                 "LocalScript": {
                   "uuid": "D8FF3327-5695-497F-AC35-B1CE4D546696",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "D5F78102-525D-4ACA-9D3C-91C70082A20D",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -4589,14 +4804,18 @@
                 ],
                 "rotation": [0, 0, 0, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             }
           ],
           "transform": {
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         },
         {
           "name": "UI_GO",
@@ -4609,7 +4828,7 @@
             "LocalScript": {
               "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 30 },
+              "conf": { "world_computer_dt": 15 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4624,20 +4843,24 @@
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         }
       ],
       "transform": {
         "position": [0, 0, 0],
         "rotation": [0, 0, 0, "ZXY"],
         "scale": [1, 1, 1]
-      }
+      },
+      "noLocalUpdate": false,
+      "freeze": false
     },
     "name": "Room Conf Modulable",
     "origin": null,
     "type": "World",
     "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-    "version": "2.33.8"
+    "version": "2.36.0"
   },
   {
     "gameObject": {
@@ -4897,10 +5120,16 @@
                 "LocalScript": {
                   "uuid": "E1EFCD59-F789-4CF0-8320-C4EB47861338",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "54280492-CB6B-432C-80A9-565E75728748",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -4913,14 +5142,18 @@
                 ],
                 "rotation": [6.283105433539172, 6.3, 0.0501722997557561, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             }
           ],
           "transform": {
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         },
         {
           "name": "UI_GO",
@@ -4933,7 +5166,7 @@
             "LocalScript": {
               "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 31 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4948,20 +5181,24 @@
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         }
       ],
       "transform": {
         "position": [0, 0, 0],
         "rotation": [0, 0, 0, "ZXY"],
         "scale": [1, 1, 1]
-      }
+      },
+      "noLocalUpdate": false,
+      "freeze": false
     },
     "name": "Studio_IMU_A",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
-    "version": "2.33.8"
+    "version": "2.36.0"
   },
   {
     "gameObject": {
@@ -5196,10 +5433,16 @@
                 "LocalScript": {
                   "uuid": "89D210AC-4766-4D67-986D-364747A1AB5D",
                   "idScripts": ["rotate", "local_interactions", "portal_sweep"],
-                  "conf": { "speed": 0.001 },
+                  "conf": {
+                    "speed": 0.001,
+                    "avatarsOnEnter": [],
+                    "avatarsColliding": [],
+                    "avatarsOnLeave": []
+                  },
                   "type": "LocalScript"
                 },
                 "Audio": {
+                  "uuid": "12E69927-6324-43A8-8287-E56E865EB485",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -5212,14 +5455,18 @@
                 ],
                 "rotation": [0, 0, 6.2480473677264605, "ZXY"],
                 "scale": [1, 1, 1]
-              }
+              },
+              "noLocalUpdate": false,
+              "freeze": false
             }
           ],
           "transform": {
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         },
         {
           "name": "UI_GO",
@@ -5232,7 +5479,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 30 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5247,19 +5494,23 @@
             "position": [0, 0, 0],
             "rotation": [0, 0, 0, "ZXY"],
             "scale": [1, 1, 1]
-          }
+          },
+          "noLocalUpdate": false,
+          "freeze": false
         }
       ],
       "transform": {
         "position": [0, 0, 0],
         "rotation": [0, 0, 0, "ZXY"],
         "scale": [1, 1, 1]
-      }
+      },
+      "noLocalUpdate": false,
+      "freeze": false
     },
     "name": "Studio_IMU_B",
     "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
     "type": "World",
     "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-    "version": "2.33.8"
+    "version": "2.36.0"
   }
 ]
