@@ -21,7 +21,12 @@ module.exports = class Controller {
     //Avatar controller
     this.avatarGO = null;
     this.avatarCameraman = null;
-    this.avatarController = false;
+    this.avatarControllerMode = false;
+
+    //Zeppelin controller
+    this.zeppelinControllerMode = false;
+    this.zeppelinGO = null;
+    this.orbitControl = null;
 
     //routines camera
     this.routines = [];
@@ -34,6 +39,14 @@ module.exports = class Controller {
   fetchStaticObject(go) {
     const scriptStaticObject = go.fetchLocalScripts()['static_object'];
     return scriptStaticObject.getObject();
+  }
+
+  addRoutine(r) {
+    this.routines.push(r);
+  }
+
+  hasRoutine() {
+    return this.routines.length;
   }
 
   init() {
@@ -55,32 +68,71 @@ module.exports = class Controller {
       console.log(new Game.GameObject({}).toJSON(true));
     });
     manager.addKeyInput('a', 'keydown', function () {
-      _this.setAvatarController(!_this.avatarController, localCtx);
+      _this.setAvatarControllerMode(!_this.avatarControllerMode, localCtx);
     });
-    manager.addMouseInput(manager.element, 'click', function () {
+
+    //exit pointer lock method
+    manager.addMouseInput(manager.getElement(), 'click', function () {
       manager.setPointerLock(false);
     });
 
     //init controllers
-    this.initAvatarController(localCtx);
+    this.initAvatarControllerMode(localCtx);
+    this.initZeppelinControllerMode(localCtx);
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
       this.addTravelingRoutine(localCtx);
     } else {
-      this.setAvatarController(true, localCtx);
+      this.setAvatarControllerMode(true, localCtx);
     }
   }
 
-  addRoutine(r) {
-    this.routines.push(r);
+  initAvatarControllerMode(localCtx) {
+    const gameView = localCtx.getGameView();
+    const camera = gameView.getCamera();
+    const manager = gameView.getInputManager();
+
+    //cameraman
+    this.avatarCameraman = new AvatarCameraman(camera);
+
+    //force listening so isPressed works
+    manager.listenKeys(['c']);
+
+    const _this = this;
+    manager.addKeyInput('y', 'keydown', function () {
+      _this.avatarCameraman.toggleMode();
+    });
   }
 
-  hasRoutine() {
-    return this.routines.length;
+  initZeppelinControllerMode(localCtx) {
+    const gameView = localCtx.getGameView();
+    const camera = gameView.getCamera();
+    const manager = gameView.getInputManager();
+
+    //Zeppelin controller
+    this.orbitControl = new udviz.OrbitControls(camera, manager.getElement());
+    this.orbitControl.enabled = false;
   }
 
   addTravelingRoutine(localCtx) {
-    const splash = this.createSplashScreen();
+    //anonymous function
+    const createSplashScreen = function () {
+      const result = document.createElement('div');
+      result.classList.add('splash_controller');
+
+      const bg = document.createElement('div');
+      bg.classList.add('bg_splash_controller');
+      result.appendChild(bg);
+
+      const label = document.createElement('div');
+      label.classList.add('label_splash_controller');
+      label.innerHTML = 'Welcome to Flying Campus';
+      result.appendChild(label);
+
+      return result;
+    };
+
+    const splash = createSplashScreen();
     const duration = this.conf.traveling_time;
     if (!duration) return; //if no traveling time return
 
@@ -130,36 +182,19 @@ module.exports = class Controller {
         },
         function () {
           splash.remove();
-          _this.setAvatarController(true, localCtx);
+          _this.setAvatarControllerMode(true, localCtx);
         }
       )
     );
   }
 
-  initAvatarController(localCtx) {
-    const gameView = localCtx.getGameView();
-    const camera = gameView.getCamera();
-    const manager = gameView.getInputManager();
-
-    //cameraman
-    this.avatarCameraman = new AvatarCameraman(camera);
-
-    //force listening so isPressed works
-    manager.listenKeys(['c']);
-
-    const _this = this;
-    manager.addKeyInput('y', 'keydown', function () {
-      _this.avatarCameraman.toggleMode();
-    });
-  }
-
-  setAvatarController(value, localCtx) {
-    if (value == this.avatarController) {
+  setAvatarControllerMode(value, localCtx) {
+    if (value == this.avatarControllerMode) {
       console.warn('same value');
       return;
     }
 
-    this.avatarController = value;
+    this.avatarControllerMode = value;
 
     //FORWARD
     const gameView = localCtx.getGameView();
@@ -167,6 +202,9 @@ module.exports = class Controller {
     const Command = Game.Command;
 
     if (value) {
+      const userID = gameView.getUserData('userID');
+      const gameObjectToCtrlUUID = gameView.getUserData('avatarUUID');
+
       //forward
       manager.addKeyCommand(
         Command.TYPE.MOVE_FORWARD,
@@ -174,9 +212,17 @@ module.exports = class Controller {
         function () {
           manager.setPointerLock(true);
           if (manager.isPressed('c')) {
-            return new Command({ type: Command.TYPE.RUN });
+            return new Command({
+              type: Command.TYPE.RUN,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
           } else {
-            return new Command({ type: Command.TYPE.MOVE_FORWARD });
+            return new Command({
+              type: Command.TYPE.MOVE_FORWARD,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
           }
         }
       );
@@ -187,7 +233,11 @@ module.exports = class Controller {
         ['s', 'ArrowDown'],
         function () {
           manager.setPointerLock(true);
-          return new Command({ type: Command.TYPE.MOVE_BACKWARD });
+          return new Command({
+            type: Command.TYPE.MOVE_BACKWARD,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
         }
       );
 
@@ -197,7 +247,11 @@ module.exports = class Controller {
         ['q', 'ArrowLeft'],
         function () {
           manager.setPointerLock(true);
-          return new Command({ type: Command.TYPE.MOVE_LEFT });
+          return new Command({
+            type: Command.TYPE.MOVE_LEFT,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
         }
       );
 
@@ -207,7 +261,11 @@ module.exports = class Controller {
         ['d', 'ArrowRight'],
         function () {
           manager.setPointerLock(true);
-          return new Command({ type: Command.TYPE.MOVE_RIGHT });
+          return new Command({
+            type: Command.TYPE.MOVE_RIGHT,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
         }
       );
 
@@ -233,6 +291,8 @@ module.exports = class Controller {
               data: {
                 vector: new Game.THREE.Vector3(pixelY, 0, pixelX),
               },
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
             });
           }
         }
@@ -244,23 +304,90 @@ module.exports = class Controller {
       manager.removeKeyCommand(Command.TYPE.MOVE_RIGHT, ['d', 'ArrowRight']);
       manager.removeKeyCommand(Command.TYPE.MOVE_LEFT, ['q', 'ArrowLeft']);
       manager.removeMouseCommand('mousemove');
+      manager.setPointerLock(false);
     }
   }
 
-  createSplashScreen() {
-    const result = document.createElement('div');
-    result.classList.add('splash_controller');
+  setZeppelinControllerMode(value, localCtx) {
+    if (!this.zeppelinGO) return; //no zeppelin
 
-    const bg = document.createElement('div');
-    bg.classList.add('bg_splash_controller');
-    result.appendChild(bg);
+    if (value == this.zeppelinControllerMode) {
+      console.warn('same value');
+      return;
+    }
 
-    const label = document.createElement('div');
-    label.classList.add('label_splash_controller');
-    label.innerHTML = 'Welcome to Flying Campus';
-    result.appendChild(label);
+    this.zeppelinControllerMode = value;
 
-    return result;
+    const gameView = localCtx.getGameView();
+    const manager = gameView.getInputManager();
+    const Command = Game.Command;
+
+    if (value) {
+      const userID = gameView.getUserData('userID');
+      const gameObjectToCtrlUUID = this.zeppelinGO.getUUID();
+
+      //forward
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_FORWARD,
+        ['z', 'ArrowUp'],
+        function () {
+          return new Command({
+            type: Command.TYPE.MOVE_FORWARD,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
+        }
+      );
+
+      //BACKWARD
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_BACKWARD,
+        ['s', 'ArrowDown'],
+        function () {
+          manager.setPointerLock(true);
+          return new Command({
+            type: Command.TYPE.MOVE_BACKWARD,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
+        }
+      );
+
+      //LEFT
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_LEFT,
+        ['q', 'ArrowLeft'],
+        function () {
+          manager.setPointerLock(true);
+          return new Command({
+            type: Command.TYPE.MOVE_LEFT,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
+        }
+      );
+
+      //RIGHT
+      manager.addKeyCommand(
+        Command.TYPE.MOVE_RIGHT,
+        ['d', 'ArrowRight'],
+        function () {
+          manager.setPointerLock(true);
+          return new Command({
+            type: Command.TYPE.MOVE_RIGHT,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
+        }
+      );
+    } else {
+      manager.removeKeyCommand(Command.TYPE.MOVE_FORWARD, ['z', 'ArrowUp']);
+      manager.removeKeyCommand(Command.TYPE.MOVE_BACKWARD, ['s', 'ArrowDown']);
+      manager.removeKeyCommand(Command.TYPE.MOVE_RIGHT, ['d', 'ArrowRight']);
+      manager.removeKeyCommand(Command.TYPE.MOVE_LEFT, ['q', 'ArrowLeft']);
+    }
+
+    this.orbitControl.enabled = value;
   }
 
   tick() {
@@ -270,13 +397,15 @@ module.exports = class Controller {
     //if not initialized look for avatar go
     if (!this.avatarGO) {
       this.avatarGO = localCtx
-        .getGameView()
-        .getLastState()
-        .getGameObject()
+        .getRootGameObject()
         .find(localCtx.getGameView().getUserData('avatarUUID'));
 
       //init dynamically
       this.avatarCameraman.setTarget(this.avatarGO);
+    }
+
+    if (!this.zeppelinGO) {
+      this.zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');
     }
 
     //routines are prior
@@ -288,12 +417,25 @@ module.exports = class Controller {
         this.routines.shift(); //remove
       }
     } else {
-      if (this.avatarController) {
+      if (this.avatarControllerMode) {
         this.avatarCameraman.focusTarget(this.fetchStaticObject(go));
+      }
+
+      if (this.zeppelinControllerMode) {
+        const obj = this.zeppelinGO.getObject3D();
+        let position = new Game.THREE.Vector3();
+        obj.matrixWorld.decompose(
+          position,
+          new Game.THREE.Quaternion(),
+          new Game.THREE.Vector3()
+        );
+        this.orbitControl.target.copy(position);
+        this.orbitControl.update();
       }
     }
   }
 
+  //DEBUG
   initSwitchItownsController(localCtx) {
     const _this = this;
 

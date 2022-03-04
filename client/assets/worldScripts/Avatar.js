@@ -44,7 +44,7 @@ module.exports = class Avatar {
     let addMoveTo = false;
     for (let i = commands.length - 1; i >= 0; i--) {
       const cmd = commands[i];
-      if (cmd.getAvatarID() == gameObject.getUUID()) {
+      if (cmd.getGameObjectUUID() == gameObject.getUUID()) {
         const type = cmd.getType();
         this.commands[type].push(cmd);
         //can do this because on decremente

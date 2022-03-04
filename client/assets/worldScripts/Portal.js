@@ -18,6 +18,7 @@ module.exports = class Portal {
   }
 
   notifyEnter(avatarGo, avatarWS) {
+    console.log(avatarGo);
     avatarGo.setFreeze(true);
 
     const conf = this.conf;

@@ -124,7 +124,8 @@
       },
       "zeppelin": {
         "path": "./assets/models/Zeppelin_Labex_IMU.glb",
-        "anchor": "center_min"
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 1.5707, "z": 0 }
       },
       "studio_imu_A": {
         "path": "./assets/models/Studio_IMU_A.glb"

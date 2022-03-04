@@ -65,7 +65,7 @@ const WorldThreadModule = class WorldThread {
   }
 
   removeUser(user) {
-    this.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarID());
+    this.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarUUID());
     delete this.users[user.getUUID()];
   }
 
