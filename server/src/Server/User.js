@@ -20,7 +20,7 @@ const UserModule = class User {
     this.avatarGO = new GameObject(data.avatarJSON);
   }
 
-  getAvatarID() {
+  getAvatarUUID() {
     return this.avatarGO.getUUID();
   }
 
@@ -43,7 +43,8 @@ const UserModule = class User {
     if (!this.lastState) {
       this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
-        avatarUUID: this.getAvatarID(),
+        avatarUUID: this.getAvatarUUID(),
+        userID: this.getUUID(),
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);
@@ -74,9 +75,11 @@ const UserModule = class User {
           //parse
           cmdsJSON.forEach(function (cmdJSON) {
             const command = new Command(cmdJSON);
-            command.setUserID(_this.getUUID());
-            command.setAvatarID(_this.getAvatarID());
-            commands.push(command);
+
+            if (command.getUserID() == _this.getUUID()) {
+              //security so another client cant control another avatar
+              commands.push(command);
+            }
           });
 
           _this.thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);

@@ -46,7 +46,7 @@ const WorldDispatcherModule = class WorldDispatcher {
       const thread = this.worldToThread[key];
       const users = thread.getUsers();
       for (let userUUID in users) {
-        const uuid = users[userUUID].getAvatarID();
+        const uuid = users[userUUID].getAvatarUUID();
         if (avatarUUID == uuid) return users[userUUID];
       }
     }
@@ -126,7 +126,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     if (this.fetchUserInWorldWithUUID(user.getUUID()))
       throw new Error('add user already added');
 
-    const avatarUUID = user.getAvatarID();
+    const avatarUUID = user.getAvatarUUID();
     const worldUUID = this.config.uuidEntryWorld;
     // const worldUUID = '7027C0BF-BC84-48B6-BCFD-FA97DAE8874C'; //room conf
 

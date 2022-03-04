@@ -31,18 +31,34 @@ module.exports = class Zeppelin {
 
   tick() {
     const go = arguments[0];
+
     const worldContext = arguments[1];
-    const dt = worldContext.dt;
+    const dt = worldContext.getDt();
+    const commands = worldContext.getCommands();
+    const speedTranslate = 0.05;
+    const speedRotate = 0.001;
 
-    this.currentTime += dt;
-
-    let ratio = this.currentTime / this.conf.duration;
-    ratio /= 2 * Math.PI;
-
-    const rot = go.getRotation();
-    rot.z = ratio - Math.PI * 0.5;
-
-    go.setRotation(rot);
-    go.setPosition(this.computePosition(ratio, go.getPosition()));
+    for (let index = commands.length - 1; index >= 0; index--) {
+      const cmd = commands[index];
+      if (cmd.getGameObjectUUID() == go.getUUID()) {
+        switch (cmd.getType()) {
+          case Game.Command.TYPE.MOVE_FORWARD:
+            go.move(go.computeForwardVector().setLength(dt * speedTranslate));
+            break;
+          case Game.Command.TYPE.MOVE_BACKWARD:
+            go.move(go.computeBackwardVector().setLength(dt * speedTranslate));
+            break;
+          case Game.Command.TYPE.MOVE_LEFT:
+            go.rotate(new Game.THREE.Vector3(0, 0, speedRotate * dt));
+            break;
+          case Game.Command.TYPE.MOVE_RIGHT:
+            go.rotate(new Game.THREE.Vector3(0, 0, -speedRotate * dt));
+            break;
+          default:
+            throw new Error('command not handle ', cmd.getType());
+        }
+        commands.splice(index, 1);
+      }
+    }
   }
 };

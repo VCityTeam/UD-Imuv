@@ -1,0 +1,44 @@
+{
+  "name": "ZeppelinStart",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": "zeppelin",
+      "color": [1, 1, 1]
+    },
+    "Collider": {
+      "type": "Collider",
+      "shapes": [
+        {
+          "type": "Circle",
+          "center": { "x": 0, "y": 0 },
+          "radius": 1
+        }
+      ],
+      "body": false
+    },
+    "WorldScript": {
+      "idScripts": ["interaction_zone"],
+      "conf": {},
+      "type": "WorldScript"
+    },
+    "LocalScript": {
+      "idScripts": ["rotate", "local_interactions", "zeppelin_start"],
+      "conf": { "speed": 0.001 },
+      "type": "LocalScript"
+    },
+    "Audio": {
+      "sounds": ["portal_in"],
+      "conf": {},
+      "type": "Audio"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0, "ZXY"],
+    "scale": [0.1, 0.1, 0.1]
+  }
+}

@@ -27,8 +27,8 @@
       }
     },
     "css": {
-      "localGameManager": {
-        "path": "./assets/css/localGameManager.css"
+      "controller": {
+        "path": "./assets/css/controller.css"
       },
       "ui": {
         "path": "./assets/css/ui.css"
@@ -61,8 +61,8 @@
       "image": {
         "path": "./assets/localScripts/Image.js"
       },
-      "localGameManager": {
-        "path": "./assets/localScripts/LocalGameManager.js"
+      "controller": {
+        "path": "./assets/localScripts/Controller.js"
       },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"
@@ -84,6 +84,9 @@
       },
       "default_interactions": {
         "path": "./assets/localScripts/DefaultInteractions.js"
+      },
+      "zeppelin_start": {
+        "path": "./assets/localScripts/ZeppelinStart.js"
       },
       "signage_displayer": {
         "path": "./assets/localScripts/SignageDisplayer.js"
@@ -121,7 +124,8 @@
       },
       "zeppelin": {
         "path": "./assets/models/Zeppelin_Labex_IMU.glb",
-        "anchor": "center_min"
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 1.5707, "z": 0 }
       },
       "studio_imu_A": {
         "path": "./assets/models/Studio_IMU_A.glb"
@@ -157,6 +161,9 @@
       }
     },
     "prefabs": {
+      "zeppelin_start": {
+        "path": "./assets/prefabs/ZeppelinStart.json"
+      },
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
       },

@@ -17,13 +17,13 @@ module.exports = class Portal {
     this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
   }
 
-  notifyEnter(avatarGo, avatarWS) {
+  notifyEnter(avatarGo) {
     avatarGo.setFreeze(true);
 
     const conf = this.conf;
     const world = this.worldCtxt.getWorld();
     setTimeout(function () {
-      avatarWS.setPause(false);
+      avatarGo.setFreeze(false);
       world.notify('portalEvent', [
         avatarGo,
         conf.worldDestUUID,
