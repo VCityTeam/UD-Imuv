@@ -1,5 +1,9 @@
 /** @format */
 
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
+
 const OFFSET_ELEVATION = 0.2;
 
 module.exports = class Map {

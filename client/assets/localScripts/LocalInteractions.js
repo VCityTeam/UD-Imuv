@@ -4,7 +4,7 @@ module.exports = class LocalInteractions {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     this.tickIsColliding = null;
-    Shared = udvizBundle.Game.Shared;
+    Shared = udvizBundle.Game;
   }
 
   init() {
@@ -36,7 +36,7 @@ module.exports = class LocalInteractions {
           _this.conf.avatarsColliding.includes(avatarUUIDLC) &&
           (interactionFunction = ls.interaction)
         ) {
-          interactionFunction.call(ls);
+          interactionFunction.call(ls,localCtx);
         }
       });
     });

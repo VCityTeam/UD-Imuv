@@ -3,9 +3,9 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
+const sharedType = require('ud-viz/src/Game/Game');
 /** @type {sharedType} */
-let Shared = null;
+let Game = null;
 
 const RADIUS_MAP = 20;
 
@@ -19,7 +19,7 @@ module.exports = class Image {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
+    Game = udviz.Game;
 
     this.imagePlane = null;
 
@@ -42,18 +42,18 @@ module.exports = class Image {
     const onLoad = function (texture) {
       const image = texture.image;
       const ratio = image.width / image.height;
-      const material = new Shared.THREE.MeshBasicMaterial({ map: texture });
-      const geometry = new Shared.THREE.PlaneGeometry(
+      const material = new Game.THREE.MeshBasicMaterial({ map: texture });
+      const geometry = new Game.THREE.PlaneGeometry(
         ratio > 1 ? this.conf.factorWidth : this.conf.factorWidth * ratio,
         ratio < 1 ? this.conf.factorHeight : this.conf.factorHeight / ratio,
         32
       );
-      this.imagePlane = new Shared.THREE.Mesh(geometry, material);
-      const r = this.go.getComponent(Shared.Render.TYPE);
+      this.imagePlane = new Game.THREE.Mesh(geometry, material);
+      const r = this.go.getComponent(Game.Render.TYPE);
       r.addObject3D(this.imagePlane);
     };
 
-    const texture = new Shared.THREE.TextureLoader().load(
+    const texture = new Game.THREE.TextureLoader().load(
       this.conf.path,
       onLoad.bind(this)
     );
@@ -142,7 +142,7 @@ module.exports = class Image {
     }
     if (!playSound) return;
 
-    const audioComp = this.go.getComponent(Shared.Audio.TYPE);
+    const audioComp = this.go.getComponent(Game.Audio.TYPE);
     if (!audioComp) return;
 
     const sounds = audioComp.getSounds();

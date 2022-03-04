@@ -1,8 +1,8 @@
 /** @format */
 
 const fs = require('fs');
-const JSONUtils = require('ud-viz/src/Game/Shared/Components/JSONUtils');
-const Shared = require('ud-viz/src/Game/Shared/Shared');
+const JSONUtils = require('ud-viz/src/Game/Components/JSONUtils');
+const Game = require('ud-viz/src/Game/Game');
 
 //server manager load script
 module.exports = class AssetsManagerServer {
@@ -66,7 +66,7 @@ module.exports = class AssetsManagerServer {
 
   createPrefab(idprefab) {
     if (!this.prefabs[idprefab]) console.error('no prefab with id ', idprefab);
-    return new Shared.GameObject(this.prefabs[idprefab]);
+    return new Game.GameObject(this.prefabs[idprefab]);
   }
 
   fetchPrefabJSON(idprefab) {

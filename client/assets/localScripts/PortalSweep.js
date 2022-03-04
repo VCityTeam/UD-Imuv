@@ -3,15 +3,15 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 module.exports = class PortalSweep {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
+    Game = udviz.Game;
   }
 
   init() {
@@ -21,7 +21,7 @@ module.exports = class PortalSweep {
 
   onEnter() {
     const go = this.go;
-    const audioComp = go.getComponent(Shared.Audio.TYPE);
+    const audioComp = go.getComponent(Game.Audio.TYPE);
     if (!audioComp) return;
 
     const sounds = audioComp.getSounds();
@@ -31,8 +31,9 @@ module.exports = class PortalSweep {
     const gV = this.localCtxt.getGameView();
 
     const fadeInHtmlEl = document.createElement('div');
-    fadeInHtmlEl.classList.add('fadeIn');
+    fadeInHtmlEl.classList.add('fadeIn_GameView');
     gV.ui.parentElement.parentElement.appendChild(fadeInHtmlEl);
-    //fade out when avatar arrived in world  
+
+    //TODO fade out when avatar arrived in world
   }
 };

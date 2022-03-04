@@ -1,8 +1,8 @@
 /** @format */
 
 import { THREE } from 'ud-viz';
-import GameObjectModule from 'ud-viz/src/Game/Shared/GameObject/GameObject';
-import { computeMapGO } from '../Components/EditorUtility';
+import GameObjectModule from 'ud-viz/src/Game/GameObject/GameObject';
+import { computeMapGO } from '../../Components/EditorUtility';
 
 import './HeightmapEditor.css';
 
@@ -139,7 +139,7 @@ export class HeightmapEditorView {
     //if visible = true on  init visible = false on dispose
     this.applyHeightmapVisibility(visible);
 
-    const scene = this.gameView.getItownsView().scene;
+    const scene = this.gameView.getScene();
 
     if (visible) {
       const obj = this.gameView.getObject3D();
@@ -190,7 +190,7 @@ export class HeightmapEditorView {
     this.cameraHeightmap.left = -this.planeSize * 0.5;
     this.cameraHeightmap.updateProjectionMatrix();
 
-    const scene = this.gameView.getItownsView().scene;
+    const scene = this.gameView.getScene();
 
     this.heightmapMaterial.uniforms.max.value = this.topPlaneAlt;
     this.heightmapMaterial.uniforms.min.value = this.bottomPlaneAlt;

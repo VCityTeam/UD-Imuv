@@ -3,11 +3,11 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 const threeType = require('three');
-const THREEUtils = require('ud-viz/src/Game/Shared/Components/THREEUtils');
+const THREEUtils = require('ud-viz/src/Game/Components/THREEUtils');
 /** @type {threeType} */
 let THREE = null;
 
@@ -15,8 +15,8 @@ module.exports = class SignageDisplayer {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
-    THREE = Shared.THREE;
+    Game = udviz.Game;
+    THREE = Game.THREE;
     if (!this.conf.projects) this.conf.projects = [];
 
     this.popup = null;
@@ -187,7 +187,7 @@ class Project {
       new THREE.Vector3(5, 5, 5) /*Harcode*/
     );
 
-    const billboard = new udviz.Widgets.Billboard(iframe, transform, 50);
+    const billboard = new udviz.Views.Billboard(iframe, transform, 50);
     billboard.getMaskObject().material.color.set(new THREE.Color(0, 0, 0)); //fix in the latest version of ud-viz but not published yet
     this.localCtx.getGameView().appendBillboard(billboard);
     this.billboard = billboard;

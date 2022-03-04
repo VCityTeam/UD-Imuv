@@ -21,23 +21,23 @@ module.exports = class UI {
     const gameView = localCtx.getGameView();
 
     this.gameViewFps = document.createElement('div');
-    this.gameViewFps.classList.add('label_localGameManager');
+    this.gameViewFps.classList.add('label_controller');
     gameView.appendToUI(this.gameViewFps);
 
     this.worldComputerFps = document.createElement('div');
-    this.worldComputerFps.classList.add('label_localGameManager');
+    this.worldComputerFps.classList.add('label_controller');
     gameView.appendToUI(this.worldComputerFps);
 
     this.pingUI = document.createElement('div');
-    this.pingUI.classList.add('label_localGameManager');
+    this.pingUI.classList.add('label_controller');
     gameView.appendToUI(this.pingUI);
 
     this.avatarCount = document.createElement('div');
-    this.avatarCount.classList.add('label_localGameManager');
+    this.avatarCount.classList.add('label_controller');
     gameView.appendToUI(this.avatarCount);
 
     const labelGlobalSound = document.createElement('div');
-    labelGlobalSound.classList.add('label_localGameManager');
+    labelGlobalSound.classList.add('label_controller');
     labelGlobalSound.innerHTML = 'Volume';
     gameView.appendToUI(labelGlobalSound);
 

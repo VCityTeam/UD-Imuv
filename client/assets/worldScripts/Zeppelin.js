@@ -1,14 +1,14 @@
 /** @format */
 
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 module.exports = class Zeppelin {
-  constructor(conf, SharedModule) {
+  constructor(conf, GameModule) {
     this.conf = conf;
 
-    Shared = SharedModule;
+    Game = GameModule;
 
     this.currentTime = 0;
     this.radius = 82;
@@ -18,7 +18,7 @@ module.exports = class Zeppelin {
     const go = arguments[0];
     const worldContext = arguments[1];
 
-    this.centerCircle = new Shared.THREE.Vector3(0, 0, 30);
+    this.centerCircle = new Game.THREE.Vector3(0, 0, 30);
   }
 
   computePosition(t, result) {
@@ -31,18 +31,34 @@ module.exports = class Zeppelin {
 
   tick() {
     const go = arguments[0];
+
     const worldContext = arguments[1];
-    const dt = worldContext.dt;
+    const dt = worldContext.getDt();
+    const commands = worldContext.getCommands();
+    const speedTranslate = 0.05;
+    const speedRotate = 0.001;
 
-    this.currentTime += dt;
-
-    let ratio = this.currentTime / this.conf.duration;
-    ratio /= 2 * Math.PI;
-
-    const rot = go.getRotation();
-    rot.z = ratio - Math.PI * 0.5;
-
-    go.setRotation(rot);
-    go.setPosition(this.computePosition(ratio, go.getPosition()));
+    for (let index = commands.length - 1; index >= 0; index--) {
+      const cmd = commands[index];
+      if (cmd.getGameObjectUUID() == go.getUUID()) {
+        switch (cmd.getType()) {
+          case Game.Command.TYPE.MOVE_FORWARD:
+            go.move(go.computeForwardVector().setLength(dt * speedTranslate));
+            break;
+          case Game.Command.TYPE.MOVE_BACKWARD:
+            go.move(go.computeBackwardVector().setLength(dt * speedTranslate));
+            break;
+          case Game.Command.TYPE.MOVE_LEFT:
+            go.rotate(new Game.THREE.Vector3(0, 0, speedRotate * dt));
+            break;
+          case Game.Command.TYPE.MOVE_RIGHT:
+            go.rotate(new Game.THREE.Vector3(0, 0, -speedRotate * dt));
+            break;
+          default:
+            throw new Error('command not handle ', cmd.getType());
+        }
+        commands.splice(index, 1);
+      }
+    }
   }
 };

@@ -1,6 +1,6 @@
 /** @format */
 
-import { World } from 'ud-viz/src/Game/Shared/Shared';
+import { World } from 'ud-viz/src/Game/Game';
 import { LocalGame } from 'ud-viz/src/Templates/Templates';
 import { THREE } from 'ud-viz';
 import './PlayWorldEditor.css';
@@ -10,6 +10,7 @@ export class PlayWorldEditorView {
   constructor(params) {
     this.htmlParent = params.parentGameViewHtml;
     this.assetsManager = params.assetsManager;
+    this.config = params.config;
     this.parentUIHtml = params.parentUIHtml;
     this.parentView = params.parentView;
 
@@ -47,7 +48,7 @@ export class PlayWorldEditorView {
     this.avatarGO = avatar;
 
     this.localGameApp
-      .start(world, './assets/config/config_editor.json', {
+      .startWithAssetsLoaded(world, this.assetsManager, this.config, {
         htmlParent: this.htmlParent,
         userData: { avatarUUID: avatar.getUUID(), editorMode: true },
       })
@@ -67,9 +68,6 @@ export class PlayWorldEditorView {
           const worldComputer = gV.getInterpolator();
           const inputManager = gV.getInputManager();
           const cmds = inputManager.computeCommands();
-          cmds.forEach(function (c) {
-            c.setAvatarID(avatar.getUUID());
-          });
           worldComputer.onCommands(cmds);
         });
 

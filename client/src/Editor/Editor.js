@@ -1,11 +1,11 @@
 /** @format */
 
 import './Editor.css';
-import { Game } from 'ud-viz';
-import Constants from 'ud-viz/src/Game/Shared/Components/Constants';
+import { Views } from 'ud-viz';
+import Constants from 'ud-viz/src/Game/Components/Constants';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
-import Pack from 'ud-viz/src/Game/Shared/Components/Pack';
+import Pack from 'ud-viz/src/Game/Components/Pack';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -28,7 +28,7 @@ export class EditorView {
     this.playCurrentWorldButton = null;
 
     //assets
-    this.assetsManager = new Game.Components.AssetsManager();
+    this.assetsManager = new Views.AssetsManager();
 
     //gameview
     this.currentWorldView = null;
@@ -127,6 +127,7 @@ export class EditorView {
         parentUIHtml: _this.ui,
         parentView: _this,
         assetsManager: _this.assetsManager,
+        config: _this.config,
         worldJSON: wJson,
         parentGameViewHtml: _this.rootHtml,
       });
@@ -201,7 +202,7 @@ export class EditorView {
     return new Promise((resolve, reject) => {
       try {
         _this.assetsManager
-          .loadFromConfig(_this.config.assetsManager)
+          .loadFromConfig(_this.config.assetsManager, document.body)
           .then(function () {
             _this.initUI();
             _this.initCallbacks();

@@ -3,9 +3,9 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Shared/Shared');
-/** @type {sharedType} */
-let Shared = null;
+const GameType = require('ud-viz/src/Game/Game');
+/** @type {GameType} */
+let Game = null;
 
 //track static object
 
@@ -14,9 +14,9 @@ module.exports = class StaticObject {
     this.conf = conf;
 
     udviz = udvizBundle;
-    Shared = udviz.Game.Shared;
+    Game = udviz.Game;
 
-    this.object = new Shared.THREE.Object3D();
+    this.object = new Game.THREE.Object3D();
     this.object.name = 'Static_Object';
   }
 
@@ -44,7 +44,7 @@ module.exports = class StaticObject {
     //add static object to object
     if (newGO.isStatic()) {
       //register in object
-      const r = newGO.getComponent(Shared.Render.TYPE);
+      const r = newGO.getComponent(Game.Render.TYPE);
       if (r) {
         const clone = r.getObject3D().clone();
 

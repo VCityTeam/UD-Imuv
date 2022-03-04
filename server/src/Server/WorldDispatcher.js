@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const WorldThread = require('./WorldThread');
-const Shared = require('ud-viz/src/Game/Shared/Shared');
+const Game = require('ud-viz/src/Game/Game');
 
 const BBB_ROOM_TAG = 'bbb_room_tag';
 
@@ -46,7 +46,7 @@ const WorldDispatcherModule = class WorldDispatcher {
       const thread = this.worldToThread[key];
       const users = thread.getUsers();
       for (let userUUID in users) {
-        const uuid = users[userUUID].getAvatarID();
+        const uuid = users[userUUID].getAvatarUUID();
         if (avatarUUID == uuid) return users[userUUID];
       }
     }
@@ -126,7 +126,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     if (this.fetchUserInWorldWithUUID(user.getUUID()))
       throw new Error('add user already added');
 
-    const avatarUUID = user.getAvatarID();
+    const avatarUUID = user.getAvatarUUID();
     const worldUUID = this.config.uuidEntryWorld;
     // const worldUUID = '7027C0BF-BC84-48B6-BCFD-FA97DAE8874C'; //room conf
 
@@ -162,7 +162,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     thread.addUser(user, portalUUID);
 
     const socket = user.getSocket();
-    const Constants = Shared.Components.Constants;
+    const Constants = Game.Components.Constants;
     const _this = this;
     socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
       const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
