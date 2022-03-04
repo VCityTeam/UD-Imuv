@@ -17,8 +17,7 @@ module.exports = class Portal {
     this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
   }
 
-  notifyEnter(avatarGo, avatarWS) {
-    console.log(avatarGo);
+  notifyEnter(avatarGo) {
     avatarGo.setFreeze(true);
 
     const conf = this.conf;
