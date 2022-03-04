@@ -68,9 +68,6 @@ export class PlayWorldEditorView {
           const worldComputer = gV.getInterpolator();
           const inputManager = gV.getInputManager();
           const cmds = inputManager.computeCommands();
-          cmds.forEach(function (c) {
-            c.setAvatarID(avatar.getUUID());
-          });
           worldComputer.onCommands(cmds);
         });
 

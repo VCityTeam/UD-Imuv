@@ -67,9 +67,6 @@ module.exports = class Controller {
 
       console.log(new Game.GameObject({}).toJSON(true));
     });
-    manager.addKeyInput('a', 'keydown', function () {
-      _this.setAvatarControllerMode(!_this.avatarControllerMode, localCtx);
-    });
 
     //exit pointer lock method
     manager.addMouseInput(manager.getElement(), 'click', function () {
@@ -191,7 +188,7 @@ module.exports = class Controller {
   setAvatarControllerMode(value, localCtx) {
     if (value == this.avatarControllerMode) {
       console.warn('same value');
-      return;
+      return false;
     }
 
     this.avatarControllerMode = value;
@@ -306,6 +303,8 @@ module.exports = class Controller {
       manager.removeMouseCommand('mousemove');
       manager.setPointerLock(false);
     }
+
+    return true;
   }
 
   setZeppelinControllerMode(value, localCtx) {
@@ -313,7 +312,7 @@ module.exports = class Controller {
 
     if (value == this.zeppelinControllerMode) {
       console.warn('same value');
-      return;
+      return false;
     }
 
     this.zeppelinControllerMode = value;
@@ -325,6 +324,7 @@ module.exports = class Controller {
     if (value) {
       const userID = gameView.getUserData('userID');
       const gameObjectToCtrlUUID = this.zeppelinGO.getUUID();
+      manager.setPointerLock(false);
 
       //forward
       manager.addKeyCommand(
@@ -344,7 +344,6 @@ module.exports = class Controller {
         Command.TYPE.MOVE_BACKWARD,
         ['s', 'ArrowDown'],
         function () {
-          manager.setPointerLock(true);
           return new Command({
             type: Command.TYPE.MOVE_BACKWARD,
             userID: userID,
@@ -358,7 +357,6 @@ module.exports = class Controller {
         Command.TYPE.MOVE_LEFT,
         ['q', 'ArrowLeft'],
         function () {
-          manager.setPointerLock(true);
           return new Command({
             type: Command.TYPE.MOVE_LEFT,
             userID: userID,
@@ -372,7 +370,6 @@ module.exports = class Controller {
         Command.TYPE.MOVE_RIGHT,
         ['d', 'ArrowRight'],
         function () {
-          manager.setPointerLock(true);
           return new Command({
             type: Command.TYPE.MOVE_RIGHT,
             userID: userID,
@@ -388,6 +385,12 @@ module.exports = class Controller {
     }
 
     this.orbitControl.enabled = value;
+
+    return true;
+  }
+
+  setAvatarVisible(value) {
+    this.avatarGO.getObject3D().visible = value;
   }
 
   tick() {

@@ -21,7 +21,20 @@ module.exports = class ZeppelinStart {
     console.log('interaction ZeppelinStart');
     const rootGO = localCtx.getRootGameObject();
     const controller = rootGO.fetchLocalScripts()['controller'];
-    controller.setAvatarControllerMode(false, localCtx);
-    controller.setZeppelinControllerMode(true, localCtx);
+
+    const avatarUnsetted = controller.setAvatarControllerMode(false, localCtx);
+    const zeppelinSetted = controller.setZeppelinControllerMode(true, localCtx);
+
+    if (avatarUnsetted || zeppelinSetted) {
+      const manager = localCtx.getGameView().getInputManager();
+      const cb = function () {
+        controller.setZeppelinControllerMode(false, localCtx);
+        controller.setAvatarControllerMode(true, localCtx);
+        controller.setAvatarVisible(true);
+        manager.removeInputListener(cb);
+      };
+      controller.setAvatarVisible(false);
+      manager.addKeyInput('e', 'keydown', cb);
+    }
   }
 };
