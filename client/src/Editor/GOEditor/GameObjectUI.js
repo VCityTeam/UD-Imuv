@@ -219,7 +219,7 @@ export class GameObjectUI {
 
       const validateButton = document.createElement('button');
       validateButton.innerHTML = 'Validate';
-      validateButton.onclick = function (e) {
+      validateButton.onclick = function () {
         const value = inputTextDescription.value;
         const newValue = value != '' ? value : null;
         conf.descriptionText = newValue;
