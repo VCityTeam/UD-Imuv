@@ -411,6 +411,7 @@ export class GameObjectUI {
     this.content.appendChild(labelFactorWidth);
 
     this.content.appendChild(refresh);
+
   }
 
   appendLSSignageDisplayerUI(gV) {
@@ -705,6 +706,7 @@ export class GameObjectUI {
     //select right value
     const currentPortalValue = wS['portal'].conf.portalUUID;
     const options = selectPortal.getElementsByTagName('option');
+    
     for (let i = 0; i < options.length; i++) {
       if (options[i].value == currentPortalValue) {
         options[i].selected = true;
