@@ -1,0 +1,25 @@
+{
+  "name": "Post_it",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": "cube",
+      "color": [0, 1, 1]
+    },
+    "LocalScript": {
+      "idScripts": ["post_it"],
+      "conf": {
+        "content": "le message"
+      },
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0],
+    "scale": [1, 1, 1]
+  }
+}

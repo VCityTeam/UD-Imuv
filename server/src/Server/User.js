@@ -63,6 +63,9 @@ const UserModule = class User {
     this.thread = thread;
     this.lastState = null;
     this.socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.COMMANDS);
+    this.socket.removeAllListeners(
+      Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT
+    );
 
     if (thread) {
       //cmds are now sent to the new thread
@@ -83,6 +86,16 @@ const UserModule = class User {
           });
 
           _this.thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
+        }
+      );
+
+      //add go
+      this.socket.on(
+        Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
+        function (goJSON) {
+          _this.thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+            gameObject: goJSON,
+          });
         }
       );
     }

@@ -97,6 +97,9 @@
       "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
       },
+      "place_post_it":{
+        "path": "./assets/localScripts/PlacePostIt.js"
+      },
       "post_it":{
         "path": "./assets/localScripts/PostIt.js"
       }
@@ -190,6 +193,9 @@
       },
       "signage_area": {
         "path": "./assets/prefabs/SignageArea.json"
+      },
+      "post_it": {
+        "path": "./assets/prefabs/PostIt.json"
       }
     },
     "worlds": {

@@ -4894,7 +4894,7 @@
         },
         "LocalScript": {
           "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
-          "idScripts": ["avatar_controller", "static_object", "post_it", "bbb"],
+          "idScripts": ["avatar_controller", "static_object", "place_post_it", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -5232,7 +5232,7 @@
         },
         "LocalScript": {
           "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
-          "idScripts": ["avatar_controller", "static_object", "post_it", "bbb"],
+          "idScripts": ["avatar_controller", "static_object", "place_post_it", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
