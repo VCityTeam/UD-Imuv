@@ -2830,7 +2830,7 @@
             "LocalScript": {
               "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 17 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4319,7 +4319,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 17 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5153,59 +5153,6 @@
               },
               "noLocalUpdate": false,
               "freeze": false
-            },
-            {
-              "name": "PostItStart",
-              "type": "GameObject",
-              "static": true,
-              "outdated": false,
-              "uuid": "CCB0453B-EC2F-4927-BAE5-25A1C3530F67",
-              "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
-              "components": {
-                "Collider": {
-                  "uuid": "DB7C38A8-C4DF-4B2D-8AC6-DEE0646018FF",
-                  "type": "Collider",
-                  "shapes": [
-                    {
-                      "type": "Circle",
-                      "center": {
-                        "x": 5.441641284618527,
-                        "y": 3.6329669067636132,
-                        "z": 1.909289219147638
-                      },
-                      "radius": 1
-                    }
-                  ],
-                  "body": false
-                },
-                "LocalScript": {
-                  "uuid": "32C16E86-13C1-42F3-8D39-BAD35778560B",
-                  "idScripts": ["local_interactions", "post-it_interactions"],
-                  "conf": {
-                    "label_interaction": "Press E to access Post-it",
-                    "avatarsOnEnter": [],
-                    "avatarsColliding": [],
-                    "avatarsOnLeave": []
-                  },
-                  "type": "LocalScript"
-                },
-                "WorldScript": {
-                  "uuid": "4D6ACCFF-B2E8-4BAD-A922-8846D6993E02",
-                  "idScripts": ["interaction_zone"],
-                  "conf": {},
-                  "type": "WorldScript"
-                }
-              },
-              "children": [],
-              "transform": {
-                "position": [
-                  -1.3598649110645056, 2.1355025684460998, 0.9651888221006288
-                ],
-                "rotation": [0, 0, 0, "ZXY"],
-                "scale": [1, 1, 1]
-              },
-              "noLocalUpdate": false,
-              "freeze": false
             }
           ],
           "transform": {
@@ -5227,7 +5174,7 @@
             "LocalScript": {
               "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 17 },
+              "conf": { "world_computer_dt": 16 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5540,7 +5487,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 17 },
               "type": "LocalScript"
             },
             "WorldScript": {

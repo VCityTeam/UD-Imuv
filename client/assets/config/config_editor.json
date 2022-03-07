@@ -96,9 +96,6 @@
       },
       "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
-      },
-      "post-it_interactions": {
-        "path": "./assets/localScripts/PostItInteractions.js"
       }
     },
     "renderData": {
@@ -167,9 +164,6 @@
       }
     },
     "prefabs": {
-      "post-it_start": {
-        "path": "./assets/prefabs/PostItStart.json"
-      },
       "zeppelin_start": {
         "path": "./assets/prefabs/ZeppelinStart.json"
       },
