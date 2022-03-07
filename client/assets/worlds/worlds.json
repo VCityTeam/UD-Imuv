@@ -23,7 +23,13 @@
         },
         "LocalScript": {
           "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
-          "idScripts": ["controller", "static_object", "bbb", "mini_map"],
+          "idScripts": [
+            "avatar_controller",
+            "zeppelin_controller",
+            "static_object",
+            "bbb",
+            "mini_map"
+          ],
           "conf": {
             "traveling_time": 1500,
             "fog": { "near": 5, "far": 100 },
@@ -2882,7 +2888,7 @@
         },
         "LocalScript": {
           "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-          "idScripts": ["controller", "static_object", "bbb"],
+          "idScripts": ["avatar_controller", "static_object", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -4371,7 +4377,7 @@
         },
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-          "idScripts": ["controller", "static_object", "bbb"],
+          "idScripts": ["avatar_controller", "static_object", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -4888,7 +4894,7 @@
         },
         "LocalScript": {
           "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
-          "idScripts": ["controller", "static_object", "bbb"],
+          "idScripts": ["avatar_controller", "static_object", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -5279,7 +5285,7 @@
         },
         "LocalScript": {
           "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
-          "idScripts": ["controller", "static_object", "bbb"],
+          "idScripts": ["avatar_controller", "static_object", "bbb"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {

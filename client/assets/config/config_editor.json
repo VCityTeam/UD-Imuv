@@ -61,8 +61,11 @@
       "image": {
         "path": "./assets/localScripts/Image.js"
       },
-      "controller": {
-        "path": "./assets/localScripts/Controller.js"
+      "avatar_controller": {
+        "path": "./assets/localScripts/AvatarController.js"
+      },
+      "zeppelin_controller": {
+        "path": "./assets/localScripts/ZeppelinController.js"
       },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"
