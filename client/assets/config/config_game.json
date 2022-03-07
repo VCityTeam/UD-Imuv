@@ -46,6 +46,9 @@
       }
     },
     "localScripts": {
+      "post_it": {
+        "path": "./assets/localScripts/PostIt.js"
+      },
       "static_object": {
         "path": "./assets/localScripts/StaticObject.js"
       },

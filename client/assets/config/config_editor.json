@@ -96,6 +96,9 @@
       },
       "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
+      },
+      "post_it":{
+        "path": "./assets/localScripts/PostIt.js"
       }
     },
     "renderData": {
