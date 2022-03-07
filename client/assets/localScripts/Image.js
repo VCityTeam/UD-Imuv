@@ -3,11 +3,17 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
+const sharedType = require('ud-viz/src/Game/Game');
+/** @type {sharedType} */
 let Game = null;
 
 const RADIUS_MAP = 20;
+
+//Coordinates Image map path. src  https://commons.wikimedia.org/wiki/File:Lyon_et_ses_arrondissements_map.svg
+const topIP = 45.81186;
+const bottomIP = 45.70455;
+const leftIP = 4.76623;
+const rightIP = 4.90291;
 
 module.exports = class Image {
   constructor(conf, udvizBundle) {
@@ -17,7 +23,14 @@ module.exports = class Image {
 
     this.imagePlane = null;
 
+    this.mapImg = null;
+
     this.popupUI = null;
+    this.imgMapGPS = null;
+
+    if (!this.conf.gpsCoord) {
+      this.conf.gpsCoord = {};
+    }
   }
 
   createImagePlane() {
@@ -26,109 +39,110 @@ module.exports = class Image {
       this.imagePlane.parent.remove(this.imagePlane);
     }
 
-    const texture = new Game.THREE.TextureLoader().load(this.conf.path);
-    const material = new Game.THREE.MeshBasicMaterial({ map: texture });
-    const geometry = new Game.THREE.PlaneGeometry(
-      this.conf.width,
-      this.conf.height,
-      32
+    const onLoad = function (texture) {
+      const image = texture.image;
+      const ratio = image.width / image.height;
+      const material = new Game.THREE.MeshBasicMaterial({ map: texture });
+      const geometry = new Game.THREE.PlaneGeometry(
+        ratio > 1 ? this.conf.factorWidth : this.conf.factorWidth * ratio,
+        ratio < 1 ? this.conf.factorHeight : this.conf.factorHeight / ratio,
+        32
+      );
+      this.imagePlane = new Game.THREE.Mesh(geometry, material);
+      const r = this.go.getComponent(Game.Render.TYPE);
+      r.addObject3D(this.imagePlane);
+    };
+
+    const texture = new Game.THREE.TextureLoader().load(
+      this.conf.path,
+      onLoad.bind(this)
     );
-    this.imagePlane = new Game.THREE.Mesh(geometry, material);
   }
 
   init() {
-    const go = arguments[0];
-    const gV = arguments[1].getGameView();
-    const _this = this;
-
+    console.log('init image localscript', this);
+    this.go = arguments[0];
+    this.gV = arguments[1].getGameView();
     this.createImagePlane();
-    const r = go.getComponent(Game.Render.TYPE);
-    r.addObject3D(this.imagePlane);
 
-    //init popup
-    const mapImg = document.createElement('img');
-    mapImg.src = this.conf.map_path;
-
-    mapImg.onload = function () {
-      const canvas = document.createElement('canvas');
-      canvas.width = this.naturalWidth;
-      canvas.height = this.naturalHeight;
-
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(this, 0, 0);
-
-      const ratioX = _this.conf.popup_position.ratioX;
-      const ratioY = _this.conf.popup_position.ratioY;
-
-      ctx.beginPath();
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = 'red';
-      ctx.arc(
-        ratioX * canvas.width,
-        ratioY * canvas.height,
-        RADIUS_MAP,
-        0,
-        Math.PI * 2
-      );
-      ctx.stroke();
-
-      _this.popupUI = document.createElement('img');
-      _this.popupUI.src = canvas.toDataURL();
-      _this.popupUI.classList.add('popup_ui');
-
-      const manager = gV.getInputManager();
-      const raycaster = new udviz.THREE.Raycaster();
-      //TODO trigger an event onRemove for localscript
-      manager.addMouseInput(gV.getRootWebGL(), 'mousedown', function (event) {
-        const mouse = new udviz.THREE.Vector2(
-          -1 +
-            (2 * event.offsetX) /
-              (gV.getRootWebGL().clientWidth -
-                parseInt(gV.getRootWebGL().offsetLeft)),
-          1 -
-            (2 * event.offsetY) /
-              (gV.getRootWebGL().clientHeight -
-                parseInt(gV.getRootWebGL().offsetTop))
-        );
-
-        raycaster.setFromCamera(mouse, gV.getCamera());
-
-        const i = raycaster.intersectObject(_this.imagePlane);
-
-        if (i.length) {
-          //image clicked
-          _this.displayPopup(true, go, gV);
-          go.computeRoot().traverse(function (g) {
-            if (g == go) return false;
-            const ls = g.fetchLocalScripts();
-            if (ls && ls['image']) {
-              ls['image'].displayPopup(false, g, gV, false);
-            }
-          });
-        } else {
-          _this.displayPopup(false, go, gV);
-        }
-      });
-
-      manager.addKeyInput('Escape', 'keyup', function () {
-        _this.displayPopup(false, go, gV);
-      });
-    };
+    this.initRaycaster();
   }
 
-  displayPopup(value, go, gV, playSound = true) {
-    //if no change nothing
-    if (!this.popupUI.parentNode == !value) return;
+  //CreateOrUpdate
+  createImgElementMapGPS() {
+    if (this.imgMapGPS) {
+      this.imgMapGPS.remove();
+    }
+    if (!this.conf.gpsCoord.checked) return false;
+    const mapImg = document.createElement('img');
+    const _this = this;
+    mapImg.addEventListener('load', function () {
+      const figureMap = document.createElement('figure');
+      figureMap.classList.add('grid_item--map');
 
-    if (value) {
-      gV.appendToUI(this.popupUI);
-    } else {
+      const canvas = _this.createCanvasDrawed(mapImg);
+      _this.imgMapGPS = document.createElement('img');
+      _this.imgMapGPS.src = canvas.toDataURL();
+      _this.imgMapGPS.classList.add('popup_gps');
+      figureMap.appendChild(_this.imgMapGPS);
+      _this.popupUI.appendChild(figureMap);
+    });
+    mapImg.src = this.conf.map_path;
+    return true;
+  }
+
+  createPopup() {
+    if (this.popupUI) {
       this.popupUI.remove();
+      this.popupUI = null;
+    }
+    this.popupUI = document.createElement('div');
+    this.popupUI.classList.add('popup_wrapper');
+
+    const figureImage = document.createElement('figure');
+    figureImage.classList.add('grid_item--image');
+
+    const fullscreenImg = document.createElement('img');
+    fullscreenImg.classList.add('popup_fullscreen');
+    fullscreenImg.src = this.conf.path;
+    figureImage.appendChild(fullscreenImg);
+
+    const figureDescr = document.createElement('figure');
+    figureDescr.classList.add('grid_item--descr');
+    if (this.conf.descriptionText) {
+      const descriptionText = document.createElement('div');
+      descriptionText.classList.add('popup_descr');
+      descriptionText.innerHTML = this.conf.descriptionText;
+      figureDescr.appendChild(descriptionText);
+    }
+    if (!this.createImgElementMapGPS()) {
+      figureDescr.style.gridRowEnd = 10;
     }
 
+    const figureClose = document.createElement('figure');
+    figureClose.classList.add('grid_item--close');
+
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('popup_close_button');
+    closeButton.innerHTML = 'Close';
+    figureClose.appendChild(closeButton);
+    closeButton.onclick = this.displayPopup.bind(this, false);
+
+    this.popupUI.appendChild(figureImage);
+    this.popupUI.appendChild(figureDescr);
+    this.popupUI.appendChild(figureClose);
+    this.gV.appendToUI(this.popupUI);
+  }
+
+  displayPopup(value, playSound = true) {
+    if (value) {
+      this.createPopup();
+    } else {
+      if (this.popupUI) this.popupUI.remove();
+    }
     if (!playSound) return;
 
-    const audioComp = go.getComponent(Game.Audio.TYPE);
+    const audioComp = this.go.getComponent(Game.Audio.TYPE);
     if (!audioComp) return;
 
     const sounds = audioComp.getSounds();
@@ -142,10 +156,90 @@ module.exports = class Image {
     }
   }
 
+  initRaycaster() {
+    const gV = this.gV;
+    const go = this.go;
+    const _this = this;
+    const manager = gV.getInputManager();
+    const raycaster = new udviz.THREE.Raycaster();
+    manager.addMouseInput(gV.getRootWebGL(), 'dblclick', function (event) {
+      if (event.button != 0) return;
+      const mouse = new udviz.THREE.Vector2(
+        -1 +
+          (2 * event.offsetX) /
+            (gV.getRootWebGL().clientWidth -
+              parseInt(gV.getRootWebGL().offsetLeft)),
+        1 -
+          (2 * event.offsetY) /
+            (gV.getRootWebGL().clientHeight -
+              parseInt(gV.getRootWebGL().offsetTop))
+      );
+
+      raycaster.setFromCamera(mouse, gV.getCamera());
+
+      const i = raycaster.intersectObject(_this.imagePlane);
+      if (i.length) {
+        //image clicked
+        _this.displayPopup(true);
+        go.computeRoot().traverse(function (g) {
+          if (g == go) return false;
+          const ls = g.fetchLocalScripts();
+          if (ls && ls['image']) {
+            ls['image'].displayPopup(false);
+          }
+        });
+      } else {
+        _this.displayPopup(false);
+      }
+    });
+
+    manager.addKeyInput('Escape', 'keyup', function () {
+      _this.displayPopup(false);
+    });
+  }
+
+  createCanvasDrawed(img, ratioX = null, ratioY = null) {
+    const lat = this.conf.gpsCoord.lat || 0;
+    const lng = this.conf.gpsCoord.lng || 0;
+
+    ratioX = ratioX || (lng - leftIP) / (rightIP - leftIP);
+    ratioY = ratioY || 1 - (lat - bottomIP) / (topIP - bottomIP);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'red';
+    ctx.arc(
+      ratioX * canvas.width,
+      ratioY * canvas.height,
+      RADIUS_MAP,
+      0,
+      Math.PI * 2
+    );
+    ctx.stroke();
+
+    return canvas;
+  }
+
+  ratioToCoordinates(ratioX, ratioY) {
+    const lng = leftIP + ratioX * (rightIP - leftIP);
+    const lat = bottomIP + ratioY * (topIP - bottomIP);
+    return {
+      lng: lng,
+      lat: lat,
+    };
+  }
+
   update() {
     const go = arguments[0];
-    const texture = new Game.THREE.TextureLoader().load(this.conf.path);
-    const material = new Game.THREE.MeshBasicMaterial({ map: texture });
-    this.imagePlane.material = material;
+    console.log('update image', go);
+    this.createImagePlane();
+
+    this.displayPopup(this.imgMapGPS != null);
   }
 };
