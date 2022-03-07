@@ -379,10 +379,7 @@ class WorldEditorModel {
 
     worldStateComputer.start(new Game.World(json));
     //smooth rendering with delay
-    this.interpolator = new WorldStateInterpolator(
-      { renderDelay: 50 },
-      worldStateComputer
-    );
+    this.interpolator = new WorldStateInterpolator(0, worldStateComputer);
   }
 
   getInterpolator() {

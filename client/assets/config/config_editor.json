@@ -190,6 +190,9 @@
       "path": "./assets/worlds/worlds.json"
     }
   },
+  "worldStateInterpolator": {
+    "renderDelay": 150
+  },
   "game": {
     "fps": 30,
     "radiusExtent": 1000,
