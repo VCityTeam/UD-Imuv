@@ -28,8 +28,8 @@ module.exports = class Image {
     this.popupUI = null;
     this.imgMapGPS = null;
 
-    if (!this.conf.GPS_Coord) {
-      this.conf.GPS_Coord = {};
+    if (!this.conf.gpsCoord) {
+      this.conf.gpsCoord = {};
     }
   }
 
@@ -73,7 +73,7 @@ module.exports = class Image {
     if (this.imgMapGPS) {
       this.imgMapGPS.remove();
     }
-    if (!this.conf.GPS_Coord.checked) return false;
+    if (!this.conf.gpsCoord.checked) return false;
     const mapImg = document.createElement('img');
     const _this = this;
     mapImg.addEventListener('load', function () {
@@ -199,8 +199,8 @@ module.exports = class Image {
   }
 
   createCanvasDrawed(img, ratioX = null, ratioY = null) {
-    const lat = this.conf.GPS_Coord.Lat || 0;
-    const lng = this.conf.GPS_Coord.Lng || 0;
+    const lat = this.conf.gpsCoord.lat || 0;
+    const lng = this.conf.gpsCoord.lng || 0;
 
     ratioX = ratioX || (lng - leftIP) / (rightIP - leftIP);
     ratioY = ratioY || 1 - (lat - bottomIP) / (topIP - bottomIP);
@@ -227,11 +227,11 @@ module.exports = class Image {
   }
 
   ratioToCoordinates(ratioX, ratioY) {
-    const Lng = leftIP + ratioX * (rightIP - leftIP);
-    const Lat = bottomIP + ratioY * (topIP - bottomIP);
+    const lng = leftIP + ratioX * (rightIP - leftIP);
+    const lat = bottomIP + ratioY * (topIP - bottomIP);
     return {
-      Lng: Lng,
-      Lat: Lat,
+      lng: lng,
+      lat: lat,
     };
   }
 

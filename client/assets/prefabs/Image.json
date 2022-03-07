@@ -15,7 +15,7 @@
         "factorWidth": 3,
         "factorHeight": 3,
         "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-        "GPS_Coord": { "Lng": null, "Lat": null, "Checked": false }
+        "gpsCoord": { "lng": null, "lat": null, "checked": false }
       },
       "Audio": {
         "sounds": ["open_popup", "close_popup"],

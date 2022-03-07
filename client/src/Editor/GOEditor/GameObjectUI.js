@@ -243,7 +243,7 @@ export class GameObjectUI {
       const inputLat = document.createElement('input');
       inputLat.type = 'number';
       inputLat.step = 0.001;
-      inputLat.value = conf.GPS_Coord.Lat || 0;
+      inputLat.value = conf.gpsCoord.lat || 0;
       divGPSCoord.appendChild(inputLat);
 
       const labelLat = document.createElement('label');
@@ -253,7 +253,7 @@ export class GameObjectUI {
       const inputLng = document.createElement('input');
       inputLng.type = 'number';
       inputLng.step = 0.001;
-      inputLng.value = conf.GPS_Coord.Lng || 0;
+      inputLng.value = conf.gpsCoord.lng || 0;
       divGPSCoord.appendChild(inputLng);
 
       const labelLng = document.createElement('label');
@@ -262,12 +262,12 @@ export class GameObjectUI {
 
       inputLat.onchange = function () {
         const value = parseFloat(inputLat.value);
-        conf.GPS_Coord.Lat = value;
+        conf.gpsCoord.lat = value;
       };
 
       inputLng.onchange = function () {
         const value = parseFloat(inputLng.value);
-        conf.GPS_Coord.Lng = value;
+        conf.gpsCoord.lng = value;
       };
 
       const choseOnMapButton = document.createElement('button');
@@ -310,9 +310,9 @@ export class GameObjectUI {
               ['image'].ratioToCoordinates(ratioX, ratioY);
             coordinatesText.innerHTML =
               'Coordinates selected \nLat: ' +
-              coords.Lat +
+              coords.lat +
               ' Lng: ' +
-              coords.Lng;
+              coords.lng;
 
             const canvas = go
               .fetchLocalScripts()
@@ -321,12 +321,12 @@ export class GameObjectUI {
             this.src = canvas.toDataURL();
 
             validateButton.onclick = function () {
-              if (coords.Lat) {
-                inputLat.value = coords.Lat;
+              if (coords.lat) {
+                inputLat.value = coords.lat;
                 inputLat.dispatchEvent(new Event('change'));
               }
-              if (coords.Lng) {
-                inputLng.value = coords.Lng;
+              if (coords.lng) {
+                inputLng.value = coords.lng;
                 inputLng.dispatchEvent(new Event('change'));
               }
               modal.remove();
@@ -348,16 +348,16 @@ export class GameObjectUI {
     checkboxGPSCoord.type = 'checkbox';
     checkboxGPSCoord.onchange = function (event) {
       const value = event.target.checked;
-      conf.GPS_Coord.checked = value;
+      conf.gpsCoord.checked = value;
       if (value) {
         initGPSCoordHTMLElements();
       } else {
         divGPSCoord.innerHTML = '';
-        conf.GPS_Coord.Lat = null;
-        conf.GPS_Coord.Lng = null;
+        conf.gpsCoord.lat = null;
+        conf.gpsCoord.lng = null;
       }
     };
-    checkboxGPSCoord.checked = conf.GPS_Coord.checked || false;
+    checkboxGPSCoord.checked = conf.gpsCoord.checked || false;
     checkboxGPSCoord.dispatchEvent(new Event('change'));
     divCheckboxLabelGPSCoord.appendChild(checkboxGPSCoord);
 
@@ -411,7 +411,6 @@ export class GameObjectUI {
     this.content.appendChild(labelFactorWidth);
 
     this.content.appendChild(refresh);
-
   }
 
   appendLSSignageDisplayerUI(gV) {
@@ -706,7 +705,7 @@ export class GameObjectUI {
     //select right value
     const currentPortalValue = wS['portal'].conf.portalUUID;
     const options = selectPortal.getElementsByTagName('option');
-    
+
     for (let i = 0; i < options.length; i++) {
       if (options[i].value == currentPortalValue) {
         options[i].selected = true;
