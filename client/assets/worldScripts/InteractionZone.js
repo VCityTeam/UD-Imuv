@@ -29,6 +29,9 @@ module.exports = class InteractionZone {
   }
 
   onAvatarEnter(avatarGO) {
+
+    this.go.setOutdated(true);
+
     const confLS = this.localScript.conf;
     const avatarGOUUID = avatarGO.getUUID();
     let index;
@@ -40,10 +43,12 @@ module.exports = class InteractionZone {
     }
     if (confLS.avatarsOnEnter.includes(avatarGOUUID)) return;
     confLS.avatarsOnEnter.push(avatarGOUUID);
-    this.go.setOutdated(true);
   }
 
   onAvatarColliding(avatarGO) {
+    
+    this.go.setOutdated(true);
+
     const confLS = this.localScript.conf;
     const avatarGOUUID = avatarGO.getUUID();
     let index;
@@ -56,10 +61,12 @@ module.exports = class InteractionZone {
 
     if (confLS.avatarsColliding.includes(avatarGOUUID)) return;
     confLS.avatarsColliding.push(avatarGOUUID);
-    this.go.setOutdated(true);
   }
 
   onAvatarLeave(avatarGO) {
+
+    this.go.setOutdated(true);
+
     const confLS = this.localScript.conf;
     const avatarGOUUID = avatarGO.getUUID();
 
@@ -73,6 +80,5 @@ module.exports = class InteractionZone {
 
     if (confLS.avatarsOnLeave.includes(avatarGOUUID)) return;
     confLS.avatarsOnLeave.push(avatarGOUUID);
-    this.go.setOutdated(true);
   }
 };
