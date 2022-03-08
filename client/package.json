@@ -5,9 +5,12 @@
   "main": "./src/bootstrap.js",
   "scripts": {
     "travis": "npm run eslint && npm run build",
-    "parseWorlds": "node ./bin/parseWorlds.js",
+    "travis-ps": "npm run eslint-ps && npm run build",
     "eslint": "./node_modules/.bin/eslint ./src",
+    "eslint-ps": "eslint ./src",
     "eslint-fix": "./node_modules/.bin/eslint ./src --fix",
+    "eslint-fix-ps": "eslint ./src --fix",
+    "parseWorlds": "node ./bin/parseWorlds.js",
     "build": "cross-env NODE_ENV=production webpack",
     "build-debug": "cross-env NODE_ENV=development webpack",
     "debug": "nodemon --verbose --watch src --delay 2500ms ./bin/debug.js -e js,css,html"
@@ -19,7 +22,7 @@
     "keycharm": "^0.4.0",
     "quickhull": "^1.0.3",
     "timsort": "^0.3.0",
-    "ud-viz": "2.36.1",
+    "ud-viz": "2.36.2",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },

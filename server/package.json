@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "travis": "npm run eslint && npm run build",
+    "travis-ps": "npm run eslint-ps && npm run build",
     "eslint": "./node_modules/.bin/eslint ./src",
+    "eslint-ps": "eslint ./src",
     "eslint-fix": "./node_modules/.bin/eslint ./src --fix",
+    "eslint-fix-ps": "eslint ./src --fix",
     "build": "cross-env NODE_ENV=production webpack",
     "build-debug": "cross-env NODE_ENV=development webpack",
     "debug": "nodemon --verbose --watch src --delay 2500ms ./bin/debug.js -e js,css,html",
@@ -25,7 +28,7 @@
     "gm": "^1.23.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
-    "ud-viz": "2.36.1",
+    "ud-viz": "2.36.2",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
