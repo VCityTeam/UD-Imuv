@@ -5,13 +5,13 @@
   "components": {
     "Render": {
       "type": "Render",
-      "idRenderData": "cube",
-      "color": [0, 1, 1]
+      "idRenderData": "quad",
+      "color": [1, 1, 0]
     },
     "LocalScript": {
       "idScripts": ["post_it"],
       "conf": {
-        "content": "le message"
+        "content": null
       },
       "type": "LocalScript"
     }
@@ -20,6 +20,6 @@
   "transform": {
     "position": [0, 0, 0],
     "rotation": [0, 0, 0],
-    "scale": [1, 1, 1]
+    "scale": [0.2, 0.2, 0.2]
   }
 }
