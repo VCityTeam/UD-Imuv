@@ -1,6 +1,5 @@
 /** @format */
 
-import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { MenuAuthView } from '../MenuAuth/MenuAuth';
 
 import './Reception.css';
@@ -9,7 +8,7 @@ import './Reception.css';
 const aboutString = 'text to fill waiting config with text';
 
 export class ReceptionView {
-  constructor(webSocketService) {
+  constructor(webSocketService, configFeatures) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Reception');
 
@@ -22,6 +21,8 @@ export class ReceptionView {
     this.joinButton = null;
 
     this.webSocketService = webSocketService;
+
+    this.configFeatures = configFeatures;
 
     this.init();
   }
@@ -131,22 +132,18 @@ export class ReceptionView {
   initCallbacks() {
     const _this = this;
 
-    SystemUtils.File.loadJSON('./assets/config/config_features.json').then(
-      (configFeatures) => {
-        _this.joinButton.onclick = function () {
-          _this.dispose();
-          const menuAuth = new MenuAuthView(
-            _this.webSocketService,
-            configFeatures
-          );
-          document.body.appendChild(menuAuth.html());
-          menuAuth.setOnClose(function () {
-            menuAuth.dispose();
-            document.body.appendChild(_this.html());
-          });
-        };
-      }
-    );
+    this.joinButton.onclick = function () {
+      _this.dispose();
+      const menuAuth = new MenuAuthView(
+        _this.webSocketService,
+        _this.configFeatures
+      );
+      document.body.appendChild(menuAuth.html());
+      menuAuth.setOnClose(function () {
+        menuAuth.dispose();
+        document.body.appendChild(_this.html());
+      });
+    };
   }
 
   html() {
