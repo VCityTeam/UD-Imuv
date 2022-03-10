@@ -1,5 +1,6 @@
 /** @format */
 
+import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { MenuAuthView } from '../MenuAuth/MenuAuth';
 
 import './Reception.css';
@@ -130,15 +131,22 @@ export class ReceptionView {
   initCallbacks() {
     const _this = this;
 
-    this.joinButton.onclick = function () {
-      _this.dispose();
-      const menuAuth = new MenuAuthView(_this.webSocketService);
-      document.body.appendChild(menuAuth.html());
-      menuAuth.setOnClose(function () {
-        menuAuth.dispose();
-        document.body.appendChild(_this.html());
-      });
-    };
+    SystemUtils.File.loadJSON('../assets/config/config_features.json').then(
+      (configFeatures) => {
+        _this.joinButton.onclick = function () {
+          _this.dispose();
+          const menuAuth = new MenuAuthView(
+            _this.webSocketService,
+            configFeatures
+          );
+          document.body.appendChild(menuAuth.html());
+          menuAuth.setOnClose(function () {
+            menuAuth.dispose();
+            document.body.appendChild(_this.html());
+          });
+        };
+      }
+    );
   }
 
   html() {

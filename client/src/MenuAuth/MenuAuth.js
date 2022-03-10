@@ -7,13 +7,13 @@ import { AssetsManager } from 'ud-viz/src/Views/AssetsManager/AssetsManager';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { EditorView } from '../Editor/Editor';
 import { DistantGame } from 'ud-viz/src/Templates/Templates';
-
 export class MenuAuthView {
-  constructor(webSocketService) {
+  constructor(webSocketService, configFeatures) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_MenuAuth');
 
     this.webSocketService = webSocketService;
+    this.confFeatures = configFeatures;
 
     this.childrenView = [];
 
@@ -28,8 +28,8 @@ export class MenuAuthView {
     this.signInButton = null;
     this.guestButton = null;
     this.generalConditionsButton = null;
+    this.editorButton = null;
     this.confidentialButton = null;
-
     this.init();
   }
 
@@ -81,6 +81,15 @@ export class MenuAuthView {
     this.generalConditionsButton.innerHTML = 'Conditions générales';
     this.generalConditionsButton.classList.add('button_pink_MenuAuth');
     this.parentButtons.appendChild(this.generalConditionsButton);
+
+    this.editorButton = document.createElement('div');
+    this.editorButton.innerHTML = 'Editeur';
+    this.editorButton.classList.add('button_pink_MenuAuth');
+    if (!this.confFeatures.DEVTOOLS.editor) {
+      this.editorButton.disabled = true;
+      this.editorButton.classList.add('button_MenuAuth_disabled');
+    }
+    this.parentButtons.appendChild(this.editorButton);
 
     this.confidentialButton = document.createElement('div');
     this.confidentialButton.innerHTML = 'Confidentialité';
@@ -187,7 +196,9 @@ export class MenuAuthView {
       }
     );
 
-    this.confidentialButton.onclick = function () {
+    this.editorButton.onclick = function () {
+      if (this.disabled) return;
+
       _this.dispose();
 
       SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(

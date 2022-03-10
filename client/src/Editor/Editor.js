@@ -71,7 +71,8 @@ export class EditorView {
     this.saveWorldsButton = document.createElement('div');
     this.saveWorldsButton.classList.add('button_Editor');
     this.saveWorldsButton.innerHTML = 'Save Worlds';
-    // this.ui.appendChild(this.saveWorldsButton);
+    this.saveWorldsButton.disabled = true;
+    this.ui.appendChild(this.saveWorldsButton);
 
     this.playCurrentWorldButton = document.createElement('div');
     this.playCurrentWorldButton.classList.add('button_Editor');
