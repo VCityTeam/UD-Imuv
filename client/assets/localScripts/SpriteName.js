@@ -16,8 +16,6 @@ module.exports = class SpriteName {
 
     //THREE.Object3D
     this.sprite = null;
-
-    this.oldLabelBuffer = null;
   }
 
   init() {
@@ -26,8 +24,6 @@ module.exports = class SpriteName {
   }
 
   createSprite(label) {
-    this.oldLabelBuffer = label;
-
     const texture = this.createLabelTexture(label, 'rgba(255, 255, 255, 0)');
     const material = new Game.THREE.SpriteMaterial({
       map: texture,
@@ -78,7 +74,6 @@ module.exports = class SpriteName {
 
   update() {
     const go = arguments[0];
-
-    if (this.config.name != this.oldLabelBuffer) this.updateSprite(go);
+    this.updateSprite(go);
   }
 };

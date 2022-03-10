@@ -3,27 +3,37 @@
 module.exports = class ZeppelinStart {
   constructor() {}
 
+  init() {}
+
+  onEnter() {
+    console.log('onEnter ZeppelinStart');
+  }
+
+  onColliding() {
+    console.log('onColliding ZeppelinStart');
+  }
+
+  onLeave() {
+    console.log('onLeave ZeppelinStart');
+  }
+
   interaction(localCtx) {
     console.log('interaction ZeppelinStart');
     const rootGO = localCtx.getRootGameObject();
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
-    const zeppelinController =
-      rootGO.fetchLocalScripts()['zeppelin_controller'];
+    const controller = rootGO.fetchLocalScripts()['controller'];
 
-    if (!zeppelinController) throw new Error('no zeppelin controller script');
-
-    const avatarUnsetted = avatarController.setAvatarControllerMode(false, localCtx);
-    const zeppelinSetted = zeppelinController.setZeppelinControllerMode(true, localCtx);
+    const avatarUnsetted = controller.setAvatarControllerMode(false, localCtx);
+    const zeppelinSetted = controller.setZeppelinControllerMode(true, localCtx);
 
     if (avatarUnsetted || zeppelinSetted) {
       const manager = localCtx.getGameView().getInputManager();
       const cb = function () {
-        zeppelinController.setZeppelinControllerMode(false, localCtx);
-        avatarController.setAvatarControllerMode(true, localCtx);
-        avatarController.setAvatarVisible(true);
+        controller.setZeppelinControllerMode(false, localCtx);
+        controller.setAvatarControllerMode(true, localCtx);
+        controller.setAvatarVisible(true);
         manager.removeInputListener(cb);
       };
-      avatarController.setAvatarVisible(false);
+      controller.setAvatarVisible(false);
       manager.addKeyInput('e', 'keydown', cb);
     }
   }

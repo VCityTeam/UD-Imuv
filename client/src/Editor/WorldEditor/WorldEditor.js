@@ -198,31 +198,8 @@ export class WorldEditorView {
     const camera = this.gameView.getCamera();
 
     const bb = new THREE.Box3().setFromObject(objToFocus);
-
-    let center, radius;
-
-    //avoid bug if no renderdata on this gameobject
-    const checkIfCoordInfinite = function (value) {
-      return value === Infinity || value === -Infinity;
-    };
-    const checkIfVectorHasCoordInfinite = function (vector) {
-      return (
-        checkIfCoordInfinite(vector.x) ||
-        checkIfCoordInfinite(vector.y) ||
-        checkIfCoordInfinite(vector.z)
-      );
-    };
-
-    if (
-      checkIfVectorHasCoordInfinite(bb.max) ||
-      checkIfVectorHasCoordInfinite(bb.min)
-    ) {
-      center = this.gameView.getObject3D().position.clone();
-      radius = 1;
-    } else {
-      center = bb.getCenter(new THREE.Vector3());
-      radius = bb.min.distanceTo(bb.max) * 0.5;
-    }
+    const center = bb.getCenter(new THREE.Vector3());
+    const radius = bb.min.distanceTo(bb.max) * 0.5;
 
     // compute new distance between camera and center of object/sphere
     const h = radius / Math.tan((camera.fov / 2) * THREE.Math.DEG2RAD);
@@ -402,7 +379,10 @@ class WorldEditorModel {
 
     worldStateComputer.start(new Game.World(json));
     //smooth rendering with delay
-    this.interpolator = new WorldStateInterpolator(0, worldStateComputer);
+    this.interpolator = new WorldStateInterpolator(
+      { renderDelay: 50 },
+      worldStateComputer
+    );
   }
 
   getInterpolator() {

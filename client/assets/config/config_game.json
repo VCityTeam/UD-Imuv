@@ -37,11 +37,6 @@
         "path": "./assets/css/ui.css"
       }
     },
-    "prefabs": {
-      "post_it": {
-        "path": "./assets/prefabs/PostIt.json"
-      }
-    },
     "videos": {
       "introduction_flying_campus": {
         "path": "./assets/videos/POC_flying_campus_juin.webm"
@@ -51,12 +46,6 @@
       }
     },
     "localScripts": {
-      "post_it": {
-        "path": "./assets/localScripts/PostIt.js"
-      },
-      "place_post_it": {
-        "path": "./assets/localScripts/PlacePostIt.js"
-      },
       "static_object": {
         "path": "./assets/localScripts/StaticObject.js"
       },
@@ -78,11 +67,8 @@
       "texture_face": {
         "path": "./assets/localScripts/TextureFace.js"
       },
-      "avatar_controller": {
-        "path": "./assets/localScripts/AvatarController.js"
-      },
-      "zeppelin_controller": {
-        "path": "./assets/localScripts/ZeppelinController.js"
+      "controller": {
+        "path": "./assets/localScripts/Controller.js"
       },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"

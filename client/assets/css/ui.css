@@ -28,11 +28,67 @@
   }
 }
 
-.popup_ui {
-  width: 300px;
+/* Image Popup */
+.popup_wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.popup_wrapper {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-gap: 15px;
   position: fixed;
-  right: 0px;
-  bottom: 0px;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.popup_descr {
+  background-color: white;
+  height: fit-content;
+  max-height: 100%;
+  width: 100%;
+  overflow: auto;
+  text-align: center;
+  padding: 1%;
+}
+
+.popup_close_button {
+  height: 100%;
+  width: 100%;
+}
+
+.grid_item--image {
+  grid-column-start: 2;
+  grid-column-end: 7;
+  grid-row-start: 3;
+  grid-row-end: 10;
+}
+
+.grid_item--map {
+  grid-column-start: 7;
+  grid-column-end: 10;
+  grid-row-start: 5;
+  grid-row-end: 10;
+}
+
+.grid_item--descr {
+  grid-column-start: 7;
+  grid-column-end: 10;
+  grid-row-start: 2;
+  grid-row-end: 5;
+}
+
+.grid_item--close {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  margin: 0;
 }
 
 .popup-signage {
@@ -44,6 +100,7 @@
   background-color: white;
 }
 
+/*Loading Element*/
 .lds-default {
   display: inline-block;
   position: relative;
@@ -128,14 +185,4 @@
   50% {
     transform: scale(1.5);
   }
-}
-
-.post-it {
-  background-color: yellow;
-  width: 200px;
-  height: 200px;
-  padding: 5px;
-  font-family: system-ui;
-  text-align: center;
-  margin: auto;
 }

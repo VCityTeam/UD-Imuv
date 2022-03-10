@@ -20,11 +20,6 @@ module.exports = class PortalSweep {
   }
 
   onEnter() {
-    if (this.localCtxt.getGameView().getUserData('editorMode')) {
-      console.warn('no portal sweep in editor mode');
-      return;
-    }
-
     const go = this.go;
     const audioComp = go.getComponent(Game.Audio.TYPE);
     if (!audioComp) return;
