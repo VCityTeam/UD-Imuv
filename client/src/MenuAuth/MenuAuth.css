@@ -40,6 +40,11 @@
   text-align: center;
 }
 
+.button_MenuAuth_disabled {
+  pointer-events: none;
+  filter: grayscale() brightness(0.5);
+}
+
 .button_pink_MenuAuth:hover {
   background-color: magenta;
   cursor: pointer;
