@@ -70,7 +70,6 @@ module.exports = class Map {
       const index = path.indexOf('/assets');
       path = '../client/' + path.slice(index);
       const heightmap = gm(path);
-
       const _this = this;
 
       //TODO check if gm is well installed

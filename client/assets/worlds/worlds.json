@@ -23,13 +23,7 @@
         },
         "LocalScript": {
           "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
-          "idScripts": [
-            "avatar_controller",
-            "zeppelin_controller",
-            "static_object",
-            "bbb",
-            "mini_map"
-          ],
+          "idScripts": ["controller", "static_object", "mini_map"],
           "conf": {
             "traveling_time": 1500,
             "fog": { "near": 5, "far": 100 },
@@ -1843,6 +1837,31 @@
                     "z": 1.3205640598224022
                   },
                   "radius": "1.5"
+                },
+                {
+                  "type": "Polygon",
+                  "points": [
+                    {
+                      "x": 33.56189798680134,
+                      "y": 56.65515023749322,
+                      "z": -0.013249741153401828
+                    },
+                    {
+                      "x": 33.644772277446464,
+                      "y": 52.33774767164141,
+                      "z": -0.013249741153401828
+                    },
+                    {
+                      "x": 37.59148341463879,
+                      "y": 52.34461667947471,
+                      "z": -0.013249741153401828
+                    },
+                    {
+                      "x": 37.4083339178469,
+                      "y": 56.6542653599754,
+                      "z": -0.0039013320832168574
+                    }
+                  ]
                 }
               ],
               "body": true
@@ -1970,7 +1989,8 @@
                       "x": 0.11522197265624445,
                       "y": 0,
                       "z": 6.253323407327942
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -1986,7 +2006,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "1F80BFF8-B3FA-49F5-B2B7-FCB4A2A40610",
+                  "uuid": "04792998-315C-4028-91B7-93588952E035",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2039,7 +2059,8 @@
                       "x": 0.11522197265624445,
                       "y": 0,
                       "z": 6.253323407327942
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -2055,7 +2076,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "5E2CEC61-5502-4270-B4E4-9A6BF4CDE0E1",
+                  "uuid": "AC255376-2015-4AB1-A5EB-0C159C407CEA",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2105,8 +2126,10 @@
               },
               "children": [],
               "transform": {
-                "position": [44.01937922585961, -39.77321993795881, 30],
-                "rotation": [0, 0, 4.864859415866725, "ZXY"],
+                "position": [
+                  43.21072268998046, -38.797821399391225, 26.908884554510905
+                ],
+                "rotation": [0, 0, 4.854355189622661, "ZXY"],
                 "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
@@ -2196,7 +2219,8 @@
                       "x": 0.11522197265624445,
                       "y": 0,
                       "z": 6.253323407327942
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -2212,7 +2236,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "EE3D4053-F4D2-413A-A809-CFDD81E728CC",
+                  "uuid": "BC00CB7F-8163-49B2-8B44-F2C8A528A728",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2263,7 +2287,8 @@
                       "x": 0.11522197265624445,
                       "y": 0,
                       "z": 6.253323407327942
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -2279,7 +2304,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "4CB8598B-6F76-4425-9E52-5C8178030118",
+                  "uuid": "C646056A-DC02-46F8-95D6-A5D9C5366E42",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2328,7 +2353,8 @@
                   "conf": {
                     "worldDestUUID": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
                     "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
-                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -2344,7 +2370,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "D83F07D6-9179-4C57-8501-F3231D8E597A",
+                  "uuid": "C88D704A-8664-4719-A1F1-12C2CDDFE63D",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2398,7 +2424,8 @@
                   "conf": {
                     "worldDestUUID": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
                     "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
-                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -2414,7 +2441,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "A1BFABA0-AA12-44BA-B947-B6E7916B8E94",
+                  "uuid": "88DE6DDE-28D2-46F3-8FC3-5FC5A34FC6E7",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2750,17 +2777,17 @@
               "type": "GameObject",
               "static": true,
               "outdated": false,
-              "uuid": "F06B2870-3AF7-47EA-9DA6-33B5C7A6CD3C",
+              "uuid": "B4FD18EA-A653-4A49-B045-9F1BA672F001",
               "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
               "components": {
                 "Render": {
-                  "uuid": "6A458A3C-4892-4F24-888F-57DC860F443B",
+                  "uuid": "7BFB44A4-9E02-42EA-B77A-8655A4C804ED",
                   "type": "Render",
                   "idRenderData": "zeppelin",
                   "color": [1, 1, 1]
                 },
                 "Collider": {
-                  "uuid": "E8AAD193-0DB3-492E-8B62-C0DB410C87D4",
+                  "uuid": "C546A6DB-111B-40BF-823E-D3254632E3B9",
                   "type": "Collider",
                   "shapes": [
                     {
@@ -2772,13 +2799,13 @@
                   "body": false
                 },
                 "WorldScript": {
-                  "uuid": "000C750F-7420-48E1-B2E3-BE57DF2B2559",
+                  "uuid": "9293B455-B3B4-42B6-B906-D3FEEC33B8BE",
                   "idScripts": ["interaction_zone"],
                   "conf": {},
                   "type": "WorldScript"
                 },
                 "LocalScript": {
-                  "uuid": "D8DCFD62-178D-47B7-93E4-FFDC8376CD2A",
+                  "uuid": "5FD51FF0-2166-425E-8197-BC4E391A0D0C",
                   "idScripts": [
                     "rotate",
                     "local_interactions",
@@ -2793,7 +2820,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "FA524C8B-4109-4401-BE34-C9F5B6C5A62F",
+                  "uuid": "13B7BEC8-29F0-4CD1-8613-80DA67829138",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -2802,9 +2829,9 @@
               "children": [],
               "transform": {
                 "position": [
-                  43.54684033500962, -46.65628853812814, -2.62759462493068
+                  43.376197988400236, -46.97692959103733, -2.542474063963482
                 ],
-                "rotation": [0, 0, 6.242808109913961, "ZXY"],
+                "rotation": [0, 0, 6.2490456587420855, "ZXY"],
                 "scale": [0.1, 0.1, 0.1]
               },
               "noLocalUpdate": false,
@@ -2888,7 +2915,7 @@
         },
         "LocalScript": {
           "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-          "idScripts": ["avatar_controller", "static_object", "bbb"],
+          "idScripts": ["controller", "static_object"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -3354,8 +3381,8 @@
                   "shapes": [
                     {
                       "type": "Circle",
-                      "center": { "x": 0, "y": 0 },
-                      "radius": 1.689427617937126
+                      "center": { "x": 0, "y": 0, "z": 0.11430640907229983 },
+                      "radius": "1.2"
                     }
                   ],
                   "body": false
@@ -3370,7 +3397,8 @@
                       "x": "0",
                       "y": 0,
                       "z": 4.118258725148333
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -3386,7 +3414,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "A925A875-FEB9-40DD-8BFB-A24E7CC1D1A1",
+                  "uuid": "7F72DCA2-CD57-4319-86BB-80584A58F664",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -3404,7 +3432,7 @@
               "freeze": false
             },
             {
-              "name": "Image1",
+              "name": "Image7",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3421,14 +3449,16 @@
                   "uuid": "30D59DE9-3D15-4650-9482-4EF3E602A9D0",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/6184DE44-AA5D-4FD3-8EAA-A5D0574CA328.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/671B5C8B-F3BB-46B5-9B5E-62331152738E.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.34414812221682034,
-                      "ratioY": 0.2573406598423693
-                    }
+                    "gpsCoord": {
+                      "lng": 4.840056,
+                      "lat": 45.78075,
+                      "checked": true
+                    },
+                    "descriptionText": "Montée de la Boucle, Caluire-et-Cuire"
                   },
                   "type": "LocalScript"
                 },
@@ -3442,16 +3472,16 @@
               "children": [],
               "transform": {
                 "position": [
-                  2.487976643256843, -6.803802199661732, 3.4384698903865
+                  2.487976643256843, -6.803802199661732, 2.674915539370695
                 ],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image2",
+              "name": "Image4",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3468,14 +3498,16 @@
                   "uuid": "5616A6C5-B81F-48EE-813F-E1CAE559E4D7",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/33850062-2053-42DA-88AE-B6BCE3119194.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/F0059545-FAB1-4536-920C-873A934129C6.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.1471131128823524,
-                      "ratioY": 0.028071569001719254
-                    }
+                    "gpsCoord": {
+                      "lng": 4.815,
+                      "lat": 45.730306,
+                      "checked": true
+                    },
+                    "descriptionText": "Pont de la Mulatière, La Mulatière"
                   },
                   "type": "LocalScript"
                 },
@@ -3490,7 +3522,7 @@
               "transform": {
                 "position": [9.865009346278384, -15.137116045691073, 2.7],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
@@ -3513,14 +3545,16 @@
                   "uuid": "FCF888B4-594C-49CC-8AB5-BEDD852E5B53",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/80849568-50F4-44D4-A5FB-F90EB6951C01.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/C678DE9F-7148-4F61-ADC3-3F4834D1E1B3.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.8677028402004368,
-                      "ratioY": 0.0009530601972629338
-                    }
+                    "gpsCoord": {
+                      "lng": 4.817083,
+                      "lat": 45.736028,
+                      "checked": true
+                    },
+                    "descriptionText": "Cours Charlemagne"
                   },
                   "type": "LocalScript"
                 },
@@ -3535,13 +3569,13 @@
               "transform": {
                 "position": [16.37363406876102, -15.197473629377782, 2.7],
                 "rotation": [1.5707000000008564, 0, -3.1183564141996882, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image4",
+              "name": "Image2",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3558,14 +3592,16 @@
                   "uuid": "FFC3E56D-AA9F-48E1-8C54-CC8AAD456CBC",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/D7D1C8E3-5DEF-4C4C-B34D-55363CDDB0E4.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/58F1B857-1509-4E6E-8053-95B99E1AA698.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.6365774259491255,
-                      "ratioY": 0.27634452491130745
-                    }
+                    "gpsCoord": {
+                      "lng": 4.839917,
+                      "lat": 45.756389,
+                      "checked": true
+                    },
+                    "descriptionText": "Berges du Rhône – Guillotière, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -3580,13 +3616,13 @@
               "transform": {
                 "position": [20.324149628635496, -11.954995192587376, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image5",
+              "name": "Image8",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3603,14 +3639,16 @@
                   "uuid": "D9321027-4D92-4430-A2DF-4186E8A53B42",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/9E95611D-10FB-4771-BBFA-CE7260D1B9B3.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/F88E505D-40F9-4865-A103-03E979C08FB0.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.9579870782161573,
-                      "ratioY": 0.37799248996523493
-                    }
+                    "gpsCoord": {
+                      "lng": 4.813333,
+                      "lat": 45.774583,
+                      "checked": true
+                    },
+                    "descriptionText": "Tunnel de la Croix Rousse, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -3625,13 +3663,13 @@
               "transform": {
                 "position": [-3.897221867227927, -6.815741938538849, 2.7],
                 "rotation": [1.5707000000020088, 0, 3.1077148802050143, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image6",
+              "name": "Image1",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3648,14 +3686,16 @@
                   "uuid": "90015BE9-2A79-4987-AA91-6FBB6216A50D",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/70B081F9-E194-493A-A7D0-31F73F08289C.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/CE4F52BE-AC20-4B58-8530-0984D99883B1.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.5678883812430613,
-                      "ratioY": 0.2264027336218588
-                    }
+                    "gpsCoord": {
+                      "lng": 4.838167,
+                      "lat": 45.753472,
+                      "checked": true
+                    },
+                    "descriptionText": "Quai Claude Bernard, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -3670,13 +3710,13 @@
               "transform": {
                 "position": [20.324149628635496, -6.991599121131003, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image7",
+              "name": "Image6",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3693,14 +3733,16 @@
                   "uuid": "151A802F-EE27-4E61-88DA-876A34917191",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/B6D526D6-6A3A-4B7F-B324-53F3EA5CBCF9.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/43368117-905F-416E-B36D-CF65619022B0.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.3666558215806375,
-                      "ratioY": 0.47262944133885476
-                    }
+                    "gpsCoord": {
+                      "lng": 4.906056,
+                      "lat": 45.766889,
+                      "checked": true
+                    },
+                    "descriptionText": "Vue depuis le périphérique, Cusset, Villeurbanne"
                   },
                   "type": "LocalScript"
                 },
@@ -3715,13 +3757,13 @@
               "transform": {
                 "position": [6.490888266125694, -6.755357597023249, 2.7],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image8",
+              "name": "Image5",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3738,14 +3780,16 @@
                   "uuid": "3F2CFDC5-0DB5-46E0-B53F-F7FEB50981C5",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/F6A87871-FF2B-4788-B2D0-31A035586532.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/FCB052AB-5FAE-4C34-8CFC-6AD9EE9C179A.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.764429199776107,
-                      "ratioY": 0.5564866313837487
-                    }
+                    "gpsCoord": {
+                      "lng": 4.819667,
+                      "lat": 45.752167,
+                      "checked": true
+                    },
+                    "descriptionText": "Echangeur routier, Perrache"
                   },
                   "type": "LocalScript"
                 },
@@ -3760,13 +3804,13 @@
               "transform": {
                 "position": [6.490888266125694, -11.746453309431672, 2.7],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image9",
+              "name": "Panneau2",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3783,14 +3827,12 @@
                   "uuid": "53A38072-999B-4EF2-AF61-D658B09DD672",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/E8B61406-8B5C-430A-A4F3-71BE3005912C.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/22D2592E-AE44-4C67-AEEF-D2BE799431E4.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.9191824973311509,
-                      "ratioY": 0.07711880957571826
-                    }
+                    "gpsCoord": { "lng": null, "lat": null, "checked": false },
+                    "descriptionText": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN\" \"http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en-US\">\n  <!--This file was converted to xhtml by LibreOffice - see https://cgit.freedesktop.org/libreoffice/core/tree/filter/source/xslt for the code.--><head\n    profile=\"http://dublincore.org/documents/dcmi-terms/\"\n  >\n    <meta\n      http-equiv=\"Content-Type\"\n      content=\"application/xhtml+xml; charset=utf-8\"\n    />\n    <title xml:lang=\"en-US\">- no title specified</title>\n    <meta name=\"DCTERMS.title\" content=\"\" xml:lang=\"en-US\" />\n    <meta name=\"DCTERMS.language\" content=\"en-US\" scheme=\"DCTERMS.RFC4646\" />\n    <meta name=\"DCTERMS.source\" content=\"http://xml.openoffice.org/odf2xhtml\" />\n    <meta\n      name=\"DCTERMS.issued\"\n      content=\"2022-02-23T10:36:03.789000000\"\n      scheme=\"DCTERMS.W3CDTF\"\n    />\n    <meta\n      name=\"DCTERMS.modified\"\n      content=\"2022-02-23T10:38:51.401000000\"\n      scheme=\"DCTERMS.W3CDTF\"\n    />\n    <meta name=\"xsl:vendor\" content=\"libxslt\" />\n    <link\n      rel=\"schema.DC\"\n      href=\"http://purl.org/dc/elements/1.1/\"\n      hreflang=\"en\"\n    />\n    <link rel=\"schema.DCTERMS\" href=\"http://purl.org/dc/terms/\" hreflang=\"en\" />\n    <link\n      rel=\"schema.DCTYPE\"\n      href=\"http://purl.org/dc/dcmitype/\"\n      hreflang=\"en\"\n    />\n    <link rel=\"schema.DCAM\" href=\"http://purl.org/dc/dcam/\" hreflang=\"en\" />\n    <style>\n      table {\n        border-collapse: collapse;\n        border-spacing: 0;\n        empty-cells: show;\n      }\n      td,\n      th {\n        vertical-align: top;\n        font-size: 12pt;\n      }\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6 {\n        clear: both;\n      }\n      ol,\n      ul {\n        margin: 0;\n        padding: 0;\n      }\n      li {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n      }\n      span.footnodeNumber {\n        padding-right: 1em;\n      }\n      span.annotation_style_by_filter {\n        font-size: 95%;\n        font-family: Arial;\n        background-color: #fff000;\n        margin: 0;\n        border: 0;\n        padding: 0;\n      }\n      span.heading_numbering {\n        margin-right: 0.8rem;\n      }\n      * {\n        margin: 0;\n      }\n      .P1 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        text-align: center !important;\n      }\n      .P2 {\n        font-size: 14pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        text-align: center !important;\n      }\n      .P3 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: justify !important;\n      }\n      .P4 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: center !important;\n        color: #000000;\n      }\n      .P5 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: justify !important;\n        color: #bf0041;\n      }\n      .P6 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: justify !important;\n      }\n      .P7 {\n        font-size: 12pt;\n        line-height: 150%;\n        margin-bottom: 0.247cm;\n        margin-top: 0cm;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        text-align: justify !important;\n      }\n      .T1 {\n        color: #000000;\n      }\n      .T10 {\n        font-weight: normal;\n      }\n      .T2 {\n        color: #000000;\n        font-weight: bold;\n      }\n      .T3 {\n        color: #000000;\n        font-size: 12pt;\n      }\n      .T4 {\n        font-weight: bold;\n      }\n      .T6 {\n        font-size: 12pt;\n      }\n      .T7 {\n        font-style: italic;\n        font-weight: bold;\n      }\n      .T8 {\n        color: #c9211e;\n      }\n      /* ODF styles with no properties representable as CSS:\n    .T5  { } */\n    </style>\n  </head>\n  <body\n    dir=\"ltr\"\n    style=\"\n      max-width: 21.001cm;\n      margin-top: 2cm;\n      margin-bottom: 2cm;\n      margin-left: 2cm;\n      margin-right: 2cm;\n    \"\n  >\n    <p class=\"P2\">L’agglomération lyonnaise confinée - avril 2020</p>\n    <p class=\"P1\">Photographier l’absence de présence humaine en ville :</p>\n    <p class=\"P4\">l’expérience du confinement sur l’espace public.</p>\n    <p class=\"P3\"> </p>\n    <p class=\"P3\">\n      <span class=\"T1\"\n        >L’absence d’habitants révèle la place des espaces publics dans la\n        métropole. </span\n      ><span class=\"T2\"\n        >Ces photos du vide nous conduisent à interroger les pleins et leur\n        fonctionnalité </span\n      ><span class=\"T4\">: à quoi donc servent tous ces espaces</span\n      ><span class=\"T2\"> ?</span><span class=\"T1\"> On prend consc</span>ience de\n      l’importance des dispositifs permettant de guider, d’ordonner et\n      d’orienter. La signalisation est davantage routière qu’urbaine,\n      <span class=\"T5\">mett</span><span class=\"T6\">a</span\n      ><span class=\"T5\">nt</span> en valeur sa vocation coercitive et\n      contraignante : « sens interdit », « interdiction de… », « sens unique »,\n      « limitation », « interdit d’afficher », etc.\n    </p>\n    <p class=\"P3\"> </p>\n    <p class=\"P3\">\n      <span class=\"T4\">Dans cette expérience de l’absence,</span>\n      <span class=\"T4\"\n        >la ville vide montre la radicalité de notre société urbaine tournée\n        vers l’</span\n      ><span class=\"T7\">hypermobilité</span><span class=\"T4\">.</span\n      ><span class=\"T8\"> </span>Dans les activités urbaines, les objets de\n      mobilité et les infrastructures s’approprient une position de\n      quasi-monopole.\n      <span class=\"T4\"\n        >La mobilité surdétermine, étouffe aussi l’espace public urbain</span\n      >.\n      <span class=\"T1\"\n        >La profusion de signes, de sollicitations, d’injonctions,\n        d’interdictions devient insignifiante, dérisoire. Les feux rouges\n        n’arrêtent plus rien, comme les feux verts n’autorisent plus rien… La\n        déamb</span\n      >ulation libre devient possible. <span class=\"T5\">Pourtant</span>, le\n      promeneur hésite encore à traverser la rue.\n    </p>\n    <p class=\"P5\"> </p>\n    <p class=\"P3\">\n      La ville sans habitants prend l’<span class=\"T10\">allure de</span\n      ><span class=\"T4\"> décors de cinéma</span> où le bâti paraît factice,\n      aussi bien dans les secteurs historiques que dans les quartiers plus\n      contemporains… La ville s’apparente à un immense studio. Sans activité, la\n      ville devient pur décor, semblable à un artefact. Dès lors que les\n      activités reprennent, le décor disparaît pour laisser place aux services\n      qu’il rend.\n    </p>\n    <p class=\"P3\"> </p>\n    <p class=\"P3\">\n      <span class=\"T1\">La photographie capte le silence </span\n      ><span class=\"T3\">car</span\n      ><span class=\"T1\"> par le vide, elle le révèle. </span\n      ><span class=\"T2\"\n        >L’étrangeté de la situation, le calme, le retrait en quelque sorte\n        montrent combien il est illusoire d’imaginer une ville sans\n        activités.</span\n      ><span class=\"T1\">\n        Sans activités pas d’existence urbaine : chacun chez soi ne fait pas\n        l’urbain. Les pénétrantes routières, les rocades, les promenades, les\n        cafés, les commerces, les bureaux, les ateliers, les usines, les salles\n        de spectacles, les parcs, etc. tout rappelle l’urbanité et l’appelle. En\n        cela le confinement est une parenthèse et ne peut exemplifier\n        l’éventualité d’un renoncement, autrement dit, le monde d’après est de\n        retour…</span\n      >\n    </p>\n    <p class=\"P6\">Stéphane Autran – Jean-Yves Toussaint</p>\n    <p class=\"P6\"> </p>\n    <p class=\"P6\"> </p>\n    <p class=\"P7\">\n      <span class=\"T5\"\n        >Enquête photographique réalisée dans le cadre d’un financement IMU –\n        Février 2022</span\n      >\n    </p>\n    <p class=\"P6\" />\n    <p class=\"P6\">Photographies : Stéphane Autran</p>\n  </body>\n</html>\n"
                   },
                   "type": "LocalScript"
                 },
@@ -3805,13 +3847,13 @@
               "transform": {
                 "position": [-23.250901921419427, -9.180381101556122, 10],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image10",
+              "name": "Image18",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3828,14 +3870,16 @@
                   "uuid": "A6E2C4BF-132E-4CC7-B048-9540B24BAD5E",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/D3FB0C7B-F172-432F-B4AB-F5AEBC7808DF.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/F8D9BDBF-00F7-43A5-A380-3F0BD99AEFC2.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.8539154689857298,
-                      "ratioY": 0.3581891742471097
-                    }
+                    "gpsCoord": {
+                      "lng": 4.828889,
+                      "lat": 45.759472,
+                      "checked": true
+                    },
+                    "descriptionText": "Pont Bonaparte, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -3850,13 +3894,13 @@
               "transform": {
                 "position": [-23.250901921419427, 8.227311057969928, 10],
                 "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image11",
+              "name": "Image14",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3873,14 +3917,16 @@
                   "uuid": "7B4953B3-78DD-4AB4-955D-34ECD3C03532",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/6A6D6EC4-4827-43BF-8F9A-6E7CC8F823A7.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/BB9C2694-3E2E-4F49-B6D2-1EA6F54C6B94.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.857732219032949,
-                      "ratioY": 0.7402003097151619
-                    }
+                    "gpsCoord": {
+                      "lng": 4.829111,
+                      "lat": 45.764972,
+                      "checked": true
+                    },
+                    "descriptionText": "Quais de Bondy, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -3895,13 +3941,13 @@
               "transform": {
                 "position": [25.275346181821078, 5.010049852542579, 10],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image12",
+              "name": "Image13",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3918,14 +3964,16 @@
                   "uuid": "CEF79019-105D-4C03-B711-FCA631A3983C",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/B76BDD00-154D-422D-8C05-8EAB642A18B4.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/3BA0C92F-6360-458A-BA65-D35854D51678.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.1866081101692103,
-                      "ratioY": 0.012945719951692025
-                    }
+                    "gpsCoord": {
+                      "lng": 4.852278,
+                      "lat": 45.760667,
+                      "checked": true
+                    },
+                    "descriptionText": "Part-Dieu, intersection Servient – Garibaldi, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -3940,13 +3988,13 @@
               "transform": {
                 "position": [25.275346181821078, -11.253361359238625, 10],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image14",
+              "name": "Image12",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -3963,14 +4011,16 @@
                   "uuid": "690B9725-B4FF-41B6-B2EF-970A2BE11229",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/71227051-141B-414A-B70E-0340F7E4FB76.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/74C0891A-799F-4CDF-96D5-524E8A21F354.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.9794429345806059,
-                      "ratioY": 0.053257459917572136
-                    }
+                    "gpsCoord": {
+                      "lng": 4.852722,
+                      "lat": 45.757056,
+                      "checked": true
+                    },
+                    "descriptionText": "Avenue Garibaldi, Part-Dieu, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -3985,13 +4035,13 @@
               "transform": {
                 "position": [18.55301780300215, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image15",
+              "name": "Image11",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4008,14 +4058,16 @@
                   "uuid": "03696363-0BBF-4D5C-97AD-CCB3385A91F3",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/3748532D-27A1-4DCF-AB65-3237D45DA212.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/12A0CD13-18EC-454B-BC5D-E2C681BEFECC.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.5411931861114794,
-                      "ratioY": 0.04945320426726374
-                    }
+                    "gpsCoord": {
+                      "lng": 4.83375,
+                      "lat": 45.760556,
+                      "checked": true
+                    },
+                    "descriptionText": "Place des Jacobins, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -4030,13 +4082,13 @@
               "transform": {
                 "position": [7.057493497850373, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image16",
+              "name": "Image10",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4053,14 +4105,16 @@
                   "uuid": "6BBF17AA-6771-4FE9-95D0-A5096F0A89D8",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/33156ABC-B86C-4FF2-9756-AB057F672748.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/BC2586D4-40D4-4B38-AF92-D5F40A8E43C9.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.10021956242584729,
-                      "ratioY": 0.5936154736995125
-                    }
+                    "gpsCoord": {
+                      "lng": 4.860278,
+                      "lat": 45.785972,
+                      "checked": true
+                    },
+                    "descriptionText": "Depuis le pont Raymond Poincarré, vue sur quai Charles de Gaulle, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -4075,13 +4129,13 @@
               "transform": {
                 "position": [-4.370733732590452, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image17",
+              "name": "Image9",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4098,14 +4152,16 @@
                   "uuid": "C303AAA3-122A-420B-AC99-6E1E257A2E07",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/635AB97F-B9D4-4A6B-B388-E64EA05566F5.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/19387331-44B8-48DA-B881-A417BE4CD592.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.22941550096297436,
-                      "ratioY": 0.16398507576273702
-                    }
+                    "gpsCoord": {
+                      "lng": 4.797167,
+                      "lat": 45.782444,
+                      "checked": true
+                    },
+                    "descriptionText": "Boulevard de la Duchère, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -4120,13 +4176,13 @@
               "transform": {
                 "position": [-15.973096884321421, -20.962517756037414, 10],
                 "rotation": [1.5707000000008564, 0, 3.13098035374764, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image18",
+              "name": "Image17",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4143,14 +4199,16 @@
                   "uuid": "7B0F1E83-E332-460A-A4B9-597B15F716FA",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/16A7BB30-618D-4375-B2AE-397C864DABCA.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/7CB7FC3B-AFC4-4DF1-B193-2F522DD78435.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.16484818318404693,
-                      "ratioY": 0.7907025184365875
-                    }
+                    "gpsCoord": {
+                      "lng": 4.825083,
+                      "lat": 45.766111,
+                      "checked": true
+                    },
+                    "descriptionText": "Montée des Carmes Déchaussés, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -4165,13 +4223,13 @@
               "transform": {
                 "position": [-18.201377030927688, 12.933364816009998, 10],
                 "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-                "scale": [1.5, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image19",
+              "name": "Image16",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4188,14 +4246,16 @@
                   "uuid": "42379AA3-F47F-42E5-ADF8-3C10463892D6",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/187EECBA-688C-4C44-B7C3-E3251F1CD36E.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/BAC8CE3A-72E0-4C36-AD5A-245AACBA4B3A.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.3761929870058258,
-                      "ratioY": 0.6214908609381848
-                    }
+                    "gpsCoord": {
+                      "lng": 4.832167,
+                      "lat": 45.772028,
+                      "checked": true
+                    },
+                    "descriptionText": "Montée de la Grand Côte, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -4210,13 +4270,13 @@
               "transform": {
                 "position": [8.096792634343728, 12.586669554933906, 10],
                 "rotation": [1.5707000000020088, 0, 0, "ZXY"],
-                "scale": [0.667, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "Image20",
+              "name": "Image15",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4233,14 +4293,16 @@
                   "uuid": "36A24A71-589A-49D3-8C55-B06494716A7D",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/DD7EAE25-4472-4769-9F80-7B03F3914590.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/086B8EE4-6001-476E-A7CA-07B90925BC53.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.41860873461274495,
-                      "ratioY": 0.8449670283522372
-                    }
+                    "gpsCoord": {
+                      "lng": 4.840389,
+                      "lat": 45.757139,
+                      "checked": true
+                    },
+                    "descriptionText": "Berges du Rhône – Guillotière, Lyon"
                   },
                   "type": "LocalScript"
                 },
@@ -4255,13 +4317,13 @@
               "transform": {
                 "position": [18.887739738449454, 12.586669554933906, 10],
                 "rotation": [1.5707000000020088, 0, 0, "ZXY"],
-                "scale": [0.667, 1, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
             },
             {
-              "name": "maplyon",
+              "name": "Panneau1",
               "type": "GameObject",
               "static": true,
               "outdated": false,
@@ -4278,14 +4340,12 @@
                   "uuid": "2A998D6B-787F-45E3-A35C-6F9ACCF50E9F",
                   "idScripts": ["image"],
                   "conf": {
-                    "path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "width": 5,
-                    "height": 5,
+                    "path": "./assets/img/uploaded/641D12E8-A459-4BDE-8E49-4B91CD5B55A9.jpeg",
+                    "factorWidth": 3,
+                    "factorHeight": 3,
                     "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
-                    "popup_position": {
-                      "ratioX": 0.1398090797828062,
-                      "ratioY": 0.8086875921637702
-                    }
+                    "gpsCoord": { "lng": null, "lat": null, "checked": false },
+                    "descriptionText": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN\" \"http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en-US\">\n  <!--This file was converted to xhtml by LibreOffice - see https://cgit.freedesktop.org/libreoffice/core/tree/filter/source/xslt for the code.--><head\n    profile=\"http://dublincore.org/documents/dcmi-terms/\"\n  >\n    <meta\n      http-equiv=\"Content-Type\"\n      content=\"application/xhtml+xml; charset=utf-8\"\n    />\n    <title xml:lang=\"en-US\">- no title specified</title>\n    <meta name=\"DCTERMS.title\" content=\"\" xml:lang=\"en-US\" />\n    <meta name=\"DCTERMS.language\" content=\"en-US\" scheme=\"DCTERMS.RFC4646\" />\n    <meta name=\"DCTERMS.source\" content=\"http://xml.openoffice.org/odf2xhtml\" />\n    <meta\n      name=\"DCTERMS.issued\"\n      content=\"2022-02-23T10:34:28.119000000\"\n      scheme=\"DCTERMS.W3CDTF\"\n    />\n    <meta\n      name=\"DCTERMS.modified\"\n      content=\"2022-02-23T10:35:31.154000000\"\n      scheme=\"DCTERMS.W3CDTF\"\n    />\n    <meta name=\"xsl:vendor\" content=\"libxslt\" />\n    <link\n      rel=\"schema.DC\"\n      href=\"http://purl.org/dc/elements/1.1/\"\n      hreflang=\"en\"\n    />\n    <link rel=\"schema.DCTERMS\" href=\"http://purl.org/dc/terms/\" hreflang=\"en\" />\n    <link\n      rel=\"schema.DCTYPE\"\n      href=\"http://purl.org/dc/dcmitype/\"\n      hreflang=\"en\"\n    />\n    <link rel=\"schema.DCAM\" href=\"http://purl.org/dc/dcam/\" hreflang=\"en\" />\n    <style>\n      table {\n        border-collapse: collapse;\n        border-spacing: 0;\n        empty-cells: show;\n      }\n      td,\n      th {\n        vertical-align: top;\n        font-size: 12pt;\n      }\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6 {\n        clear: both;\n      }\n      ol,\n      ul {\n        margin: 0;\n        padding: 0;\n      }\n      li {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n      }\n      span.footnodeNumber {\n        padding-right: 1em;\n      }\n      span.annotation_style_by_filter {\n        font-size: 95%;\n        font-family: Arial;\n        background-color: #fff000;\n        margin: 0;\n        border: 0;\n        padding: 0;\n      }\n      span.heading_numbering {\n        margin-right: 0.8rem;\n      }\n      * {\n        margin: 0;\n      }\n      .P1 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        text-align: center !important;\n      }\n      .P2 {\n        font-size: 14pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        text-align: center !important;\n      }\n      .P3 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        text-align: left !important;\n        color: #000000;\n      }\n      .P4 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: justify !important;\n        color: #000000;\n      }\n      .P5 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: justify !important;\n        color: #00a933;\n      }\n      .P6 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: left !important;\n      }\n      .P7 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: justify !important;\n      }\n      .P8 {\n        font-size: 12pt;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        line-height: 150%;\n        text-align: justify !important;\n        color: #c9211e;\n      }\n      .P9 {\n        font-size: 12pt;\n        line-height: 150%;\n        margin-bottom: 0.247cm;\n        margin-top: 0cm;\n        font-family: 'Liberation Serif', 'Times New Roman';\n        writing-mode: horizontal-tb;\n        direction: ltr;\n        text-align: justify !important;\n      }\n      .T2 {\n        font-style: italic;\n        font-weight: bold;\n      }\n      .T3 {\n        font-weight: bold;\n      }\n      .T4 {\n        font-weight: bold;\n      }\n      .T5 {\n        font-size: 12pt;\n        font-weight: bold;\n      }\n      .T6 {\n        color: #000000;\n      }\n      .T7 {\n        color: #000000;\n        font-weight: bold;\n      }\n      /* ODF styles with no properties representable as CSS:\n     { } */\n    </style>\n  </head>\n  <body\n    dir=\"ltr\"\n    style=\"\n      max-width: 21.001cm;\n      margin-top: 2cm;\n      margin-bottom: 2cm;\n      margin-left: 2cm;\n      margin-right: 2cm;\n    \"\n  >\n    <p class=\"P2\">L’agglomération lyonnaise confinée - avril 2020</p>\n    <p class=\"P1\">Photographier l’absence de présence humaine en ville :</p>\n    <p class=\"P1\">l’expérience du confinement sur l’espace public.</p>\n    <p class=\"P3\"> </p>\n    <p class=\"P3\"> </p>\n    <p class=\"P5\"> </p>\n    <p class=\"P9\">\n      La première interdiction de déplacement en France, ou « confinement de la\n      population », est une mesure sanitaire inédite mise en place du 17 mars au\n      11 mai 2020. En réponse à la pandémie Covid-19, elle s'insère dans un\n      ensemble de politiques de protection des populations limitant les contacts\n      humains et les déplacements. Cette expérience improbable et extraordinaire\n      permet de contenir la propagation de l’épidémie et a comme conséquence une\n      perception très particulière de l’espace public urbain. Le LabeEx IMU\n      s’est saisit<span class=\"T2\"> </span>de cette occasion exceptionnelle.\n    </p>\n    <p class=\"P9\"> </p>\n    <p class=\"P9\">\n      Photographier c’est figer le mouvement. Comment alors photographier une\n      ville sans mouvement ni présence humaine ? A hauteur du promeneur,\n      l'observateur-photographe s'attache à montrer les différences visibles\n      engendrées par le confinement dans la rue.\n      <span class=\"T4\">Photographier l’absence, le vide, </span\n      ><span class=\"T5\">e</span\n      ><span class=\"T4\">ssayer de transcrire, percevoir le silence</span\n      ><span class=\"T3\"> n’est pas chose simple</span>, d’autant que l’exercice\n      n’a pas été répété ni anticipé !\n    </p>\n    <p class=\"P6\"> </p>\n    <p class=\"P7\">\n      Nos sens de citadins marcheurs sont habituellement accaparés par les flux\n      et les dangers potentiels qu’ils engendrent : vitesse, bruits, tensions,\n      incivilités, accélérations, évitements, collisions… mais aussi\n      chalandises, activités, rencontres, surprises, badinages et promenades… Le\n      centre-ville vit perpétuellement dans une grande intensité mais\n      généralement intériorisée par l’habitant.\n    </p>\n    <p class=\"P7\"> </p>\n    <p class=\"P7\">\n      Premier constat, une évidence, la quasi-absence de flux entraîne un\n      apaisement généralisé. Le<span class=\"T6\">s </span>bruits sont en forte\n      diminution. Par habitude, les sens du piéton continuent d’être en éveil.\n      <span class=\"T3\">On se met à écouter, voir, ressentir, </span\n      ><span class=\"T7\">à prêter attention.</span><span class=\"T6\"> </span>\n    </p>\n    <p class=\"P4\"> </p>\n    <p class=\"P7\">\n      <span class=\"T6\"\n        >Tout ce qui était couvert par l’agitation et les bruits des flux\n        quotidiens ressurgit. </span\n      ><span class=\"T7\">Moins de tumulte et l’attention revient</span\n      ><span class=\"T6\"\n        >. Le promeneur entend les oiseaux, le vent, la circulation lointaine,\n        le son de ses propres pas et ceux des rares passants, les conversations,\n        les rires qui s’échappent des fenêtres ouvertes ou des oreillettes des\n        coureu</span\n      >rs, les bruits techniques de frottement, de roulage des derniers\n      véhicules… Les désormais rares échappements libres en circulation,\n      deviennent alors totalement insupportables en interdisant tout autre\n      attention qu’à son émergence brutale.\n    </p>\n    <p class=\"P8\"> </p>\n    <p class=\"P7\">\n      <span class=\"T3\"\n        >Un nouveau regard sur l’environnement est possible, attentif aux\n        formes, des monuments aux édifices ordinaires, jusqu’aux objets qui\n        organisent l’espace. </span\n      >Tout devient digne d’intérêt, présent. La fin du tumulte ouvre à\n      l’architecture, à la perspective, aux vides, aux frontières, aux détails,\n      aux rythmes, à la différenciation.\n      <span class=\"T3\">La ville devient sculpture</span>. L’absence du brouhaha\n      de la ville ordinaire permet d’interroger l’utilité de chaque objet : leur\n      dimension, leur puissance. Des infrastructures apparaissent trop\n      généreuses quand les activités qu’elles servent disparaissent.\n    </p>\n    <p class=\"P7\"> </p>\n    <p class=\"P7\">\n      La perception de la forme des objets se renforce, tout comme une\n      interrogation sur leur rôle. Les infrastructures urbaines et tous les\n      dispositifs deviennent admirables, dessinant des espaces comme autant de\n      sculptures et d’architectures.\n      <span class=\"T3\"\n        >Leur utilité apparaît comme un manque formant une esthétique, une\n        certaine poésie formelle</span\n      > : jeux géométriques, élégance des courbes, superposition des\n      dispositifs...\n    </p>\n  </body>\n</html>\n"
                   },
                   "type": "LocalScript"
                 }
@@ -4294,7 +4354,7 @@
               "transform": {
                 "position": [20.324149628635496, -0.35783779062330723, 2.7],
                 "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-                "scale": [0.75, 0.5, 1]
+                "scale": [1, 1, 1]
               },
               "noLocalUpdate": false,
               "freeze": false
@@ -4319,7 +4379,7 @@
             "LocalScript": {
               "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 17 },
+              "conf": { "world_computer_dt": 479 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4377,7 +4437,7 @@
         },
         "LocalScript": {
           "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-          "idScripts": ["avatar_controller", "static_object", "bbb"],
+          "idScripts": ["controller", "static_object"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -4608,7 +4668,8 @@
                       "x": 0.05486912109374398,
                       "y": 0,
                       "z": 2.1576852042029397
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -4624,7 +4685,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "9BD8EF1F-0344-4DA9-8ECF-2431350C7F82",
+                  "uuid": "80DC20CC-6775-4F7A-AD7B-7E00AD54122C",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -4677,7 +4738,8 @@
                       "x": 0.13232236328124714,
                       "y": 0,
                       "z": 0.01727539062500494
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -4693,7 +4755,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "7A4FACE2-42C1-4A77-827C-C0B4046CE2C1",
+                  "uuid": "BA54DA81-DDC6-4317-B61C-59ED991D6137",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -4783,7 +4845,8 @@
                       "x": 0.05486912109374398,
                       "y": 0,
                       "z": 2.1576852042029397
-                    }
+                    },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -4799,7 +4862,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "D5F78102-525D-4ACA-9D3C-91C70082A20D",
+                  "uuid": "A6042BE9-1321-4B78-A2E6-8CA0D8F30634",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -4836,7 +4899,7 @@
             "LocalScript": {
               "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 28 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -4894,7 +4957,7 @@
         },
         "LocalScript": {
           "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
-          "idScripts": ["avatar_controller", "static_object", "place_post_it", "bbb"],
+          "idScripts": ["controller", "static_object"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -5121,7 +5184,8 @@
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "9A86811A-7AE7-4B1D-A3D7-44F51A9F4B65",
-                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -5137,7 +5201,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "54280492-CB6B-432C-80A9-565E75728748",
+                  "uuid": "6DA9CDFA-62B3-46AB-A322-5B0087499668",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -5174,7 +5238,7 @@
             "LocalScript": {
               "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 16 },
+              "conf": { "world_computer_dt": 32 },
               "type": "LocalScript"
             },
             "WorldScript": {
@@ -5232,7 +5296,7 @@
         },
         "LocalScript": {
           "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
-          "idScripts": ["avatar_controller", "static_object", "place_post_it", "bbb"],
+          "idScripts": ["controller", "static_object"],
           "conf": {
             "fog": { "near": 5, "far": 100 },
             "bbb_room_tag": {
@@ -5434,7 +5498,8 @@
                   "conf": {
                     "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                     "portalUUID": "385DB463-DE88-485B-B6B3-05C3990D9654",
-                    "spawnRotation": { "x": 0, "y": 0, "z": 0 }
+                    "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                    "delay": 1000
                   },
                   "type": "WorldScript"
                 },
@@ -5450,7 +5515,7 @@
                   "type": "LocalScript"
                 },
                 "Audio": {
-                  "uuid": "12E69927-6324-43A8-8287-E56E865EB485",
+                  "uuid": "6973B5BF-EE42-43C5-B632-D421C94EF181",
                   "sounds": ["portal_in"],
                   "conf": {},
                   "type": "Audio"
@@ -5487,7 +5552,7 @@
             "LocalScript": {
               "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
               "idScripts": ["ui"],
-              "conf": { "world_computer_dt": 17 },
+              "conf": { "world_computer_dt": 30 },
               "type": "LocalScript"
             },
             "WorldScript": {

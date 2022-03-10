@@ -41,3 +41,8 @@
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+
+.input_description {
+  width: 50%;
+  aspect-ratio: 2/1;
+}
