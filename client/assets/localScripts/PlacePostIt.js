@@ -79,13 +79,14 @@ module.exports = class PlacePostIt {
         if (i.length) {
           const closestI = i[0];
           const point = closestI.point;
-          const normal = new Game.THREE.Vector3();
-          //y is up put in right referential
-          normal.x = -closestI.face.normal.z;
-          normal.y = -closestI.face.normal.x;
-          normal.z = closestI.face.normal.y;
 
-          // console.log('NORMAL = ', normal);
+          let quaternionObj = new Game.THREE.Quaternion();
+          closestI.object.matrixWorld.decompose(
+            new Game.THREE.Vector3(),
+            quaternionObj,
+            new Game.THREE.Vector3()
+          );
+          const normal = closestI.face.normal.applyQuaternion(quaternionObj);
 
           postitGo = gameView.getAssetsManager().createPrefab('post_it');
 
@@ -116,7 +117,7 @@ module.exports = class PlacePostIt {
 
       avatarController.setAvatarControllerMode(true, localCtx);
       postitHtml.remove();
-      postitEnable = false;//force reclick
+      postitEnable = false; //force reclick
     };
 
     cancelButton.onclick = cancelCb;
