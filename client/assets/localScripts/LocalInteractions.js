@@ -3,8 +3,17 @@ let Shared;
 module.exports = class LocalInteractions {
   constructor(conf, udvizBundle) {
     this.conf = conf;
-    this.tickIsColliding = null;
     Shared = udvizBundle.Game;
+
+    ///attr
+    this.tickIsColliding = null;
+    this.localScripts = null;
+
+    //html
+    this.interactionLabel = document.createElement('div');
+    this.interactionLabel.innerHTML =
+      this.conf['label_interaction'] || 'Press E';
+    this.interactionLabel.classList.add('hidden');
   }
 
   init() {
@@ -14,11 +23,29 @@ module.exports = class LocalInteractions {
     const indexThis = this.localScripts.indexOf(this);
     this.localScripts.splice(indexThis, 1);
     this.initInputs(localCtx);
+
+    //append can interact info html to gv ui
+    localCtx.getGameView().appendToUI(this.interactionLabel);
   }
 
   tick() {
     if (this.tickIsColliding) {
       this.tickIsColliding();
+    }
+    const localCtx = arguments[1];
+    const _this = this;
+    let canInteract = false;
+    for (let index = 0; index < this.localScripts.length; index++) {
+      const ls = this.localScripts[index];
+      if (_this.canInteract(localCtx, ls)) {
+        canInteract = true;
+        break;
+      }
+    }
+    if (canInteract) {
+      this.interactionLabel.classList.remove('hidden');
+    } else {
+      this.interactionLabel.classList.add('hidden');
     }
   }
 
@@ -27,19 +54,19 @@ module.exports = class LocalInteractions {
     const localScripts = this.localScripts;
     const gameView = localCtx.getGameView();
     const manager = gameView.getInputManager();
-    const avatarUUIDLC = localCtx.getGameView().getUserData('avatarUUID');
 
-    let interactionFunction;
     manager.addKeyInput('e', 'keydown', function () {
       localScripts.forEach((ls) => {
-        if (
-          _this.conf.avatarsColliding.includes(avatarUUIDLC) &&
-          (interactionFunction = ls.interaction)
-        ) {
-          interactionFunction.call(ls,localCtx);
+        if (_this.canInteract(localCtx, ls)) {
+          ls.interaction.call(ls, localCtx);
         }
       });
     });
+  }
+
+  canInteract(localCtx, ls) {
+    const avatarUUIDLC = localCtx.getGameView().getUserData('avatarUUID');
+    return this.conf.avatarsColliding.includes(avatarUUIDLC) && ls.interaction;
   }
 
   update() {

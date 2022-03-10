@@ -23,17 +23,12 @@ module.exports = class Controller {
     this.avatarCameraman = null;
     this.avatarControllerMode = false;
 
-    //Zeppelin controller
-    this.zeppelinControllerMode = false;
-    this.zeppelinGO = null;
-    this.orbitControl = null;
-
     //routines camera
     this.routines = [];
 
     //buffer
-    this.itownsCamPos = null;
-    this.itownsCamQuat = null;
+    // this.itownsCamPos = null;
+    // this.itownsCamQuat = null;
   }
 
   fetchStaticObject(go) {
@@ -75,7 +70,6 @@ module.exports = class Controller {
 
     //init controllers
     this.initAvatarControllerMode(localCtx);
-    this.initZeppelinControllerMode(localCtx);
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
       this.addTravelingRoutine(localCtx);
@@ -99,16 +93,6 @@ module.exports = class Controller {
     manager.addKeyInput('y', 'keydown', function () {
       _this.avatarCameraman.toggleMode();
     });
-  }
-
-  initZeppelinControllerMode(localCtx) {
-    const gameView = localCtx.getGameView();
-    const camera = gameView.getCamera();
-    const manager = gameView.getInputManager();
-
-    //Zeppelin controller
-    this.orbitControl = new udviz.OrbitControls(camera, manager.getElement());
-    this.orbitControl.enabled = false;
   }
 
   addTravelingRoutine(localCtx) {
@@ -307,88 +291,6 @@ module.exports = class Controller {
     return true;
   }
 
-  setZeppelinControllerMode(value, localCtx) {
-    if (!this.zeppelinGO) return; //no zeppelin
-
-    if (value == this.zeppelinControllerMode) {
-      console.warn('same value');
-      return false;
-    }
-
-    this.zeppelinControllerMode = value;
-
-    const gameView = localCtx.getGameView();
-    const manager = gameView.getInputManager();
-    const Command = Game.Command;
-
-    if (value) {
-      const userID = gameView.getUserData('userID');
-      const gameObjectToCtrlUUID = this.zeppelinGO.getUUID();
-      manager.setPointerLock(false);
-
-      //forward
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_FORWARD,
-        ['z', 'ArrowUp'],
-        function () {
-          return new Command({
-            type: Command.TYPE.MOVE_FORWARD,
-            userID: userID,
-            gameObjectUUID: gameObjectToCtrlUUID,
-          });
-        }
-      );
-
-      //BACKWARD
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_BACKWARD,
-        ['s', 'ArrowDown'],
-        function () {
-          return new Command({
-            type: Command.TYPE.MOVE_BACKWARD,
-            userID: userID,
-            gameObjectUUID: gameObjectToCtrlUUID,
-          });
-        }
-      );
-
-      //LEFT
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_LEFT,
-        ['q', 'ArrowLeft'],
-        function () {
-          return new Command({
-            type: Command.TYPE.MOVE_LEFT,
-            userID: userID,
-            gameObjectUUID: gameObjectToCtrlUUID,
-          });
-        }
-      );
-
-      //RIGHT
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_RIGHT,
-        ['d', 'ArrowRight'],
-        function () {
-          return new Command({
-            type: Command.TYPE.MOVE_RIGHT,
-            userID: userID,
-            gameObjectUUID: gameObjectToCtrlUUID,
-          });
-        }
-      );
-    } else {
-      manager.removeKeyCommand(Command.TYPE.MOVE_FORWARD, ['z', 'ArrowUp']);
-      manager.removeKeyCommand(Command.TYPE.MOVE_BACKWARD, ['s', 'ArrowDown']);
-      manager.removeKeyCommand(Command.TYPE.MOVE_RIGHT, ['d', 'ArrowRight']);
-      manager.removeKeyCommand(Command.TYPE.MOVE_LEFT, ['q', 'ArrowLeft']);
-    }
-
-    this.orbitControl.enabled = value;
-
-    return true;
-  }
-
   setAvatarVisible(value) {
     this.avatarGO.getObject3D().visible = value;
   }
@@ -407,10 +309,6 @@ module.exports = class Controller {
       this.avatarCameraman.setTarget(this.avatarGO);
     }
 
-    if (!this.zeppelinGO) {
-      this.zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');
-    }
-
     //routines are prior
     if (this.hasRoutine()) {
       const currentRoutine = this.routines[0];
@@ -419,22 +317,8 @@ module.exports = class Controller {
         currentRoutine.onEnd();
         this.routines.shift(); //remove
       }
-    } else {
-      if (this.avatarControllerMode) {
-        this.avatarCameraman.focusTarget(this.fetchStaticObject(go));
-      }
-
-      if (this.zeppelinControllerMode) {
-        const obj = this.zeppelinGO.getObject3D();
-        let position = new Game.THREE.Vector3();
-        obj.matrixWorld.decompose(
-          position,
-          new Game.THREE.Quaternion(),
-          new Game.THREE.Vector3()
-        );
-        this.orbitControl.target.copy(position);
-        this.orbitControl.update();
-      }
+    } else if (this.avatarControllerMode) {
+      this.avatarCameraman.focusTarget(this.fetchStaticObject(go));
     }
   }
 
