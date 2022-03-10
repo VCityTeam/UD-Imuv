@@ -85,7 +85,7 @@ export class MenuAuthView {
     this.editorButton = document.createElement('div');
     this.editorButton.innerHTML = 'Editeur';
     this.editorButton.classList.add('button_pink_MenuAuth');
-    if (!this.confFeatures.DEVTOOLS.editor) {
+    if (!this.confFeatures.editor) {
       this.editorButton.disabled = true;
       this.editorButton.classList.add('button_MenuAuth_disabled');
     }
