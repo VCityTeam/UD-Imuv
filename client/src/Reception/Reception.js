@@ -131,7 +131,7 @@ export class ReceptionView {
   initCallbacks() {
     const _this = this;
 
-    SystemUtils.File.loadJSON('../assets/config/config_features.json').then(
+    SystemUtils.File.loadJSON('./assets/config/config_features.json').then(
       (configFeatures) => {
         _this.joinButton.onclick = function () {
           _this.dispose();
