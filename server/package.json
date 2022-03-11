@@ -4,8 +4,9 @@
   "description": "application hosting a imuv client",
   "main": "index.js",
   "scripts": {
-    "travis": "npm run eslint && npm run build",
-    "travis-ps": "npm run eslint-ps && npm run build",
+    "prettier": "npx prettier --single-quote --write ./assets ./src",
+    "travis": "npm run prettier && npm run eslint && npm run build",
+    "travis-ps": "npm run prettier && npm run eslint-ps && npm run build",
     "eslint": "./node_modules/.bin/eslint ./src",
     "eslint-ps": "eslint ./src",
     "eslint-fix": "./node_modules/.bin/eslint ./src --fix",
@@ -39,6 +40,7 @@
     "nodemon": "^2.0.7",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.5.0",
+    "prettier": "^2.5.1",
     "webpack-node-externals": "^2.5.2"
   }
 }
