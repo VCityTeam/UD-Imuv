@@ -28,7 +28,7 @@
     "gm": "^1.23.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
-    "ud-viz": "2.36.3",
+    "ud-viz": "2.36.4",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
