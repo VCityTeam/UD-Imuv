@@ -61,8 +61,11 @@
       "image": {
         "path": "./assets/localScripts/Image.js"
       },
-      "controller": {
-        "path": "./assets/localScripts/Controller.js"
+      "avatar_controller": {
+        "path": "./assets/localScripts/AvatarController.js"
+      },
+      "zeppelin_controller": {
+        "path": "./assets/localScripts/ZeppelinController.js"
       },
       "bbb": {
         "path": "./assets/localScripts/BBB.js"
@@ -93,6 +96,12 @@
       },
       "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
+      },
+      "place_post_it":{
+        "path": "./assets/localScripts/PlacePostIt.js"
+      },
+      "post_it":{
+        "path": "./assets/localScripts/PostIt.js"
       }
     },
     "renderData": {
@@ -184,11 +193,17 @@
       },
       "signage_area": {
         "path": "./assets/prefabs/SignageArea.json"
+      },
+      "post_it": {
+        "path": "./assets/prefabs/PostIt.json"
       }
     },
     "worlds": {
       "path": "./assets/worlds/worlds.json"
     }
+  },
+  "worldStateInterpolator": {
+    "renderDelay": 150
   },
   "game": {
     "fps": 30,

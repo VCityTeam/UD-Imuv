@@ -186,3 +186,13 @@
     transform: scale(1.5);
   }
 }
+
+.post-it {
+  background-color: yellow;
+  width: 200px;
+  height: 200px;
+  padding: 5px;
+  font-family: system-ui;
+  text-align: center;
+  margin: auto;
+}

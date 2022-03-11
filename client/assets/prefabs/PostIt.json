@@ -1,0 +1,25 @@
+{
+  "name": "Post_it",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": "quad",
+      "color": [1, 1, 0]
+    },
+    "LocalScript": {
+      "idScripts": ["post_it"],
+      "conf": {
+        "content": null
+      },
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0],
+    "scale": [0.2, 0.2, 0.2]
+  }
+}
