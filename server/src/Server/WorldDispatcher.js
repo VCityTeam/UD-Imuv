@@ -63,61 +63,56 @@ const WorldDispatcherModule = class WorldDispatcher {
   }
 
   initWorlds() {
-    return new Promise((resolve, reject) => {
-      console.log(this.constructor.name, 'init worlds');
-      const _this = this;
+    console.log(this.constructor.name, 'init worlds');
+    const _this = this;
 
-      //clean
-      for (let key in _this.worldToThread) {
-        const thread = _this.worldToThread[key];
-        thread.stop();
-        delete _this.worldToThread[key];
-      }
+    //clean
+    for (let key in _this.worldToThread) {
+      const thread = _this.worldToThread[key];
+      thread.stop();
+      delete _this.worldToThread[key];
+    }
 
-      fs.readFile(_this.config.worldsPath, 'utf8', (err, data) => {
-        if (err) {
-          reject(err);
-          return;
+    const indexWorldsJSON = JSON.parse(
+      fs.readFileSync(_this.config.worldsFolder + 'index.json')
+    );
+
+    const worldsJSON = [];
+
+    for (let uuid in indexWorldsJSON) {
+      const path = _this.config.worldsFolder + indexWorldsJSON[uuid];
+      worldsJSON.push(JSON.parse(fs.readFileSync(path)));
+    }
+
+    _this.worldsJSON = worldsJSON;
+
+    worldsJSON.forEach(function (worldJSON) {
+      //create a worldThread
+      const thread = new WorldThread(_this.config.worldThread.script);
+
+      //post data to create world
+      thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
+
+      //mapping between world and thread
+      _this.worldToThread[worldJSON.uuid] = thread;
+
+      //callbacks
+
+      //worldstate notification
+      thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (worldstateJSON) {
+        const users = thread.getUsers();
+        for (let key in users) {
+          users[key].sendWorldState(worldstateJSON);
         }
+      });
 
-        const worldsJSON = JSON.parse(data);
-
-        _this.worldsJSON = worldsJSON;
-
-        worldsJSON.forEach(function (worldJSON) {
-          //create a worldThread
-          const thread = new WorldThread(_this.config.worldThread.script);
-
-          //post data to create world
-          thread.post(WorldThread.MSG_TYPES.INIT, worldJSON); //thread post function will pack data
-
-          //mapping between world and thread
-          _this.worldToThread[worldJSON.uuid] = thread;
-
-          //callbacks
-
-          //worldstate notification
-          thread.on(
-            WorldThread.MSG_TYPES.WORLDSTATE,
-            function (worldstateJSON) {
-              const users = thread.getUsers();
-              for (let key in users) {
-                users[key].sendWorldState(worldstateJSON);
-              }
-            }
-          );
-
-          //avatar portal
-          thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
-            _this.placeAvatarInWorld(
-              data.avatarUUID,
-              data.worldUUID,
-              data.portalUUID
-            );
-          });
-
-          resolve();
-        });
+      //avatar portal
+      thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
+        _this.placeAvatarInWorld(
+          data.avatarUUID,
+          data.worldUUID,
+          data.portalUUID
+        );
       });
     });
   }

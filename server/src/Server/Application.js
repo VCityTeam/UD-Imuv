@@ -63,10 +63,9 @@ const ApplicationModule = class Application {
     this.assetsManager
       .loadFromConfig(this.config.assetsManager)
       .then(function () {
-        _this.worldDispatcher.initWorlds().then(function () {
-          const httpServer = _this.initExpress();
-          _this.initWebSocket(httpServer);
-        });
+        _this.worldDispatcher.initWorlds();
+        const httpServer = _this.initExpress();
+        _this.initWebSocket(httpServer);
       });
   }
 
@@ -335,34 +334,31 @@ const ApplicationModule = class Application {
           console.log('ALL WORLD HAVE LOADED');
 
           //write on disks new worlds
-
-          const content = [];
-          worlds.forEach(function (w) {
-            content.push(w.toJSON(true));
-          });
-
-          fs.writeFile(
-            _this.config.worldDispatcher.worldsPath,
-            JSON.stringify(content),
-            {
-              encoding: 'utf8',
-              flag: 'w',
-              mode: 0o666,
-            },
-            function () {
-              console.log('WORLD WRITED ON DISK');
-
-              //reload worlds
-              _this.worldDispatcher.initWorlds().then(function () {
-                socket.emit(
-                  MSG_TYPES.SERVER_ALERT,
-                  'Worlds saved and reloaded !'
-                );
-              });
-
-              _this.cleanUnusedImages();
-            }
+          const indexWorldsJSON = JSON.parse(
+            fs.readFileSync(
+              _this.config.worldDispatcher.worldsFolder + 'index.json'
+            )
           );
+
+          const fetchWorldContent = function (uuid) {
+            for (let index = 0; index < worlds.length; index++) {
+              const element = worlds[index];
+              if (element.getUUID() == uuid)
+                return JSON.stringify(element.toJSON(true));
+            }
+            throw new Error('cant find world');
+          };
+
+          for (let uuid in indexWorldsJSON) {
+            const path =
+              _this.config.worldDispatcher.worldsFolder + indexWorldsJSON[uuid];
+            fs.writeFileSync(path, fetchWorldContent(uuid));
+          }
+
+          //reload worlds
+          _this.worldDispatcher.initWorlds();
+          socket.emit(MSG_TYPES.SERVER_ALERT, 'Worlds saved and reloaded !');
+          _this.cleanUnusedImages();
         });
       } catch (e) {
         throw new Error(e);
@@ -373,24 +369,32 @@ const ApplicationModule = class Application {
   cleanUnusedImages() {
     const folderPath = '../client/assets/img/uploaded/';
 
-    fs.readFile(this.config.worldDispatcher.worldsPath, 'utf8', (err, data) => {
-      if (err) throw new Error('cant load world ', err);
+    const indexWorldsJSON = JSON.parse(
+      fs.readFileSync(this.config.worldDispatcher.worldsFolder + 'index.json')
+    );
 
-      fs.readdir(folderPath, (err, files) => {
-        files.forEach((file) => {
-          //check if ref by something in worlds
-          if (!data.includes(file)) {
-            //delete it
-            // delete a file
-            fs.unlink(folderPath + file, (err) => {
-              if (err) {
-                throw err;
-              }
+    let data = '';
 
-              console.log(folderPath + file + ' deleted.');
-            });
-          }
-        });
+    for (let uuid in indexWorldsJSON) {
+      const path =
+        this.config.worldDispatcher.worldsFolder + indexWorldsJSON[uuid];
+      data += fs.readFileSync(path);
+    }
+
+    fs.readdir(folderPath, (err, files) => {
+      files.forEach((file) => {
+        //check if ref by something in worlds
+        if (!data.includes(file)) {
+          //delete it
+          // delete a file
+          fs.unlink(folderPath + file, (err) => {
+            if (err) {
+              throw err;
+            }
+
+            console.log(folderPath + file + ' deleted.');
+          });
+        }
       });
     });
   }
