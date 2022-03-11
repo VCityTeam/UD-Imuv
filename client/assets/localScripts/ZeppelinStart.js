@@ -12,8 +12,14 @@ module.exports = class ZeppelinStart {
 
     if (!zeppelinController) throw new Error('no zeppelin controller script');
 
-    const avatarUnsetted = avatarController.setAvatarControllerMode(false, localCtx);
-    const zeppelinSetted = zeppelinController.setZeppelinControllerMode(true, localCtx);
+    const avatarUnsetted = avatarController.setAvatarControllerMode(
+      false,
+      localCtx
+    );
+    const zeppelinSetted = zeppelinController.setZeppelinControllerMode(
+      true,
+      localCtx
+    );
 
     if (avatarUnsetted || zeppelinSetted) {
       const manager = localCtx.getGameView().getInputManager();

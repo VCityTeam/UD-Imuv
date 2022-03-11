@@ -212,7 +212,7 @@ module.exports = class Avatar {
     //check if is interaction_zone
     const portal = colliderGO.fetchWorldScripts()['portal'];
     if (portal) {
-      portal.notifyEnter(go,this);
+      portal.notifyEnter(go, this);
     }
 
     //check if is teleporter
