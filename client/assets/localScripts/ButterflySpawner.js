@@ -24,7 +24,7 @@ module.exports = class ButterflySpawner {
     this.triggerAnimate = false;
     this.particleGroup = null;
 
-    //TODO in UserData add attribute "editorMode" ? 
+    //TODO in UserData add attribute "editorMode" ?
     const render = this.go.getComponent(Game.Render.TYPE);
     const editorMode = arguments[1].getGameView().getUserData('editorMode');
 
@@ -38,7 +38,7 @@ module.exports = class ButterflySpawner {
     }
   }
 
-  onEnter(){
+  onEnter() {
     this.createParticuleGroup();
   }
 
