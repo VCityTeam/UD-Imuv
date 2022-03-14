@@ -1293,7 +1293,7 @@
                 "type": "LocalScript"
               },
               "Audio": {
-                "uuid": "3F287C69-38ED-43A6-91E1-7E076421A713",
+                "uuid": "7BC5BA26-37CC-45FD-8783-1318D8422889",
                 "sounds": ["open_popup", "close_popup"],
                 "conf": { "shared": true },
                 "type": "Audio"
