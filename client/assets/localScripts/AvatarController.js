@@ -182,73 +182,138 @@ module.exports = class Controller {
     const manager = gameView.getInputManager();
     const Command = Game.Command;
 
+    const commandIdForward = 'cmd_forward';
+    const commandIdBackward = 'cmd_backward';
+    const commandIdLeft = 'cmd_left';
+    const commandIdRight = 'cmd_right';
+
     if (value) {
       const userID = gameView.getUserData('userID');
       const gameObjectToCtrlUUID = gameView.getUserData('avatarUUID');
 
       //forward
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_FORWARD,
-        ['z', 'ArrowUp'],
-        function () {
-          manager.setPointerLock(true);
-          if (manager.isPressed('c')) {
+      let forwardStart = false;
+      let forwardEnd = false;
+      manager.addKeyCommand(commandIdForward, ['z', 'ArrowUp'], function () {
+        const forwardDown =
+          manager.isKeyDown('z') || manager.isKeyDown('ArrowUp');
+        if (forwardDown != forwardStart) {
+          forwardStart = forwardDown;
+          if (forwardStart) {
+            manager.setPointerLock(true);
             return new Command({
-              type: Command.TYPE.RUN,
-              userID: userID,
-              gameObjectUUID: gameObjectToCtrlUUID,
-            });
-          } else {
-            return new Command({
-              type: Command.TYPE.MOVE_FORWARD,
+              type: Command.TYPE.MOVE_FORWARD_START,
               userID: userID,
               gameObjectUUID: gameObjectToCtrlUUID,
             });
           }
         }
-      );
 
-      //BACKWARD
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_BACKWARD,
-        ['s', 'ArrowDown'],
-        function () {
-          manager.setPointerLock(true);
-          return new Command({
-            type: Command.TYPE.MOVE_BACKWARD,
-            userID: userID,
-            gameObjectUUID: gameObjectToCtrlUUID,
-          });
+        const forwardUp = manager.isKeyUp('z') || manager.isKeyUp('ArrowUp');
+        if (forwardUp != forwardEnd) {
+          forwardEnd = forwardUp;
+          if (forwardEnd) {
+            return new Command({
+              type: Command.TYPE.MOVE_FORWARD_END,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
+          }
         }
-      );
+      });
 
-      //LEFT
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_LEFT,
-        ['q', 'ArrowLeft'],
-        function () {
-          manager.setPointerLock(true);
-          return new Command({
-            type: Command.TYPE.MOVE_LEFT,
-            userID: userID,
-            gameObjectUUID: gameObjectToCtrlUUID,
-          });
+      //backward
+      let backwardStart = false;
+      let backwardEnd = false;
+      manager.addKeyCommand(commandIdBackward, ['s', 'ArrowDown'], function () {
+        const backwardDown =
+          manager.isKeyDown('s') || manager.isKeyDown('ArrowDown');
+        if (backwardDown != backwardStart) {
+          backwardStart = backwardDown;
+          if (backwardStart) {
+            manager.setPointerLock(true);
+            return new Command({
+              type: Command.TYPE.MOVE_BACKWARD_START,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
+          }
         }
-      );
 
-      //RIGHT
-      manager.addKeyCommand(
-        Command.TYPE.MOVE_RIGHT,
-        ['d', 'ArrowRight'],
-        function () {
-          manager.setPointerLock(true);
-          return new Command({
-            type: Command.TYPE.MOVE_RIGHT,
-            userID: userID,
-            gameObjectUUID: gameObjectToCtrlUUID,
-          });
+        const backwardUp = manager.isKeyUp('s') || manager.isKeyUp('ArrowDown');
+        if (backwardUp != backwardEnd) {
+          backwardEnd = backwardUp;
+          if (backwardEnd) {
+            return new Command({
+              type: Command.TYPE.MOVE_BACKWARD_END,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
+          }
         }
-      );
+      });
+
+      //left
+      let leftStart = false;
+      let leftEnd = false;
+      manager.addKeyCommand(commandIdLeft, ['q', 'ArrowLeft'], function () {
+        const leftDown =
+          manager.isKeyDown('q') || manager.isKeyDown('ArrowLeft');
+        if (leftDown != leftStart) {
+          leftStart = leftDown;
+          if (leftStart) {
+            manager.setPointerLock(true);
+            return new Command({
+              type: Command.TYPE.MOVE_LEFT_START,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
+          }
+        }
+
+        const leftUp = manager.isKeyUp('q') || manager.isKeyUp('ArrowLeft');
+        if (leftUp != leftEnd) {
+          leftEnd = leftUp;
+          if (leftEnd) {
+            return new Command({
+              type: Command.TYPE.MOVE_LEFT_END,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
+          }
+        }
+      });
+
+      //right
+      let rightStart = false;
+      let rightEnd = false;
+      manager.addKeyCommand(commandIdRight, ['d', 'ArrowRight'], function () {
+        const rightDown =
+          manager.isKeyDown('d') || manager.isKeyDown('ArrowRight');
+        if (rightDown != rightStart) {
+          rightStart = rightDown;
+          if (rightStart) {
+            manager.setPointerLock(true);
+            return new Command({
+              type: Command.TYPE.MOVE_RIGHT_START,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
+          }
+        }
+
+        const rightUp = manager.isKeyUp('d') || manager.isKeyUp('ArrowRight');
+        if (rightUp != rightEnd) {
+          rightEnd = rightUp;
+          if (rightEnd) {
+            return new Command({
+              type: Command.TYPE.MOVE_RIGHT_END,
+              userID: userID,
+              gameObjectUUID: gameObjectToCtrlUUID,
+            });
+          }
+        }
+      });
 
       //ROTATE
       manager.addMouseCommand('mousemove', function () {
@@ -280,10 +345,10 @@ module.exports = class Controller {
         return null;
       });
     } else {
-      manager.removeKeyCommand(Command.TYPE.MOVE_FORWARD, ['z', 'ArrowUp']);
-      manager.removeKeyCommand(Command.TYPE.MOVE_BACKWARD, ['s', 'ArrowDown']);
-      manager.removeKeyCommand(Command.TYPE.MOVE_RIGHT, ['d', 'ArrowRight']);
-      manager.removeKeyCommand(Command.TYPE.MOVE_LEFT, ['q', 'ArrowLeft']);
+      manager.removeKeyCommand(commandIdForward, ['z', 'ArrowUp']);
+      manager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
+      manager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
+      manager.removeKeyCommand(commandIdLeft, ['q', 'ArrowLeft']);
       manager.removeMouseCommand('mousemove');
       manager.setPointerLock(false);
     }

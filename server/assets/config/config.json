@@ -34,7 +34,7 @@
   },
   "worldDispatcher": {
     "worldThread": {
-      "fps": 30,
+      "fps": 60,
       "script": "./assets/scripts/thread.js"
     },
     "worldsPath": "../client/assets/worlds/worlds.json",
