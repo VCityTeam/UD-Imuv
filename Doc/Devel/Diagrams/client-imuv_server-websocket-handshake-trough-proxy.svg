@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="635px" preserveAspectRatio="none" style="width:1605px;height:635px;background:#FFFFFF;" version="1.1" viewBox="0 0 1605 635" width="1605px" zoomAndPan="magnify"><defs><filter height="300%" id="f1ahcqkt7ngp7g" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacing" textLength="608" x="496.25" y="28.708">Imuv server WebSocket connection establishment (through a proxy)</text><rect fill="#FFFFFF" filter="url(#f1ahcqkt7ngp7g)" height="85.3984" style="stroke:#000000;stroke-width:2.0;" width="1344.5" x="242" y="207.5156"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="24" x2="24" y1="123.25" y2="546.8281"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="334" x2="334" y1="123.25" y2="546.8281"/><rect fill="#FFFFFF" filter="url(#f1ahcqkt7ngp7g)" height="312.1797" style="stroke:#A80036;stroke-width:1.0;" width="10" x="329" y="234.6484"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="932" x2="932" y1="123.25" y2="546.8281"/><rect fill="#FFFFFF" filter="url(#f1ahcqkt7ngp7g)" height="291.0469" style="stroke:#A80036;stroke-width:1.0;" width="10" x="927" y="255.7813"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="1020.5" x2="1020.5" y1="408.3125" y2="546.8281"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="1534" x2="1534" y1="123.25" y2="546.8281"/><rect fill="#FFFFFF" filter="url(#f1ahcqkt7ngp7g)" height="291.0469" style="stroke:#A80036;stroke-width:1.0;" width="10" x="1529" y="255.7813"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="32" x="5" y="119.9482">User</text><ellipse cx="24" cy="49.9531" fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" rx="8" ry="8" style="stroke:#A80036;stroke-width:2.0;"/><path d="M24,57.9531 L24,84.9531 M11,65.9531 L37,65.9531 M24,84.9531 L11,99.9531 M24,84.9531 L37,99.9531 " fill="none" filter="url(#f1ahcqkt7ngp7g)" style="stroke:#A80036;stroke-width:2.0;"/><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="148" x="258" y="67"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="134" x="265" y="90.708">Web Browser</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="289.5" y="107.9482">e.g. Chrome</text><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="72" x="894" y="67"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="58" x="901" y="90.708">Proxy</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="911.5" y="107.9482">nginx</text><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="69" x="1497.5" y="67"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="50" x="1507" y="90.708">Imuv</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="1504.5" y="107.9482">express</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="32" x="5" y="626.8232">User</text><ellipse cx="24" cy="556.8281" fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" rx="8" ry="8" style="stroke:#A80036;stroke-width:2.0;"/><path d="M24,564.8281 L24,591.8281 M11,572.8281 L37,572.8281 M24,591.8281 L11,606.8281 M24,591.8281 L37,606.8281 " fill="none" filter="url(#f1ahcqkt7ngp7g)" style="stroke:#A80036;stroke-width:2.0;"/><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="148" x="258" y="546.8281"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="134" x="265" y="570.5361">Web Browser</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="289.5" y="587.7764">e.g. Chrome</text><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="72" x="894" y="546.8281"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="58" x="901" y="570.5361">Proxy</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="911.5" y="587.7764">nginx</text><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="77" x="980" y="546.8281"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="50" x="993.5" y="570.5361">Imuv</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="987" y="587.7764">socket.io</text><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="69" x="1497.5" y="546.8281"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="50" x="1507" y="570.5361">Imuv</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="1504.5" y="587.7764">express</text><rect fill="#EEEEEE" filter="url(#f1ahcqkt7ngp7g)" height="3" style="stroke:#EEEEEE;stroke-width:1.0;" width="1590.5" x="5" y="151.8164"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1595.5" y1="151.8164" y2="151.8164"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1595.5" y1="154.8164" y2="154.8164"/><rect fill="#EEEEEE" filter="url(#f1ahcqkt7ngp7g)" height="23.1328" style="stroke:#000000;stroke-width:2.0;" width="214" x="693.25" y="141.25"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="195" x="699.25" y="157.3169">Retrieve (web) client code</text><polygon fill="#A80036" points="322,191.5156,332,195.5156,322,199.5156,326,195.5156" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="24" x2="328" y1="195.5156" y2="195.5156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="286" x="31" y="190.4497">OpenURL(https://mydemo.org/flyingCampus)</text><path d="M242,207.5156 L319,207.5156 L319,214.5156 L309,224.5156 L242,224.5156 L242,207.5156 " fill="#EEEEEE" style="stroke:#000000;stroke-width:1.0;"/><rect fill="none" height="85.3984" style="stroke:#000000;stroke-width:2.0;" width="1344.5" x="242" y="207.5156"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="32" x="257" y="220.5825">loop</text><text fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="288" x="334" y="219.7261">[Recurse to get all client JS code and assets]</text><polygon fill="#A80036" points="915,251.7813,925,255.7813,915,259.7813,919,255.7813" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="339" x2="921" y1="255.7813" y2="255.7813"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="435" x="346" y="250.7153">https://mydemo.org/ GET /flyingCampus/&lt;some-path&gt;/&lt;some-file&gt;</text><polygon fill="#A80036" points="1517,251.7813,1527,255.7813,1517,259.7813,1521,255.7813" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="937" x2="1523" y1="255.7813" y2="255.7813"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="349" x="944" y="250.7153">http://localhost:8000/ GET /&lt;some-path&gt;/&lt;some-file&gt;</text><polygon fill="#A80036" points="948,280.9141,938,284.9141,948,288.9141,944,284.9141" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="942" x2="1528" y1="284.9141" y2="284.9141"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="242" x="954" y="279.8481">http: POST /&lt;some-path&gt;/&lt;some-file</text><polygon fill="#A80036" points="350,280.9141,340,284.9141,350,288.9141,346,284.9141" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="344" x2="926" y1="284.9141" y2="284.9141"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="350" x="356" y="279.8481">https POST /flyingCampus//&lt;some-path&gt;/&lt;some-file&gt;</text><rect fill="#EEEEEE" filter="url(#f1ahcqkt7ngp7g)" height="3" style="stroke:#EEEEEE;stroke-width:1.0;" width="1590.5" x="5" y="327.4805"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1595.5" y1="327.4805" y2="327.4805"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1595.5" y1="330.4805" y2="330.4805"/><rect fill="#EEEEEE" filter="url(#f1ahcqkt7ngp7g)" height="23.1328" style="stroke:#000000;stroke-width:2.0;" width="193" x="703.75" y="316.9141"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="169" x="709.75" y="332.981">WebSocket handshake</text><polygon fill="#A80036" points="915,367.1797,925,371.1797,915,375.1797,919,371.1797" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="339" x2="921" y1="371.1797" y2="371.1797"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="569" x="346" y="366.1138">https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: &lt;some-key&gt;]</text><polygon fill="#A80036" points="1517,367.1797,1527,371.1797,1517,375.1797,1521,371.1797" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="937" x2="1523" y1="371.1797" y2="371.1797"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="573" x="944" y="366.1138">http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: &lt;some-key&gt;]</text><polygon fill="#A80036" points="948,396.3125,938,400.3125,948,404.3125,944,400.3125" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="942" x2="1528" y1="400.3125" y2="400.3125"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="454" x="954" y="395.2466">http: [Upgrade: websocket, Sec-WebSocket-Accept: &lt;hash(some-key)]</text><polygon fill="#A80036" points="350,396.3125,340,400.3125,350,404.3125,346,400.3125" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="344" x2="926" y1="400.3125" y2="400.3125"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="450" x="356" y="395.2466">http [Upgrade: websocket, Sec-WebSocket-Accept: &lt;hash(some-key)]</text><rect fill="#FEFECE" filter="url(#f1ahcqkt7ngp7g)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="77" x="980" y="408.3125"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="50" x="993.5" y="432.0205">Imuv</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="987" y="449.2607">socket.io</text><polygon fill="#A80036" points="1072,425.4453,1062,429.4453,1072,433.4453,1068,429.4453" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="1066" x2="1528" y1="429.4453" y2="429.4453"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="25" x="1078" y="424.3794">new</text><rect fill="#EEEEEE" filter="url(#f1ahcqkt7ngp7g)" height="3" style="stroke:#EEEEEE;stroke-width:1.0;" width="1590.5" x="5" y="485.1289"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1595.5" y1="485.1289" y2="485.1289"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1595.5" y1="488.1289" y2="488.1289"/><rect fill="#EEEEEE" filter="url(#f1ahcqkt7ngp7g)" height="23.1328" style="stroke:#000000;stroke-width:2.0;" width="389" x="605.75" y="474.5625"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="370" x="611.75" y="490.6294">Established bi-directionnal WebSocket connection</text><polygon fill="#A80036" points="948,524.8281,938,528.8281,948,532.8281,944,528.8281" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1008.5,524.8281,1018.5,528.8281,1008.5,532.8281,1012.5,528.8281" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="942" x2="1014.5" y1="528.8281" y2="528.8281"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="28" x="954" y="523.7622">ws://</text><polygon fill="#A80036" points="350,524.8281,340,528.8281,350,532.8281,346,528.8281" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="915,524.8281,925,528.8281,915,532.8281,919,528.8281" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="344" x2="921" y1="528.8281" y2="528.8281"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="35" x="356" y="523.7622">wss://</text><!--MD5=[ee703032ee14260b014c62f9b735cd6e]
+@startuml
+'For same line messages support
+!pragma teoz true
+
+title Imuv server WebSocket connection establishment (through a proxy)
+
+actor User
+participant WebBrowser [
+  =Web Browser
+  e.g. Chrome
+]
+participant Proxy [
+  =Proxy
+  nginx
+]
+participant socket.io [
+  =Imuv
+  socket.io
+]
+participant Imuv [
+  =Imuv
+  express
+]
+
+== Retrieve (web) client code ==
+User -> WebBrowser : OpenURL(https://mydemo.org/flyingCampus)
+
+loop Recurse to get all client JS code and assets
+  activate WebBrowser
+  WebBrowser -> Proxy : https://mydemo.org/ GET /flyingCampus/<some-path>/<some-file>
+  activate Proxy
+  &Proxy -> Imuv : http://localhost:8000/ GET /<some-path>/<some-file>
+  activate Imuv
+  Proxy <- Imuv : http: POST /<some-path>/<some-file
+  &WebBrowser <- Proxy : https POST /flyingCampus//<some-path>/<some-file>
+end
+
+== WebSocket handshake  ==
+WebBrowser -> Proxy : https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+& Proxy -> Imuv : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+Proxy <- Imuv : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
+&WebBrowser <- Proxy : http [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
+socket.io <- Imuv **: new
+
+== Established bi-directionnal WebSocket connection ==
+Proxy <-> socket.io: ws://
+&WebBrowser <-> Proxy: wss://
+
+@enduml
+
+@startuml
+!pragma teoz true
+
+title Imuv server WebSocket connection establishment (through a proxy)
+
+actor User
+participant WebBrowser [
+  =Web Browser
+  e.g. Chrome
+]
+participant Proxy [
+  =Proxy
+  nginx
+]
+participant socket.io [
+  =Imuv
+  socket.io
+]
+participant Imuv [
+  =Imuv
+  express
+]
+
+== Retrieve (web) client code ==
+User -> WebBrowser : OpenURL(https://mydemo.org/flyingCampus)
+
+loop Recurse to get all client JS code and assets
+  activate WebBrowser
+  WebBrowser -> Proxy : https://mydemo.org/ GET /flyingCampus/<some-path>/<some-file>
+  activate Proxy
+  &Proxy -> Imuv : http://localhost:8000/ GET /<some-path>/<some-file>
+  activate Imuv
+  Proxy <- Imuv : http: POST /<some-path>/<some-file
+  &WebBrowser <- Proxy : https POST /flyingCampus//<some-path>/<some-file>
+end
+
+== WebSocket handshake  ==
+WebBrowser -> Proxy : https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+& Proxy -> Imuv : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+Proxy <- Imuv : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
+&WebBrowser <- Proxy : http [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
+socket.io <- Imuv **: new
+
+== Established bi-directionnal WebSocket connection ==
+Proxy <-> socket.io: ws://
+&WebBrowser <-> Proxy: wss://
+
+@enduml
+
+PlantUML version 1.2022.0(Tue Jan 11 16:16:42 UTC 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
