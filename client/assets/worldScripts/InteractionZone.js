@@ -29,7 +29,6 @@ module.exports = class InteractionZone {
   }
 
   onAvatarEnter(avatarGO) {
-
     this.go.setOutdated(true);
 
     const confLS = this.localScript.conf;
@@ -46,7 +45,6 @@ module.exports = class InteractionZone {
   }
 
   onAvatarColliding(avatarGO) {
-    
     this.go.setOutdated(true);
 
     const confLS = this.localScript.conf;
@@ -64,7 +62,6 @@ module.exports = class InteractionZone {
   }
 
   onAvatarLeave(avatarGO) {
-
     this.go.setOutdated(true);
 
     const confLS = this.localScript.conf;

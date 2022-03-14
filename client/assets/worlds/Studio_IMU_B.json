@@ -1,0 +1,314 @@
+{
+  "gameObject": {
+    "name": "GameManager",
+    "type": "GameObject",
+    "static": true,
+    "outdated": false,
+    "uuid": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
+    "parentUUID": null,
+    "components": {
+      "WorldScript": {
+        "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
+        "idScripts": ["worldGameManager"],
+        "conf": {
+          "mapUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+          "spawnTransform": {
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0],
+            "scale": [1, 1, 1]
+          }
+        },
+        "type": "WorldScript"
+      },
+      "LocalScript": {
+        "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
+        "idScripts": ["avatar_controller", "place_post_it", "static_object"],
+        "conf": {
+          "fog": { "near": 5, "far": 100 },
+          "bbb_room_tag": {
+            "uuid": "FDC80800-8457-4273-86BC-CD100ADDA3E6",
+            "url": null,
+            "name": "Studio B IMU Room"
+          }
+        },
+        "type": "LocalScript"
+      }
+    },
+    "children": [
+      {
+        "name": "Studio_IMU_MAP",
+        "type": "GameObject",
+        "static": true,
+        "outdated": false,
+        "uuid": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+        "parentUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
+        "components": {
+          "Render": {
+            "uuid": "6F76A145-2DA7-43BA-BBD7-AF024BCC0F9E",
+            "type": "Render",
+            "idRenderData": "studio_imu_B",
+            "color": [1, 1, 1]
+          },
+          "WorldScript": {
+            "uuid": "9C4B4F22-EFF9-4BFE-B81E-E9A0AD5E7D08",
+            "idScripts": ["map"],
+            "conf": {
+              "heightmap_path": "./assets/img/uploaded/1E6900C8-E27A-44BC-ADF2-85020DB53438.jpeg",
+              "heightmap_geometry": { "max": 6, "min": -2, "size": 19 }
+            },
+            "type": "WorldScript"
+          },
+          "Collider": {
+            "uuid": "FFB7AA5C-90E5-40C2-B104-62871925FCC8",
+            "type": "Collider",
+            "shapes": [
+              {
+                "type": "Polygon",
+                "points": [
+                  {
+                    "x": -0.43349778465926647,
+                    "y": 7.627520515583456,
+                    "z": 2.4623121851749374
+                  },
+                  {
+                    "x": -0.2624730805400759,
+                    "y": -4.7550439946353436,
+                    "z": 2.291818857192993
+                  },
+                  {
+                    "x": 0.5476009456906468,
+                    "y": -4.663747943006456,
+                    "z": 2.543213129043579
+                  },
+                  {
+                    "x": 0.7842522566206753,
+                    "y": 7.703172388486564,
+                    "z": 2.714023428270991
+                  }
+                ]
+              },
+              {
+                "type": "Polygon",
+                "points": [
+                  {
+                    "x": -9.382548582507297,
+                    "y": 5.813496823422611,
+                    "z": 0.037856340408325195
+                  },
+                  {
+                    "x": 9.251959088025615,
+                    "y": 5.715294417925179,
+                    "z": 2.543213129043579
+                  },
+                  {
+                    "x": 9.110153522342443,
+                    "y": 7.293072180822492,
+                    "z": 2.543213129043579
+                  },
+                  {
+                    "x": -9.31838072813116,
+                    "y": 7.441829998977482,
+                    "z": 0.037856340408325195
+                  }
+                ]
+              },
+              {
+                "type": "Polygon",
+                "points": [
+                  {
+                    "x": -9.521703382022679,
+                    "y": -7.268226523883641,
+                    "z": 0.037856340408325195
+                  },
+                  {
+                    "x": -8.086662072688341,
+                    "y": -7.338514165952802,
+                    "z": 0.037856340408325195
+                  },
+                  {
+                    "x": -7.852371062617749,
+                    "y": 7.609345935285091,
+                    "z": 0.037856340408325195
+                  },
+                  {
+                    "x": -9.457274769665673,
+                    "y": 7.468770429491997,
+                    "z": 0.037856340408325195
+                  }
+                ]
+              },
+              {
+                "type": "Polygon",
+                "points": [
+                  {
+                    "x": -9.451415636809543,
+                    "y": -7.186224163509905,
+                    "z": 0.037856340408325195
+                  },
+                  {
+                    "x": 9.186948015587404,
+                    "y": -7.215276979841292,
+                    "z": 2.543213129043579
+                  },
+                  {
+                    "x": 9.253924410790205,
+                    "y": -5.820676654577255,
+                    "z": 2.84651748360983
+                  },
+                  {
+                    "x": -9.392842682544142,
+                    "y": -5.7687549982219934,
+                    "z": 0.037856340408325195
+                  }
+                ]
+              },
+              {
+                "type": "Polygon",
+                "points": [
+                  {
+                    "x": 7.161030534189194,
+                    "y": -7.167053096927702,
+                    "z": 2.543213129043579
+                  },
+                  {
+                    "x": 9.209484274266288,
+                    "y": -7.071078683249652,
+                    "z": 2.543213129043579
+                  },
+                  {
+                    "x": 9.267603031359613,
+                    "y": 7.288797374814749,
+                    "z": 2.543213129043579
+                  },
+                  {
+                    "x": 7.669028867967427,
+                    "y": 7.372775007970631,
+                    "z": 2.543213129043579
+                  }
+                ]
+              }
+            ],
+            "body": true
+          }
+        },
+        "children": [
+          {
+            "name": "Portal",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "3266ECA0-571E-45A7-B63D-44BC303FE783",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "components": {
+              "Render": {
+                "uuid": "D9804A53-E721-4823-8C33-E896F16D0B4D",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1]
+              },
+              "Collider": {
+                "uuid": "21E6DDCA-A146-47D6-93F7-7D96A54FBA93",
+                "type": "Collider",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 1.689427617937126
+                  }
+                ],
+                "body": false
+              },
+              "WorldScript": {
+                "uuid": "39A9CB98-B49B-4CD1-9C38-8407728268EF",
+                "idScripts": ["portal", "interaction_zone"],
+                "conf": {
+                  "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                  "portalUUID": "385DB463-DE88-485B-B6B3-05C3990D9654",
+                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                  "delay": 1000
+                },
+                "type": "WorldScript"
+              },
+              "LocalScript": {
+                "uuid": "89D210AC-4766-4D67-986D-364747A1AB5D",
+                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "conf": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "6973B5BF-EE42-43C5-B632-D421C94EF181",
+                "sounds": ["portal_in"],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                6.9531811403576285, -3.715151662006974, 2.58712546654192
+              ],
+              "rotation": [0, 0, 6.2480473677264605, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          }
+        ],
+        "transform": {
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0, "ZXY"],
+          "scale": [1, 1, 1]
+        },
+        "noLocalUpdate": false,
+        "freeze": false
+      },
+      {
+        "name": "UI_GO",
+        "type": "GameObject",
+        "static": false,
+        "outdated": true,
+        "uuid": "0CC069A2-AA64-42A9-9E81-7FA4444C862F",
+        "parentUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
+        "components": {
+          "LocalScript": {
+            "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
+            "idScripts": ["ui"],
+            "conf": { "world_computer_dt": 16 },
+            "type": "LocalScript"
+          },
+          "WorldScript": {
+            "uuid": "20A3A96E-0D55-4465-A27E-823ACF6381B7",
+            "idScripts": ["ui"],
+            "conf": {},
+            "type": "WorldScript"
+          }
+        },
+        "children": [],
+        "transform": {
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0, "ZXY"],
+          "scale": [1, 1, 1]
+        },
+        "noLocalUpdate": false,
+        "freeze": false
+      }
+    ],
+    "transform": {
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0, "ZXY"],
+      "scale": [1, 1, 1]
+    },
+    "noLocalUpdate": false,
+    "freeze": false
+  },
+  "name": "Studio_IMU_B",
+  "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
+  "type": "World",
+  "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
+  "version": "2.36.3"
+}
