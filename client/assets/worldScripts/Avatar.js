@@ -1,11 +1,11 @@
 /** @format */
 
-//scripts are commonJs module witout dependency all game context is pass as udvGameGame
+//scripts are commonJs module witout dependency all game context is pass as ud-viz/Game
 //this is due to the fact that the code is import as a string then eval() in code by the AsssetsManager
 
 const AVATAR_SPEED_MOVE = 0.01;
-const AVATAR_SPEED_ROTATION_Z = 0.00008;
-const AVATAR_SPEED_ROTATION_X = 0.00008;
+const AVATAR_SPEED_ROTATION_Z = 0.00005;
+const AVATAR_SPEED_ROTATION_X = 0.00003;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 

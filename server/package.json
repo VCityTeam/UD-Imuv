@@ -41,7 +41,6 @@
     "prettier": "^2.5.1",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.5.0",
-    "prettier": "^2.5.1",
     "webpack-node-externals": "^2.5.2"
   }
 }
