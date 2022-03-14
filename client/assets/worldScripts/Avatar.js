@@ -112,7 +112,7 @@ module.exports = class Avatar {
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI * 0.5)
-                .setLength(dt * AVATAR_SPEED_MOVE)
+                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
             break;
           case Command.TYPE.MOVE_RIGHT_START:
@@ -120,7 +120,7 @@ module.exports = class Avatar {
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
-                .setLength(dt * AVATAR_SPEED_MOVE)
+                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
             break;
           case Command.TYPE.MOVE_BACKWARD_START:
