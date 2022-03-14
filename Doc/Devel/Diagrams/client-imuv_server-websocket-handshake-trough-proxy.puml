@@ -1,0 +1,49 @@
+@startuml
+'For same line messages support
+!pragma teoz true
+
+title Imuv server WebSocket connection establishment (through a proxy)
+
+actor User
+participant WebBrowser [
+  =Web Browser
+  e.g. Chrome
+]
+participant Proxy [
+  =Proxy
+  nginx
+]
+participant socket.io [
+  =Imuv
+  socket.io
+]
+participant Imuv [
+  =Imuv
+  express
+]
+
+== Retrieve (web) client code ==
+User -> WebBrowser : OpenURL(https://mydemo.org/flyingCampus)
+
+loop Recurse to get all client JS code and assets
+  activate WebBrowser
+  WebBrowser -> Proxy : https://mydemo.org/ GET /flyingCampus/<some-path>/<some-file>
+  activate Proxy
+  &Proxy -> Imuv : http://localhost:8000/ GET /<some-path>/<some-file>
+  activate Imuv
+  Proxy <- Imuv : http: POST /<some-path>/<some-file
+  &WebBrowser <- Proxy : https POST /flyingCampus//<some-path>/<some-file>
+end
+
+== WebSocket handshake  ==
+WebBrowser -> Proxy : https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+& Proxy -> Imuv : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+Proxy <- Imuv : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
+&WebBrowser <- Proxy : http [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
+socket.io <- Imuv **: new
+
+== Established bi-directionnal WebSocket connection ==
+Proxy <-> socket.io: ws://
+&WebBrowser <-> Proxy: wss://
+
+@enduml
