@@ -12,7 +12,8 @@ PLANTUML=docker run --rm -v ${shell pwd}:/work -w /work -t dstockhammer/plantuml
 
 TARGETS= \
   client-imuv_server-client_download-trough-proxy.svg     \
-  client-imuv_server-websocket-handshake-trough-proxy.svg
+  client-imuv_server-websocket-handshake-trough-proxy.svg \
+	client-imuv-bbb_server-room-creation-without-proxy.svg
 
 all: $(TARGETS) 
 
