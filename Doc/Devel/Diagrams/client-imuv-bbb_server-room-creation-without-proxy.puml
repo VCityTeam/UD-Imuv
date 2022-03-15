@@ -1,0 +1,67 @@
+@startuml
+'For same line messages support
+!pragma teoz true
+
+title Imuv BBB server connection and room creation
+
+participant WebBrowserAlice [
+  =Web Browser
+  Alice
+]
+
+participant WebBrowserBob [
+  =Web Browser
+  Bob
+]
+
+box =IMUV #LightBlue
+  participant "=socket.io" as ImuvWebsocket 
+  participant ImuvWorld [
+    =World #1 
+    (Thread)
+  ]
+  participant "=express" as ImuvExpress
+  participant "=Core" as Imuv
+end box
+
+participant BBB [
+  =B B B
+  Server
+]
+
+activate WebBrowserAlice
+activate WebBrowserBob
+activate Imuv
+activate BBB
+
+ImuvExpress <- Imuv: New
+activate ImuvExpress
+group Client code download
+  WebBrowserBob -> ImuvExpress: http:// GET ...
+  WebBrowserBob <-- ImuvExpress: 
+end
+
+ImuvWebsocket <- Imuv: New
+activate ImuvWebsocket
+group WebSocket bi-directional establishment
+  WebBrowserBob <-> ImuvWebsocket: wss://
+end
+
+ImuvWorld <- Imuv: New
+activate ImuvWorld
+group BBB (chat) room establishment
+  Imuv ->  BBB : http:// Create_Room
+  activate BBB
+  Imuv <-- BBB : http:// data: Room_URL
+  ImuvWorld <- Imuv: ADD_ROOM(data)
+  &ImuvWorld -> ImuvWebsocket: World_State diff
+  &WebBrowserBob <- ImuvWebsocket: wss:// world_diff (contains new room)
+end
+
+group Bob's world wandering leads to room where Alice already is
+  WebBrowserBob -> ImuvWebsocket: wss:// JOIN_ROOM (roomId)
+  &ImuvWebsocket -> ImuvWorld
+  WebBrowserBob <-> BBB: FIXME BBB protocol ?
+end
+
+@enduml

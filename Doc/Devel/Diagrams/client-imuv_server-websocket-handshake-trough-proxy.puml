@@ -4,7 +4,6 @@
 
 title Imuv server WebSocket connection establishment (through a proxy)
 
-actor User
 participant WebBrowser [
   =Web Browser
   e.g. Chrome
@@ -13,37 +12,42 @@ participant Proxy [
   =Proxy
   nginx
 ]
-participant socket.io [
-  =Imuv
-  socket.io
-]
-participant Imuv [
-  =Imuv
-  express
-]
 
-== Retrieve (web) client code ==
-User -> WebBrowser : OpenURL(https://mydemo.org/flyingCampus)
+box =IMUV #LightBlue
+  participant "=express" as ImuvExpress
+  participant "=socket.io" as ImuvWebsocket
+  participant "=Core" as Imuv
+end box
 
-loop Recurse to get all client JS code and assets
-  activate WebBrowser
-  WebBrowser -> Proxy : https://mydemo.org/ GET /flyingCampus/<some-path>/<some-file>
-  activate Proxy
-  &Proxy -> Imuv : http://localhost:8000/ GET /<some-path>/<some-file>
-  activate Imuv
-  Proxy <- Imuv : http: POST /<some-path>/<some-file
-  &WebBrowser <- Proxy : https POST /flyingCampus//<some-path>/<some-file>
-end
+activate WebBrowser
+activate Proxy
+activate Imuv
+
+ImuvExpress <- Imuv: new
+activate ImuvExpress
 
 == WebSocket handshake  ==
 WebBrowser -> Proxy : https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
-& Proxy -> Imuv : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
-Proxy <- Imuv : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
-&WebBrowser <- Proxy : http [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)]
-socket.io <- Imuv **: new
+& Proxy -> ImuvExpress : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+Proxy <-- ImuvExpress : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+&WebBrowser <-- Proxy : https: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+ImuvWebsocket <- Imuv **: new
+activate ImuvWebsocket
 
-== Established bi-directionnal WebSocket connection ==
-Proxy <-> socket.io: ws://
-&WebBrowser <-> Proxy: wss://
+WebBrowser <-> Proxy: wss://
+&Proxy <-> ImuvWebsocket: ws://
+
+== Bi-directionnal WebSocket connection usage example: player in world-scene ==
+
+WebBrowser -> Proxy: wss:// READY_TO_RECEIVE_STATE
+&Proxy -> ImuvWebsocket: ws://
+
+Proxy <- ImuvWebsocket: ws:// JOIN_WORLD, data: world_state (JSON)
+&WebBrowser <- Proxy: wss:// 
+
+loop Update the client view with the changes occuring in the (shared) world
+  Proxy <- ImuvWebsocket: ws:// WORLD_STATE_DIFF, data: world_state (JSON)
+  &WebBrowser <- Proxy: wss:// 
+end
 
 @enduml
