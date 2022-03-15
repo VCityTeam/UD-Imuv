@@ -35,8 +35,8 @@ module.exports = class Zeppelin {
     const worldContext = arguments[1];
     const dt = worldContext.getDt();
     const commands = worldContext.getCommands();
-    const speedTranslate = 0.05;
-    const speedRotate = 0.001;
+    const speedTranslate = 0.1;
+    const speedRotate = 0.002;
 
     for (let index = commands.length - 1; index >= 0; index--) {
       const cmd = commands[index];

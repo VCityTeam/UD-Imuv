@@ -29,7 +29,7 @@
     "gm": "^1.23.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
-    "ud-viz": "2.36.4",
+    "ud-viz": "2.36.5",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
@@ -38,9 +38,9 @@
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "nodemon": "^2.0.7",
+    "prettier": "^2.5.1",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.5.0",
-    "prettier": "^2.5.1",
     "webpack-node-externals": "^2.5.2"
   }
 }

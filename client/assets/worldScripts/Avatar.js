@@ -1,12 +1,11 @@
 /** @format */
 
-//scripts are commonJs module witout dependency all game context is pass as udvGameGame
+//scripts are commonJs module witout dependency all game context is pass as ud-viz/Game
 //this is due to the fact that the code is import as a string then eval() in code by the AsssetsManager
 
 const AVATAR_SPEED_MOVE = 0.01;
-const AVATAR_SPEED_RUN = 0.02;
-const AVATAR_SPEED_ROTATION_Z = 0.00004;
-const AVATAR_SPEED_ROTATION_X = 0.00004;
+const AVATAR_SPEED_ROTATION_Z = 0.00005;
+const AVATAR_SPEED_ROTATION_X = 0.00003;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
@@ -38,10 +37,7 @@ module.exports = class Avatar {
   }
 
   fetchCommands(commands, gameObject) {
-    const Command = Game.Command;
-
     //get commands sign by its user
-    let addMoveTo = false;
     for (let i = commands.length - 1; i >= 0; i--) {
       const cmd = commands[i];
       if (cmd.getGameObjectUUID() == gameObject.getUUID()) {
@@ -49,27 +45,36 @@ module.exports = class Avatar {
         this.commands[type].push(cmd);
         //can do this because on decremente
         commands.splice(i, 1);
-
-        if (type == Command.TYPE.MOVE_TO) addMoveTo = true;
       }
     }
 
-    //filter
-    const moveToCmds = this.commands[Command.TYPE.MOVE_TO];
-    const forwardCmds = this.commands[Command.TYPE.MOVE_FORWARD];
-    const backwardCmds = this.commands[Command.TYPE.MOVE_BACKWARD];
+    const cmds = this.commands;
+    const filterCommands = function (idStart, idEnd) {
+      const moveStart = cmds[idStart];
+      const moveEnd = cmds[idEnd];
+      if (moveEnd.length) {
+        moveStart.length = 0;
+        moveEnd.length = 0;
+      } else if (moveStart.length >= 1)
+        moveStart.splice(1, moveStart.length - 1);
+    };
 
-    if (addMoveTo) {
-      //remove all commands which are not compatible
-      forwardCmds.length = 0;
-      backwardCmds.length = 0;
-      //keep the most current
-      moveToCmds.splice(0, moveToCmds.length - 1);
-    }
-
-    if (forwardCmds.length || backwardCmds.length) {
-      moveToCmds.length = 0;
-    }
+    filterCommands(
+      Game.Command.TYPE.MOVE_FORWARD_START,
+      Game.Command.TYPE.MOVE_FORWARD_END
+    );
+    filterCommands(
+      Game.Command.TYPE.MOVE_BACKWARD_START,
+      Game.Command.TYPE.MOVE_BACKWARD_END
+    );
+    filterCommands(
+      Game.Command.TYPE.MOVE_LEFT_START,
+      Game.Command.TYPE.MOVE_LEFT_END
+    );
+    filterCommands(
+      Game.Command.TYPE.MOVE_RIGHT_START,
+      Game.Command.TYPE.MOVE_RIGHT_END
+    );
   }
 
   applyCommands(gameObject, dt) {
@@ -91,56 +96,34 @@ module.exports = class Avatar {
 
       if (cmds.length) {
         const cmd = cmds[0];
-        let cmdFinished = true;
 
         const oldPosition = gameObject.getPosition().clone();
 
         switch (cmd.getType()) {
-          case Command.TYPE.MOVE_TO:
-            const target = cmd.getData().target;
-            const pos = gameObject.getPosition();
-            const dir = new THREE.Vector3(target.x, target.y).sub(
-              new THREE.Vector3(pos.x, pos.y)
-            );
-            const amount = AVATAR_SPEED_MOVE * dt;
-            if (dir.length() >= amount) {
-              cmdFinished = false;
-              gameObject.move(dir.setLength(amount));
-            } else {
-              //just finished what needed
-              gameObject.move(dir);
-              cmdFinished = true;
-            }
-            break;
-          case Command.TYPE.RUN:
-            gameObject.move(
-              gameObject.computeForwardVector().setLength(dt * AVATAR_SPEED_RUN)
-            );
-            break;
-          case Command.TYPE.MOVE_FORWARD:
+          case Command.TYPE.MOVE_FORWARD_START:
             gameObject.move(
               gameObject
                 .computeForwardVector()
                 .setLength(dt * AVATAR_SPEED_MOVE)
             );
             break;
-          case Command.TYPE.MOVE_LEFT:
+          case Command.TYPE.MOVE_LEFT_START:
             gameObject.move(
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI * 0.5)
-                .setLength(dt * AVATAR_SPEED_MOVE)
+                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
             break;
-          case Command.TYPE.MOVE_RIGHT:
+          case Command.TYPE.MOVE_RIGHT_START:
             gameObject.move(
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
-                .setLength(dt * AVATAR_SPEED_MOVE)
+                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
             break;
-          case Command.TYPE.MOVE_BACKWARD:
+          case Command.TYPE.MOVE_BACKWARD_START:
             gameObject.move(
               gameObject
                 .computeBackwardVector()
@@ -156,6 +139,7 @@ module.exports = class Avatar {
             );
             gameObject.rotate(vector.multiplyScalar(dt));
             this.clampRotation(gameObject);
+            cmds.shift(); //remove one by one
             break;
           default:
         }
@@ -166,8 +150,6 @@ module.exports = class Avatar {
         if (isOut) {
           gameObject.setPosition(oldPosition);
         }
-
-        if (cmdFinished) cmds.shift(); //remove it
       }
     }
 
