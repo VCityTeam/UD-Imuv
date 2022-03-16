@@ -88,6 +88,9 @@
       "bbb_screen": {
         "path": "./assets/localScripts/BBBScreen.js"
       },
+      "jitsi": {
+        "path": "./assets/localScripts/Jitsi.js"
+      },
       "ui": {
         "path": "./assets/localScripts/UI.js"
       },

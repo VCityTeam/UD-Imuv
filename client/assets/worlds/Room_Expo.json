@@ -22,14 +22,9 @@
       },
       "LocalScript": {
         "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-        "idScripts": ["avatar_controller", "camera", "static_object"],
+        "idScripts": ["avatar_controller", "camera", "static_object", "jitsi"],
         "conf": {
-          "fog": { "near": 5, "far": 100 },
-          "bbb_room_tag": {
-            "uuid": "EE7CB6DA-945E-496A-BA54-50AD1012FECF",
-            "url": null,
-            "name": "Room Expo Room"
-          }
+          "fog": { "near": 5, "far": 100 }
         },
         "type": "LocalScript"
       }
