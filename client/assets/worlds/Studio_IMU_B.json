@@ -27,15 +27,11 @@
           "switch_itowns",
           "camera",
           "place_post_it",
-          "static_object"
+          "static_object",
+          "jitsi"
         ],
         "conf": {
-          "fog": { "near": 5, "far": 100 },
-          "bbb_room_tag": {
-            "uuid": "FDC80800-8457-4273-86BC-CD100ADDA3E6",
-            "url": null,
-            "name": "Studio B IMU Room"
-          }
+          "fog": { "near": 5, "far": 100 }
         },
         "type": "LocalScript"
       }

@@ -22,14 +22,9 @@
       },
       "LocalScript": {
         "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-        "idScripts": ["avatar_controller", "camera", "static_object"],
+        "idScripts": ["avatar_controller", "camera", "static_object", "jitsi"],
         "conf": {
-          "fog": { "near": 5, "far": 100 },
-          "bbb_room_tag": {
-            "uuid": "D5F4F0B0-4CC0-40BF-BBCA-765281E9CB2D",
-            "url": null,
-            "name": "Room Conf Room"
-          }
+          "fog": { "near": 5, "far": 100 }
         },
         "type": "LocalScript"
       }
