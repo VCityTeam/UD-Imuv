@@ -33,6 +33,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  pointer-events: none;
 }
 
 .popup_wrapper {
@@ -45,6 +46,8 @@
   width: 100%;
   top: 0;
   left: 0;
+  background-color: #0000004d;
+  backdrop-filter: blur(6px);
 }
 
 .popup_descr {
