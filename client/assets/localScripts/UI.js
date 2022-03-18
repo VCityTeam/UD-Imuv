@@ -13,6 +13,7 @@ module.exports = class UI {
     this.pingUI = null;
     this.avatarCount = null;
     this.globalVolumeSlider = null;
+    this.menuButton = null;
   }
 
   init() {
@@ -55,6 +56,20 @@ module.exports = class UI {
       Howler.volume(this.value);
     };
 
+    let menuSettings = null;
+    this.menuButton = document.createElement('button');
+    this.menuButton.innerHTML = 'Settings';
+    this.menuButton.onclick = function () {
+      if (!menuSettings) {
+        menuSettings = new MenuSettings(localCtx);
+        gameView.appendToUI(menuSettings.html());
+      } else {
+        menuSettings.dispose();
+        menuSettings = null;
+      }
+    };
+    gameView.appendToUI(this.menuButton);
+
     this.updateUI(go, localCtx);
   }
 
@@ -86,3 +101,117 @@ module.exports = class UI {
     this.avatarCount.innerHTML = 'Player: ' + avatarCount;
   }
 };
+
+class MenuSettings {
+  constructor(localCtx) {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root-menu-settings');
+
+    const title = document.createElement('h1');
+    title.innerHTML = 'Settings';
+    this.rootHtml.appendChild(title);
+
+    //differents options
+    this.createVisibilityObject3D(localCtx);
+    this.createShadowOption(localCtx);
+  }
+
+  createVisibilityObject3D(localCtx) {
+    const scene = localCtx.getGameView().getScene();
+
+    for (let index = 0; index < scene.children.length; index++) {
+      const element = scene.children[index];
+      if (!element.isLight) {
+        const flexParent = document.createElement('div');
+        flexParent.style.display = 'flex';
+        this.rootHtml.appendChild(flexParent);
+
+        // console.log(element.name);
+        const label = document.createElement('div');
+        label.innerHTML = element.name.toUpperCase();
+        label.classList.add('label-menu-settings');
+        const checkbox = document.createElement('input');
+        checkbox.classList.add('checkbox-menu-settings');
+        checkbox.type = 'checkbox';
+        checkbox.checked = element.visible;
+
+        checkbox.onchange = function () {
+          element.visible = this.checked;
+        };
+        flexParent.appendChild(label);
+        flexParent.appendChild(checkbox);
+      }
+    }
+  }
+
+  createShadowOption(localCtx) {
+    const scene = localCtx.getGameView().getScene();
+
+    for (let index = 0; index < scene.children.length; index++) {
+      const element = scene.children[index];
+      if (element.isDirectionalLight) {
+        //enable shadow
+
+        //parent
+        const flexParentEnable = document.createElement('div');
+        flexParentEnable.style.display = 'flex';
+        this.rootHtml.appendChild(flexParentEnable);
+
+        //label
+        const labelEnable = document.createElement('div');
+        labelEnable.innerHTML = 'Ombre';
+        labelEnable.classList.add('label-menu-settings');
+        flexParentEnable.appendChild(labelEnable);
+
+        //checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = element.castShadow;
+        checkbox.onchange = function () {
+          element.castShadow = this.checked;
+        };
+        flexParentEnable.appendChild(checkbox);
+
+        //size
+        const flexParentSize = document.createElement('div');
+        flexParentSize.style.display = 'flex';
+        this.rootHtml.appendChild(flexParentSize);
+        const labelSize = document.createElement('div');
+        labelSize.innerHTML = 'Size';
+        labelSize.classList.add('label-menu-settings');
+        flexParentSize.appendChild(labelSize);
+
+        //select
+        const selectSize = document.createElement('select');
+        flexParentSize.appendChild(selectSize);
+
+        const values = [512, 1024, 2048, 4096];
+        values.forEach(function (value) {
+          const option = document.createElement('option');
+          option.innerHTML = value + ' pixels';
+          option.value = value;
+          selectSize.appendChild(option);
+        });
+
+        //init
+        selectSize.value = element.shadow.mapSize.x;
+
+        //update shadow map
+        selectSize.onchange = function () {
+          const valueSelected = parseInt(this.selectedOptions[0].value);
+          element.shadow.mapSize.width = valueSelected;
+          element.shadow.mapSize.height = valueSelected;
+          element.shadow.map = null;
+        };
+      }
+    }
+  }
+
+  html() {
+    return this.rootHtml;
+  }
+
+  dispose() {
+    this.rootHtml.remove();
+  }
+}
