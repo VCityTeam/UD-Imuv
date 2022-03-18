@@ -32,6 +32,9 @@
       },
       "ui": {
         "path": "./assets/css/ui.css"
+      },
+      "menu_settings": {
+        "path": "./assets/css/menu_settings.css"
       }
     },
     "videos": {
@@ -208,7 +211,7 @@
   "game": {
     "fps": 30,
     "radiusExtent": 1000,
-    "shadowMapSize": 2046,
+    "shadowMapSize": 2048,
     "sky": {
       "path": "./assets/img/sky.jpg",
       "color": {

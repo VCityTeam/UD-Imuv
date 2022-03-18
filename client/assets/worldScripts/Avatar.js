@@ -127,7 +127,7 @@ module.exports = class Avatar {
             gameObject.move(
               gameObject
                 .computeBackwardVector()
-                .setLength(dt * AVATAR_SPEED_MOVE)
+                .setLength(dt * AVATAR_SPEED_MOVE * 0.3)
             );
             break;
           case Command.TYPE.ROTATE:
