@@ -17,6 +17,11 @@ module.exports = class Jitsi {
     this.loadingUIEl = null;
   }
 
+  /**
+   * Create a loading UI element if it doesn't exist, and append it to the game view
+   * @param gameView - The game view that the loading UI should be added to.
+   * @returns loadingElement created
+   */
   createLoadingUIEl(gameView) {
     if (this.loadingUIEl) return;
     const loadingUIEl = document.createElement('div');
@@ -30,12 +35,19 @@ module.exports = class Jitsi {
     return loadingUIEl;
   }
 
+  /**
+   * Remove the loading UI element from the DOM and clear the reference to it
+   */
   removeLoadingUIEl() {
     if (!this.loadingUIEl) return;
     this.loadingUIEl.remove();
     this.loadingUIEl = null;
   }
 
+  /**
+   * It creates a button that will allow you to join a room.
+   * @returns Nothing.
+   */
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
@@ -84,6 +96,9 @@ module.exports = class Jitsi {
     };
   }
 
+  /**
+   * Remove the iframe from the DOM and clear the reference to it
+   */
   removeIframe() {
     this.joinRoomJitsi.innerHTML = LABEL_JOIN;
     this.divJitsi.remove();
@@ -98,6 +113,10 @@ module.exports = class Jitsi {
     webSocketService.reset([Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
   }
 
+  /**
+   * *Update the join button to say "Leave" instead of "Join"*
+   * @returns Nothing.
+   */
   update() {
     if (this.divJitsi) return;
 
