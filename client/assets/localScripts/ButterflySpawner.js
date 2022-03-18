@@ -78,7 +78,7 @@ module.exports = class ButterflySpawner {
       material: function () {
         return new THREE.SpriteMaterial({
           map: new THREE.TextureLoader().load(
-            '/assets/img/butterflySprite.png'
+            './assets/img/butterflySprite.png'
           ),
           color: 0xffffff,
         });
@@ -86,7 +86,7 @@ module.exports = class ButterflySpawner {
       material2: function () {
         return new THREE.SpriteMaterial({
           map: new THREE.TextureLoader().load(
-            '/assets/img/butterflySprite2.png'
+            './assets/img/butterflySprite2.png'
           ),
           color: 0xffffff,
         });
