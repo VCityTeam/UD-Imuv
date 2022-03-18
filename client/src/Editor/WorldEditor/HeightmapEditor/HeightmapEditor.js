@@ -4,8 +4,6 @@ import { THREE } from 'ud-viz';
 import GameObjectModule from 'ud-viz/src/Game/GameObject/GameObject';
 import { computeMapGO } from '../../Components/EditorUtility';
 
-import './HeightmapEditor.css';
-
 const HEIGHTMAP_SIZE = 1024;
 
 export class HeightmapEditorView {
