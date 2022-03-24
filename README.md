@@ -1,6 +1,6 @@
 # Imuv
 
-Imuv is a game application builded with the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
+Imuv is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
 `client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
