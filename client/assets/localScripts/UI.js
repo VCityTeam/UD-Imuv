@@ -113,11 +113,23 @@ class MenuSettings {
 
     //differents options
     this.createVisibilityObject3D(localCtx);
-    this.createShadowOption(localCtx);
+    this.createDirectionalOptions(localCtx);
   }
 
   createVisibilityObject3D(localCtx) {
     const scene = localCtx.getGameView().getScene();
+
+    const countVertices = function (object) {
+      let result = 0;
+
+      object.traverse(function (child) {
+        if (child.geometry) {
+          result += child.geometry.attributes.position.count;
+        }
+      });
+
+      return result;
+    };
 
     for (let index = 0; index < scene.children.length; index++) {
       const element = scene.children[index];
@@ -128,7 +140,11 @@ class MenuSettings {
 
         // console.log(element.name);
         const label = document.createElement('div');
-        label.innerHTML = element.name.toUpperCase();
+        label.innerHTML =
+          element.name.toUpperCase() +
+          ': ' +
+          countVertices(element) +
+          ' vertices';
         label.classList.add('label-menu-settings');
         const checkbox = document.createElement('input');
         checkbox.classList.add('checkbox-menu-settings');
@@ -144,12 +160,34 @@ class MenuSettings {
     }
   }
 
-  createShadowOption(localCtx) {
+  createDirectionalOptions(localCtx) {
     const scene = localCtx.getGameView().getScene();
 
     for (let index = 0; index < scene.children.length; index++) {
       const element = scene.children[index];
       if (element.isDirectionalLight) {
+        //enable directional
+
+        //parent
+        const flexParentEnableDirect = document.createElement('div');
+        flexParentEnableDirect.style.display = 'flex';
+        this.rootHtml.appendChild(flexParentEnableDirect);
+
+        //label
+        const labelEnableDirect = document.createElement('div');
+        labelEnableDirect.innerHTML = 'Sun';
+        labelEnableDirect.classList.add('label-menu-settings');
+        flexParentEnableDirect.appendChild(labelEnableDirect);
+
+        //checkbox
+        const checkboxDirect = document.createElement('input');
+        checkboxDirect.type = 'checkbox';
+        checkboxDirect.checked = element.visible;
+        checkboxDirect.onchange = function () {
+          element.visible = this.checked;
+        };
+        flexParentEnableDirect.appendChild(checkboxDirect);
+
         //enable shadow
 
         //parent
