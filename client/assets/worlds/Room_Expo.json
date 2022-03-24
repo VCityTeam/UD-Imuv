@@ -770,7 +770,7 @@
                 "uuid": "53A38072-999B-4EF2-AF61-D658B09DD672",
                 "idScripts": ["image"],
                 "conf": {
-                  "path": "./assets/img/uploaded/22D2592E-AE44-4C67-AEEF-D2BE799431E4.jpeg",
+                  "path": "./assets/img/uploaded/DDC64A55-672C-4CB4-922E-3EC829DF87E9.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -1283,7 +1283,7 @@
                 "uuid": "2A998D6B-787F-45E3-A35C-6F9ACCF50E9F",
                 "idScripts": ["image"],
                 "conf": {
-                  "path": "./assets/img/uploaded/641D12E8-A459-4BDE-8E49-4B91CD5B55A9.jpeg",
+                  "path": "./assets/img/uploaded/E92A1255-E621-4D4F-A53F-D1C91AD66F8B.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
@@ -1322,7 +1322,7 @@
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 18 },
+            "conf": { "world_computer_dt": 29 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -1354,5 +1354,5 @@
   "origin": null,
   "type": "World",
   "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-  "version": "2.36.3"
+  "version": "2.36.5"
 }
