@@ -32,7 +32,7 @@ module.exports = class ZeppelinController {
   }
 
   setZeppelinControllerMode(value, localCtx) {
-    if (!this.zeppelinGO) return; //no zeppelin
+    if (!this.zeppelinGO) return false; //still no zeppelin
 
     if (value == this.zeppelinControllerMode) {
       console.warn('same value');

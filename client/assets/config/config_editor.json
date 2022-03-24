@@ -49,6 +49,9 @@
       "static_object": {
         "path": "./assets/localScripts/StaticObject.js"
       },
+      "camera": {
+        "path": "./assets/localScripts/Camera.js"
+      },
       "video": {
         "path": "./assets/localScripts/Video.js"
       },
