@@ -57,6 +57,9 @@
       "post_it": {
         "path": "./assets/localScripts/PostIt.js"
       },
+      "camera": {
+        "path": "./assets/localScripts/Camera.js"
+      },
       "place_post_it": {
         "path": "./assets/localScripts/PlacePostIt.js"
       },

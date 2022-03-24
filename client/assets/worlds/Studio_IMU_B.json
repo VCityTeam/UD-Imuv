@@ -22,7 +22,12 @@
       },
       "LocalScript": {
         "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
-        "idScripts": ["avatar_controller", "place_post_it", "static_object"],
+        "idScripts": [
+          "avatar_controller",
+          "camera",
+          "place_post_it",
+          "static_object"
+        ],
         "conf": {
           "fog": { "near": 5, "far": 100 },
           "bbb_room_tag": {
