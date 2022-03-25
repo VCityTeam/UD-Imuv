@@ -69,10 +69,11 @@ module.exports = class ZeppelinStart {
 
     //check locally if there is a pilot still in game
     const pilotUUID = this.conf.pilotUUID;
+    const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
     const inGame = rootGO.find(pilotUUID);
 
-    if (pilotUUID && inGame) {
-      console.log('There is a pilot => orbit ctrl mode');
+    if (pilotUUID && inGame && pilotUUID != avatarUUID) {
+      console.log('There is a different pilot in game => orbit ctrl mode');
 
       //new orbitctrl
       this.orbitCtrl = new udviz.OrbitControls(
@@ -113,7 +114,6 @@ module.exports = class ZeppelinStart {
         //scope variables need to edit conf server side
         const goUUID = this.go.getUUID();
         const ls = this.go.getComponent(udviz.Game.LocalScript.TYPE);
-        const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
 
         //websocket service
         const ws = localCtx.getWebSocketService();
