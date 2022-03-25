@@ -227,7 +227,7 @@ WorldThreadModule.routine = function (serverConfig) {
           const key = msg.data.key;
           const value = msg.data.value;
 
-          if (!goUUID || !componentUUID || !key || !value) {
+          if (!goUUID || !componentUUID || !key) {
             console.warn('data are imcomplete', msg.data);
             break;
           }

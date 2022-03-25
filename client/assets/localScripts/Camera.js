@@ -135,10 +135,6 @@ module.exports = class Camera {
     );
   }
 
-  setAvatarVisible(value) {
-    this.avatarGO.getObject3D().visible = value;
-  }
-
   tick() {
     const go = arguments[0];
     const localCtx = arguments[1];
