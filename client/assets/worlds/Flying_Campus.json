@@ -2787,6 +2787,7 @@
                 "uuid": "5FD51FF0-2166-425E-8197-BC4E391A0D0C",
                 "idScripts": ["rotate", "local_interactions", "zeppelin_start"],
                 "conf": {
+                  "pilotUUID": null,
                   "speed": 0.001,
                   "avatarsOnEnter": [],
                   "avatarsColliding": [],

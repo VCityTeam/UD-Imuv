@@ -23,7 +23,7 @@
     "keycharm": "^0.4.0",
     "quickhull": "^1.0.3",
     "timsort": "^0.3.0",
-    "ud-viz": "2.36.5",
+    "ud-viz": "file:../../UD-Viz",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },

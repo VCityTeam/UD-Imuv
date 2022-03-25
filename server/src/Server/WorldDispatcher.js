@@ -180,6 +180,14 @@ const WorldDispatcherModule = class WorldDispatcher {
           console.log(worldJSON.name, ' create bbb room');
         });
     });
+
+    //client can edit conf component
+    socket.on(
+      Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
+      function (params) {
+        thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, params);
+      }
+    );
   }
 };
 
