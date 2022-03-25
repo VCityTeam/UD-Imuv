@@ -168,9 +168,9 @@ module.exports = class Camera {
         this.routines.shift(); //remove
       }
     } else if (avatarController.getAvatarControllerMode()) {
-      this.focusCameraTarget(rootGO, this.avatarGO, 3);
+      this.focusTarget(rootGO, this.avatarGO, 3);
     } else if (zeppelinController.getZeppelinControllerMode()) {
-      this.focusCameraTarget(rootGO, this.zeppelinGO, 30);
+      this.focusTarget(rootGO, this.zeppelinGO, 30);
     }
   }
 
