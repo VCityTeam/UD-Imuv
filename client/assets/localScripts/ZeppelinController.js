@@ -16,23 +16,16 @@ module.exports = class ZeppelinController {
 
     //Zeppelin controller
     this.zeppelinControllerMode = false;
-    this.zeppelinGO = null;
-    this.orbitControl = null;
   }
 
-  init() {
-    const localCtx = arguments[1];
-    const gameView = localCtx.getGameView();
-    const camera = gameView.getCamera();
-    const manager = gameView.getInputManager();
-
-    //Zeppelin controller
-    this.orbitControl = new udviz.OrbitControls(camera, manager.getElement());
-    this.orbitControl.enabled = false;
+  getZeppelinControllerMode() {
+    return this.zeppelinControllerMode;
   }
 
   setZeppelinControllerMode(value, localCtx) {
-    if (!this.zeppelinGO) return false; //still no zeppelin
+    const zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');
+
+    if (!zeppelinGO) return false; //still no zeppelin
 
     if (value == this.zeppelinControllerMode) {
       console.warn('same value');
@@ -47,7 +40,7 @@ module.exports = class ZeppelinController {
 
     if (value) {
       const userID = gameView.getUserData('userID');
-      const gameObjectToCtrlUUID = this.zeppelinGO.getUUID();
+      const gameObjectToCtrlUUID = zeppelinGO.getUUID();
       manager.setPointerLock(false);
 
       //forward
@@ -108,28 +101,6 @@ module.exports = class ZeppelinController {
       manager.removeKeyCommand(Command.TYPE.MOVE_LEFT, ['q', 'ArrowLeft']);
     }
 
-    this.orbitControl.enabled = value;
-
     return true;
-  }
-
-  tick() {
-    const localCtx = arguments[1];
-
-    if (!this.zeppelinGO) {
-      this.zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');
-    }
-
-    if (this.zeppelinControllerMode) {
-      const obj = this.zeppelinGO.getObject3D();
-      let position = new Game.THREE.Vector3();
-      obj.matrixWorld.decompose(
-        position,
-        new Game.THREE.Quaternion(),
-        new Game.THREE.Vector3()
-      );
-      this.orbitControl.target.copy(position);
-      this.orbitControl.update();
-    }
   }
 };

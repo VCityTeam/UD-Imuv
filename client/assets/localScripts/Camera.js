@@ -14,7 +14,10 @@ module.exports = class Camera {
     Game = udviz.Game;
 
     this.avatarGO = null;
-    this.avatarCameraman = null;
+    this.zeppelinGO = null;
+
+    //method to focus a go
+    this.focusCamera = null;
 
     //routines camera
     this.routines = [];
@@ -27,11 +30,11 @@ module.exports = class Camera {
     const manager = gameView.getInputManager();
 
     //cameraman
-    this.avatarCameraman = new AvatarCameraman(camera);
+    this.focusCamera = new Focus(camera);
 
     const _this = this;
     manager.addKeyInput('y', 'keydown', function () {
-      _this.avatarCameraman.toggleMode();
+      _this.focusCamera.toggleMode();
     });
 
     if (localCtx.getGameView().getUserData('firstGameView')) {
@@ -90,7 +93,9 @@ module.exports = class Camera {
       new Game.Components.Routine(
         function (dt) {
           if (!_this.avatarGO) return false;
-          const t = _this.avatarCameraman.computeTransformTarget();
+
+          _this.focusCamera.setTarget(_this.avatarGO);
+          const t = _this.focusCamera.computeTransformTarget(null, 3);
 
           //init relatively
           if (!startPos && !startQuat) {
@@ -130,6 +135,10 @@ module.exports = class Camera {
     );
   }
 
+  setAvatarVisible(value) {
+    this.avatarGO.getObject3D().visible = value;
+  }
+
   tick() {
     const go = arguments[0];
     const localCtx = arguments[1];
@@ -139,13 +148,16 @@ module.exports = class Camera {
       this.avatarGO = localCtx
         .getRootGameObject()
         .find(localCtx.getGameView().getUserData('avatarUUID'));
+    }
 
-      //init dynamically
-      this.avatarCameraman.setTarget(this.avatarGO);
+    if (!this.zeppelinGO) {
+      this.zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');
     }
 
     const rootGO = localCtx.getRootGameObject();
     const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    const zeppelinController =
+      rootGO.fetchLocalScripts()['zeppelin_controller'];
 
     //routines are prior
     if (this.hasRoutine()) {
@@ -156,16 +168,23 @@ module.exports = class Camera {
         this.routines.shift(); //remove
       }
     } else if (avatarController.getAvatarControllerMode()) {
-      this.avatarCameraman.focusTarget(this.fetchStaticObject(go));
+      this.focusCameraTarget(rootGO, this.avatarGO, 3);
+    } else if (zeppelinController.getZeppelinControllerMode()) {
+      this.focusCameraTarget(rootGO, this.zeppelinGO, 30);
     }
+  }
+
+  focusTarget(root, target, distance) {
+    this.focusCamera.setTarget(target);
+    this.focusCamera.focusTarget(this.fetchStaticObject(root), distance);
   }
 };
 
-//avatarCameraman
+//focus
 const CAMERA_ANGLE = Math.PI / 12;
 const THIRD_PERSON_FOV = 60;
 
-class AvatarCameraman {
+class Focus {
   constructor(camera) {
     //quaternion
     this.quaternionCam = new Game.THREE.Quaternion().setFromEuler(
@@ -208,12 +227,12 @@ class AvatarCameraman {
     }
   }
 
-  focusTarget(obstacle) {
+  focusTarget(obstacle, distance) {
     if (!this.target) {
       // console.warn('no target');
       return;
     }
-    const transform = this.computeTransformTarget(obstacle);
+    const transform = this.computeTransformTarget(obstacle, distance);
 
     this.camera.position.copy(transform.position);
     this.camera.quaternion.copy(transform.quaternion);
@@ -221,7 +240,7 @@ class AvatarCameraman {
     this.camera.updateProjectionMatrix();
   }
 
-  computeTransformTarget(obstacle = null) {
+  computeTransformTarget(obstacle = null, distance) {
     if (!this.target) return null;
 
     //world transform
@@ -238,9 +257,7 @@ class AvatarCameraman {
       .applyQuaternion(this.quaternionAngle)
       .applyQuaternion(quaternion);
 
-    //TODO compute dist so the bottom of the gameobject is at the bottom of the screen
-    let distance = 3;
-    if (!this.isTPV) distance = -3;
+    if (!this.isTPV) distance *= -1;
 
     //compute intersection
     if (obstacle) {

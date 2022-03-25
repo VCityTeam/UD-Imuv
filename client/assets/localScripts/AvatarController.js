@@ -35,6 +35,7 @@ module.exports = class Controller {
     //DEBUG inputs
     const _this = this;
     manager.addKeyInput('p', 'keydown', function () {
+      console.log('DEBUG');
       console.log('Gameview ', gameView);
       console.log('Camera ', camera);
       console.log('uuid ', udviz.THREE.MathUtils.generateUUID());
@@ -247,10 +248,6 @@ module.exports = class Controller {
 
   getAvatarControllerMode() {
     return this.avatarControllerMode;
-  }
-
-  setAvatarVisible(value) {
-    this.avatarGO.getObject3D().visible = value;
   }
 
   //DEBUG
