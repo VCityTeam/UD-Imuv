@@ -25,6 +25,10 @@ module.exports = class ZeppelinStart {
     this.onZeppelinInteraction = false;
   }
 
+  getOnZeppelinInteraction() {
+    return this.onZeppelinInteraction;
+  }
+
   init() {
     this.go = arguments[0];
   }
