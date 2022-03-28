@@ -159,6 +159,13 @@ const WorldDispatcherModule = class WorldDispatcher {
     const socket = user.getSocket();
     const Constants = Game.Components.Constants;
     const _this = this;
+
+    //remove old listener
+    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM);
+    socket.removeAllListeners(
+      Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
+    );
+
     socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
       const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
 
