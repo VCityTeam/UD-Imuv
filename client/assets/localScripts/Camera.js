@@ -23,6 +23,10 @@ module.exports = class Camera {
     this.routines = [];
   }
 
+  getFocusCamera() {
+    return this.focusCamera;
+  }
+
   init() {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
@@ -165,7 +169,10 @@ module.exports = class Camera {
       }
     } else if (avatarController.getAvatarControllerMode()) {
       this.focusTarget(rootGO, this.avatarGO, 3);
-    } else if (zeppelinController.getZeppelinControllerMode()) {
+    } else if (
+      zeppelinController &&
+      zeppelinController.getZeppelinControllerMode()
+    ) {
       this.focusTarget(rootGO, this.zeppelinGO, 30);
     }
   }
@@ -203,10 +210,6 @@ class Focus {
 
     //mode
     this.isTPV = true;
-  }
-
-  getCamera() {
-    return this.camera;
   }
 
   setTarget(gameObject) {

@@ -24,6 +24,7 @@
         "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
         "idScripts": [
           "avatar_controller",
+          "switch_itowns",
           "camera",
           "place_post_it",
           "static_object"
