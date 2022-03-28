@@ -18,7 +18,11 @@ module.exports = class ZeppelinStart {
     this.orbitCtrl = null;
     this.zeppelinGO = null;
 
-    this.avatarOnZeppelin = false;
+    //buffer
+    this.oldPositionZeppelin = null;
+
+    //to know if inetraction must be compute or not
+    this.onZeppelinInteraction = false;
   }
 
   init() {
@@ -40,8 +44,19 @@ module.exports = class ZeppelinStart {
         new Game.THREE.Quaternion(),
         new Game.THREE.Vector3()
       );
+
+      //add to target of orbit ctrl
       this.orbitCtrl.target.copy(position);
       this.orbitCtrl.update();
+
+      //move relatively camera
+      if (this.oldPositionZeppelin) {
+        let diff = position.clone().sub(this.oldPositionZeppelin);
+        const camera = localCtx.getGameView().getCamera();
+        camera.position.add(diff);
+        camera.updateProjectionMatrix();
+      }
+      this.oldPositionZeppelin = position;
     }
   }
 
@@ -51,9 +66,9 @@ module.exports = class ZeppelinStart {
     const rootGO = localCtx.getRootGameObject();
     const manager = localCtx.getGameView().getInputManager();
 
-    if (this.avatarOnZeppelin) return; //nothing should happen
+    if (this.onZeppelinInteraction) return; //nothing should happen
 
-    this.avatarOnZeppelin = true;
+    this.onZeppelinInteraction = true;
 
     //avatar_controller
     const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
@@ -67,14 +82,12 @@ module.exports = class ZeppelinStart {
 
     if (!avatarUnsetted) console.error('avatar controller not unsetted');
 
-    //check locally if there is a pilot still in game
+    //check locally if there is a different pilot still in game
     const pilotUUID = this.conf.pilotUUID;
     const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
     const inGame = rootGO.find(pilotUUID);
 
     if (pilotUUID && inGame && pilotUUID != avatarUUID) {
-      console.log('There is a different pilot in game => orbit ctrl mode');
-
       //new orbitctrl
       this.orbitCtrl = new udviz.OrbitControls(
         localCtx.getGameView().getCamera(),
@@ -91,15 +104,13 @@ module.exports = class ZeppelinStart {
         _this.orbitCtrl = null;
 
         //no on zeppelin anymore
-        _this.avatarOnZeppelin = false;
+        _this.onZeppelinInteraction = false;
 
         //remove cb
         manager.removeInputListener(cb);
       };
       manager.addKeyInput('e', 'keydown', cb);
     } else {
-      console.log('Nobody pilot zeppelin');
-
       const zeppelinController =
         rootGO.fetchLocalScripts()['zeppelin_controller'];
 
@@ -155,7 +166,7 @@ module.exports = class ZeppelinStart {
           );
 
           //no on zeppelin anymore
-          _this.avatarOnZeppelin = false;
+          _this.onZeppelinInteraction = false;
 
           //remove cb
           manager.removeInputListener(cb);
