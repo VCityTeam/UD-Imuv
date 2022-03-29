@@ -12,7 +12,6 @@ module.exports = class UI {
     this.worldComputerFps = null;
     this.pingUI = null;
     this.avatarCount = null;
-    this.globalVolumeSlider = null;
     this.menuButton = null;
   }
 
@@ -36,25 +35,6 @@ module.exports = class UI {
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_controller');
     gameView.appendToUI(this.avatarCount);
-
-    const labelGlobalSound = document.createElement('div');
-    labelGlobalSound.classList.add('label_controller');
-    labelGlobalSound.innerHTML = 'Volume';
-    gameView.appendToUI(labelGlobalSound);
-
-    this.globalVolumeSlider = document.createElement('input');
-    this.globalVolumeSlider.type = 'range';
-    this.globalVolumeSlider.step = 0.05;
-    this.globalVolumeSlider.min = 0;
-    this.globalVolumeSlider.max = 1;
-    this.globalVolumeSlider.value = Howler.volume();
-    gameView.appendToUI(this.globalVolumeSlider);
-
-    //callbakc
-    this.globalVolumeSlider.onchange = function () {
-      //Howler is global
-      Howler.volume(this.value);
-    };
 
     let menuSettings = null;
     this.menuButton = document.createElement('button');
@@ -112,52 +92,29 @@ class MenuSettings {
     this.rootHtml.appendChild(title);
 
     //differents options
-    this.createVisibilityObject3D(localCtx);
     this.createDirectionalOptions(localCtx);
+    this.createVolumeControl(localCtx);
   }
 
-  createVisibilityObject3D(localCtx) {
-    const scene = localCtx.getGameView().getScene();
+  createVolumeControl(localCtx) {
+    const labelGlobalSound = document.createElement('div');
+    labelGlobalSound.innerHTML = 'Volume';
+    labelGlobalSound.classList.add('label-menu-settings');
+    this.rootHtml.appendChild(labelGlobalSound);
 
-    const countVertices = function (object) {
-      let result = 0;
+    const globalVolumeSlider = document.createElement('input');
+    globalVolumeSlider.type = 'range';
+    globalVolumeSlider.step = 0.05;
+    globalVolumeSlider.min = 0;
+    globalVolumeSlider.max = 1;
+    globalVolumeSlider.value = Howler.volume();
+    this.rootHtml.appendChild(globalVolumeSlider);
 
-      object.traverse(function (child) {
-        if (child.geometry) {
-          result += child.geometry.attributes.position.count;
-        }
-      });
-
-      return result;
+    //callbakc
+    globalVolumeSlider.onchange = function () {
+      //Howler is global
+      Howler.volume(this.value);
     };
-
-    for (let index = 0; index < scene.children.length; index++) {
-      const element = scene.children[index];
-      if (!element.isLight) {
-        const flexParent = document.createElement('div');
-        flexParent.style.display = 'flex';
-        this.rootHtml.appendChild(flexParent);
-
-        // console.log(element.name);
-        const label = document.createElement('div');
-        label.innerHTML =
-          element.name.toUpperCase() +
-          ': ' +
-          countVertices(element) +
-          ' vertices';
-        label.classList.add('label-menu-settings');
-        const checkbox = document.createElement('input');
-        checkbox.classList.add('checkbox-menu-settings');
-        checkbox.type = 'checkbox';
-        checkbox.checked = element.visible;
-
-        checkbox.onchange = function () {
-          element.visible = this.checked;
-        };
-        flexParent.appendChild(label);
-        flexParent.appendChild(checkbox);
-      }
-    }
   }
 
   createDirectionalOptions(localCtx) {
