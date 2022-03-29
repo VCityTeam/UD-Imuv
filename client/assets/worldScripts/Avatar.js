@@ -19,7 +19,11 @@ module.exports = class Avatar {
 
     Game = GameModule;
 
+    //commands buffer
     this.commands = {};
+
+    //city avatar go
+    this.cityAvatar = null;
   }
 
   init() {
@@ -77,7 +81,8 @@ module.exports = class Avatar {
     );
   }
 
-  applyCommands(gameObject, dt) {
+  applyCommands(gameObject, worldContext) {
+    const dt = worldContext.getDt();
     const Command = Game.Command;
     const THREE = Game.THREE;
 
@@ -147,8 +152,24 @@ module.exports = class Avatar {
         //update elevation
         const isOut = !scriptMap.updateElevation(gameObject);
         elevationComputed = true;
+
+        //inform local
+        const ls = gameObject.getComponent(Game.LocalScript.TYPE);
+        ls.conf.isOut = isOut;
+
         if (isOut) {
-          gameObject.setPosition(oldPosition);
+          gameObject.setFreeze(true); //freeze
+
+          if (!this.cityAvatar) {
+            //add a city avatar
+            this.cityAvatar = worldContext
+              .getAssetsManager()
+              .createPrefab('city_avatar');
+
+            worldContext
+              .getWorld()
+              .addGameObject(this.cityAvatar, worldContext, gameObject);
+          }
         }
       }
     }
@@ -174,7 +195,7 @@ module.exports = class Avatar {
     const gameObject = arguments[0];
     const worldContext = arguments[1];
     this.fetchCommands(worldContext.getCommands(), gameObject);
-    this.applyCommands(gameObject, worldContext.getDt());
+    this.applyCommands(gameObject, worldContext);
   }
 
   onEnterCollision() {
