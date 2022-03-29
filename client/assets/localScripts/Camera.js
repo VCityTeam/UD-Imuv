@@ -150,6 +150,8 @@ module.exports = class Camera {
         .find(localCtx.getGameView().getUserData('avatarUUID'));
     }
 
+    const cityAvatar = this.avatarGO.findByName('city_avatar');
+
     if (!this.zeppelinGO) {
       this.zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');
     }
@@ -167,6 +169,8 @@ module.exports = class Camera {
         currentRoutine.onEnd();
         this.routines.shift(); //remove
       }
+    } else if (cityAvatar) {
+      this.focusTarget(rootGO, cityAvatar, 3);
     } else if (avatarController.getAvatarControllerMode()) {
       this.focusTarget(rootGO, this.avatarGO, 3);
     } else if (

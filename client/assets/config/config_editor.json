@@ -52,6 +52,9 @@
       "switch_itowns": {
         "path": "./assets/localScripts/SwitchItowns.js"
       },
+      "avatar": {
+        "path": "./assets/localScripts/Avatar.js"
+      },
       "camera": {
         "path": "./assets/localScripts/Camera.js"
       },
@@ -179,6 +182,9 @@
       }
     },
     "prefabs": {
+      "city_avatar": {
+        "path": "./assets/prefabs/CityAvatar.json"
+      },
       "zeppelin_start": {
         "path": "./assets/prefabs/ZeppelinStart.json"
       },

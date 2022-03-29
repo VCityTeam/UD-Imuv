@@ -1,0 +1,27 @@
+{
+  "name": "city_avatar",
+  "type": "GameObject",
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": "avatar_moyen",
+      "color": [1, 0, 0]
+    },
+    "WorldScript": {
+      "idScripts": ["city_avatar"],
+      "conf": {},
+      "type": "WorldScript"
+    },
+    "LocalScript": {
+      "idScripts": ["city_avatar"],
+      "conf": {},
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0],
+    "scale": [1, 1, 1]
+  }
+}

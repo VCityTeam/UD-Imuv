@@ -4,6 +4,9 @@
       "avatar": {
         "path": "../client/assets/worldScripts/Avatar.js"
       },
+      "city_avatar": {
+        "path": "../client/assets/worldScripts/CityAvatar.js"
+      },
       "zeppelin": {
         "path": "../client/assets/worldScripts/Zeppelin.js"
       },
@@ -29,6 +32,9 @@
     "prefabs": {
       "avatar": {
         "path": "../client/assets/prefabs/Avatar.json"
+      },
+      "city_avatar": {
+        "path": "../client/assets/prefabs/CityAvatar.json"
       }
     }
   },

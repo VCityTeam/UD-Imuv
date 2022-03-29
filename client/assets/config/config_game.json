@@ -60,6 +60,12 @@
       "switch_itowns": {
         "path": "./assets/localScripts/SwitchItowns.js"
       },
+      "city_avatar": {
+        "path": "./assets/localScripts/CityAvatar.js"
+      },
+      "avatar": {
+        "path": "./assets/localScripts/Avatar.js"
+      },
       "camera": {
         "path": "./assets/localScripts/Camera.js"
       },
