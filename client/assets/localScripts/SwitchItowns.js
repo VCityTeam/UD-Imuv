@@ -21,6 +21,9 @@ module.exports = class SwitchItowns {
     //buffer DEBUG
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
+
+    this.menuWidgets = null;
+    this.menuWidgetsButton = null;
   }
 
   //DEBUG
@@ -41,7 +44,9 @@ module.exports = class SwitchItowns {
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
-      manager.addKeyInput('a', 'keydown', function () {
+      this.menuWidgetsButton = document.createElement('button');
+      this.menuWidgetsButton.innerHTML = 'Widgets';
+      this.menuWidgetsButton.onclick = function () {
         if (cameraScript.hasRoutine()) return; //already routine
 
         let onZeppelin = false;
@@ -96,6 +101,9 @@ module.exports = class SwitchItowns {
                 view.controls.dispose();
                 view.controls = null;
                 avatarController.setAvatarControllerMode(true, localCtx);
+
+                _this.menuWidgets.dispose();
+                _this.menuWidgets = null;
               }
             )
           );
@@ -152,11 +160,120 @@ module.exports = class SwitchItowns {
                 });
 
                 avatarController.setAvatarControllerMode(false, localCtx);
+
+                _this.menuWidgets = new MenuWidgets(localCtx);
               }
             )
           );
         }
-      });
+      };
+      gameView.appendToUI(this.menuWidgetsButton);
     }
   }
 };
+
+class MenuWidgets {
+  constructor(localCtx) {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root-menu-settings');
+    localCtx.getGameView().appendToUI(this.rootHtml);
+
+    const title = document.createElement('h1');
+    title.innerHTML = 'Widgets';
+    this.rootHtml.appendChild(title);
+
+    //buffer
+    this.activeWidgets = {};
+
+    //scope
+    const _this = this;
+
+    ////ADD WIDGETS
+
+    //layerchoice
+    const idLayerChoice = 'Layer Choice';
+    const layerchoiceButton = document.createElement('button');
+    layerchoiceButton.innerHTML = idLayerChoice;
+    this.rootHtml.appendChild(layerchoiceButton);
+    layerchoiceButton.onclick = function () {
+      if (_this.activeWidgets[idLayerChoice]) {
+        _this.activeWidgets[idLayerChoice].disable();
+        delete _this.activeWidgets[idLayerChoice];
+      } else {
+        _this.activeWidgets[idLayerChoice] = new udviz.Widgets.LayerChoice(
+          localCtx.getGameView().getLayerManager()
+        );
+        _this.activeWidgets[idLayerChoice].appendTo(document.body);
+      }
+    };
+
+    //slideShow
+    const idslideShow = 'Slide show';
+    const slideShowButton = document.createElement('button');
+    slideShowButton.innerHTML = idslideShow;
+    this.rootHtml.appendChild(slideShowButton);
+    slideShowButton.onclick = function () {
+      if (_this.activeWidgets[idslideShow]) {
+        _this.activeWidgets[idslideShow].disable();
+        delete _this.activeWidgets[idslideShow];
+      } else {
+        _this.activeWidgets[idslideShow] = new udviz.Widgets.SlideShow(
+          {
+            view: localCtx.getGameView().getItownsView(),
+            extent: localCtx.getGameView().getExtent(),
+            update3DView: function () {},
+          },
+          localCtx.getGameView().getInputManager()
+        );
+        _this.activeWidgets[idslideShow].appendTo(document.body);
+      }
+    };
+
+    //cityObjects TODO not working
+    // const idcityObjects = 'City Objects';
+    // const cityObjectsButton = document.createElement('button');
+    // cityObjectsButton.innerHTML = idcityObjects;
+    // this.rootHtml.appendChild(cityObjectsButton);
+    // cityObjectsButton.onclick = function () {
+    //   if (_this.activeWidgets[idcityObjects]) {
+    //     _this.activeWidgets[idcityObjects].view.disable();
+    //     delete _this.activeWidgets[idcityObjects];
+    //   } else {
+    //     _this.activeWidgets[idcityObjects] = new udviz.Widgets.CityObjectModule(
+    //       localCtx.getGameView().getLayerManager(),
+    //       {
+    //         cityObjects: {
+    //           styles: {
+    //             layerDefault: {
+    //               materialProps: {
+    //                 color: '#ffa14f',
+    //               },
+    //             },
+    //             selection: {
+    //               materialProps: {
+    //                 color: '#13ddef',
+    //               },
+    //             },
+    //             linkedWithDisplayedDocument: {
+    //               materialProps: {
+    //                 color: '#4c5af7',
+    //               },
+    //             },
+    //           },
+    //         },
+    //       }
+    //     );
+    //     _this.activeWidgets[idcityObjects].view.appendTo(document.body);
+    //   }
+    // };
+  }
+
+  dispose() {
+    this.rootHtml.remove();
+
+    //remove active widgets
+    for (let id in this.activeWidgets) {
+      this.activeWidgets[id].disable();
+    }
+  }
+}
