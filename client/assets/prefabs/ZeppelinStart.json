@@ -28,11 +28,6 @@
       "idScripts": ["rotate", "local_interactions", "zeppelin_start"],
       "conf": { "speed": 0.001 },
       "type": "LocalScript"
-    },
-    "Audio": {
-      "sounds": ["portal_in"],
-      "conf": {},
-      "type": "Audio"
     }
   },
   "children": [],
