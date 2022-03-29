@@ -2791,12 +2791,6 @@
                   "avatarsOnLeave": []
                 },
                 "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "13B7BEC8-29F0-4CD1-8613-80DA67829138",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
               }
             },
             "children": [],
