@@ -49,19 +49,27 @@ end
 
 ImuvWorld <- Imuv: New
 activate ImuvWorld
-group BBB (chat) room establishment
+group Bob enters room and triggers room establishment
+  WebBrowserBob -> ImuvWebsocket: wss:// JOIN_ROOM (roomId)
+  &ImuvWebsocket -> Imuv
   Imuv ->  BBB : http:// Create_Room
   activate BBB
   Imuv <-- BBB : http:// data: Room_URL
   ImuvWorld <- Imuv: ADD_ROOM(data)
   &ImuvWorld -> ImuvWebsocket: World_State diff
   &WebBrowserBob <- ImuvWebsocket: wss:// world_diff (contains new room)
+  WebBrowserBob <-> BBB: BBB protocol suite TLS/https/WEBRTC/RTP/UDP...
 end
 
-group Bob's world wandering leads to room where Alice already is
-  WebBrowserBob -> ImuvWebsocket: wss:// JOIN_ROOM (roomId)
-  &ImuvWebsocket -> ImuvWorld
-  WebBrowserBob <-> BBB: FIXME BBB protocol ?
+group Alice's world wandering leads to room where Bod is already present
+  WebBrowserAlice -> ImuvWebsocket: wss:// JOIN_ROOM (roomId)
+  &ImuvWebsocket -> Imuv
+  Imuv ->  BBB : http:// Create_Room (idem potent)
+  Imuv <-- BBB : http:// data: Room_URL (already given)
+  ImuvWorld <- Imuv: ADD_ROOM(aleady_given_data)
+  &ImuvWorld -> ImuvWebsocket: World_State diff
+  &WebBrowserAlice <- ImuvWebsocket: wss:// world_diff (contains new room)
+  WebBrowserAlice <-> BBB: BBB protocol suite TLS/https/WEBRTC/RTP/UDP...
 end
 
 @enduml

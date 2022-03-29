@@ -3,42 +3,50 @@
 title Initial connection to an Imuv server (through a proxy)
 
 actor User
-participant WebGL
-participant WebBrowser
+
+box =Web Browser #LightBlue
+  participant WebGL
+  participant Engine
+end box
+
+
 participant Proxy
 participant Imuv
 
-== Retrieve (web) client code ==
-User -> WebBrowser : OpenURL(https://mydemo.org/flyingCampus)
-activate WebBrowser
-WebBrowser -> Proxy : https://mydemo.org/ GET /flyingCampus
-activate Proxy
-Proxy -> Imuv : http://localhost:8000/ GET /
-activate Imuv
-Proxy <- Imuv : http: POST index.html
-deactivate Imuv
-WebBrowser <- Proxy : https POST /flyingCampus/index.html
-deactivate Proxy
-
-loop Recurse to get all client JS code and assets
-  WebBrowser -> Proxy : https://mydemo.org/ GET /flyingCampus/<some-path>/<some-file>
+group Retrieve (web) client code
+  User -> Engine : OpenURL(https://mydemo.org/flyingCampus)
+  activate Engine
+  Engine -> Proxy : https://mydemo.org/ GET /flyingCampus
   activate Proxy
-  Proxy -> Imuv : http://localhost:8000/ GET /<some-path>/<some-file>
+  Proxy -> Imuv : http://localhost:8000/ GET /
   activate Imuv
-  Proxy <- Imuv : http: POST /<some-path>/<some-file>
+  Proxy <- Imuv : http: index.html
   deactivate Imuv
-  WebBrowser <- Proxy : https POST /flyingCampus//<some-path>/<some-file>
+  Engine <- Proxy : https: /flyingCampus/index.html
   deactivate Proxy
-end
 
-== Render integrated html/webgl  ==
-WebGL <- WebBrowser **: new
-activate WebGL
-loop Create scene
-  WebGL <- WebBrowser : transmit scene object/element
-end
-WebGL <- WebBrowser : render()
-WebGL -> WebBrowser : webgl_rendered_scene
-deactivate WebGL
-User <- WebBrowser : display html/webgl integrated rendering
+  loop Recurse to get all client JS code and assets
+    Engine -> Proxy : https://mydemo.org/ GET /flyingCampus/<some-path>/<some-file>
+    activate Proxy
+    Proxy -> Imuv : http://localhost:8000/ GET /<some-path>/<some-file>
+    activate Imuv
+    Proxy <- Imuv : http: /<some-path>/<some-file>
+    deactivate Imuv
+    Engine <- Proxy : https: /flyingCampus//<some-path>/<some-file>
+    deactivate Proxy
+end loop
+end group
+
+group Render integrated html/webgl
+  WebGL <- Engine **: new
+  activate WebGL
+  loop Create scene
+    WebGL <- Engine : transmit scene object/element
+  end
+  WebGL <- Engine : render()
+  WebGL -> Engine : webgl_rendered_scene
+  deactivate WebGL
+User <- Engine : display html/webgl integrated rendering
+end group
+
 @enduml
