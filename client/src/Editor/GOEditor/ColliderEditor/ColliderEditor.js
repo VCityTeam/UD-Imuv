@@ -3,6 +3,7 @@ import ColliderModule from 'ud-viz/src/Game/GameObject/Components/Collider';
 import { Shared } from 'ud-viz/src/Game/Game';
 import { PolygonShape, CircleShape, POLYGON_TYPE, CIRCLE_TYPE } from './Shape';
 
+import './ColliderEditor.css';
 export class ColliderEditorView {
   constructor(params) {
     this.goEditor = params.goEditor;
