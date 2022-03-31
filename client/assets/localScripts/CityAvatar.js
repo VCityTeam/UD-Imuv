@@ -17,7 +17,48 @@ module.exports = class CityAvatar {
     this.raycaster = new udviz.THREE.Raycaster();
   }
 
-  init() {}
+  init() {
+    const localContext = arguments[1];
+
+    //Input manager of the game
+    const inputManager = localContext.getGameView().getInputManager();
+
+    //FORWARD
+    inputManager.addKeyCommand(
+      Game.Command.TYPE.MOVE_FORWARD,
+      ['z', 'ArrowUp'],
+      function () {
+        return new Game.Command({ type: Game.Command.TYPE.MOVE_FORWARD });
+      }
+    );
+
+    //BACKWARD
+    inputManager.addKeyCommand(
+      Game.Command.TYPE.MOVE_BACKWARD,
+      ['s', 'ArrowDown'],
+      function () {
+        return new Game.Command({ type: Game.Command.TYPE.MOVE_BACKWARD });
+      }
+    );
+
+    //LEFT
+    inputManager.addKeyCommand(
+      Game.Command.TYPE.MOVE_LEFT,
+      ['q', 'ArrowLeft'],
+      function () {
+        return new Game.Command({ type: Game.Command.TYPE.MOVE_LEFT });
+      }
+    );
+
+    //RIGHT
+    inputManager.addKeyCommand(
+      Game.Command.TYPE.MOVE_RIGHT,
+      ['d', 'ArrowRight'],
+      function () {
+        return new Game.Command({ type: Game.Command.TYPE.MOVE_RIGHT });
+      }
+    );
+  }
 
   tick() {
     //the gameobject parent of this script
@@ -51,7 +92,7 @@ module.exports = class CityAvatar {
     addObjectToGround('3d-tiles-layer-relief');
     addObjectToGround('3d-tiles-layer-road');
 
-    const zParent = go.getParent().getPosition().z;
+    const zParent = go.parent.getPosition().z;
 
     const pos = go.computeWorldTransform().position;
     const ref = localContext.getGameView().getObject3D().position;
