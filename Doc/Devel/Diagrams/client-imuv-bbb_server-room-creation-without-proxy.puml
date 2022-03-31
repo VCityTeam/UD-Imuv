@@ -1,0 +1,75 @@
+@startuml
+'For same line messages support
+!pragma teoz true
+
+title Imuv BBB server connection and room creation
+
+participant WebBrowserAlice [
+  =Web Browser
+  Alice
+]
+
+participant WebBrowserBob [
+  =Web Browser
+  Bob
+]
+
+box =IMUV #LightBlue
+  participant "=socket.io" as ImuvWebsocket 
+  participant ImuvWorld [
+    =World #1 
+    (Thread)
+  ]
+  participant "=express" as ImuvExpress
+  participant "=Core" as Imuv
+end box
+
+participant BBB [
+  =B B B
+  Server
+]
+
+activate WebBrowserAlice
+activate WebBrowserBob
+activate Imuv
+activate BBB
+
+ImuvExpress <- Imuv: New
+activate ImuvExpress
+group Client code download
+  WebBrowserBob -> ImuvExpress: http:// GET ...
+  WebBrowserBob <-- ImuvExpress: 
+end
+
+ImuvWebsocket <- Imuv: New
+activate ImuvWebsocket
+group WebSocket bi-directional establishment
+  WebBrowserBob <-> ImuvWebsocket: wss://
+end
+
+ImuvWorld <- Imuv: New
+activate ImuvWorld
+group Bob enters room and triggers room establishment
+  WebBrowserBob -> ImuvWebsocket: wss:// JOIN_ROOM (roomId)
+  &ImuvWebsocket -> Imuv
+  Imuv ->  BBB : http:// Create_Room
+  activate BBB
+  Imuv <-- BBB : http:// data: Room_URL
+  ImuvWorld <- Imuv: ADD_ROOM(data)
+  &ImuvWorld -> ImuvWebsocket: World_State diff
+  &WebBrowserBob <- ImuvWebsocket: wss:// world_diff (contains new room)
+  WebBrowserBob <-> BBB: BBB protocol suite TLS/https/WEBRTC/RTP/UDP...
+end
+
+group Alice's world wandering leads to room where Bod is already present
+  WebBrowserAlice -> ImuvWebsocket: wss:// JOIN_ROOM (roomId)
+  &ImuvWebsocket -> Imuv
+  Imuv ->  BBB : http:// Create_Room (idem potent)
+  Imuv <-- BBB : http:// data: Room_URL (already given)
+  ImuvWorld <- Imuv: ADD_ROOM(aleady_given_data)
+  &ImuvWorld -> ImuvWebsocket: World_State diff
+  &WebBrowserAlice <- ImuvWebsocket: wss:// world_diff (contains new room)
+  WebBrowserAlice <-> BBB: BBB protocol suite TLS/https/WEBRTC/RTP/UDP...
+end
+
+@enduml

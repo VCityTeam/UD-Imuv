@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="582px" preserveAspectRatio="none" style="width:1561px;height:582px;background:#FFFFFF;" version="1.1" viewBox="0 0 1561 582" width="1561px" zoomAndPan="magnify"><defs><filter height="300%" id="f1gvm8ice1fy7u" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><rect fill="#ADD8E6" height="535.5703" style="stroke:#A80036;stroke-width:1.0;" width="317" x="1228" y="40.9531"/><text fill="#000000" font-family="sans-serif" font-size="17" font-weight="bold" lengthAdjust="spacing" textLength="51" x="1361" y="56.7329">IMUV</text><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacing" textLength="608" x="474" y="28.708">Imuv server WebSocket connection establishment (through a proxy)</text><rect fill="#FFFFFF" filter="url(#f1gvm8ice1fy7u)" height="56.2656" style="stroke:#000000;stroke-width:2.0;" width="1346" x="65" y="434.0078"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="81" x2="81" y1="120.9922" y2="514.2734"/><rect fill="#FFFFFF" filter="url(#f1gvm8ice1fy7u)" height="385.2813" style="stroke:#A80036;stroke-width:1.0;" width="10" x="76" y="128.9922"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="679" x2="679" y1="120.9922" y2="514.2734"/><rect fill="#FFFFFF" filter="url(#f1gvm8ice1fy7u)" height="385.2813" style="stroke:#A80036;stroke-width:1.0;" width="10" x="674" y="128.9922"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="1281" x2="1281" y1="120.9922" y2="514.2734"/><rect fill="#FFFFFF" filter="url(#f1gvm8ice1fy7u)" height="364.1484" style="stroke:#A80036;stroke-width:1.0;" width="10" x="1276" y="150.125"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="1395" x2="1395" y1="259.5234" y2="514.2734"/><rect fill="#FFFFFF" filter="url(#f1gvm8ice1fy7u)" height="233.6172" style="stroke:#A80036;stroke-width:1.0;" width="10" x="1390" y="280.6563"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="1509" x2="1509" y1="120.9922" y2="514.2734"/><rect fill="#FFFFFF" filter="url(#f1gvm8ice1fy7u)" height="385.2813" style="stroke:#A80036;stroke-width:1.0;" width="10" x="1504" y="128.9922"/><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="148" x="5" y="64.7422"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="134" x="12" y="88.4502">Web Browser</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="36.5" y="105.6904">e.g. Chrome</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="72" x="641" y="64.7422"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="58" x="648" y="88.4502">Proxy</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="658.5" y="105.6904">nginx</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="34.9531" style="stroke:#A80036;stroke-width:1.5;" width="94" x="1232" y="81.0391"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="80" x="1239" y="104.7471">express</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="34.9531" style="stroke:#A80036;stroke-width:1.5;" width="60" x="1477" y="81.0391"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="46" x="1484" y="104.7471">Core</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="148" x="5" y="514.2734"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="134" x="12" y="537.9814">Web Browser</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="36.5" y="555.2217">e.g. Chrome</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="51.25" style="stroke:#A80036;stroke-width:1.5;" width="72" x="641" y="514.2734"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="58" x="648" y="537.9814">Proxy</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="658.5" y="555.2217">nginx</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="34.9531" style="stroke:#A80036;stroke-width:1.5;" width="94" x="1232" y="514.2734"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="80" x="1239" y="537.9814">express</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="34.9531" style="stroke:#A80036;stroke-width:1.5;" width="106" x="1340" y="514.2734"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="92" x="1347" y="537.9814">socket.io</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="34.9531" style="stroke:#A80036;stroke-width:1.5;" width="60" x="1477" y="514.2734"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="46" x="1484" y="537.9814">Core</text><polygon fill="#A80036" points="1297,146.125,1287,150.125,1297,154.125,1293,150.125" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="1291" x2="1503" y1="150.125" y2="150.125"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="25" x="1303" y="145.0591">new</text><rect fill="#EEEEEE" filter="url(#f1gvm8ice1fy7u)" height="3" style="stroke:#EEEEEE;stroke-width:1.0;" width="1546" x="5" y="178.6914"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1551" y1="178.6914" y2="178.6914"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1551" y1="181.6914" y2="181.6914"/><rect fill="#EEEEEE" filter="url(#f1gvm8ice1fy7u)" height="23.1328" style="stroke:#000000;stroke-width:2.0;" width="193" x="681.5" y="168.125"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="169" x="687.5" y="184.1919">WebSocket handshake</text><polygon fill="#A80036" points="662,218.3906,672,222.3906,662,226.3906,666,222.3906" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="86" x2="668" y1="222.3906" y2="222.3906"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="569" x="93" y="217.3247">https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: &lt;some-key&gt;]</text><polygon fill="#A80036" points="1264,218.3906,1274,222.3906,1264,226.3906,1268,222.3906" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="684" x2="1270" y1="222.3906" y2="222.3906"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="573" x="691" y="217.3247">http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: &lt;some-key&gt;]</text><polygon fill="#A80036" points="695,247.5234,685,251.5234,695,255.5234,691,251.5234" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="689" x2="1275" y1="251.5234" y2="251.5234"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="465" x="701" y="246.4575">http: [Upgrade: websocket, Sec-WebSocket-Accept: &lt;hash(some-key)&gt;]</text><polygon fill="#A80036" points="97,247.5234,87,251.5234,97,255.5234,93,251.5234" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="91" x2="673" y1="251.5234" y2="251.5234"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="472" x="103" y="246.4575">https: [Upgrade: websocket, Sec-WebSocket-Accept: &lt;hash(some-key)&gt;]</text><rect fill="#FEFECE" filter="url(#f1gvm8ice1fy7u)" height="34.9531" style="stroke:#A80036;stroke-width:1.5;" width="106" x="1345" y="259.5234"/><text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="92" x="1352" y="283.2314">socket.io</text><polygon fill="#A80036" points="1466,276.6563,1456,280.6563,1466,284.6563,1462,280.6563" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="1460" x2="1503" y1="280.6563" y2="280.6563"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="25" x="1472" y="275.5903">new</text><polygon fill="#A80036" points="97,316.6094,87,320.6094,97,324.6094,93,320.6094" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="662,316.6094,672,320.6094,662,324.6094,666,320.6094" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="91" x2="668" y1="320.6094" y2="320.6094"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="35" x="103" y="315.5435">wss://</text><polygon fill="#A80036" points="695,316.6094,685,320.6094,695,324.6094,691,320.6094" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1378,316.6094,1388,320.6094,1378,324.6094,1382,320.6094" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="689" x2="1384" y1="320.6094" y2="320.6094"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="28" x="701" y="315.5435">ws://</text><rect fill="#EEEEEE" filter="url(#f1gvm8ice1fy7u)" height="3" style="stroke:#EEEEEE;stroke-width:1.0;" width="1546" x="5" y="349.1758"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1551" y1="349.1758" y2="349.1758"/><line style="stroke:#000000;stroke-width:1.0;" x1="5" x2="1551" y1="352.1758" y2="352.1758"/><rect fill="#EEEEEE" filter="url(#f1gvm8ice1fy7u)" height="23.1328" style="stroke:#000000;stroke-width:2.0;" width="584" x="486" y="338.6094"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="565" x="492" y="354.6763">Bi-directionnal WebSocket connection usage example: player in world-scene</text><polygon fill="#A80036" points="662,388.875,672,392.875,662,396.875,666,392.875" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="86" x2="668" y1="392.875" y2="392.875"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="212" x="93" y="387.8091">wss:// READY_TO_RECEIVE_STATE</text><polygon fill="#A80036" points="1378,388.875,1388,392.875,1378,396.875,1382,392.875" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="684" x2="1384" y1="392.875" y2="392.875"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="28" x="691" y="387.8091">ws://</text><polygon fill="#A80036" points="695,418.0078,685,422.0078,695,426.0078,691,422.0078" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="689" x2="1389" y1="422.0078" y2="422.0078"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="275" x="701" y="416.9419">ws:// JOIN_WORLD, data: world_state (JSON)</text><polygon fill="#A80036" points="97,418.0078,87,422.0078,97,426.0078,93,422.0078" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="91" x2="673" y1="422.0078" y2="422.0078"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="35" x="103" y="416.9419">wss://</text><path d="M65,434.0078 L142,434.0078 L142,441.0078 L132,451.0078 L65,451.0078 L65,434.0078 " fill="#EEEEEE" style="stroke:#000000;stroke-width:1.0;"/><rect fill="none" height="56.2656" style="stroke:#000000;stroke-width:2.0;" width="1346" x="65" y="434.0078"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="32" x="80" y="447.0747">loop</text><text fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="468" x="157" y="446.2183">[Update the client view with the changes occuring in the (shared) world]</text><polygon fill="#A80036" points="695,478.2734,685,482.2734,695,486.2734,691,482.2734" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="689" x2="1389" y1="482.2734" y2="482.2734"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="323" x="701" y="477.2075">ws:// WORLD_STATE_DIFF, data: world_state (JSON)</text><polygon fill="#A80036" points="97,478.2734,87,482.2734,97,486.2734,93,482.2734" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="91" x2="673" y1="482.2734" y2="482.2734"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="35" x="103" y="477.2075">wss://</text><!--MD5=[8dd262d356fdce8ce1af98c5203b09a1]
+@startuml
+'For same line messages support
+!pragma teoz true
+
+title Imuv server WebSocket connection establishment (through a proxy)
+
+participant WebBrowser [
+  =Web Browser
+  e.g. Chrome
+]
+participant Proxy [
+  =Proxy
+  nginx
+]
+
+box =IMUV #LightBlue
+  participant "=express" as ImuvExpress
+  participant "=socket.io" as ImuvWebsocket
+  participant "=Core" as Imuv
+end box
+
+activate WebBrowser
+activate Proxy
+activate Imuv
+
+ImuvExpress <- Imuv: new
+activate ImuvExpress
+
+== WebSocket handshake  ==
+WebBrowser -> Proxy : https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+& Proxy -> ImuvExpress : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+Proxy <- - ImuvExpress : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+&WebBrowser <- - Proxy : https: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+ImuvWebsocket <- Imuv **: new
+activate ImuvWebsocket
+
+WebBrowser <-> Proxy: wss://
+&Proxy <-> ImuvWebsocket: ws://
+
+== Bi-directionnal WebSocket connection usage example: player in world-scene ==
+
+WebBrowser -> Proxy: wss:// READY_TO_RECEIVE_STATE
+&Proxy -> ImuvWebsocket: ws://
+
+Proxy <- ImuvWebsocket: ws:// JOIN_WORLD, data: world_state (JSON)
+&WebBrowser <- Proxy: wss:// 
+
+loop Update the client view with the changes occuring in the (shared) world
+  Proxy <- ImuvWebsocket: ws:// WORLD_STATE_DIFF, data: world_state (JSON)
+  &WebBrowser <- Proxy: wss:// 
+end
+
+@enduml
+
+@startuml
+!pragma teoz true
+
+title Imuv server WebSocket connection establishment (through a proxy)
+
+participant WebBrowser [
+  =Web Browser
+  e.g. Chrome
+]
+participant Proxy [
+  =Proxy
+  nginx
+]
+
+box =IMUV #LightBlue
+  participant "=express" as ImuvExpress
+  participant "=socket.io" as ImuvWebsocket
+  participant "=Core" as Imuv
+end box
+
+activate WebBrowser
+activate Proxy
+activate Imuv
+
+ImuvExpress <- Imuv: new
+activate ImuvExpress
+
+== WebSocket handshake  ==
+WebBrowser -> Proxy : https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+& Proxy -> ImuvExpress : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+Proxy <- - ImuvExpress : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+&WebBrowser <- - Proxy : https: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+ImuvWebsocket <- Imuv **: new
+activate ImuvWebsocket
+
+WebBrowser <-> Proxy: wss://
+&Proxy <-> ImuvWebsocket: ws://
+
+== Bi-directionnal WebSocket connection usage example: player in world-scene ==
+
+WebBrowser -> Proxy: wss:// READY_TO_RECEIVE_STATE
+&Proxy -> ImuvWebsocket: ws://
+
+Proxy <- ImuvWebsocket: ws:// JOIN_WORLD, data: world_state (JSON)
+&WebBrowser <- Proxy: wss:// 
+
+loop Update the client view with the changes occuring in the (shared) world
+  Proxy <- ImuvWebsocket: ws:// WORLD_STATE_DIFF, data: world_state (JSON)
+  &WebBrowser <- Proxy: wss:// 
+end
+
+@enduml
+
+PlantUML version 1.2022.0(Tue Jan 11 16:16:42 UTC 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

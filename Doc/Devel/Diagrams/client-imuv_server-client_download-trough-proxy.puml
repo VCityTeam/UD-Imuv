@@ -1,0 +1,52 @@
+@startuml
+
+title Initial connection to an Imuv server (through a proxy)
+
+actor User
+
+box =Web Browser #LightBlue
+  participant WebGL
+  participant Engine
+end box
+
+
+participant Proxy
+participant Imuv
+
+group Retrieve (web) client code
+  User -> Engine : OpenURL(https://mydemo.org/flyingCampus)
+  activate Engine
+  Engine -> Proxy : https://mydemo.org/ GET /flyingCampus
+  activate Proxy
+  Proxy -> Imuv : http://localhost:8000/ GET /
+  activate Imuv
+  Proxy <- Imuv : http: index.html
+  deactivate Imuv
+  Engine <- Proxy : https: /flyingCampus/index.html
+  deactivate Proxy
+
+  loop Recurse to get all client JS code and assets
+    Engine -> Proxy : https://mydemo.org/ GET /flyingCampus/<some-path>/<some-file>
+    activate Proxy
+    Proxy -> Imuv : http://localhost:8000/ GET /<some-path>/<some-file>
+    activate Imuv
+    Proxy <- Imuv : http: /<some-path>/<some-file>
+    deactivate Imuv
+    Engine <- Proxy : https: /flyingCampus//<some-path>/<some-file>
+    deactivate Proxy
+end loop
+end group
+
+group Render integrated html/webgl
+  WebGL <- Engine **: new
+  activate WebGL
+  loop Create scene
+    WebGL <- Engine : transmit scene object/element
+  end
+  WebGL <- Engine : render()
+  WebGL -> Engine : webgl_rendered_scene
+  deactivate WebGL
+User <- Engine : display html/webgl integrated rendering
+end group
+
+@enduml

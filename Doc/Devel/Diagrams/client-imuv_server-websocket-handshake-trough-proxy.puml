@@ -1,0 +1,53 @@
+@startuml
+'For same line messages support
+!pragma teoz true
+
+title Imuv server WebSocket connection establishment (through a proxy)
+
+participant WebBrowser [
+  =Web Browser
+  e.g. Chrome
+]
+participant Proxy [
+  =Proxy
+  nginx
+]
+
+box =IMUV #LightBlue
+  participant "=express" as ImuvExpress
+  participant "=socket.io" as ImuvWebsocket
+  participant "=Core" as Imuv
+end box
+
+activate WebBrowser
+activate Proxy
+activate Imuv
+
+ImuvExpress <- Imuv: new
+activate ImuvExpress
+
+== WebSocket handshake  ==
+WebBrowser -> Proxy : https://mydemo.org/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+& Proxy -> ImuvExpress : http://localhost:8000/ GET /chat [Upgrade: websocket, Sec-WebSocket-Key: <some-key>]
+Proxy <-- ImuvExpress : http: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+&WebBrowser <-- Proxy : https: [Upgrade: websocket, Sec-WebSocket-Accept: <hash(some-key)>]
+ImuvWebsocket <- Imuv **: new
+activate ImuvWebsocket
+
+WebBrowser <-> Proxy: wss://
+&Proxy <-> ImuvWebsocket: ws://
+
+== Bi-directionnal WebSocket connection usage example: player in world-scene ==
+
+WebBrowser -> Proxy: wss:// READY_TO_RECEIVE_STATE
+&Proxy -> ImuvWebsocket: ws://
+
+Proxy <- ImuvWebsocket: ws:// JOIN_WORLD, data: world_state (JSON)
+&WebBrowser <- Proxy: wss:// 
+
+loop Update the client view with the changes occuring in the (shared) world
+  Proxy <- ImuvWebsocket: ws:// WORLD_STATE_DIFF, data: world_state (JSON)
+  &WebBrowser <- Proxy: wss:// 
+end
+
+@enduml
