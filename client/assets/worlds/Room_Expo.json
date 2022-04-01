@@ -340,7 +340,7 @@
                 "conf": {
                   "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                   "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
-                  "spawnRotation": { "x": "0", "y": 0, "z": 4.118258725148333 },
+                  "spawnRotation": { "x": "0", "y": 0, "z": 3.1 },
                   "delay": 1000
                 },
                 "type": "WorldScript"
@@ -1328,7 +1328,7 @@
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 31 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -1360,5 +1360,5 @@
   "origin": null,
   "type": "World",
   "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-  "version": "2.36.5"
+  "version": "2.36.6"
 }

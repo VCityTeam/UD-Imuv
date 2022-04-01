@@ -22,6 +22,13 @@ export class GameObjectUI {
     this.rootElementUI.remove();
   }
 
+  /**
+   * Create a UI for the GameObject
+   * @param go - the GameObject that is being edited
+   * @param obj - the object3D that is being edited
+   * @param goEditor - the GameObjectEditorView instance
+   * @returns Nothing.
+   */
   initBaseUI(go, obj, goEditor) {
     //UUID
     const uuidLabel = document.createElement('div');
@@ -154,6 +161,13 @@ export class GameObjectUI {
     };
   }
 
+  /**
+   * Create a div element with 3 input elements inside, each of which is a number input element
+   * @param vec3 - The vector to create the input for.
+   * @param [cbSetFunc=null] - A callback function that is called when the user changes the value of
+   * the input.
+   * @returns The inputVector3 element.
+   */
   createInputFromVector3(vec3, cbSetFunc = null) {
     const inputVector3 = document.createElement('div');
 
@@ -167,11 +181,9 @@ export class GameObjectUI {
 
       componentElement.onchange = function () {
         const value = parseFloat(componentElement.value);
-        vec3.set(
-          iInput === 0 ? value : vec3.x,
-          iInput === 1 ? value : vec3.y,
-          iInput === 2 ? value : vec3.z
-        );
+        vec3.x = iInput === 0 ? value : vec3.x;
+        vec3.y = iInput === 1 ? value : vec3.y;
+        vec3.z = iInput === 2 ? value : vec3.z;
         if (cbSetFunc) cbSetFunc();
       };
     }
@@ -631,17 +643,68 @@ export class GameObjectUI {
   }
 
   appendWSPortalUI(wS, gV) {
-    const portalInput = document.createElement('div');
+    const portalContent = document.createElement('div');
 
+    const spawnRot = wS['portal'].conf.spawnRotation;
     //spawn rot input
-    const refSpawnRot = wS['portal'].conf.spawnRotation;
-    if (!refSpawnRot) throw new Error('no spawn rotation');
+    if (!spawnRot) throw new Error('no spawn rotation');
 
     const labelSpawnRot = document.createElement('div');
     labelSpawnRot.innerHTML = 'Portal spawn rotation';
-    portalInput.appendChild(labelSpawnRot);
+    portalContent.appendChild(labelSpawnRot);
 
-    portalInput.appendChild(this.createInputFromVector3(refSpawnRot));
+    let transformObject3D;
+    const cbOnChange = function () {
+      if (transformObject3D) {
+        transformObject3D.coneRef.rotation.set(
+          spawnRot.x,
+          spawnRot.y,
+          spawnRot.z
+        );
+      }
+    };
+    portalContent.appendChild(
+      this.createInputFromVector3(spawnRot, cbOnChange)
+    );
+
+    const buttonVisualizeSpawnRotation = document.createElement('button');
+    buttonVisualizeSpawnRotation.innerHTML = 'Visualize Spawn Rotation';
+    portalContent.appendChild(buttonVisualizeSpawnRotation);
+    const _this = this;
+
+    const showHideTransformObject3D = function () {
+      if (transformObject3D) {
+        transformObject3D.removeFromParent();
+        transformObject3D = null;
+        buttonVisualizeSpawnRotation.innerHTML = 'Visualize Spawn Rotation';
+        _this.goEditor.initPointerUpCallback();
+      } else {
+        buttonVisualizeSpawnRotation.innerHTML = 'Hide Visualization';
+        transformObject3D = new THREE.Object3D();
+        transformObject3D.name = 'TransformObject';
+        gV.getScene().add(transformObject3D);
+        gV.setCallbackPointerUp(null);
+
+        const geometry = new THREE.ConeGeometry(0.5, 1, 6);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        const cone = new THREE.Mesh(geometry, material);
+        cone.rotation.set(spawnRot.x, spawnRot.y, spawnRot.z);
+        transformObject3D.add(cone);
+        const posOffset = gV
+          .getObject3D()
+          .position.clone()
+          .add(_this.go.computeWorldTransform().position);
+
+        cone.position.copy(posOffset);
+        gV.orbitControls.target.copy(cone.position);
+        gV.orbitControls.update();
+
+        transformObject3D.coneRef = cone;
+        transformObject3D.updateMatrixWorld();
+      }
+    };
+
+    buttonVisualizeSpawnRotation.onclick = showHideTransformObject3D;
 
     //world uuid
     const worldsJSON = gV.getAssetsManager().getWorldsJSON();
@@ -660,10 +723,10 @@ export class GameObjectUI {
 
     const labelWorlds = document.createElement('div');
     labelWorlds.innerHTML = 'World Destination';
-    portalInput.appendChild(labelWorlds);
+    portalContent.appendChild(labelWorlds);
 
     const selectPortal = document.createElement('select');
-    portalInput.appendChild(selectPortal);
+    portalContent.appendChild(selectPortal);
 
     const createPortalsOptions = function (optGrp, wjson) {
       const worldPortal = new World(wjson);
@@ -714,7 +777,7 @@ export class GameObjectUI {
       }
     }
 
-    this.content.appendChild(portalInput);
+    this.content.appendChild(portalContent);
   }
 
   appendWSTeleporterUI(wS) {
