@@ -98,7 +98,7 @@ module.exports = class CityAvatar {
     const commandIdEscape = 'cmd_escape';
 
     if (value) {
-      // console.warn('add city avatar control');
+      console.warn('add city avatar control');
 
       //FORWARD
       inputManager.addKeyCommand(
@@ -161,7 +161,7 @@ module.exports = class CityAvatar {
         });
       });
     } else {
-      // console.warn('remove city avatar command');
+      console.warn('remove city avatar command');
       inputManager.removeKeyCommand(commandIdForward, ['z', 'ArrowUp']);
       inputManager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
       inputManager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
@@ -174,6 +174,14 @@ module.exports = class CityAvatar {
   onRemove() {
     const localCtx = arguments[1];
     const rootGO = localCtx.getRootGameObject();
+
+    if (
+      localCtx.getGameView().getUserData('avatarUUID') !=
+      this.go.getParentUUID()
+    ) {
+      //ignore city avatar other
+      return;
+    }
 
     this.setCityAvatarController(false, localCtx);
 
