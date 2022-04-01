@@ -29,7 +29,7 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["avatar", "sprite_name", "texture_face"],
+      "idScripts": ["sprite_name", "texture_face"],
       "conf": {
         "isOut": false,
         "name": "default_name",

@@ -13,7 +13,7 @@
         "conf": {
           "mapUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
           "spawnTransform": {
-            "position": [45.7, 53.5, 0],
+            "position": [45.7, 53.5, 0.2],
             "rotation": [0.21799999999999553, 0, 2.441505307179602],
             "scale": [1, 1, 1]
           }
