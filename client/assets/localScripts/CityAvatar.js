@@ -24,6 +24,15 @@ module.exports = class CityAvatar {
     const localCtx = arguments[1];
 
     const rootGO = localCtx.getRootGameObject();
+
+    if (
+      localCtx.getGameView().getUserData('avatarUUID') !=
+      this.go.getParentUUID()
+    ) {
+      //ignore city avatar other
+      return;
+    }
+
     //avatar_controller
     const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
     if (!avatarController) throw new Error('no avatar controller script');
