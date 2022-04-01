@@ -29,12 +29,45 @@ module.exports = class CityAvatar {
     if (!avatarController) throw new Error('no avatar controller script');
 
     //remove avatar controls
-    const avatarUnsetted = avatarController.setAvatarControllerMode(
-      false,
-      localCtx
-    );
+    avatarController.setAvatarControllerMode(false, localCtx);
 
-    this.setCityAvatarController(true, localCtx);
+    const _this = this;
+
+    //routine camera
+    const camera = localCtx.getGameView().getCamera();
+    const cameraScript = rootGO.fetchLocalScripts()['camera'];
+
+    //buffer
+    const duration = 2000;
+    let startPos = camera.position.clone();
+    let startQuat = camera.quaternion.clone();
+    let currentTime = 0;
+
+    //first travelling
+    cameraScript.addRoutine(
+      new Game.Components.Routine(
+        function (dt) {
+          cameraScript.focusCamera.setTarget(_this.go);
+          const t = cameraScript.focusCamera.computeTransformTarget(null, 3);
+
+          currentTime += dt;
+          const ratio = Math.min(Math.max(0, currentTime / duration), 1);
+
+          const p = t.position.lerp(startPos, 1 - ratio);
+          const q = t.quaternion.slerp(startQuat, 1 - ratio);
+
+          camera.position.copy(p);
+          camera.quaternion.copy(q);
+
+          camera.updateProjectionMatrix();
+
+          return ratio >= 1;
+        },
+        function () {
+          _this.setCityAvatarController(true, localCtx);
+        }
+      )
+    );
   }
 
   setCityAvatarController(value, localContext) {
