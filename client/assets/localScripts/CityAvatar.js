@@ -1,7 +1,6 @@
 /**@format */
 
 const udvizType = require('ud-viz');
-const { Command } = require('ud-viz/src/Game/Game');
 /** @type {udvizType} */
 let udviz = null;
 const GameType = require('ud-viz/src/Game/Game');
