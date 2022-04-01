@@ -252,18 +252,36 @@ module.exports = class CityAvatar {
       }
     }
 
-    const userID = localContext.getGameView().getUserData('userID');
-    const websocketService = localContext.getWebSocketService();
-    websocketService.emit(
-      Game.Components.Constants.WEBSOCKET.MSG_TYPES.COMMANDS,
-      [
-        {
+    const editorMode = localContext.getGameView().getUserData('editorMode');
+
+    if (editorMode) {
+      //add commands to the computer directly because not produce by the inputmanager
+      const computer = localContext
+        .getGameView()
+        .getInterpolator()
+        .getLocalComputer();
+
+      computer.onCommands([
+        new Game.Command({
           type: 'z_update',
           gameObjectUUID: go.getUUID(),
-          userID: userID,
           data: z - zParent + zOffset,
-        },
-      ]
-    );
+        }),
+      ]);
+    } else {
+      const userID = localContext.getGameView().getUserData('userID');
+      const websocketService = localContext.getWebSocketService();
+      websocketService.emit(
+        Game.Components.Constants.WEBSOCKET.MSG_TYPES.COMMANDS,
+        [
+          {
+            type: 'z_update',
+            gameObjectUUID: go.getUUID(),
+            userID: userID,
+            data: z - zParent + zOffset,
+          },
+        ]
+      );
+    }
   }
 };
