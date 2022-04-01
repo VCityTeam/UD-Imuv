@@ -71,7 +71,7 @@ module.exports = class Controller {
     const commandIdRight = 'cmd_right';
 
     if (value) {
-      // console.warn('add avatar control');
+      console.warn('add avatar control');
 
       const userID = gameView.getUserData('userID');
       const gameObjectToCtrlUUID = gameView.getUserData('avatarUUID');
@@ -230,7 +230,7 @@ module.exports = class Controller {
         return null;
       });
     } else {
-      // console.warn('remove avatar command');
+      console.warn('remove avatar command');
       manager.removeKeyCommand(commandIdForward, ['z', 'ArrowUp']);
       manager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
       manager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
