@@ -175,7 +175,7 @@ module.exports = class Avatar {
         elevationComputed = true;
 
         if (isOut) {
-          this.createCityAvatar(worldContext, gameObject);
+          this.createCityAvatar(worldContext);
         }
       }
     }
@@ -183,17 +183,17 @@ module.exports = class Avatar {
     if (!elevationComputed) scriptMap.updateElevation(gameObject);
   }
 
-  createCityAvatar(worldContext, gameObject) {
+  createCityAvatar(worldContext) {
     if (this.cityAvatar) return;
 
     //reset rotation
-    gameObject.setRotation(new Game.THREE.Vector3(0, 0, 0));
+    this.go.setRotation(new Game.THREE.Vector3(0, 0, 0));
 
     //freeze
-    gameObject.setFreeze(true); //freeze
+    this.go.setFreeze(true); //freeze
 
     //invisible
-    gameObject.getComponent(Game.LocalScript.TYPE).conf.visible = false;
+    this.go.getComponent(Game.LocalScript.TYPE).conf.visible = false;
 
     //add a city avatar
     this.cityAvatar = worldContext
@@ -201,7 +201,7 @@ module.exports = class Avatar {
       .createPrefab('city_avatar');
 
     //copy render comp
-    const renderCompJSON = gameObject.getComponent(Game.Render.TYPE).toJSON();
+    const renderCompJSON = this.go.getComponent(Game.Render.TYPE).toJSON();
     this.cityAvatar.setComponent(
       Game.Render.TYPE,
       new Game.Render(this.cityAvatar, renderCompJSON)
@@ -209,13 +209,13 @@ module.exports = class Avatar {
 
     //copy name
     this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.name =
-      gameObject.getComponent(Game.LocalScript.TYPE).conf.name;
+      this.go.getComponent(Game.LocalScript.TYPE).conf.name;
 
     console.log(this.cityAvatar.getUUID(), 'added');
 
     worldContext
       .getWorld()
-      .addGameObject(this.cityAvatar, worldContext, gameObject);
+      .addGameObject(this.cityAvatar, worldContext, this.go);
 
     //clear cmds
     for (let id in this.commands) {
