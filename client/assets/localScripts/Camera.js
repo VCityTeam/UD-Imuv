@@ -144,13 +144,14 @@ module.exports = class Camera {
     const localCtx = arguments[1];
 
     //if not initialized look for avatar go
+    let cityAvatar = null;
     if (!this.avatarGO) {
       this.avatarGO = localCtx
         .getRootGameObject()
         .find(localCtx.getGameView().getUserData('avatarUUID'));
+    } else {
+      cityAvatar = this.avatarGO.findByName('city_avatar');
     }
-
-    const cityAvatar = this.avatarGO.findByName('city_avatar');
 
     if (!this.zeppelinGO) {
       this.zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');

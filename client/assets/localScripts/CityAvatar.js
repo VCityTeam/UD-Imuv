@@ -15,48 +15,134 @@ module.exports = class CityAvatar {
     Game = udviz.Game;
 
     this.raycaster = new udviz.THREE.Raycaster();
+
+    this.go = null;
   }
 
   init() {
-    const localContext = arguments[1];
+    this.go = arguments[0];
+    const localCtx = arguments[1];
+
+    const rootGO = localCtx.getRootGameObject();
+    //avatar_controller
+    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    if (!avatarController) throw new Error('no avatar controller script');
+
+    //remove avatar controls
+    const avatarUnsetted = avatarController.setAvatarControllerMode(
+      false,
+      localCtx
+    );
+
+    this.setCityAvatarController(true, localCtx);
+  }
+
+  setCityAvatarController(value, localContext) {
+    const avatarUUID = localContext.getGameView().getUserData('avatarUUID');
+    if (this.go.getParent().getUUID() != avatarUUID) return; //only controls its own city avatar
+
+    const goUUID = this.go.getUUID();
+    const parentGoUUID = this.go.getParentUUID();
+
+    const userID = localContext.getGameView().getUserData('userID');
 
     //Input manager of the game
     const inputManager = localContext.getGameView().getInputManager();
 
-    //FORWARD
-    inputManager.addKeyCommand(
-      Game.Command.TYPE.MOVE_FORWARD,
-      ['z', 'ArrowUp'],
-      function () {
-        return new Game.Command({ type: Game.Command.TYPE.MOVE_FORWARD });
-      }
-    );
+    const commandIdForward = 'cmd_forward';
+    const commandIdBackward = 'cmd_backward';
+    const commandIdLeft = 'cmd_left';
+    const commandIdRight = 'cmd_right';
+    const commandIdEscape = 'cmd_escape';
 
-    //BACKWARD
-    inputManager.addKeyCommand(
-      Game.Command.TYPE.MOVE_BACKWARD,
-      ['s', 'ArrowDown'],
-      function () {
-        return new Game.Command({ type: Game.Command.TYPE.MOVE_BACKWARD });
-      }
-    );
+    if (value) {
+      // console.warn('add city avatar control');
 
-    //LEFT
-    inputManager.addKeyCommand(
-      Game.Command.TYPE.MOVE_LEFT,
-      ['q', 'ArrowLeft'],
-      function () {
-        return new Game.Command({ type: Game.Command.TYPE.MOVE_LEFT });
-      }
-    );
+      //FORWARD
+      inputManager.addKeyCommand(
+        commandIdForward,
+        ['z', 'ArrowUp'],
+        function () {
+          return new Game.Command({
+            gameObjectUUID: goUUID,
+            userID: userID,
+            type: Game.Command.TYPE.MOVE_FORWARD,
+          });
+        }
+      );
 
-    //RIGHT
-    inputManager.addKeyCommand(
-      Game.Command.TYPE.MOVE_RIGHT,
-      ['d', 'ArrowRight'],
-      function () {
-        return new Game.Command({ type: Game.Command.TYPE.MOVE_RIGHT });
-      }
+      //BACKWARD
+      inputManager.addKeyCommand(
+        commandIdBackward,
+        ['s', 'ArrowDown'],
+        function () {
+          return new Game.Command({
+            gameObjectUUID: goUUID,
+            userID: userID,
+            type: Game.Command.TYPE.MOVE_BACKWARD,
+          });
+        }
+      );
+
+      //LEFT
+      inputManager.addKeyCommand(
+        commandIdLeft,
+        ['q', 'ArrowLeft'],
+        function () {
+          return new Game.Command({
+            gameObjectUUID: goUUID,
+            userID: userID,
+            type: Game.Command.TYPE.MOVE_LEFT,
+          });
+        }
+      );
+
+      //RIGHT
+      inputManager.addKeyCommand(
+        commandIdRight,
+        ['d', 'ArrowRight'],
+        function () {
+          return new Game.Command({
+            gameObjectUUID: goUUID,
+            userID: userID,
+            type: Game.Command.TYPE.MOVE_RIGHT,
+          });
+        }
+      );
+
+      //Esc city avatar mode
+      inputManager.addKeyCommand(commandIdEscape, ['Escape'], function () {
+        return new Game.Command({
+          gameObjectUUID: parentGoUUID,
+          userID: userID,
+          type: Game.Command.TYPE.ESCAPE,
+        });
+      });
+    } else {
+      // console.warn('remove city avatar command');
+      inputManager.removeKeyCommand(commandIdForward, ['z', 'ArrowUp']);
+      inputManager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
+      inputManager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
+      inputManager.removeKeyCommand(commandIdLeft, ['q', 'ArrowLeft']);
+      inputManager.removeKeyCommand(commandIdEscape, ['Escape']);
+      inputManager.setPointerLock(false);
+    }
+  }
+
+  onRemove() {
+    const localCtx = arguments[1];
+    const rootGO = localCtx.getRootGameObject();
+
+    this.setCityAvatarController(false, localCtx);
+
+    //avatar_controller
+    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    if (!avatarController) throw new Error('no avatar controller script');
+
+    //restore avatar controls
+    const avatarSetted = avatarController.setAvatarControllerMode(
+      true,
+      localCtx
     );
   }
 

@@ -22,6 +22,8 @@ module.exports = class Avatar {
     //commands buffer
     this.commands = {};
 
+    this.go = null;
+
     //city avatar go
     this.cityAvatar = null;
   }
@@ -29,15 +31,22 @@ module.exports = class Avatar {
   init() {
     const go = arguments[0];
 
+    this.go = go;
+
     //spawn
-    const gm = go.computeRoot(); //root is gm
-    const script = gm.fetchWorldScripts()['worldGameManager'];
-    go.setFromTransformJSON(script.getSpawnTransform());
+    this.spawn();
 
     //init commands
     for (let type in Game.Command.TYPE) {
       this.commands[Game.Command.TYPE[type]] = [];
     }
+  }
+
+  spawn() {
+    //spawn
+    const gm = this.go.computeRoot(); //root is gm
+    const script = gm.fetchWorldScripts()['worldGameManager'];
+    this.go.setFromTransformJSON(script.getSpawnTransform());
   }
 
   fetchCommands(commands, gameObject) {
@@ -53,6 +62,14 @@ module.exports = class Avatar {
     }
 
     const cmds = this.commands;
+
+    //no more that one
+    if (cmds[Game.Command.TYPE.ESCAPE].length)
+      cmds[Game.Command.TYPE.ESCAPE].splice(
+        1,
+        cmds[Game.Command.TYPE.ESCAPE].length - 1
+      );
+
     const filterCommands = function (idStart, idEnd) {
       const moveStart = cmds[idStart];
       const moveEnd = cmds[idEnd];
@@ -146,6 +163,10 @@ module.exports = class Avatar {
             this.clampRotation(gameObject);
             cmds.shift(); //remove one by one
             break;
+          case Command.TYPE.ESCAPE:
+            this.removeCityAvatar(worldContext);
+            cmds.shift();
+            return; //no more command apply for this frame
           default:
         }
 
@@ -153,28 +174,61 @@ module.exports = class Avatar {
         const isOut = !scriptMap.updateElevation(gameObject);
         elevationComputed = true;
 
-        //inform local
-        const ls = gameObject.getComponent(Game.LocalScript.TYPE);
-        ls.conf.isOut = isOut;
-
         if (isOut) {
-          gameObject.setFreeze(true); //freeze
-
-          if (!this.cityAvatar) {
-            //add a city avatar
-            this.cityAvatar = worldContext
-              .getAssetsManager()
-              .createPrefab('city_avatar');
-
-            worldContext
-              .getWorld()
-              .addGameObject(this.cityAvatar, worldContext, gameObject);
-          }
+          this.createCityAvatar(worldContext, gameObject);
         }
       }
     }
 
     if (!elevationComputed) scriptMap.updateElevation(gameObject);
+  }
+
+  createCityAvatar(worldContext, gameObject) {
+    if (this.cityAvatar) return;
+
+    //reset rotation
+    gameObject.setRotation(new Game.THREE.Vector3(0, 0, 0));
+
+    //freeze
+    gameObject.setFreeze(true); //freeze
+
+    //add a city avatar
+    this.cityAvatar = worldContext
+      .getAssetsManager()
+      .createPrefab('city_avatar');
+
+    //copy render comp
+    const renderCompJSON = gameObject.getComponent(Game.Render.TYPE).toJSON();
+    this.cityAvatar.setComponent(
+      Game.Render.TYPE,
+      new Game.Render(this.cityAvatar, renderCompJSON)
+    );
+
+    //copy name
+    this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.name =
+      gameObject.getComponent(Game.LocalScript.TYPE).conf.name;
+
+    console.log(this.cityAvatar.getUUID(), 'added');
+
+    worldContext
+      .getWorld()
+      .addGameObject(this.cityAvatar, worldContext, gameObject);
+
+    //clear cmds
+    for (let id in this.commands) {
+      this.commands[id].length = 0;
+    }
+  }
+
+  removeCityAvatar(worldContext) {
+    if (!this.cityAvatar) return; //already remove
+
+    worldContext.getWorld().removeGameObject(this.cityAvatar.getUUID());
+    this.cityAvatar = null;
+    this.go.setFreeze(false);
+    this.spawn();
+
+    this.go.setOutdated(true);
   }
 
   clampRotation(gameObject) {

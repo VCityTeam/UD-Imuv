@@ -13,8 +13,17 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["city_avatar"],
-      "conf": {},
+      "idScripts": ["city_avatar", "sprite_name", "texture_face"],
+      "conf": {
+        "isOut": false,
+        "name": "default_name",
+        "index_face_texture": 0,
+        "face_textures": [
+          "./assets/textures/chat.png",
+          "./assets/textures/Yael.png",
+          "./assets/textures/Did.png"
+        ]
+      },
       "type": "LocalScript"
     }
   },
