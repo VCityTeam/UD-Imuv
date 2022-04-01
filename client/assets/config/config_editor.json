@@ -52,8 +52,8 @@
       "switch_itowns": {
         "path": "./assets/localScripts/SwitchItowns.js"
       },
-      "avatar": {
-        "path": "./assets/localScripts/Avatar.js"
+      "city_avatar": {
+        "path": "./assets/localScripts/CityAvatar.js"
       },
       "camera": {
         "path": "./assets/localScripts/Camera.js"
@@ -158,6 +158,9 @@
     "worldScripts": {
       "avatar": {
         "path": "./assets/worldScripts/Avatar.js"
+      },
+      "city_avatar": {
+        "path": "./assets/worldScripts/CityAvatar.js"
       },
       "zeppelin": {
         "path": "./assets/worldScripts/Zeppelin.js"
