@@ -52,6 +52,9 @@
       "switch_itowns": {
         "path": "./assets/localScripts/SwitchItowns.js"
       },
+      "visible": {
+        "path": "./assets/localScripts/Visible.js"
+      },
       "city_avatar": {
         "path": "./assets/localScripts/CityAvatar.js"
       },

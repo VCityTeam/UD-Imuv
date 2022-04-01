@@ -192,6 +192,9 @@ module.exports = class Avatar {
     //freeze
     gameObject.setFreeze(true); //freeze
 
+    //invisible
+    gameObject.getComponent(Game.LocalScript.TYPE).conf.visible = false;
+
     //add a city avatar
     this.cityAvatar = worldContext
       .getAssetsManager()
@@ -227,6 +230,9 @@ module.exports = class Avatar {
     this.cityAvatar = null;
     this.go.setFreeze(false);
     this.spawn();
+
+    //invisible
+    this.go.getComponent(Game.LocalScript.TYPE).conf.visible = true;
 
     this.go.setOutdated(true);
   }
