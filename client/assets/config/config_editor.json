@@ -228,7 +228,7 @@
   },
   "game": {
     "fps": 30,
-    "radiusExtent": 1000,
+    "radiusExtent": 5500,
     "shadowMapSize": 2048,
     "sky": {
       "path": "./assets/img/sky.jpg",
