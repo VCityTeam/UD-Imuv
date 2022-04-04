@@ -4,6 +4,12 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
+const AVATAR_SPEED_MOVE = 0.03;
+const AVATAR_SPEED_ROTATION_Z = 0.00005;
+const AVATAR_SPEED_ROTATION_X = 0.00003;
+const AVATAR_ANGLE_MIN = Math.PI / 5;
+const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
+
 module.exports = class CityAvatar {
   constructor(conf, GameModule) {
     this.conf = conf;
@@ -17,24 +23,47 @@ module.exports = class CityAvatar {
     const worldContext = arguments[1];
     const dt = worldContext.getDt();
     const commands = worldContext.getCommands();
-    const speedTranslate = 0.04;
-    const speedRotate = 0.003;
 
     for (let index = commands.length - 1; index >= 0; index--) {
       const cmd = commands[index];
       if (cmd.getGameObjectUUID() == go.getUUID()) {
         switch (cmd.getType()) {
           case Game.Command.TYPE.MOVE_FORWARD:
-            go.move(go.computeForwardVector().setLength(dt * speedTranslate));
+            go.move(
+              go.computeForwardVector().setLength(dt * AVATAR_SPEED_MOVE)
+            );
             break;
           case Game.Command.TYPE.MOVE_BACKWARD:
-            go.move(go.computeBackwardVector().setLength(dt * speedTranslate));
+            go.move(
+              go.computeBackwardVector().setLength(dt * AVATAR_SPEED_MOVE * 0.3)
+            );
             break;
           case Game.Command.TYPE.MOVE_LEFT:
-            go.rotate(new Game.THREE.Vector3(0, 0, speedRotate * dt));
+            go.move(
+              go
+                .computeForwardVector()
+                .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), Math.PI * 0.5)
+                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
+            );
             break;
           case Game.Command.TYPE.MOVE_RIGHT:
-            go.rotate(new Game.THREE.Vector3(0, 0, -speedRotate * dt));
+            go.move(
+              go
+                .computeForwardVector()
+                .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
+                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
+            );
+            break;
+          case Game.Command.TYPE.ROTATE:
+            const vectorJSON = cmd.getData().vector;
+            const vector = new Game.THREE.Vector3(
+              vectorJSON.x * AVATAR_SPEED_ROTATION_X,
+              vectorJSON.y,
+              vectorJSON.z * AVATAR_SPEED_ROTATION_Z
+            );
+            go.rotate(vector.multiplyScalar(dt));
+            this.clampRotation(go);
+            commands.unshift(); //remove one by one
             break;
           case Game.Command.TYPE.Z_UPDATE:
             const z = cmd.getData();
@@ -49,6 +78,20 @@ module.exports = class CityAvatar {
         }
         commands.splice(index, 1);
       }
+    }
+  }
+
+  clampRotation(gameObject) {
+    //clamp
+    const rotation = gameObject.getRotation();
+    rotation.y = 0;
+    //borne between 0 => 2pi
+    const angle1 = AVATAR_ANGLE_MIN;
+    const angle2 = AVATAR_ANGLE_MAX;
+    if (rotation.x > Math.PI) {
+      rotation.x = Math.max(rotation.x, angle2);
+    } else {
+      rotation.x = Math.min(angle1, rotation.x);
     }
   }
 };

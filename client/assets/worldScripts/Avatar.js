@@ -119,8 +119,6 @@ module.exports = class Avatar {
       if (cmds.length) {
         const cmd = cmds[0];
 
-        const oldPosition = gameObject.getPosition().clone();
-
         switch (cmd.getType()) {
           case Command.TYPE.MOVE_FORWARD_START:
             gameObject.move(
@@ -211,7 +209,12 @@ module.exports = class Avatar {
     this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.name =
       this.go.getComponent(Game.LocalScript.TYPE).conf.name;
 
-    console.log(this.cityAvatar.getUUID(), 'added');
+    //index texture
+    this.cityAvatar.getComponent(
+      Game.LocalScript.TYPE
+    ).conf.index_face_texture = this.go.getComponent(
+      Game.LocalScript.TYPE
+    ).conf.index_face_texture;
 
     worldContext
       .getWorld()
