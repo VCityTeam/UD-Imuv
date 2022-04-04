@@ -16,6 +16,10 @@ module.exports = class CityAvatar {
     this.raycaster = new udviz.THREE.Raycaster();
 
     this.go = null;
+
+    this.labelInfo = document.createElement('div');
+    this.labelInfo.classList.add('label-menu-settings');
+    this.labelInfo.innerHTML = 'Press E to return to the campus';
   }
 
   init() {
@@ -73,6 +77,7 @@ module.exports = class CityAvatar {
         },
         function () {
           _this.setCityAvatarController(true, localCtx);
+          localCtx.getGameView().appendToUI(_this.labelInfo);
         }
       )
     );
@@ -218,6 +223,7 @@ module.exports = class CityAvatar {
     }
 
     this.setCityAvatarController(false, localCtx);
+    this.labelInfo.remove();
 
     //routine camera
     const camera = localCtx.getGameView().getCamera();
