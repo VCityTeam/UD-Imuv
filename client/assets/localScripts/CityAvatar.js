@@ -104,6 +104,7 @@ module.exports = class CityAvatar {
         commandIdForward,
         ['z', 'ArrowUp'],
         function () {
+          inputManager.setPointerLock(true);
           return new Game.Command({
             gameObjectUUID: goUUID,
             userID: userID,
@@ -117,6 +118,7 @@ module.exports = class CityAvatar {
         commandIdBackward,
         ['s', 'ArrowDown'],
         function () {
+          inputManager.setPointerLock(true);
           return new Game.Command({
             gameObjectUUID: goUUID,
             userID: userID,
@@ -130,6 +132,7 @@ module.exports = class CityAvatar {
         commandIdLeft,
         ['q', 'ArrowLeft'],
         function () {
+          inputManager.setPointerLock(true);
           return new Game.Command({
             gameObjectUUID: goUUID,
             userID: userID,
@@ -143,6 +146,7 @@ module.exports = class CityAvatar {
         commandIdRight,
         ['d', 'ArrowRight'],
         function () {
+          inputManager.setPointerLock(true);
           return new Game.Command({
             gameObjectUUID: goUUID,
             userID: userID,
@@ -150,6 +154,36 @@ module.exports = class CityAvatar {
           });
         }
       );
+
+      //ROTATE
+      inputManager.addMouseCommand('mousemove', function () {
+        if (
+          inputManager.getPointerLock() ||
+          (this.isDragging() && !inputManager.getPointerLock())
+        ) {
+          const event = this.event('mousemove');
+          if (event.movementX != 0 || event.movementY != 0) {
+            let pixelX = -event.movementX;
+            let pixelY = -event.movementY;
+
+            if (this.isDragging()) {
+              const dragRatio = 2; //TODO conf ?
+              pixelX *= dragRatio;
+              pixelY *= dragRatio;
+            }
+
+            return new Game.Command({
+              type: Game.Command.TYPE.ROTATE,
+              data: {
+                vector: new Game.THREE.Vector3(pixelY, 0, pixelX),
+              },
+              userID: userID,
+              gameObjectUUID: goUUID,
+            });
+          }
+        }
+        return null;
+      });
 
       //Esc city avatar mode
       inputManager.addKeyCommand(commandIdEscape, ['Escape'], function () {
@@ -165,6 +199,7 @@ module.exports = class CityAvatar {
       inputManager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
       inputManager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
       inputManager.removeKeyCommand(commandIdLeft, ['q', 'ArrowLeft']);
+      inputManager.removeMouseCommand('mousemove');
       inputManager.removeKeyCommand(commandIdEscape, ['Escape']);
       inputManager.setPointerLock(false);
     }
@@ -189,10 +224,7 @@ module.exports = class CityAvatar {
     if (!avatarController) throw new Error('no avatar controller script');
 
     //restore avatar controls
-    const avatarSetted = avatarController.setAvatarControllerMode(
-      true,
-      localCtx
-    );
+    avatarController.setAvatarControllerMode(true, localCtx);
   }
 
   tick() {

@@ -44,8 +44,6 @@ module.exports = class Controller {
       manager.setPointerLock(false);
     });
 
-    manager.listenKeys(['c']);
-
     if (!localCtx.getGameView().getUserData('firstGameView')) {
       //work with camera localscript
       this.setAvatarControllerMode(true, localCtx);
