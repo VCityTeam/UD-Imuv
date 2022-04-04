@@ -653,58 +653,57 @@ export class GameObjectUI {
     labelSpawnRot.innerHTML = 'Portal spawn rotation';
     portalContent.appendChild(labelSpawnRot);
 
-    let transformObject3D;
-    const cbOnChange = function () {
-      if (transformObject3D) {
-        transformObject3D.coneRef.rotation.set(
-          spawnRot.x,
-          spawnRot.y,
-          spawnRot.z
-        );
-      }
-    };
-    portalContent.appendChild(
-      this.createInputFromVector3(spawnRot, cbOnChange)
-    );
-
-    const buttonVisualizeSpawnRotation = document.createElement('button');
-    buttonVisualizeSpawnRotation.innerHTML = 'Visualize Spawn Rotation';
-    portalContent.appendChild(buttonVisualizeSpawnRotation);
+    const buttonChangeSpawnRotation = document.createElement('button');
+    buttonChangeSpawnRotation.innerHTML = 'Change Spawn Rotation';
+    portalContent.appendChild(buttonChangeSpawnRotation);
     const _this = this;
 
-    const showHideTransformObject3D = function () {
-      if (transformObject3D) {
-        transformObject3D.removeFromParent();
-        transformObject3D = null;
-        buttonVisualizeSpawnRotation.innerHTML = 'Visualize Spawn Rotation';
-        _this.goEditor.initPointerUpCallback();
-      } else {
-        buttonVisualizeSpawnRotation.innerHTML = 'Hide Visualization';
-        transformObject3D = new THREE.Object3D();
-        transformObject3D.name = 'TransformObject';
-        gV.getScene().add(transformObject3D);
-        gV.setCallbackPointerUp(null);
+    buttonChangeSpawnRotation.onclick = function () {
+      const cloneClearUiEditor = document.createElement('div');
+      cloneClearUiEditor.classList.add('ui_Editor');
+      _this.goEditor.ui.offsetParent.parentElement.appendChild(
+        cloneClearUiEditor
+      );
 
-        const geometry = new THREE.ConeGeometry(0.5, 1, 6);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        const cone = new THREE.Mesh(geometry, material);
+      const transformObject3D = new THREE.Object3D();
+      transformObject3D.name = 'TransformObject';
+      gV.getScene().add(transformObject3D);
+      gV.setCallbackPointerUp(null);
+
+      const geometry = new THREE.ConeGeometry(0.5, 1, 6);
+      const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      const cone = new THREE.Mesh(geometry, material);
+      cone.rotation.set(spawnRot.x, spawnRot.y, spawnRot.z);
+      transformObject3D.add(cone);
+
+      const posOffset = gV
+        .getObject3D()
+        .position.clone()
+        .add(_this.go.computeWorldTransform().position);
+
+      cone.position.copy(posOffset);
+      gV.orbitControls.target.copy(cone.position);
+      gV.orbitControls.update();
+
+      const cbOnChange = function () {
         cone.rotation.set(spawnRot.x, spawnRot.y, spawnRot.z);
-        transformObject3D.add(cone);
-        const posOffset = gV
-          .getObject3D()
-          .position.clone()
-          .add(_this.go.computeWorldTransform().position);
+      };
 
-        cone.position.copy(posOffset);
-        gV.orbitControls.target.copy(cone.position);
-        gV.orbitControls.update();
+      cloneClearUiEditor.appendChild(
+        _this.createInputFromVector3(spawnRot, cbOnChange)
+      );
 
-        transformObject3D.coneRef = cone;
-        transformObject3D.updateMatrixWorld();
-      }
+      const validateButton = document.createElement('button');
+      validateButton.innerHTML = 'VALIDATE';
+      validateButton.classList = 'validate_button';
+      cloneClearUiEditor.appendChild(validateButton);
+      validateButton.onclick = function () {
+        transformObject3D.removeFromParent();
+        cloneClearUiEditor.remove();
+      };
+
+      transformObject3D.updateMatrixWorld();
     };
-
-    buttonVisualizeSpawnRotation.onclick = showHideTransformObject3D;
 
     //world uuid
     const worldsJSON = gV.getAssetsManager().getWorldsJSON();

@@ -252,7 +252,7 @@
                   "spawnRotation": {
                     "x": 0.05486912109374398,
                     "y": 0,
-                    "z": 2.1576852042029397
+                    "z": 4.8
                   },
                   "delay": 1000
                 },
@@ -484,7 +484,7 @@
           "LocalScript": {
             "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 30 },
             "type": "LocalScript"
           },
           "WorldScript": {
