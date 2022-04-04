@@ -93,8 +93,6 @@ module.exports = class SwitchItowns {
 
                 camera.updateProjectionMatrix();
 
-                view.notifyChange(); //trigger camera event
-
                 return ratio >= 1;
               },
               function () {
@@ -108,6 +106,12 @@ module.exports = class SwitchItowns {
             )
           );
         } else {
+          const unsetted = avatarController.setAvatarControllerMode(
+            false,
+            localCtx
+          );
+          if (!unsetted) return; //only switch when avatar controller are removed
+
           if (!_this.itownsCamPos && !_this.itownsCamQuat) {
             //first time camera in sky
 
@@ -121,7 +125,9 @@ module.exports = class SwitchItowns {
             );
 
             //look down
-            const endQuaternion = new Game.THREE.Quaternion();
+            const endQuaternion = new Game.THREE.Quaternion().setFromEuler(
+              new Game.THREE.Euler(0.01, 0, 0)
+            );
 
             _this.itownsCamPos = endPosition;
             _this.itownsCamQuat = endQuaternion;
@@ -144,8 +150,6 @@ module.exports = class SwitchItowns {
 
                 camera.updateProjectionMatrix();
 
-                view.notifyChange(); //trigger camera event
-
                 return ratio >= 1;
               },
               function () {
@@ -158,8 +162,6 @@ module.exports = class SwitchItowns {
                   focusOnMouseClick: false,
                   zoomFactor: 0.9, //TODO working ?
                 });
-
-                avatarController.setAvatarControllerMode(false, localCtx);
 
                 _this.menuWidgets = new MenuWidgets(localCtx);
               }
