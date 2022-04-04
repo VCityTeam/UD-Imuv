@@ -47,6 +47,10 @@ module.exports = class Camera {
     }
   }
 
+  getAvatarGO() {
+    return this.avatarGO;
+  }
+
   fetchStaticObject(go) {
     const scriptStaticObject = go.fetchLocalScripts()['static_object'];
     return scriptStaticObject.getObject();

@@ -186,7 +186,7 @@ module.exports = class CityAvatar {
       });
 
       //Esc city avatar mode
-      inputManager.addKeyCommand(commandIdEscape, ['Escape'], function () {
+      inputManager.addKeyCommand(commandIdEscape, ['e'], function () {
         return new Game.Command({
           gameObjectUUID: parentGoUUID,
           userID: userID,
@@ -200,7 +200,7 @@ module.exports = class CityAvatar {
       inputManager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
       inputManager.removeKeyCommand(commandIdLeft, ['q', 'ArrowLeft']);
       inputManager.removeMouseCommand('mousemove');
-      inputManager.removeKeyCommand(commandIdEscape, ['Escape']);
+      inputManager.removeKeyCommand(commandIdEscape, ['e']);
       inputManager.setPointerLock(false);
     }
   }
@@ -219,12 +219,46 @@ module.exports = class CityAvatar {
 
     this.setCityAvatarController(false, localCtx);
 
-    //avatar_controller
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
-    if (!avatarController) throw new Error('no avatar controller script');
+    //routine camera
+    const camera = localCtx.getGameView().getCamera();
+    const cameraScript = rootGO.fetchLocalScripts()['camera'];
 
-    //restore avatar controls
-    avatarController.setAvatarControllerMode(true, localCtx);
+    //buffer
+    const duration = 2000;
+    let startPos = camera.position.clone();
+    let startQuat = camera.quaternion.clone();
+    let currentTime = 0;
+
+    //first travelling
+    cameraScript.addRoutine(
+      new Game.Components.Routine(
+        function (dt) {
+          cameraScript.focusCamera.setTarget(cameraScript.getAvatarGO());
+          const t = cameraScript.focusCamera.computeTransformTarget(null, 3);
+
+          currentTime += dt;
+          const ratio = Math.min(Math.max(0, currentTime / duration), 1);
+
+          const p = t.position.lerp(startPos, 1 - ratio);
+          const q = t.quaternion.slerp(startQuat, 1 - ratio);
+
+          camera.position.copy(p);
+          camera.quaternion.copy(q);
+
+          camera.updateProjectionMatrix();
+
+          return ratio >= 1;
+        },
+        function () {
+          //avatar_controller
+          const avatarController =
+            rootGO.fetchLocalScripts()['avatar_controller'];
+          if (!avatarController) throw new Error('no avatar controller script');
+          //restore avatar controls
+          avatarController.setAvatarControllerMode(true, localCtx);
+        }
+      )
+    );
   }
 
   tick() {
