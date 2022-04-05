@@ -268,9 +268,35 @@ class Focus {
     if (this.isTPV && obstacle) {
       //compute intersection
       this.raycaster.set(position, dir.clone().negate());
-      const intersects = this.raycaster.intersectObject(obstacle, true);
+      let intersects = this.raycaster.intersectObject(obstacle, true);
       if (intersects.length) {
         distance = Math.min(distance, intersects[0].distance);
+      }
+
+      const right = dir
+        .clone()
+        .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), -Math.PI * 0.5);
+
+      this.raycaster.set(position, right.clone().negate());
+      intersects = this.raycaster.intersectObject(obstacle, true);
+      if (
+        intersects.length &&
+        intersects[0].distance < Math.tan(this.camera.fov) * distance
+      ) {
+        position.add(right.setLength(intersects[0].distance));
+      }
+
+      const left = dir
+        .clone()
+        .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), Math.PI * 0.5);
+
+      this.raycaster.set(position, left.clone().negate());
+      intersects = this.raycaster.intersectObject(obstacle, true);
+      if (
+        intersects.length &&
+        intersects[0].distance < Math.tan(this.camera.fov) * distance
+      ) {
+        position.add(left.setLength(intersects[0].distance));
       }
     }
 
