@@ -69,10 +69,31 @@ module.exports = class ZeppelinStart {
     const _this = this;
     const rootGO = localCtx.getRootGameObject();
     const manager = localCtx.getGameView().getInputManager();
+    const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
+    const ws = localCtx.getWebSocketService();
+    const avatarGO = rootGO.find(avatarUUID);
+    const localScriptAvatar = avatarGO.getComponent(
+      udviz.Game.LocalScript.TYPE
+    );
+
+    if (!ws) {
+      console.warn('no websocket service');
+      return;
+    }
 
     if (this.onZeppelinInteraction) return; //nothing should happen
 
     this.onZeppelinInteraction = true;
+
+    ws.emit(
+      udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
+      {
+        goUUID: avatarGO.getUUID(),
+        componentUUID: localScriptAvatar.getUUID(),
+        key: 'visible',
+        value: false,
+      }
+    );
 
     //avatar_controller
     const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
@@ -88,7 +109,6 @@ module.exports = class ZeppelinStart {
 
     //check locally if there is a different pilot still in game
     const pilotUUID = this.conf.pilotUUID;
-    const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
     const inGame = rootGO.find(pilotUUID);
 
     if (pilotUUID && inGame && pilotUUID != avatarUUID) {
@@ -110,6 +130,17 @@ module.exports = class ZeppelinStart {
         //no on zeppelin anymore
         _this.onZeppelinInteraction = false;
 
+        ws.emit(
+          udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES
+            .EDIT_CONF_COMPONENT,
+          {
+            goUUID: avatarGO.getUUID(),
+            componentUUID: localScriptAvatar.getUUID(),
+            key: 'visible',
+            value: true,
+          }
+        );
+
         //remove cb
         manager.removeInputListener(cb);
       };
@@ -129,14 +160,6 @@ module.exports = class ZeppelinStart {
         //scope variables need to edit conf server side
         const goUUID = this.go.getUUID();
         const ls = this.go.getComponent(udviz.Game.LocalScript.TYPE);
-
-        //websocket service
-        const ws = localCtx.getWebSocketService();
-
-        if (!ws) {
-          console.warn('no websocket service');
-          return;
-        }
 
         //edit server side
         ws.emit(
@@ -171,6 +194,17 @@ module.exports = class ZeppelinStart {
 
           //no on zeppelin anymore
           _this.onZeppelinInteraction = false;
+
+          ws.emit(
+            udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES
+              .EDIT_CONF_COMPONENT,
+            {
+              goUUID: avatarGO.getUUID(),
+              componentUUID: localScriptAvatar.getUUID(),
+              key: 'visible',
+              value: true,
+            }
+          );
 
           //remove cb
           manager.removeInputListener(cb);
