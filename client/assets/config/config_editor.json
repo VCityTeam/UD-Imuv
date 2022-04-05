@@ -125,15 +125,23 @@
       },
       "avatar_petit": {
         "path": "./assets/models/Avatar_petit.glb",
-        "anchor": "center_min"
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 3.14 }
       },
       "avatar_moyen": {
         "path": "./assets/models/Avatar_moyen.glb",
-        "anchor": "center_min"
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 3.14 }
       },
       "avatar_grand": {
         "path": "./assets/models/Avatar_grand.glb",
-        "anchor": "center_min"
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 3.14 }
+      },
+      "zeppelin": {
+        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 1.57 }
       },
       "flying_campus": {
         "path": "./assets/models/flying_campus.glb"
@@ -145,11 +153,6 @@
         "path": "./assets/models/Spirale_spawn.glb",
         "scale": { "x": 0.8, "y": 0.8, "z": 0.8 },
         "anchor": "center_min"
-      },
-      "zeppelin": {
-        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
-        "anchor": "center_min",
-        "rotation": { "x": 0, "y": 1.5707, "z": 0 }
       },
       "studio_imu_A": {
         "path": "./assets/models/Studio_IMU_A.glb"
