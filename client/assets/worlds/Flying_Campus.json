@@ -1986,7 +1986,7 @@
                   "spawnRotation": {
                     "x": -0.11522197265624445,
                     "y": 0,
-                    "z": 3.1
+                    "z": 0
                   },
                   "delay": 1000
                 },
@@ -2056,7 +2056,7 @@
                   "spawnRotation": {
                     "x": -0.11522197265624445,
                     "y": 0,
-                    "z": 0
+                    "z": 3.14
                   },
                   "delay": 1000
                 },
@@ -2212,7 +2212,7 @@
                   "spawnRotation": {
                     "x": -0.11522197265624445,
                     "y": 0,
-                    "z": 6.253323407327942
+                    "z": 3.14
                   },
                   "delay": 1000
                 },
@@ -2280,7 +2280,7 @@
                   "spawnRotation": {
                     "x": -0.11522197265624445,
                     "y": 0,
-                    "z": 1.6
+                    "z": -1.6
                   },
                   "delay": 1000
                 },
@@ -2347,7 +2347,7 @@
                 "conf": {
                   "worldDestUUID": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
                   "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
-                  "spawnRotation": { "x": 0, "y": 0, "z": 3.1 },
+                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
                   "delay": 1000
                 },
                 "type": "WorldScript"
@@ -2413,7 +2413,7 @@
                 "conf": {
                   "worldDestUUID": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
                   "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
-                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                  "spawnRotation": { "x": 0, "y": 0, "z": 3.14 },
                   "delay": 1000
                 },
                 "type": "WorldScript"
