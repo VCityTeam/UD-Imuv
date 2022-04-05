@@ -109,7 +109,7 @@ module.exports = class Camera {
           if (!startPos && !startQuat) {
             startPos = t.position
               .clone()
-              .sub(new Game.THREE.Vector3(-1000, -1000, -1000));
+              .sub(new Game.THREE.Vector3(1000, 1000, -1000));
             startQuat = t.quaternion
               .clone()
               .multiply(
