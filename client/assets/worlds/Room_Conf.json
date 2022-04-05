@@ -252,7 +252,7 @@
                   "spawnRotation": {
                     "x": -0.05486912109374398,
                     "y": 0,
-                    "z": 4.8
+                    "z": 1
                   },
                   "delay": 1000
                 },
@@ -322,7 +322,7 @@
                   "spawnRotation": {
                     "x": -0.13232236328124714,
                     "y": 0,
-                    "z": 0.01727539062500494
+                    "z": 3.14
                   },
                   "delay": 1000
                 },
@@ -429,7 +429,7 @@
                   "spawnRotation": {
                     "x": -0.05486912109374398,
                     "y": 0,
-                    "z": 2.1576852042029397
+                    "z": 1
                   },
                   "delay": 1000
                 },
@@ -484,7 +484,7 @@
           "LocalScript": {
             "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {
