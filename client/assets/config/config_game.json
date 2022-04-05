@@ -175,7 +175,14 @@
     "radiusExtent": 5500,
     "shadowMapSize": 2048,
     "sky": {
-      "path": "./assets/img/sky.jpg",
+      "paths": [
+        "./assets/img/sky_cubemap/negX.jpg",
+        "./assets/img/sky_cubemap/posX.jpg",
+        "./assets/img/sky_cubemap/negY.jpg",
+        "./assets/img/sky_cubemap/posY.jpg",
+        "./assets/img/sky_cubemap/posZ.jpg",
+        "./assets/img/sky_cubemap/negZ.jpg"
+      ],
       "color": {
         "r": 0.4,
         "g": 0.6,
