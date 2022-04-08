@@ -82,6 +82,8 @@ module.exports = class SwitchItowns {
           );
           _this.itownsCamQuat.setFromEuler(camera.rotation);
 
+          gameView.setItownsRendering(false);
+
           cameraScript.addRoutine(
             new Routine(
               function (dt) {
@@ -104,8 +106,6 @@ module.exports = class SwitchItowns {
                 return ratio >= 1;
               },
               function () {
-                view.controls.dispose();
-                view.controls = null;
                 avatarController.setAvatarControllerMode(true, localCtx);
 
                 _this.menuWidgets.dispose();
@@ -162,13 +162,7 @@ module.exports = class SwitchItowns {
               function () {
                 manager.setPointerLock(false);
 
-                //creating controls like put it in _this.view.controls
-                const c = new itowns.PlanarControls(view, {
-                  handleCollision: false,
-                  focusOnMouseOver: false, //TODO itowns bug not working
-                  focusOnMouseClick: false,
-                  zoomFactor: 0.9, //TODO working ?
-                });
+                gameView.setItownsRendering(true);
 
                 _this.menuWidgets = new MenuWidgets(localCtx);
 
@@ -243,43 +237,84 @@ class MenuWidgets {
       }
     };
 
-    //cityObjects TODO not working
-    // const idcityObjects = 'City Objects';
-    // const cityObjectsButton = document.createElement('button');
-    // cityObjectsButton.innerHTML = idcityObjects;
-    // this.rootHtml.appendChild(cityObjectsButton);
-    // cityObjectsButton.onclick = function () {
-    //   if (_this.activeWidgets[idcityObjects]) {
-    //     _this.activeWidgets[idcityObjects].view.disable();
-    //     delete _this.activeWidgets[idcityObjects];
-    //   } else {
-    //     _this.activeWidgets[idcityObjects] = new udviz.Widgets.CityObjectModule(
-    //       localCtx.getGameView().getLayerManager(),
-    //       {
-    //         cityObjects: {
-    //           styles: {
-    //             layerDefault: {
-    //               materialProps: {
-    //                 color: '#ffa14f',
-    //               },
-    //             },
-    //             selection: {
-    //               materialProps: {
-    //                 color: '#13ddef',
-    //               },
-    //             },
-    //             linkedWithDisplayedDocument: {
-    //               materialProps: {
-    //                 color: '#4c5af7',
-    //               },
-    //             },
-    //           },
-    //         },
-    //       }
-    //     );
-    //     _this.activeWidgets[idcityObjects].view.appendTo(document.body);
-    //   }
-    // };
+    //cityObjects TODO
+    const idcityObjects = 'City Objects';
+    const cityObjectsButton = document.createElement('button');
+    cityObjectsButton.innerHTML = idcityObjects;
+    this.rootHtml.appendChild(cityObjectsButton);
+    cityObjectsButton.onclick = function () {
+      if (_this.activeWidgets[idcityObjects]) {
+        _this.activeWidgets[idcityObjects].view.disable();
+        delete _this.activeWidgets[idcityObjects];
+      } else {
+        _this.activeWidgets[idcityObjects] = new udviz.Widgets.CityObjectModule(
+          localCtx.getGameView().getLayerManager(),
+          {
+            cityObjects: {
+              styles: {
+                layerDefault: {
+                  materialProps: {
+                    color: '#ffa14f',
+                  },
+                },
+                selection: {
+                  materialProps: {
+                    color: '#13ddef',
+                  },
+                },
+                linkedWithDisplayedDocument: {
+                  materialProps: {
+                    color: '#4c5af7',
+                  },
+                },
+              },
+            },
+          }
+        );
+        _this.activeWidgets[idcityObjects].view.appendTo(document.body);
+      }
+    };
+
+    //cameraPositionner
+    const idcameraPositionner = 'Camera positioner';
+    const cameraPositionnerButton = document.createElement('button');
+    cameraPositionnerButton.innerHTML = idcameraPositionner;
+    this.rootHtml.appendChild(cameraPositionnerButton);
+    cameraPositionnerButton.onclick = function () {
+      if (_this.activeWidgets[idcameraPositionner]) {
+        _this.activeWidgets[idcameraPositionner].disableView();
+        delete _this.activeWidgets[idcameraPositionner];
+      } else {
+        _this.activeWidgets[idcameraPositionner] =
+          new udviz.Widgets.CameraPositionerView(
+            localCtx.getGameView().getItownsView(),
+            localCtx.getGameView().getItownsView().controls
+          );
+        _this.activeWidgets[idcameraPositionner].positionerWindow.appendTo(
+          document.body
+        );
+      }
+    };
+
+    //debug3DTiles
+    const iddebug3DTiles = 'Debug 3DTiles';
+    const debug3DTilesButton = document.createElement('button');
+    debug3DTilesButton.innerHTML = iddebug3DTiles;
+    this.rootHtml.appendChild(debug3DTilesButton);
+    debug3DTilesButton.onclick = function () {
+      if (_this.activeWidgets[iddebug3DTiles]) {
+        _this.activeWidgets[iddebug3DTiles].disableView();
+        delete _this.activeWidgets[iddebug3DTiles];
+      } else {
+        _this.activeWidgets[iddebug3DTiles] =
+          new udviz.Widgets.Extensions.Debug3DTilesWindow(
+            localCtx.getGameView().getLayerManager()
+          );
+        _this.activeWidgets[iddebug3DTiles].appendTo(
+          document.body
+        );
+      }
+    };
   }
 
   dispose() {
