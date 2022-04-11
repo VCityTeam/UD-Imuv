@@ -281,7 +281,7 @@ class Focus {
       intersects = this.raycaster.intersectObject(obstacle, true);
       if (
         intersects.length &&
-        intersects[0].distance < Math.tan(this.camera.fov) * distance
+        intersects[0].distance < Math.tan(this.camera.fov * 0.5) * distance
       ) {
         position.add(right.setLength(intersects[0].distance));
       }
@@ -294,7 +294,7 @@ class Focus {
       intersects = this.raycaster.intersectObject(obstacle, true);
       if (
         intersects.length &&
-        intersects[0].distance < Math.tan(this.camera.fov) * distance
+        intersects[0].distance < Math.tan(this.camera.fov * 0.5) * distance
       ) {
         position.add(left.setLength(intersects[0].distance));
       }
