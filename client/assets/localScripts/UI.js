@@ -57,10 +57,6 @@ module.exports = class UI {
     this.updateUI(arguments[0], arguments[1]);
   }
 
-  update() {
-    this.updateUI(arguments[0], arguments[1]);
-  }
-
   updateUI(go, localCtx) {
     //update ui
     this.gameViewFps.innerHTML =
@@ -75,7 +71,7 @@ module.exports = class UI {
       'Ping = ' + localCtx.getGameView().getInterpolator().getPing();
 
     let avatarCount = 0;
-    go.traverse(function (g) {
+    localCtx.getRootGameObject().traverse(function (g) {
       if (g.name == 'avatar') avatarCount++;
     });
     this.avatarCount.innerHTML = 'Player: ' + avatarCount;
