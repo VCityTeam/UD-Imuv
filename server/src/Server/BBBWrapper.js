@@ -1,15 +1,12 @@
 /** @format */
 
-const firebase = require('firebase/app');
-require('firebase/auth');
-
 const bbb = require('bigbluebutton-js');
 
 const exec = require('child-process-promise').exec;
 const fs = require('fs');
 const parseString = require('xml2js').parseString;
 
-const ServiceWrapperModule = class ServiceWrapper {
+const BBBWrapperModule = class BBBWrapper {
   constructor(config) {
     this.config = config;
 
@@ -18,32 +15,6 @@ const ServiceWrapperModule = class ServiceWrapper {
       this.bbbAPI = bbb.api(config.ENV.BBB_URL, config.ENV.BBB_SECRET);
     } else {
       this.bbbAPI = null;
-    }
-
-    if (
-      (config.ENV.FIREBASE_API_KEY &&
-        config.ENV.FIREBASE_AUTH_DOMAIN &&
-        config.ENV.FIREBASE_PROJECT_ID &&
-        config.ENV.FIREBASE_STORAGE_BUCKET &&
-        config.ENV.FIREBASE_MESSAGING_SENDER_ID,
-      config.ENV.FIREBASE_APP_ID && config.ENV.FIREBASE_MEASUREMENT_ID)
-    ) {
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: config.ENV.FIREBASE_API_KEY,
-        authDomain: config.ENV.FIREBASE_AUTH_DOMAIN,
-        projectId: config.ENV.FIREBASE_PROJECT_ID,
-        storageBucket: config.ENV.FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: config.ENV.FIREBASE_MESSAGING_SENDER_ID,
-        appId: config.ENV.FIREBASE_APP_ID,
-        measurementId: config.ENV.FIREBASE_MEASUREMENT_ID,
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      this.firebaseInitialized = true;
-    } else {
-      this.firebaseInitialized = false;
     }
   }
 
@@ -168,75 +139,9 @@ const ServiceWrapperModule = class ServiceWrapper {
         });
     });
   }
-
-  createAccount(data) {
-    const _this = this;
-    return new Promise((resolve, reject) => {
-      if (!_this.firebaseInitialized) {
-        reject('firebase no initialized');
-        return;
-      }
-
-      const nameUser = data.nameUser;
-      const password = data.password;
-      const email = data.email;
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          console.log(nameUser, ' is sign up');
-          const user = userCredential.user;
-          user
-            .sendEmailVerification()
-            .then(function () {
-              // Email sent.
-              console.log('verification email sent');
-            })
-            .catch(function (error) {
-              // An error happened.
-              console.error(error);
-              reject(error);
-            });
-
-          resolve(user.uid);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  signIn(data) {
-    const password = data.password;
-    const email = data.email;
-
-    const _this = this;
-
-    return new Promise((resolve, reject) => {
-      if (!_this.firebaseInitialized) {
-        reject('firebase no initialized');
-        return;
-      }
-
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(function (userCredential) {
-          const user = userCredential.user;
-          if (user.emailVerified) {
-            resolve();
-          } else {
-            reject(new Error('Email is not verified'));
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
 };
 
-module.exports = ServiceWrapperModule;
+module.exports = BBBWrapperModule;
 
 class BBBRoom {
   constructor(params) {
