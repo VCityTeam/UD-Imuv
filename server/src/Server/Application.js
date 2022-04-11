@@ -1,7 +1,7 @@
 /** @format */
 
 const WorldDispatcher = require('./WorldDispatcher');
-const ServiceWrapper = require('./ServiceWrapper');
+const BBBWrapper = require('./BBBWrapper');
 
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
@@ -40,12 +40,12 @@ const ApplicationModule = class Application {
     this.expressApp = express();
 
     //third module (firebase)
-    this.serviceWrapper = new ServiceWrapper(config);
+    this.bbbWrapper = new BBBWrapper(config);
 
     //world handling
     this.worldDispatcher = new WorldDispatcher(
       this.config.worldDispatcher,
-      this.serviceWrapper //to handle bbb rooms with worlds
+      this.bbbWrapper //to handle bbb rooms with worlds
     );
 
     //assets worlds
@@ -145,51 +145,6 @@ const ApplicationModule = class Application {
     });
   }
 
-  //TODO these informations should not be stock locally but inside a firebase db
-  addUserInLocalJSON(nameUser, uuid) {
-    const _this = this;
-
-    return new Promise((resolve, reject) => {
-      fs.readFile(USERS_JSON_PATH, 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-          reject();
-        }
-        if (!data) data = '{}';
-        const usersJSON = JSON.parse(data);
-        usersJSON[uuid] = _this.fetchUserDefaultExtraData(nameUser);
-        fs.writeFile(
-          USERS_JSON_PATH,
-          JSON.stringify(usersJSON),
-          {
-            encoding: 'utf8',
-            flag: 'w',
-            mode: 0o666,
-          },
-          resolve
-        );
-      });
-    });
-  }
-
-  writeUsersJSON(json) {
-    return new Promise((resolve, reject) => {
-      fs.writeFile(
-        USERS_JSON_PATH,
-        JSON.stringify(json),
-        {
-          encoding: 'utf8',
-          flag: 'w',
-          mode: 0o666,
-        },
-        function (err) {
-          if (err) reject();
-          resolve();
-        }
-      );
-    });
-  }
-
   onSocketConnexion(socket) {
     const _this = this;
 
@@ -197,49 +152,11 @@ const ApplicationModule = class Application {
 
     //SIGN UP
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
-      _this.serviceWrapper
-        .createAccount(data)
-        .then(function (userUUID) {
-          _this.addUserInLocalJSON(data.nameUser, userUUID).then(function () {
-            socket.emit(MSG_TYPES.SERVER_ALERT, 'Account created');
-          });
-        })
-        .catch((error) => {
-          socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
-        });
+      console.log('not implemented');
     });
 
     socket.on(MSG_TYPES.SIGN_IN, function (data) {
-      _this.serviceWrapper
-        .signIn(data)
-        .then(function (userUUID) {
-          //check if already connected in one world
-          if (_this.worldDispatcher.fetchUserInWorldWithUUID(userUUID)) {
-            socket.emit(MSG_TYPES.SERVER_ALERT, 'You are already connected');
-          } else {
-            //user is signed
-            _this.fetchUserExtraData(userUUID).then(function (extraData) {
-              if (!extraData) extraData = _this.fetchUserDefaultExtraData(); //robust
-              console.log(extraData.nameUser + ' is connected');
-
-              //inform client that he is connected and ready to game
-              socket.emit(
-                MSG_TYPES.SIGNED,
-                extraData.initialized, //first or not connected
-                false //is not guest
-              );
-
-              //wait for client to be ready
-              socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
-                const user = new User(userUUID, socket, extraData, false);
-                _this.worldDispatcher.addUser(user);
-              });
-            });
-          }
-        })
-        .catch((error) => {
-          socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
-        });
+      console.log('not implemented');
     });
 
     socket.on(MSG_TYPES.GUEST_CONNECTION, function () {

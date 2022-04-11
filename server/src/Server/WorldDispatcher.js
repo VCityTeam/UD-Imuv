@@ -7,7 +7,7 @@ const Game = require('ud-viz/src/Game/Game');
 const BBB_ROOM_TAG = 'bbb_room_tag';
 
 const WorldDispatcherModule = class WorldDispatcher {
-  constructor(config, serviceWrapper) {
+  constructor(config, bbbWrapper) {
     this.config = config;
 
     //worlds json
@@ -17,7 +17,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     this.worldToThread = {};
 
     //service
-    this.serviceWrapper = serviceWrapper;
+    this.bbbWrapper = bbbWrapper;
   }
 
   fetchUserInWorldWithUUID(uuid) {
@@ -169,12 +169,12 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
       const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
 
-      if (!_this.serviceWrapper.hasBBBApi()) {
+      if (!_this.bbbWrapper.hasBBBApi()) {
         socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'no bbb api');
         return;
       }
 
-      _this.serviceWrapper
+      _this.bbbWrapper
         .createBBBRoom(worldUUID, worldJSON.name)
         .then(function (value) {
           //write dynamically bbb urls in localscript conf
