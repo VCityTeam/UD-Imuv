@@ -25,7 +25,6 @@
     "bigbluebutton-js": "^0.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "firebase": "^8.5.0",
     "gm": "^1.23.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
