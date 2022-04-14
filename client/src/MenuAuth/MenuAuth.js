@@ -331,7 +331,7 @@ class SignInView {
 
     //html
     this.closeButton = null;
-    this.inputMail = null;
+    this.inputIdUser = null;
     this.inputPassword = null;
     this.signInButton = null;
 
@@ -358,7 +358,7 @@ class SignInView {
     parentCentered.classList.add('parentCentered_MenuAuth');
     this.rootHtml.appendChild(parentCentered);
 
-    this.inputMail = createInput('Mail', parentCentered);
+    this.inputIdUser = createInput("Nom d'utilisateur / email", parentCentered);
     this.inputPassword = createInput(
       'Mot de passe',
       parentCentered,
@@ -375,11 +375,11 @@ class SignInView {
     const _this = this;
 
     this.signInButton.onclick = function () {
-      const email = _this.inputMail.value;
+      const nameUser = _this.inputIdUser.value;
       const password = _this.inputPassword.value;
 
       _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SIGN_IN, {
-        email: email,
+        nameUser: nameUser,
         password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
       });
     };
