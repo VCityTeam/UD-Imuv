@@ -249,11 +249,7 @@
                 "conf": {
                   "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                   "portalUUID": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
-                  "spawnRotation": {
-                    "x": -0.05486912109374398,
-                    "y": 0,
-                    "z": 1
-                  },
+                  "spawnRotation": { "x": 0, "y": 0, "z": 1 },
                   "delay": 1000
                 },
                 "type": "WorldScript"
@@ -279,7 +275,7 @@
             "children": [],
             "transform": {
               "position": [
-                9.36393059650436, -5.755486999638379, -2.961944912403169
+                8.865788977035427, -5.755486999638379, -2.961944912403169
               ],
               "rotation": [0, 0, 0, "ZXY"],
               "scale": [1, 1, 1]
@@ -426,11 +422,7 @@
                 "conf": {
                   "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
                   "portalUUID": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
-                  "spawnRotation": {
-                    "x": -0.05486912109374398,
-                    "y": 0,
-                    "z": 1
-                  },
+                  "spawnRotation": { "x": 0, "y": 0, "z": -0.8 },
                   "delay": 1000
                 },
                 "type": "WorldScript"
@@ -516,5 +508,5 @@
   "origin": null,
   "type": "World",
   "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-  "version": "2.37.1"
+  "version": "2.37.2"
 }
