@@ -151,22 +151,27 @@ const ApplicationModule = class Application {
         try {
           // Pass the username and password to logIn function
           let user = await Parse.User.logIn(data.nameUser, data.password);
-          let nameUser = await user.get('username');
+
           // Do stuff after successful login
-          console.log('Logged in user', user);
+          const nameUser = await user.get('username');
+          const uuid = await user.get('objectId');
 
-          //inform client that he is ready to game
-          socket.emit(
-            MSG_TYPES.SIGNED,
-            true, //considered not the first connexion
-            false //is guest
-          );
+          if (_this.worldDispatcher.fetchUserInWorldWithUUID(uuid)) {
+            socket.emit(MSG_TYPES.SERVER_ALERT, 'You are already in game');
+          } else {
+            //inform client that he is ready to game
+            socket.emit(
+              MSG_TYPES.SIGNED,
+              true, //considered not the first connexion
+              false //is guest
+            );
 
-          //wait for client to be ready
-          socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
-            const user = _this.createUser(socket, nameUser);
-            _this.worldDispatcher.addUser(user);
-          });
+            //wait for client to be ready
+            socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
+              const user = _this.createUser(socket, nameUser, uuid);
+              _this.worldDispatcher.addUser(user);
+            });
+          }
         } catch (error) {
           console.error('Error while logging in user', error);
           socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
@@ -184,7 +189,11 @@ const ApplicationModule = class Application {
 
       //wait for client to be ready
       socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
-        const user = _this.createUser(socket, 'Guest');
+        const user = _this.createUser(
+          socket,
+          'Guest',
+          Game.THREE.MathUtils.generateUUID()
+        );
         _this.worldDispatcher.addUser(user);
       });
     });
@@ -337,7 +346,7 @@ const ApplicationModule = class Application {
     });
   }
 
-  createUser(socket, nameUser) {
+  createUser(socket, nameUser, uuid) {
     let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
     Game.Render.bindColor(avatarJSON, [
@@ -346,8 +355,6 @@ const ApplicationModule = class Application {
       Math.random(),
     ]);
     avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
-
-    const uuid = Game.THREE.MathUtils.generateUUID();
 
     const extraData = {
       uuid: uuid,
