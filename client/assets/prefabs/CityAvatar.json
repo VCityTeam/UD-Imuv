@@ -15,7 +15,6 @@
     "LocalScript": {
       "idScripts": ["city_avatar", "sprite_name", "texture_face"],
       "conf": {
-        "isOut": false,
         "name": "default_name",
         "index_face_texture": 0,
         "face_textures": [
