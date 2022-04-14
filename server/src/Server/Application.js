@@ -2,6 +2,7 @@
 
 const WorldDispatcher = require('./WorldDispatcher');
 const BBBWrapper = require('./BBBWrapper');
+const Parse = require('parse/node');
 
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
@@ -26,8 +27,6 @@ const JSONUtils = require('ud-viz/src/Game/Components/JSONUtils');
 const { WorldStateComputer } = require('ud-viz/src/Game/Game');
 const exec = require('child-process-promise').exec;
 
-const USERS_JSON_PATH = './assets/data/users.json';
-
 /**
  * Main application of the UD-Imuv server
  * @param {JSON} config json file to configure the application see (./assets/config/config.json)
@@ -41,6 +40,15 @@ const ApplicationModule = class Application {
 
     //third module (firebase)
     this.bbbWrapper = new BBBWrapper(config);
+
+    //parse
+    Parse.serverURL = config.ENV.PARSE_SERVER_URL; // This is your Server URL
+    // Remember to inform BOTH the Back4App Application ID AND the JavaScript KEY
+    Parse.initialize(
+      config.ENV.PARSE_APP_ID, // This is your Application ID
+      config.ENV.PARSE_JAVASCRIPT_KEY, // This is your Javascript key
+      config.ENV.PARSE_MASTER_KEY // This is your Master key (never use it in the frontend)
+    );
 
     //world handling
     this.worldDispatcher = new WorldDispatcher(
@@ -109,42 +117,6 @@ const ApplicationModule = class Application {
     this.io.on('connection', this.onSocketConnexion.bind(this));
   }
 
-  /**
-   * Create default data to instanciate a new User
-   * @param {String} nameUser
-   * @returns {Object} to pass to the User constructor
-   */
-  fetchUserDefaultExtraData(nameUser = 'default_name') {
-    let avatarJSON = this.assetsManager.createAvatarJSON();
-    avatarJSON.components.LocalScript.conf.name = nameUser;
-    avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
-
-    return {
-      nameUser: nameUser,
-      initialized: false,
-      avatarJSON: avatarJSON,
-    };
-  }
-
-  /**
-   * Retrieve an user in USERS_JSON_PATH file according its uuid
-   * @param {String} uuid
-   * @returns {Object} to pass to the User constructor
-   */
-  fetchUserExtraData(uuid) {
-    return new Promise((resolve, reject) => {
-      fs.readFile(USERS_JSON_PATH, 'utf8', (err, data) => {
-        if (err) reject(err);
-
-        if (!data) data = '{}';
-
-        const usersJSON = JSON.parse(data);
-
-        resolve(usersJSON[uuid]);
-      });
-    });
-  }
-
   onSocketConnexion(socket) {
     const _this = this;
 
@@ -152,11 +124,54 @@ const ApplicationModule = class Application {
 
     //SIGN UP
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
-      console.log('not implemented');
+      (async () => {
+        const user = new Parse.User();
+        user.set('username', data.nameUser);
+        user.set('email', data.email);
+        user.set('password', data.password);
+
+        try {
+          let userResult = await user.signUp();
+
+          socket.emit(MSG_TYPES.SERVER_ALERT, 'User signed up', userResult);
+        } catch (error) {
+          console.error(
+            'Error while signing up user',
+            error.code,
+            error.message
+          );
+
+          socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
+        }
+      })();
     });
 
     socket.on(MSG_TYPES.SIGN_IN, function (data) {
-      console.log('not implemented');
+      (async () => {
+        try {
+          // Pass the username and password to logIn function
+          let user = await Parse.User.logIn(data.nameUser, data.password);
+          let nameUser = await user.get('username');
+          // Do stuff after successful login
+          console.log('Logged in user', user);
+
+          //inform client that he is ready to game
+          socket.emit(
+            MSG_TYPES.SIGNED,
+            true, //considered not the first connexion
+            false //is guest
+          );
+
+          //wait for client to be ready
+          socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
+            const user = _this.createUser(socket, nameUser);
+            _this.worldDispatcher.addUser(user);
+          });
+        } catch (error) {
+          console.error('Error while logging in user', error);
+          socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
+        }
+      })();
     });
 
     socket.on(MSG_TYPES.GUEST_CONNECTION, function () {
@@ -169,7 +184,7 @@ const ApplicationModule = class Application {
 
       //wait for client to be ready
       socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
-        const user = _this.createGuestUser(socket);
+        const user = _this.createUser(socket, 'Guest');
         _this.worldDispatcher.addUser(user);
       });
     });
@@ -322,8 +337,7 @@ const ApplicationModule = class Application {
     });
   }
 
-  createGuestUser(socket) {
-    const nameUser = 'Guest';
+  createUser(socket, nameUser) {
     let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
     Game.Render.bindColor(avatarJSON, [
