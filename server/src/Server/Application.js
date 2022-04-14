@@ -24,6 +24,7 @@ const AssetsManagerServer = require('./AssetsManagerServer');
 const Pack = require('ud-viz/src/Game/Components/Pack');
 const JSONUtils = require('ud-viz/src/Game/Components/JSONUtils');
 const { WorldStateComputer } = require('ud-viz/src/Game/Game');
+const exec = require('child-process-promise').exec;
 
 const USERS_JSON_PATH = './assets/data/users.json';
 
@@ -355,10 +356,15 @@ const ApplicationModule = class Application {
             fs.writeFileSync(path, fetchWorldContent(uuid));
           }
 
-          //reload worlds
-          _this.worldDispatcher.initWorlds();
-          socket.emit(MSG_TYPES.SERVER_ALERT, 'Worlds saved and reloaded !');
-          _this.cleanUnusedImages();
+          //prettier
+          exec(
+            'npx prettier --single-quote --write ../client/assets/worlds'
+          ).then(function () {
+            //reload worlds
+            _this.worldDispatcher.initWorlds();
+            socket.emit(MSG_TYPES.SERVER_ALERT, 'Worlds saved and reloaded !');
+            _this.cleanUnusedImages();
+          });
         });
       } catch (e) {
         throw new Error(e);

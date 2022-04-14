@@ -1312,7 +1312,7 @@
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -1344,5 +1344,5 @@
   "origin": null,
   "type": "World",
   "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-  "version": "2.37.1"
+  "version": "2.37.2"
 }
