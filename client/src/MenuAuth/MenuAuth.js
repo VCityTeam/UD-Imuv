@@ -358,7 +358,7 @@ class SignInView {
     parentCentered.classList.add('parentCentered_MenuAuth');
     this.rootHtml.appendChild(parentCentered);
 
-    this.inputIdUser = createInput("Nom d'utilisateur / email", parentCentered);
+    this.inputIdUser = createInput('Nom d utilisateur / email', parentCentered);
     this.inputPassword = createInput(
       'Mot de passe',
       parentCentered,
