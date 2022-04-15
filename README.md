@@ -77,7 +77,7 @@ and then use your favorite (web) browser to open
 
 ## Setup Back4App
 
-Go to [Back4App](https://dashboard.back4app.com/) and create a new account then create a new app. Disable client access to create a new class. Enable email verification.
+Go to [Back4App](https://dashboard.back4app.com/) and create a new account then create a new app. Type the following command line: `cp ./server/default.env.json ./server/env.json` and fill the with your own keys/ids that you can find on the dashboard Back4App website in the tabs App Settings -> Security & Keys. Enable email verification App Settings -> Server Settings -> Verification emails then check "Verify User Emails" and "Prevent login if email is not verified" (phone number must be verified) then **save**.
 
 ## Setup of the coding environment
 
