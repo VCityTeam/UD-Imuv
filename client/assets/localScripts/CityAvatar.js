@@ -312,7 +312,7 @@ module.exports = class CityAvatar {
     ).add(ref);
     this.raycaster.ray.direction = new udviz.THREE.Vector3(0, 0, -1);
 
-    let z = 0;
+    let z = null;
     for (let index = 0; index < ground.length; index++) {
       const element = ground[index];
       const intersects = this.raycaster.intersectObjects([element], true);
@@ -322,6 +322,8 @@ module.exports = class CityAvatar {
         z = -i.distance;
       }
     }
+
+    if (z == null) return;
 
     const editorMode = localContext.getGameView().getUserData('editorMode');
 
