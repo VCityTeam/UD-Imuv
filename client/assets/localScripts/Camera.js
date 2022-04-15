@@ -37,7 +37,7 @@ module.exports = class Camera {
     this.focusCamera = new Focus(camera);
 
     const _this = this;
-    manager.addKeyInput('y', 'keydown', function () {
+    manager.addKeyInput('f', 'keydown', function () {
       _this.focusCamera.toggleMode();
     });
 
@@ -265,19 +265,16 @@ class Focus {
       .applyQuaternion(this.quaternionAngle)
       .applyQuaternion(quaternion);
 
-    if (!this.isTPV) distance *= -1;
-
-    //compute intersection
-    if (obstacle) {
-      //TODO opti calcul avec un bvh ? ou avec un plan au niveau du perso?
+    if (this.isTPV && obstacle) {
+      //compute intersection
       this.raycaster.set(position, dir.clone().negate());
       const intersects = this.raycaster.intersectObject(obstacle, true);
       if (intersects.length) {
-        intersects.forEach(function (inter) {
-          distance = Math.min(distance, inter.distance);
-        });
+        distance = Math.min(distance, intersects[0].distance);
       }
     }
+
+    if (!this.isTPV) distance = -0.8;
 
     position.sub(dir.setLength(distance));
 
