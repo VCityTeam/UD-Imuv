@@ -229,7 +229,7 @@ class Focus {
     if (this.target) {
       //follow tps
       this.camera.fov = THIRD_PERSON_FOV;
-      const obj = this.target.computeObject3D();
+      const obj = this.target.getObject3D();
       this.bbTarget = new Game.THREE.Box3().setFromObject(obj); //compute here one time
       this.camera.updateProjectionMatrix();
     }
@@ -252,7 +252,7 @@ class Focus {
     if (!this.target) return null;
 
     //world transform
-    const obj = this.target.computeObject3D();
+    const obj = this.target.getObject3D();
     let position = new Game.THREE.Vector3();
     let quaternion = new Game.THREE.Quaternion();
     obj.matrixWorld.decompose(position, quaternion, new Game.THREE.Vector3());
