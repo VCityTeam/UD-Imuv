@@ -33,48 +33,62 @@ export class ReceptionView {
   }
 
   initUI() {
-    const topMenu = document.createElement('div');
-    topMenu.classList.add('topMenu_Reception');
-    this.rootHtml.appendChild(topMenu);
+    const topNav = document.createElement('div');
+    topNav.classList.add('topNav_Reception');
+    this.rootHtml.appendChild(topNav);
+
+    const containerBtnTopNav = document.createElement('div');
+    topNav.appendChild(containerBtnTopNav);
+
+    const hamburgerButton = document.createElement('div');
+    hamburgerButton.classList.add('hamburgerMenu_Reception');
+    hamburgerButton.innerHTML = '&#9776;';
+    hamburgerButton.onclick = function () {
+      var x = document.getElementById('buttonsTopNav_Reception');
+      x.style.display = x.style.display == 'block' ? 'none' : 'block';
+    };
+    containerBtnTopNav.appendChild(hamburgerButton);
+
+    const buttonsTopNav = document.createElement('div');
+    buttonsTopNav.id = 'buttonsTopNav_Reception';
+    containerBtnTopNav.append(buttonsTopNav);
 
     const createButton = function (label) {
       const result = document.createElement('div');
-      result.classList.add('button_Reception');
-      result.classList.add('box_Reception');
+      result.classList.add('buttonTopNav_Reception');
       result.innerHTML = label;
       return result;
     };
 
-    //buttons
+    //buttons Nav
     this.receptionButton = createButton('Accueil');
-    topMenu.appendChild(this.receptionButton);
+    buttonsTopNav.appendChild(this.receptionButton);
     this.aboutButton = createButton('A propos');
-    topMenu.appendChild(this.aboutButton);
+    buttonsTopNav.appendChild(this.aboutButton);
     this.newsButton = createButton('Actualités');
-    topMenu.appendChild(this.newsButton);
+    buttonsTopNav.appendChild(this.newsButton);
     this.servicesButton = createButton('Services');
-    topMenu.appendChild(this.servicesButton);
+    buttonsTopNav.appendChild(this.servicesButton);
     this.languageButton = createButton('FR/UK');
-    topMenu.appendChild(this.languageButton);
+    buttonsTopNav.appendChild(this.languageButton);
 
-    //title
+    //title Nav
     const titleDiv = document.createElement('div');
-    titleDiv.classList.add('titleDiv_Reception');
-    this.rootHtml.appendChild(titleDiv);
+    titleDiv.classList.add('titleNav_Reception');
+    topNav.appendChild(titleDiv);
 
     const imageTitle = document.createElement('img');
     imageTitle.src = './assets/img/labex_imu.jpeg';
-    titleDiv.appendChild(imageTitle);
+    topNav.appendChild(imageTitle);
 
-    const titlePage = document.createElement('div');
+    const titlePage = document.createElement('h1');
     titlePage.innerHTML = 'Flying Campus';
     titleDiv.appendChild(titlePage);
 
-    const topImg = document.createElement('img');
-    topImg.classList.add('topImg_Reception');
-    //TODO en conf
-    topImg.src = './assets/img/reception_top_image.jpg';
-    this.rootHtml.appendChild(topImg);
+    //header
+    const header = document.createElement('header');
+    header.classList.add('header_Reception');
+    this.rootHtml.appendChild(header);
 
     this.joinButton = document.createElement('div');
     this.joinButton.classList.add('joinButton_Reception');
