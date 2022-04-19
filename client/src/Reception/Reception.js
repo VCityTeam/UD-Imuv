@@ -3,6 +3,7 @@
 import { MenuAuthView } from '../MenuAuth/MenuAuth';
 
 import './Reception.css';
+import { getTextByID } from '../../assets/texts/receptionTexts.js';
 
 //TODO en conf
 const aboutString = 'text to fill waiting config with text';
@@ -61,15 +62,15 @@ export class ReceptionView {
     };
 
     //buttons Nav
-    this.receptionButton = createButton('Accueil');
+    this.receptionButton = createButton(getTextByID('button_Home'));
     buttonsTopNav.appendChild(this.receptionButton);
-    this.aboutButton = createButton('A propos');
+    this.aboutButton = createButton(getTextByID('button_About'));
     buttonsTopNav.appendChild(this.aboutButton);
-    this.newsButton = createButton('Actualités');
+    this.newsButton = createButton(getTextByID('button_News'));
     buttonsTopNav.appendChild(this.newsButton);
-    this.servicesButton = createButton('Services');
+    this.servicesButton = createButton(getTextByID('button_Services'));
     buttonsTopNav.appendChild(this.servicesButton);
-    this.languageButton = createButton('FR/UK');
+    this.languageButton = createButton(getTextByID('button_FRUK'));
     buttonsTopNav.appendChild(this.languageButton);
 
     //title Nav
@@ -82,7 +83,7 @@ export class ReceptionView {
     topNav.appendChild(imageTitle);
 
     const titlePage = document.createElement('h1');
-    titlePage.innerHTML = 'Flying Campus';
+    titlePage.innerHTML = getTextByID('titleNav');
     titleDiv.appendChild(titlePage);
 
     //header
@@ -95,7 +96,7 @@ export class ReceptionView {
     this.rootHtml.appendChild(this.joinButton);
 
     const labelJoin = document.createElement('div');
-    labelJoin.innerHTML = 'Rejoindre';
+    labelJoin.innerHTML = getTextByID('button_Join');
     this.joinButton.appendChild(labelJoin);
 
     //content
