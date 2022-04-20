@@ -18,7 +18,7 @@ const texts = {
     button_Join: 'Rejoindre',
     titleContent: 'Titre content :)',
     //About
-    aboutAnchor: 'A propos',
+    aboutBoxTitle: 'A propos',
     aboutTitleTeam: 'Equipe',
     aboutLabelsTeamList: [
       'Mathieu <b>LIVEBARDON</b>',
@@ -43,9 +43,9 @@ const texts = {
       'Chaque utilisateur contrôle un avatar. C’est un humanoïde capuchonné neutre, grâce à un éditeur d’avatar, nous pouvons choisir sa couleur, le nom qui s’affichera au-dessus de sa tête et une photo à la place de son visage.',
 
     //News
-    newsAnchor: 'Actualités',
+    newsBoxTitle: 'Actualités',
     newsLinkGithubReleases: 'Github Releases',
-    servicesAnchor: 'Services',
+    servicesBoxTitle: 'Services',
     servicesContent: 'Services content :)',
   },
 
@@ -59,7 +59,7 @@ const texts = {
     button_Join: 'Join',
     titleContent: 'Title content :)',
     //About
-    aboutAnchor: 'About',
+    aboutBoxTitle: 'About',
     aboutTitleTeam: 'Team',
     aboutLabelsTeamList: [
       'Mathieu <b>LIVEBARDON</b>',
@@ -84,9 +84,9 @@ const texts = {
       "Each users control an avatar. It's a neutral hooded humanoid, thanks to an avatar editor, we can chose its color, the name that will be displayed above his head and a picture instead of his face.",
 
     //News
-    newsAnchor: 'News',
+    newsBoxTitle: 'News',
     newsLinkGithubReleases: 'Github Releases',
-    servicesAnchor: 'Services',
+    servicesBoxTitle: 'Services',
     servicesContent: 'Services content :)',
   },
 };
