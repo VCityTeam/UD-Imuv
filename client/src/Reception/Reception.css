@@ -168,7 +168,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-style: solid;
+  border: solid #2a2d2f;
   width: 10%;
   min-width: 90px;
   color: black;
@@ -195,6 +195,12 @@ figcaption {
   text-align: center;
   border-bottom: 2px solid #2a2d2f;
   border-left: 2px solid #2a2d2f;
+}
+
+figure:hover figcaption {
+  border-bottom: 2px solid #e5007aec;
+  border-left: 2px solid #e5007aec;
+  transition: 0.3s;
 }
 
 section {
