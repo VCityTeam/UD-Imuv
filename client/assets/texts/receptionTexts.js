@@ -17,7 +17,24 @@ const texts = {
     servicesAnchor: 'Services',
     servicesContent: 'Services content :)',
   },
-  EN: {},
+  EN: {
+    button_Home: 'Home',
+    button_About: 'About',
+    button_News: 'News',
+    button_Services: 'Services',
+    button_FRUK: 'FR/UK',
+    titleNav: 'IMUV - Flying Campus',
+    button_Join: 'Join',
+    titleContent: 'Title content :)',
+    aboutAnchor: 'About',
+    aboutContent:
+      "The Flying Campus project is led by the Labex IMU, it is an immersive collaborative tool in the form of a digital campus in a 3D world persisting on the web. The intention of this project is to propose an innovative virtual collaborative space intended primarly for laborattories and for partners of IMU's community. But also, a virtual space staying partly accessible 24h/24h for cyty's actors ; practitioners and citizens interessed by permanent reflections on the urban development in all academic scientific fields.",
+    newsAnchor: 'News',
+    newsContent:
+      '<a href="https://github.com/VCityTeam/UD-Imuv/releases" target="_blank">Github releases</a>',
+    servicesAnchor: 'Services',
+    servicesContent: 'Services content :)',
+  },
 };
 
 module.exports = {

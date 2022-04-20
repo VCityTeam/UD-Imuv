@@ -18,6 +18,7 @@
   justify-content: space-between;
   height: 75px;
   align-items: center;
+  z-index: 42;
 }
 
 .hamburgerMenu_Reception {
