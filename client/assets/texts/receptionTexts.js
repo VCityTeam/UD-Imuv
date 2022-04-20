@@ -1,3 +1,28 @@
+module.exports = {
+  /* A function that takes an id and returns the text associated with that id. */
+  getTextByID: function (id) {
+    const lang = 'FR'; //TODO get this var in a global config
+    return texts[lang][id] || 'TEXT NOT DEFINED';
+  },
+};
+
+/**
+ * It takes a string, a URL, and an optional target, and returns a string that is an HTML anchor tag
+ * with the string as the text and the URL as the href
+ * @param contentText - The text that will be displayed in the link.
+ * @param href - The URL to link to.
+ * @param [target=_blank] - _blank
+ * @returns The outerHTML of the a element.
+ */
+const embedInTagA = function (contentText, href, target = '_blank') {
+  const result = document.createElement('a');
+  result.innerHTML = contentText;
+  result.href = href;
+  result.target = target;
+  return result.outerHTML;
+};
+
+/* A JSON object that contains the text for the website in two languages. */
 const texts = {
   FR: {
     button_Home: 'Accueil',
@@ -30,16 +55,11 @@ const texts = {
     aboutContent:
       "The Flying Campus project is led by the Labex IMU, it is an immersive collaborative tool in the form of a digital campus in a 3D world persisting on the web. The intention of this project is to propose an innovative virtual collaborative space intended primarly for laborattories and for partners of IMU's community. But also, a virtual space staying partly accessible 24h/24h for cyty's actors ; practitioners and citizens interessed by permanent reflections on the urban development in all academic scientific fields.",
     newsAnchor: 'News',
-    newsContent:
-      '<a href="https://github.com/VCityTeam/UD-Imuv/releases" target="_blank">Github releases</a>',
+    newsContent: embedInTagA(
+      'Github Releases',
+      'https://github.com/VCityTeam/UD-Imuv/releases'
+    ),
     servicesAnchor: 'Services',
     servicesContent: 'Services content :)',
-  },
-};
-
-module.exports = {
-  getTextByID: function (id) {
-    const lang = 'FR'; //TODO get this var in a global config
-    return texts[lang][id] || 'TEXT NOT DEFINED';
   },
 };
