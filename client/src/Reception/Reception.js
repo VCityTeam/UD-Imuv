@@ -117,9 +117,81 @@ export class ReceptionView {
     aboutAnchor.innerHTML = getTextByID('aboutAnchor');
     contentDiv.appendChild(aboutAnchor);
 
-    const aboutContent = document.createElement('p');
-    aboutContent.innerHTML = getTextByID('aboutContent');
+    const aboutContent = document.createElement('div');
     contentDiv.appendChild(aboutContent);
+
+    //About->Description
+    const aboutTitleDescription = document.createElement('h2');
+    aboutTitleDescription.innerHTML = getTextByID('aboutTitleDescription');
+    aboutContent.appendChild(aboutTitleDescription);
+
+    const aboutDescription = document.createElement('p');
+    aboutDescription.innerHTML = getTextByID('aboutDescription');
+    aboutContent.appendChild(aboutDescription);
+
+    //About->Team
+    const aboutTitleTeam = document.createElement('h2');
+    aboutTitleTeam.innerHTML = getTextByID('aboutTitleTeam');
+    aboutContent.appendChild(aboutTitleTeam);
+
+    const aboutTeamList = document.createElement('ul');
+    getTextByID('aboutLabelsTeamList').forEach((element) => {
+      const liEl = document.createElement('li');
+      liEl.innerHTML = element;
+      aboutTeamList.appendChild(liEl);
+    });
+    aboutContent.appendChild(aboutTeamList);
+
+    //About->Overview
+    const aboutTitleOverview = document.createElement('h2');
+    aboutTitleOverview.innerHTML = getTextByID('aboutTitleOverview');
+    aboutContent.appendChild(aboutTitleOverview);
+
+    const aboutSubtitleGraphicDescription = document.createElement('h3');
+    aboutSubtitleGraphicDescription.innerHTML = getTextByID(
+      'aboutSubtitleGraphicDescription'
+    );
+    aboutContent.appendChild(aboutSubtitleGraphicDescription);
+
+    const aboutGraphicDescription = document.createElement('p');
+    aboutGraphicDescription.innerHTML = getTextByID('aboutGraphicDescription');
+    aboutContent.appendChild(aboutGraphicDescription);
+
+    //About->Overview->Graphic Description->Islet Figure
+    const aboutIsletFigure = document.createElement('figure');
+    aboutContent.appendChild(aboutIsletFigure);
+
+    const aboutIsletImg = document.createElement('img');
+    aboutIsletImg.src = './assets/img/reception/islet.png';
+    aboutIsletFigure.appendChild(aboutIsletImg);
+
+    const aboutIsletFigcaption = document.createElement('figcaption');
+    aboutIsletFigcaption.innerHTML = getTextByID('aboutIsletFigcaption');
+    aboutIsletFigure.appendChild(aboutIsletFigcaption);
+
+    const aboutGraphicDescriptionIslet = document.createElement('p');
+    aboutGraphicDescriptionIslet.innerHTML = getTextByID(
+      'aboutGraphicDescriptionIslet'
+    );
+    aboutContent.appendChild(aboutGraphicDescriptionIslet);
+
+    //About->Overview->Graphic Description->Avatar Figure
+    const aboutAvatarFigure = document.createElement('figure');
+    aboutContent.appendChild(aboutAvatarFigure);
+
+    const aboutAvatarImg = document.createElement('img');
+    aboutAvatarImg.src = './assets/img/reception/avatar.png';
+    aboutAvatarFigure.appendChild(aboutAvatarImg);
+
+    const aboutAvatarFigcaption = document.createElement('figcaption');
+    aboutAvatarFigcaption.innerHTML = getTextByID('aboutAvatarFigcaption');
+    aboutAvatarFigure.appendChild(aboutAvatarFigcaption);
+
+    const aboutGraphicDescriptionAvatar = document.createElement('p');
+    aboutGraphicDescriptionAvatar.innerHTML = getTextByID(
+      'aboutGraphicDescriptionAvatar'
+    );
+    aboutContent.appendChild(aboutGraphicDescriptionAvatar);
 
     //news
     const newsAnchor = document.createElement('div');
@@ -129,8 +201,11 @@ export class ReceptionView {
     contentDiv.appendChild(newsAnchor);
 
     const newsContent = document.createElement('p');
-    newsContent.innerHTML = getTextByID('newsContent');
     contentDiv.appendChild(newsContent);
+
+    const newsLinkGHReleases = document.createElement('a');
+    newsLinkGHReleases.innerHTML = getTextByID('newsLinkGithubReleases');
+    newsContent.appendChild(newsLinkGHReleases);
 
     //services
     const servicesAnchor = document.createElement('div');

@@ -92,7 +92,7 @@
 }
 
 .header_Reception {
-  background-image: url('/assets/img/reception_top_image.jpg');
+  background-image: url('/assets/img/reception/top_image.jpg');
   padding-top: 40%;
   text-align: center;
   background-repeat: no-repeat;
@@ -175,4 +175,24 @@
   background-color: white;
   margin: 2px;
   padding: 5px 0px 5px 0px;
+}
+
+figure {
+  max-width: fit-content;
+  padding-bottom: 30px;
+  padding-top: 10px;
+}
+
+figure img {
+  max-height: 500px;
+}
+
+figcaption {
+  background-color: whitesmoke;
+  color: black;
+  font-style: italic;
+  padding: 2px;
+  text-align: center;
+  border-bottom: 2px solid #2a2d2f;
+  border-left: 2px solid #2a2d2f;
 }
