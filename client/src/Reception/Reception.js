@@ -5,9 +5,6 @@ import { MenuAuthView } from '../MenuAuth/MenuAuth';
 import './Reception.css';
 import { getTextByID } from '../../assets/texts/receptionTexts.js';
 
-//TODO en conf
-const aboutString = 'text to fill waiting config with text';
-
 export class ReceptionView {
   constructor(webSocketService, configFeatures) {
     this.rootHtml = document.createElement('div');
@@ -54,21 +51,25 @@ export class ReceptionView {
     buttonsTopNav.id = 'buttonsTopNav_Reception';
     containerBtnTopNav.append(buttonsTopNav);
 
-    const createButton = function (label) {
-      const result = document.createElement('div');
+    const createButton = function (label, href = null) {
+      const result = document.createElement('a');
       result.classList.add('buttonTopNav_Reception');
       result.innerHTML = label;
+      if (href) result.href = href;
       return result;
     };
 
     //buttons Nav
     this.receptionButton = createButton(getTextByID('button_Home'));
     buttonsTopNav.appendChild(this.receptionButton);
-    this.aboutButton = createButton(getTextByID('button_About'));
+    this.aboutButton = createButton(getTextByID('button_About'), '#about');
     buttonsTopNav.appendChild(this.aboutButton);
-    this.newsButton = createButton(getTextByID('button_News'));
+    this.newsButton = createButton(getTextByID('button_News'), '#news');
     buttonsTopNav.appendChild(this.newsButton);
-    this.servicesButton = createButton(getTextByID('button_Services'));
+    this.servicesButton = createButton(
+      getTextByID('button_Services'),
+      '#services'
+    );
     buttonsTopNav.appendChild(this.servicesButton);
     this.languageButton = createButton(getTextByID('button_FRUK'));
     buttonsTopNav.appendChild(this.languageButton);
@@ -105,38 +106,41 @@ export class ReceptionView {
     this.rootHtml.appendChild(contentDiv);
 
     const titleContent = document.createElement('div');
-    titleContent.innerHTML = 'text to fill waiting config with text'; //TODO should go in a config file to allow to swicth betwwen languages
+    titleContent.innerHTML = getTextByID('titleContent');
     titleContent.classList.add('titleContent_Reception');
     contentDiv.appendChild(titleContent);
 
     //about
     const aboutAnchor = document.createElement('div');
     aboutAnchor.classList.add('box_Reception');
-    aboutAnchor.innerHTML = 'A propos';
+    aboutAnchor.id = 'about';
+    aboutAnchor.innerHTML = getTextByID('aboutAnchor');
     contentDiv.appendChild(aboutAnchor);
 
     const aboutContent = document.createElement('p');
-    aboutContent.innerHTML = aboutString;
+    aboutContent.innerHTML = getTextByID('aboutContent');
     contentDiv.appendChild(aboutContent);
 
     //news
     const newsAnchor = document.createElement('div');
     newsAnchor.classList.add('box_Reception');
-    newsAnchor.innerHTML = 'Actualités';
+    newsAnchor.id = 'news';
+    newsAnchor.innerHTML = getTextByID('newsAnchor');
     contentDiv.appendChild(newsAnchor);
 
     const newsContent = document.createElement('p');
-    newsContent.innerHTML = aboutString;
+    newsContent.innerHTML = getTextByID('newsContent');
     contentDiv.appendChild(newsContent);
 
     //services
     const servicesAnchor = document.createElement('div');
     servicesAnchor.classList.add('box_Reception');
-    servicesAnchor.innerHTML = 'Services';
+    servicesAnchor.id = 'services';
+    servicesAnchor.innerHTML = getTextByID('servicesAnchor');
     contentDiv.appendChild(servicesAnchor);
 
     const servicesContent = document.createElement('p');
-    servicesContent.innerHTML = aboutString;
+    servicesContent.innerHTML = getTextByID('servicesContent');
     contentDiv.appendChild(servicesContent);
   }
 
@@ -146,6 +150,8 @@ export class ReceptionView {
 
   initCallbacks() {
     const _this = this;
+
+    this.receptionButton.href = '';
 
     this.joinButton.onclick = function () {
       _this.dispose();

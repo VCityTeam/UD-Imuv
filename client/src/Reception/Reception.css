@@ -10,7 +10,8 @@
 }
 
 .topNav_Reception {
-  overflow: hidden;
+  position: fixed;
+  width: 100%;
   background-color: #2a2d2f;
   display: flex;
   flex-wrap: wrap;
@@ -91,8 +92,7 @@
 
 .header_Reception {
   background-image: url('/assets/img/reception_top_image.jpg');
-  padding-top: 22rem;
-  padding-bottom: 15rem;
+  padding-top: 40%;
   text-align: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -115,6 +115,7 @@
   position: relative;
   background: #ffffffcb;
   color: #000000;
+  transition: 0.3s;
 
   left: 0;
   right: 0;
@@ -130,6 +131,7 @@
 }
 
 .joinButton_Reception:hover {
+  border-radius: 40%;
   cursor: pointer;
   background: #e5007aec;
   border: solid #2a2d2f;
@@ -141,10 +143,35 @@
   padding: 40px;
 }
 
+.content_Reception a {
+  text-decoration: none;
+  color: #000000;
+  border-bottom: 1px solid #2a2d2f;
+  transition: 0.3s;
+}
+
+.content_Reception a:hover {
+  cursor: pointer;
+  border-bottom: 1px solid #e5007aec;
+}
+
 .titleContent_Reception {
   font-size: x-large;
   display: flex;
   margin: 60px;
   justify-content: center; /* center flex items horizontally, in this case */
   align-items: center; /* center flex items vertically, in this case */
+}
+
+.box_Reception {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  width: 10%;
+  min-width: 90px;
+  color: black;
+  background-color: white;
+  margin: 2px;
+  padding: 5px 0px 5px 0px;
 }
