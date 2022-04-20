@@ -196,3 +196,7 @@ figcaption {
   border-bottom: 2px solid #2a2d2f;
   border-left: 2px solid #2a2d2f;
 }
+
+section {
+  padding-top: 100px;
+}

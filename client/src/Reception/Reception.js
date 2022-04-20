@@ -111,28 +111,28 @@ export class ReceptionView {
     contentDiv.appendChild(titleContent);
 
     //about
-    const aboutAnchor = document.createElement('div');
-    aboutAnchor.classList.add('box_Reception');
-    aboutAnchor.id = 'about';
-    aboutAnchor.innerHTML = getTextByID('aboutAnchor');
-    contentDiv.appendChild(aboutAnchor);
+    const aboutSection = document.createElement('section');
+    aboutSection.id = 'about';
+    contentDiv.appendChild(aboutSection);
 
-    const aboutContent = document.createElement('div');
-    contentDiv.appendChild(aboutContent);
+    const aboutBoxTitle = document.createElement('div');
+    aboutBoxTitle.classList.add('box_Reception');
+    aboutBoxTitle.innerHTML = getTextByID('aboutBoxTitle');
+    aboutSection.appendChild(aboutBoxTitle);
 
     //About->Description
     const aboutTitleDescription = document.createElement('h2');
     aboutTitleDescription.innerHTML = getTextByID('aboutTitleDescription');
-    aboutContent.appendChild(aboutTitleDescription);
+    aboutSection.appendChild(aboutTitleDescription);
 
     const aboutDescription = document.createElement('p');
     aboutDescription.innerHTML = getTextByID('aboutDescription');
-    aboutContent.appendChild(aboutDescription);
+    aboutSection.appendChild(aboutDescription);
 
     //About->Team
     const aboutTitleTeam = document.createElement('h2');
     aboutTitleTeam.innerHTML = getTextByID('aboutTitleTeam');
-    aboutContent.appendChild(aboutTitleTeam);
+    aboutSection.appendChild(aboutTitleTeam);
 
     const aboutTeamList = document.createElement('ul');
     getTextByID('aboutLabelsTeamList').forEach((element) => {
@@ -140,26 +140,26 @@ export class ReceptionView {
       liEl.innerHTML = element;
       aboutTeamList.appendChild(liEl);
     });
-    aboutContent.appendChild(aboutTeamList);
+    aboutSection.appendChild(aboutTeamList);
 
     //About->Overview
     const aboutTitleOverview = document.createElement('h2');
     aboutTitleOverview.innerHTML = getTextByID('aboutTitleOverview');
-    aboutContent.appendChild(aboutTitleOverview);
+    aboutSection.appendChild(aboutTitleOverview);
 
     const aboutSubtitleGraphicDescription = document.createElement('h3');
     aboutSubtitleGraphicDescription.innerHTML = getTextByID(
       'aboutSubtitleGraphicDescription'
     );
-    aboutContent.appendChild(aboutSubtitleGraphicDescription);
+    aboutSection.appendChild(aboutSubtitleGraphicDescription);
 
     const aboutGraphicDescription = document.createElement('p');
     aboutGraphicDescription.innerHTML = getTextByID('aboutGraphicDescription');
-    aboutContent.appendChild(aboutGraphicDescription);
+    aboutSection.appendChild(aboutGraphicDescription);
 
     //About->Overview->Graphic Description->Islet Figure
     const aboutIsletFigure = document.createElement('figure');
-    aboutContent.appendChild(aboutIsletFigure);
+    aboutSection.appendChild(aboutIsletFigure);
 
     const aboutIsletImg = document.createElement('img');
     aboutIsletImg.src = './assets/img/reception/islet.png';
@@ -173,11 +173,11 @@ export class ReceptionView {
     aboutGraphicDescriptionIslet.innerHTML = getTextByID(
       'aboutGraphicDescriptionIslet'
     );
-    aboutContent.appendChild(aboutGraphicDescriptionIslet);
+    aboutSection.appendChild(aboutGraphicDescriptionIslet);
 
     //About->Overview->Graphic Description->Avatar Figure
     const aboutAvatarFigure = document.createElement('figure');
-    aboutContent.appendChild(aboutAvatarFigure);
+    aboutSection.appendChild(aboutAvatarFigure);
 
     const aboutAvatarImg = document.createElement('img');
     aboutAvatarImg.src = './assets/img/reception/avatar.png';
@@ -191,32 +191,35 @@ export class ReceptionView {
     aboutGraphicDescriptionAvatar.innerHTML = getTextByID(
       'aboutGraphicDescriptionAvatar'
     );
-    aboutContent.appendChild(aboutGraphicDescriptionAvatar);
+    aboutSection.appendChild(aboutGraphicDescriptionAvatar);
 
     //news
-    const newsAnchor = document.createElement('div');
-    newsAnchor.classList.add('box_Reception');
-    newsAnchor.id = 'news';
-    newsAnchor.innerHTML = getTextByID('newsAnchor');
-    contentDiv.appendChild(newsAnchor);
+    const newsSection = document.createElement('section');
+    newsSection.id = 'news';
+    contentDiv.appendChild(newsSection);
 
-    const newsContent = document.createElement('p');
-    contentDiv.appendChild(newsContent);
+    const newsBoxTitle = document.createElement('div');
+    newsBoxTitle.classList.add('box_Reception');
+    newsBoxTitle.innerHTML = getTextByID('newsBoxTitle');
+    newsSection.appendChild(newsBoxTitle);
 
     const newsLinkGHReleases = document.createElement('a');
     newsLinkGHReleases.innerHTML = getTextByID('newsLinkGithubReleases');
-    newsContent.appendChild(newsLinkGHReleases);
+    newsSection.appendChild(newsLinkGHReleases);
 
     //services
-    const servicesAnchor = document.createElement('div');
-    servicesAnchor.classList.add('box_Reception');
-    servicesAnchor.id = 'services';
-    servicesAnchor.innerHTML = getTextByID('servicesAnchor');
-    contentDiv.appendChild(servicesAnchor);
+    const servicesSection = document.createElement('section');
+    servicesSection.id = 'services';
+    contentDiv.appendChild(servicesSection);
+
+    const servicesBoxTitle = document.createElement('div');
+    servicesBoxTitle.classList.add('box_Reception');
+    servicesBoxTitle.innerHTML = getTextByID('servicesBoxTitle');
+    servicesSection.appendChild(servicesBoxTitle);
 
     const servicesContent = document.createElement('p');
     servicesContent.innerHTML = getTextByID('servicesContent');
-    contentDiv.appendChild(servicesContent);
+    servicesSection.appendChild(servicesContent);
   }
 
   dispose() {
