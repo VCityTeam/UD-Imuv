@@ -3,7 +3,14 @@ const gitlog = require('gitlog').default;
 const options = {
   repo: __dirname,
   number: 1,
-  fields: ['hash', 'abbrevHash', 'subject', 'authorName', 'authorDateRel'],
+  fields: [
+    'hash',
+    'abbrevHash',
+    'parentHashes',
+    'subject',
+    'authorName',
+    'authorDateRel',
+  ],
   execOptions: { maxBuffer: 1000 * 1024 },
 };
 
