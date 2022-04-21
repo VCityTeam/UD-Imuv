@@ -18,7 +18,6 @@ export class MenuAuthView {
     this.childrenView = [];
 
     //html
-    this.backgroundImg = null;
     this.logoImuLabex = null;
 
     this.closeButton = null;
@@ -27,9 +26,7 @@ export class MenuAuthView {
     this.signUpButton = null;
     this.signInButton = null;
     this.guestButton = null;
-    this.generalConditionsButton = null;
     this.editorButton = null;
-    this.confidentialButton = null;
     this.init();
   }
 
@@ -43,44 +40,35 @@ export class MenuAuthView {
   }
 
   initUI() {
-    this.backgroundImg = document.createElement('img');
-    this.backgroundImg.classList.add('background_MenuAuth');
-    this.backgroundImg.src = './assets/img/menuAuthBG.jpg';
-    this.rootHtml.appendChild(this.backgroundImg);
-
     this.logoImuLabex = document.createElement('img');
     this.logoImuLabex.classList.add('logo_MenuAuth');
     this.logoImuLabex.src = './assets/img/labex_imu.jpeg';
     this.rootHtml.appendChild(this.logoImuLabex);
 
-    this.closeButton = document.createElement('div');
-    this.closeButton.classList.add('close_MenuAuth');
-    this.rootHtml.appendChild(this.closeButton);
+    //SIGN
+    const parentSign = document.createElement('div');
+    parentSign.classList.add('parent_sign_MenuAuth');
+    this.rootHtml.appendChild(parentSign);
+
+    this.signUpButton = document.createElement('div');
+    this.signUpButton.innerHTML = 'Créer votre compte';
+    this.signUpButton.classList.add('sign_button_MenuAuth');
+    parentSign.appendChild(this.signUpButton);
+
+    this.signInButton = document.createElement('div');
+    this.signInButton.innerHTML = 'J ai déja un compte';
+    this.signInButton.classList.add('sign_button_MenuAuth');
+    parentSign.appendChild(this.signInButton);
 
     //BUTTONS
     this.parentButtons = document.createElement('div');
     this.parentButtons.classList.add('parentButtons_MenuAuth');
     this.rootHtml.appendChild(this.parentButtons);
 
-    this.signUpButton = document.createElement('div');
-    this.signUpButton.innerHTML = 'Créer votre compte';
-    this.signUpButton.classList.add('button_pink_MenuAuth');
-    this.parentButtons.appendChild(this.signUpButton);
-
-    this.signInButton = document.createElement('div');
-    this.signInButton.innerHTML = 'J ai déja un compte';
-    this.signInButton.classList.add('button_pink_MenuAuth');
-    this.parentButtons.appendChild(this.signInButton);
-
     this.guestButton = document.createElement('div');
     this.guestButton.innerHTML = 'Je suis invité';
     this.guestButton.classList.add('button_pink_MenuAuth');
     this.parentButtons.appendChild(this.guestButton);
-
-    this.generalConditionsButton = document.createElement('div');
-    this.generalConditionsButton.innerHTML = 'Conditions générales';
-    this.generalConditionsButton.classList.add('button_pink_MenuAuth');
-    this.parentButtons.appendChild(this.generalConditionsButton);
 
     this.editorButton = document.createElement('div');
     this.editorButton.innerHTML = 'Editeur';
@@ -91,32 +79,10 @@ export class MenuAuthView {
     }
     this.parentButtons.appendChild(this.editorButton);
 
-    this.confidentialButton = document.createElement('div');
-    this.confidentialButton.innerHTML = 'Confidentialité';
-    this.confidentialButton.classList.add('button_pink_MenuAuth');
-    this.parentButtons.appendChild(this.confidentialButton);
-  }
-
-  createLoadingView() {
-    const result = document.createElement('div');
-    result.classList.add('loading_MenuAuth');
-
-    const parent = document.createElement('div');
-    parent.classList.add('loadingParent_MenuAuth');
-
-    const loadingImg = document.createElement('img');
-    loadingImg.classList.add('loadingImg_MenuAuth');
-    loadingImg.src = './assets/img/loading.png';
-
-    const label = document.createElement('div');
-    label.innerHTML = 'Please wait...';
-
-    parent.appendChild(loadingImg);
-    parent.appendChild(label);
-
-    result.appendChild(parent);
-
-    return result;
+    this.closeButton = document.createElement('div');
+    this.closeButton.innerHTML = 'Retour';
+    this.closeButton.classList.add('button_pink_MenuAuth');
+    this.parentButtons.appendChild(this.closeButton);
   }
 
   initCallbacks() {
