@@ -205,6 +205,8 @@ export class ReceptionView {
 
     const newsLinkGHReleases = document.createElement('a');
     newsLinkGHReleases.innerHTML = getTextByID('newsLinkGithubReleases');
+    newsLinkGHReleases.href = 'https://github.com/VCityTeam/UD-Imuv/releases';
+    newsLinkGHReleases.target = '_blank';
     newsSection.appendChild(newsLinkGHReleases);
 
     //services
