@@ -1,0 +1,7 @@
+#commitInfo {
+  background-color: white;
+  position: fixed;
+  z-index: 420;
+  width: 25%;
+  height: 230px;
+}

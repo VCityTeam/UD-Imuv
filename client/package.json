@@ -12,8 +12,9 @@
     "eslint-fix": "./node_modules/.bin/eslint ./src --fix",
     "eslint-fix-ps": "eslint ./src --fix",
     "parseWorlds": "node ./bin/parseWorlds.js",
-    "build": "cross-env NODE_ENV=production webpack",
-    "build-debug": "cross-env NODE_ENV=development webpack",
+    "parseGitLog": "node ./bin/parseGitLog.js",
+    "build": "npm run parseGitLog && cross-env NODE_ENV=production webpack",
+    "build-debug": "npm run parseGitLog && cross-env NODE_ENV=development webpack",
     "debug": "nodemon --verbose --watch src --delay 2500ms ./bin/debug.js -e js,css,html"
   },
   "author": "",
