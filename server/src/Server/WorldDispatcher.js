@@ -152,9 +152,17 @@ const WorldDispatcherModule = class WorldDispatcher {
     const oldThread = user.getThread();
     if (oldThread) {
       oldThread.removeUser(user);
+      oldThread.post(
+        WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
+        user.getAvatarUUID()
+      );
     }
 
-    thread.addUser(user, portalUUID);
+    thread.addUser(user);
+    thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+      gameObject: user.getAvatarJSON(),
+      portalUUID: portalUUID,
+    });
 
     const socket = user.getSocket();
     const Constants = Game.Components.Constants;
@@ -165,7 +173,10 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.removeAllListeners(
       Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
     );
+    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.COMMANDS);
+    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
 
+    //create BBB rooms
     socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
       const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
 
@@ -195,6 +206,30 @@ const WorldDispatcherModule = class WorldDispatcher {
         thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, params);
       }
     );
+
+    //cmds are now sent to the new thread
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
+      const commands = [];
+
+      //parse
+      cmdsJSON.forEach(function (cmdJSON) {
+        const command = new Game.Command(cmdJSON);
+
+        if (command.getUserID() == user.getUUID()) {
+          //security so another client cant control another avatar
+          commands.push(command);
+        }
+      });
+
+      thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
+    });
+
+    //add go
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, function (goJSON) {
+      thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+        gameObject: goJSON,
+      });
+    });
   }
 };
 
