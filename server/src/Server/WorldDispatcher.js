@@ -135,6 +135,9 @@ const WorldDispatcherModule = class WorldDispatcher {
       return;
     }
 
+    user
+      .getThread()
+      .post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarUUID());
     user.getThread().removeUser(user);
   }
 
