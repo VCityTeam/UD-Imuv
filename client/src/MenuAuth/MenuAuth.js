@@ -25,7 +25,7 @@ export class MenuAuthView {
     this.parentButtons = null;
     this.signUpButton = null;
     this.signInButton = null;
-    this.guestButton = null;
+    this.playButton = null;
     this.editorButton = null;
     this.init();
   }
@@ -51,12 +51,12 @@ export class MenuAuthView {
     this.rootHtml.appendChild(parentSign);
 
     this.signUpButton = document.createElement('div');
-    this.signUpButton.innerHTML = 'Créer votre compte';
+    this.signUpButton.innerHTML = 'Créer compte';
     this.signUpButton.classList.add('sign_button_MenuAuth');
     parentSign.appendChild(this.signUpButton);
 
     this.signInButton = document.createElement('div');
-    this.signInButton.innerHTML = 'J ai déja un compte';
+    this.signInButton.innerHTML = 'Identification';
     this.signInButton.classList.add('sign_button_MenuAuth');
     parentSign.appendChild(this.signInButton);
 
@@ -65,18 +65,14 @@ export class MenuAuthView {
     this.parentButtons.classList.add('parentButtons_MenuAuth');
     this.rootHtml.appendChild(this.parentButtons);
 
-    this.guestButton = document.createElement('div');
-    this.guestButton.innerHTML = 'Je suis invité';
-    this.guestButton.classList.add('button_pink_MenuAuth');
-    this.parentButtons.appendChild(this.guestButton);
+    this.playButton = document.createElement('div');
+    this.playButton.innerHTML = 'Jouer';
+    this.playButton.classList.add('button_pink_MenuAuth');
+    this.parentButtons.appendChild(this.playButton);
 
     this.editorButton = document.createElement('div');
     this.editorButton.innerHTML = 'Editeur';
     this.editorButton.classList.add('button_pink_MenuAuth');
-    if (!this.confFeatures.editor) {
-      this.editorButton.disabled = true;
-      this.editorButton.classList.add('button_MenuAuth_disabled');
-    }
     this.parentButtons.appendChild(this.editorButton);
 
     this.closeButton = document.createElement('div');
@@ -120,7 +116,7 @@ export class MenuAuthView {
       });
     };
 
-    this.guestButton.onclick = function () {
+    this.playButton.onclick = function () {
       _this.webSocketService.emit(
         Constants.WEBSOCKET.MSG_TYPES.GUEST_CONNECTION,
         null
@@ -240,9 +236,6 @@ class SignUpView {
   }
 
   initUI() {
-    this.closeButton = document.createElement('div');
-    this.closeButton.classList.add('close_MenuAuth');
-    this.rootHtml.appendChild(this.closeButton);
 
     const parentInputs = document.createElement('div');
     parentInputs.classList.add('parentCentered_MenuAuth');
@@ -257,6 +250,11 @@ class SignUpView {
     this.signUpButton.classList.add('button_MenuAuth');
     this.signUpButton.innerHTML = 'Créer compte';
     parentInputs.appendChild(this.signUpButton);
+
+    this.closeButton = document.createElement('div');
+    this.closeButton.classList.add('button_MenuAuth');
+    this.closeButton.innerHTML = 'Retour';
+    parentInputs.appendChild(this.closeButton);
   }
 
   initCallbacks() {
@@ -316,9 +314,7 @@ class SignInView {
   }
 
   initUI() {
-    this.closeButton = document.createElement('div');
-    this.closeButton.classList.add('close_MenuAuth');
-    this.rootHtml.appendChild(this.closeButton);
+    
 
     const parentCentered = document.createElement('div');
     parentCentered.classList.add('parentCentered_MenuAuth');
@@ -335,6 +331,11 @@ class SignInView {
     this.signInButton.classList.add('button_MenuAuth');
     this.signInButton.innerHTML = 'Connexion';
     parentCentered.appendChild(this.signInButton);
+
+    this.closeButton = document.createElement('div');
+    this.closeButton.classList.add('button_MenuAuth');
+    this.closeButton.innerHTML = 'Retour'; 
+    parentCentered.appendChild(this.closeButton);
   }
 
   initCallbacks() {

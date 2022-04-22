@@ -23,6 +23,7 @@
   padding: 20px;
   top: 0px;
   left: 0px;
+  z-index: 1;
 }
 
 .parent_sign_MenuAuth {
@@ -49,11 +50,12 @@
   background-color: hotpink;
   font-size: xx-large;
   padding: 15px;
-  border: solid 4px black;
-  color: yellow;
-  text-decoration-color: yellow;
+  border: solid 4px pink;
+  color: white;
   margin: 20px;
   text-align: center;
+  border-radius: 100px;
+  min-width: 200px;
 }
 
 .button_MenuAuth_disabled {
@@ -62,7 +64,7 @@
 }
 
 .button_pink_MenuAuth:hover {
-  background-color: magenta;
+  background-color: pink;
   cursor: pointer;
 }
 
