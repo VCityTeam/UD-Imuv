@@ -23,9 +23,7 @@ SystemUtils.File.loadJSON('./assets/config/config_features.json').then(
   }
 );
 
-SystemUtils.File.loadJSON('./assets/commit/commit_info.json').then(
-  (commitJson) => {
-    const commitInfo = new CommitInfo(commitJson);
-    document.body.appendChild(commitInfo.html());
-  }
-);
+SystemUtils.File.loadJSON('./commit_info.json').then((commitJson) => {
+  const commitInfo = new CommitInfo(commitJson);
+  document.body.appendChild(commitInfo.html());
+});
