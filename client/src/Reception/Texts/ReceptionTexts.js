@@ -1,7 +1,6 @@
 module.exports = {
   /* A function that takes an id and returns the text associated with that id. */
-  getTextByID: function (id) {
-    const lang = 'FR'; //TODO get this var in a global config
+  getTextByID: function (id, lang) {
     return texts[lang][id] || 'TEXT NOT DEFINED';
   },
 };
@@ -16,7 +15,7 @@ const texts = {
     button_FRUK: 'FR/UK',
     titleNav: 'IMUV - Flying Campus',
     button_Join: 'Rejoindre',
-    titleContent: 'Titre content :)',
+    titleContent: 'Flying Campus',
     //About
     aboutBoxTitle: 'A propos',
     aboutTitleTeam: 'Equipe',
@@ -46,7 +45,7 @@ const texts = {
     newsBoxTitle: 'Actualités',
     newsLinkGithubReleases: 'Github Releases',
     servicesBoxTitle: 'Services',
-    servicesContent: 'Services content :)',
+    servicesContent: 'A venir',
   },
 
   EN: {
@@ -57,7 +56,7 @@ const texts = {
     button_FRUK: 'FR/UK',
     titleNav: 'IMUV - Flying Campus',
     button_Join: 'Join',
-    titleContent: 'Title content :)',
+    titleContent: 'Flying Campus',
     //About
     aboutBoxTitle: 'About',
     aboutTitleTeam: 'Team',
@@ -87,6 +86,6 @@ const texts = {
     newsBoxTitle: 'News',
     newsLinkGithubReleases: 'Github Releases',
     servicesBoxTitle: 'Services',
-    servicesContent: 'Services content :)',
+    servicesContent: 'Coming soon',
   },
 };
