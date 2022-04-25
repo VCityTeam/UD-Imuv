@@ -1,9 +1,9 @@
-module.exports = {
-  /* A function that takes an id and returns the text associated with that id. */
-  getTextByID: function (id, lang) {
-    return texts[lang][id] || 'TEXT NOT DEFINED';
-  },
+/* A function that takes an id and returns the text associated with that id. */
+const getTextByID = function (id, lang) {
+  return texts[lang][id] || 'TEXT NOT DEFINED';
 };
+
+export { getTextByID };
 
 /* A JSON object that contains the text for the website in two languages. */
 const texts = {
