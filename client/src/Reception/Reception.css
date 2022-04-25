@@ -206,3 +206,18 @@ figure:hover figcaption {
 section {
   padding-top: 100px;
 }
+
+.sign_button_MenuAuth {
+  padding: 4px;
+  color: white;
+}
+
+.sign_button_MenuAuth:hover {
+  cursor: pointer;
+  color: hotpink;
+}
+
+.topNav_label{
+  color: white;
+  padding: 4px;
+}

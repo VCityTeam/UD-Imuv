@@ -1,38 +1,35 @@
 /** @format */
 
+const { User } = require('parse');
 const { GameObject } = require('ud-viz/src/Game/Game');
 const Game = require('ud-viz/src/Game/Game');
 const Constants = Game.Components.Constants;
 const WorldState = Game.WorldState;
 
 const UserModule = class User {
-  constructor(uuid, socket, data, isGuest = false) {
+  constructor(uuid, socket, avatarJSON, role, nameUser) {
     this.uuid = uuid;
     this.socket = socket;
-    this.isGuest = isGuest;
+
+    this.role = role;
+    this.nameUser = nameUser;
 
     //to know if just joined or not
     this.lastState = null;
 
-    this.data = data;
-    this.avatarGO = new GameObject(data.avatarJSON);
+    this.avatarJSON = avatarJSON;
   }
 
   getAvatarUUID() {
-    return this.avatarGO.getUUID();
-  }
-
-  getAvatar() {
-    return this.avatarGO;
+    return this.avatarJSON.uuid;
   }
 
   getAvatarJSON() {
-    return this.data.avatarJSON;
+    return this.avatarJSON;
   }
 
   setAvatarJSON(json) {
-    this.avatarGO = new GameObject(json);
-    this.data.avatarJSON = json;
+    this.avatarJSON = json;
   }
 
   sendWorldState(stateJSON) {
@@ -66,9 +63,36 @@ const UserModule = class User {
     return this.uuid;
   }
 
+  setUUID(value) {
+    this.uuid = value;
+  }
+
   getSocket() {
     return this.socket;
   }
+
+  getNameUser() {
+    return this.nameUser;
+  }
+
+  setNameUser(value) {
+    this.nameUser = value;
+    this.avatarJSON.components.LocalScript.conf.name = value;
+  }
+
+  getRole() {
+    return this.role;
+  }
+
+  setRole(value) {
+    this.role = value;
+  }
+};
+
+UserModule.Role = {
+  GUEST: 'guest',
+  USER: 'user',
+  ADMIN: 'admin',
 };
 
 module.exports = UserModule;

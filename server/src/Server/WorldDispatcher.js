@@ -29,18 +29,6 @@ const WorldDispatcherModule = class WorldDispatcher {
     return null;
   }
 
-  fetchUserWithSocketUUID(socketUUID) {
-    for (let key in this.worldToThread) {
-      const thread = this.worldToThread[key];
-      const users = thread.getUsers();
-      for (let userUUID in users) {
-        const uuid = users[userUUID].getSocket().id;
-        if (socketUUID == uuid) return users[userUUID];
-      }
-    }
-    return null;
-  }
-
   fetchUserWithAvatarUUID(avatarUUID) {
     for (let key in this.worldToThread) {
       const thread = this.worldToThread[key];
@@ -128,10 +116,9 @@ const WorldDispatcherModule = class WorldDispatcher {
     this.placeAvatarInWorld(avatarUUID, worldUUID, null, user);
   }
 
-  removeUser(socketUUID) {
-    const user = this.fetchUserWithSocketUUID(socketUUID);
-    if (!user) {
-      console.warn('no user in thread to remove');
+  removeUser(user) {
+    if (!user.getThread()) {
+      console.warn('user not present in a thread');
       return;
     }
 

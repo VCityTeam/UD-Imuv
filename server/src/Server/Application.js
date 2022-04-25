@@ -61,6 +61,9 @@ const ApplicationModule = class Application {
 
     //websocket
     this.io = null;
+
+    //users in app id socket id
+    this.users = {};
   }
 
   /**
@@ -132,8 +135,7 @@ const ApplicationModule = class Application {
 
         try {
           let userResult = await user.signUp();
-
-          socket.emit(MSG_TYPES.SERVER_ALERT, 'User signed up', userResult);
+          socket.emit(MSG_TYPES.SIGN_UP_SUCCESS);
         } catch (error) {
           console.error(
             'Error while signing up user',
@@ -146,32 +148,39 @@ const ApplicationModule = class Application {
       })();
     });
 
+    //SIGN IN
     socket.on(MSG_TYPES.SIGN_IN, function (data) {
       (async () => {
         try {
           // Pass the username and password to logIn function
           let user = await Parse.User.logIn(data.nameUser, data.password);
 
+          const currentUser = Parse.User.current();
+
           // Do stuff after successful login
           const nameUser = await user.get('username');
-          const uuid = await user.get('objectId');
+          const role = await user.get('role');
+          const dbUUID = user.id;
 
-          if (_this.worldDispatcher.fetchUserInWorldWithUUID(uuid)) {
-            socket.emit(MSG_TYPES.SERVER_ALERT, 'You are already in game');
-          } else {
-            //inform client that he is ready to game
-            socket.emit(
-              MSG_TYPES.SIGNED,
-              true, //considered not the first connexion
-              false //is guest
-            );
+          const u = _this.users[socket.id];
+          u.setRole(role);
+          u.setNameUser(nameUser);
 
-            //wait for client to be ready
-            socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
-              const user = _this.createUser(socket, nameUser, uuid);
-              _this.worldDispatcher.addUser(user);
-            });
+          let found = false;
+          for (let id in _this.users) {
+            const other = _this.users[id];
+            if (other.getUUID() == dbUUID) {
+              found = true;
+              break;
+            }
           }
+
+          if (found) throw new Error('already sign in ' + dbUUID);
+
+          u.setUUID(dbUUID);
+
+          //inform client of role + nameuser (security on role is handle server side)
+          socket.emit(MSG_TYPES.SIGNED, { nameUser: nameUser, role: role });
         } catch (error) {
           console.error('Error while logging in user', error);
           socket.emit(MSG_TYPES.SERVER_ALERT, error.message);
@@ -179,35 +188,40 @@ const ApplicationModule = class Application {
       })();
     });
 
-    socket.on(MSG_TYPES.GUEST_CONNECTION, function () {
-      //inform client that he is ready to game
-      socket.emit(
-        MSG_TYPES.SIGNED,
-        true, //considered not the first connexion
-        true //is guest
-      );
-
-      //wait for client to be ready
-      socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
-        const user = _this.createUser(
-          socket,
-          'Guest',
-          Game.THREE.MathUtils.generateUUID()
-        );
-        _this.worldDispatcher.addUser(user);
-      });
+    socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
+      //check if not already in world
+      const user = _this.users[socket.id];
+      _this.worldDispatcher.addUser(user);
     });
 
+    //SAVE WORLDS
     socket.on(MSG_TYPES.SAVE_WORLDS, function (partialMessage) {
+      const user = _this.users[socket.id];
+      if (user.getRole() != User.Role.ADMIN) return; //security
+
       const fullMessage = Pack.recomposeMessage(partialMessage);
       if (fullMessage) {
         _this.saveWorlds(fullMessage, socket);
       }
     });
 
+    //REGISTER in app
+    const u = (this.users[socket.id] = this.createUser(
+      socket,
+      'Guest@' + parseInt(Math.random() * 10000),
+      Game.THREE.MathUtils.generateUUID(),
+      User.Role.GUEST
+    ));
+    socket.emit(MSG_TYPES.SIGNED, {
+      nameUser: u.getNameUser(),
+      role: u.getRole(),
+    });
+
     socket.on('disconnect', () => {
       console.log('socket', socket.id, 'disconnected');
-      _this.worldDispatcher.removeUser(socket.id); //remove user with the socket uuid
+      const user = _this.users[socket.id];
+      delete _this.users[socket.id]; //remove
+      _this.worldDispatcher.removeUser(user); //remove user with the socket uuid
     });
   }
 
@@ -346,7 +360,8 @@ const ApplicationModule = class Application {
     });
   }
 
-  createUser(socket, nameUser, uuid) {
+  createUser(socket, nameUser, uuid, role) {
+    //create avatar json
     let avatarJSON = this.assetsManager.createAvatarJSON();
     avatarJSON.components.LocalScript.conf.name = nameUser;
     Game.Render.bindColor(avatarJSON, [
@@ -356,14 +371,7 @@ const ApplicationModule = class Application {
     ]);
     avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
 
-    const extraData = {
-      uuid: uuid,
-      nameUser: nameUser,
-      initialized: true,
-      avatarJSON: avatarJSON,
-    };
-
-    return new User(uuid, socket, extraData, true);
+    return new User(uuid, socket, avatarJSON, role, nameUser);
   }
 };
 
