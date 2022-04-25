@@ -21,15 +21,8 @@ const commitJSON = {
 };
 
 const save = function () {
-  fs.mkdir('./assets/commit', (err) => {
-    if (err) {
-      if (err.code == 'EEXIST') return;
-      return console.error(err.code);
-    }
-    console.log('Directory created successfully!');
-  });
   fs.writeFile(
-    './assets/commit/commit_info.json',
+    'commit_info.json',
     JSON.stringify(commitJSON),
     {
       encoding: 'utf8',
