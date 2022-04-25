@@ -8,3 +8,4 @@ TODO.md
 Test/**
 server/env.json
 *.xml
+client/commit_info.json

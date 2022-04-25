@@ -1,0 +1,17 @@
+#commitInfo a {
+  font-size: smaller;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  padding: 21px 4px;
+  border-radius: 50%;
+  background-color: #2a2d2f38;
+  z-index: 999;
+  text-decoration: none;
+  color: rgb(245, 245, 245);
+}
+
+#commitInfo a:hover {
+  background-color: #e6007c91;
+  color: white;
+}
