@@ -4,7 +4,7 @@ const fs = require('fs');
 const options = {
   repo: __dirname,
   number: 1,
-  fields: ['hash'],
+  fields: ['hash', 'abbrevHash'],
   execOptions: { maxBuffer: 1000 * 1024 },
 };
 
@@ -16,6 +16,7 @@ const commitUrl =
 
 const commitJSON = {
   commitHash: commits[0].hash,
+  commitAbbrevHash: commits[0].abbrevHash,
   commitUrl: commitUrl,
 };
 
