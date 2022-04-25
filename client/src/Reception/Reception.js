@@ -3,7 +3,7 @@
 import { MenuAuthView } from '../MenuAuth/MenuAuth';
 
 import './Reception.css';
-import { getTextByID } from '../../assets/texts/receptionTexts.js';
+import { getTextByID } from './Texts/ReceptionTexts';
 
 export class ReceptionView {
   constructor(webSocketService, configFeatures) {
@@ -21,6 +21,8 @@ export class ReceptionView {
     this.webSocketService = webSocketService;
 
     this.configFeatures = configFeatures;
+
+    this.language = 'FR';
 
     this.init();
   }
@@ -60,18 +62,29 @@ export class ReceptionView {
     };
 
     //buttons Nav
-    this.receptionButton = createButton(getTextByID('button_Home'));
+    this.receptionButton = createButton(
+      getTextByID('button_Home', this.language),
+      '#top'
+    );
     buttonsTopNav.appendChild(this.receptionButton);
-    this.aboutButton = createButton(getTextByID('button_About'), '#about');
+    this.aboutButton = createButton(
+      getTextByID('button_About', this.language),
+      '#about'
+    );
     buttonsTopNav.appendChild(this.aboutButton);
-    this.newsButton = createButton(getTextByID('button_News'), '#news');
+    this.newsButton = createButton(
+      getTextByID('button_News', this.language),
+      '#news'
+    );
     buttonsTopNav.appendChild(this.newsButton);
     this.servicesButton = createButton(
-      getTextByID('button_Services'),
+      getTextByID('button_Services', this.language),
       '#services'
     );
     buttonsTopNav.appendChild(this.servicesButton);
-    this.languageButton = createButton(getTextByID('button_FRUK'));
+    this.languageButton = createButton(
+      getTextByID('button_FRUK', this.language)
+    );
     buttonsTopNav.appendChild(this.languageButton);
 
     //title Nav
@@ -84,11 +97,12 @@ export class ReceptionView {
     topNav.appendChild(imageTitle);
 
     const titlePage = document.createElement('h1');
-    titlePage.innerHTML = getTextByID('titleNav');
+    titlePage.innerHTML = getTextByID('titleNav', this.language);
     titleDiv.appendChild(titlePage);
 
     //header
     const header = document.createElement('header');
+    header.id = 'top';
     header.classList.add('header_Reception');
     this.rootHtml.appendChild(header);
 
@@ -97,7 +111,7 @@ export class ReceptionView {
     this.rootHtml.appendChild(this.joinButton);
 
     const labelJoin = document.createElement('div');
-    labelJoin.innerHTML = getTextByID('button_Join');
+    labelJoin.innerHTML = getTextByID('button_Join', this.language);
     this.joinButton.appendChild(labelJoin);
 
     //content
@@ -106,7 +120,7 @@ export class ReceptionView {
     this.rootHtml.appendChild(contentDiv);
 
     const titleContent = document.createElement('div');
-    titleContent.innerHTML = getTextByID('titleContent');
+    titleContent.innerHTML = getTextByID('titleContent', this.language);
     titleContent.classList.add('titleContent_Reception');
     contentDiv.appendChild(titleContent);
 
@@ -117,25 +131,28 @@ export class ReceptionView {
 
     const aboutBoxTitle = document.createElement('div');
     aboutBoxTitle.classList.add('box_Reception');
-    aboutBoxTitle.innerHTML = getTextByID('aboutBoxTitle');
+    aboutBoxTitle.innerHTML = getTextByID('aboutBoxTitle', this.language);
     aboutSection.appendChild(aboutBoxTitle);
 
     //About->Description
     const aboutTitleDescription = document.createElement('h2');
-    aboutTitleDescription.innerHTML = getTextByID('aboutTitleDescription');
+    aboutTitleDescription.innerHTML = getTextByID(
+      'aboutTitleDescription',
+      this.language
+    );
     aboutSection.appendChild(aboutTitleDescription);
 
     const aboutDescription = document.createElement('p');
-    aboutDescription.innerHTML = getTextByID('aboutDescription');
+    aboutDescription.innerHTML = getTextByID('aboutDescription', this.language);
     aboutSection.appendChild(aboutDescription);
 
     //About->Team
     const aboutTitleTeam = document.createElement('h2');
-    aboutTitleTeam.innerHTML = getTextByID('aboutTitleTeam');
+    aboutTitleTeam.innerHTML = getTextByID('aboutTitleTeam', this.language);
     aboutSection.appendChild(aboutTitleTeam);
 
     const aboutTeamList = document.createElement('ul');
-    getTextByID('aboutLabelsTeamList').forEach((element) => {
+    getTextByID('aboutLabelsTeamList', this.language).forEach((element) => {
       const liEl = document.createElement('li');
       liEl.innerHTML = element;
       aboutTeamList.appendChild(liEl);
@@ -144,17 +161,24 @@ export class ReceptionView {
 
     //About->Overview
     const aboutTitleOverview = document.createElement('h2');
-    aboutTitleOverview.innerHTML = getTextByID('aboutTitleOverview');
+    aboutTitleOverview.innerHTML = getTextByID(
+      'aboutTitleOverview',
+      this.language
+    );
     aboutSection.appendChild(aboutTitleOverview);
 
     const aboutSubtitleGraphicDescription = document.createElement('h3');
     aboutSubtitleGraphicDescription.innerHTML = getTextByID(
-      'aboutSubtitleGraphicDescription'
+      'aboutSubtitleGraphicDescription',
+      this.language
     );
     aboutSection.appendChild(aboutSubtitleGraphicDescription);
 
     const aboutGraphicDescription = document.createElement('p');
-    aboutGraphicDescription.innerHTML = getTextByID('aboutGraphicDescription');
+    aboutGraphicDescription.innerHTML = getTextByID(
+      'aboutGraphicDescription',
+      this.language
+    );
     aboutSection.appendChild(aboutGraphicDescription);
 
     //About->Overview->Graphic Description->Islet Figure
@@ -166,12 +190,16 @@ export class ReceptionView {
     aboutIsletFigure.appendChild(aboutIsletImg);
 
     const aboutIsletFigcaption = document.createElement('figcaption');
-    aboutIsletFigcaption.innerHTML = getTextByID('aboutIsletFigcaption');
+    aboutIsletFigcaption.innerHTML = getTextByID(
+      'aboutIsletFigcaption',
+      this.language
+    );
     aboutIsletFigure.appendChild(aboutIsletFigcaption);
 
     const aboutGraphicDescriptionIslet = document.createElement('p');
     aboutGraphicDescriptionIslet.innerHTML = getTextByID(
-      'aboutGraphicDescriptionIslet'
+      'aboutGraphicDescriptionIslet',
+      this.language
     );
     aboutSection.appendChild(aboutGraphicDescriptionIslet);
 
@@ -184,12 +212,16 @@ export class ReceptionView {
     aboutAvatarFigure.appendChild(aboutAvatarImg);
 
     const aboutAvatarFigcaption = document.createElement('figcaption');
-    aboutAvatarFigcaption.innerHTML = getTextByID('aboutAvatarFigcaption');
+    aboutAvatarFigcaption.innerHTML = getTextByID(
+      'aboutAvatarFigcaption',
+      this.language
+    );
     aboutAvatarFigure.appendChild(aboutAvatarFigcaption);
 
     const aboutGraphicDescriptionAvatar = document.createElement('p');
     aboutGraphicDescriptionAvatar.innerHTML = getTextByID(
-      'aboutGraphicDescriptionAvatar'
+      'aboutGraphicDescriptionAvatar',
+      this.language
     );
     aboutSection.appendChild(aboutGraphicDescriptionAvatar);
 
@@ -200,11 +232,14 @@ export class ReceptionView {
 
     const newsBoxTitle = document.createElement('div');
     newsBoxTitle.classList.add('box_Reception');
-    newsBoxTitle.innerHTML = getTextByID('newsBoxTitle');
+    newsBoxTitle.innerHTML = getTextByID('newsBoxTitle', this.language);
     newsSection.appendChild(newsBoxTitle);
 
     const newsLinkGHReleases = document.createElement('a');
-    newsLinkGHReleases.innerHTML = getTextByID('newsLinkGithubReleases');
+    newsLinkGHReleases.innerHTML = getTextByID(
+      'newsLinkGithubReleases',
+      this.language
+    );
     newsLinkGHReleases.href = 'https://github.com/VCityTeam/UD-Imuv/releases';
     newsLinkGHReleases.target = '_blank';
     newsSection.appendChild(newsLinkGHReleases);
@@ -216,11 +251,11 @@ export class ReceptionView {
 
     const servicesBoxTitle = document.createElement('div');
     servicesBoxTitle.classList.add('box_Reception');
-    servicesBoxTitle.innerHTML = getTextByID('servicesBoxTitle');
+    servicesBoxTitle.innerHTML = getTextByID('servicesBoxTitle', this.language);
     servicesSection.appendChild(servicesBoxTitle);
 
     const servicesContent = document.createElement('p');
-    servicesContent.innerHTML = getTextByID('servicesContent');
+    servicesContent.innerHTML = getTextByID('servicesContent', this.language);
     servicesSection.appendChild(servicesContent);
   }
 
@@ -230,8 +265,6 @@ export class ReceptionView {
 
   initCallbacks() {
     const _this = this;
-
-    this.receptionButton.href = '';
 
     this.joinButton.onclick = function () {
       _this.dispose();
@@ -244,6 +277,21 @@ export class ReceptionView {
         menuAuth.dispose();
         document.body.appendChild(_this.html());
       });
+    };
+
+    this.languageButton.onclick = function () {
+      //toggle language
+      if (_this.language == 'FR') {
+        _this.language = 'EN';
+      } else {
+        _this.language = 'FR';
+      }
+
+      //rebuild
+      while (_this.rootHtml.firstChild) {
+        _this.rootHtml.firstChild.remove();
+      }
+      _this.init();
     };
   }
 
