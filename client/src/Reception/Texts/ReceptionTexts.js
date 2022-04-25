@@ -20,12 +20,12 @@ const texts = {
     aboutBoxTitle: 'A propos',
     aboutTitleTeam: 'Equipe',
     aboutLabelsTeamList: [
-      'Mathieu <b>LIVEBARDON</b>',
-      'Valentin <b>MACHADO</b>',
       'Jean-Yves <b>TOUSSAINT</b>',
       'Gilles <b>GESQUIERE</b>',
       'Didier <b>CHANFRAY</b>',
       'Yael <b>BARROZ</b>',
+      'Mathieu <b>LIVEBARDON</b>',
+      'Valentin <b>MACHADO</b>',
     ],
     aboutTitleDescription: 'Description',
     aboutDescription:
@@ -61,12 +61,12 @@ const texts = {
     aboutBoxTitle: 'About',
     aboutTitleTeam: 'Team',
     aboutLabelsTeamList: [
-      'Mathieu <b>LIVEBARDON</b>',
-      'Valentin <b>MACHADO</b>',
       'Jean-Yves <b>TOUSSAINT</b>',
       'Gilles <b>GESQUIERE</b>',
       'Didier <b>CHANFRAY</b>',
       'Yael <b>BARROZ</b>',
+      'Mathieu <b>LIVEBARDON</b>',
+      'Valentin <b>MACHADO</b>',
     ],
     aboutTitleDescription: 'Description',
     aboutDescription:
