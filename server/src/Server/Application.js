@@ -134,7 +134,7 @@ const ApplicationModule = class Application {
         user.set('password', data.password);
 
         try {
-          let userResult = await user.signUp();
+          await user.signUp();
           socket.emit(MSG_TYPES.SIGN_UP_SUCCESS);
         } catch (error) {
           console.error(
@@ -154,8 +154,6 @@ const ApplicationModule = class Application {
         try {
           // Pass the username and password to logIn function
           let user = await Parse.User.logIn(data.nameUser, data.password);
-
-          const currentUser = Parse.User.current();
 
           // Do stuff after successful login
           const nameUser = await user.get('username');

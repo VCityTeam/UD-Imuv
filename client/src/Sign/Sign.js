@@ -49,7 +49,6 @@ export class SignUpView {
   }
 
   initUI() {
-
     const parentInputs = document.createElement('div');
     parentInputs.classList.add('parentCentered_Sign');
     this.rootHtml.appendChild(parentInputs);
@@ -127,8 +126,6 @@ export class SignInView {
   }
 
   initUI() {
-    
-
     const parentCentered = document.createElement('div');
     parentCentered.classList.add('parentCentered_Sign');
     this.rootHtml.appendChild(parentCentered);
@@ -147,7 +144,7 @@ export class SignInView {
 
     this.closeButton = document.createElement('div');
     this.closeButton.classList.add('button_Sign');
-    this.closeButton.innerHTML = 'Retour'; 
+    this.closeButton.innerHTML = 'Retour';
     parentCentered.appendChild(this.closeButton);
   }
 

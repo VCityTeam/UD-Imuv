@@ -1,7 +1,5 @@
 /** @format */
 
-const { User } = require('parse');
-const { GameObject } = require('ud-viz/src/Game/Game');
 const Game = require('ud-viz/src/Game/Game');
 const Constants = Game.Components.Constants;
 const WorldState = Game.WorldState;
