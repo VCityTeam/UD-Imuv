@@ -1,5 +1,7 @@
 /** @format */
 
+import ImuvConstants from '../../../../imuv.constants';
+
 import { World } from 'ud-viz/src/Game/Game';
 import { LocalGame } from 'ud-viz/src/Templates/Templates';
 import { THREE } from 'ud-viz';
@@ -42,15 +44,17 @@ export class PlayWorldEditorView {
     const _this = this;
 
     const jsonCopy = JSON.parse(JSON.stringify(json));
-    const world = new World(jsonCopy);
+    const world = new World(jsonCopy, {
+      modules: { ImuvConstants: ImuvConstants },
+    });
 
     const avatar = this.assetsManager.createPrefab('avatar');
     this.avatarGO = avatar;
-
     this.localGameApp
       .startWithAssetsLoaded(world, this.assetsManager, this.config, {
         htmlParent: this.htmlParent,
         userData: { avatarUUID: avatar.getUUID(), editorMode: true },
+        localScriptModules: { ImuvConstants: ImuvConstants },
       })
       .then(function () {
         const gV = _this.localGameApp.getGameView();
