@@ -1,6 +1,6 @@
 /** @format */
 
-const ImuvConstants = require("../../../imuv.constants")
+const ImuvConstants = require('../../../imuv.constants');
 
 const WorldDispatcher = require('./WorldDispatcher');
 const BBBWrapper = require('./BBBWrapper');
@@ -202,6 +202,18 @@ const ApplicationModule = class Application {
       const fullMessage = Pack.recomposeMessage(partialMessage);
       if (fullMessage) {
         _this.saveWorlds(fullMessage, socket);
+      }
+    });
+
+    //Avatar json
+    socket.on(MSG_TYPES.QUERY_AVATAR, function () {
+      try {
+        const user = _this.users[socket.id];
+        const response = user.getAvatarJSON();
+        if (!response) throw new Error('no avatar json ', user);
+        socket.emit(MSG_TYPES.ON_AVATAR, response);
+      } catch (e) {
+        console.error(e);
       }
     });
 
