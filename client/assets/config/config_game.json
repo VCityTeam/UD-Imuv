@@ -54,6 +54,9 @@
       }
     },
     "localScripts": {
+      "menu_avatar": {
+        "path": "./assets/localScripts/MenuAvatar.js"
+      },
       "post_it": {
         "path": "./assets/localScripts/PostIt.js"
       },

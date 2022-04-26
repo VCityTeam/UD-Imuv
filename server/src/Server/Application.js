@@ -1,5 +1,7 @@
 /** @format */
 
+const ImuvConstants = require("../../../imuv.constants")
+
 const WorldDispatcher = require('./WorldDispatcher');
 const BBBWrapper = require('./BBBWrapper');
 const Parse = require('parse/node');
@@ -195,7 +197,7 @@ const ApplicationModule = class Application {
     //SAVE WORLDS
     socket.on(MSG_TYPES.SAVE_WORLDS, function (partialMessage) {
       const user = _this.users[socket.id];
-      if (user.getRole() != User.Role.ADMIN) return; //security
+      if (user.getRole() != ImuvConstants.USER.ROLE.ADMIN) return; //security
 
       const fullMessage = Pack.recomposeMessage(partialMessage);
       if (fullMessage) {
@@ -208,7 +210,7 @@ const ApplicationModule = class Application {
       socket,
       'Guest@' + parseInt(Math.random() * 10000),
       Game.THREE.MathUtils.generateUUID(),
-      User.Role.GUEST
+      ImuvConstants.USER.ROLE.GUEST
     ));
     socket.emit(MSG_TYPES.SIGNED, {
       nameUser: u.getNameUser(),

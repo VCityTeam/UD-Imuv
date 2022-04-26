@@ -46,6 +46,9 @@
       }
     },
     "localScripts": {
+      "menu_avatar": {
+        "path": "./assets/localScripts/MenuAvatar.js"
+      },
       "static_object": {
         "path": "./assets/localScripts/StaticObject.js"
       },

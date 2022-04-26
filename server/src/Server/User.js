@@ -87,10 +87,4 @@ const UserModule = class User {
   }
 };
 
-UserModule.Role = {
-  GUEST: 'guest',
-  USER: 'user',
-  ADMIN: 'admin',
-};
-
 module.exports = UserModule;
