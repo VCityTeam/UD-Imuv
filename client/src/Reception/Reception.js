@@ -425,8 +425,6 @@ export class ReceptionView {
 
     //editor
     this.editorButton.onclick = function () {
-      if (this.disabled) return;
-
       _this.dispose();
 
       SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
