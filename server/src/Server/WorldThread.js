@@ -4,6 +4,8 @@
  * @format
  */
 
+const ImuvConstants = require('../../../imuv.constants');
+
 const workerThreads = require('worker_threads');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
@@ -117,7 +119,7 @@ WorldThreadModule.routine = function (serverConfig) {
           //create a server world
           const world = new World(msg.data, {
             isServerSide: true,
-            modules: { gm: gm, PNG: PNG },
+            modules: { gm: gm, PNG: PNG, ImuvConstants: ImuvConstants },
           });
 
           worldStateComputer.start(world);
@@ -136,7 +138,7 @@ WorldThreadModule.routine = function (serverConfig) {
           worldStateComputer
             .getWorldContext()
             .getWorld()
-            .on('portalEvent', function (args) {
+            .on(ImuvConstants.WORLD.EVENT.PORTAL, function (args) {
               const avatarGO = args[0];
               const uuidDest = args[1];
               const portalUUID = args[2];

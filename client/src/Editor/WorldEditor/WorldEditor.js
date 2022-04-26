@@ -10,6 +10,7 @@ import { HeightmapEditorView } from './HeightmapEditor/HeightmapEditor';
 import { computeMapGO } from '../Components/EditorUtility';
 const WorldStateInterpolator = Game.WorldStateInterpolator;
 import { EditorGameView } from '../Components/EditorGameView';
+import ImuvConstants from '../../../../imuv.constants';
 
 export class WorldEditorView {
   constructor(params) {
@@ -33,6 +34,7 @@ export class WorldEditorView {
       userData: { firstGameView: false },
       interpolator: this.model.getInterpolator(),
       updateGameObject: false,
+      localScriptModules: { ImuvConstants: ImuvConstants },
     });
 
     //offset the gameview
