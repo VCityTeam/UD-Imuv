@@ -1,40 +1,33 @@
 /** @format */
 
-const { GameObject } = require('ud-viz/src/Game/Game');
 const Game = require('ud-viz/src/Game/Game');
 const Constants = Game.Components.Constants;
-const Command = Game.Command;
 const WorldState = Game.WorldState;
-const WorldThread = require('./WorldThread');
 
 const UserModule = class User {
-  constructor(uuid, socket, data, isGuest = false) {
+  constructor(uuid, socket, avatarJSON, role, nameUser) {
     this.uuid = uuid;
     this.socket = socket;
-    this.isGuest = isGuest;
+
+    this.role = role;
+    this.nameUser = nameUser;
 
     //to know if just joined or not
     this.lastState = null;
 
-    this.data = data;
-    this.avatarGO = new GameObject(data.avatarJSON);
+    this.avatarJSON = avatarJSON;
   }
 
   getAvatarUUID() {
-    return this.avatarGO.getUUID();
-  }
-
-  getAvatar() {
-    return this.avatarGO;
+    return this.avatarJSON.uuid;
   }
 
   getAvatarJSON() {
-    return this.data.avatarJSON;
+    return this.avatarJSON;
   }
 
   setAvatarJSON(json) {
-    this.avatarGO = new GameObject(json);
-    this.data.avatarJSON = json;
+    this.avatarJSON = json;
   }
 
   sendWorldState(stateJSON) {
@@ -62,52 +55,42 @@ const UserModule = class User {
     //assign
     this.thread = thread;
     this.lastState = null;
-    this.socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.COMMANDS);
-    this.socket.removeAllListeners(
-      Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT
-    );
-
-    if (thread) {
-      //cmds are now sent to the new thread
-      const _this = this;
-      this.socket.on(
-        Constants.WEBSOCKET.MSG_TYPES.COMMANDS,
-        function (cmdsJSON) {
-          const commands = [];
-
-          //parse
-          cmdsJSON.forEach(function (cmdJSON) {
-            const command = new Command(cmdJSON);
-
-            if (command.getUserID() == _this.getUUID()) {
-              //security so another client cant control another avatar
-              commands.push(command);
-            }
-          });
-
-          _this.thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
-        }
-      );
-
-      //add go
-      this.socket.on(
-        Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
-        function (goJSON) {
-          _this.thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
-            gameObject: goJSON,
-          });
-        }
-      );
-    }
   }
 
   getUUID() {
     return this.uuid;
   }
 
+  setUUID(value) {
+    this.uuid = value;
+  }
+
   getSocket() {
     return this.socket;
   }
+
+  getNameUser() {
+    return this.nameUser;
+  }
+
+  setNameUser(value) {
+    this.nameUser = value;
+    this.avatarJSON.components.LocalScript.conf.name = value;
+  }
+
+  getRole() {
+    return this.role;
+  }
+
+  setRole(value) {
+    this.role = value;
+  }
+};
+
+UserModule.Role = {
+  GUEST: 'guest',
+  USER: 'user',
+  ADMIN: 'admin',
 };
 
 module.exports = UserModule;

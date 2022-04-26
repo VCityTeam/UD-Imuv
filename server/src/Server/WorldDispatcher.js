@@ -7,7 +7,7 @@ const Game = require('ud-viz/src/Game/Game');
 const BBB_ROOM_TAG = 'bbb_room_tag';
 
 const WorldDispatcherModule = class WorldDispatcher {
-  constructor(config, serviceWrapper) {
+  constructor(config, bbbWrapper) {
     this.config = config;
 
     //worlds json
@@ -17,7 +17,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     this.worldToThread = {};
 
     //service
-    this.serviceWrapper = serviceWrapper;
+    this.bbbWrapper = bbbWrapper;
   }
 
   fetchUserInWorldWithUUID(uuid) {
@@ -25,18 +25,6 @@ const WorldDispatcherModule = class WorldDispatcher {
       const thread = this.worldToThread[key];
       const user = thread.getUsers()[uuid];
       if (user) return user;
-    }
-    return null;
-  }
-
-  fetchUserWithSocketUUID(socketUUID) {
-    for (let key in this.worldToThread) {
-      const thread = this.worldToThread[key];
-      const users = thread.getUsers();
-      for (let userUUID in users) {
-        const uuid = users[userUUID].getSocket().id;
-        if (socketUUID == uuid) return users[userUUID];
-      }
     }
     return null;
   }
@@ -128,13 +116,15 @@ const WorldDispatcherModule = class WorldDispatcher {
     this.placeAvatarInWorld(avatarUUID, worldUUID, null, user);
   }
 
-  removeUser(socketUUID) {
-    const user = this.fetchUserWithSocketUUID(socketUUID);
-    if (!user) {
-      console.warn('no user in thread to remove');
+  removeUser(user) {
+    if (!user.getThread()) {
+      console.warn('user not present in a thread');
       return;
     }
 
+    user
+      .getThread()
+      .post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarUUID());
     user.getThread().removeUser(user);
   }
 
@@ -152,9 +142,17 @@ const WorldDispatcherModule = class WorldDispatcher {
     const oldThread = user.getThread();
     if (oldThread) {
       oldThread.removeUser(user);
+      oldThread.post(
+        WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT,
+        user.getAvatarUUID()
+      );
     }
 
-    thread.addUser(user, portalUUID);
+    thread.addUser(user);
+    thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+      gameObject: user.getAvatarJSON(),
+      portalUUID: portalUUID,
+    });
 
     const socket = user.getSocket();
     const Constants = Game.Components.Constants;
@@ -165,16 +163,19 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.removeAllListeners(
       Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
     );
+    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.COMMANDS);
+    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
 
+    //create BBB rooms
     socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
       const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
 
-      if (!_this.serviceWrapper.hasBBBApi()) {
+      if (!_this.bbbWrapper.hasBBBApi()) {
         socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'no bbb api');
         return;
       }
 
-      _this.serviceWrapper
+      _this.bbbWrapper
         .createBBBRoom(worldUUID, worldJSON.name)
         .then(function (value) {
           //write dynamically bbb urls in localscript conf
@@ -195,6 +196,30 @@ const WorldDispatcherModule = class WorldDispatcher {
         thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, params);
       }
     );
+
+    //cmds are now sent to the new thread
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
+      const commands = [];
+
+      //parse
+      cmdsJSON.forEach(function (cmdJSON) {
+        const command = new Game.Command(cmdJSON);
+
+        if (command.getUserID() == user.getUUID()) {
+          //security so another client cant control another avatar
+          commands.push(command);
+        }
+      });
+
+      thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
+    });
+
+    //add go
+    socket.on(Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, function (goJSON) {
+      thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+        gameObject: goJSON,
+      });
+    });
   }
 };
 

@@ -1,29 +1,38 @@
 /** @format */
 
-import { MenuAuthView } from '../MenuAuth/MenuAuth';
+import { Game } from 'ud-viz/src';
+import { SignInView, SignUpView } from '../Sign/Sign';
+import { EditorView } from '../Editor/Editor';
+import { SystemUtils } from 'ud-viz/src/Components/Components';
+
+import { AssetsManager } from 'ud-viz/src/Views/Views';
+import { DistantGame } from 'ud-viz/src/Templates/Templates';
 
 import './Reception.css';
 import { getTextByID } from './Texts/ReceptionTexts';
 
 export class ReceptionView {
-  constructor(webSocketService, configFeatures) {
+  constructor(webSocketService) {
+    //root
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Reception');
 
     //html
-    this.receptionButton = null;
-    this.aboutButton = null;
-    this.newsButton = null;
-    this.servicesButton = null;
+    this.hamburgerButton = null;
+    this.signInButton = null;
+    this.signUpButton = null;
+    this.nameUserLabel = null;
+    this.roleUserLabel = null;
     this.languageButton = null;
     this.joinButton = null;
 
+    //socket service
     this.webSocketService = webSocketService;
 
-    this.configFeatures = configFeatures;
-
+    //default lang is FR
     this.language = 'FR';
 
+    //init view + callback button
     this.init();
   }
 
@@ -40,14 +49,10 @@ export class ReceptionView {
     const containerBtnTopNav = document.createElement('div');
     topNav.appendChild(containerBtnTopNav);
 
-    const hamburgerButton = document.createElement('div');
-    hamburgerButton.classList.add('hamburgerMenu_Reception');
-    hamburgerButton.innerHTML = '&#9776;';
-    hamburgerButton.onclick = function () {
-      var x = document.getElementById('buttonsTopNav_Reception');
-      x.style.display = x.style.display == 'block' ? 'none' : 'block';
-    };
-    containerBtnTopNav.appendChild(hamburgerButton);
+    this.hamburgerButton = document.createElement('div');
+    this.hamburgerButton.classList.add('hamburgerMenu_Reception');
+    this.hamburgerButton.innerHTML = '&#9776;';
+    containerBtnTopNav.appendChild(this.hamburgerButton);
 
     const buttonsTopNav = document.createElement('div');
     buttonsTopNav.id = 'buttonsTopNav_Reception';
@@ -62,26 +67,26 @@ export class ReceptionView {
     };
 
     //buttons Nav
-    this.receptionButton = createButton(
+    const receptionButton = createButton(
       getTextByID('button_Home', this.language),
       '#top'
     );
-    buttonsTopNav.appendChild(this.receptionButton);
-    this.aboutButton = createButton(
+    buttonsTopNav.appendChild(receptionButton);
+    const aboutButton = createButton(
       getTextByID('button_About', this.language),
       '#about'
     );
-    buttonsTopNav.appendChild(this.aboutButton);
-    this.newsButton = createButton(
+    buttonsTopNav.appendChild(aboutButton);
+    const newsButton = createButton(
       getTextByID('button_News', this.language),
       '#news'
     );
-    buttonsTopNav.appendChild(this.newsButton);
-    this.servicesButton = createButton(
+    buttonsTopNav.appendChild(newsButton);
+    const servicesButton = createButton(
       getTextByID('button_Services', this.language),
       '#services'
     );
-    buttonsTopNav.appendChild(this.servicesButton);
+    buttonsTopNav.appendChild(servicesButton);
     this.languageButton = createButton(
       getTextByID('button_FRUK', this.language)
     );
@@ -96,6 +101,41 @@ export class ReceptionView {
     imageTitle.src = './assets/img/labex_imu.jpeg';
     topNav.appendChild(imageTitle);
 
+    //user
+    const parentUser = document.createElement('div');
+    topNav.appendChild(parentUser);
+
+    this.roleUserLabel = document.createElement('div');
+    this.roleUserLabel.classList.add('topNav_label');
+    this.roleUserLabel.innerHTML = 'ROLE placeholder';
+    parentUser.appendChild(this.roleUserLabel);
+
+    this.nameUserLabel = document.createElement('div');
+    this.nameUserLabel.classList.add('topNav_label');
+    this.nameUserLabel.innerHTML = 'NAME placeholder';
+    parentUser.appendChild(this.nameUserLabel);
+
+    this.editorButton = document.createElement('div');
+    this.editorButton.innerHTML = getTextByID('editorButton', this.language);
+    this.editorButton.classList.add('sign_button_MenuAuth');
+    this.editorButton.classList.add('hidden');
+    parentUser.appendChild(this.editorButton);
+
+    //authentification
+    const parentSign = document.createElement('div');
+    topNav.appendChild(parentSign);
+
+    this.signUpButton = document.createElement('div');
+    this.signUpButton.innerHTML = 'Créer compte';
+    this.signUpButton.classList.add('sign_button_MenuAuth');
+    parentSign.appendChild(this.signUpButton);
+
+    this.signInButton = document.createElement('div');
+    this.signInButton.innerHTML = 'Identification';
+    this.signInButton.classList.add('sign_button_MenuAuth');
+    parentSign.appendChild(this.signInButton);
+
+    //title page
     const titlePage = document.createElement('h1');
     titlePage.innerHTML = getTextByID('titleNav', this.language);
     titleDiv.appendChild(titlePage);
@@ -119,7 +159,7 @@ export class ReceptionView {
     contentDiv.classList.add('content_Reception');
     this.rootHtml.appendChild(contentDiv);
 
-    const titleContent = document.createElement('div');
+    const titleContent = document.createElement('h1');
     titleContent.innerHTML = getTextByID('titleContent', this.language);
     titleContent.classList.add('titleContent_Reception');
     contentDiv.appendChild(titleContent);
@@ -266,19 +306,45 @@ export class ReceptionView {
   initCallbacks() {
     const _this = this;
 
-    this.joinButton.onclick = function () {
-      _this.dispose();
-      const menuAuth = new MenuAuthView(
-        _this.webSocketService,
-        _this.configFeatures
-      );
-      document.body.appendChild(menuAuth.html());
-      menuAuth.setOnClose(function () {
-        menuAuth.dispose();
-        document.body.appendChild(_this.html());
-      });
+    this.hamburgerButton.onclick = function () {
+      let x = document.getElementById('buttonsTopNav_Reception');
+      x.style.display = x.style.display == 'block' ? 'none' : 'block';
     };
 
+    //join flying campus
+    this.joinButton.onclick = function () {
+      _this.dispose();
+
+      //load config
+      SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
+        function (config) {
+          //load assets
+          const assetsManager = new AssetsManager();
+          assetsManager
+            .loadFromConfig(config.assetsManager, document.body)
+            .then(function () {
+              const distantGame = new DistantGame(
+                _this.webSocketService,
+                assetsManager,
+                config
+              );
+
+              distantGame.start({
+                firstGameView: true,
+                editorMode: false,
+              });
+
+              //app is loaded and ready to receive worldstate
+              _this.webSocketService.emit(
+                Game.Components.Constants.WEBSOCKET.MSG_TYPES
+                  .READY_TO_RECEIVE_STATE
+              );
+            });
+        }
+      );
+    };
+
+    //toggle language
     this.languageButton.onclick = function () {
       //toggle language
       if (_this.language == 'FR') {
@@ -292,6 +358,88 @@ export class ReceptionView {
         _this.rootHtml.firstChild.remove();
       }
       _this.init();
+    };
+
+    //sign up
+    let signUpView = null;
+    this.signUpButton.onclick = function () {
+      if (signUpView) return;
+      if (signInView) {
+        signInView.dispose();
+        signInView = null;
+      }
+      signUpView = new SignUpView(_this.webSocketService);
+      document.body.appendChild(signUpView.html());
+
+      signUpView.setOnClose(function () {
+        signUpView.dispose();
+        signUpView = null;
+      });
+    };
+    this.webSocketService.on(
+      Game.Components.Constants.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
+      function () {
+        console.log('sign up success ');
+        if (signUpView) {
+          signUpView.dispose();
+          signUpView = null;
+        }
+      }
+    );
+
+    //sign in
+    let signInView = null;
+    this.signInButton.onclick = function () {
+      if (signInView) return;
+      if (signUpView) {
+        signUpView.dispose();
+        signUpView = null;
+      }
+      signInView = new SignInView(_this.webSocketService);
+      document.body.appendChild(signInView.html());
+
+      signInView.setOnClose(function () {
+        signInView.dispose();
+        signInView = null;
+      });
+    };
+
+    this.webSocketService.on(
+      Game.Components.Constants.WEBSOCKET.MSG_TYPES.SIGNED,
+      function (data) {
+        if (signInView) {
+          signInView.dispose();
+          signInView = null;
+        }
+
+        _this.nameUserLabel.innerHTML = data.nameUser;
+        _this.roleUserLabel.innerHTML = data.role;
+
+        if (data.role == 'admin') {
+          _this.editorButton.classList.remove('hidden');
+        } else {
+          _this.editorButton.classList.add('hidden');
+        }
+      }
+    );
+
+    //editor
+    this.editorButton.onclick = function () {
+      _this.dispose();
+
+      SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
+        function (config) {
+          _this.editor = new EditorView(_this.webSocketService, config);
+          _this.editor.load().then(function () {
+            document.body.appendChild(_this.editor.html());
+
+            _this.editor.setOnClose(function () {
+              _this.editor.dispose();
+              document.body.appendChild(_this.html());
+            });
+          });
+        }
+      );
     };
   }
 

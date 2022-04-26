@@ -8,6 +8,7 @@ export { getTextByID };
 /* A JSON object that contains the text for the website in two languages. */
 const texts = {
   FR: {
+    editorButton: 'Editeur ',
     button_Home: 'Accueil',
     button_About: 'A propos',
     button_News: 'Actualités',
@@ -49,6 +50,7 @@ const texts = {
   },
 
   EN: {
+    editorButton: 'Editor ',
     button_Home: 'Home',
     button_About: 'About',
     button_News: 'News',

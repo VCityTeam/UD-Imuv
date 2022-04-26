@@ -53,19 +53,13 @@ const WorldThreadModule = class WorldThread {
     }
   }
 
-  addUser(user, portalUUID) {
+  addUser(user) {
     user.setThread(this);
-
-    this.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
-      gameObject: user.getAvatarJSON(),
-      portalUUID: portalUUID,
-    });
-
     this.users[user.getUUID()] = user;
   }
 
   removeUser(user) {
-    this.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, user.getAvatarUUID());
+    user.setThread(null);
     delete this.users[user.getUUID()];
   }
 
