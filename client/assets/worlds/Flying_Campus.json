@@ -29,7 +29,6 @@
           "zeppelin_controller",
           "static_object",
           "mini_map",
-          "menu_avatar",
           "jitsi"
         ],
         "conf": {
