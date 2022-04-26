@@ -29,7 +29,7 @@
     "parse": "^3.4.1",
     "pngjs": "^6.0.0",
     "socket.io": "^4.0.0",
-    "ud-viz": "2.37.2",
+    "ud-viz": "2.37.3",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
