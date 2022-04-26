@@ -104,10 +104,10 @@ module.exports = class UI {
               }
             )
             .then(function () {
-
               const menuAvatarGameView = app.getGameView();
 
               //tweak websocketservice
+              console.log('TWEAK WS');
               menuAvatarGameView
                 .getLocalContext()
                 .setWebSocketService(localCtx.getWebSocketService());
