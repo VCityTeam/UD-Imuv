@@ -11,6 +11,8 @@ module.exports = class MenuAvatar {
 
     this.orbitCtrl = null;
     this.rootHtml = null;
+
+    this.worldAvatarGO = null;
   }
 
   init() {
@@ -36,6 +38,7 @@ module.exports = class MenuAvatar {
         delete avatarJSON.components.WorldScript;
 
         const go = new udviz.Game.GameObject(avatarJSON);
+        _this.worldAvatarGO = go;
 
         //local get world and add it
         const computer = gameView.getInterpolator().getLocalComputer();
@@ -57,6 +60,8 @@ module.exports = class MenuAvatar {
           gameView.getCamera().position.x = -0.89;
           gameView.getCamera().position.y = 1.92;
           gameView.getCamera().position.z = 0.97;
+
+          _this.buildUI(localCtx)
         });
       }
     );
@@ -65,20 +70,13 @@ module.exports = class MenuAvatar {
     localCtx.getGameView().appendToUI(this.rootHtml);
   }
 
-  onNewGameObject() {
-    const newGO = arguments[2];
-
-    if (newGO.getName() == 'avatar') {
-      this.rebuildUI(arguments[1], newGO);
-    }
-  }
-
-  rebuildUI(localCtx, avatarGO) {
+  buildUI(localCtx, avatarGO) {
     while (this.rootHtml.firstChild) {
       this.rootHtml.firstChild.remove();
     }
 
     const _this = this;
+    _this.worldAvatarGO.setOutdated(false);
 
     //select model
     const flexParentModelId = document.createElement('div');
@@ -101,17 +99,33 @@ module.exports = class MenuAvatar {
     });
 
     //init
-    selectModelId.value = avatarGO.components.Render.idRenderData;
+    selectModelId.value = _this.worldAvatarGO.components.Render.idRenderData;
 
     //update shadow map
     selectModelId.onchange = function () {
       const valueSelected = this.selectedOptions[0].value;
-      const renderComp = avatarGO.getComponent(udviz.Game.Render.TYPE);
+      const renderComp = _this.worldAvatarGO.getComponent(
+        udviz.Game.Render.TYPE
+      );
       renderComp.idRenderData = valueSelected;
-      renderComp.initAssets(localCtx.getGameView().getAssetsManager());
     };
 
     //select color
+    const flexParentColor = document.createElement('div');
+    flexParentColor.style.display = 'flex';
+    this.rootHtml.appendChild(flexParentColor);
+
+    const labelColor = document.createElement('div');
+    labelColor.innerHTML = 'Color';
+    labelColor.classList.add('label-menu-settings');
+    flexParentColor.appendChild(labelColor);
+
+    const inputColor = document.createElement('input');
+    inputColor.type = 'color';
+    flexParentColor.appendChild(inputColor);
+
+    inputColor.onchange = function () {};
+
     //select image
   }
 

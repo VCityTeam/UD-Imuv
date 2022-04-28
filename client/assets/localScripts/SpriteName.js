@@ -78,7 +78,6 @@ module.exports = class SpriteName {
 
   update() {
     const go = arguments[0];
-
-    if (this.config.name != this.oldLabelBuffer) this.updateSprite(go);
+    this.updateSprite(go);
   }
 };
