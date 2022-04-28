@@ -16,12 +16,7 @@
       "idScripts": ["city_avatar", "sprite_name", "texture_face"],
       "conf": {
         "name": "default_name",
-        "index_face_texture": 0,
-        "face_textures": [
-          "./assets/textures/chat.png",
-          "./assets/textures/Yael.png",
-          "./assets/textures/Did.png"
-        ]
+        "path_face_texture": "./assets/img/labex_imu.jpeg"
       },
       "type": "LocalScript"
     }
