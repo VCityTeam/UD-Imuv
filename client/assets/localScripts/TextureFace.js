@@ -41,9 +41,7 @@ module.exports = class TextureFace {
     });
   }
 
-  update() {
-    console.log('update');
-
+  onOutdated() {
     if (this.lastPath == this.config.path_face_texture) return;
 
     this.setFaceTexture(arguments[0]);

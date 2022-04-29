@@ -48,7 +48,7 @@ module.exports = class BBBScreen {
     localCtx.getGameView().appendBillboard(billboard);
   }
 
-  update() {
+  onOutdated() {
     //TODO should rebuild iframe with the right url
   }
 };
