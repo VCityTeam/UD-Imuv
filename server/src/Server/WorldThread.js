@@ -93,6 +93,7 @@ WorldThreadModule.MSG_TYPES = {
   STOP: 'stop_thread',
   EDIT_CONF_COMPONENT: 'edit_conf_component',
   EDIT_AVATAR_RENDER: 'edit_avatar_render',
+  EDIT_AVATAR_POSITION: 'edit_avatar_position',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -294,6 +295,17 @@ WorldThreadModule.routine = function (serverConfig) {
             process.exit(0);
           }
           break;
+        case WorldThreadModule.MSG_TYPES.EDIT_AVATAR_POSITION: {
+          const avatarUUID = msg.data.avatarUUID;
+          const newPosition = msg.data.newPosition;
+          const avatar = worldStateComputer
+            .getWorldContext()
+            .getWorld()
+            .getGameObject()
+            .find(avatarUUID);
+          avatar.setPosition(newPosition);
+          break;
+        }
         default:
           console.warn('default msg ', msg.data);
       }
