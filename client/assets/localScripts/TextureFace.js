@@ -8,8 +8,8 @@ const GameType = require('ud-viz/src/Game/Game');
 let Game = null;
 
 module.exports = class TextureFace {
-  constructor(config, udvizBundle) {
-    this.config = config;
+  constructor(conf, udvizBundle) {
+    this.conf = conf;
 
     udviz = udvizBundle;
     Game = udviz.Game;
@@ -24,7 +24,7 @@ module.exports = class TextureFace {
   }
 
   setFaceTexture(go) {
-    this.lastPath = this.config.path_face_texture;
+    this.lastPath = this.conf.path_face_texture;
 
     const _this = this;
     const renderComp = go.getComponent(Game.Render.TYPE);
@@ -33,7 +33,7 @@ module.exports = class TextureFace {
     renderObject.traverse(function (o) {
       if (o.name == 'Face') {
         const texture = new Game.THREE.TextureLoader().load(
-          _this.config.path_face_texture
+          _this.conf.path_face_texture
         );
         texture.flipY = false;
         o.material = new Game.THREE.MeshBasicMaterial({ map: texture });
@@ -43,8 +43,13 @@ module.exports = class TextureFace {
     });
   }
 
+  onOutdated() {
+
+    if (this.lastPath != this.conf.path_face_texture)
+      this.setFaceTexture(arguments[0]);
+  }
+
   onComponentUpdate() {
-    console.log('on component changed');
 
     //retreve current material
     let currentMaterial;
@@ -57,10 +62,7 @@ module.exports = class TextureFace {
       }
     });
 
-    if (
-      this.lastPath != this.config.path_face_texture ||
-      this.lastMaterial != currentMaterial
-    ) {
+    if (this.lastMaterial != currentMaterial) {
       this.setFaceTexture(arguments[0]);
     } else {
       console.log('nothing');

@@ -13,6 +13,9 @@ module.exports = class MenuAvatar {
     this.rootHtml = null;
 
     this.worldAvatarGO = null;
+
+    this.bufferCollider = null;
+    this.bufferWS = null;
   }
 
   init() {
@@ -34,7 +37,9 @@ module.exports = class MenuAvatar {
       udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR,
       function (avatarJSON) {
         //remove serverside component
+        this.bufferCollider = avatarJSON.components.Collider;
         delete avatarJSON.components.Collider;
+        this.bufferWS = avatarJSON.components.WorldScript;
         delete avatarJSON.components.WorldScript;
 
         const go = new udviz.Game.GameObject(avatarJSON);
@@ -134,6 +139,45 @@ module.exports = class MenuAvatar {
     };
 
     //select image
+    const imageInput = document.createElement('input');
+    imageInput.type = 'file';
+    imageInput.accept = 'image/*';
+    this.rootHtml.appendChild(imageInput);
+    imageInput.onchange = function (e) {
+      udviz.Components.SystemUtils.File.readSingleFileAsDataUrl(
+        e,
+        function (data) {
+          const url = data.target.result;
+          const localScriptComp = _this.worldAvatarGO.getComponent(
+            udviz.Game.LocalScript.TYPE
+          );
+          localScriptComp.getConf()['path_face_texture'] = url;
+          _this.worldAvatarGO.setOutdated(true);
+        }
+      );
+    };
+
+    //SAVE
+    const saveButton = document.createElement('button');
+    saveButton.innerHTML = 'Save';
+    this.rootHtml.appendChild(saveButton);
+
+    saveButton.onclick = function () {
+      const content = _this.worldAvatarGO.toJSON(true);
+      content.components.Collider = _this.bufferCollider;
+      content.components.WorldScript = _this.bufferWS;
+
+      console.log(content);
+
+      const ws = localCtx.getWebSocketService();
+      const messageSplitted = udviz.Game.Components.Pack.splitMessage(content);
+      messageSplitted.forEach(function (pM) {
+        ws.emit(
+          udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR,
+          pM
+        );
+      });
+    };
   }
 
   dispose() {

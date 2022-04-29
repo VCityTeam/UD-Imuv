@@ -127,6 +127,18 @@ const ApplicationModule = class Application {
 
     const MSG_TYPES = Game.Components.Constants.WEBSOCKET.MSG_TYPES;
 
+    //REGISTER in app
+    const u = (this.users[socket.id] = this.createUser(
+      socket,
+      'Guest@' + parseInt(Math.random() * 10000),
+      Game.THREE.MathUtils.generateUUID(),
+      ImuvConstants.USER.ROLE.GUEST
+    ));
+    socket.emit(MSG_TYPES.SIGNED, {
+      nameUser: u.getNameUser(),
+      role: u.getRole(),
+    });
+
     //SIGN UP
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
       (async () => {
@@ -217,16 +229,17 @@ const ApplicationModule = class Application {
       }
     });
 
-    //REGISTER in app
-    const u = (this.users[socket.id] = this.createUser(
-      socket,
-      'Guest@' + parseInt(Math.random() * 10000),
-      Game.THREE.MathUtils.generateUUID(),
-      ImuvConstants.USER.ROLE.GUEST
-    ));
-    socket.emit(MSG_TYPES.SIGNED, {
-      nameUser: u.getNameUser(),
-      role: u.getRole(),
+    //save avatar
+    socket.on(MSG_TYPES.SAVE_AVATAR, function (partialMessage) {
+      try {
+        const fullMessage = Pack.recomposeMessage(partialMessage);
+        if (fullMessage) {
+          const user = _this.users[socket.id];
+          _this.saveAvatar(user, fullMessage);
+        }
+      } catch (e) {
+        console.error(e);
+      }
     });
 
     socket.on('disconnect', () => {
@@ -235,6 +248,37 @@ const ApplicationModule = class Application {
       delete _this.users[socket.id]; //remove
       _this.worldDispatcher.removeUser(user); //remove user with the socket uuid
     });
+  }
+
+  saveAvatar(user, avatarJSON) {
+    //write image on disk
+    new Promise((resolve, reject) => {
+      try {
+        const bitmap = Pack.dataUriToBuffer(
+          avatarJSON.components.LocalScript.conf.path_face_texture
+        );
+
+        const commonPath =
+          'assets/img/avatar/' + Game.THREE.MathUtils.generateUUID() + '.jpeg';
+        const serverPath = '../client/' + commonPath;
+
+        fs.writeFile(serverPath, bitmap, function (err) {
+          if (err) {
+            reject();
+          }
+          resolve();
+        });
+
+        //ref path
+        avatarJSON.components.LocalScript.conf.path_face_texture =
+          './' + commonPath;
+      } catch (e) {
+        console.error(e);
+        reject();
+      }
+    })
+      .then(console.log('avatar image writed'))
+      .catch((e) => {});
   }
 
   saveWorlds(data, socket) {
