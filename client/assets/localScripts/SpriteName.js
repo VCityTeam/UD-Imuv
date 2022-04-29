@@ -17,7 +17,7 @@ module.exports = class SpriteName {
     //THREE.Object3D
     this.sprite = null;
 
-    this.oldLabelBuffer = null;
+    this.oldObject = null;
   }
 
   init() {
@@ -26,8 +26,6 @@ module.exports = class SpriteName {
   }
 
   createSprite(label) {
-    this.oldLabelBuffer = label;
-
     const texture = this.createLabelTexture(label, 'rgba(255, 255, 255, 0)');
     const material = new Game.THREE.SpriteMaterial({
       map: texture,
@@ -74,13 +72,14 @@ module.exports = class SpriteName {
     renderComp.addObject3D(sprite);
 
     this.sprite = sprite;
+
+    this.oldObject = renderComp.getObject3D();
   }
 
-  onOutdated() {
+  onComponentUpdate() {
     const go = arguments[0];
+    const renderComp = go.getComponent(Game.Render.TYPE);
 
-    if (this.oldLabelBuffer == this.config.name) return;
-
-    this.updateSprite(go);
+    if (renderComp.getObject3D() != this.oldObject) this.updateSprite(go);
   }
 };
