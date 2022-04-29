@@ -248,6 +248,16 @@ const WorldDispatcherModule = class WorldDispatcher {
         });
       }
     );
+
+    socket.on(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR,
+      function (params) {
+        thread.post(WorldThread.MSG_TYPES.EDIT_AVATAR_POSITION, {
+          avatarUUID: params.avatarUUID,
+          newPosition: params.teleportPosition,
+        });
+      }
+    );
   }
 };
 
