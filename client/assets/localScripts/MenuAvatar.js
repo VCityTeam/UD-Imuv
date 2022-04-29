@@ -81,7 +81,6 @@ module.exports = class MenuAvatar {
     }
 
     const _this = this;
-    _this.worldAvatarGO.setOutdated(false);
 
     //select model
     const flexParentModelId = document.createElement('div');
