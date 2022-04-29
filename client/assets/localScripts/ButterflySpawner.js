@@ -113,7 +113,7 @@ module.exports = class ButterflySpawner {
     this.triggerAnimate = true;
   }
 
-  update() {
+  onOutdated() {
     if (this.conf.onEnter) {
       this.createParticuleGroup();
     } else {

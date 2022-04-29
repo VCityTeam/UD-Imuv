@@ -69,7 +69,7 @@ module.exports = class LocalInteractions {
     return this.conf.avatarsColliding.includes(avatarUUIDLC) && ls.interaction;
   }
 
-  update() {
+  onOutdated() {
     const _this = this;
     const conf = this.conf;
     let onEnterFunction, onCollidingFunction, onLeaveFunction;
