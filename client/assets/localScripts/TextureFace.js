@@ -45,15 +45,17 @@ module.exports = class TextureFace {
     });
   }
 
-  onOutdated() {
+  onComponentUpdate() {
+    console.log('on component changed');
     const renderComp = arguments[0].getComponent(Game.Render.TYPE);
     const renderObject = renderComp.getObject3D();
-    console.log('on outadted');
     if (
       this.lastPath != this.config.path_face_texture ||
       this.lastRenderObj != renderObject
     ) {
       this.setFaceTexture(arguments[0]);
+    } else {
+      console.log('nothing');
     }
   }
 };
