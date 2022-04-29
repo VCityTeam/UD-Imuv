@@ -61,7 +61,7 @@ module.exports = class MenuAvatar {
           gameView.getCamera().position.y = 1.92;
           gameView.getCamera().position.z = 0.97;
 
-          _this.buildUI(localCtx)
+          _this.buildUI(localCtx);
         });
       }
     );
@@ -70,13 +70,12 @@ module.exports = class MenuAvatar {
     localCtx.getGameView().appendToUI(this.rootHtml);
   }
 
-  buildUI(localCtx, avatarGO) {
+  buildUI(localCtx) {
     while (this.rootHtml.firstChild) {
       this.rootHtml.firstChild.remove();
     }
 
     const _this = this;
-    _this.worldAvatarGO.setOutdated(false);
 
     //select model
     const flexParentModelId = document.createElement('div');
@@ -90,7 +89,7 @@ module.exports = class MenuAvatar {
 
     const selectModelId = document.createElement('select');
     flexParentModelId.appendChild(selectModelId);
-    const values = ['avatar_petit', 'avatar_moyen', 'avatar_grand'];
+    const values = ['avatar_petit', 'avatar_moyen', 'avatar_grand']; //HARD CODE
     values.forEach(function (value) {
       const option = document.createElement('option');
       option.innerHTML = value;
@@ -108,6 +107,7 @@ module.exports = class MenuAvatar {
         udviz.Game.Render.TYPE
       );
       renderComp.idRenderData = valueSelected;
+      _this.worldAvatarGO.setOutdated(true);
     };
 
     //select color
