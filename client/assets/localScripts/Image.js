@@ -235,7 +235,7 @@ module.exports = class Image {
     };
   }
 
-  update() {
+  onOutdated() {
     const go = arguments[0];
     console.log('update image', go);
     this.createImagePlane();

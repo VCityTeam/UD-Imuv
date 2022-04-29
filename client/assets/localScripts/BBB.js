@@ -92,7 +92,7 @@ module.exports = class BBB {
     webSocketService.reset([Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
   }
 
-  update() {
+  onOutdated() {
     if (this.bbbIframe) return;
 
     const src = this.conf.bbb_room_tag.url;

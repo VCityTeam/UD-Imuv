@@ -117,7 +117,7 @@ module.exports = class Jitsi {
    * *Update the join button to say "Leave" instead of "Join"*
    * @returns Nothing.
    */
-  update() {
+   onOutdated() {
     if (this.divJitsi) return;
 
     this.joinRoomJitsi.innerHTML = LABEL_LEAVE;
