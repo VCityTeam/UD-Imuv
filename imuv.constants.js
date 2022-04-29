@@ -12,8 +12,8 @@ module.exports = {
     },
   },
   /**
-  * Define the type of message of a websocket communication
-  */
+   * Define the type of message of a websocket communication
+   */
   WEBSOCKET: {
     MSG_TYPES: {
       //client => server
@@ -35,8 +35,8 @@ module.exports = {
       SIGN_UP_SUCCESS: 'sign_up_success', //sign up
       SIGNED: 'signed', //client is signed in imuv server
       ON_BBB_URL: 'on_bbb_url', //return a bbb url
-      TELEPORT_AVATAR: 'teleport_avatar',//this is sent from server to client ? TODO
+      TELEPORT_AVATAR: 'teleport_avatar', //this is sent from server to client ? TODO
       ON_AVATAR: 'on_avatar', //return avatar json
     },
-  }
+  },
 };

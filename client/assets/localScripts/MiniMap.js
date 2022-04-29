@@ -50,6 +50,28 @@ module.exports = class MiniMap {
         ui.remove();
       }
     });
+    const conf = this.conf;
+    ui.onclick = function (event) {
+      const x = event.pageX;
+      const y = event.pageY;
+      const rect = this.getBoundingClientRect();
+      const ratioX = (x - rect.left) / (rect.right - rect.left);
+      const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
+
+      const teleportPosition = new udviz.THREE.Vector3(
+        (ratioX - 0.5) * conf.mini_map_size,
+        (ratioY - 0.5) * conf.mini_map_size,
+        0
+      );
+      console.log(teleportPosition);
+      const webSocketService = localCtx.getWebSocketService();
+      const Constants = udviz.Game.Components.Constants;
+
+      webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR, {
+        avatarUUID: localCtx.getGameView().getUserData('avatarUUID'),
+        teleportPosition: teleportPosition,
+      });
+    };
   }
 
   onNewGameObject() {
@@ -128,13 +150,13 @@ module.exports = class MiniMap {
         (AVATAR_RADIUS_MAX - AVATAR_RADIUS_MIN) *
           Math.abs(Math.cos(this.currentDT));
 
-      const avatarPosCanavs = {
+      const avatarPosCanvas = {
         x: MINI_MAP_SIZE * 0.5 + avatarPos.x / pixelSize,
         y: MINI_MAP_SIZE * 0.5 - avatarPos.y / pixelSize,
       };
       destCtx.beginPath();
       destCtx.fillStyle = 'red';
-      destCtx.arc(avatarPosCanavs.x, avatarPosCanavs.y, radius, 0, Math.PI * 2);
+      destCtx.arc(avatarPosCanvas.x, avatarPosCanvas.y, radius, 0, Math.PI * 2);
       destCtx.fill();
     }
   }
