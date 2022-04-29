@@ -106,7 +106,7 @@ module.exports = class MenuAvatar {
       const renderComp = _this.worldAvatarGO.getComponent(
         udviz.Game.Render.TYPE
       );
-      renderComp.idRenderData = valueSelected;
+      renderComp.setIdRenderData(valueSelected);
       _this.worldAvatarGO.setOutdated(true);
     };
 
@@ -124,7 +124,14 @@ module.exports = class MenuAvatar {
     inputColor.type = 'color';
     flexParentColor.appendChild(inputColor);
 
-    inputColor.onchange = function () {};
+    inputColor.onchange = function () {
+      const color = new udviz.THREE.Color(this.value);
+      const renderComp = _this.worldAvatarGO.getComponent(
+        udviz.Game.Render.TYPE
+      );
+      renderComp.setColor(color);
+      _this.worldAvatarGO.setOutdated(true);
+    };
 
     //select image
   }

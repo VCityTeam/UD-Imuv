@@ -15,7 +15,7 @@ module.exports = class TextureFace {
     Game = udviz.Game;
 
     this.lastPath = null;
-    this.lastRenderObj = null;
+    this.lastMaterial = null;
   }
 
   init() {
@@ -29,8 +29,6 @@ module.exports = class TextureFace {
     const _this = this;
     const renderComp = go.getComponent(Game.Render.TYPE);
     const renderObject = renderComp.getObject3D();
-
-    this.lastRenderObj = renderObject;
 
     renderObject.traverse(function (o) {
       if (o.name == 'Face') {
@@ -47,11 +45,21 @@ module.exports = class TextureFace {
 
   onComponentUpdate() {
     console.log('on component changed');
+
+    //retreve current material
+    let currentMaterial;
     const renderComp = arguments[0].getComponent(Game.Render.TYPE);
     const renderObject = renderComp.getObject3D();
+    renderObject.traverse(function (o) {
+      if (o.name == 'Face') {
+        currentMaterial = o.material;
+        return o;
+      }
+    });
+
     if (
       this.lastPath != this.config.path_face_texture ||
-      this.lastRenderObj != renderObject
+      this.lastMaterial != currentMaterial
     ) {
       this.setFaceTexture(arguments[0]);
     } else {
