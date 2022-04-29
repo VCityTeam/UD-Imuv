@@ -2710,9 +2710,9 @@
                   "projects": [
                     {
                       "title": "Nouveau Projet",
-                      "url": "https:/example.com",
+                      "url": "https://ud-viz.vcityliris.data.alpha.grandlyon.com/examples/AllWidget/example.html",
                       "position": [
-                        1843575.1910103103, 5174379.1578006, 297.7920694283085
+                        1843648.8194981923, 5174468.330750476, 297.7920694283085
                       ],
                       "uuid": "A8FBF405-F65E-4FCC-9796-F3A501B5D3E8"
                     },
@@ -2856,5 +2856,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-  "version": "2.37.2"
+  "version": "2.37.3"
 }

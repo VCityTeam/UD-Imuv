@@ -184,10 +184,10 @@ class Project {
     const transform = new THREEUtils.Transform(
       billboardPos,
       euler.toVector3(),
-      new THREE.Vector3(5, 5, 5) /*Harcode*/
+      new THREE.Vector3(10, 10, 10) /*Harcode*/
     );
 
-    const billboard = new udviz.Views.Billboard(iframe, transform, 50);
+    const billboard = new udviz.Views.Billboard(iframe, transform, 128);
     billboard.getMaskObject().material.color.set(new THREE.Color(0, 0, 0)); //fix in the latest version of ud-viz but not published yet
     this.localCtx.getGameView().appendBillboard(billboard);
     this.billboard = billboard;
