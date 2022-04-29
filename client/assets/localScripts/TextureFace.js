@@ -15,6 +15,7 @@ module.exports = class TextureFace {
     Game = udviz.Game;
 
     this.lastPath = null;
+    this.lastRenderObj = null;
   }
 
   init() {
@@ -28,6 +29,9 @@ module.exports = class TextureFace {
     const _this = this;
     const renderComp = go.getComponent(Game.Render.TYPE);
     const renderObject = renderComp.getObject3D();
+
+    this.lastRenderObj = renderObject;
+
     renderObject.traverse(function (o) {
       if (o.name == 'Face') {
         const texture = new Game.THREE.TextureLoader().load(
@@ -42,8 +46,14 @@ module.exports = class TextureFace {
   }
 
   onOutdated() {
-    if (this.lastPath == this.config.path_face_texture) return;
-
-    this.setFaceTexture(arguments[0]);
+    const renderComp = arguments[0].getComponent(Game.Render.TYPE);
+    const renderObject = renderComp.getObject3D();
+    console.log('on outadted');
+    if (
+      this.lastPath != this.config.path_face_texture ||
+      this.lastRenderObj != renderObject
+    ) {
+      this.setFaceTexture(arguments[0]);
+    }
   }
 };
