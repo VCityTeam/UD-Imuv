@@ -41,6 +41,7 @@ module.exports = class MiniMap {
     const manager = gameView.getInputManager();
     let displayMiniMap = false;
     const ui = this.ui;
+    const conf = this.conf;
     manager.addKeyInput('m', 'keydown', function () {
       displayMiniMap = !displayMiniMap;
 
@@ -50,7 +51,7 @@ module.exports = class MiniMap {
         ui.remove();
       }
     });
-    const conf = this.conf;
+
     ui.onclick = function (event) {
       const x = event.pageX;
       const y = event.pageY;
@@ -63,10 +64,15 @@ module.exports = class MiniMap {
         (ratioY - 0.5) * conf.mini_map_size,
         0
       );
-      console.log(teleportPosition);
       const webSocketService = localCtx.getWebSocketService();
       const Constants = udviz.Game.Components.Constants;
-
+      const pixelData = this.getContext('2d').getImageData(
+        x - rect.left,
+        y - rect.top,
+        1,
+        1
+      ).data;
+      if (pixelData[0] == 0 && pixelData[1] == 0 && pixelData[2] == 0) return;
       webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR, {
         avatarUUID: localCtx.getGameView().getUserData('avatarUUID'),
         teleportPosition: teleportPosition,
