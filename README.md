@@ -6,43 +6,48 @@ Imuv is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
 
 ## Installing the applications
+
 ### Pre-requisites
 
-* **Ubuntu**
+- **Ubuntu**
 
-  * Install and update npm
+  - Install and update npm
 
     ```bash
     sudo apt-get install npm    ## Will pull NodeJS
-    sudo npm install -g n     
+    sudo npm install -g n
     sudo n latest
     ```
 
-  * References: [how can I update Nodejs](https://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version), and [install Ubuntu](http://www.hostingadvice.com/how-to/install-nodejs-ubuntu-14-04/#ubuntu-package-manager)
+  - References: [how can I update Nodejs](https://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version), and [install Ubuntu](http://www.hostingadvice.com/how-to/install-nodejs-ubuntu-14-04/#ubuntu-package-manager)
 
-* **Windows**
-  
-  * Installing from the [installer](https://nodejs.org/en/download/)
-  * Installing with the [CLI](https://en.wikipedia.org/wiki/Command-line_interface)
+- **Windows**
+
+  - Installing from the [installer](https://nodejs.org/en/download/)
+  - Installing with the [CLI](https://en.wikipedia.org/wiki/Command-line_interface)
 
     ```bash
     iex (new-object net.webclient).downstring(‘https://get.scoop.sh’)
     scoop install nodejs
     ```
-    
+
 ## Pre-requisites to install Imuv
+
 Install [imagemagick](https://imagemagick.org/index.php) and [graphicsmagick](http://www.graphicsmagick.org/) binary sub dependencies since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme).
 
-* **Linux**
+- **Linux**
+
 ```bash
  sudo apt-get install -y imagemagick graphicsmagick
 ```
+
 You can also refer to the installation steps with this [Dockerfile](https://github.com/VCityTeam/UD-Viz-demo-docker/blob/main/v2.31.6/Imuv/Dockerfile)
 
-* **Windows**
-FIXME: unmature section
+- **Windows**
+  FIXME: unmature section
 
-If at runtime the imuv server displayed images errors then you should check the installation of thoses binary dependencies. 
+If at runtime the imuv server displayed images errors then you should check the installation of thoses binary dependencies.
+
 > ⚠️ allias `gm` doesn't work in powershell because it conflicts with the command Get-Member !!!!
 
 ## Installing Imuv applications
@@ -50,6 +55,7 @@ If at runtime the imuv server displayed images errors then you should check the 
 Imuv can be locally (on your desktop) started in the following way:
 
 First install the client:
+
 ```
 cd ./client
 npm install
@@ -57,6 +63,7 @@ npm run debug
 ```
 
 Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
+
 - launches a watcher (surveying changes in sources)
 - in case of change runs this [node.js routine](./Imuv/client/bin/debug.js) that will repack an updated bundle
 
@@ -69,6 +76,7 @@ npm run debug
 ```
 
 Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
+
 - launches a watcher (surveying changes in sources)
 - in case of change runs this [node.js routine](./Imuv/server/bin/debug.js) that will repack an updated bundle then launches the node.js server application on your desktop
 
@@ -77,7 +85,7 @@ and then use your favorite (web) browser to open
 
 ## Setup Back4App
 
-Go to [Back4App](https://dashboard.back4app.com/) and create a new account then create a new app. Type the following command line: `cp ./server/default.env.json ./server/env.json` and fill the with your own keys/ids that you can find on the dashboard Back4App website in the tabs App Settings -> Security & Keys. Enable email verification App Settings -> Server Settings -> Verification emails then check "Verify User Emails" and "Prevent login if email is not verified" (phone number must be verified) then **save**.
+Go to [Back4App](https://dashboard.back4app.com/) and create a new account then create a new app. Type the following command line: `cp ./server/default.env ./server/.env` and fill the with your own keys/ids that you can find on the dashboard Back4App website in the tabs App Settings -> Security & Keys. Enable email verification App Settings -> Server Settings -> Verification emails then check "Verify User Emails" and "Prevent login if email is not verified" (phone number must be verified) then **save**.
 
 ## Setup of the coding environment
 
@@ -107,7 +115,9 @@ Imuv:
 ![layout_demo_full](./Doc/Devel/Pictures/imuv_layout.png)
 
 Before to push your modifications run:
+
 ```
 npm run travis
 ```
+
 to check if eslint and the webpack command run well

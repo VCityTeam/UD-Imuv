@@ -5,11 +5,11 @@ try {
   const gameServer = require('./dist/server.js');
   const config = require('./assets/config/config.json');
 
-  if (fs.existsSync('./env.json')) {
-    config.ENV = require('./env.json');
-  }
+  require('dotenv').config();
 
-  console.log('environement', config.ENV);
+  if (fs.existsSync('./.env')) {
+    config.ENV = process.env;
+  }
 
   console.log('server version ', require('./package.json').version);
 
