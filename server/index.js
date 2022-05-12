@@ -7,9 +7,7 @@ try {
 
   require('dotenv').config();
 
-  if (fs.existsSync('./.env')) {
-    config.ENV = process.env;
-  }
+  config.ENV = process.env;
 
   console.log('server version ', require('./package.json').version);
 
