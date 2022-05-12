@@ -6,6 +6,6 @@ TODO.md
 .vs
 .vscode
 Test/**
-server/env.json
+server/.env
 *.xml
 client/commit_info.json
