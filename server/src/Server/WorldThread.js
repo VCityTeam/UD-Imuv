@@ -93,7 +93,7 @@ WorldThreadModule.MSG_TYPES = {
   STOP: 'stop_thread',
   EDIT_CONF_COMPONENT: 'edit_conf_component',
   EDIT_AVATAR_RENDER: 'edit_avatar_render',
-  EDIT_AVATAR_POSITION: 'edit_avatar_position',
+  EDIT_AVATAR_TRANSFORM: 'edit_avatar_transform',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -295,15 +295,20 @@ WorldThreadModule.routine = function (serverConfig) {
             process.exit(0);
           }
           break;
-        case WorldThreadModule.MSG_TYPES.EDIT_AVATAR_POSITION: {
+        case WorldThreadModule.MSG_TYPES.EDIT_AVATAR_TRANSFORM: {
           const avatarUUID = msg.data.avatarUUID;
-          const newPosition = msg.data.newPosition;
+          const newTransform = msg.data.newTransform;
+          console.log(newTransform);
           const avatar = worldStateComputer
             .getWorldContext()
             .getWorld()
             .getGameObject()
             .find(avatarUUID);
-          avatar.setPosition(newPosition);
+
+          if (newTransform.position) avatar.setPosition(newTransform.position);
+          if (newTransform.rotation) avatar.setRotation(newTransform.rotation);
+          if (newTransform.scale) avatar.setScale(newTransform.scale);
+
           break;
         }
         default:
