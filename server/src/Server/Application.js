@@ -27,6 +27,7 @@ const AssetsManagerServer = require('./AssetsManagerServer');
 const Pack = require('ud-viz/src/Game/Components/Pack');
 const JSONUtils = require('ud-viz/src/Game/Components/JSONUtils');
 const { WorldStateComputer } = require('ud-viz/src/Game/Game');
+const WorldThreadModule = require('./WorldThread');
 const exec = require('child-process-promise').exec;
 
 /**
@@ -181,7 +182,7 @@ const ApplicationModule = class Application {
           u.setParseUser(parseUser);
 
 
-          console.log(avatarString)
+          // console.log(avatarString)
           if (avatarString) u.setAvatarJSON(JSON.parse(avatarString));
 
 
@@ -260,7 +261,7 @@ const ApplicationModule = class Application {
     });
   }
 
-  async saveAvatar(user, avatarJSON) {
+  saveAvatar(user, avatarJSON) {
     //write image on disk
     new Promise((resolve, reject) => {
       try {
@@ -292,15 +293,74 @@ const ApplicationModule = class Application {
       }
     })
       .then(
-        //avatarJSON is ready to be write to db
         (async () => {
 
+
+          //avatarJSON is ready to be write to db
           const parseUser = user.getParseUser()
           parseUser.set("avatar", JSON.stringify(avatarJSON))
           try {
             // Saves the user with the updated data
             let response = await parseUser.save(null, { useMasterKey: true });
             console.log('Updated user', response);
+
+            //write in user json
+            user.setAvatarJSON(avatarJSON);
+
+            //replace avatar in game
+            user.getThread().post(WorldThreadModule.MSG_TYPES.EDIT_AVATAR_RENDER, {
+              avatarUUID: avatarJSON.uuid,
+              color: avatarJSON.components.Render.color,
+              idRenderData: avatarJSON.components.Render.idRenderData,
+              path_face_texture: avatarJSON.components.LocalScript.conf.path_face_texture,
+            })
+
+            //clear unused images
+            const User = new Parse.User();
+            const query = new Parse.Query(User);
+            try {
+              const results = await query.distinct('avatar');
+              const paths = [];
+              results.forEach(function (string) {
+                const json = JSON.parse(string)
+                const path = json.components.LocalScript.conf.path_face_texture
+                if (!paths.includes(path)) paths.push(path)
+              })
+
+              const checkRef = function (fileName) {
+
+                for (let index = 0; index < paths.length; index++) {
+                  const element = paths[index];
+                  if (element.includes(fileName)) return true;
+                }
+
+                return false;
+              }
+
+              //all path in use are stored in paths
+              const folderPath = "../client/assets/img/avatar/"
+              fs.readdir(folderPath, (err, files) => {
+                files.forEach((file) => {
+                  //check if ref by something in paths
+                  if (!checkRef(file)) {
+                    //delete it
+                    fs.unlink(folderPath + file, (err) => {
+                      if (err) {
+                        throw err;
+                      }
+
+                      console.log(folderPath + file + ' deleted.');
+                    });
+                  }
+                });
+              });
+
+
+            } catch (e) {
+              console.error(e)
+            }
+
+
           } catch (error) {
             console.error('Error while updating user', error);
           }

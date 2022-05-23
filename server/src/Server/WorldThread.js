@@ -93,6 +93,7 @@ WorldThreadModule.MSG_TYPES = {
   GAMEOBJECT_RESPONSE: 'gameobject_response',
   STOP: 'stop_thread',
   EDIT_CONF_COMPONENT: 'edit_conf_component',
+  EDIT_AVATAR_RENDER: 'edit_avatar_render',
 };
 
 WorldThreadModule.routine = function (serverConfig) {
@@ -166,6 +167,31 @@ WorldThreadModule.routine = function (serverConfig) {
 
           //pass to the computer
           worldStateComputer.onCommands(cmds);
+          break;
+        }
+        case WorldThreadModule.MSG_TYPES.EDIT_AVATAR_RENDER: {
+          // console.log(msg.data)
+
+          const avatarGO = worldStateComputer
+            .getWorldContext()
+            .getWorld()
+            .getGameObject()
+            .find(msg.data.avatarUUID);
+
+          if (!avatarGO) throw new Error("no avatar")
+
+          const renderComp = avatarGO.getComponent(Game.Render.TYPE);
+          //color
+          renderComp.setColor(new Game.THREE.Color().fromArray(msg.data.color))
+          //model id
+          renderComp.setIdRenderData(msg.data.idRenderData)
+
+          const localComp = avatarGO.getComponent(Game.LocalScript.TYPE)
+          //texture face
+          localComp.conf.path_face_texture = msg.data.path_face_texture
+
+          avatarGO.setOutdated(true)
+
           break;
         }
         case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT: {
