@@ -114,7 +114,7 @@ module.exports = class UI {
               const closeButton = document.createElement('button');
               closeButton.innerHTML = 'Close';
               closeButton.onclick = function () {
-                menuAvatarGameView.dispose(); //remove menu avatar
+                menuAvatarGameView.dispose(true); //remove menu avatar
 
                 //unpause gameview
                 gameView.setIsRendering(true);
