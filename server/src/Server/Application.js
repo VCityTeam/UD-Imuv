@@ -167,16 +167,23 @@ const ApplicationModule = class Application {
       (async () => {
         try {
           // Pass the username and password to logIn function
-          let user = await Parse.User.logIn(data.nameUser, data.password);
+          const parseUser = await Parse.User.logIn(data.nameUser, data.password);
 
           // Do stuff after successful login
-          const nameUser = await user.get('username');
-          const role = await user.get('role');
-          const dbUUID = user.id;
+          const nameUser = await parseUser.get('username');
+          const role = await parseUser.get('role');
+          const avatarString = await parseUser.get('avatar');
+          const dbUUID = parseUser.id;
 
           const u = _this.users[socket.id];
           u.setRole(role);
           u.setNameUser(nameUser);
+          u.setParseUser(parseUser);
+
+
+          console.log(avatarString)
+          if (avatarString) u.setAvatarJSON(JSON.parse(avatarString));
+
 
           let found = false;
           for (let id in _this.users) {
@@ -219,8 +226,11 @@ const ApplicationModule = class Application {
 
     //Avatar json
     socket.on(MSG_TYPES.QUERY_AVATAR, function () {
+
+      const user = _this.users[socket.id];
+      if (user.getRole() == ImuvConstants.USER.ROLE.GUEST) return; //security
+
       try {
-        const user = _this.users[socket.id];
         const response = user.getAvatarJSON();
         if (!response) throw new Error('no avatar json ', user);
         socket.emit(MSG_TYPES.ON_AVATAR, response);
@@ -250,7 +260,7 @@ const ApplicationModule = class Application {
     });
   }
 
-  saveAvatar(user, avatarJSON) {
+  async saveAvatar(user, avatarJSON) {
     //write image on disk
     new Promise((resolve, reject) => {
       try {
@@ -258,27 +268,45 @@ const ApplicationModule = class Application {
           avatarJSON.components.LocalScript.conf.path_face_texture
         );
 
-        const commonPath =
-          'assets/img/avatar/' + Game.THREE.MathUtils.generateUUID() + '.jpeg';
-        const serverPath = '../client/' + commonPath;
+        if (bitmap) {
+          //there is an image
+          const commonPath =
+            'assets/img/avatar/' + Game.THREE.MathUtils.generateUUID() + '.jpeg';
+          const serverPath = '../client/' + commonPath;
 
-        fs.writeFile(serverPath, bitmap, function (err) {
-          if (err) {
-            reject();
-          }
-          resolve();
-        });
+          fs.writeFile(serverPath, bitmap, function (err) {
+            if (err) {
+              reject();
+            }
+            resolve();
+          });
 
-        //ref path
-        avatarJSON.components.LocalScript.conf.path_face_texture =
-          './' + commonPath;
+          //ref path
+          avatarJSON.components.LocalScript.conf.path_face_texture =
+            './' + commonPath;
+        }
+
       } catch (e) {
         console.error(e);
         reject();
       }
     })
-      .then(console.log('avatar image writed'))
-      .catch((e) => {});
+      .then(
+        //avatarJSON is ready to be write to db
+        (async () => {
+
+          const parseUser = user.getParseUser()
+          parseUser.set("avatar", JSON.stringify(avatarJSON))
+          try {
+            // Saves the user with the updated data
+            let response = await parseUser.save(null, { useMasterKey: true });
+            console.log('Updated user', response);
+          } catch (error) {
+            console.error('Error while updating user', error);
+          }
+        })()
+      )
+      .catch((e) => { });
   }
 
   saveWorlds(data, socket) {
@@ -416,15 +444,17 @@ const ApplicationModule = class Application {
     });
   }
 
-  createUser(socket, nameUser, uuid, role) {
-    //create avatar json
-    let avatarJSON = this.assetsManager.createAvatarJSON();
-    avatarJSON.components.LocalScript.conf.name = nameUser;
-    Game.Render.bindColor(avatarJSON, [
-      Math.random(),
-      Math.random(),
-      Math.random(),
-    ]);
+  createUser(socket, nameUser, uuid, role, avatarJSON) {
+    if (!avatarJSON) {
+      //create avatar json
+      avatarJSON = this.assetsManager.createAvatarJSON();
+      avatarJSON.components.LocalScript.conf.name = nameUser;
+      Game.Render.bindColor(avatarJSON, [
+        Math.random(),
+        Math.random(),
+        Math.random(),
+      ]);
+    }
     avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
 
     return new User(uuid, socket, avatarJSON, role, nameUser);

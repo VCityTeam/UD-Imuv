@@ -5,17 +5,26 @@ const Constants = Game.Components.Constants;
 const WorldState = Game.WorldState;
 
 const UserModule = class User {
-  constructor(uuid, socket, avatarJSON, role, nameUser) {
+  constructor(uuid, socket, avatarJSON, role, nameUser, parseUser) {
     this.uuid = uuid;
     this.socket = socket;
 
     this.role = role;
     this.nameUser = nameUser;
+    this.parseUser = parseUser
 
     //to know if just joined or not
     this.lastState = null;
 
     this.avatarJSON = avatarJSON;
+  }
+
+  setParseUser(value) {
+    this.parseUser = value
+  }
+
+  getParseUser() {
+    return this.parseUser
   }
 
   getAvatarUUID() {
