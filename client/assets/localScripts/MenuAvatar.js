@@ -37,9 +37,9 @@ module.exports = class MenuAvatar {
       udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR,
       function (avatarJSON) {
         //remove serverside component
-        this.bufferCollider = avatarJSON.components.Collider;
+        _this.bufferCollider = avatarJSON.components.Collider;
         delete avatarJSON.components.Collider;
-        this.bufferWS = avatarJSON.components.WorldScript;
+        _this.bufferWS = avatarJSON.components.WorldScript;
         delete avatarJSON.components.WorldScript;
 
         const go = new udviz.Game.GameObject(avatarJSON);
@@ -128,6 +128,9 @@ module.exports = class MenuAvatar {
     const inputColor = document.createElement('input');
     inputColor.type = 'color';
     flexParentColor.appendChild(inputColor);
+
+    //init
+    inputColor.value = "#" + _this.worldAvatarGO.components.Render.color.getHexString()
 
     inputColor.onchange = function () {
       const color = new udviz.THREE.Color(this.value);
