@@ -1,7 +1,7 @@
 /** @format */
 
 const Game = require('ud-viz/src/Game/Game');
-const Constants = Game.Components.Constants;
+const ImuvConstants = require("../../../imuv.constants");
 const WorldState = Game.WorldState;
 
 const UserModule = class User {
@@ -43,14 +43,14 @@ const UserModule = class User {
     let state = new WorldState(stateJSON);
 
     if (!this.lastState) {
-      this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
+      this.socket.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),
         userID: this.getUUID(),
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);
-      this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF, diffJSON);
+      this.socket.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF, diffJSON);
     }
 
     this.lastState = state;

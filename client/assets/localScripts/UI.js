@@ -99,7 +99,7 @@ module.exports = class UI {
               {
                 htmlParent: parentHtml,
                 // userData: { avatarUUID: avatar.getUUID(), editorMode: true },
-                // localScriptModules: { ImuvConstants: ImuvConstants },
+                localScriptModules: { ImuvConstants: ImuvConstants },
               }
             )
             .then(function () {

@@ -126,7 +126,7 @@ const ApplicationModule = class Application {
   onSocketConnexion(socket) {
     const _this = this;
 
-    const MSG_TYPES = Game.Components.Constants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = ImuvConstants.WEBSOCKET.MSG_TYPES;
 
     //REGISTER in app
     const u = (this.users[socket.id] = this.createUser(
@@ -372,7 +372,7 @@ const ApplicationModule = class Application {
   saveWorlds(data, socket) {
     console.log('Save Worlds');
 
-    const MSG_TYPES = Game.Components.Constants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = ImuvConstants.WEBSOCKET.MSG_TYPES;
 
     const _this = this;
     const writeImagesOnDiskPromise = [];

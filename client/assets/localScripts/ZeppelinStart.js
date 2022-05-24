@@ -84,9 +84,10 @@ module.exports = class ZeppelinStart {
     if (this.onZeppelinInteraction) return; //nothing should happen
 
     this.onZeppelinInteraction = true;
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
 
     ws.emit(
-      udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
       {
         goUUID: avatarGO.getUUID(),
         componentUUID: localScriptAvatar.getUUID(),
@@ -131,7 +132,7 @@ module.exports = class ZeppelinStart {
         _this.onZeppelinInteraction = false;
 
         ws.emit(
-          udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES
+          ImuvConstants.WEBSOCKET.MSG_TYPES
             .EDIT_CONF_COMPONENT,
           {
             goUUID: avatarGO.getUUID(),
@@ -163,7 +164,7 @@ module.exports = class ZeppelinStart {
 
         //edit server side
         ws.emit(
-          udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES
+          ImuvConstants.WEBSOCKET.MSG_TYPES
             .EDIT_CONF_COMPONENT,
           {
             goUUID: goUUID,
@@ -182,7 +183,7 @@ module.exports = class ZeppelinStart {
 
           //edit server side to remove pilot
           ws.emit(
-            udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES
+            ImuvConstants.WEBSOCKET.MSG_TYPES
               .EDIT_CONF_COMPONENT,
             {
               goUUID: goUUID,
@@ -196,7 +197,7 @@ module.exports = class ZeppelinStart {
           _this.onZeppelinInteraction = false;
 
           ws.emit(
-            udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES
+            ImuvConstants.WEBSOCKET.MSG_TYPES
               .EDIT_CONF_COMPONENT,
             {
               goUUID: avatarGO.getUUID(),

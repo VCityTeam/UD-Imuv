@@ -8,7 +8,7 @@ import { EditorView } from '../Editor/Editor';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 
 import { AssetsManager } from 'ud-viz/src/Views/Views';
-import { DistantGame } from 'ud-viz/src/Templates/Templates';
+import { DistantGame } from '../DistantGame/DistantGame';
 
 import './Reception.css';
 import { getTextByID } from './Texts/ReceptionTexts';
@@ -348,7 +348,7 @@ export class ReceptionView {
 
               //app is loaded and ready to receive worldstate
               _this.webSocketService.emit(
-                Game.Components.Constants.WEBSOCKET.MSG_TYPES
+                ImuvConstants.WEBSOCKET.MSG_TYPES
                   .READY_TO_RECEIVE_STATE
               );
             });
@@ -389,7 +389,7 @@ export class ReceptionView {
       });
     };
     this.webSocketService.on(
-      Game.Components.Constants.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
       function () {
         console.log('sign up success ');
         if (signUpView) {
@@ -417,7 +417,7 @@ export class ReceptionView {
     };
 
     this.webSocketService.on(
-      Game.Components.Constants.WEBSOCKET.MSG_TYPES.SIGNED,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.SIGNED,
       function (data) {
         if (signInView) {
           signInView.dispose();

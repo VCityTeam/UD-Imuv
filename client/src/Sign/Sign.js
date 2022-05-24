@@ -2,7 +2,8 @@
 
 import './Sign.css';
 
-import Constants from 'ud-viz/src/Game/Components/Constants';
+import ImuvConstants from '../../../imuv.constants';
+
 
 //Helper
 const createInput = function (name, root, type = 'text') {
@@ -83,7 +84,7 @@ export class SignUpView {
         return;
       }
 
-      _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SIGN_UP, {
+      _this.webSocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_UP, {
         email: email,
         password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
         nameUser: nameUser,
@@ -155,7 +156,7 @@ export class SignInView {
       const nameUser = _this.inputIdUser.value;
       const password = _this.inputPassword.value;
 
-      _this.webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.SIGN_IN, {
+      _this.webSocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_IN, {
         nameUser: nameUser,
         password: password,
       });
