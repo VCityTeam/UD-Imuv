@@ -109,15 +109,15 @@ module.exports = class Jitsi {
     const localCtx = arguments[1];
     const webSocketService = localCtx.getWebSocketService();
     if (!webSocketService) return;
-    const Constants = udviz.Game.Components.Constants;
-    webSocketService.reset([Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+    webSocketService.reset([ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
   }
 
   /**
    * *Update the join button to say "Leave" instead of "Join"*
    * @returns Nothing.
    */
-   onOutdated() {
+  onOutdated() {
     if (this.divJitsi) return;
 
     this.joinRoomJitsi.innerHTML = LABEL_LEAVE;

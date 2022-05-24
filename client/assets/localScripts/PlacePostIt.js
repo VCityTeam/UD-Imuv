@@ -121,7 +121,8 @@ module.exports = class PlacePostIt {
     };
 
     cancelButton.onclick = cancelCb;
-
+    
+    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
     createButton.onclick = function () {
       cancelCb();
 
@@ -143,7 +144,7 @@ module.exports = class PlacePostIt {
         //export
 
         ws.emit(
-          Game.Components.Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
+          ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
           json
         );
       }

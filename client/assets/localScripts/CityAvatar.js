@@ -344,11 +344,13 @@ module.exports = class CityAvatar {
     } else {
       const userID = localContext.getGameView().getUserData('userID');
       const websocketService = localContext.getWebSocketService();
+      const ImuvConstants = localContext.getGameView().getLocalScriptModules()['ImuvConstants'];
+
       websocketService.emit(
-        Game.Components.Constants.WEBSOCKET.MSG_TYPES.COMMANDS,
+        ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS,
         [
           {
-            type: 'z_update',
+            type: Game.Command.TYPE.Z_UPDATE,
             gameObjectUUID: go.getUUID(),
             userID: userID,
             data: z - zParent + zOffset,

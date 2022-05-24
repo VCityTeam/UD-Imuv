@@ -24,17 +24,14 @@ module.exports = class MenuAvatar {
     const _this = this;
 
     const ws = localCtx.getWebSocketService();
-    console.log(
-      'init ',
-      ws,
-      udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR
-    );
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+
     ws.emit(
-      udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR,
       null
     );
     ws.on(
-      udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.ON_AVATAR,
       function (avatarJSON) {
         //remove serverside component
         _this.bufferCollider = avatarJSON.components.Collider;
@@ -174,9 +171,12 @@ module.exports = class MenuAvatar {
 
       const ws = localCtx.getWebSocketService();
       const messageSplitted = udviz.Game.Components.Pack.splitMessage(content);
+      const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+
+
       messageSplitted.forEach(function (pM) {
         ws.emit(
-          udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR,
+          ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR,
           pM
         );
       });
@@ -185,7 +185,9 @@ module.exports = class MenuAvatar {
 
   dispose() {
     const ws = arguments[1].getWebSocketService();
-    ws.reset([udviz.Game.Components.Constants.WEBSOCKET.MSG_TYPES.ON_AVATAR]);
+    const ImuvConstants = arguments[1].getGameView().getLocalScriptModules()['ImuvConstants'];
+
+    ws.reset([ImuvConstants.WEBSOCKET.MSG_TYPES.ON_AVATAR]);
   }
 
   tick() {
