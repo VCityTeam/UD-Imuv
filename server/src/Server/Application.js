@@ -351,6 +351,9 @@ const ApplicationModule = class Application {
               //all path in use are stored in paths
               const folderPath = "../client/assets/img/avatar/"
               fs.readdir(folderPath, (err, files) => {
+
+                if (!files) return
+
                 files.forEach((file) => {
                   //check if ref by something in paths
                   if (!checkRef(file)) {
