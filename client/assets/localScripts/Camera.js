@@ -44,6 +44,7 @@ module.exports = class Camera {
     if (localCtx.getGameView().getUserData('firstGameView')) {
       //work with avatar_controller localscript
       this.addTravelingRoutine(localCtx);
+      console.log("traveling")
     }
 
     //init fog according extent
@@ -214,6 +215,7 @@ class Focus {
 
     //three js camera
     this.camera = camera;
+    camera.fov = THIRD_PERSON_FOV
 
     //target
     this.target = null;

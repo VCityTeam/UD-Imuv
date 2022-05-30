@@ -244,10 +244,10 @@ class MenuWidgets {
     this.rootHtml.appendChild(cityObjectsButton);
     cityObjectsButton.onclick = function () {
       if (_this.activeWidgets[idcityObjects]) {
-        _this.activeWidgets[idcityObjects].view.disable();
+        _this.activeWidgets[idcityObjects].disable();
         delete _this.activeWidgets[idcityObjects];
       } else {
-        _this.activeWidgets[idcityObjects] = new udviz.Widgets.CityObjectModule(
+        const mod = new udviz.Widgets.CityObjectModule(
           localCtx.getGameView().getLayerManager(),
           {
             cityObjects: {
@@ -271,8 +271,9 @@ class MenuWidgets {
             },
           }
         );
-        _this.activeWidgets[idcityObjects].disable = _this.activeWidgets[idcityObjects].view.disable.bind(_this.activeWidgets[idcityObjects].view);//adapt api for dispose
-        _this.activeWidgets[idcityObjects].view.appendTo(document.body);
+        _this.activeWidgets[idcityObjects] = mod.view
+        _this.activeWidgets[idcityObjects].parentElement = document.body;
+        _this.activeWidgets[idcityObjects].enable();
       }
     };
 
@@ -283,7 +284,7 @@ class MenuWidgets {
     this.rootHtml.appendChild(cameraPositionnerButton);
     cameraPositionnerButton.onclick = function () {
       if (_this.activeWidgets[idcameraPositionner]) {
-        _this.activeWidgets[idcameraPositionner].disableView();
+        _this.activeWidgets[idcameraPositionner].disable();
         delete _this.activeWidgets[idcameraPositionner];
       } else {
         _this.activeWidgets[idcameraPositionner] =
@@ -304,16 +305,15 @@ class MenuWidgets {
     this.rootHtml.appendChild(debug3DTilesButton);
     debug3DTilesButton.onclick = function () {
       if (_this.activeWidgets[iddebug3DTiles]) {
-        _this.activeWidgets[iddebug3DTiles].disableView();
+        _this.activeWidgets[iddebug3DTiles].disable();
         delete _this.activeWidgets[iddebug3DTiles];
       } else {
         _this.activeWidgets[iddebug3DTiles] =
           new udviz.Widgets.Extensions.Debug3DTilesWindow(
             localCtx.getGameView().getLayerManager()
           );
-        _this.activeWidgets[iddebug3DTiles].appendTo(
-          document.body
-        );
+        _this.activeWidgets[iddebug3DTiles].parentElement = document.body;
+        _this.activeWidgets[iddebug3DTiles].enable();
       }
     };
   }
