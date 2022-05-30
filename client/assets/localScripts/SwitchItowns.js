@@ -229,7 +229,7 @@ class MenuWidgets {
           {
             view: localCtx.getGameView().getItownsView(),
             extent: localCtx.getGameView().getExtent(),
-            update3DView: function () {},
+            update3DView: function () { },
           },
           localCtx.getGameView().getInputManager()
         );
@@ -271,6 +271,7 @@ class MenuWidgets {
             },
           }
         );
+        _this.activeWidgets[idcityObjects].disable = _this.activeWidgets[idcityObjects].view.disable.bind(_this.activeWidgets[idcityObjects].view);//adapt api for dispose
         _this.activeWidgets[idcityObjects].view.appendTo(document.body);
       }
     };
