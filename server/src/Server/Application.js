@@ -132,7 +132,7 @@ const ApplicationModule = class Application {
         user.set('username', data.nameUser);
         user.set('email', data.email);
         user.set('password', data.password);
-        
+
         try {
           await user.signUp();
           socket.emit(MSG_TYPES.SIGN_UP_SUCCESS);
