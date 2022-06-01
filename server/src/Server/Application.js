@@ -153,10 +153,7 @@ const ApplicationModule = class Application {
       (async () => {
         try {
           // Pass the username and password to logIn function
-          const parseUser = await Parse.User.logIn(
-            data.nameUser,
-            data.password
-          );
+          let user = await Parse.User.logIn(data.nameUser, data.password);
 
           // Do stuff after successful login
           const nameUser = await user.get('username');
@@ -166,25 +163,6 @@ const ApplicationModule = class Application {
           const u = _this.users[socket.id];
           u.setRole(role);
           u.setNameUser(nameUser);
-          u.setParseUser(parseUser);
-
-          // console.log(avatarString)
-          if (avatarString) {
-            const jsonDB = JSON.parse(avatarString);
-            const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
-            //color
-            avatarJSON.components.Render.color = jsonDB.components.Render.color;
-            //avatar id
-            avatarJSON.components.Render.idRenderData =
-              jsonDB.components.Render.idRenderData;
-            //path texture face
-            avatarJSON.components.LocalScript.conf.path_face_texture =
-              jsonDB.components.LocalScript.conf.path_face_texture;
-            //name
-            avatarJSON.components.LocalScript.conf.name =
-              jsonDB.components.LocalScript.conf.name;
-            u.setAvatarJSON(new Game.GameObject(avatarJSON).toJSON(true));
-          }
 
           let found = false;
           for (let id in _this.users) {
