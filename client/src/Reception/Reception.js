@@ -144,6 +144,10 @@ export class ReceptionView {
     const header = document.createElement('header');
     header.id = 'top';
     header.classList.add('header_Reception');
+    const loc = `${window.location.pathname}`;
+    const path = loc.substring(0, loc.lastIndexOf('/'));
+    header.style.backgroundImage =
+      "url('" + path + "/assets/img/reception/top_image.jpg')";
     this.rootHtml.appendChild(header);
 
     this.joinButton = document.createElement('div');

@@ -8,7 +8,6 @@ try {
   require('dotenv').config();
 
   config.ENV = process.env;
-  console.log(config.ENV);
   console.log('server version ', require('./package.json').version);
 
   const app = new gameServer.Application(config);
