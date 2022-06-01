@@ -76,7 +76,6 @@ module.exports = class Controller {
 
       //forward
       let forwardStart = false;
-      let forwardEnd = false;
       manager.addKeyCommand(commandIdForward, ['z', 'ArrowUp'], function () {
         const forwardDown =
           manager.isKeyDown('z') || manager.isKeyDown('ArrowUp');
@@ -92,22 +91,22 @@ module.exports = class Controller {
           }
         }
 
-        const forwardUp = manager.isKeyUp('z') || manager.isKeyUp('ArrowUp');
-        if (forwardUp != forwardEnd) {
-          forwardEnd = forwardUp;
-          if (forwardEnd) {
-            return new Command({
-              type: Command.TYPE.MOVE_FORWARD_END,
-              userID: userID,
-              gameObjectUUID: gameObjectToCtrlUUID,
-            });
-          }
+        const forwardEnd =
+          manager.isKeyUp('z') ||
+          manager.isKeyUp('ArrowUp') ||
+          manager.isKeyUp('s') ||
+          manager.isKeyUp('ArrowDown');
+        if (forwardEnd) {
+          return new Command({
+            type: Command.TYPE.MOVE_FORWARD_END,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
         }
       });
 
       //backward
       let backwardStart = false;
-      let backwardEnd = false;
       manager.addKeyCommand(commandIdBackward, ['s', 'ArrowDown'], function () {
         const backwardDown =
           manager.isKeyDown('s') || manager.isKeyDown('ArrowDown');
@@ -123,22 +122,22 @@ module.exports = class Controller {
           }
         }
 
-        const backwardUp = manager.isKeyUp('s') || manager.isKeyUp('ArrowDown');
-        if (backwardUp != backwardEnd) {
-          backwardEnd = backwardUp;
-          if (backwardEnd) {
-            return new Command({
-              type: Command.TYPE.MOVE_BACKWARD_END,
-              userID: userID,
-              gameObjectUUID: gameObjectToCtrlUUID,
-            });
-          }
+        const backwardEnd =
+          manager.isKeyUp('z') ||
+          manager.isKeyUp('ArrowUp') ||
+          manager.isKeyUp('s') ||
+          manager.isKeyUp('ArrowDown');
+        if (backwardEnd) {
+          return new Command({
+            type: Command.TYPE.MOVE_BACKWARD_END,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
         }
       });
 
       //left
       let leftStart = false;
-      let leftEnd = false;
       manager.addKeyCommand(commandIdLeft, ['q', 'ArrowLeft'], function () {
         const leftDown =
           manager.isKeyDown('q') || manager.isKeyDown('ArrowLeft');
@@ -154,22 +153,22 @@ module.exports = class Controller {
           }
         }
 
-        const leftUp = manager.isKeyUp('q') || manager.isKeyUp('ArrowLeft');
-        if (leftUp != leftEnd) {
-          leftEnd = leftUp;
-          if (leftEnd) {
-            return new Command({
-              type: Command.TYPE.MOVE_LEFT_END,
-              userID: userID,
-              gameObjectUUID: gameObjectToCtrlUUID,
-            });
-          }
+        const leftEnd =
+          manager.isKeyUp('d') ||
+          manager.isKeyUp('ArrowRight') ||
+          manager.isKeyUp('q') ||
+          manager.isKeyUp('ArrowLeft');
+        if (leftEnd) {
+          return new Command({
+            type: Command.TYPE.MOVE_LEFT_END,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
         }
       });
 
       //right
       let rightStart = false;
-      let rightEnd = false;
       manager.addKeyCommand(commandIdRight, ['d', 'ArrowRight'], function () {
         const rightDown =
           manager.isKeyDown('d') || manager.isKeyDown('ArrowRight');
@@ -185,16 +184,17 @@ module.exports = class Controller {
           }
         }
 
-        const rightUp = manager.isKeyUp('d') || manager.isKeyUp('ArrowRight');
-        if (rightUp != rightEnd) {
-          rightEnd = rightUp;
-          if (rightEnd) {
-            return new Command({
-              type: Command.TYPE.MOVE_RIGHT_END,
-              userID: userID,
-              gameObjectUUID: gameObjectToCtrlUUID,
-            });
-          }
+        const rightEnd =
+          manager.isKeyUp('d') ||
+          manager.isKeyUp('ArrowRight') ||
+          manager.isKeyUp('q') ||
+          manager.isKeyUp('ArrowLeft');
+        if (rightEnd) {
+          return new Command({
+            type: Command.TYPE.MOVE_RIGHT_END,
+            userID: userID,
+            gameObjectUUID: gameObjectToCtrlUUID,
+          });
         }
       });
 
