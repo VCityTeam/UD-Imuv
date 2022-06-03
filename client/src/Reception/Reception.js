@@ -1,12 +1,13 @@
 /** @format */
 
-import { Game } from 'ud-viz/src';
+import ImuvConstants from '../../../imuv.constants';
+
 import { SignInView, SignUpView } from '../Sign/Sign';
 import { EditorView } from '../Editor/Editor';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 
 import { AssetsManager } from 'ud-viz/src/Views/Views';
-import { DistantGame } from 'ud-viz/src/Templates/Templates';
+import { DistantGame } from '../DistantGame/DistantGame';
 
 import './Reception.css';
 import { getTextByID } from './Texts/ReceptionTexts';
@@ -25,6 +26,12 @@ export class ReceptionView {
     this.roleUserLabel = null;
     this.languageButton = null;
     this.joinButton = null;
+
+    //user data
+    this.userData = {
+      nameUser: 'default_name_user',
+      role: 'default_role_user',
+    };
 
     //socket service
     this.webSocketService = webSocketService;
@@ -107,12 +114,12 @@ export class ReceptionView {
 
     this.roleUserLabel = document.createElement('div');
     this.roleUserLabel.classList.add('topNav_label');
-    this.roleUserLabel.innerHTML = 'ROLE placeholder';
+    this.roleUserLabel.innerHTML = this.userData.role;
     parentUser.appendChild(this.roleUserLabel);
 
     this.nameUserLabel = document.createElement('div');
     this.nameUserLabel.classList.add('topNav_label');
-    this.nameUserLabel.innerHTML = 'NAME placeholder';
+    this.nameUserLabel.innerHTML = this.userData.nameUser;
     parentUser.appendChild(this.nameUserLabel);
 
     this.editorButton = document.createElement('div');
@@ -333,15 +340,18 @@ export class ReceptionView {
                 config
               );
 
-              distantGame.start({
-                firstGameView: true,
-                editorMode: false,
-              });
+              distantGame.start(
+                {
+                  firstGameView: true,
+                  editorMode: false,
+                  role: _this.userData.role,
+                },
+                { ImuvConstants: ImuvConstants }
+              );
 
               //app is loaded and ready to receive worldstate
               _this.webSocketService.emit(
-                Game.Components.Constants.WEBSOCKET.MSG_TYPES
-                  .READY_TO_RECEIVE_STATE
+                ImuvConstants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
               );
             });
         }
@@ -381,7 +391,7 @@ export class ReceptionView {
       });
     };
     this.webSocketService.on(
-      Game.Components.Constants.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
       function () {
         console.log('sign up success ');
         if (signUpView) {
@@ -409,17 +419,20 @@ export class ReceptionView {
     };
 
     this.webSocketService.on(
-      Game.Components.Constants.WEBSOCKET.MSG_TYPES.SIGNED,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.SIGNED,
       function (data) {
         if (signInView) {
           signInView.dispose();
           signInView = null;
         }
 
+        //update ui
         _this.nameUserLabel.innerHTML = data.nameUser;
         _this.roleUserLabel.innerHTML = data.role;
+        //register values
+        _this.userData = data;
 
-        if (data.role == 'admin') {
+        if (data.role == ImuvConstants.USER.ROLE.ADMIN) {
           _this.editorButton.classList.remove('hidden');
         } else {
           _this.editorButton.classList.add('hidden');

@@ -13,6 +13,7 @@ module.exports = class UI {
     this.pingUI = null;
     this.avatarCount = null;
     this.menuButton = null;
+    this.menuAvatarButton = null;
   }
 
   init() {
@@ -50,7 +51,85 @@ module.exports = class UI {
     };
     gameView.appendToUI(this.menuButton);
 
-    this.updateUI(go, localCtx);
+    //MENU AVATAR
+    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
+    const role = gameView.getUserData('role');
+    if (
+      role == ImuvConstants.USER.ROLE.ADMIN ||
+      role == ImuvConstants.USER.ROLE.USER
+    ) {
+      this.menuAvatarButton = document.createElement('button');
+      this.menuAvatarButton.innerHTML = 'Menu Avatar';
+      this.menuAvatarButton.onclick = function () {
+        //pause gameview
+        gameView.setIsRendering(false);
+        gameView.getInputManager().setPause(true);
+
+        //register
+        const parentHtml = gameView.html().parentNode;
+
+        //remove html
+        gameView.html().remove();
+
+        //create world
+        const menuAvatarWorld = new udviz.Game.World({
+          name: 'Menu Avatar',
+          gameObject: {
+            name: 'MenuAvatar',
+            static: true,
+            components: {
+              LocalScript: {
+                conf: {},
+                idScripts: ['menu_avatar'],
+              },
+            },
+          },
+        });
+
+        //launch menu avatar
+        udviz.Components.SystemUtils.File.loadJSON(
+          './assets/config/config_game.json'
+        ).then(function (config) {
+          const app = new udviz.Templates.LocalGame();
+          app
+            .startWithAssetsLoaded(
+              menuAvatarWorld,
+              gameView.getAssetsManager(),
+              config,
+              {
+                htmlParent: parentHtml,
+                // userData: { avatarUUID: avatar.getUUID(), editorMode: true },
+                localScriptModules: { ImuvConstants: ImuvConstants },
+              }
+            )
+            .then(function () {
+              const menuAvatarGameView = app.getGameView();
+
+              //tweak websocketservice
+              console.log('TWEAK WS');
+              menuAvatarGameView
+                .getLocalContext()
+                .setWebSocketService(localCtx.getWebSocketService());
+
+              const closeButton = document.createElement('button');
+              closeButton.innerHTML = 'Close';
+              closeButton.onclick = function () {
+                menuAvatarGameView.dispose(true); //remove menu avatar
+
+                //unpause gameview
+                gameView.setIsRendering(true);
+                gameView.getInputManager().setPause(false);
+
+                //add html
+                parentHtml.appendChild(gameView.html());
+              };
+
+              menuAvatarGameView.appendToUI(closeButton);
+            });
+        });
+      };
+      gameView.appendToUI(this.menuAvatarButton);
+    }
   }
 
   tick() {

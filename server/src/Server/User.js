@@ -1,21 +1,30 @@
 /** @format */
 
 const Game = require('ud-viz/src/Game/Game');
-const Constants = Game.Components.Constants;
+const ImuvConstants = require('../../../imuv.constants');
 const WorldState = Game.WorldState;
 
 const UserModule = class User {
-  constructor(uuid, socket, avatarJSON, role, nameUser) {
+  constructor(uuid, socket, avatarJSON, role, nameUser, parseUser) {
     this.uuid = uuid;
     this.socket = socket;
 
     this.role = role;
     this.nameUser = nameUser;
+    this.parseUser = parseUser;
 
     //to know if just joined or not
     this.lastState = null;
 
     this.avatarJSON = avatarJSON;
+  }
+
+  setParseUser(value) {
+    this.parseUser = value;
+  }
+
+  getParseUser() {
+    return this.parseUser;
   }
 
   getAvatarUUID() {
@@ -34,14 +43,17 @@ const UserModule = class User {
     let state = new WorldState(stateJSON);
 
     if (!this.lastState) {
-      this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
+      this.socket.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),
         userID: this.getUUID(),
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);
-      this.socket.emit(Constants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF, diffJSON);
+      this.socket.emit(
+        ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+        diffJSON
+      );
     }
 
     this.lastState = state;
@@ -85,12 +97,6 @@ const UserModule = class User {
   setRole(value) {
     this.role = value;
   }
-};
-
-UserModule.Role = {
-  GUEST: 'guest',
-  USER: 'user',
-  ADMIN: 'admin',
 };
 
 module.exports = UserModule;

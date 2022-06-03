@@ -1,5 +1,7 @@
 /** @format */
 
+const ImuvConstants = require('../../../imuv.constants');
+
 const WorldDispatcher = require('./WorldDispatcher');
 const BBBWrapper = require('./BBBWrapper');
 const Parse = require('parse/node');
@@ -25,6 +27,7 @@ const AssetsManagerServer = require('./AssetsManagerServer');
 const Pack = require('ud-viz/src/Game/Components/Pack');
 const JSONUtils = require('ud-viz/src/Game/Components/JSONUtils');
 const { WorldStateComputer } = require('ud-viz/src/Game/Game');
+const WorldThreadModule = require('./WorldThread');
 const exec = require('child-process-promise').exec;
 
 /**
@@ -123,7 +126,19 @@ const ApplicationModule = class Application {
   onSocketConnexion(socket) {
     const _this = this;
 
-    const MSG_TYPES = Game.Components.Constants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = ImuvConstants.WEBSOCKET.MSG_TYPES;
+
+    //REGISTER in app
+    const u = (this.users[socket.id] = this.createUser(
+      socket,
+      'Guest@' + parseInt(Math.random() * 10000),
+      Game.THREE.MathUtils.generateUUID(),
+      ImuvConstants.USER.ROLE.GUEST
+    ));
+    socket.emit(MSG_TYPES.SIGNED, {
+      nameUser: u.getNameUser(),
+      role: u.getRole(),
+    });
 
     //SIGN UP
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
@@ -153,16 +168,39 @@ const ApplicationModule = class Application {
       (async () => {
         try {
           // Pass the username and password to logIn function
-          let user = await Parse.User.logIn(data.nameUser, data.password);
+          const parseUser = await Parse.User.logIn(
+            data.nameUser,
+            data.password
+          );
 
           // Do stuff after successful login
-          const nameUser = await user.get('username');
-          const role = await user.get('role');
-          const dbUUID = user.id;
+          const nameUser = await parseUser.get('username');
+          const role = await parseUser.get('role');
+          const avatarString = await parseUser.get('avatar');
+          const dbUUID = parseUser.id;
 
           const u = _this.users[socket.id];
           u.setRole(role);
           u.setNameUser(nameUser);
+          u.setParseUser(parseUser);
+
+          // console.log(avatarString)
+          if (avatarString) {
+            const jsonDB = JSON.parse(avatarString);
+            const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
+            //color
+            avatarJSON.components.Render.color = jsonDB.components.Render.color;
+            //avatar id
+            avatarJSON.components.Render.idRenderData =
+              jsonDB.components.Render.idRenderData;
+            //path texture face
+            avatarJSON.components.LocalScript.conf.path_face_texture =
+              jsonDB.components.LocalScript.conf.path_face_texture;
+            //name
+            avatarJSON.components.LocalScript.conf.name =
+              jsonDB.components.LocalScript.conf.name;
+            u.setAvatarJSON(new Game.GameObject(avatarJSON).toJSON(true));
+          }
 
           let found = false;
           for (let id in _this.users) {
@@ -195,7 +233,7 @@ const ApplicationModule = class Application {
     //SAVE WORLDS
     socket.on(MSG_TYPES.SAVE_WORLDS, function (partialMessage) {
       const user = _this.users[socket.id];
-      if (user.getRole() != User.Role.ADMIN) return; //security
+      if (user.getRole() != ImuvConstants.USER.ROLE.ADMIN) return; //security
 
       const fullMessage = Pack.recomposeMessage(partialMessage);
       if (fullMessage) {
@@ -203,16 +241,31 @@ const ApplicationModule = class Application {
       }
     });
 
-    //REGISTER in app
-    const u = (this.users[socket.id] = this.createUser(
-      socket,
-      'Guest@' + parseInt(Math.random() * 10000),
-      Game.THREE.MathUtils.generateUUID(),
-      User.Role.GUEST
-    ));
-    socket.emit(MSG_TYPES.SIGNED, {
-      nameUser: u.getNameUser(),
-      role: u.getRole(),
+    //Avatar json
+    socket.on(MSG_TYPES.QUERY_AVATAR, function () {
+      const user = _this.users[socket.id];
+      if (user.getRole() == ImuvConstants.USER.ROLE.GUEST) return; //security
+
+      try {
+        const response = user.getAvatarJSON();
+        if (!response) throw new Error('no avatar json ', user);
+        socket.emit(MSG_TYPES.ON_AVATAR, response);
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    //save avatar
+    socket.on(MSG_TYPES.SAVE_AVATAR, function (partialMessage) {
+      try {
+        const fullMessage = Pack.recomposeMessage(partialMessage);
+        if (fullMessage) {
+          const user = _this.users[socket.id];
+          _this.saveAvatar(user, fullMessage);
+        }
+      } catch (e) {
+        console.error(e);
+      }
     });
 
     socket.on('disconnect', () => {
@@ -223,10 +276,119 @@ const ApplicationModule = class Application {
     });
   }
 
+  saveAvatar(user, avatarJSON) {
+    //write image on disk
+    new Promise((resolve, reject) => {
+      try {
+        const bitmap = Pack.dataUriToBuffer(
+          avatarJSON.components.LocalScript.conf.path_face_texture
+        );
+
+        if (bitmap) {
+          //there is an image
+          const commonPath =
+            'assets/img/avatar/' +
+            Game.THREE.MathUtils.generateUUID() +
+            '.jpeg';
+          const serverPath = '../client/' + commonPath;
+
+          fs.writeFile(serverPath, bitmap, function (err) {
+            if (err) {
+              reject();
+            }
+            resolve();
+          });
+
+          //ref path
+          avatarJSON.components.LocalScript.conf.path_face_texture =
+            './' + commonPath;
+        }
+      } catch (e) {
+        console.error(e);
+        reject();
+      }
+    })
+      .then(
+        (async () => {
+          //avatarJSON is ready to be write to db
+          const parseUser = user.getParseUser();
+          parseUser.set('avatar', JSON.stringify(avatarJSON));
+          try {
+            // Saves the user with the updated data
+            let response = await parseUser.save(null, { useMasterKey: true });
+            console.log('Updated user', response);
+
+            //write in user json
+            user.setAvatarJSON(avatarJSON);
+
+            //replace avatar in game
+            user
+              .getThread()
+              .post(WorldThreadModule.MSG_TYPES.EDIT_AVATAR_RENDER, {
+                avatarUUID: avatarJSON.uuid,
+                color: avatarJSON.components.Render.color,
+                idRenderData: avatarJSON.components.Render.idRenderData,
+                path_face_texture:
+                  avatarJSON.components.LocalScript.conf.path_face_texture,
+              });
+
+            //clear unused images
+            const User = new Parse.User();
+            const query = new Parse.Query(User);
+            try {
+              const results = await query.distinct('avatar');
+              const paths = [];
+              results.forEach(function (string) {
+                const json = JSON.parse(string);
+                const path = json.components.LocalScript.conf.path_face_texture;
+                if (!paths.includes(path)) paths.push(path);
+              });
+
+              const checkRef = function (fileName) {
+                for (let index = 0; index < paths.length; index++) {
+                  const element = paths[index];
+                  if (element.includes(fileName)) return true;
+                }
+
+                return false;
+              };
+
+              //all path in use are stored in paths
+              const folderPath = '../client/assets/img/avatar/';
+              fs.readdir(folderPath, (err, files) => {
+                if (!files) return;
+
+                files.forEach((file) => {
+                  //check if ref by something in paths
+                  if (!checkRef(file)) {
+                    //delete it
+                    fs.unlink(folderPath + file, (err) => {
+                      if (err) {
+                        throw err;
+                      }
+
+                      console.log(folderPath + file + ' deleted.');
+                    });
+                  }
+                });
+              });
+            } catch (e) {
+              console.error(e);
+            }
+          } catch (error) {
+            console.error('Error while updating user', error);
+          }
+        })()
+      )
+      .catch((e) => {
+        console.error(e);
+      });
+  }
+
   saveWorlds(data, socket) {
     console.log('Save Worlds');
 
-    const MSG_TYPES = Game.Components.Constants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = ImuvConstants.WEBSOCKET.MSG_TYPES;
 
     const _this = this;
     const writeImagesOnDiskPromise = [];
@@ -358,15 +520,17 @@ const ApplicationModule = class Application {
     });
   }
 
-  createUser(socket, nameUser, uuid, role) {
-    //create avatar json
-    let avatarJSON = this.assetsManager.createAvatarJSON();
-    avatarJSON.components.LocalScript.conf.name = nameUser;
-    Game.Render.bindColor(avatarJSON, [
-      Math.random(),
-      Math.random(),
-      Math.random(),
-    ]);
+  createUser(socket, nameUser, uuid, role, avatarJSON) {
+    if (!avatarJSON) {
+      //create avatar json
+      avatarJSON = this.assetsManager.createAvatarJSON();
+      avatarJSON.components.LocalScript.conf.name = nameUser;
+      Game.Render.bindColor(avatarJSON, [
+        Math.random(),
+        Math.random(),
+        Math.random(),
+      ]);
+    }
     avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
 
     return new User(uuid, socket, avatarJSON, role, nameUser);

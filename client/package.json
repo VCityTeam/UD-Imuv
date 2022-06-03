@@ -24,23 +24,23 @@
     "keycharm": "^0.4.0",
     "quickhull": "^1.0.3",
     "timsort": "^0.3.0",
-    "ud-viz": "^2.37.3",
+    "ud-viz": "^2.37.4",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },
   "devDependencies": {
     "child-process-promise": "^2.2.1",
     "cross-env": "^7.0.3",
-    "css-loader": "^0.28.10",
+    "css-loader": "^6.7.1",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "gitlog": "^4.0.4",
     "html-loader": "^2.1.2",
     "nodemon": "^2.0.7",
     "prettier": "^2.6.0",
-    "style-loader": "^0.20.3",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.46.0",
+    "style-loader": "^3.3.1",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.73.0",
     "webpack-cli": "^4.5.0"
   }
 }

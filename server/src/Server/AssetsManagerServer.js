@@ -17,6 +17,13 @@ module.exports = class AssetsManagerServer {
 
     if (!config) throw new Error('no config');
 
+    const toEvalCode = function (string) {
+      const regexRequire = /^const.*=\W*\n*.*require.*;$/gm;
+      const regexType = /^\/\*\*\W*@type.*\*\/$/gm;
+      let resultRequire = string.replace(regexRequire, '');
+      return resultRequire.replace(regexType, '');
+    };
+
     const worldScriptsPromise = new Promise((resolve, reject) => {
       let count = 0;
       for (let idScript in config.worldScripts) {
@@ -24,7 +31,7 @@ module.exports = class AssetsManagerServer {
           if (err) {
             reject();
           }
-          worldScripts[idScript] = eval(data);
+          worldScripts[idScript] = eval(toEvalCode(data));
 
           count++;
 
@@ -88,10 +95,6 @@ module.exports = class AssetsManagerServer {
         } else {
           j[k] = 'avatar_grand';
         }
-      }
-      if (k == 'index_face_texture') {
-        const random = Math.floor(Math.random() * 3); //get length of face_textures in AssetsManager.json
-        j[k] = random;
       }
     });
 

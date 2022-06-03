@@ -24,7 +24,7 @@ module.exports = class Visible {
     renderComp.getObject3D().visible = this.conf.visible;
   }
 
-  update() {
+  onOutdated() {
     this.updateVisible(arguments[0]);
   }
 };

@@ -4,6 +4,8 @@ const fs = require('fs');
 const WorldThread = require('./WorldThread');
 const Game = require('ud-viz/src/Game/Game');
 
+const ImuvConstants = require('../../../imuv.constants');
+
 const BBB_ROOM_TAG = 'bbb_room_tag';
 
 const WorldDispatcherModule = class WorldDispatcher {
@@ -155,50 +157,57 @@ const WorldDispatcherModule = class WorldDispatcher {
     });
 
     const socket = user.getSocket();
-    const Constants = Game.Components.Constants;
     const _this = this;
 
     //remove old listener
-    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM);
     socket.removeAllListeners(
-      Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
+      ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM
     );
-    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.COMMANDS);
-    socket.removeAllListeners(Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
+    socket.removeAllListeners(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
+    );
+    socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS);
+    socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
 
     //create BBB rooms
-    socket.on(Constants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function (params) {
-      const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
+    socket.on(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM,
+      function (params) {
+        const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
 
-      if (!_this.bbbWrapper.hasBBBApi()) {
-        socket.emit(Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, 'no bbb api');
-        return;
-      }
+        if (!_this.bbbWrapper.hasBBBApi()) {
+          socket.emit(
+            ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+            'no bbb api'
+          );
+          return;
+        }
 
-      _this.bbbWrapper
-        .createBBBRoom(worldUUID, worldJSON.name)
-        .then(function (value) {
-          //write dynamically bbb urls in localscript conf
-          thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, {
-            goUUID: params.goUUID,
-            componentUUID: params.componentUUID,
-            key: BBB_ROOM_TAG,
-            value: value,
+        _this.bbbWrapper
+          .createBBBRoom(worldUUID, worldJSON.name)
+          .then(function (value) {
+            //write dynamically bbb urls in localscript conf
+            thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, {
+              goUUID: params.goUUID,
+              componentUUID: params.componentUUID,
+              key: BBB_ROOM_TAG,
+              value: value,
+            });
+            console.log(worldJSON.name, ' create bbb room');
           });
-          console.log(worldJSON.name, ' create bbb room');
-        });
-    });
+      }
+    );
 
     //client can edit conf component
     socket.on(
-      Constants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
+      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
       function (params) {
         thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, params);
       }
     );
 
     //cmds are now sent to the new thread
-    socket.on(Constants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
+    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
       const commands = [];
 
       //parse
@@ -215,11 +224,14 @@ const WorldDispatcherModule = class WorldDispatcher {
     });
 
     //add go
-    socket.on(Constants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, function (goJSON) {
-      thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
-        gameObject: goJSON,
-      });
-    });
+    socket.on(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
+      function (goJSON) {
+        thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+          gameObject: goJSON,
+        });
+      }
+    );
   }
 };
 

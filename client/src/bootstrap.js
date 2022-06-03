@@ -2,7 +2,7 @@
 
 import { ReceptionView } from './Reception/Reception';
 import { WebSocketService } from 'ud-viz/src/Components/WebSocketService';
-import Constants from 'ud-viz/src/Game/Components/Constants';
+import ImuvConstants from '../../imuv.constants';
 import { CommitInfo } from './CommitInfo/CommitInfo';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 
@@ -10,7 +10,7 @@ const webSocketService = new WebSocketService();
 webSocketService.connectToServer();
 
 webSocketService.on(
-  Constants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+  ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
   function (message) {
     alert(message);
   }

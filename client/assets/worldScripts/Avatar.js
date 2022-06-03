@@ -210,11 +210,8 @@ module.exports = class Avatar {
       this.go.getComponent(Game.LocalScript.TYPE).conf.name;
 
     //index texture
-    this.cityAvatar.getComponent(
-      Game.LocalScript.TYPE
-    ).conf.index_face_texture = this.go.getComponent(
-      Game.LocalScript.TYPE
-    ).conf.index_face_texture;
+    this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.path_face_texture =
+      this.go.getComponent(Game.LocalScript.TYPE).conf.path_face_texture;
 
     worldContext
       .getWorld()

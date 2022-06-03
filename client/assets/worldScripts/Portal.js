@@ -4,11 +4,20 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
+const ImuvConstantsType = require('../../../imuv.constants');
+/** @type {ImuvConstantsType} */
+let ImuvConstants = null;
+
 module.exports = class Portal {
   constructor(conf, GameModule) {
     this.conf = conf;
     this.go = null;
     Game = GameModule;
+  }
+
+  load() {
+    ImuvConstants = arguments[3].ImuvConstants;
+    return null; //no promise just to access easily a external module TODO as localscript pass external module
   }
 
   init() {
@@ -24,7 +33,7 @@ module.exports = class Portal {
     const world = this.worldCtxt.getWorld();
     setTimeout(function () {
       avatarGo.setFreeze(false);
-      world.notify('portalEvent', [
+      world.notify(ImuvConstants.WORLD.EVENT.PORTAL, [
         avatarGo,
         conf.worldDestUUID,
         conf.portalUUID,
