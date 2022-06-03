@@ -29,11 +29,10 @@ module.exports = class InteractionZone {
   }
 
   tick() {
-
     //reset onleave fix bug
     if (this.localScript.conf.avatarsOnLeave.length) {
       this.localScript.conf.avatarsOnLeave = [];
-      this.go.setOutdated(true)
+      this.go.setOutdated(true);
     }
   }
 

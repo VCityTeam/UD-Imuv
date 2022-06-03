@@ -24,49 +24,45 @@ module.exports = class MenuAvatar {
     const _this = this;
 
     const ws = localCtx.getWebSocketService();
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
 
-    ws.emit(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR,
-      null
-    );
-    ws.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.ON_AVATAR,
-      function (avatarJSON) {
-        //remove serverside component
-        _this.bufferCollider = avatarJSON.components.Collider;
-        delete avatarJSON.components.Collider;
-        _this.bufferWS = avatarJSON.components.WorldScript;
-        delete avatarJSON.components.WorldScript;
+    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR, null);
+    ws.on(ImuvConstants.WEBSOCKET.MSG_TYPES.ON_AVATAR, function (avatarJSON) {
+      //remove serverside component
+      _this.bufferCollider = avatarJSON.components.Collider;
+      delete avatarJSON.components.Collider;
+      _this.bufferWS = avatarJSON.components.WorldScript;
+      delete avatarJSON.components.WorldScript;
 
-        const go = new udviz.Game.GameObject(avatarJSON);
-        _this.worldAvatarGO = go;
+      const go = new udviz.Game.GameObject(avatarJSON);
+      _this.worldAvatarGO = go;
 
-        //local get world and add it
-        const computer = gameView.getInterpolator().getLocalComputer();
-        computer.onAddGameObject(go, function () {
-          //add orbit controls
-          _this.orbitCtrl = new udviz.OrbitControls(
-            gameView.getCamera(),
-            gameView.getRenderer().domElement
-          );
+      //local get world and add it
+      const computer = gameView.getInterpolator().getLocalComputer();
+      computer.onAddGameObject(go, function () {
+        //add orbit controls
+        _this.orbitCtrl = new udviz.OrbitControls(
+          gameView.getCamera(),
+          gameView.getRenderer().domElement
+        );
 
-          const obj = go.computeObject3D();
-          const bb = new udviz.THREE.Box3().setFromObject(obj);
+        const obj = go.computeObject3D();
+        const bb = new udviz.THREE.Box3().setFromObject(obj);
 
-          const center = bb.min.lerp(bb.max, 0.5);
+        const center = bb.min.lerp(bb.max, 0.5);
 
-          _this.orbitCtrl.target.copy(center);
+        _this.orbitCtrl.target.copy(center);
 
-          //hard coded tweak values (TODO could be computed with the bb)
-          gameView.getCamera().position.x = -0.89;
-          gameView.getCamera().position.y = 1.92;
-          gameView.getCamera().position.z = 0.97;
+        //hard coded tweak values (TODO could be computed with the bb)
+        gameView.getCamera().position.x = -0.89;
+        gameView.getCamera().position.y = 1.92;
+        gameView.getCamera().position.z = 0.97;
 
-          _this.buildUI(localCtx);
-        });
-      }
-    );
+        _this.buildUI(localCtx);
+      });
+    });
 
     this.rootHtml = document.createElement('div');
     localCtx.getGameView().appendToUI(this.rootHtml);
@@ -127,7 +123,8 @@ module.exports = class MenuAvatar {
     flexParentColor.appendChild(inputColor);
 
     //init
-    inputColor.value = "#" + _this.worldAvatarGO.components.Render.color.getHexString()
+    inputColor.value =
+      '#' + _this.worldAvatarGO.components.Render.color.getHexString();
 
     inputColor.onchange = function () {
       const color = new udviz.THREE.Color(this.value);
@@ -171,21 +168,21 @@ module.exports = class MenuAvatar {
 
       const ws = localCtx.getWebSocketService();
       const messageSplitted = udviz.Game.Components.Pack.splitMessage(content);
-      const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
-
+      const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+        'ImuvConstants'
+      ];
 
       messageSplitted.forEach(function (pM) {
-        ws.emit(
-          ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR,
-          pM
-        );
+        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR, pM);
       });
     };
   }
 
   dispose() {
     const ws = arguments[1].getWebSocketService();
-    const ImuvConstants = arguments[1].getGameView().getLocalScriptModules()['ImuvConstants'];
+    const ImuvConstants = arguments[1].getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
 
     ws.reset([ImuvConstants.WEBSOCKET.MSG_TYPES.ON_AVATAR]);
   }

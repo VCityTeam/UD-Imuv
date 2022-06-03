@@ -121,7 +121,7 @@ module.exports = class PlacePostIt {
     };
 
     cancelButton.onclick = cancelCb;
-    
+
     const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
     createButton.onclick = function () {
       cancelCb();
@@ -143,10 +143,7 @@ module.exports = class PlacePostIt {
       } else {
         //export
 
-        ws.emit(
-          ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
-          json
-        );
+        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, json);
       }
     };
   }

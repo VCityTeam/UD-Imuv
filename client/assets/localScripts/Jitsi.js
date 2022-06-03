@@ -109,7 +109,9 @@ module.exports = class Jitsi {
     const localCtx = arguments[1];
     const webSocketService = localCtx.getWebSocketService();
     if (!webSocketService) return;
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
     webSocketService.reset([ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
   }
 

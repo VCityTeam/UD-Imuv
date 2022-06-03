@@ -2,7 +2,6 @@
 
 import ImuvConstants from '../../../imuv.constants';
 
-import { Game } from 'ud-viz/src';
 import { SignInView, SignUpView } from '../Sign/Sign';
 import { EditorView } from '../Editor/Editor';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
@@ -352,8 +351,7 @@ export class ReceptionView {
 
               //app is loaded and ready to receive worldstate
               _this.webSocketService.emit(
-                ImuvConstants.WEBSOCKET.MSG_TYPES
-                  .READY_TO_RECEIVE_STATE
+                ImuvConstants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
               );
             });
         }

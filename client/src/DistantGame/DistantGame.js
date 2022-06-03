@@ -53,7 +53,6 @@ export class DistantGame {
     //register in tick of the gameview
     const _this = this;
     gV.addTickRequester(function () {
-
       const cmds = gV.getInputManager().computeCommands();
       const cmdsJSON = [];
       cmds.forEach(function (cmd) {
@@ -69,7 +68,7 @@ export class DistantGame {
   }
 
   start(userData = {}, localScriptModules) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.reset(userData, localScriptModules);
 
       const _this = this;

@@ -168,7 +168,10 @@ const ApplicationModule = class Application {
       (async () => {
         try {
           // Pass the username and password to logIn function
-          const parseUser = await Parse.User.logIn(data.nameUser, data.password);
+          const parseUser = await Parse.User.logIn(
+            data.nameUser,
+            data.password
+          );
 
           // Do stuff after successful login
           const nameUser = await parseUser.get('username');
@@ -181,19 +184,21 @@ const ApplicationModule = class Application {
           u.setNameUser(nameUser);
           u.setParseUser(parseUser);
 
-
           // console.log(avatarString)
           if (avatarString) {
-            const jsonDB = JSON.parse(avatarString)
-            const avatarJSON = _this.assetsManager.fetchPrefabJSON("avatar")
+            const jsonDB = JSON.parse(avatarString);
+            const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
             //color
-            avatarJSON.components.Render.color = jsonDB.components.Render.color
+            avatarJSON.components.Render.color = jsonDB.components.Render.color;
             //avatar id
-            avatarJSON.components.Render.idRenderData = jsonDB.components.Render.idRenderData
+            avatarJSON.components.Render.idRenderData =
+              jsonDB.components.Render.idRenderData;
             //path texture face
-            avatarJSON.components.LocalScript.conf.path_face_texture = jsonDB.components.LocalScript.conf.path_face_texture
+            avatarJSON.components.LocalScript.conf.path_face_texture =
+              jsonDB.components.LocalScript.conf.path_face_texture;
             //name
-            avatarJSON.components.LocalScript.conf.name = jsonDB.components.LocalScript.conf.name
+            avatarJSON.components.LocalScript.conf.name =
+              jsonDB.components.LocalScript.conf.name;
             u.setAvatarJSON(new Game.GameObject(avatarJSON).toJSON(true));
           }
 
@@ -238,7 +243,6 @@ const ApplicationModule = class Application {
 
     //Avatar json
     socket.on(MSG_TYPES.QUERY_AVATAR, function () {
-
       const user = _this.users[socket.id];
       if (user.getRole() == ImuvConstants.USER.ROLE.GUEST) return; //security
 
@@ -283,7 +287,9 @@ const ApplicationModule = class Application {
         if (bitmap) {
           //there is an image
           const commonPath =
-            'assets/img/avatar/' + Game.THREE.MathUtils.generateUUID() + '.jpeg';
+            'assets/img/avatar/' +
+            Game.THREE.MathUtils.generateUUID() +
+            '.jpeg';
           const serverPath = '../client/' + commonPath;
 
           fs.writeFile(serverPath, bitmap, function (err) {
@@ -297,7 +303,6 @@ const ApplicationModule = class Application {
           avatarJSON.components.LocalScript.conf.path_face_texture =
             './' + commonPath;
         }
-
       } catch (e) {
         console.error(e);
         reject();
@@ -305,11 +310,9 @@ const ApplicationModule = class Application {
     })
       .then(
         (async () => {
-
-
           //avatarJSON is ready to be write to db
-          const parseUser = user.getParseUser()
-          parseUser.set("avatar", JSON.stringify(avatarJSON))
+          const parseUser = user.getParseUser();
+          parseUser.set('avatar', JSON.stringify(avatarJSON));
           try {
             // Saves the user with the updated data
             let response = await parseUser.save(null, { useMasterKey: true });
@@ -319,12 +322,15 @@ const ApplicationModule = class Application {
             user.setAvatarJSON(avatarJSON);
 
             //replace avatar in game
-            user.getThread().post(WorldThreadModule.MSG_TYPES.EDIT_AVATAR_RENDER, {
-              avatarUUID: avatarJSON.uuid,
-              color: avatarJSON.components.Render.color,
-              idRenderData: avatarJSON.components.Render.idRenderData,
-              path_face_texture: avatarJSON.components.LocalScript.conf.path_face_texture,
-            })
+            user
+              .getThread()
+              .post(WorldThreadModule.MSG_TYPES.EDIT_AVATAR_RENDER, {
+                avatarUUID: avatarJSON.uuid,
+                color: avatarJSON.components.Render.color,
+                idRenderData: avatarJSON.components.Render.idRenderData,
+                path_face_texture:
+                  avatarJSON.components.LocalScript.conf.path_face_texture,
+              });
 
             //clear unused images
             const User = new Parse.User();
@@ -333,26 +339,24 @@ const ApplicationModule = class Application {
               const results = await query.distinct('avatar');
               const paths = [];
               results.forEach(function (string) {
-                const json = JSON.parse(string)
-                const path = json.components.LocalScript.conf.path_face_texture
-                if (!paths.includes(path)) paths.push(path)
-              })
+                const json = JSON.parse(string);
+                const path = json.components.LocalScript.conf.path_face_texture;
+                if (!paths.includes(path)) paths.push(path);
+              });
 
               const checkRef = function (fileName) {
-
                 for (let index = 0; index < paths.length; index++) {
                   const element = paths[index];
                   if (element.includes(fileName)) return true;
                 }
 
                 return false;
-              }
+              };
 
               //all path in use are stored in paths
-              const folderPath = "../client/assets/img/avatar/"
+              const folderPath = '../client/assets/img/avatar/';
               fs.readdir(folderPath, (err, files) => {
-
-                if (!files) return
+                if (!files) return;
 
                 files.forEach((file) => {
                   //check if ref by something in paths
@@ -368,19 +372,17 @@ const ApplicationModule = class Application {
                   }
                 });
               });
-
-
             } catch (e) {
-              console.error(e)
+              console.error(e);
             }
-
-
           } catch (error) {
             console.error('Error while updating user', error);
           }
         })()
       )
-      .catch((e) => { });
+      .catch((e) => {
+        console.error(e);
+      });
   }
 
   saveWorlds(data, socket) {

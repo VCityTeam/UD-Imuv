@@ -4,7 +4,6 @@ import './Sign.css';
 
 import ImuvConstants from '../../../imuv.constants';
 
-
 //Helper
 const createInput = function (name, root, type = 'text') {
   const parent = document.createElement('div');

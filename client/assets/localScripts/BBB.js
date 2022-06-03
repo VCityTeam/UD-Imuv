@@ -61,7 +61,9 @@ module.exports = class BBB {
     localCtx.getGameView().appendToUI(joinWorldBBB);
 
     //CALLBACK
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
     joinWorldBBB.onclick = function () {
       if (_this.bbbIframe) {
         _this.removeIframe();
@@ -70,10 +72,13 @@ module.exports = class BBB {
         const webSocketService = localCtx.getWebSocketService();
         if (!webSocketService) return;
         const localScript = go.getComponent(udviz.Game.LocalScript.TYPE);
-        webSocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, {
-          goUUID: go.getUUID(),
-          componentUUID: localScript.getUUID(),
-        });
+        webSocketService.emit(
+          ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM,
+          {
+            goUUID: go.getUUID(),
+            componentUUID: localScript.getUUID(),
+          }
+        );
       }
     };
   }
@@ -88,7 +93,9 @@ module.exports = class BBB {
     const localCtx = arguments[1];
     const webSocketService = localCtx.getWebSocketService();
     if (!webSocketService) return;
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
     webSocketService.reset([ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
   }
 

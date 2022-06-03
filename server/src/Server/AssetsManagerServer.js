@@ -96,7 +96,6 @@ module.exports = class AssetsManagerServer {
           j[k] = 'avatar_grand';
         }
       }
-      
     });
 
     return json;

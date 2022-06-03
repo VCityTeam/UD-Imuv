@@ -84,17 +84,16 @@ module.exports = class ZeppelinStart {
     if (this.onZeppelinInteraction) return; //nothing should happen
 
     this.onZeppelinInteraction = true;
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()['ImuvConstants'];
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
 
-    ws.emit(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
-      {
-        goUUID: avatarGO.getUUID(),
-        componentUUID: localScriptAvatar.getUUID(),
-        key: 'visible',
-        value: false,
-      }
-    );
+    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+      goUUID: avatarGO.getUUID(),
+      componentUUID: localScriptAvatar.getUUID(),
+      key: 'visible',
+      value: false,
+    });
 
     //avatar_controller
     const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
@@ -131,16 +130,12 @@ module.exports = class ZeppelinStart {
         //no on zeppelin anymore
         _this.onZeppelinInteraction = false;
 
-        ws.emit(
-          ImuvConstants.WEBSOCKET.MSG_TYPES
-            .EDIT_CONF_COMPONENT,
-          {
-            goUUID: avatarGO.getUUID(),
-            componentUUID: localScriptAvatar.getUUID(),
-            key: 'visible',
-            value: true,
-          }
-        );
+        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+          goUUID: avatarGO.getUUID(),
+          componentUUID: localScriptAvatar.getUUID(),
+          key: 'visible',
+          value: true,
+        });
 
         //remove cb
         manager.removeInputListener(cb);
@@ -163,16 +158,12 @@ module.exports = class ZeppelinStart {
         const ls = this.go.getComponent(udviz.Game.LocalScript.TYPE);
 
         //edit server side
-        ws.emit(
-          ImuvConstants.WEBSOCKET.MSG_TYPES
-            .EDIT_CONF_COMPONENT,
-          {
-            goUUID: goUUID,
-            componentUUID: ls.getUUID(),
-            key: 'pilotUUID',
-            value: avatarUUID,
-          }
-        );
+        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+          goUUID: goUUID,
+          componentUUID: ls.getUUID(),
+          key: 'pilotUUID',
+          value: avatarUUID,
+        });
 
         //on leave zeppelin cb
         const cb = function () {
@@ -182,30 +173,22 @@ module.exports = class ZeppelinStart {
           avatarController.setAvatarControllerMode(true, localCtx);
 
           //edit server side to remove pilot
-          ws.emit(
-            ImuvConstants.WEBSOCKET.MSG_TYPES
-              .EDIT_CONF_COMPONENT,
-            {
-              goUUID: goUUID,
-              componentUUID: ls.getUUID(),
-              key: 'pilotUUID',
-              value: null,
-            }
-          );
+          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+            goUUID: goUUID,
+            componentUUID: ls.getUUID(),
+            key: 'pilotUUID',
+            value: null,
+          });
 
           //no on zeppelin anymore
           _this.onZeppelinInteraction = false;
 
-          ws.emit(
-            ImuvConstants.WEBSOCKET.MSG_TYPES
-              .EDIT_CONF_COMPONENT,
-            {
-              goUUID: avatarGO.getUUID(),
-              componentUUID: localScriptAvatar.getUUID(),
-              key: 'visible',
-              value: true,
-            }
-          );
+          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+            goUUID: avatarGO.getUUID(),
+            componentUUID: localScriptAvatar.getUUID(),
+            key: 'visible',
+            value: true,
+          });
 
           //remove cb
           manager.removeInputListener(cb);

@@ -44,13 +44,11 @@ module.exports = class TextureFace {
   }
 
   onOutdated() {
-
     if (this.lastPath != this.conf.path_face_texture)
       this.setFaceTexture(arguments[0]);
   }
 
   onComponentUpdate() {
-
     //retreve current material
     let currentMaterial;
     const renderComp = arguments[0].getComponent(Game.Render.TYPE);

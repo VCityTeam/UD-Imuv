@@ -9,7 +9,6 @@ if (debugBuild) {
   devTool = 'source-map';
   outputPath = path.resolve(__dirname, 'dist/debug');
 } else {
-  devTool = 'none';
   outputPath = path.resolve(__dirname, 'dist/release');
 }
 
