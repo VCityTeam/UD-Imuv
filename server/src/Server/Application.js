@@ -147,6 +147,7 @@ const ApplicationModule = class Application {
         user.set('username', data.nameUser);
         user.set('email', data.email);
         user.set('password', data.password);
+        user.set('role', ImuvConstants.USER.ROLE.USER);
 
         try {
           await user.signUp();
