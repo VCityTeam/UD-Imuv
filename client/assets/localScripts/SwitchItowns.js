@@ -314,6 +314,14 @@ class MenuWidgets {
           );
         _this.activeWidgets[iddebug3DTiles].parentElement = document.body;
         _this.activeWidgets[iddebug3DTiles].enable();
+        
+        //TODO
+        // _this.activeWidgets[iddebug3DTiles].addEventListener(ModuleView.EVENT_ENABLED, () => {
+        //   this.moduleActivation[moduleId] = true;
+        // });
+        // _this.activeWidgets[iddebug3DTiles].addEventListener(ModuleView.EVENT_DISABLED, () => {
+        //   this.moduleActivation[moduleId] = false;
+        // });
       }
     };
   }
