@@ -9,4 +9,3 @@ Test/**
 server/.env
 *.xml
 client/commit_info.json
-client/assets/img/avatar/*
