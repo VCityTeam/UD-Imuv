@@ -33,7 +33,7 @@
       "conf": {
         "visible": true,
         "name": "default_name",
-        "path_face_texture": "./assets/img/labex_imu.jpeg"
+        "path_face_texture": "./assets/img/avatar/default.jpeg"
       },
       "type": "LocalScript"
     }
