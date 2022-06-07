@@ -55,10 +55,10 @@ export class EditorGameView extends GameView {
 
     //cant handle this callback with our input manager
     //orbitsControl Listeners
-    this.orbitControls.addEventListener(
-      'change',
-      this.computeNearFarCamera.bind(this)
-    );
+    // this.orbitControls.addEventListener(
+    //   'change',
+    //   this.computeNearFarCamera.bind(this)
+    // );
 
     //transformControls Listeners
     this.transformControls.addEventListener(
