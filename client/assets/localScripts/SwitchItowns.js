@@ -40,6 +40,8 @@ module.exports = class SwitchItowns {
 
     const localCtx = arguments[1];
 
+    this.menuWidgets = new MenuWidgets(localCtx);
+
     const gameView = localCtx.getGameView();
     const camera = gameView.getCamera();
     const manager = gameView.getInputManager();
@@ -52,6 +54,7 @@ module.exports = class SwitchItowns {
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
+
       this.menuWidgetsButton = document.createElement('button');
       this.menuWidgetsButton.innerHTML = 'Widgets';
       this.menuWidgetsButton.onclick = function () {
@@ -73,7 +76,7 @@ module.exports = class SwitchItowns {
         let startPos = camera.position.clone();
         let startQuat = camera.quaternion.clone();
 
-        if (view.controls) {
+        if (gameView.isItownsRendering()) {
           //record
           _this.itownsCamPos.set(
             camera.position.x,
@@ -109,7 +112,6 @@ module.exports = class SwitchItowns {
                 avatarController.setAvatarControllerMode(true, localCtx);
 
                 _this.menuWidgets.dispose();
-                _this.menuWidgets = null;
               }
             )
           );
@@ -164,12 +166,12 @@ module.exports = class SwitchItowns {
 
                 gameView.setItownsRendering(true);
 
-                _this.menuWidgets = new MenuWidgets(localCtx);
-
                 const refine = localCtx.getRootGameObject().fetchLocalScripts()[
                   'itowns_refine'
                 ];
                 if (refine) refine.itownsControls();
+                gameView.appendToUI(_this.menuWidgets.html())
+
               }
             )
           );
@@ -184,7 +186,7 @@ class MenuWidgets {
   constructor(localCtx) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root-menu-settings');
-    localCtx.getGameView().appendToUI(this.rootHtml);
+
 
     const title = document.createElement('h1');
     title.innerHTML = 'Widgets';
@@ -193,137 +195,121 @@ class MenuWidgets {
     //buffer
     this.activeWidgets = {};
 
-    //scope
-    const _this = this;
-
-    ////ADD WIDGETS
+    ////ADD UD-VIZ WIDGETS
+    const view = localCtx.getGameView().getItownsView()
 
     //layerchoice
-    const idLayerChoice = 'Layer Choice';
-    const layerchoiceButton = document.createElement('button');
-    layerchoiceButton.innerHTML = idLayerChoice;
-    this.rootHtml.appendChild(layerchoiceButton);
-    layerchoiceButton.onclick = function () {
-      if (_this.activeWidgets[idLayerChoice]) {
-        _this.activeWidgets[idLayerChoice].disable();
-        delete _this.activeWidgets[idLayerChoice];
-      } else {
-        _this.activeWidgets[idLayerChoice] = new udviz.Widgets.LayerChoice(
-          localCtx.getGameView().getLayerManager()
-        );
-        _this.activeWidgets[idLayerChoice].appendTo(document.body);
-      }
-    };
+    this.addModuleView("Layer Choice", new udviz.Widgets.LayerChoice(
+      localCtx.getGameView().getLayerManager()
+    ))
 
-    //slideShow
-    const idslideShow = 'Slide show';
-    const slideShowButton = document.createElement('button');
-    slideShowButton.innerHTML = idslideShow;
-    this.rootHtml.appendChild(slideShowButton);
-    slideShowButton.onclick = function () {
-      if (_this.activeWidgets[idslideShow]) {
-        _this.activeWidgets[idslideShow].disable();
-        delete _this.activeWidgets[idslideShow];
-      } else {
-        _this.activeWidgets[idslideShow] = new udviz.Widgets.SlideShow(
-          {
-            view: localCtx.getGameView().getItownsView(),
-            extent: localCtx.getGameView().getExtent(),
-            update3DView: function () { },
-          },
-          localCtx.getGameView().getInputManager()
-        );
-        _this.activeWidgets[idslideShow].appendTo(document.body);
-      }
-    };
-
-    //cityObjects TODO
-    const idcityObjects = 'City Objects';
-    const cityObjectsButton = document.createElement('button');
-    cityObjectsButton.innerHTML = idcityObjects;
-    this.rootHtml.appendChild(cityObjectsButton);
-    cityObjectsButton.onclick = function () {
-      if (_this.activeWidgets[idcityObjects]) {
-        _this.activeWidgets[idcityObjects].disable();
-        delete _this.activeWidgets[idcityObjects];
-      } else {
-        const mod = new udviz.Widgets.CityObjectModule(
-          localCtx.getGameView().getLayerManager(),
-          {
-            cityObjects: {
-              styles: {
-                layerDefault: {
-                  materialProps: {
-                    color: '#ffa14f',
-                  },
-                },
-                selection: {
-                  materialProps: {
-                    color: '#13ddef',
-                  },
-                },
-                linkedWithDisplayedDocument: {
-                  materialProps: {
-                    color: '#4c5af7',
-                  },
-                },
+    //cityObjects
+    this.addModuleView("City Objects", new udviz.Widgets.CityObjectModule(
+      localCtx.getGameView().getLayerManager(),
+      {
+        cityObjects: {
+          styles: {
+            layerDefault: {
+              materialProps: {
+                color: '#ffa14f',
               },
             },
-          }
-        );
-        _this.activeWidgets[idcityObjects] = mod.view
-        _this.activeWidgets[idcityObjects].parentElement = document.body;
-        _this.activeWidgets[idcityObjects].enable();
+            selection: {
+              materialProps: {
+                color: '#13ddef',
+              },
+            },
+            linkedWithDisplayedDocument: {
+              materialProps: {
+                color: '#4c5af7',
+              },
+            },
+          },
+        },
       }
-    };
+    ).view)
 
     //cameraPositionner
-    const idcameraPositionner = 'Camera positioner';
-    const cameraPositionnerButton = document.createElement('button');
-    cameraPositionnerButton.innerHTML = idcameraPositionner;
-    this.rootHtml.appendChild(cameraPositionnerButton);
-    cameraPositionnerButton.onclick = function () {
-      if (_this.activeWidgets[idcameraPositionner]) {
-        _this.activeWidgets[idcameraPositionner].disable();
-        delete _this.activeWidgets[idcameraPositionner];
-      } else {
-        _this.activeWidgets[idcameraPositionner] =
-          new udviz.Widgets.CameraPositionerView(
-            localCtx.getGameView().getItownsView(),
-            localCtx.getGameView().getItownsView().controls
-          );
-        _this.activeWidgets[idcameraPositionner].positionerWindow.appendTo(
-          document.body
-        );
-      }
-    };
+    this.addModuleView("Camera Positioner", new udviz.Widgets.CameraPositionerView(
+      view
+    ))
 
     //debug3DTiles
-    const iddebug3DTiles = 'Debug 3DTiles';
-    const debug3DTilesButton = document.createElement('button');
-    debug3DTilesButton.innerHTML = iddebug3DTiles;
-    this.rootHtml.appendChild(debug3DTilesButton);
-    debug3DTilesButton.onclick = function () {
-      if (_this.activeWidgets[iddebug3DTiles]) {
-        _this.activeWidgets[iddebug3DTiles].disable();
-        delete _this.activeWidgets[iddebug3DTiles];
-      } else {
-        _this.activeWidgets[iddebug3DTiles] =
-          new udviz.Widgets.Extensions.Debug3DTilesWindow(
-            localCtx.getGameView().getLayerManager()
-          );
-        _this.activeWidgets[iddebug3DTiles].parentElement = document.body;
-        _this.activeWidgets[iddebug3DTiles].enable();
-        
-        //TODO
-        // _this.activeWidgets[iddebug3DTiles].addEventListener(ModuleView.EVENT_ENABLED, () => {
-        //   this.moduleActivation[moduleId] = true;
-        // });
-        // _this.activeWidgets[iddebug3DTiles].addEventListener(ModuleView.EVENT_DISABLED, () => {
-        //   this.moduleActivation[moduleId] = false;
-        // });
+    this.addModuleView("Debug 3DTiles", new udviz.Widgets.Extensions.Debug3DTilesWindow(
+      localCtx.getGameView().getLayerManager()
+    ))
+
+    //geocoding
+    const requestService = new udviz.Components.RequestService();
+    const geocodingService = new udviz.Widgets.Extensions.GeocodingService(
+      requestService,
+      localCtx.getGameView().getExtent(),
+      {
+        geocoding: {
+          url: "https://nominatim.openstreetmap.org/search",
+          credit: "© OpenStreetMap contributors under <a href=\"https://www.openstreetmap.org/copyright\">ODbL</a>",
+          requestTimeIntervalMs: 1000,
+          result: {
+            format: "json",
+            basePath: "",
+            lng: "lon",
+            lat: "lat"
+          },
+          parameters: {
+            q: {
+              fill: "query"
+            },
+            format: {
+              fill: "value",
+              value: "json"
+            },
+            viewbox: {
+              fill: "extent",
+              format: "WEST,SOUTH,EAST,NORTH"
+            }
+          }
+        }
       }
-    };
+    );
+
+    this.addModuleView('geocoding', new udviz.Widgets.Extensions.GeocodingView(
+      geocodingService,
+      view
+    ));
+
+
+    //TODO widgets travaux
+    //geocoding + camera positioner isVisible not working
+    // + bugs throw in console ...
+
+
+    ////ADD ITOWNS WIDGETS
+    // new udviz.itownsWidgets.Scale(localCtx.getGameView().getItownsView(),
+    //   { parentElement: this.rootHtml })
+  }
+
+  html() {
+    return this.rootHtml
+  }
+
+  addModuleView(moduleId, moduleClass, options = {}) {
+    const button = document.createElement('button');
+    button.innerHTML = moduleId;
+    this.rootHtml.appendChild(button);
+
+    //ref for dispose
+    this.activeWidgets[moduleId] = moduleClass
+
+    //parent
+    moduleClass.parentElement = document.body
+
+    button.onclick = function () {
+      if (moduleClass.isVisible) {
+        moduleClass.disable()
+      } else {
+        moduleClass.enable()
+      }
+    }
   }
 
   dispose() {
