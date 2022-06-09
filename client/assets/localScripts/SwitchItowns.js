@@ -235,9 +235,9 @@ class MenuWidgets {
     ))
 
     //debug3DTiles
-    this.addModuleView("Debug 3DTiles", new udviz.Widgets.Extensions.Debug3DTilesWindow(
-      localCtx.getGameView().getLayerManager()
-    ))
+    // this.addModuleView("Debug 3DTiles", new udviz.Widgets.Extensions.Debug3DTilesWindow(
+    //   localCtx.getGameView().getLayerManager()
+    // ))
 
     //geocoding
     const requestService = new udviz.Components.RequestService();
