@@ -179,7 +179,7 @@
   "game": {
     "fps": 30,
     "radiusExtent": 5500,
-    "shadowMapSize": 2048,
+    "shadowMapSize": 1024,
     "sky": {
       "paths": [
         "./assets/img/sky_cubemap/negX.jpg",
