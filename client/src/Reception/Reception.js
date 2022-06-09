@@ -134,12 +134,12 @@ export class ReceptionView {
     topNav.appendChild(parentSign);
 
     this.signUpButton = document.createElement('div');
-    this.signUpButton.innerHTML = 'Créer compte';
+    this.signUpButton.innerHTML = getTextByID('signUp', this.language);
     this.signUpButton.classList.add('sign_button_MenuAuth');
     parentSign.appendChild(this.signUpButton);
 
     this.signInButton = document.createElement('div');
-    this.signInButton.innerHTML = 'Identification';
+    this.signInButton.innerHTML = getTextByID('signIn', this.language);
     this.signInButton.classList.add('sign_button_MenuAuth');
     parentSign.appendChild(this.signInButton);
 

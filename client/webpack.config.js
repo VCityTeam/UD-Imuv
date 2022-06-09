@@ -33,6 +33,7 @@ module.exports = (env) => {
         },
       ],
     },
+    { test: /\.md$/, use: ['json-loader', 'front-matter-loader'] },
   ];
 
   return {
