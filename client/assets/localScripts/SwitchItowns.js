@@ -193,7 +193,7 @@ class MenuWidgets {
     this.rootHtml.appendChild(title);
 
     //buffer
-    this.activeWidgets = {};
+    this.widgets = {};
 
     ////ADD UD-VIZ WIDGETS
     const view = localCtx.getGameView().getItownsView()
@@ -298,7 +298,7 @@ class MenuWidgets {
     this.rootHtml.appendChild(button);
 
     //ref for dispose
-    this.activeWidgets[moduleId] = moduleClass
+    this.widgets[moduleId] = moduleClass
 
     //parent
     moduleClass.parentElement = document.body
@@ -316,8 +316,8 @@ class MenuWidgets {
     this.rootHtml.remove();
 
     //remove active widgets
-    for (let id in this.activeWidgets) {
-      this.activeWidgets[id].disable();
+    for (let id in this.widgets) {
+      this.widgets[id].disable();
     }
   }
 }
