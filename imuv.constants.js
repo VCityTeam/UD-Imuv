@@ -26,6 +26,7 @@ module.exports = {
       READY_TO_RECEIVE_STATE: 'ready_to_receive_state', //client game is ready to receive the join_world
       SAVE_WORLDS: 'save_worlds', //save new worlds on server
       CREATE_BBB_ROOM: 'create_bbb_room', //query bbb url
+      EDIT_CONF_COMPONENT: 'edit_conf_comp', //modify conf of a go component
       //server => client
       JOIN_WORLD: 'join_world', //first complete worldstate when joining a world
       WORLDSTATE_DIFF: 'worldstate_diff', //diff of worldstate
