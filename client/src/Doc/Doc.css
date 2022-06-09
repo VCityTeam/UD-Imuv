@@ -1,0 +1,22 @@
+.root_Doc {
+  width: 60%;
+  height: 70%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: sans-serif;
+  display: flex;
+}
+
+#menu_Doc {
+  width: 12.75rem;
+  background-color: aqua;
+}
+
+#content_Doc {
+  overflow-x: auto;
+  padding: 1rem 2rem;
+  background-color: blueviolet;
+  width: inherit;
+}
