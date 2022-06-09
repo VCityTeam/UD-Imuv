@@ -48,6 +48,10 @@ const texts = {
     feedbacksLink: "Retour d'expérience",
     servicesBoxTitle: 'Services',
     servicesContent: 'A venir',
+
+    //Sign
+    signIn: 'Identification',
+    signUp: 'Créer compte',
   },
 
   EN: {
@@ -91,5 +95,9 @@ const texts = {
     feedbacksLink: 'Feedbacks',
     servicesBoxTitle: 'Services',
     servicesContent: 'Coming soon',
+
+    //Sign
+    signIn: 'Sign In',
+    signUp: 'Sign Up',
   },
 };
