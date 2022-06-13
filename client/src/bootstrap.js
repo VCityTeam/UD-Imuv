@@ -7,6 +7,8 @@ import { CommitInfo } from './CommitInfo/CommitInfo';
 import { DocPage } from './Doc/Doc';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 
+import '../assets/css/global_class.css';
+
 const webSocketService = new WebSocketService();
 webSocketService.connectToServer();
 
@@ -27,3 +29,4 @@ SystemUtils.File.loadJSON('./commit_info.json').then((commitJson) => {
 
 const documentation = new DocPage();
 document.body.appendChild(documentation.html());
+document.body.appendChild(documentation.toggleShowButton);

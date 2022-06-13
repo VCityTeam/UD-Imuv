@@ -15,10 +15,22 @@ const folderImages = '/assets/img/doc/';
 export class DocPage {
   constructor() {
     this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_Doc');
+    this.rootHtml.id = 'root_Doc';
+    this.rootHtml.classList.add('hidden');
 
-    this.toggleShowButton = document.createElement('button');
+    this.toggleShowButton = document.createElement('a');
     this.toggleShowButton.innerHTML = '?';
+    this.toggleShowButton.id = 'toggle_Shower_Doc';
+
+    const rootHtml = this.rootHtml;
+
+    this.toggleShowButton.onclick = function () {
+      if (getComputedStyle(rootHtml).display != 'none') {
+        rootHtml.classList.add('hidden');
+      } else {
+        rootHtml.classList.remove('hidden');
+      }
+    };
 
     this.menuDoc = null;
     this.contentDoc = null;
