@@ -11,7 +11,20 @@
 
 #menu_Doc {
   width: 12.75rem;
-  background-color: #aebbc3;
+  background-color: #2a2d2f;
+  color: whitesmoke;
+}
+
+#menu_Doc ul {
+  list-style: none;
+}
+
+#menu_Doc li {
+  cursor: pointer;
+}
+
+#menu_Doc li:hover {
+  color: #e6007c;
 }
 
 #content_Doc {

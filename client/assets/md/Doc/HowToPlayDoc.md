@@ -1,0 +1,13 @@
+# Comment jouer ?
+
+## Les touches
+
+- Z : Avancer
+- S : Reculer
+- Q : Marcher à gauche
+- D : Marcher à droite
+- Souris : Rotation de la caméra
+- E : Action¹
+- F : Switch premiere personne / troisieme personne
+
+> ¹ Contextuel : Rentrer dans le zeppelins, Afficher les panneaux d'affichages...

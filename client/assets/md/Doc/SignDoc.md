@@ -22,3 +22,5 @@ Il existe trois rôles dans IMUV qui occtroies des fonctionnalités différentes
 | Nom personalisé                                                | ❌    | ✔️   | ✔️    |
 | Menu Avatar                                                    | ❌    | ✔️   | ✔️    |
 | Editeur                                                        | ❌    | ❌   | ✔️    |
+
+> Les demandes pour devenir admin se font par mail avec l'addresse qui vous a servi à la création du compte. Addressez à fcimuv@gmail.com.
