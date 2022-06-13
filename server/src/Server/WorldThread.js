@@ -179,17 +179,31 @@ WorldThreadModule.routine = function (serverConfig) {
 
           if (!avatarGO) throw new Error('no avatar');
 
-          const renderComp = avatarGO.getComponent(Game.Render.TYPE);
-          //color
-          renderComp.setColor(new Game.THREE.Color().fromArray(msg.data.color));
-          //model id
-          renderComp.setIdRenderData(msg.data.idRenderData);
+          const editAvatarGO = function (go) {
+            const renderComp = go.getComponent(Game.Render.TYPE);
+            //color
+            renderComp.setColor(
+              new Game.THREE.Color().fromArray(msg.data.color)
+            );
+            //model id
+            renderComp.setIdRenderData(msg.data.idRenderData);
 
-          const localComp = avatarGO.getComponent(Game.LocalScript.TYPE);
-          //texture face
-          localComp.conf.path_face_texture = msg.data.path_face_texture;
+            const localComp = go.getComponent(Game.LocalScript.TYPE);
+            //texture face
+            localComp.conf.path_face_texture = msg.data.path_face_texture;
 
-          avatarGO.setOutdated(true);
+            go.setOutdated(true);
+          };
+
+          editAvatarGO(avatarGO);
+
+          //check if city avatar
+          const cityAvatar = avatarGO
+            .fetchWorldScripts()
+            ['avatar'].getCityAvatar();
+          if (cityAvatar) {
+            editAvatarGO(cityAvatar);
+          }
 
           break;
         }

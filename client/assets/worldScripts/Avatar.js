@@ -237,6 +237,10 @@ module.exports = class Avatar {
     this.go.setOutdated(true);
   }
 
+  getCityAvatar() {
+    return this.cityAvatar
+  }
+
   clampRotation(gameObject) {
     //clamp
     const rotation = gameObject.getRotation();
