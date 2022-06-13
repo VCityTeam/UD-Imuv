@@ -10,7 +10,7 @@ const itownsType = require('itowns');
 /** @type {itownsType} */
 let itowns = null;
 
-module.exports = class Controller {
+module.exports = class AvatarController {
   constructor(conf, udvizBundle) {
     this.conf = conf;
 
