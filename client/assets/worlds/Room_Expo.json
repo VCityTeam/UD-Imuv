@@ -23,9 +23,7 @@
       "LocalScript": {
         "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
         "idScripts": ["avatar_controller", "camera", "static_object", "jitsi"],
-        "conf": {
-          "fog": { "near": 5, "far": 100 }
-        },
+        "conf": {},
         "type": "LocalScript"
       }
     },
@@ -1307,7 +1305,7 @@
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 17 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -1339,5 +1337,5 @@
   "origin": null,
   "type": "World",
   "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-  "version": "2.37.2"
+  "version": "2.37.4"
 }
