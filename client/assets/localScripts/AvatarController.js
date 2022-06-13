@@ -69,6 +69,11 @@ module.exports = class Controller {
     const commandIdRight = 'cmd_right';
 
     if (value) {
+      const refine = localCtx.getRootGameObject().fetchLocalScripts()[
+        'itowns_refine'
+      ];
+      if (refine) refine.avatar();
+
       console.warn('add avatar control');
 
       const userID = gameView.getUserData('userID');

@@ -23,6 +23,7 @@
       "LocalScript": {
         "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
         "idScripts": [
+          "itowns_refine",
           "avatar_controller",
           "switch_itowns",
           "camera",

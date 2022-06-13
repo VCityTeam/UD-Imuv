@@ -49,6 +49,9 @@
       "menu_avatar": {
         "path": "./assets/localScripts/MenuAvatar.js"
       },
+      "itowns_refine": {
+        "path": "./assets/localScripts/ItownsRefine.js"
+      },
       "static_object": {
         "path": "./assets/localScripts/StaticObject.js"
       },
