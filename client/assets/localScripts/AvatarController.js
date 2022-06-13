@@ -68,6 +68,13 @@ module.exports = class Controller {
     const commandIdLeft = 'cmd_left';
     const commandIdRight = 'cmd_right';
 
+    const switchItowns = localCtx.getRootGameObject().fetchLocalScripts()[
+      'switch_itowns'
+    ];
+    if (switchItowns) {
+      switchItowns.setWidgetButtonVisible(value);
+    }
+
     if (value) {
       console.warn('add avatar control');
 

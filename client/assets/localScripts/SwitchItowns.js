@@ -26,6 +26,14 @@ module.exports = class SwitchItowns {
     this.menuWidgetsButton = null;
   }
 
+  setWidgetButtonVisible(value) {
+    if (value) {
+      this.menuWidgetsButton.classList.remove('hidden');
+    } else {
+      this.menuWidgetsButton.classList.add('hidden');
+    }
+  }
+
   //DEBUG
   init() {
     const _this = this;
@@ -106,11 +114,10 @@ module.exports = class SwitchItowns {
             )
           );
         } else {
-          const unsetted = avatarController.setAvatarControllerMode(
-            false,
-            localCtx
-          );
-          if (!unsetted) return; //only switch when avatar controller are removed
+          //remove avatar controls
+          avatarController.setAvatarControllerMode(false, localCtx);
+          //restore widget button visibility to permit to close it
+          _this.setWidgetButtonVisible(true);
 
           if (!_this.itownsCamPos && !_this.itownsCamQuat) {
             //first time camera in sky
