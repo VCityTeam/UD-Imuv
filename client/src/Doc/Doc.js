@@ -17,10 +17,11 @@ export class DocPage {
     this.listMenuDoc = null;
 
     const converter = new showdown.Converter();
-    const html = converter.makeHtml(signMd.body);
+    converter.setOption('tables', true);
 
     this.initHtml();
-    this.addEntry('Sign', html);
+    this.addEntry('Sign', converter.makeHtml(signMd.body));
+    this.addEntry('nEW', this.toggleShowButton);
   }
 
   initHtml() {

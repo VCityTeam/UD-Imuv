@@ -77,7 +77,7 @@ export class ReceptionView {
     //buttons Nav
     const receptionButton = createButton(
       getTextByID('button_Home', this.language),
-      '#top'
+      window.location.href
     );
     buttonsTopNav.appendChild(receptionButton);
     const aboutButton = createButton(
