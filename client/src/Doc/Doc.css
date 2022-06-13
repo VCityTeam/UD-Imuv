@@ -1,22 +1,28 @@
 .root_Doc {
-  width: 60%;
-  height: 70%;
+  width: 80%;
+  height: 85%;
   position: fixed;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0%);
   font-family: sans-serif;
   display: flex;
+  margin-top: 75px;
 }
 
 #menu_Doc {
   width: 12.75rem;
-  background-color: aqua;
+  background-color: #aebbc3;
 }
 
 #content_Doc {
   overflow-x: auto;
   padding: 1rem 2rem;
-  background-color: blueviolet;
+  background-color: #e5007b;
   width: inherit;
+}
+
+#content_Doc img {
+  width: 100%;
+  max-height: 650px;
+  max-width: max-content;
 }
