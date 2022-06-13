@@ -41,16 +41,17 @@
 }
 
 #toggle_Shower_Doc {
-  font-size: smaller;
   position: fixed;
   bottom: 16px;
   left: 16px;
-  padding: 16px 8px;
+  padding: 10px 8px;
   border-radius: 25%;
   background-color: #2a2d2f38;
   z-index: 999;
   text-decoration: none;
-  color: #2a2d2f;
+  color: #e5007c;
+  cursor: pointer;
+  font-weight: 900;
 }
 
 #toggle_Shower_Doc:hover {
