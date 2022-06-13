@@ -30,9 +30,7 @@
           "static_object",
           "jitsi"
         ],
-        "conf": {
-          "fog": { "near": 5, "far": 100 }
-        },
+        "conf": {},
         "type": "LocalScript"
       }
     },
@@ -312,5 +310,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-  "version": "2.37.2"
+  "version": "2.37.4"
 }
