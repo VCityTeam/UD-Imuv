@@ -1,9 +1,9 @@
 /**@format */
-let Shared;
+let Game;
 module.exports = class LocalInteractions {
   constructor(conf, udvizBundle) {
     this.conf = conf;
-    Shared = udvizBundle.Game;
+    Game = udvizBundle.Game;
 
     ///attr
     this.tickIsColliding = null;

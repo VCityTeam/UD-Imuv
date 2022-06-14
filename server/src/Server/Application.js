@@ -346,9 +346,8 @@ const ApplicationModule = class Application {
               });
 
               const checkRef = function (fileName) {
-
                 //do not delete the default image
-                if (fileName.includes("default.jpeg")) return true
+                if (fileName.includes('default.jpeg')) return true;
 
                 for (let index = 0; index < paths.length; index++) {
                   const element = paths[index];

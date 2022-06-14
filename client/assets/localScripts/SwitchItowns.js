@@ -171,6 +171,11 @@ module.exports = class SwitchItowns {
                 });
 
                 _this.menuWidgets = new MenuWidgets(localCtx);
+
+                const refine = localCtx.getRootGameObject().fetchLocalScripts()[
+                  'itowns_refine'
+                ];
+                if (refine) refine.itownsControls();
               }
             )
           );

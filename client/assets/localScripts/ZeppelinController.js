@@ -39,6 +39,11 @@ module.exports = class ZeppelinController {
     const Command = Game.Command;
 
     if (value) {
+      const refine = localCtx.getRootGameObject().fetchLocalScripts()[
+        'itowns_refine'
+      ];
+      if (refine) refine.zeppelin();
+
       const userID = gameView.getUserData('userID');
       const gameObjectToCtrlUUID = zeppelinGO.getUUID();
       manager.setPointerLock(false);
