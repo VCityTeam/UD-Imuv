@@ -336,7 +336,7 @@ module.exports = class CityAvatar {
 
       computer.onCommands([
         new Game.Command({
-          type: 'z_update',
+          type: Game.Command.TYPE.Z_UPDATE,
           gameObjectUUID: go.getUUID(),
           data: z - zParent + zOffset,
         }),

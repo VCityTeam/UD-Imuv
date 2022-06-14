@@ -10,7 +10,7 @@ const itownsType = require('itowns');
 /** @type {itownsType} */
 let itowns = null;
 
-module.exports = class Controller {
+module.exports = class AvatarController {
   constructor(conf, udvizBundle) {
     this.conf = conf;
 
@@ -67,6 +67,13 @@ module.exports = class Controller {
     const commandIdBackward = 'cmd_backward';
     const commandIdLeft = 'cmd_left';
     const commandIdRight = 'cmd_right';
+
+    const switchItowns = localCtx.getRootGameObject().fetchLocalScripts()[
+      'switch_itowns'
+    ];
+    if (switchItowns) {
+      switchItowns.setWidgetButtonVisible(value);
+    }
 
     if (value) {
       const refine = localCtx.getRootGameObject().fetchLocalScripts()[

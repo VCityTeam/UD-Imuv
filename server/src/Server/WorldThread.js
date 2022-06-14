@@ -51,7 +51,6 @@ const WorldThreadModule = class WorldThread {
     //disconnect users
     for (let key in this.users) {
       this.users[key].getSocket().disconnect();
-      console.warn(this.users[key].getUUID(), 'disconnected');
     }
   }
 
