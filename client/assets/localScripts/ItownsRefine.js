@@ -9,7 +9,7 @@ let Game = null;
 
 const AVATAR_SSE = 300;
 const ZEPPELIN_SSE = 100;
-const ITOWNS_CONTROLS_SSE = 30;
+const ITOWNS_CONTROLS_SSE = 16;
 
 module.exports = class ItownsRefine {
   constructor(conf, udvizBundle) {
