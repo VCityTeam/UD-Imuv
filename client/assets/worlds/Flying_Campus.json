@@ -31,11 +31,7 @@
           "mini_map",
           "jitsi"
         ],
-        "conf": {
-          "traveling_time": 3000,
-          "fog": { "near": 5, "far": 100 },
-          "mini_map_size": 232
-        },
+        "conf": { "traveling_time": 3000, "mini_map_size": 232 },
         "type": "LocalScript"
       }
     },
@@ -2824,7 +2820,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 15 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {
