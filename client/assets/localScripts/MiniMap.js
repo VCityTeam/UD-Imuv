@@ -28,11 +28,17 @@ module.exports = class MiniMap {
     this.ui.height = MINI_MAP_SIZE;
     this.ui.style.width = MINI_MAP_SIZE + 'px';
     this.ui.style.height = MINI_MAP_SIZE + 'px';
-    this.ui.style.background = 'red';
 
     this.currentDT = 0;
+
+    this.portalsPosition = [];
+    this.defaultCanvas = null;
   }
 
+  /**
+   * It adds a key input listener to the game view's input manager, which toggles the display of the
+   * mini map
+   */
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
@@ -80,6 +86,15 @@ module.exports = class MiniMap {
         teleportPosition: teleportPosition,
       });
     };
+
+    /* Finding the position of the portals and adding them to the array. */
+    const portalsPosition = this.portalsPosition;
+    go.traverse(function (child) {
+      const lS = child.fetchLocalScripts();
+      if (lS && lS['portal_sweep']) {
+        portalsPosition.push(child.getPosition());
+      }
+    });
   }
 
   onNewGameObject() {
@@ -130,18 +145,64 @@ module.exports = class MiniMap {
       camera.position.z = 100; //to be sure to not cull something
       camera.updateProjectionMatrix();
 
+      /* Rendering the scene to a background image. */
       this.renderer.render(scene, camera);
+      const _this = this;
+      this.backgroundImage.onload = function () {
+        _this.defaultCanvas = _this.createDefaultCanvas();
+      };
       this.backgroundImage.src = this.renderer.domElement.toDataURL();
     }
   }
 
+  /**
+   * It draws the background image, then draws a red circle around each portal
+   * @returns A canvas element with a background image and a red circle drawn on it.
+   */
+  createDefaultCanvas() {
+    const defaultCanvas = document.createElement('canvas');
+    defaultCanvas.width = MINI_MAP_SIZE;
+    defaultCanvas.height = MINI_MAP_SIZE;
+    defaultCanvas.style.width = MINI_MAP_SIZE + 'px';
+    defaultCanvas.style.height = MINI_MAP_SIZE + 'px';
+    defaultCanvas.style.background = 'green';
+
+    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
+    const ctx = defaultCanvas.getContext('2d');
+
+    ctx.drawImage(this.backgroundImage, 0, 0);
+
+    this.portalsPosition.forEach(function (pos) {
+      ctx.beginPath();
+      ctx.strokeStyle = 'red';
+      const posPortal = {
+        x: MINI_MAP_SIZE * 0.5 + pos.x / pixelSize,
+        y: MINI_MAP_SIZE * 0.5 - pos.y / pixelSize,
+      };
+      const a = 0.5;
+      const b = 0.5;
+      for (let i = 0; i < 150; i++) {
+        const angle = 0.1 * i;
+        const x = posPortal.x + (a + b * angle) * Math.cos(angle);
+        const y = posPortal.y + (a + b * angle) * Math.sin(angle);
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    });
+    return defaultCanvas;
+  }
+
+  /**
+   * It draws the mini-map, and then draws the avatar on top of it
+   * @returns A function that takes in two arguments, go and localCtx.
+   */
   tick() {
     const go = arguments[0];
     const localCtx = arguments[1];
-
+    if (!this.defaultCanvas) return;
     //write
     const destCtx = this.ui.getContext('2d');
-    destCtx.drawImage(this.backgroundImage, 0, 0);
+    destCtx.drawImage(this.defaultCanvas, 0, 0);
 
     this.currentDT += localCtx.getDt() * 0.002;
 
@@ -162,8 +223,17 @@ module.exports = class MiniMap {
         x: MINI_MAP_SIZE * 0.5 + avatarPos.x / pixelSize,
         y: MINI_MAP_SIZE * 0.5 - avatarPos.y / pixelSize,
       };
+      /* Drawing the avatar on the mini map. Set its color thanks to the render color */
+      const avatarColor = avatarGO.getComponent('Render').color;
       destCtx.beginPath();
-      destCtx.fillStyle = 'red';
+      destCtx.fillStyle =
+        'rgb(' +
+        avatarColor.r * 255 +
+        ',' +
+        avatarColor.g * 255 +
+        ',' +
+        avatarColor.b * 255 +
+        ')';
       destCtx.arc(avatarPosCanvas.x, avatarPosCanvas.y, radius, 0, Math.PI * 2);
       destCtx.fill();
     }
