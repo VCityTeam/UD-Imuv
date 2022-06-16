@@ -298,12 +298,16 @@ WorldThreadModule.routine = function (serverConfig) {
         case WorldThreadModule.MSG_TYPES.EDIT_AVATAR_TRANSFORM: {
           const avatarUUID = msg.data.avatarUUID;
           const newTransform = msg.data.newTransform;
-          console.log(newTransform);
           const avatar = worldStateComputer
             .getWorldContext()
             .getWorld()
             .getGameObject()
             .find(avatarUUID);
+
+          if (!avatar) {
+            console.warn('no avatar with UUID', avatarUUID);
+            break;
+          }
 
           if (newTransform.position) avatar.setPosition(newTransform.position);
           if (newTransform.rotation) avatar.setRotation(newTransform.rotation);
