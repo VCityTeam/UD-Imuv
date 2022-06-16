@@ -60,7 +60,6 @@ module.exports = class Image {
   }
 
   init() {
-    console.log('init image localscript', this);
     this.go = arguments[0];
     this.gV = arguments[1].getGameView();
     this.createImagePlane();
