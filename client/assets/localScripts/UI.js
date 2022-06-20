@@ -37,16 +37,14 @@ module.exports = class UI {
     this.avatarCount.classList.add('label_controller');
     gameView.appendToUI(this.avatarCount);
 
-    let menuSettings = null;
+    const menuSettings = new MenuSettings(localCtx);
     this.menuButton = document.createElement('button');
     this.menuButton.innerHTML = 'Settings';
     this.menuButton.onclick = function () {
-      if (!menuSettings) {
-        menuSettings = new MenuSettings(localCtx);
+      if (!menuSettings.html().parentNode) {
         gameView.appendToUI(menuSettings.html());
       } else {
         menuSettings.dispose();
-        menuSettings = null;
       }
     };
     gameView.appendToUI(this.menuButton);
@@ -169,6 +167,40 @@ class MenuSettings {
     //differents options
     this.createDirectionalOptions(localCtx);
     this.createVolumeControl(localCtx);
+    this.createFogControl(localCtx);
+  }
+
+  createFogControl(localCtx) {
+    const gameView = localCtx.getGameView();
+    const scene = gameView.getScene();
+
+    //init fog according extent
+    const max = gameView.config.game.radiusExtent;
+    const min = 50;
+    scene.fog = new udviz.THREE.Fog(
+      // new udviz.THREE.Color("red"),
+      new udviz.THREE.Color('#e1ebef'),
+      0,
+      max
+    );
+
+    const label = document.createElement('div');
+    label.innerHTML = 'Fog Distance';
+    label.classList.add('label-menu-settings');
+    this.rootHtml.appendChild(label);
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.step = 1;
+    slider.min = min;
+    slider.max = max;
+    slider.value = max;
+    this.rootHtml.appendChild(slider);
+
+    //callbakc
+    slider.onchange = function () {
+      scene.fog.far = this.value;
+    };
   }
 
   createVolumeControl(localCtx) {
@@ -193,7 +225,8 @@ class MenuSettings {
   }
 
   createDirectionalOptions(localCtx) {
-    const scene = localCtx.getGameView().getScene();
+    const gameView = localCtx.getGameView();
+    const scene = gameView.getScene();
 
     for (let index = 0; index < scene.children.length; index++) {
       const element = scene.children[index];

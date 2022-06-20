@@ -45,13 +45,6 @@ module.exports = class Camera {
       //work with avatar_controller localscript
       this.addTravelingRoutine(localCtx);
     }
-
-    //init fog according extent
-    gameView.getScene().fog = new udviz.THREE.Fog(
-      new udviz.THREE.Color('#e1ebef'),
-      0,
-      gameView.config.game.radiusExtent
-    );
   }
 
   getAvatarGO() {
