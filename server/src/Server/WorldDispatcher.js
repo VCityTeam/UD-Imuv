@@ -169,6 +169,9 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
+    socket.removeAllListeners(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR
+    );
 
     //create BBB rooms
     socket.on(
