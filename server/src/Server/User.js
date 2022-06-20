@@ -5,7 +5,15 @@ const ImuvConstants = require('../../../imuv.constants');
 const WorldState = Game.WorldState;
 
 const UserModule = class User {
-  constructor(uuid, socket, avatarJSON, role, nameUser, parseUser) {
+  constructor(
+    uuid,
+    socket,
+    avatarJSON,
+    role,
+    nameUser,
+    parseUser,
+    settingsJSON
+  ) {
     this.uuid = uuid;
     this.socket = socket;
 
@@ -17,6 +25,16 @@ const UserModule = class User {
     this.lastState = null;
 
     this.avatarJSON = avatarJSON;
+
+    this.settingsJSON = settingsJSON || {};
+  }
+
+  getSettingsJSON() {
+    return this.settingsJSON;
+  }
+
+  setSettingsJSON(json) {
+    this.settingsJSON = json;
   }
 
   setParseUser(value) {
@@ -47,6 +65,7 @@ const UserModule = class User {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),
         userID: this.getUUID(),
+        settings: this.getSettingsJSON(),
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);
