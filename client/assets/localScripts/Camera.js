@@ -44,14 +44,14 @@ module.exports = class Camera {
     if (localCtx.getGameView().getUserData('firstGameView')) {
       //work with avatar_controller localscript
       this.addTravelingRoutine(localCtx);
-      console.log("traveling")
     }
 
     //init fog according extent
     gameView.getScene().fog = new udviz.THREE.Fog(
-      new udviz.THREE.Color("#e1ebef"),
+      new udviz.THREE.Color('#e1ebef'),
       0,
-      gameView.config.game.radiusExtent);
+      gameView.config.game.radiusExtent
+    );
   }
 
   getAvatarGO() {
@@ -215,7 +215,7 @@ class Focus {
 
     //three js camera
     this.camera = camera;
-    camera.fov = THIRD_PERSON_FOV
+    camera.fov = THIRD_PERSON_FOV;
 
     //target
     this.target = null;

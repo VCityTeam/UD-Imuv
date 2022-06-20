@@ -54,7 +54,6 @@ module.exports = class SwitchItowns {
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
-
       this.menuWidgetsButton = document.createElement('button');
       this.menuWidgetsButton.innerHTML = 'Widgets';
       this.menuWidgetsButton.onclick = function () {
@@ -170,8 +169,7 @@ module.exports = class SwitchItowns {
                   'itowns_refine'
                 ];
                 if (refine) refine.itownsControls();
-                gameView.appendToUI(_this.menuWidgets.html())
-
+                gameView.appendToUI(_this.menuWidgets.html());
               }
             )
           );
@@ -187,7 +185,6 @@ class MenuWidgets {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root-menu-settings');
 
-
     const title = document.createElement('h1');
     title.innerHTML = 'Widgets';
     this.rootHtml.appendChild(title);
@@ -196,43 +193,48 @@ class MenuWidgets {
     this.widgets = {};
 
     ////ADD UD-VIZ WIDGETS
-    const view = localCtx.getGameView().getItownsView()
+    const view = localCtx.getGameView().getItownsView();
 
     //layerchoice
-    this.addModuleView("Layer Choice", new udviz.Widgets.LayerChoice(
-      localCtx.getGameView().getLayerManager()
-    ))
+    this.addModuleView(
+      'Layer Choice',
+      new udviz.Widgets.LayerChoice(localCtx.getGameView().getLayerManager())
+    );
 
     //cityObjects
-    this.addModuleView("City Objects", new udviz.Widgets.CityObjectModule(
-      localCtx.getGameView().getLayerManager(),
-      {
-        cityObjects: {
-          styles: {
-            layerDefault: {
-              materialProps: {
-                color: '#ffa14f',
+    this.addModuleView(
+      'City Objects',
+      new udviz.Widgets.CityObjectModule(
+        localCtx.getGameView().getLayerManager(),
+        {
+          cityObjects: {
+            styles: {
+              layerDefault: {
+                materialProps: {
+                  color: '#ffa14f',
+                },
               },
-            },
-            selection: {
-              materialProps: {
-                color: '#13ddef',
+              selection: {
+                materialProps: {
+                  color: '#13ddef',
+                },
               },
-            },
-            linkedWithDisplayedDocument: {
-              materialProps: {
-                color: '#4c5af7',
+              linkedWithDisplayedDocument: {
+                materialProps: {
+                  color: '#4c5af7',
+                },
               },
             },
           },
-        },
-      }
-    ).view)
+        }
+      ).view
+    );
 
     //cameraPositionner
-    this.addModuleView("Camera Positioner", new udviz.Widgets.CameraPositionerView(
-      view
-    ))
+    this.addModuleView(
+      'Camera Positioner',
+      new udviz.Widgets.CameraPositionerView(view)
+    );
 
     //debug3DTiles
     // this.addModuleView("Debug 3DTiles", new udviz.Widgets.Extensions.Debug3DTilesWindow(
@@ -246,42 +248,41 @@ class MenuWidgets {
       localCtx.getGameView().getExtent(),
       {
         geocoding: {
-          url: "https://nominatim.openstreetmap.org/search",
-          credit: "© OpenStreetMap contributors under <a href=\"https://www.openstreetmap.org/copyright\">ODbL</a>",
+          url: 'https://nominatim.openstreetmap.org/search',
+          credit:
+            '© OpenStreetMap contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a>',
           requestTimeIntervalMs: 1000,
           result: {
-            format: "json",
-            basePath: "",
-            lng: "lon",
-            lat: "lat"
+            format: 'json',
+            basePath: '',
+            lng: 'lon',
+            lat: 'lat',
           },
           parameters: {
             q: {
-              fill: "query"
+              fill: 'query',
             },
             format: {
-              fill: "value",
-              value: "json"
+              fill: 'value',
+              value: 'json',
             },
             viewbox: {
-              fill: "extent",
-              format: "WEST,SOUTH,EAST,NORTH"
-            }
-          }
-        }
+              fill: 'extent',
+              format: 'WEST,SOUTH,EAST,NORTH',
+            },
+          },
+        },
       }
     );
 
-    this.addModuleView('geocoding', new udviz.Widgets.Extensions.GeocodingView(
-      geocodingService,
-      view
-    ));
-
+    this.addModuleView(
+      'geocoding',
+      new udviz.Widgets.Extensions.GeocodingView(geocodingService, view)
+    );
 
     //TODO widgets travaux
     //geocoding + camera positioner isVisible not working
     // + bugs throw in console ...
-
 
     ////ADD ITOWNS WIDGETS
     // new udviz.itownsWidgets.Scale(localCtx.getGameView().getItownsView(),
@@ -289,7 +290,7 @@ class MenuWidgets {
   }
 
   html() {
-    return this.rootHtml
+    return this.rootHtml;
   }
 
   addModuleView(moduleId, moduleClass, options = {}) {
@@ -298,18 +299,18 @@ class MenuWidgets {
     this.rootHtml.appendChild(button);
 
     //ref for dispose
-    this.widgets[moduleId] = moduleClass
+    this.widgets[moduleId] = moduleClass;
 
     //parent
-    moduleClass.parentElement = document.body
+    moduleClass.parentElement = document.body;
 
     button.onclick = function () {
       if (moduleClass.isVisible) {
-        moduleClass.disable()
+        moduleClass.disable();
       } else {
-        moduleClass.enable()
+        moduleClass.enable();
       }
-    }
+    };
   }
 
   dispose() {

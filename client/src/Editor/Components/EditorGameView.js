@@ -18,7 +18,7 @@ export class EditorGameView extends GameView {
 
     this.object3DToRaycast = this.object3D;
 
-    this.callbackPointerUp = function () { };
+    this.callbackPointerUp = function () {};
     this.linkedHtmlElementTypeCbPointerUp = null;
 
     this.initTransformControls();
@@ -98,7 +98,7 @@ export class EditorGameView extends GameView {
   }
 
   setCallbackPointerUp(cb = null, type = null) {
-    if (!cb) cb = function () { };
+    if (!cb) cb = function () {};
 
     this.callbackPointerUp = cb;
 
