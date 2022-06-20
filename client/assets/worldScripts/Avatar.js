@@ -238,7 +238,7 @@ module.exports = class Avatar {
   }
 
   getCityAvatar() {
-    return this.cityAvatar
+    return this.cityAvatar;
   }
 
   clampRotation(gameObject) {

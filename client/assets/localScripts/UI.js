@@ -171,7 +171,7 @@ class MenuSettings {
   }
 
   createFogControl(localCtx) {
-    const gameView = localCtx.getGameView()
+    const gameView = localCtx.getGameView();
     const scene = gameView.getScene();
 
     //init fog according extent
@@ -179,9 +179,10 @@ class MenuSettings {
     const min = 50;
     scene.fog = new udviz.THREE.Fog(
       // new udviz.THREE.Color("red"),
-      new udviz.THREE.Color("#e1ebef"),
+      new udviz.THREE.Color('#e1ebef'),
       0,
-      max);
+      max
+    );
 
     const label = document.createElement('div');
     label.innerHTML = 'Fog Distance';
@@ -224,7 +225,7 @@ class MenuSettings {
   }
 
   createDirectionalOptions(localCtx) {
-    const gameView = localCtx.getGameView()
+    const gameView = localCtx.getGameView();
     const scene = gameView.getScene();
 
     for (let index = 0; index < scene.children.length; index++) {
