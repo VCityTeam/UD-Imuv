@@ -191,7 +191,7 @@ class MenuSettings {
 
     const slider = document.createElement('input');
     slider.type = 'range';
-    slider.step = 0.05;
+    slider.step = 1;
     slider.min = min;
     slider.max = max;
     slider.value = max;
