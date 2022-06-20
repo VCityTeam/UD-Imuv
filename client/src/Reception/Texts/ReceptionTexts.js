@@ -45,6 +45,7 @@ const texts = {
     //News
     newsBoxTitle: 'Actualités',
     newsLinkGithubReleases: 'Github Releases',
+    feedbacksLink: "Retour d'expérience",
     servicesBoxTitle: 'Services',
     servicesContent: 'A venir',
   },
@@ -87,6 +88,7 @@ const texts = {
     //News
     newsBoxTitle: 'News',
     newsLinkGithubReleases: 'Github Releases',
+    feedbacksLink: 'Feedbacks',
     servicesBoxTitle: 'Services',
     servicesContent: 'Coming soon',
   },
