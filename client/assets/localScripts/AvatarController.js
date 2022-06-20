@@ -222,7 +222,7 @@ module.exports = class AvatarController {
             let pixelY = -event.movementY;
 
             if (this.isDragging()) {
-              const dragRatio = 2; //TODO conf ?
+              const dragRatio = 10;
               pixelX *= dragRatio;
               pixelY *= dragRatio;
             }
