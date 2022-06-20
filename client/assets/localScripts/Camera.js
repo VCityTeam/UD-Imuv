@@ -208,6 +208,7 @@ class Focus {
 
     //three js camera
     this.camera = camera;
+    camera.fov = THIRD_PERSON_FOV;
 
     //target
     this.target = null;

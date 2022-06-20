@@ -43,7 +43,7 @@ export class EditorGameView extends GameView {
 
     this.orbitControls = new OrbitControls(
       this.getCamera(),
-      this.getRootWebGL()
+      this.getRenderer().domElement
     );
 
     this.orbitControls.target.copy(this.getExtent().center());
@@ -54,11 +54,6 @@ export class EditorGameView extends GameView {
     const _this = this;
 
     //cant handle this callback with our input manager
-    //orbitsControl Listeners
-    // this.orbitControls.addEventListener(
-    //   'change',
-    //   this.computeNearFarCamera.bind(this)
-    // );
 
     //transformControls Listeners
     this.transformControls.addEventListener(
