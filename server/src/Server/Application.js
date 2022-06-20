@@ -178,12 +178,17 @@ const ApplicationModule = class Application {
           const nameUser = await parseUser.get('username');
           const role = await parseUser.get('role');
           const avatarString = await parseUser.get('avatar');
+          const settingsString = await parseUser.get('settings');
           const dbUUID = parseUser.id;
 
           const u = _this.users[socket.id];
           u.setRole(role);
           u.setNameUser(nameUser);
           u.setParseUser(parseUser);
+
+          if (settingsString) {
+            u.setSettingsJSON(JSON.parse(settingsString));
+          }
 
           // console.log(avatarString)
           if (avatarString) {

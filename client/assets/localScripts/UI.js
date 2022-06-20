@@ -164,10 +164,39 @@ class MenuSettings {
     title.innerHTML = 'Settings';
     this.rootHtml.appendChild(title);
 
+    this.fogSlider = null;
+    this.volumeSlider = null;
+    this.sunCheckBox = null;
+    this.shadowChecBox = null;
+    this.shadowMapSelect = null;
+
     //differents options
     this.createDirectionalOptions(localCtx);
     this.createVolumeControl(localCtx);
     this.createFogControl(localCtx);
+    this.createSaveButton(localCtx);
+  }
+
+  createSaveButton(localCtx) {
+    const button = document.createElement('button');
+    button.innerHTML = 'Save Settings on Server';
+    this.rootHtml.appendChild(button);
+
+    const _this = this;
+    button.onclick = function () {
+      const ws = localCtx.getWebSocketService();
+      const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+        'ImuvConstants'
+      ];
+      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS, {
+        //SETTINGS MODEL IS DESCRIBE HERE
+        fogValue: _this.fogSlider.value,
+        volumeValue: _this.volumeSlider.value,
+        sunValue: _this.sunCheckBox.checked,
+        shadowValue: _this.shadowChecBox.checked,
+        shadowMapSize: _this.shadowMapSelect.value,
+      });
+    };
   }
 
   createFogControl(localCtx) {
@@ -184,6 +213,11 @@ class MenuSettings {
       max
     );
 
+    //check is settings has been saved
+    if (!isNaN(gameView.getUserData('settings').fogValue)) {
+      scene.fog.far = gameView.getUserData('settings').fogValue;
+    }
+
     const label = document.createElement('div');
     label.innerHTML = 'Fog Distance';
     label.classList.add('label-menu-settings');
@@ -194,8 +228,10 @@ class MenuSettings {
     slider.step = 1;
     slider.min = min;
     slider.max = max;
-    slider.value = max;
+    slider.value = scene.fog.far;
     this.rootHtml.appendChild(slider);
+
+    this.fogSlider = slider;
 
     //callbakc
     slider.onchange = function () {
@@ -204,10 +240,17 @@ class MenuSettings {
   }
 
   createVolumeControl(localCtx) {
+    const gameView = localCtx.getGameView();
+
     const labelGlobalSound = document.createElement('div');
     labelGlobalSound.innerHTML = 'Volume';
     labelGlobalSound.classList.add('label-menu-settings');
     this.rootHtml.appendChild(labelGlobalSound);
+
+    //check is settings has been saved
+    if (!isNaN(gameView.getUserData('settings').volumeValue)) {
+      Howler.volume(gameView.getUserData('settings').volumeValue);
+    }
 
     const globalVolumeSlider = document.createElement('input');
     globalVolumeSlider.type = 'range';
@@ -216,6 +259,8 @@ class MenuSettings {
     globalVolumeSlider.max = 1;
     globalVolumeSlider.value = Howler.volume();
     this.rootHtml.appendChild(globalVolumeSlider);
+
+    this.volumeSlider = globalVolumeSlider;
 
     //callbakc
     globalVolumeSlider.onchange = function () {
@@ -247,11 +292,19 @@ class MenuSettings {
         //checkbox
         const checkboxDirect = document.createElement('input');
         checkboxDirect.type = 'checkbox';
+
+        //check is settings has been saved
+        if (gameView.getUserData('settings').sunValue != undefined) {
+          element.visible = gameView.getUserData('settings').sunValue;
+        }
+
         checkboxDirect.checked = element.visible;
         checkboxDirect.onchange = function () {
           element.visible = this.checked;
         };
         flexParentEnableDirect.appendChild(checkboxDirect);
+
+        this.sunCheckBox = checkboxDirect;
 
         //enable shadow
 
@@ -269,11 +322,19 @@ class MenuSettings {
         //checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
+
+        //check is settings has been saved
+        if (gameView.getUserData('settings').shadowValue != undefined) {
+          element.castShadow = gameView.getUserData('settings').shadowValue;
+        }
+
         checkbox.checked = element.castShadow;
         checkbox.onchange = function () {
           element.castShadow = this.checked;
         };
         flexParentEnable.appendChild(checkbox);
+
+        this.shadowChecBox = checkbox;
 
         //size
         const flexParentSize = document.createElement('div');
@@ -296,8 +357,19 @@ class MenuSettings {
           selectSize.appendChild(option);
         });
 
+        //check is settings has been saved
+        if (!isNaN(gameView.getUserData('settings').shadowMapSize)) {
+          element.shadow.mapSize.width =
+            gameView.getUserData('settings').shadowMapSize;
+          element.shadow.mapSize.height =
+            gameView.getUserData('settings').shadowMapSize;
+          element.shadow.map = null;
+        }
+
         //init
-        selectSize.value = element.shadow.mapSize.x;
+        selectSize.value = element.shadow.mapSize.width;
+
+        this.shadowMapSelect = selectSize;
 
         //update shadow map
         selectSize.onchange = function () {

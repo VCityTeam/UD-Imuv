@@ -17,6 +17,7 @@ module.exports = {
   WEBSOCKET: {
     MSG_TYPES: {
       //client => server
+      SAVE_SETTINGS: 'save_settings', //save client settings on server
       SAVE_AVATAR: 'save_avatar', //save client avatar on server
       QUERY_AVATAR: 'query_avatar', //ask server to send avatar json
       ADD_GAMEOBJECT: 'add_gameobject', //add a go in world

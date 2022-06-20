@@ -167,6 +167,7 @@ const WorldDispatcherModule = class WorldDispatcher {
       ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
     );
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS);
+    socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
 
     //create BBB rooms
@@ -222,6 +223,21 @@ const WorldDispatcherModule = class WorldDispatcher {
 
       thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
     });
+
+    //save settings
+    socket.on(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS,
+      function (settingsJSON) {
+        //write user
+        user.setSettingsJSON(settingsJSON);
+
+        //if role is not guest save in database
+        const parseUser = user.getParseUser();
+        if (!parseUser) return; //not a user registered
+        parseUser.set('settings', JSON.stringify(settingsJSON));
+        parseUser.save(null, { useMasterKey: true });
+      }
+    );
 
     //add go
     socket.on(
