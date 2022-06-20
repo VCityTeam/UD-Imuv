@@ -94,6 +94,13 @@ export class ReceptionView {
       '#services'
     );
     buttonsTopNav.appendChild(servicesButton);
+
+    const feedbacksButton = createButton(
+      getTextByID('button_Feedbacks', this.language),
+      '#feedbacks'
+    );
+    buttonsTopNav.appendChild(servicesButton);
+
     this.languageButton = createButton(
       getTextByID('button_FRUK', this.language)
     );
