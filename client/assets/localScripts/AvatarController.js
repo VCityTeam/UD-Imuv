@@ -211,6 +211,17 @@ module.exports = class AvatarController {
       });
 
       //ROTATE
+
+      //fetch ui script
+      let scriptUI = null;
+      localCtx.getRootGameObject().traverse(function (child) {
+        const scripts = child.fetchLocalScripts()
+        if (scripts && scripts["ui"]) {
+          scriptUI = scripts["ui"];
+          return true;
+        }
+      })
+
       manager.addMouseCommand('mousemove', function () {
         if (
           manager.getPointerLock() ||
@@ -221,11 +232,12 @@ module.exports = class AvatarController {
             let pixelX = -event.movementX;
             let pixelY = -event.movementY;
 
-            if (this.isDragging()) {
-              const dragRatio = 10;
-              pixelX *= dragRatio;
-              pixelY *= dragRatio;
-            }
+
+            const dragRatio = scriptUI.getMenuSettings().getMouseSensitivityValue()
+
+            pixelX *= dragRatio;
+            pixelY *= dragRatio;
+
 
             return new Command({
               type: Command.TYPE.ROTATE,

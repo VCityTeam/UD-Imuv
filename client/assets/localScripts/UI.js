@@ -13,7 +13,12 @@ module.exports = class UI {
     this.pingUI = null;
     this.avatarCount = null;
     this.menuButton = null;
+    this.menuSettings = null;
     this.menuAvatarButton = null;
+  }
+
+  getMenuSettings() {
+    return this.menuSettings
   }
 
   init() {
@@ -38,6 +43,8 @@ module.exports = class UI {
     gameView.appendToUI(this.avatarCount);
 
     const menuSettings = new MenuSettings(localCtx);
+    this.menuSettings = menuSettings
+
     this.menuButton = document.createElement('button');
     this.menuButton.innerHTML = 'Settings';
     this.menuButton.onclick = function () {
@@ -165,6 +172,7 @@ class MenuSettings {
     this.rootHtml.appendChild(title);
 
     this.fogSlider = null;
+    this.mouseSensitivitySlider = null;
     this.volumeSlider = null;
     this.sunCheckBox = null;
     this.shadowChecBox = null;
@@ -174,7 +182,12 @@ class MenuSettings {
     this.createDirectionalOptions(localCtx);
     this.createVolumeControl(localCtx);
     this.createFogControl(localCtx);
+    this.createMouseSensitivty(localCtx)
     this.createSaveButton(localCtx);
+  }
+
+  getMouseSensitivityValue() {
+    return this.mouseSensitivitySlider.value
   }
 
   createSaveButton(localCtx) {
@@ -191,12 +204,43 @@ class MenuSettings {
       ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS, {
         //SETTINGS MODEL IS DESCRIBE HERE
         fogValue: _this.fogSlider.value,
+        mouseSensitivitySlider: _this.mouseSensitivitySlider.value,
         volumeValue: _this.volumeSlider.value,
         sunValue: _this.sunCheckBox.checked,
         shadowValue: _this.shadowChecBox.checked,
         shadowMapSize: _this.shadowMapSelect.value,
       });
     };
+  }
+
+  createMouseSensitivty(localCtx) {
+    const gameView = localCtx.getGameView();
+
+    //init fog according extent
+    const max = 40;
+    const min = 3;
+
+
+    //check is settings has been saved
+    let init = (min + max) / 2
+    if (!isNaN(gameView.getUserData('settings').mouseSensitivitySlider)) {
+      init = gameView.getUserData('settings').mouseSensitivitySlider;
+    }
+
+    const label = document.createElement('div');
+    label.innerHTML = 'Mouse Sensibilité';
+    label.classList.add('label-menu-settings');
+    this.rootHtml.appendChild(label);
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.step = 0.1;
+    slider.min = min;
+    slider.max = max;
+    slider.value = init;
+    this.rootHtml.appendChild(slider);
+
+    this.mouseSensitivitySlider = slider;
   }
 
   createFogControl(localCtx) {
