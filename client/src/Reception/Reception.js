@@ -1,6 +1,7 @@
 /** @format */
 
 import ImuvConstants from '../../../imuv.constants';
+import { AnimatedText } from '../LocalScriptsModule/AnimatedText';
 
 import { SignInView, SignUpView } from '../Sign/Sign';
 import { EditorView } from '../Editor/Editor';
@@ -346,7 +347,7 @@ export class ReceptionView {
                   editorMode: false,
                   role: _this.userData.role,
                 },
-                { ImuvConstants: ImuvConstants }
+                { ImuvConstants: ImuvConstants, AnimatedText: AnimatedText }
               );
 
               //app is loaded and ready to receive worldstate

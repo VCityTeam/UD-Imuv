@@ -180,4 +180,6 @@ module.exports = class Map {
       return false;
     }
   }
+
+  tick() {}
 };
