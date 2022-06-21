@@ -245,7 +245,21 @@ module.exports = class MiniMap {
     }
   }
 
+  /**
+   * It takes the data from the `mini_map_no_teleport` array and displays a red text saying "You can't
+   * teleport here" at the mouse position
+   */
   onOutdated() {
-    console.log(this.conf);
+    const gameView = arguments[1].getGameView();
+    const AnimatedText = gameView.getLocalScriptModules()['AnimatedText'];
+    this.conf.mini_map_no_teleport.forEach(function (data) {
+      if (data.avatarUUID == gameView.getUserData('avatarUUID')) {
+        const a = new AnimatedText({
+          text: "You can't teleport here",
+          color: 'red',
+        });
+        a.spawn(data.mousePosition.x, data.mousePosition.y);
+      }
+    });
   }
 };
