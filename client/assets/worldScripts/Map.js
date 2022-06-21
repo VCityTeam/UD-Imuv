@@ -157,7 +157,7 @@ module.exports = class Map {
 
       let result;
       if (out) {
-        result = -1; //if negative means out
+        result = NaN; //if NaN means out
       } else {
         result = values[i + j * size];
         if (Math.abs(result - hMin) < 0.00001) result = NaN; //nan => out
