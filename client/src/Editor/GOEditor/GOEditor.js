@@ -2,7 +2,7 @@
 
 import './GOEditor.css';
 import GameObjectModule from 'ud-viz/src/Game/GameObject/GameObject';
-import { GameObjectUI } from './GameObjectUI';
+import { GameObjectUI } from './GameObjectUI/GameObjectUI';
 
 export class GOEditorView {
   constructor(params) {

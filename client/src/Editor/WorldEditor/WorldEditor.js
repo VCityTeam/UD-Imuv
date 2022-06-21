@@ -31,7 +31,7 @@ export class WorldEditorView {
       htmlParent: this.parentGameViewHtml,
       assetsManager: params.assetsManager,
       config: this.config,
-      userData: { firstGameView: false },
+      userData: { firstGameView: false, settings: {} },
       interpolator: this.model.getInterpolator(),
       updateGameObject: false,
       localScriptModules: { ImuvConstants: ImuvConstants },
