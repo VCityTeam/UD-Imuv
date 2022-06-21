@@ -2,7 +2,7 @@ import WorldScriptModule from 'ud-viz/src/Game/GameObject/Components/WorldScript
 import { GameObject, World } from 'ud-viz/src/Game/Game';
 import { THREE } from 'ud-viz';
 import File from 'ud-viz/src/Components/SystemUtils/File';
-import { ColliderEditorView } from './ColliderEditor/ColliderEditor';
+import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 
 export class GameObjectUI {
   constructor(go, obj, goEditor) {

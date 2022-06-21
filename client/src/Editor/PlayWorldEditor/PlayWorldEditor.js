@@ -53,7 +53,11 @@ export class PlayWorldEditorView {
     this.localGameApp
       .startWithAssetsLoaded(world, this.assetsManager, this.config, {
         htmlParent: this.htmlParent,
-        userData: { avatarUUID: avatar.getUUID(), editorMode: true },
+        userData: {
+          avatarUUID: avatar.getUUID(),
+          editorMode: true,
+          settings: {},
+        },
         localScriptModules: { ImuvConstants: ImuvConstants },
       })
       .then(function () {
