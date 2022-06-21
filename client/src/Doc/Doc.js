@@ -88,10 +88,6 @@ export class DocPage {
     };
   }
 
-  setContentHtml() {
-    l;
-  }
-
   html() {
     return this.rootHtml;
   }
