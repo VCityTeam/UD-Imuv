@@ -295,12 +295,13 @@ export class ReceptionView {
     newsLinkGHReleases.target = '_blank';
     newsSection.appendChild(newsLinkGHReleases);
 
-    const backline = document.createElement("p")
-    newsSection.appendChild(backline)
+    const backline = document.createElement('p');
+    newsSection.appendChild(backline);
 
     const feedbacksLink = document.createElement('a');
     feedbacksLink.innerHTML = getTextByID('feedbacksLink', this.language);
-    feedbacksLink.href = 'https://docs.google.com/forms/d/e/1FAIpQLSehPF3hsGpzgLnFABd8cbT0TZzzd7dznrJXCL2tEXvuw88hZQ/viewform?usp=pp_url';
+    feedbacksLink.href =
+      'https://docs.google.com/forms/d/e/1FAIpQLSehPF3hsGpzgLnFABd8cbT0TZzzd7dznrJXCL2tEXvuw88hZQ/viewform?usp=pp_url';
     feedbacksLink.target = '_blank';
     newsSection.appendChild(feedbacksLink);
 

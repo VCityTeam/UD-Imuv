@@ -215,12 +215,12 @@ module.exports = class AvatarController {
       //fetch ui script
       let scriptUI = null;
       localCtx.getRootGameObject().traverse(function (child) {
-        const scripts = child.fetchLocalScripts()
-        if (scripts && scripts["ui"]) {
-          scriptUI = scripts["ui"];
+        const scripts = child.fetchLocalScripts();
+        if (scripts && scripts['ui']) {
+          scriptUI = scripts['ui'];
           return true;
         }
-      })
+      });
 
       manager.addMouseCommand('mousemove', function () {
         if (
@@ -232,12 +232,12 @@ module.exports = class AvatarController {
             let pixelX = -event.movementX;
             let pixelY = -event.movementY;
 
-
-            const dragRatio = scriptUI.getMenuSettings().getMouseSensitivityValue()
+            const dragRatio = scriptUI
+              .getMenuSettings()
+              .getMouseSensitivityValue();
 
             pixelX *= dragRatio;
             pixelY *= dragRatio;
-
 
             return new Command({
               type: Command.TYPE.ROTATE,
