@@ -135,6 +135,18 @@ module.exports = class UI {
       };
       gameView.appendToUI(this.menuAvatarButton);
     }
+
+    //animated text example
+    // const AnimatedText = gameView.getLocalScriptModules()['AnimatedText'];
+    // gameView
+    //   .getInputManager()
+    //   .addMouseInput(gameView.getRootWebGL(), 'click', function (event) {
+    //     const a = new AnimatedText({
+    //       text: "My text",
+    //       color: "yellow"
+    //     });
+    //     a.spawn(event.clientX, event.clientY);
+    //   });
   }
 
   tick() {
