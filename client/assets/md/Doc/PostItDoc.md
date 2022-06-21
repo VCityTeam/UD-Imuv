@@ -2,7 +2,7 @@
 
 ### Pour utiliser un post-it il faut se rendre dans un des studios.
 
-![](../../img/doc/SalleExpoMap.png)
+![](../../img/doc/Studios.png)
 
 ## Pour rentrer dans un studio, il faut se déplacer sur l'**arobase rouge** (Image 3) qui se trouve devant la salle.
 
