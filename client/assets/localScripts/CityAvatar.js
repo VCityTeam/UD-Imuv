@@ -161,6 +161,17 @@ module.exports = class CityAvatar {
       );
 
       //ROTATE
+
+      //fetch ui script
+      let scriptUI = null;
+      localContext.getRootGameObject().traverse(function (child) {
+        const scripts = child.fetchLocalScripts()
+        if (scripts && scripts["ui"]) {
+          scriptUI = scripts["ui"];
+          return true;
+        }
+      })
+
       inputManager.addMouseCommand('mousemove', function () {
         if (
           inputManager.getPointerLock() ||
@@ -171,11 +182,10 @@ module.exports = class CityAvatar {
             let pixelX = -event.movementX;
             let pixelY = -event.movementY;
 
-            if (this.isDragging()) {
-              const dragRatio = 10;
-              pixelX *= dragRatio;
-              pixelY *= dragRatio;
-            }
+            const dragRatio = scriptUI.getMenuSettings().getMouseSensitivityValue()
+
+            pixelX *= dragRatio;
+            pixelY *= dragRatio;
 
             return new Game.Command({
               type: Game.Command.TYPE.ROTATE,
