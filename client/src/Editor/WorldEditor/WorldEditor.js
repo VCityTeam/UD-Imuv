@@ -11,7 +11,7 @@ import { computeMapGO } from '../Components/EditorUtility';
 const WorldStateInterpolator = Game.WorldStateInterpolator;
 import { EditorGameView } from '../Components/EditorGameView';
 import ImuvConstants from '../../../../imuv.constants';
-import { AnimatedText } from '../../LocalScriptsModule/AnimatedText';
+import { AnimatedText } from '../../LocalScriptsModule/AnimatedText/AnimatedText';
 
 export class WorldEditorView {
   constructor(params) {

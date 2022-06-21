@@ -1,7 +1,7 @@
 /** @format */
 
 import ImuvConstants from '../../../../imuv.constants';
-import { AnimatedText } from '../../LocalScriptsModule/AnimatedText';
+import { AnimatedText } from '../../LocalScriptsModule/AnimatedText/AnimatedText';
 
 import { World } from 'ud-viz/src/Game/Game';
 import { LocalGame } from 'ud-viz/src/Templates/Templates';

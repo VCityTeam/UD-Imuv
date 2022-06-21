@@ -1,7 +1,7 @@
 /** @format */
 
 import ImuvConstants from '../../../imuv.constants';
-import { AnimatedText } from '../LocalScriptsModule/AnimatedText';
+import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
 
 import { SignInView, SignUpView } from '../Sign/Sign';
 import { EditorView } from '../Editor/Editor';
