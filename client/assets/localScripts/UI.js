@@ -18,7 +18,7 @@ module.exports = class UI {
   }
 
   getMenuSettings() {
-    return this.menuSettings
+    return this.menuSettings;
   }
 
   init() {
@@ -43,7 +43,7 @@ module.exports = class UI {
     gameView.appendToUI(this.avatarCount);
 
     const menuSettings = new MenuSettings(localCtx);
-    this.menuSettings = menuSettings
+    this.menuSettings = menuSettings;
 
     this.menuButton = document.createElement('button');
     this.menuButton.innerHTML = 'Settings';
@@ -173,6 +173,7 @@ class MenuSettings {
 
     this.fogSlider = null;
     this.mouseSensitivitySlider = null;
+    this.zoomFactorSlider = null;
     this.volumeSlider = null;
     this.sunCheckBox = null;
     this.shadowChecBox = null;
@@ -182,12 +183,17 @@ class MenuSettings {
     this.createDirectionalOptions(localCtx);
     this.createVolumeControl(localCtx);
     this.createFogControl(localCtx);
-    this.createMouseSensitivty(localCtx)
+    this.createMouseSensitivtySlider(localCtx);
+    this.createZoomFactorSlider(localCtx);
     this.createSaveButton(localCtx);
   }
 
   getMouseSensitivityValue() {
-    return this.mouseSensitivitySlider.value
+    return this.mouseSensitivitySlider.value;
+  }
+
+  getZoomFactorValue() {
+    return this.zoomFactorSlider.value;
   }
 
   createSaveButton(localCtx) {
@@ -204,6 +210,7 @@ class MenuSettings {
       ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS, {
         //SETTINGS MODEL IS DESCRIBE HERE
         fogValue: _this.fogSlider.value,
+        zoomFactor: _this.zoomFactorSlider.value,
         mouseSensitivitySlider: _this.mouseSensitivitySlider.value,
         volumeValue: _this.volumeSlider.value,
         sunValue: _this.sunCheckBox.checked,
@@ -213,16 +220,15 @@ class MenuSettings {
     };
   }
 
-  createMouseSensitivty(localCtx) {
+  createMouseSensitivtySlider(localCtx) {
     const gameView = localCtx.getGameView();
 
     //init fog according extent
     const max = 40;
     const min = 3;
 
-
     //check is settings has been saved
-    let init = (min + max) / 2
+    let init = (min + max) / 2;
     if (!isNaN(gameView.getUserData('settings').mouseSensitivitySlider)) {
       init = gameView.getUserData('settings').mouseSensitivitySlider;
     }
@@ -241,6 +247,43 @@ class MenuSettings {
     this.rootHtml.appendChild(slider);
 
     this.mouseSensitivitySlider = slider;
+  }
+
+  createZoomFactorSlider(localCtx) {
+    const gameView = localCtx.getGameView();
+
+    //init fog according extent
+    const max = 2.5;
+    const min = 1.2;
+
+    //check is settings has been saved
+    let init = (min + max) / 2;
+    if (!isNaN(gameView.getUserData('settings').zoomFactor)) {
+      init = gameView.getUserData('settings').zoomFactor;
+    }
+
+    const label = document.createElement('div');
+    label.innerHTML = 'Zoom factor';
+    label.classList.add('label-menu-settings');
+    this.rootHtml.appendChild(label);
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.step = 0.01;
+    slider.min = min;
+    slider.max = max;
+    slider.value = init;
+    this.rootHtml.appendChild(slider);
+
+    this.zoomFactorSlider = slider;
+
+    slider.onchange = function () {
+      const view = gameView.getItownsView();
+      if (view.controls) {
+        view.controls.zoomInFactor = this.value;
+        view.controls.zoomOutFactor = 1 / this.value;
+      }
+    };
   }
 
   createFogControl(localCtx) {

@@ -165,12 +165,12 @@ module.exports = class CityAvatar {
       //fetch ui script
       let scriptUI = null;
       localContext.getRootGameObject().traverse(function (child) {
-        const scripts = child.fetchLocalScripts()
-        if (scripts && scripts["ui"]) {
-          scriptUI = scripts["ui"];
+        const scripts = child.fetchLocalScripts();
+        if (scripts && scripts['ui']) {
+          scriptUI = scripts['ui'];
           return true;
         }
-      })
+      });
 
       inputManager.addMouseCommand('mousemove', function () {
         if (
@@ -182,7 +182,9 @@ module.exports = class CityAvatar {
             let pixelX = -event.movementX;
             let pixelY = -event.movementY;
 
-            const dragRatio = scriptUI.getMenuSettings().getMouseSensitivityValue()
+            const dragRatio = scriptUI
+              .getMenuSettings()
+              .getMouseSensitivityValue();
 
             pixelX *= dragRatio;
             pixelY *= dragRatio;

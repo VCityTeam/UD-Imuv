@@ -51,6 +51,16 @@ module.exports = class SwitchItowns {
     const cameraScript = rootGO.fetchLocalScripts()['camera'];
     const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
 
+    //fetch ui script
+    let scriptUI = null;
+    rootGO.traverse(function (child) {
+      const scripts = child.fetchLocalScripts();
+      if (scripts && scripts['ui']) {
+        scriptUI = scripts['ui'];
+        return true;
+      }
+    });
+
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
@@ -164,6 +174,13 @@ module.exports = class SwitchItowns {
                 manager.setPointerLock(false);
 
                 gameView.setItownsRendering(true);
+
+                //tweak zoom factor
+                view.controls.zoomInFactor = scriptUI
+                  .getMenuSettings()
+                  .getZoomFactorValue();
+                view.controls.zoomOutFactor =
+                  1 / scriptUI.getMenuSettings().getZoomFactorValue();
 
                 const refine = localCtx.getRootGameObject().fetchLocalScripts()[
                   'itowns_refine'
