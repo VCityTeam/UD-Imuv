@@ -85,6 +85,7 @@ module.exports = class MiniMap {
       return new Command({
         type: Command.TYPE.TELEPORT,
         data: {
+          mousePosition: { x: x, y: y },
           position: teleportPosition,
           avatarUUID: gameView.getUserData('avatarUUID'),
         },
@@ -242,5 +243,9 @@ module.exports = class MiniMap {
       destCtx.arc(avatarPosCanvas.x, avatarPosCanvas.y, radius, 0, Math.PI * 2);
       destCtx.fill();
     }
+  }
+
+  onOutdated() {
+    console.log(this.conf);
   }
 };

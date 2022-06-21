@@ -188,6 +188,23 @@ module.exports = class Map {
     const cmds = worldContext.getCommands();
     const teleportCmds = [];
 
+    const root = gameObject.computeRoot();
+    let lsMiniMap = null;
+    let goMiniMap = null;
+    root.traverse(function (go) {
+      const lS = go.getComponent(Game.LocalScript.TYPE);
+      if (lS && lS.idScripts.includes('mini_map')) {
+        lsMiniMap = lS;
+        goMiniMap = go;
+        return true;
+      }
+    });
+
+    if (!lsMiniMap) return; //world with map (worldscript) without mini_map (localscript)
+
+    /* Clearing the array of text that is displayed when a teleport command is rejected. */
+    lsMiniMap.conf.mini_map_no_teleport.length = 0;
+
     for (let i = cmds.length - 1; i >= 0; i--) {
       const cmd = cmds[i];
       if (cmd.getType() == Game.Command.TYPE.TELEPORT) {
@@ -199,10 +216,11 @@ module.exports = class Map {
     const _this = this;
     teleportCmds.forEach((tpCmd) => {
       const data = tpCmd.getData();
-      console.log(data);
       const result = _this.getHeightValue(data.position.x, data.position.y);
       if (isNaN(result)) {
-        // local config
+        lsMiniMap.conf.mini_map_no_teleport.push(data);
+        goMiniMap.setOutdated(true);
+        console.log(goMiniMap);
       } else {
         const avatarUUID = data.avatarUUID;
         const newPosition = data.position;
