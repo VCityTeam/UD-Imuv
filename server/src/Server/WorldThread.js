@@ -291,6 +291,7 @@ WorldThreadModule.routine = function (serverConfig) {
             ' stop'
           );
           process.exit(0);
+          break; //mandatory to respect the rules of the linter
         }
 
         default:
