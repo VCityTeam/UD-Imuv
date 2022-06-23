@@ -1,5 +1,7 @@
 # Salle d'exposition
 
+_La salle d’exposition est un lieu d’échange sur une exposition virtuelle de photos et de visuels urbains. Des chaises et des tabourets sont disposés dans la salle afin de pouvoir discuter à l’aide d’un tchat vocal intégré au jeu._
+
 ### La salle d'exposition se trouve ici sur la carte :
 
 ![](../../img/doc/SalleExpoMap.png)
