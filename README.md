@@ -1,4 +1,5 @@
 # Imuv
+![1](https://user-images.githubusercontent.com/34244904/175906788-96bad344-d4ac-4baa-b7b9-78451a9ba59b.png)
 
 Imuv is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
@@ -118,6 +119,7 @@ Before to push your modifications run:
 
 ```
 npm run travis
+
 ```
 
 to check if eslint and the webpack command run well
