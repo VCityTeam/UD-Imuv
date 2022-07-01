@@ -65,7 +65,9 @@ module.exports = class MiniMap {
         0
       );
       const webSocketService = localCtx.getWebSocketService();
-      const Constants = udviz.Game.Components.Constants;
+      const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+        'ImuvConstants'
+      ];
       const pixelData = this.getContext('2d').getImageData(
         x - rect.left,
         y - rect.top,
@@ -73,7 +75,7 @@ module.exports = class MiniMap {
         1
       ).data;
       if (pixelData[0] == 0 && pixelData[1] == 0 && pixelData[2] == 0) return;
-      webSocketService.emit(Constants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR, {
+      webSocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR, {
         avatarUUID: localCtx.getGameView().getUserData('avatarUUID'),
         teleportPosition: teleportPosition,
       });
