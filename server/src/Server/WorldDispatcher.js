@@ -169,9 +169,6 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
-    socket.removeAllListeners(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR
-    );
 
     //create BBB rooms
     socket.on(
@@ -248,20 +245,6 @@ const WorldDispatcherModule = class WorldDispatcher {
       function (goJSON) {
         thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
           gameObject: goJSON,
-        });
-      }
-    );
-
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR,
-      function (params) {
-        thread.post(WorldThread.MSG_TYPES.EDIT_AVATAR_TRANSFORM, {
-          avatarUUID: params.avatarUUID,
-          newTransform: {
-            position: params.teleportPosition,
-            rotation: null,
-            scale: null,
-          },
         });
       }
     );

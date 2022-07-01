@@ -7,10 +7,11 @@ let Game = null;
 const OFFSET_ELEVATION = 0.2;
 
 module.exports = class Map {
-  constructor(conf) {
+  constructor(conf, GameBundle) {
     this.conf = conf;
     this.heightmapSize = 0; //size of the heightmap
     this.heightValues = []; //values extract from heightmap
+    Game = GameBundle;
   }
 
   loadLocal() {
@@ -181,5 +182,39 @@ module.exports = class Map {
     }
   }
 
-  tick() {}
+  tick() {
+    const gameObject = arguments[0];
+    const worldContext = arguments[1];
+    const cmds = worldContext.getCommands();
+    const teleportCmds = [];
+
+    for (let i = cmds.length - 1; i >= 0; i--) {
+      const cmd = cmds[i];
+      if (cmd.getType() == Game.Command.TYPE.TELEPORT) {
+        teleportCmds.push(cmd);
+        cmds.splice(i, 1);
+      }
+    }
+
+    const _this = this;
+    teleportCmds.forEach((tpCmd) => {
+      const data = tpCmd.getData();
+      console.log(data);
+      const result = _this.getHeightValue(data.position.x, data.position.y);
+      if (isNaN(result)) {
+        // local config
+      } else {
+        const avatarUUID = data.avatarUUID;
+        const newPosition = data.position;
+
+        const avatar = worldContext.getWorld().getGameObject().find(avatarUUID);
+
+        if (!avatar) {
+          console.warn('no avatar with UUID', avatarUUID);
+        }
+
+        avatar.setPosition(newPosition);
+      }
+    });
+  }
 };
