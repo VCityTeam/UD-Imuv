@@ -1,4 +1,5 @@
 const udvizType = require('ud-viz');
+const { Command } = require('ud-viz/src/Game/Game');
 /** @type {udvizType} */
 let udviz = null;
 
@@ -24,6 +25,7 @@ module.exports = class MiniMap {
 
     //what is display
     this.ui = document.createElement('canvas');
+    this.ui.id = 'canvas_mini_map';
     this.ui.width = MINI_MAP_SIZE;
     this.ui.height = MINI_MAP_SIZE;
     this.ui.style.width = MINI_MAP_SIZE + 'px';
@@ -43,8 +45,13 @@ module.exports = class MiniMap {
     const go = arguments[0];
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
+    const userID = gameView.getUserData('userID');
+
+    console.log('init MiniMap');
 
     const manager = gameView.getInputManager();
+    const Command = udviz.Game.Command;
+
     let displayMiniMap = false;
     const ui = this.ui;
     const conf = this.conf;
@@ -58,10 +65,14 @@ module.exports = class MiniMap {
       }
     });
 
-    ui.onclick = function (event) {
+    manager.addMouseCommand('click', function () {
+      const event = this.event('click');
+      const id = event.path.indexOf(ui);
+      if (id < 0) return null;
       const x = event.pageX;
       const y = event.pageY;
-      const rect = this.getBoundingClientRect();
+
+      const rect = event.path[id].getBoundingClientRect();
       const ratioX = (x - rect.left) / (rect.right - rect.left);
       const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
 
@@ -70,22 +81,16 @@ module.exports = class MiniMap {
         (ratioY - 0.5) * conf.mini_map_size,
         0
       );
-      const webSocketService = localCtx.getWebSocketService();
-      const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-        'ImuvConstants'
-      ];
-      const pixelData = this.getContext('2d').getImageData(
-        x - rect.left,
-        y - rect.top,
-        1,
-        1
-      ).data;
-      if (pixelData[0] == 0 && pixelData[1] == 0 && pixelData[2] == 0) return;
-      webSocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.TELEPORT_AVATAR, {
-        avatarUUID: localCtx.getGameView().getUserData('avatarUUID'),
-        teleportPosition: teleportPosition,
+
+      return new Command({
+        type: Command.TYPE.TELEPORT,
+        data: {
+          position: teleportPosition,
+          avatarUUID: gameView.getUserData('avatarUUID'),
+        },
+        userID: userID,
       });
-    };
+    });
 
     /* Finding the position of the portals and adding them to the array. */
     const portalsPosition = this.portalsPosition;
