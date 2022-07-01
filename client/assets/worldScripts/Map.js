@@ -220,7 +220,6 @@ module.exports = class Map {
       if (isNaN(result)) {
         lsMiniMap.conf.mini_map_no_teleport.push(data);
         goMiniMap.setOutdated(true);
-        console.log(goMiniMap);
       } else {
         const avatarUUID = data.avatarUUID;
         const newPosition = data.position;
