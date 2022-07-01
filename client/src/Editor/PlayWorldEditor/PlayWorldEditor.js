@@ -1,6 +1,7 @@
 /** @format */
 
 import ImuvConstants from '../../../../imuv.constants';
+import { AnimatedText } from '../../LocalScriptsModule/AnimatedText';
 
 import { World } from 'ud-viz/src/Game/Game';
 import { LocalGame } from 'ud-viz/src/Templates/Templates';
@@ -58,7 +59,10 @@ export class PlayWorldEditorView {
           editorMode: true,
           settings: {},
         },
-        localScriptModules: { ImuvConstants: ImuvConstants },
+        localScriptModules: {
+          ImuvConstants: ImuvConstants,
+          AnimatedText: AnimatedText,
+        },
       })
       .then(function () {
         const gV = _this.localGameApp.getGameView();
@@ -111,13 +115,13 @@ export class PlayWorldEditorView {
     const pixelSize = this.heightmapConf.heightmap_geometry.size / canvas.width;
     const avatarPos = this.avatarGO.getPosition();
     const center = canvas.width * 0.5;
-    const avatarPosCanavs = {
+    const avatarPosCanvas = {
       x: center + avatarPos.x / pixelSize,
       y: center - avatarPos.y / pixelSize,
     };
     ctx.beginPath();
     ctx.fillStyle = 'red';
-    ctx.arc(avatarPosCanavs.x, avatarPosCanavs.y, 10, 0, Math.PI * 2);
+    ctx.arc(avatarPosCanvas.x, avatarPosCanvas.y, 10, 0, Math.PI * 2);
     ctx.fill();
 
     //draw collison body

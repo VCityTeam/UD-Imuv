@@ -11,6 +11,7 @@ import { computeMapGO } from '../Components/EditorUtility';
 const WorldStateInterpolator = Game.WorldStateInterpolator;
 import { EditorGameView } from '../Components/EditorGameView';
 import ImuvConstants from '../../../../imuv.constants';
+import { AnimatedText } from '../../LocalScriptsModule/AnimatedText';
 
 export class WorldEditorView {
   constructor(params) {
@@ -34,7 +35,10 @@ export class WorldEditorView {
       userData: { firstGameView: false, settings: {} },
       interpolator: this.model.getInterpolator(),
       updateGameObject: false,
-      localScriptModules: { ImuvConstants: ImuvConstants },
+      localScriptModules: {
+        ImuvConstants: ImuvConstants,
+        AnimatedText: AnimatedText,
+      },
     });
 
     //offset the gameview
