@@ -301,14 +301,17 @@
               "LocalScript": {
                 "uuid": "91D51C92-35E4-4CBF-B8AA-D4714EA1D269",
                 "idScripts": ["clickable", "rotate", "display_media"],
-                "conf": { "speed": 0.0005 },
+                "conf": {
+                  "speed": 0.0005,
+                  "iframe_src": "https://projet.liris.cnrs.fr/vcity/research/"
+                },
                 "type": "LocalScript"
               }
             },
             "children": [],
             "transform": {
               "position": [
-                4.171043745242059, 1.6240810109302402, 0.970013791762085
+                4.759824144421145, 1.5161861134693027, 0.970013791762085
               ],
               "rotation": [0, 0, 0, "ZXY"],
               "scale": [0.05, 0.05, 0.05]
@@ -336,7 +339,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 15 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
