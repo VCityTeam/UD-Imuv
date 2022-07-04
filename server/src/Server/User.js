@@ -1,7 +1,7 @@
 /** @format */
 
-const Game = require('ud-viz/src/Game/Game');
-const ImuvConstants = require('../../../imuv.constants');
+const Game = require("ud-viz/src/Game/Game");
+const ImuvConstants = require("../../../imuv.constants");
 const WorldState = Game.WorldState;
 
 const UserModule = class User {

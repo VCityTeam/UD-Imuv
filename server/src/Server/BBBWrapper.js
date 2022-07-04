@@ -1,10 +1,10 @@
 /** @format */
 
-const bbb = require('bigbluebutton-js');
+const bbb = require("bigbluebutton-js");
 
-const exec = require('child-process-promise').exec;
-const fs = require('fs');
-const parseString = require('xml2js').parseString;
+const exec = require("child-process-promise").exec;
+const fs = require("fs");
+const parseString = require("xml2js").parseString;
 
 const BBBWrapperModule = class BBBWrapper {
   constructor(config) {
@@ -26,18 +26,18 @@ const BBBWrapperModule = class BBBWrapper {
     const _this = this;
     return new Promise((resolve, reject) => {
       if (!_this.bbbAPI) {
-        reject('queryRooms no bbb api');
+        reject("queryRooms no bbb api");
         return;
       }
 
       const meetingsURL = _this.bbbAPI.monitoring.getMeetings();
-      const pathTempXML = './assets/temp/bbb_data.xml';
+      const pathTempXML = "./assets/temp/bbb_data.xml";
 
       try {
-        exec('wget ' + meetingsURL + ' -O ' + pathTempXML).then(function () {
+        exec("wget " + meetingsURL + " -O " + pathTempXML).then(function () {
           if (fs.existsSync(pathTempXML)) {
             //file exists
-            fs.readFile(pathTempXML, 'utf-8', function (err, data) {
+            fs.readFile(pathTempXML, "utf-8", function (err, data) {
               if (err) {
                 throw new Error(err);
               }
@@ -49,16 +49,16 @@ const BBBWrapperModule = class BBBWrapper {
                   throw new Error(errParser);
                 }
 
-                if (!jsData.response) throw new Error('no response');
+                if (!jsData.response) throw new Error("no response");
 
-                if (jsData.response.returncode[0] != 'SUCCESS')
-                  throw new Error('response status is not SUCCESS');
+                if (jsData.response.returncode[0] != "SUCCESS")
+                  throw new Error("response status is not SUCCESS");
 
                 if (
                   jsData.response.messageKey &&
-                  jsData.response.messageKey[0] == 'noMeetings'
+                  jsData.response.messageKey[0] == "noMeetings"
                 ) {
-                  console.warn('no bbb meetings alived');
+                  console.warn("no bbb meetings alived");
                   resolve(result);
                   return;
                 }
@@ -74,7 +74,7 @@ const BBBWrapperModule = class BBBWrapper {
               });
             });
           } else {
-            reject('cant reach url meetings xml file');
+            reject("cant reach url meetings xml file");
           }
         });
       } catch (error) {
@@ -97,7 +97,7 @@ const BBBWrapperModule = class BBBWrapper {
             r.end(api);
           });
 
-          console.log('clean bbb rooms on the server');
+          console.log("clean bbb rooms on the server");
           resolve();
         })
         .catch((error) => {
@@ -111,14 +111,14 @@ const BBBWrapperModule = class BBBWrapper {
 
     return new Promise((resolve, reject) => {
       if (!api) {
-        reject('create rooms no bbb api');
+        reject("create rooms no bbb api");
         return;
       }
 
-      name = name || 'default_BBB_ROOM_Name';
+      name = name || "default_BBB_ROOM_Name";
 
-      const mPw = 'mpw';
-      const aPw = 'apw';
+      const mPw = "mpw";
+      const aPw = "apw";
 
       const meetingCreateUrl = api.administration.create(name, uuid, {
         attendeePW: aPw,
@@ -129,7 +129,7 @@ const BBBWrapperModule = class BBBWrapper {
         .http(meetingCreateUrl)
         .then(() => {
           resolve({
-            url: this.bbbAPI.administration.join('attendee', uuid, aPw),
+            url: this.bbbAPI.administration.join("attendee", uuid, aPw),
             name: name,
             uuid: uuid,
           });
@@ -149,7 +149,7 @@ class BBBRoom {
   }
 
   end(api) {
-    console.log('end ', this.params.meetingName[0], this.params.meetingID[0]);
+    console.log("end ", this.params.meetingName[0], this.params.meetingID[0]);
 
     api.administration.end(
       this.params.meetingID[0],

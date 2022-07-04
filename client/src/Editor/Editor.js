@@ -1,11 +1,11 @@
 /** @format */
 
-import './Editor.css';
-import { Views } from 'ud-viz';
-import { WorldEditorView } from './WorldEditor/WorldEditor';
-import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
-import Pack from 'ud-viz/src/Game/Components/Pack';
-import ImuvConstants from '../../../imuv.constants';
+import "./Editor.css";
+import { Views } from "ud-viz";
+import { WorldEditorView } from "./WorldEditor/WorldEditor";
+import { PlayWorldEditorView } from "./PlayWorldEditor/PlayWorldEditor";
+import Pack from "ud-viz/src/Game/Components/Pack";
+import ImuvConstants from "../../../imuv.constants";
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -13,12 +13,12 @@ export class EditorView {
 
     this.webSocketService = webSocketService;
 
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_Editor');
+    this.rootHtml = document.createElement("div");
+    this.rootHtml.classList.add("root_Editor");
 
     //where html goes
-    this.ui = document.createElement('div');
-    this.ui.classList.add('ui_Editor');
+    this.ui = document.createElement("div");
+    this.ui.classList.add("ui_Editor");
     this.rootHtml.appendChild(this.ui);
 
     //html
@@ -54,29 +54,29 @@ export class EditorView {
   }
 
   initUI() {
-    const title = document.createElement('h1');
-    title.innerHTML = 'Editeur';
+    const title = document.createElement("h1");
+    title.innerHTML = "Editeur";
     this.ui.appendChild(title);
 
-    this.closeButton = document.createElement('div');
-    this.closeButton.classList.add('button_Editor');
-    this.closeButton.innerHTML = 'Close';
+    this.closeButton = document.createElement("div");
+    this.closeButton.classList.add("button_Editor");
+    this.closeButton.innerHTML = "Close";
     this.ui.appendChild(this.closeButton);
 
-    const worldsList = document.createElement('ul');
-    worldsList.classList.add('ul_Editor');
+    const worldsList = document.createElement("ul");
+    worldsList.classList.add("ul_Editor");
     this.ui.appendChild(worldsList);
     this.worldsList = worldsList;
 
-    this.saveWorldsButton = document.createElement('div');
-    this.saveWorldsButton.classList.add('button_Editor');
-    this.saveWorldsButton.innerHTML = 'Save Worlds';
+    this.saveWorldsButton = document.createElement("div");
+    this.saveWorldsButton.classList.add("button_Editor");
+    this.saveWorldsButton.innerHTML = "Save Worlds";
     this.saveWorldsButton.disabled = true;
     this.ui.appendChild(this.saveWorldsButton);
 
-    this.playCurrentWorldButton = document.createElement('div');
-    this.playCurrentWorldButton.classList.add('button_Editor');
-    this.playCurrentWorldButton.innerHTML = 'Play Current World';
+    this.playCurrentWorldButton = document.createElement("div");
+    this.playCurrentWorldButton.classList.add("button_Editor");
+    this.playCurrentWorldButton.innerHTML = "Play Current World";
     this.ui.appendChild(this.playCurrentWorldButton);
   }
 
@@ -92,7 +92,7 @@ export class EditorView {
 
       let worldsJSON = _this.assetsManager.getWorldsJSON();
 
-      console.log('send data server ', worldsJSON);
+      console.log("send data server ", worldsJSON);
 
       const messageSplitted = Pack.splitMessage(worldsJSON);
       // console.log(messageSplitted);
@@ -119,7 +119,7 @@ export class EditorView {
         if (json.uuid == worldUUID) wJson = json;
       });
 
-      if (!wJson) throw new Error('no world json');
+      if (!wJson) throw new Error("no world json");
 
       _this.closeCurrentView();
 
@@ -172,8 +172,8 @@ export class EditorView {
     }
     const _this = this;
     worldsJSON.forEach(function (w) {
-      const li = document.createElement('li');
-      li.classList.add('li_Editor');
+      const li = document.createElement("li");
+      li.classList.add("li_Editor");
       li.innerHTML = w.name;
       li.onclick = _this.onWorldJSON.bind(_this, w);
       list.appendChild(li);

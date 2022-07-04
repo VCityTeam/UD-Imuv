@@ -122,4 +122,4 @@ npm run travis
 
 ```
 
-to check if eslint and the webpack command run well
+To check if eslint and the webpack command run well
