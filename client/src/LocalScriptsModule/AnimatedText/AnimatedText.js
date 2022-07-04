@@ -2,7 +2,6 @@ import './AnimatedText.css';
 
 export class AnimatedText {
   constructor(params) {
-
     this.duration = params.duration || 2000;
     this.speed = params.speed || 0.1;
 
@@ -13,9 +12,9 @@ export class AnimatedText {
     this.yStart = 0;
 
     this.html = document.createElement('div');
-    this.html.innerHTML = params.text || "Default text";
-    this.html.style.fontSize = params.fontSize || "large"
-    this.html.style.color = params.color || "red"
+    this.html.innerHTML = params.text || 'Default text';
+    this.html.style.fontSize = params.fontSize || 'large';
+    this.html.style.color = params.color || 'red';
     this.html.classList.add('text_AnimatedText');
   }
 
@@ -37,7 +36,7 @@ export class AnimatedText {
   }
 
   setOpacity(value) {
-    this.html.style.opacity = value
+    this.html.style.opacity = value;
   }
 
   step() {
@@ -48,7 +47,7 @@ export class AnimatedText {
       this.yStart - this.speed * this.currentTime
     );
 
-    this.setOpacity(1 - Math.pow(this.currentTime / this.duration, 2))
+    this.setOpacity(1 - Math.pow(this.currentTime / this.duration, 2));
 
     if (this.currentTime >= this.duration) this.dispose();
   }
