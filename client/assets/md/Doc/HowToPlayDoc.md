@@ -9,5 +9,6 @@
 - Souris : Rotation de la caméra
 - E : Action¹
 - F : Switch premiere personne / troisieme personne
+- M : Open the mini-map
 
 > ¹ Contextuel : Rentrer dans le zeppelins, Afficher les panneaux d'affichages...
