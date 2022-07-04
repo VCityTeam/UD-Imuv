@@ -201,6 +201,11 @@ export class WorldEditorView {
   }
 
   focusObject(objToFocus) {
+    if (!objToFocus) {
+      console.warn('no object to focus');
+      return;
+    }
+
     const camera = this.gameView.getCamera();
 
     const bb = new THREE.Box3().setFromObject(objToFocus);

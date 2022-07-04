@@ -1,0 +1,23 @@
+{
+  "name": "Icon",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": "mouse",
+      "color": [1, 1, 1]
+    },
+    "LocalScript": {
+      "idScripts": ["clickable", "rotate"],
+      "conf": { "speed": 0.0005 },
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0],
+    "scale": [0.05, 0.05, 0.05]
+  }
+}

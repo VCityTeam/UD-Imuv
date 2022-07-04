@@ -57,6 +57,12 @@
       "menu_avatar": {
         "path": "./assets/localScripts/MenuAvatar.js"
       },
+      "clickable": {
+        "path": "./assets/localScripts/Clickable.js"
+      },
+      "display_media": {
+        "path": "./assets/localScripts/DisplayMedia.js"
+      },
       "itowns_refine": {
         "path": "./assets/localScripts/ItownsRefine.js"
       },
@@ -139,6 +145,9 @@
     "renderData": {
       "room_conf_modulable": {
         "path": "./assets/models/Room_Conf_Modulable.glb"
+      },
+      "mouse": {
+        "path": "./assets/models/mouse.glb"
       },
       "avatar_petit": {
         "path": "./assets/models/Avatar_petit.glb",
