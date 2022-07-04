@@ -1,12 +1,12 @@
 /** @format */
 
-const fs = require("fs");
-const WorldThread = require("./WorldThread");
-const Game = require("ud-viz/src/Game/Game");
+const fs = require('fs');
+const WorldThread = require('./WorldThread');
+const Game = require('ud-viz/src/Game/Game');
 
-const ImuvConstants = require("../../../imuv.constants");
+const ImuvConstants = require('../../../imuv.constants');
 
-const BBB_ROOM_TAG = "bbb_room_tag";
+const BBB_ROOM_TAG = 'bbb_room_tag';
 
 const WorldDispatcherModule = class WorldDispatcher {
   constructor(config, bbbWrapper) {
@@ -53,7 +53,7 @@ const WorldDispatcherModule = class WorldDispatcher {
   }
 
   initWorlds() {
-    console.log(this.constructor.name, "init worlds");
+    console.log(this.constructor.name, 'init worlds');
     const _this = this;
 
     //clean
@@ -64,7 +64,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     }
 
     const indexWorldsJSON = JSON.parse(
-      fs.readFileSync(_this.config.worldsFolder + "index.json")
+      fs.readFileSync(_this.config.worldsFolder + 'index.json')
     );
 
     const worldsJSON = [];
@@ -109,7 +109,7 @@ const WorldDispatcherModule = class WorldDispatcher {
 
   addUser(user) {
     if (this.fetchUserInWorldWithUUID(user.getUUID()))
-      throw new Error("add user already added");
+      throw new Error('add user already added');
 
     const avatarUUID = user.getAvatarUUID();
     const worldUUID = this.config.uuidEntryWorld;
@@ -120,7 +120,7 @@ const WorldDispatcherModule = class WorldDispatcher {
 
   removeUser(user) {
     if (!user.getThread()) {
-      console.warn("user not present in a thread");
+      console.warn('user not present in a thread');
       return;
     }
 
@@ -134,11 +134,11 @@ const WorldDispatcherModule = class WorldDispatcher {
     //find user with avatar uuid
     if (!user) user = this.fetchUserWithAvatarUUID(avatarUUID);
 
-    if (!user) throw new Error("no user with avatar id ", avatarUUID);
+    if (!user) throw new Error('no user with avatar id ', avatarUUID);
 
     const thread = this.worldToThread[worldUUID];
 
-    if (!thread) throw new Error("no thread with world uuid ", worldUUID);
+    if (!thread) throw new Error('no thread with world uuid ', worldUUID);
 
     //remove from last world if one
     const oldThread = user.getThread();
@@ -179,7 +179,7 @@ const WorldDispatcherModule = class WorldDispatcher {
         if (!_this.bbbWrapper.hasBBBApi()) {
           socket.emit(
             ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-            "no bbb api"
+            'no bbb api'
           );
           return;
         }
@@ -194,7 +194,7 @@ const WorldDispatcherModule = class WorldDispatcher {
               key: BBB_ROOM_TAG,
               value: value,
             });
-            console.log(worldJSON.name, " create bbb room");
+            console.log(worldJSON.name, ' create bbb room');
           });
       }
     );
