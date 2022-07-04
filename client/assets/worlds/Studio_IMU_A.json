@@ -283,6 +283,38 @@
             },
             "noLocalUpdate": false,
             "freeze": false
+          },
+          {
+            "name": "Icon",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "2D60C11C-7DD7-48BA-B2EE-C9DF9022642D",
+            "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+            "components": {
+              "Render": {
+                "uuid": "FE1DE70D-D5C6-4E4A-97D8-636C229E6737",
+                "type": "Render",
+                "idRenderData": "mouse",
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "91D51C92-35E4-4CBF-B8AA-D4714EA1D269",
+                "idScripts": ["clickable", "rotate", "display_media"],
+                "conf": { "speed": 0.0005 },
+                "type": "LocalScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                4.171043745242059, 1.6240810109302402, 0.970013791762085
+              ],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [0.05, 0.05, 0.05]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
           }
         ],
         "transform": {
@@ -304,7 +336,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 15 },
             "type": "LocalScript"
           },
           "WorldScript": {
