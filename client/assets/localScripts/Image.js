@@ -113,7 +113,24 @@ module.exports = class Image {
       descriptionText.classList.add('popup_descr');
       descriptionText.innerHTML = this.conf.descriptionText;
       figureDescr.appendChild(descriptionText);
+    } else if (this.conf.descriptionHtml) {
+      //load html from distant server
+      udviz.jquery.ajax({
+        type: 'GET',
+        url: this.conf.descriptionHtml,
+        datatype: 'html',
+        success: (data) => {
+          const descriptionHtml = document.createElement('div');
+          descriptionHtml.classList.add('popup_descr');
+          descriptionHtml.innerHTML = data; //add content here
+          figureDescr.appendChild(descriptionHtml);
+        },
+        error: (e) => {
+          console.error(e);
+        },
+      });
     }
+
     if (!this.createImgElementMapGPS()) {
       figureDescr.style.gridRowEnd = 10;
     }
