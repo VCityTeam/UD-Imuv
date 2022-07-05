@@ -16,7 +16,7 @@ export class DocPage {
   constructor() {
     this.rootHtml = document.createElement('div');
     this.rootHtml.id = 'root_Doc';
-    this.rootHtml.classList.add('hidden');
+    this.rootHtml.classList.add('hidden_Doc');
 
     this.toggleShowButton = document.createElement('a');
     this.toggleShowButton.innerHTML = '?';
@@ -26,9 +26,9 @@ export class DocPage {
 
     this.toggleShowButton.onclick = function () {
       if (getComputedStyle(rootHtml).display != 'none') {
-        rootHtml.classList.add('hidden');
+        rootHtml.classList.add('hidden_Doc');
       } else {
-        rootHtml.classList.remove('hidden');
+        rootHtml.classList.remove('hidden_Doc');
       }
     };
 
@@ -40,14 +40,17 @@ export class DocPage {
     converter.setOption('tables', true);
 
     this.initHtml();
-    this.addEntry('Sign', converter.makeHtml(signMd.body));
-    this.addEntry('How To Play', converter.makeHtml(commandMd.body));
+    this.addEntry('Compte', converter.makeHtml(signMd.body));
+    this.addEntry('Comment jouer ?', converter.makeHtml(commandMd.body));
     this.addEntry('Chat', converter.makeHtml(chatMd.body));
-    this.addEntry('Exhibit Room', converter.makeHtml(exhibitRoomMd.body));
+    this.addEntry("Salle d'exposition", converter.makeHtml(exhibitRoomMd.body));
     this.addEntry('Post-It', converter.makeHtml(postItMd.body));
-    this.addEntry('Signage Area', converter.makeHtml(signageAreaMd.body));
-    this.addEntry('Under World', converter.makeHtml(underWorldMd.body));
-    this.addEntry('Widgets', converter.makeHtml(widgetsMd.body));
+    this.addEntry("Zone d'observation", converter.makeHtml(signageAreaMd.body));
+    this.addEntry(
+      'Sauter dans la ville !',
+      converter.makeHtml(underWorldMd.body)
+    );
+    this.addEntry('Les widgets', converter.makeHtml(widgetsMd.body));
     this.addEntry('Zeppelin Tour', converter.makeHtml(zeppelinTourMd.body));
   }
 
