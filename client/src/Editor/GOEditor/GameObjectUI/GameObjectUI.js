@@ -1,5 +1,6 @@
 import { GameObject } from 'ud-viz/src/Game/Game';
 import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
+import { LocalScriptDisplayMediaUI } from './LocalScriptDisplayMediaUI';
 import { LocalScriptImageUI } from './LocalScriptImageUI';
 import { LocalScriptSignageDisplayerUI } from './LocalScriptSignageDisplayerUI';
 import { WorldScriptPortalUI } from './WorldScriptPortalUI';
@@ -210,5 +211,9 @@ export class GameObjectUI {
 
   appendWSTeleporterUI(wS) {
     new WorldScriptTeleporterUI(this, wS);
+  }
+
+  appendLSDisplayMediaUI(){
+    new LocalScriptDisplayMediaUI(this)
   }
 }

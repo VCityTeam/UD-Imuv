@@ -91,6 +91,9 @@ export class GOEditorView {
       if (lS['signage_displayer']) {
         goUI.appendLSSignageDisplayerUI(this.gameView);
       }
+      if (lS['display_media']) {
+        goUI.appendLSDisplayMediaUI();
+      }
     }
 
     const wS = go.fetchWorldScripts();

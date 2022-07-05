@@ -215,8 +215,8 @@
       "zeppelin_start": {
         "path": "./assets/prefabs/ZeppelinStart.json"
       },
-      "icon": {
-        "path": "./assets/prefabs/Icon.json"
+      "display_media": {
+        "path": "./assets/prefabs/DisplayMedia.json"
       },
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"

@@ -1,5 +1,5 @@
 {
-  "name": "Icon",
+  "name": "DisplayMedia",
   "type": "GameObject",
   "static": true,
   "components": {
@@ -9,8 +9,8 @@
       "color": [1, 1, 1]
     },
     "LocalScript": {
-      "idScripts": ["clickable", "rotate"],
-      "conf": { "speed": 0.0005 },
+      "idScripts": ["clickable", "rotate", "display_media"],
+      "conf": { "speed": 0.0005, "iframe_src": "default" },
       "type": "LocalScript"
     }
   },
