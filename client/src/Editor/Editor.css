@@ -56,6 +56,10 @@
   background-color: var(--color-three);
 }
 
+.hidden {
+  display: none !important;
+}
+
 .button_Editor {
   border-bottom: solid var(--color-one);
   background-color: var(--color-five);
