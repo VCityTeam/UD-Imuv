@@ -752,7 +752,7 @@
                   "factorHeight": 3,
                   "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                   "gpsCoord": { "lng": null, "lat": null, "checked": false },
-                  "descriptionHtml": "./assets/html/room_expo_panel.html"
+                  "descriptionHtml": "./assets/html/room_expo_panel2.html"
                 },
                 "type": "LocalScript"
               },
@@ -1265,7 +1265,7 @@
                   "factorHeight": 3,
                   "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
                   "gpsCoord": { "lng": null, "lat": null, "checked": false },
-                  "descriptionHtml": "./assets/html/room_expo_panel.html"
+                  "descriptionHtml": "./assets/html/room_expo_panel1.html"
                 },
                 "type": "LocalScript"
               },
