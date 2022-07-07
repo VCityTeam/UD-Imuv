@@ -214,7 +214,7 @@
                   {
                     "type": "Circle",
                     "center": { "x": 0, "y": 0 },
-                    "radius": 1.689427617937126
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -251,10 +251,10 @@
             "children": [],
             "transform": {
               "position": [
-                -6.9531811403576285, 3.715151662006974, 2.58712546654192
+                -7.489242042880505, 3.61204466316849, 2.58712546654192
               ],
               "rotation": [0, 0, 6.2480473677264605, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -279,7 +279,7 @@
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 17 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -311,5 +311,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-  "version": "2.37.4"
+  "version": "2.37.6"
 }

@@ -1880,11 +1880,7 @@
             "idScripts": ["map"],
             "conf": {
               "heightmap_path": "./assets/img/uploaded/60C20A2E-9277-431D-A873-59E73F4B1F65.jpeg",
-              "heightmap_geometry": {
-                "max": 27,
-                "min": -29,
-                "size": 216
-              }
+              "heightmap_geometry": { "max": 27, "min": -29, "size": 216 }
             },
             "type": "WorldScript"
           }
@@ -1901,11 +1897,7 @@
               "Audio": {
                 "uuid": "FC6F575C-31AA-4A4A-9740-EB7DCCD4F751",
                 "sounds": ["birds"],
-                "conf": {
-                  "autoplay": true,
-                  "spatialized": true,
-                  "loop": true
-                },
+                "conf": { "autoplay": true, "spatialized": true, "loop": true },
                 "type": "Audio"
               },
               "Render": {
@@ -1937,11 +1929,7 @@
               "Audio": {
                 "uuid": "ECC6C5E3-A0E8-4564-8776-A0E3C563E964",
                 "sounds": ["fontain"],
-                "conf": {
-                  "autoplay": true,
-                  "spatialized": true,
-                  "loop": true
-                },
+                "conf": { "autoplay": true, "spatialized": true, "loop": true },
                 "type": "Audio"
               },
               "Render": {
@@ -1980,11 +1968,8 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "radius": 1.689427617937126
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -2025,10 +2010,10 @@
             "children": [],
             "transform": {
               "position": [
-                29.995319963200018, 46.84266984090209, -2.799337193664371
+                30.111797388177365, 46.484672989696264, -2.799337193664371
               ],
               "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -2053,11 +2038,8 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "radius": 1.689427617937126
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -2098,10 +2080,10 @@
             "children": [],
             "transform": {
               "position": [
-                18.658922081114724, -49.68156462535262, 0.037513740578333454
+                18.5993127070833, -49.274458384141326, 0.037513740578333454
               ],
               "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -2117,11 +2099,7 @@
               "Audio": {
                 "uuid": "168ECC64-550D-4652-8230-EF173C235DDB",
                 "sounds": ["zeppelin_engine"],
-                "conf": {
-                  "autoplay": true,
-                  "spatialized": true,
-                  "loop": true
-                },
+                "conf": { "autoplay": true, "spatialized": true, "loop": true },
                 "type": "Audio"
               },
               "Render": {
@@ -2133,9 +2111,7 @@
               "WorldScript": {
                 "uuid": "E355F75E-D0BC-46E5-B789-E34063B5A814",
                 "idScripts": ["zeppelin"],
-                "conf": {
-                  "duration": 1000
-                },
+                "conf": { "duration": 1000 },
                 "type": "WorldScript"
               }
             },
@@ -2165,10 +2141,7 @@
                   "idVideo": "introduction_flying_campus",
                   "width": 8.5,
                   "height": 5.3,
-                  "size": {
-                    "width": 1280,
-                    "height": 720
-                  }
+                  "size": { "width": 1280, "height": 720 }
                 },
                 "type": "LocalScript"
               },
@@ -2221,11 +2194,8 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "radius": 1.689427617937126
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -2265,9 +2235,9 @@
             },
             "children": [],
             "transform": {
-              "position": [12.47268271446228, 28.112542466260493, 0],
+              "position": [12.36441638157703, 28.440718629397452, 0],
               "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -2292,11 +2262,8 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "radius": 1.689427617937126
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -2337,10 +2304,10 @@
             "children": [],
             "transform": {
               "position": [
-                37.22535731783137, 32.39721470326185, -2.920996962569461
+                36.88026909297332, 32.29033400025219, -2.920996962569461
               ],
               "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -2365,11 +2332,8 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "radius": 1.689427617937126
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -2380,11 +2344,7 @@
                 "conf": {
                   "worldDestUUID": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
                   "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
-                  "spawnRotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
+                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
                   "delay": 1000
                 },
                 "type": "WorldScript"
@@ -2410,10 +2370,10 @@
             "children": [],
             "transform": {
               "position": [
-                26.95766543992795, -8.513990392908454, 0.9133055604198148
+                27.629728958709165, -8.571165604516864, 0.9133055604198148
               ],
               "rotation": [6.283130947850546, 6.3, 0.03413789619054697, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -2438,11 +2398,8 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "radius": 1.689427617937126
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -2453,11 +2410,7 @@
                 "conf": {
                   "worldDestUUID": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
                   "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
-                  "spawnRotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 3.14
-                  },
+                  "spawnRotation": { "x": 0, "y": 0, "z": 3.14 },
                   "delay": 1000
                 },
                 "type": "WorldScript"
@@ -2483,7 +2436,7 @@
             "children": [],
             "transform": {
               "position": [
-                26.95766543992795, -11.344134252518415, 0.9079655714667751
+                27.653164114337415, -11.20519773196429, 0.9079655714667751
               ],
               "rotation": [
                 6.282506075846946,
@@ -2491,7 +2444,7 @@
                 6.28015364769098,
                 "ZXY"
               ],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -2507,11 +2460,7 @@
               "Audio": {
                 "uuid": "73FB01A4-6796-4CE0-867D-E9E799D9E0CA",
                 "sounds": ["birds"],
-                "conf": {
-                  "autoplay": true,
-                  "spatialized": true,
-                  "loop": true
-                },
+                "conf": { "autoplay": true, "spatialized": true, "loop": true },
                 "type": "Audio"
               },
               "Render": {
@@ -2543,11 +2492,7 @@
               "Audio": {
                 "uuid": "3B314089-16E5-4F9C-AD6F-72E2CFF3F699",
                 "sounds": ["city"],
-                "conf": {
-                  "autoplay": true,
-                  "spatialized": true,
-                  "loop": true
-                },
+                "conf": { "autoplay": true, "spatialized": true, "loop": true },
                 "type": "Audio"
               },
               "Render": {
@@ -2582,11 +2527,7 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0,
-                      "z": 0
-                    },
+                    "center": { "x": 0, "y": 0, "z": 0 },
                     "radius": "5"
                   }
                 ],
@@ -2640,11 +2581,7 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0,
-                      "z": 0
-                    },
+                    "center": { "x": 0, "y": 0, "z": 0 },
                     "radius": "5"
                   }
                 ],
@@ -2698,11 +2635,7 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0,
-                      "z": 0
-                    },
+                    "center": { "x": 0, "y": 0, "z": 0 },
                     "radius": "5"
                   }
                 ],
@@ -2756,11 +2689,7 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0,
-                      "z": 0
-                    },
+                    "center": { "x": 0, "y": 0, "z": 0 },
                     "radius": "3"
                   }
                 ],
@@ -2840,10 +2769,7 @@
                 "shapes": [
                   {
                     "type": "Circle",
-                    "center": {
-                      "x": 0,
-                      "y": 0
-                    },
+                    "center": { "x": 0, "y": 0 },
                     "radius": 1
                   }
                 ],
@@ -2899,9 +2825,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": {
-              "world_computer_dt": 16
-            },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -2930,12 +2854,8 @@
     "freeze": false
   },
   "name": "Flying Campus World",
-  "origin": {
-    "lat": 45.7530993,
-    "lng": 4.8452654,
-    "alt": 300
-  },
+  "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-  "version": "2.37.4"
+  "version": "2.37.6"
 }
