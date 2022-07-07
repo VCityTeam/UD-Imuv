@@ -1,9 +1,8 @@
 const udvizType = require('ud-viz');
-const { Command } = require('ud-viz/src/Game/Game');
 /** @type {udvizType} */
 let udviz = null;
 
-const MINI_MAP_SIZE = 512;
+const MINI_MAP_SIZE = 700;
 const AVATAR_RADIUS_MIN = 5;
 const AVATAR_RADIUS_MAX = 15;
 
@@ -159,6 +158,44 @@ module.exports = class MiniMap {
     }
   }
 
+  drawPointOfInterest(
+    contextCanvas,
+    ratioXStart,
+    ratioYStart,
+    ratioXEnd,
+    ratioYEnd,
+    text
+  ) {
+    contextCanvas.save();
+
+    const width = (ratioXEnd - ratioXStart) * MINI_MAP_SIZE;
+    const height = (ratioYEnd - ratioYStart) * MINI_MAP_SIZE;
+    const lineWidth = 4;
+
+    //draw box
+    contextCanvas.beginPath();
+    contextCanvas.strokeStyle = 'yellow';
+    contextCanvas.lineWidth = lineWidth;
+    contextCanvas.rect(
+      ratioXStart * MINI_MAP_SIZE,
+      ratioYStart * MINI_MAP_SIZE,
+      width,
+      height
+    );
+    contextCanvas.stroke();
+
+    //draw text
+    contextCanvas.font = '20px Arial';
+    contextCanvas.fillStyle = 'yellow';
+    contextCanvas.fillText(
+      text,
+      ratioXStart * MINI_MAP_SIZE + width + lineWidth,
+      ratioYStart * MINI_MAP_SIZE + height * 0.5
+    );
+
+    contextCanvas.restore();
+  }
+
   /**
    * It draws the background image, then draws a red circle around each portal
    * @returns A canvas element with a background image and a red circle drawn on it.
@@ -176,23 +213,89 @@ module.exports = class MiniMap {
 
     ctx.drawImage(this.backgroundImage, 0, 0);
 
-    this.portalsPosition.forEach(function (pos) {
+    //Point interest HARD CODED
+    this.drawPointOfInterest(
+      ctx,
+      390 / 700,
+      445 / 700,
+      471 / 700,
+      500 / 700,
+      "Salle d'exposition"
+    );
+
+    this.drawPointOfInterest(
+      ctx,
+      266 / 700,
+      69 / 700,
+      294 / 700,
+      93 / 700,
+      "Zone d'observation"
+    );
+
+    this.drawPointOfInterest(
+      ctx,
+      212 / 700,
+      203 / 700,
+      227 / 700,
+      217 / 700,
+      'Zeppelin Tour'
+    );
+
+    this.drawPointOfInterest(
+      ctx,
+      381 / 700,
+      212 / 700,
+      456 / 700,
+      264 / 700,
+      'Salle conférence'
+    );
+
+    this.drawPointOfInterest(
+      ctx,
+      424 / 700,
+      363 / 700,
+      490 / 700,
+      400 / 700,
+      'Studios'
+    );
+
+    //PORTAL spirals
+
+    const drawSpiral = function (pos) {
       ctx.beginPath();
       ctx.strokeStyle = 'red';
-      const posPortal = {
-        x: MINI_MAP_SIZE * 0.5 + pos.x / pixelSize,
-        y: MINI_MAP_SIZE * 0.5 - pos.y / pixelSize,
-      };
+
       const a = 0.5;
       const b = 0.5;
       for (let i = 0; i < 150; i++) {
         const angle = 0.1 * i;
-        const x = posPortal.x + (a + b * angle) * Math.cos(angle);
-        const y = posPortal.y + (a + b * angle) * Math.sin(angle);
-        ctx.lineTo(x, y);
+        const xSpiral = pos.x + (a + b * angle) * Math.cos(angle);
+        const ySpiral = pos.y + (a + b * angle) * Math.sin(angle);
+        ctx.lineTo(xSpiral, ySpiral);
       }
       ctx.stroke();
+    };
+
+    this.portalsPosition.forEach(function (pos) {
+      const posPortal = {
+        x: MINI_MAP_SIZE * 0.5 + pos.x / pixelSize,
+        y: MINI_MAP_SIZE * 0.5 - pos.y / pixelSize,
+      };
+      drawSpiral(posPortal);
     });
+
+    //draw instruction teleport
+    ctx.save();
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'red';
+    ctx.fillText('Cliquez sur les', 20, 20);
+    ctx.fillText('pour vous teleporter dans la salle voulu.', 180, 20);
+    ctx.restore();
+    drawSpiral({
+      x: 163,
+      y: 10,
+    });
+
     return defaultCanvas;
   }
 

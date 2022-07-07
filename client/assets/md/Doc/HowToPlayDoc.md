@@ -12,3 +12,7 @@
 - M : Open the mini-map
 
 > ¹ Contextuel : Rentrer dans le zeppelins, Afficher les panneaux d'affichages...
+
+## Teleportation
+
+Ouvrez la mini-map (M) puis cliquez où vous désirez vous téléporter.
