@@ -231,7 +231,7 @@
                   {
                     "type": "Circle",
                     "center": { "x": 0, "y": 0 },
-                    "radius": 1.689427617937126
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -268,10 +268,10 @@
             "children": [],
             "transform": {
               "position": [
-                8.865788977035427, -5.755486999638379, -2.961944912403169
+                10.144322818318292, -5.833714681897462, -2.961944912403169
               ],
               "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -297,7 +297,7 @@
                   {
                     "type": "Circle",
                     "center": { "x": 0, "y": 0 },
-                    "radius": 1.689427617937126
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -338,10 +338,10 @@
             "children": [],
             "transform": {
               "position": [
-                4.962471817620099, 6.786461723037064, -2.9891052407439247
+                4.995601602293629, 7.334343828586859, -2.8981110548207134
               ],
               "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -404,7 +404,7 @@
                   {
                     "type": "Circle",
                     "center": { "x": 0, "y": 0 },
-                    "radius": 1.689427617937126
+                    "radius": 0.7
                   }
                 ],
                 "body": false
@@ -441,10 +441,10 @@
             "children": [],
             "transform": {
               "position": [
-                -12.211207705317065, -6.549549183808267, 0.023115764832311925
+                -12.153046078763943, -7.3250380028283955, 0.023115764832311925
               ],
               "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
+              "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -469,7 +469,7 @@
           "LocalScript": {
             "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -501,5 +501,5 @@
   "origin": null,
   "type": "World",
   "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-  "version": "2.37.4"
+  "version": "2.37.6"
 }

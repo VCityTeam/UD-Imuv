@@ -14,7 +14,7 @@
         {
           "type": "Circle",
           "center": { "x": 0, "y": 0 },
-          "radius": 1.689427617937126
+          "radius": 0.7
         }
       ],
       "body": false
@@ -28,7 +28,8 @@
           "x": 0,
           "y": 0,
           "z": 0
-        }
+        },
+        "delay": 1000
       },
       "type": "WorldScript"
     },
@@ -47,6 +48,6 @@
   "transform": {
     "position": [0, 0, 0],
     "rotation": [0, 0, 0, "ZXY"],
-    "scale": [1, 1, 1]
+    "scale": [0.6, 0.6, 1]
   }
 }
