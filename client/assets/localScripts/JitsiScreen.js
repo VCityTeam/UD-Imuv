@@ -28,6 +28,12 @@ module.exports = class JitsiScreen {
       console.warn('cant request video and audio');
     }
 
+    const avatarGO = localCtx
+      .getRootGameObject()
+      .find(localCtx.getGameView().getUserData('avatarUUID'));
+    const lsComp = avatarGO.getComponent(udviz.Game.LocalScript.TYPE);
+    const name = lsComp.conf.name;
+
     //create iframe
     const divJitsi = document.createElement('div');
 
@@ -39,6 +45,9 @@ module.exports = class JitsiScreen {
       width: size * go.getScale().x,
       height: size * go.getScale().y,
       lang: 'fr',
+      userInfo: {
+        displayName: name,
+      },
     };
 
     const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
@@ -53,7 +62,7 @@ module.exports = class JitsiScreen {
     localCtx.getGameView().appendBillboard(billboard);
 
     function blurAll() {
-      var tmp = document.createElement('input');
+      const tmp = document.createElement('input');
       document.body.appendChild(tmp);
       tmp.focus();
       document.body.removeChild(tmp);
