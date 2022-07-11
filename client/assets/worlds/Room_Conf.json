@@ -22,7 +22,7 @@
       },
       "LocalScript": {
         "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-        "idScripts": ["avatar_controller", "camera", "static_object", "jitsi"],
+        "idScripts": ["avatar_controller", "camera", "static_object"],
         "conf": {},
         "type": "LocalScript"
       }
@@ -347,43 +347,6 @@
             "freeze": false
           },
           {
-            "name": "Video final IMU",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "8B1F4A9C-D358-4295-B355-6D93315D229F",
-            "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
-            "components": {
-              "LocalScript": {
-                "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
-                "idScripts": ["video"],
-                "conf": {
-                  "idVideo": "final_IMU",
-                  "width": 10,
-                  "height": 6,
-                  "size": { "width": 853, "height": 480 }
-                },
-                "type": "LocalScript"
-              },
-              "Render": {
-                "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                10.461478681629524, 0.397637543454767, 3.6774688264795596
-              ],
-              "rotation": [1.5707, 1.5707, 3.14, "ZXY"],
-              "scale": [0.999865525927484, 0.9361825705076754, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
             "name": "Portal_Patio_Campus",
             "type": "GameObject",
             "static": true,
@@ -445,6 +408,32 @@
               ],
               "rotation": [0, 0, 0, "ZXY"],
               "scale": [0.6, 0.6, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "Jitsi_Screen",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "2D4636F4-6D2E-4354-9B8D-6B4D497FC4BC",
+            "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+            "components": {
+              "LocalScript": {
+                "uuid": "690A9688-1A2E-4FF0-9280-93116DD682D6",
+                "idScripts": ["jitsi_screen"],
+                "conf": {
+                  "jitsi_room_name": "214EF948-C7A7-482B-B98F-06BE0984C390"
+                },
+                "type": "LocalScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [10.50689698003405, 0, 3.9104586750329253],
+              "rotation": [1.57, -1.57, 0, "ZXY"],
+              "scale": [3.9, 2.7, 1]
             },
             "noLocalUpdate": false,
             "freeze": false

@@ -31,7 +31,7 @@
           "static_object",
           "jitsi"
         ],
-        "conf": {},
+        "conf": { "jitsi_room_name": "FE65D04C-B79E-4D5E-B3E3-14E88CD58A70" },
         "type": "LocalScript"
       }
     },

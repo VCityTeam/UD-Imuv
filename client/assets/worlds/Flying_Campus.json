@@ -33,6 +33,7 @@
           "jitsi"
         ],
         "conf": {
+          "jitsi_room_name": "B5DC6670-C237-4E11-8835-59A514A659BE",
           "mini_map_no_teleport": [],
           "traveling_time": 3000,
           "mini_map_size": 232
