@@ -21,11 +21,12 @@
   "license": "ISC",
   "dependencies": {
     "@egjs/hammerjs": "^2.0.17",
+    "jitsi-iframe-api": "^1.0.0",
     "keycharm": "^0.4.0",
     "quickhull": "^1.0.3",
     "showdown": "^2.1.0",
     "timsort": "^0.3.0",
-    "ud-viz": "github:VCityTeam/UD-Viz#localscript-resize-event",
+    "ud-viz": "^2.37.7",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },

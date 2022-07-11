@@ -4,7 +4,7 @@ const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
 
-module.exports = class BBBScreen {
+module.exports = class JitsiScreen {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
@@ -28,27 +28,32 @@ module.exports = class BBBScreen {
       console.warn('cant request video and audio');
     }
 
-    const src = this.conf.bbb_room_tag.url;
-    if (!src) {
-      console.warn('no bbb url');
-      return;
-    }
-    console.log(src);
+    //create iframe
+    const divJitsi = document.createElement('div');
 
-    const iframe = document.createElement('iframe');
-    iframe.src = src;
-    const subdomain = '*';
-    iframe.allow = 'microphone ' + subdomain + '; camera  ' + subdomain + ';';
+    const size = 200;
+
+    const options = {
+      roomName: this.conf.jitsi_room_name,
+      parentNode: divJitsi,
+      width: size * go.getScale().x,
+      height: size * go.getScale().y,
+      lang: 'fr',
+    };
+
+    const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
+      'JitsiIframeAPI'
+    ];
+    try {
+      const api = new JitsiIframeAPI('meet.jit.si', options);
+    } catch (e) {
+      console.warn('JITSI ERROR ', e);
+    }
 
     const ref = localCtx.getGameView().getObject3D().position;
     const worldTransform = go.computeWorldTransform();
     worldTransform.position.add(ref);
-
-    const billboard = new udviz.Widgets.Billboard(iframe, worldTransform, 800);
+    const billboard = new udviz.Views.Billboard(divJitsi, worldTransform, size);
     localCtx.getGameView().appendBillboard(billboard);
-  }
-
-  onOutdated() {
-    //TODO should rebuild iframe with the right url
   }
 };

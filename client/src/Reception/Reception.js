@@ -1,5 +1,6 @@
 /** @format */
 
+import * as JitsiIframeAPI from "jitsi-iframe-api"
 import ImuvConstants from '../../../imuv.constants';
 import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
 
@@ -357,7 +358,11 @@ export class ReceptionView {
                   editorMode: false,
                   role: _this.userData.role,
                 },
-                { ImuvConstants: ImuvConstants, AnimatedText: AnimatedText }
+                {
+                  ImuvConstants: ImuvConstants,
+                  AnimatedText: AnimatedText,
+                  JitsiIframeAPI: JitsiIframeAPI,
+                }
               );
 
               //app is loaded and ready to receive worldstate

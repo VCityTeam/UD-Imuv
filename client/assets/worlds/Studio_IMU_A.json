@@ -31,7 +31,7 @@
           "static_object",
           "jitsi"
         ],
-        "conf": {},
+        "conf": { "jitsi_room_name": "140DFBEC-DFB3-4A9D-9281-5BB8967984EE" },
         "type": "LocalScript"
       }
     },
@@ -318,6 +318,43 @@
             },
             "noLocalUpdate": false,
             "freeze": false
+          },
+          {
+            "name": "Video final IMU",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "8B1F4A9C-D358-4295-B355-6D93315D229F",
+            "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+            "components": {
+              "LocalScript": {
+                "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
+                "idScripts": ["video"],
+                "conf": {
+                  "idVideo": "final_IMU",
+                  "width": 10,
+                  "height": 6,
+                  "size": { "width": 853, "height": 480 }
+                },
+                "type": "LocalScript"
+              },
+              "Render": {
+                "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                5.985615345044062, -6.215525848604738, 2.257584692764828
+              ],
+              "rotation": [1.5707, 0, 3.14, "ZXY"],
+              "scale": [0.33, 0.3, 0.4]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
           }
         ],
         "transform": {
@@ -339,7 +376,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {

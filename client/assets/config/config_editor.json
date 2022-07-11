@@ -97,8 +97,8 @@
       "bbb": {
         "path": "./assets/localScripts/BBB.js"
       },
-      "bbb_screen": {
-        "path": "./assets/localScripts/BBBScreen.js"
+      "jitsi_screen": {
+        "path": "./assets/localScripts/JitsiScreen.js"
       },
       "jitsi": {
         "path": "./assets/localScripts/Jitsi.js"

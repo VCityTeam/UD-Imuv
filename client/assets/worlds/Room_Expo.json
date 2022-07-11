@@ -23,7 +23,7 @@
       "LocalScript": {
         "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
         "idScripts": ["avatar_controller", "camera", "static_object", "jitsi"],
-        "conf": {},
+        "conf": { "jitsi_room_name": "D0A37339-58CB-4099-B848-43DC8D746B03" },
         "type": "LocalScript"
       }
     },

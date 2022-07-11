@@ -188,7 +188,6 @@ class Project {
     );
 
     const billboard = new udviz.Views.Billboard(iframe, transform, 50);
-    billboard.getMaskObject().material.color.set(new THREE.Color(0, 0, 0)); //fix in the latest version of ud-viz but not published yet
     this.localCtx.getGameView().appendBillboard(billboard);
     this.billboard = billboard;
   }

@@ -83,14 +83,18 @@ module.exports = class Jitsi {
       const divJitsi = document.createElement('div');
       _this.divJitsi = divJitsi;
       const options = {
-        roomName: go.components.LocalScript.uuid,
+        roomName: _this.conf.jitsi_room_name,
         width: 500,
         height: 500,
         parentNode: divJitsi,
         lang: 'fr',
       };
 
-      const api = new JitsiMeetExternalAPI('meet.jit.si', options);
+      const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
+        'JitsiIframeAPI'
+      ];
+
+      const api = new JitsiIframeAPI('meet.jit.si', options);
 
       localCtx.getGameView().appendToUI(divJitsi);
     };
