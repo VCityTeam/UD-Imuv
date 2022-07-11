@@ -1,6 +1,6 @@
 /** @format */
 
-import * as JitsiIframeAPI from "jitsi-iframe-api"
+import * as JitsiIframeAPI from 'jitsi-iframe-api';
 import ImuvConstants from '../../../imuv.constants';
 import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
 
