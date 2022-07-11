@@ -44,16 +44,23 @@ module.exports = class JitsiScreen {
     const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
       'JitsiIframeAPI'
     ];
-    try {
-      const api = new JitsiIframeAPI('meet.jit.si', options);
-    } catch (e) {
-      console.warn('JITSI ERROR ', e);
-    }
+    const api = new JitsiIframeAPI('meet.jit.si', options);
 
     const ref = localCtx.getGameView().getObject3D().position;
     const worldTransform = go.computeWorldTransform();
     worldTransform.position.add(ref);
     const billboard = new udviz.Views.Billboard(divJitsi, worldTransform, size);
     localCtx.getGameView().appendBillboard(billboard);
+
+    function blurAll() {
+      var tmp = document.createElement('input');
+      document.body.appendChild(tmp);
+      tmp.focus();
+      document.body.removeChild(tmp);
+    }
+
+    api.getIFrame().onload = function () {
+      blurAll();
+    };
   }
 };
