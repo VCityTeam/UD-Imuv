@@ -21,9 +21,16 @@ module.exports = class DisplayMedia {
     if (this.conf.iframe_src) {
       const closebutton = document.createElement('button');
       closebutton.innerHTML = 'close iframe';
+      closebutton.style.position = 'absolute';
+      closebutton.style.top = '0px';
+      closebutton.style.left = '0px';
+      closebutton.style.zIndex = 3;
       gameView.appendToUI(closebutton);
 
       const content = document.createElement('iframe');
+      content.style.position = 'absolute';
+      content.style.top = '0px';
+      content.style.left = '0px';
       this.content = content;
       content.src = this.conf.iframe_src;
 
@@ -33,16 +40,21 @@ module.exports = class DisplayMedia {
       gameView.appendToUI(content);
 
       const _this = this;
+      const rootGO = localCtx.getRootGameObject();
+      const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+      avatarController.setAvatarControllerMode(false, localCtx);
+
       closebutton.onclick = function () {
         content.remove();
         _this.content = null;
         closebutton.remove();
+        avatarController.setAvatarControllerMode(true, localCtx);
       };
     }
   }
 
   updateSize(size) {
-    this.content.style.height = size.y * 0.7 + 'px';
+    this.content.style.height = size.y + 'px';
     this.content.style.width = size.x + 'px';
   }
 

@@ -28,11 +28,14 @@ module.exports = class JitsiScreen {
       console.warn('cant request video and audio');
     }
 
+    let name = 'editor';
     const avatarGO = localCtx
       .getRootGameObject()
       .find(localCtx.getGameView().getUserData('avatarUUID'));
-    const lsComp = avatarGO.getComponent(udviz.Game.LocalScript.TYPE);
-    const name = lsComp.conf.name;
+    if (avatarGO) {
+      const lsComp = avatarGO.getComponent(udviz.Game.LocalScript.TYPE);
+      name = lsComp.conf.name;
+    }
 
     //create iframe
     const divJitsi = document.createElement('div');
