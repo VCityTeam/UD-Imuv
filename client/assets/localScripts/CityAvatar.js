@@ -18,8 +18,20 @@ module.exports = class CityAvatar {
     this.go = null;
 
     this.labelInfo = document.createElement('div');
-    this.labelInfo.classList.add('label-menu-settings');
-    this.labelInfo.innerHTML = 'Press E to return to the campus';
+    this.labelInfo.classList.add('middle_screen_label');
+    this.labelInfo.innerHTML = "Appuyez sur E pour revenir sur l'île";
+  }
+
+  onResize() {
+    const localContext = arguments[1];
+    const gameView = localContext.getGameView();
+    this.updateLabelPosition(gameView.getSize());
+  }
+
+  updateLabelPosition(size) {
+    this.labelInfo.style.top = size.y * 0.1 + 'px';
+    const minWidth = 210; /*hardcode from css*/
+    this.labelInfo.style.left = size.x * 0.5 - minWidth * 0.5 + 'px';
   }
 
   init() {
@@ -78,6 +90,7 @@ module.exports = class CityAvatar {
         function () {
           _this.setCityAvatarController(true, localCtx);
           localCtx.getGameView().appendToUI(_this.labelInfo);
+          _this.updateLabelPosition(localCtx.getGameView().getSize());
         }
       )
     );

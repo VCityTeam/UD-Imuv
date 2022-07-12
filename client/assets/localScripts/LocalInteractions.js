@@ -11,9 +11,22 @@ module.exports = class LocalInteractions {
 
     //html
     this.interactionLabel = document.createElement('div');
+    this.interactionLabel.classList.add('middle_screen_label');
     this.interactionLabel.innerHTML =
-      this.conf['label_interaction'] || 'Press E';
+      this.conf['label_interaction'] || 'Appuyez sur E pour intéragir';
     this.interactionLabel.classList.add('hidden');
+  }
+
+  updateLabelPosition(size) {
+    this.interactionLabel.style.top = size.y * 0.1 + 'px';
+    const minWidth = 210; /*hardcode from css*/
+    this.interactionLabel.style.left = size.x * 0.5 - minWidth * 0.5 + 'px';
+  }
+
+  onResize() {
+    const localContext = arguments[1];
+    const gameView = localContext.getGameView();
+    this.updateLabelPosition(gameView.getSize());
   }
 
   init() {
@@ -26,6 +39,7 @@ module.exports = class LocalInteractions {
 
     //append can interact info html to gv ui
     localCtx.getGameView().appendToUI(this.interactionLabel);
+    this.updateLabelPosition(localCtx.getGameView().getSize());
   }
 
   tick() {

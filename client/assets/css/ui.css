@@ -206,3 +206,13 @@
 #canvas_mini_map {
   cursor: pointer;
 }
+
+/*Middle screen label*/
+.middle_screen_label {
+  position: absolute;
+  font-size: xx-large;
+  color: black;
+  background-color: antiquewhite;
+  min-width: 210px;
+  padding: 10px;
+}
