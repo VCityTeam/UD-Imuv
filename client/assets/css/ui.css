@@ -200,3 +200,9 @@
   text-align: center;
   margin: auto;
 }
+
+/* MiniMap */
+
+#canvas_mini_map {
+  cursor: pointer;
+}
