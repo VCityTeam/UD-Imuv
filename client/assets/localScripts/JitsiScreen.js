@@ -48,6 +48,7 @@ module.exports = class JitsiScreen {
       userInfo: {
         displayName: name,
       },
+      configOverwrite: { prejoinPageEnabled: false },
     };
 
     const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
@@ -60,16 +61,5 @@ module.exports = class JitsiScreen {
     worldTransform.position.add(ref);
     const billboard = new udviz.Views.Billboard(divJitsi, worldTransform, size);
     localCtx.getGameView().appendBillboard(billboard);
-
-    function blurAll() {
-      const tmp = document.createElement('input');
-      document.body.appendChild(tmp);
-      tmp.focus();
-      document.body.removeChild(tmp);
-    }
-
-    api.getIFrame().onload = function () {
-      blurAll();
-    };
   }
 };
