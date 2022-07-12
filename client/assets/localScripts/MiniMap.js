@@ -164,7 +164,8 @@ module.exports = class MiniMap {
     ratioYStart,
     ratioXEnd,
     ratioYEnd,
-    text
+    text,
+    colorStyle = 'yellow'
   ) {
     contextCanvas.save();
 
@@ -174,7 +175,7 @@ module.exports = class MiniMap {
 
     //draw box
     contextCanvas.beginPath();
-    contextCanvas.strokeStyle = 'yellow';
+    contextCanvas.strokeStyle = colorStyle;
     contextCanvas.lineWidth = lineWidth;
     contextCanvas.rect(
       ratioXStart * MINI_MAP_SIZE,
@@ -186,7 +187,7 @@ module.exports = class MiniMap {
 
     //draw text
     contextCanvas.font = '20px Arial';
-    contextCanvas.fillStyle = 'yellow';
+    contextCanvas.fillStyle = colorStyle;
     contextCanvas.fillText(
       text,
       ratioXStart * MINI_MAP_SIZE + width + lineWidth,
@@ -214,6 +215,7 @@ module.exports = class MiniMap {
     ctx.drawImage(this.backgroundImage, 0, 0);
 
     //Point interest HARD CODED
+    //TODO : Compute ratio from positions in the world. Store a list of points of interest with their positions in the world.
     this.drawPointOfInterest(
       ctx,
       390 / 700,
@@ -238,7 +240,8 @@ module.exports = class MiniMap {
       203 / 700,
       227 / 700,
       217 / 700,
-      'Zeppelin Tour'
+      'Zeppelin Tour',
+      'red'
     );
 
     this.drawPointOfInterest(
