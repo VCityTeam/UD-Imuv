@@ -240,8 +240,7 @@ module.exports = class MiniMap {
       203 / 700,
       227 / 700,
       217 / 700,
-      'Zeppelin Tour',
-      'red'
+      'Zeppelin Tour'
     );
 
     this.drawPointOfInterest(
