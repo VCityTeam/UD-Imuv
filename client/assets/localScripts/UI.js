@@ -26,22 +26,6 @@ module.exports = class UI {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
 
-    this.gameViewFps = document.createElement('div');
-    this.gameViewFps.classList.add('label_controller');
-    gameView.appendToUI(this.gameViewFps);
-
-    this.worldComputerFps = document.createElement('div');
-    this.worldComputerFps.classList.add('label_controller');
-    gameView.appendToUI(this.worldComputerFps);
-
-    this.pingUI = document.createElement('div');
-    this.pingUI.classList.add('label_controller');
-    gameView.appendToUI(this.pingUI);
-
-    this.avatarCount = document.createElement('div');
-    this.avatarCount.classList.add('label_controller');
-    gameView.appendToUI(this.avatarCount);
-
     const menuSettings = new MenuSettings(localCtx);
     this.menuSettings = menuSettings;
 
@@ -135,6 +119,23 @@ module.exports = class UI {
       };
       gameView.appendToUI(this.menuAvatarButton);
     }
+
+    //DEBUG infos
+    this.gameViewFps = document.createElement('div');
+    this.gameViewFps.classList.add('label_controller');
+    if (__DEBUG__) gameView.appendToUI(this.gameViewFps);
+
+    this.worldComputerFps = document.createElement('div');
+    this.worldComputerFps.classList.add('label_controller');
+    if (__DEBUG__) gameView.appendToUI(this.worldComputerFps);
+
+    this.pingUI = document.createElement('div');
+    this.pingUI.classList.add('label_controller');
+    if (__DEBUG__) gameView.appendToUI(this.pingUI);
+
+    this.avatarCount = document.createElement('div');
+    this.avatarCount.classList.add('label_controller');
+    if (__DEBUG__) gameView.appendToUI(this.avatarCount);
   }
 
   tick() {
@@ -142,6 +143,8 @@ module.exports = class UI {
   }
 
   updateUI(go, localCtx) {
+    if (!__DEBUG__) return;
+
     //update ui
     this.gameViewFps.innerHTML =
       'Client FPS = ' + Math.round(1000 / localCtx.getDt());
