@@ -7,6 +7,9 @@ import { CommitInfo } from './CommitInfo/CommitInfo';
 import { DocPage } from './Doc/Doc';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
 
+//declare global var _DEBUG_ flag
+window.__DEBUG__ = process.env.NODE_ENV === 'development' ? true : false;
+
 const webSocketService = new WebSocketService();
 webSocketService.connectToServer();
 
