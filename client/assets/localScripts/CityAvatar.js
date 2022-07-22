@@ -289,7 +289,7 @@ module.exports = class CityAvatar {
     const pos = go.computeWorldTransform().position;
     const ref = localContext.getGameView().getObject3D().position;
     const zParent = go.parent.getPosition().z - ref.z;
-    const offset = 8;
+    const offset = 7;
 
     const worldPos = new udviz.THREE.Vector3(pos.x, pos.y, 0).add(ref);
 
