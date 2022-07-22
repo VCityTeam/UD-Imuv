@@ -301,8 +301,7 @@ module.exports = class CityAvatar {
 
     const pos = go.computeWorldTransform().position;
     const ref = localContext.getGameView().getObject3D().position;
-    const zParent = go.parent.getPosition().z - ref.z;
-    const offset = 7;
+    const zParent = go.parent.getPosition().z + ref.z;
 
     const worldPos = new udviz.THREE.Vector3(pos.x, pos.y, 0).add(ref);
 
@@ -313,10 +312,9 @@ module.exports = class CityAvatar {
     const elevation =
       udviz.itowns.DEMUtils.getElevationValueAt(
         gameView.getItownsView().tileLayer,
-        new udviz.itowns.Coordinates(gameView.projection, worldPos)
-      ) +
-      zParent +
-      offset;
+        new udviz.itowns.Coordinates(gameView.projection, worldPos),
+        1 //PRECISE_READ_Z
+      ) - zParent;
 
     if (editorMode) {
       //add commands to the computer directly because not produce by the inputmanager

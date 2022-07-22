@@ -65,7 +65,7 @@ module.exports = class SwitchItowns {
     const view = gameView.getItownsView();
     if (view) {
       this.menuWidgetsButton = document.createElement('button');
-      this.menuWidgetsButton.innerHTML = 'Widgets';
+      this.menuWidgetsButton.innerHTML = 'Changer mode de vue';
       this.menuWidgetsButton.onclick = function () {
         if (cameraScript.hasRoutine()) return; //already routine
 
