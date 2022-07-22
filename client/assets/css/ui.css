@@ -210,7 +210,7 @@
 /*Middle screen label*/
 .middle_screen_label {
   position: absolute;
-  font-size: xx-large;
+  font-size: x-large;
   color: black;
   background-color: antiquewhite;
   min-width: 210px;
