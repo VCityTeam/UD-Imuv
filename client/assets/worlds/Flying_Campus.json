@@ -2805,6 +2805,41 @@
             },
             "noLocalUpdate": false,
             "freeze": false
+          },
+          {
+            "name": "GeoProject",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "A7C34B9A-CDF1-4B72-BF79-617784A96AC7",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "components": {
+              "Render": {
+                "uuid": "9EE2C4FF-3D5E-4926-B90D-1705A073F4F3",
+                "type": "Render",
+                "idRenderData": "pin",
+                "color": [1, 0, 0]
+              },
+              "LocalScript": {
+                "uuid": "38B22EEA-278E-450A-8A4D-4D2547B9638B",
+                "idScripts": ["geo_project", "clickable"],
+                "conf": {
+                  "image_width": 50,
+                  "image_height": 30,
+                  "href": "default",
+                  "image_icon": "./assets/img/labex_imu.jpeg"
+                },
+                "type": "LocalScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [-112.73824709490873, 21.337465956807137, 0],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
           }
         ],
         "transform": {

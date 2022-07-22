@@ -1,0 +1,28 @@
+{
+  "name": "GeoProject",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": "pin",
+      "color": [1, 0, 0]
+    },
+    "LocalScript": {
+      "idScripts": ["geo_project", "clickable"],
+      "conf": {
+        "image_width": 50,
+        "image_height": 30,
+        "href": "default",
+        "image_icon": "./assets/img/labex_imu.jpeg"
+      },
+      "type": "LocalScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0],
+    "scale": [1, 1, 1]
+  }
+}
