@@ -299,58 +299,24 @@ module.exports = class CityAvatar {
     //a context containing all data to script clientside script
     const localContext = arguments[1];
 
-    const manager = localContext.getGameView().getLayerManager();
-    const ground = [];
-
-    const addObjectToGround = function (nameLayer) {
-      if (!manager) return;
-      let layerManager = null;
-      for (let index = 0; index < manager.tilesManagers.length; index++) {
-        const element = manager.tilesManagers[index];
-        if (element.layer.id == nameLayer) {
-          layerManager = element;
-          break;
-        }
-      }
-
-      if (!layerManager) throw new Error('no ', nameLayer);
-
-      layerManager.tiles.forEach(function (t) {
-        const obj = t.getObject3D();
-        if (obj) ground.push(obj);
-      });
-    };
-
-    addObjectToGround('3d-tiles-layer-relief');
-    addObjectToGround('3d-tiles-layer-road');
-
-    const zParent = go.parent.getPosition().z;
-
     const pos = go.computeWorldTransform().position;
     const ref = localContext.getGameView().getObject3D().position;
-    const zOffset = 400;
+    const zParent = go.parent.getPosition().z - ref.z;
+    const offset = 8;
 
-    this.raycaster.ray.origin = new udviz.THREE.Vector3(
-      pos.x,
-      pos.y,
-      zOffset
-    ).add(ref);
-    this.raycaster.ray.direction = new udviz.THREE.Vector3(0, 0, -1);
-
-    let z = null;
-    for (let index = 0; index < ground.length; index++) {
-      const element = ground[index];
-      const intersects = this.raycaster.intersectObjects([element], true);
-
-      if (intersects.length) {
-        const i = intersects[0];
-        z = -i.distance;
-      }
-    }
-
-    if (z == null) return;
+    const worldPos = new udviz.THREE.Vector3(pos.x, pos.y, 0).add(ref);
 
     const editorMode = localContext.getGameView().getUserData('editorMode');
+
+    const gameView = localContext.getGameView();
+
+    const elevation =
+      udviz.itowns.DEMUtils.getElevationValueAt(
+        gameView.getItownsView().tileLayer,
+        new udviz.itowns.Coordinates(gameView.projection, worldPos)
+      ) +
+      zParent +
+      offset;
 
     if (editorMode) {
       //add commands to the computer directly because not produce by the inputmanager
@@ -363,7 +329,7 @@ module.exports = class CityAvatar {
         new Game.Command({
           type: Game.Command.TYPE.Z_UPDATE,
           gameObjectUUID: go.getUUID(),
-          data: z - zParent + zOffset,
+          data: elevation,
         }),
       ]);
     } else {
@@ -378,7 +344,7 @@ module.exports = class CityAvatar {
           type: Game.Command.TYPE.Z_UPDATE,
           gameObjectUUID: go.getUUID(),
           userID: userID,
-          data: z - zParent + zOffset,
+          data: elevation,
         },
       ]);
     }
