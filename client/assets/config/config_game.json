@@ -54,6 +54,9 @@
       }
     },
     "localScripts": {
+      "geo_project": {
+        "path": "./assets/localScripts/GeoProject.js"
+      },
       "menu_avatar": {
         "path": "./assets/localScripts/MenuAvatar.js"
       },
@@ -229,13 +232,12 @@
     }
   ],
   "background_image_layer": {
-    "url": "https://download.data.grandlyon.com/wms/grandlyon",
-    "name": "Ortho2018_Dalle_unique_8cm_CC46",
+    "url": "https://wxs.ign.fr/choisirgeoportail/geoportail/r/wms",
+    "name": "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2",
     "version": "1.3.0",
     "format": "image/jpeg",
     "layer_name": "Base_Map",
-    "transparent": true,
-    "maxSubdivisionLevel": 3
+    "maxSubdivisionLevel": 5
   },
   "elevation_layer": {
     "url": "https://download.data.grandlyon.com/wms/grandlyon",
