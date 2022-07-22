@@ -65,8 +65,7 @@ module.exports = class Jitsi {
       console.warn('cant request video and audio');
     }
 
-    const joinRoomJitsi = document.createElement('div'); //TODO clean css
-    joinRoomJitsi.classList.add('button_Editor');
+    const joinRoomJitsi = document.createElement('button');
     joinRoomJitsi.innerHTML = LABEL_JOIN;
     this.joinRoomJitsi = joinRoomJitsi;
     localCtx.getGameView().appendToUI(joinRoomJitsi);
