@@ -1,6 +1,7 @@
 import './Doc.css';
 import * as showdown from 'showdown';
 
+import openingMd from '../../assets/md/Doc/Opening.md';
 import signMd from '../../assets/md/Doc/SignDoc.md';
 import commandMd from '../../assets/md/Doc/HowToPlayDoc.md';
 import chatMd from '../../assets/md/Doc/ChatDoc.md';
@@ -40,6 +41,7 @@ export class DocPage {
     converter.setOption('tables', true);
 
     this.initHtml();
+    this.addEntry('Bienvenue', converter.makeHtml(openingMd.body), true);
     this.addEntry('Compte', converter.makeHtml(signMd.body));
     this.addEntry('Comment jouer ?', converter.makeHtml(commandMd.body));
     this.addEntry('Chat', converter.makeHtml(chatMd.body));
@@ -67,7 +69,7 @@ export class DocPage {
     this.rootHtml.appendChild(this.contentDoc);
   }
 
-  addEntry(titleString, contentString) {
+  addEntry(titleString, contentString, opening = false) {
     const title = document.createElement('li');
     title.innerHTML = titleString;
     this.listMenuDoc.appendChild(title);
@@ -89,6 +91,9 @@ export class DocPage {
     title.onclick = function () {
       contentDoc.innerHTML = newContentDoc.innerHTML;
     };
+    if (opening) {
+      contentDoc.innerHTML = newContentDoc.innerHTML;
+    }
   }
 
   html() {
