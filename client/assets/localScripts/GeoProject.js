@@ -18,7 +18,10 @@ module.exports = class GeoProject {
 
     //create image conf.image_icon on a quad above the pin
     const onLoad = function (texture) {
-      const material = new udviz.THREE.MeshBasicMaterial({ map: texture });
+      const material = new udviz.THREE.MeshBasicMaterial({
+        map: texture,
+        side: udviz.THREE.DoubleSide,
+      });
 
       const geometry = new udviz.THREE.PlaneGeometry(
         this.conf.image_width,
