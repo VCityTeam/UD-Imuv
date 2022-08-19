@@ -287,6 +287,8 @@ export class WorldEditorView {
         if (child.material) {
           child.material.transparent = true;
           child.material.opacity = ratio;
+          child.material.format = THREE.RGBAFormat;
+          child.material.needsUpdate = true;
         }
         if (child.children) {
           setTransparencyChild(child, ratio);
