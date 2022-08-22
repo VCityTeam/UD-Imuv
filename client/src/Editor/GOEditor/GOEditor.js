@@ -97,6 +97,9 @@ export class GOEditorView {
       if (lS['jitsi_area']) {
         goUI.appendLSJitsiAreaUI();
       }
+      if (lS['geo_project']) {
+        goUI.appendLSGeoProjectUI(this.gameView);
+      }
     }
 
     const wS = go.fetchWorldScripts();
