@@ -1,6 +1,7 @@
 import { GameObject } from 'ud-viz/src/Game/Game';
 import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { LocalScriptDisplayMediaUI } from './LocalScriptDisplayMediaUI';
+import { LocalScriptGeoProjectUI } from './LocalScriptGeoProjectUI';
 import { LocalScriptImageUI } from './LocalScriptImageUI';
 import { LocalScriptSignageDisplayerUI } from './LocalScriptSignageDisplayerUI';
 import { LocalScriptJitsiAreaUI } from './LocalScriptJitsiAreaUI';
@@ -220,5 +221,9 @@ export class GameObjectUI {
 
   appendLSJitsiAreaUI() {
     new LocalScriptJitsiAreaUI(this);
+  }
+
+  appendLSGeoProjectUI(gV) {
+    new LocalScriptGeoProjectUI(this, gV);
   }
 }
