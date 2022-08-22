@@ -152,6 +152,4 @@ module.exports = class PlacePostIt {
     const scriptStaticObject = go.fetchLocalScripts()['static_object'];
     return scriptStaticObject.getObject();
   }
-
-  tick() {}
 };

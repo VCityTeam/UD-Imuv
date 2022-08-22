@@ -3,8 +3,9 @@ const udvizType = require('ud-viz');
 let udviz = null;
 
 const MINI_MAP_SIZE = 700;
-const AVATAR_RADIUS_MIN = 5;
-const AVATAR_RADIUS_MAX = 15;
+const AVATAR_SIZE_MIN = 15;
+const AVATAR_SIZE_MAX = 25;
+const MAGNETISM = 10;
 
 module.exports = class MiniMap {
   constructor(conf, udvizBundle) {
@@ -34,6 +35,9 @@ module.exports = class MiniMap {
 
     this.portalsPosition = [];
     this.defaultCanvas = null;
+
+    //map is displayed or not
+    this.displayMiniMap = false;
   }
 
   /**
@@ -49,13 +53,24 @@ module.exports = class MiniMap {
     const manager = gameView.getInputManager();
     const Command = udviz.Game.Command;
 
-    let displayMiniMap = false;
+    const _this = this;
     const ui = this.ui;
     const conf = this.conf;
-    manager.addKeyInput('m', 'keydown', function () {
-      displayMiniMap = !displayMiniMap;
 
-      if (displayMiniMap) {
+    /* Finding the position of the portals and adding them to the array. */
+    const portalsPosition = this.portalsPosition;
+    go.traverse(function (child) {
+      const lS = child.fetchLocalScripts();
+      if (lS && lS['portal_sweep']) {
+        portalsPosition.push(child.getPosition());
+      }
+    });
+
+    //register inputs
+    manager.addKeyInput('m', 'keydown', function () {
+      _this.displayMiniMap = !_this.displayMiniMap;
+
+      if (_this.displayMiniMap) {
         gameView.appendToUI(ui);
       } else {
         ui.remove();
@@ -88,15 +103,6 @@ module.exports = class MiniMap {
         },
         userID: userID,
       });
-    });
-
-    /* Finding the position of the portals and adding them to the array. */
-    const portalsPosition = this.portalsPosition;
-    go.traverse(function (child) {
-      const lS = child.fetchLocalScripts();
-      if (lS && lS['portal_sweep']) {
-        portalsPosition.push(child.getPosition());
-      }
     });
   }
 
@@ -261,31 +267,6 @@ module.exports = class MiniMap {
       'Studios'
     );
 
-    //PORTAL spirals
-
-    const drawSpiral = function (pos) {
-      ctx.beginPath();
-      ctx.strokeStyle = 'red';
-
-      const a = 0.5;
-      const b = 0.5;
-      for (let i = 0; i < 150; i++) {
-        const angle = 0.1 * i;
-        const xSpiral = pos.x + (a + b * angle) * Math.cos(angle);
-        const ySpiral = pos.y + (a + b * angle) * Math.sin(angle);
-        ctx.lineTo(xSpiral, ySpiral);
-      }
-      ctx.stroke();
-    };
-
-    this.portalsPosition.forEach(function (pos) {
-      const posPortal = {
-        x: MINI_MAP_SIZE * 0.5 + pos.x / pixelSize,
-        y: MINI_MAP_SIZE * 0.5 - pos.y / pixelSize,
-      };
-      drawSpiral(posPortal);
-    });
-
     //draw instruction teleport
     ctx.save();
     ctx.font = '20px Arial';
@@ -293,12 +274,28 @@ module.exports = class MiniMap {
     ctx.fillText('Cliquez sur les', 20, 20);
     ctx.fillText('pour vous teleporter dans la salle voulu.', 180, 20);
     ctx.restore();
-    drawSpiral({
+    this.drawSpiral(ctx, {
       x: 163,
       y: 10,
     });
 
     return defaultCanvas;
+  }
+
+  drawSpiral(destCtx, pos, theta = 0) {
+    destCtx.beginPath();
+    destCtx.strokeStyle = 'red';
+    destCtx.lineWidth = 1;
+
+    const a = 0.5;
+    const b = 0.5;
+    for (let i = 0; i < 150; i++) {
+      const angle = 0.1 * i;
+      const xSpiral = pos.x + (a + b * angle) * Math.cos(angle + theta);
+      const ySpiral = pos.y + (a + b * angle) * Math.sin(angle + theta);
+      destCtx.lineTo(xSpiral, ySpiral);
+    }
+    destCtx.stroke();
   }
 
   /**
@@ -308,7 +305,9 @@ module.exports = class MiniMap {
   tick() {
     const go = arguments[0];
     const localCtx = arguments[1];
-    if (!this.defaultCanvas) return;
+    const _this = this;
+
+    if (!this.defaultCanvas || !this.displayMiniMap) return;
     //write
     const destCtx = this.ui.getContext('2d');
     destCtx.drawImage(this.defaultCanvas, 0, 0);
@@ -319,22 +318,21 @@ module.exports = class MiniMap {
     const avatarGO = go
       .computeRoot()
       .find(localCtx.getGameView().getUserData('avatarUUID'));
+    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
     if (avatarGO) {
       const avatarPos = avatarGO.getPosition();
-      const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
 
-      const radius =
-        AVATAR_RADIUS_MIN +
-        (AVATAR_RADIUS_MAX - AVATAR_RADIUS_MIN) *
+      const size =
+        AVATAR_SIZE_MIN +
+        (AVATAR_SIZE_MAX - AVATAR_SIZE_MIN) *
           Math.abs(Math.cos(this.currentDT));
 
-      const avatarPosCanvas = {
+      const c = {
         x: MINI_MAP_SIZE * 0.5 + avatarPos.x / pixelSize,
         y: MINI_MAP_SIZE * 0.5 - avatarPos.y / pixelSize,
       };
       /* Drawing the avatar on the mini map. Set its color thanks to the render color */
       const avatarColor = avatarGO.getComponent('Render').color;
-      destCtx.beginPath();
       destCtx.fillStyle =
         'rgb(' +
         avatarColor.r * 255 +
@@ -343,9 +341,48 @@ module.exports = class MiniMap {
         ',' +
         avatarColor.b * 255 +
         ')';
-      destCtx.arc(avatarPosCanvas.x, avatarPosCanvas.y, radius, 0, Math.PI * 2);
+
+      const rotation = -avatarGO.getRotation().z - Math.PI;
+      const cos = Math.cos(rotation);
+      const sin = Math.sin(rotation);
+
+      const xRot = function (x, y) {
+        return x * cos - y * sin;
+      };
+
+      const yRot = function (x, y) {
+        return y * cos + x * sin;
+      };
+
+      //draw triangle
+      const ratioTriangle = 0.6;
+      destCtx.beginPath();
+      destCtx.moveTo(
+        c.x + xRot(-size * 0.5, -size * ratioTriangle),
+        c.y + yRot(-size * 0.5, -size * ratioTriangle)
+      );
+      destCtx.lineTo(
+        c.x + xRot(size * 0.5, -size * ratioTriangle),
+        c.y + yRot(size * 0.5, -size * ratioTriangle)
+      );
+      destCtx.lineTo(
+        c.x + xRot(0, size * ratioTriangle),
+        c.y + yRot(0, size * ratioTriangle)
+      );
+      destCtx.closePath();
       destCtx.fill();
     }
+
+    //icons
+    //PORTAL spirals
+
+    this.portalsPosition.forEach(function (pos) {
+      const posPortal = {
+        x: MINI_MAP_SIZE * 0.5 + pos.x / pixelSize,
+        y: MINI_MAP_SIZE * 0.5 - pos.y / pixelSize,
+      };
+      _this.drawSpiral(destCtx, posPortal, _this.currentDT);
+    });
   }
 
   /**
