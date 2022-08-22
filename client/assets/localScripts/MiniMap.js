@@ -5,7 +5,7 @@ let udviz = null;
 const MINI_MAP_SIZE = 700;
 const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
-const MAGNETISM = 10;
+const MAGNETISM = 2;
 
 module.exports = class MiniMap {
   constructor(conf, udvizBundle) {
@@ -33,7 +33,7 @@ module.exports = class MiniMap {
 
     this.currentDT = 0;
 
-    this.portalsPosition = [];
+    this.portalIcons = [];
     this.defaultCanvas = null;
 
     //map is displayed or not
@@ -58,11 +58,11 @@ module.exports = class MiniMap {
     const conf = this.conf;
 
     /* Finding the position of the portals and adding them to the array. */
-    const portalsPosition = this.portalsPosition;
+    const portalIcons = this.portalIcons;
     go.traverse(function (child) {
       const lS = child.fetchLocalScripts();
       if (lS && lS['portal_sweep']) {
-        portalsPosition.push(child.getPosition());
+        portalIcons.push(new PortalIcon(child.getPosition()));
       }
     });
 
@@ -94,6 +94,18 @@ module.exports = class MiniMap {
         0
       );
 
+      //MAGNETISM
+      _this.portalIcons.forEach(function (icon) {
+        const posIcon = icon.getPosition();
+        if (
+          Math.abs(posIcon.x - teleportPosition.x) < MAGNETISM &&
+          Math.abs(posIcon.y - teleportPosition.y) < MAGNETISM
+        ) {
+          teleportPosition.x = posIcon.x;
+          teleportPosition.y = posIcon.y;
+        }
+      });
+
       return new Command({
         type: Command.TYPE.TELEPORT,
         data: {
@@ -102,6 +114,33 @@ module.exports = class MiniMap {
           avatarUUID: gameView.getUserData('avatarUUID'),
         },
         userID: userID,
+      });
+    });
+
+    manager.addMouseInput(this.ui, 'mousemove', function (event) {
+      const x = event.pageX;
+      const y = event.pageY;
+
+      const rect = _this.ui.getBoundingClientRect();
+      const ratioX = (x - rect.left) / (rect.right - rect.left);
+      const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
+
+      const positionMouse = new udviz.THREE.Vector3(
+        (ratioX - 0.5) * conf.mini_map_size,
+        (ratioY - 0.5) * conf.mini_map_size,
+        0
+      );
+
+      _this.portalIcons.forEach(function (icon) {
+        const posIcon = icon.getPosition();
+        if (
+          Math.abs(posIcon.x - positionMouse.x) < MAGNETISM &&
+          Math.abs(posIcon.y - positionMouse.y) < MAGNETISM
+        ) {
+          icon.setHover(true);
+        } else {
+          icon.setHover(false);
+        }
       });
     });
   }
@@ -282,9 +321,15 @@ module.exports = class MiniMap {
     return defaultCanvas;
   }
 
-  drawSpiral(destCtx, pos, theta = 0) {
+  drawSpiral(destCtx, pos, theta = 0, hover = false) {
     destCtx.beginPath();
-    destCtx.strokeStyle = 'red';
+
+    if (hover) {
+      destCtx.strokeStyle = 'green';
+    } else {
+      destCtx.strokeStyle = 'red';
+    }
+
     destCtx.lineWidth = 1;
 
     const a = 0.5;
@@ -376,12 +421,14 @@ module.exports = class MiniMap {
     //icons
     //PORTAL spirals
 
-    this.portalsPosition.forEach(function (pos) {
+    this.portalIcons.forEach(function (icon) {
+      const pos = icon.getPosition();
+
       const posPortal = {
         x: MINI_MAP_SIZE * 0.5 + pos.x / pixelSize,
         y: MINI_MAP_SIZE * 0.5 - pos.y / pixelSize,
       };
-      _this.drawSpiral(destCtx, posPortal, _this.currentDT);
+      _this.drawSpiral(destCtx, posPortal, _this.currentDT, icon.isHover());
     });
   }
 
@@ -403,3 +450,22 @@ module.exports = class MiniMap {
     });
   }
 };
+
+class PortalIcon {
+  constructor(position) {
+    this.position = position;
+    this.hover = false;
+  }
+
+  getPosition() {
+    return this.position;
+  }
+
+  isHover() {
+    return this.hover;
+  }
+
+  setHover(value) {
+    this.hover = value;
+  }
+}
