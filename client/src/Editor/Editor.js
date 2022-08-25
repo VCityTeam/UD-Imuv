@@ -35,7 +35,8 @@ export class EditorView {
     this.currentWorldView = null;
     this.currentPlayWorldView = null;
 
-    this.currentWorldJSON = null;
+    /* A variable that is used to store the current world's UUID. */
+    this.currentWorldUUID = null;
   }
 
   closeCurrentView() {
@@ -147,7 +148,9 @@ export class EditorView {
     };
 
     this.refreshButton.onclick = function () {
-      if (_this.currentWorldJSON) _this.onWorldJSON(_this.currentWorldJSON);
+      if (!_this.currentWorldView) return;
+      _this.saveCurrentWorld();
+      _this.onWorldJSON(_this.currentWorldUUID);
     };
   }
 
@@ -171,8 +174,6 @@ export class EditorView {
         break;
       }
     }
-
-    this.updateUI();
   }
 
   updateUI() {
@@ -187,17 +188,24 @@ export class EditorView {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
       li.innerHTML = w.name;
-      li.onclick = _this.onWorldJSON.bind(_this, w);
+      li.onclick = _this.onWorldJSON.bind(_this, w.uuid);
       list.appendChild(li);
     });
   }
 
-  onWorldJSON(json) {
+  onWorldJSON(uuid) {
     this.closeCurrentView();
+    let worldJSON = null;
+    this.assetsManager.getWorldsJSON().forEach(function (w) {
+      if (w.uuid == uuid) {
+        worldJSON = w;
+        return;
+      }
+    });
 
     this.currentWorldView = new WorldEditorView({
       parentUIHtml: this.ui,
-      worldJSON: json,
+      worldJSON: worldJSON,
       parentGameViewHtml: this.rootHtml,
       assetsManager: this.assetsManager,
       userData: { firstGameView: false },
@@ -208,7 +216,8 @@ export class EditorView {
     this.currentWorldView.setOnClose(function () {
       _this.currentWorldView.dispose();
     });
-    this.currentWorldJSON = json;
+
+    this.currentWorldUUID = worldJSON.uuid;
   }
 
   load() {
