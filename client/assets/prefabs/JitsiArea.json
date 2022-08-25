@@ -1,0 +1,33 @@
+{
+  "name": "JitsiArea",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Collider": {
+      "type": "Collider",
+      "shapes": [],
+      "body": false
+    },
+    "Render": {
+      "type": "Render",
+      "idRenderData": null,
+      "color": [0, 0.5, 1]
+    },
+    "LocalScript": {
+      "idScripts": ["local_interactions", "jitsi_area"],
+      "conf": {},
+      "type": "LocalScript"
+    },
+    "WorldScript": {
+      "idScripts": ["interaction_zone", "collider_sender"],
+      "conf": {},
+      "type": "WorldScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0, "ZXY"],
+    "scale": [1, 1, 1]
+  }
+}

@@ -3,6 +3,7 @@ import { ColliderEditorView } from '../ColliderEditor/ColliderEditor';
 import { LocalScriptDisplayMediaUI } from './LocalScriptDisplayMediaUI';
 import { LocalScriptImageUI } from './LocalScriptImageUI';
 import { LocalScriptSignageDisplayerUI } from './LocalScriptSignageDisplayerUI';
+import { LocalScriptJitsiAreaUI } from './LocalScriptJitsiAreaUI';
 import { WorldScriptPortalUI } from './WorldScriptPortalUI';
 import { WorldScriptTeleporterUI } from './WorldScriptTeleporterUI';
 
@@ -215,5 +216,9 @@ export class GameObjectUI {
 
   appendLSDisplayMediaUI() {
     new LocalScriptDisplayMediaUI(this);
+  }
+
+  appendLSJitsiAreaUI() {
+    new LocalScriptJitsiAreaUI(this);
   }
 }
