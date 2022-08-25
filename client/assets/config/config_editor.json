@@ -209,9 +209,6 @@
       },
       "interaction_zone": {
         "path": "./assets/worldScripts/InteractionZone.js"
-      },
-      "collider_sender": {
-        "path": "./assets/worldScripts/ColliderSender.js"
       }
     },
     "prefabs": {
