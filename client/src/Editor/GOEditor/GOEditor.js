@@ -94,6 +94,9 @@ export class GOEditorView {
       if (lS['display_media']) {
         goUI.appendLSDisplayMediaUI();
       }
+      if (lS['jitsi_area']) {
+        goUI.appendLSJitsiAreaUI();
+      }
     }
 
     const wS = go.fetchWorldScripts();

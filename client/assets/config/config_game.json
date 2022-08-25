@@ -140,6 +140,9 @@
       },
       "portal_sweep": {
         "path": "./assets/localScripts/PortalSweep.js"
+      },
+      "jitsi_area": {
+        "path": "./assets/localScripts/JitsiArea.js"
       }
     },
     "renderData": {

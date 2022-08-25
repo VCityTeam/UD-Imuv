@@ -132,6 +132,9 @@
       },
       "post_it": {
         "path": "./assets/localScripts/PostIt.js"
+      },
+      "jitsi_area": {
+        "path": "./assets/localScripts/JitsiArea.js"
       }
     },
     "renderData": {
@@ -206,6 +209,9 @@
       },
       "interaction_zone": {
         "path": "./assets/worldScripts/InteractionZone.js"
+      },
+      "collider_sender": {
+        "path": "./assets/worldScripts/ColliderSender.js"
       }
     },
     "prefabs": {
@@ -241,6 +247,9 @@
       },
       "post_it": {
         "path": "./assets/prefabs/PostIt.json"
+      },
+      "jitsi_area": {
+        "path": "./assets/prefabs/JitsiArea.json"
       }
     },
     "worlds": {

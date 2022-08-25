@@ -26,6 +26,7 @@ export class EditorView {
     this.worldsList = null;
     this.saveWorldsButton = null;
     this.playCurrentWorldButton = null;
+    this.refreshButton = null;
 
     //assets
     this.assetsManager = new Views.AssetsManager();
@@ -33,6 +34,8 @@ export class EditorView {
     //gameview
     this.currentWorldView = null;
     this.currentPlayWorldView = null;
+
+    this.currentWorldJSON = null;
   }
 
   closeCurrentView() {
@@ -78,6 +81,11 @@ export class EditorView {
     this.playCurrentWorldButton.classList.add('button_Editor');
     this.playCurrentWorldButton.innerHTML = 'Play Current World';
     this.ui.appendChild(this.playCurrentWorldButton);
+
+    this.refreshButton = document.createElement('div');
+    this.refreshButton.classList.add('button_Editor');
+    this.refreshButton.innerHTML = 'Refresh';
+    this.ui.appendChild(this.refreshButton);
   }
 
   setOnClose(f) {
@@ -136,6 +144,10 @@ export class EditorView {
       _this.currentPlayWorldView.setOnClose(function () {
         _this.currentPlayWorldView.dispose();
       });
+    };
+
+    this.refreshButton.onclick = function () {
+      if (_this.currentWorldJSON) _this.onWorldJSON(_this.currentWorldJSON);
     };
   }
 
@@ -196,6 +208,7 @@ export class EditorView {
     this.currentWorldView.setOnClose(function () {
       _this.currentWorldView.dispose();
     });
+    this.currentWorldJSON = json;
   }
 
   load() {
