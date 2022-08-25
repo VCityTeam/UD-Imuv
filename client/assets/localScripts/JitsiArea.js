@@ -16,9 +16,70 @@ module.exports = class ButterflySpawner {
     THREE = Game.THREE;
   }
 
-  init() {}
+  init() {
+    const go = arguments[0];
 
-  onOutdated() {
-    console.log(this.conf);
+    this.buildShapes(go);
+  }
+
+  buildShapes(go) {
+    const renderComp = go.getComponent(Game.Render.TYPE);
+
+    const shapesJSON = go
+      .getComponent(Game.ColliderModule.TYPE)
+      .getShapesJSON();
+
+    const material = new THREE.MeshBasicMaterial({
+      opacity: 0.2,
+      transparent: true,
+    });
+
+    const height = 1;
+
+    shapesJSON.forEach(function (shape) {
+      switch (shape.type) {
+        case 'Circle':
+          //cylinder
+          const geometryCylinder = new THREE.CylinderGeometry(
+            shape.radius,
+            shape.radius,
+            height,
+            32
+          );
+          const cylinder = new THREE.Mesh(geometryCylinder, material);
+          cylinder.rotateX(Math.PI * 0.5);
+          cylinder.position.set(shape.center.x, shape.center.y, shape.center.z);
+          renderComp.addObject3D(cylinder);
+          break;
+        case 'Polygon':
+          if (!shape.points.length) break;
+
+          let altitude = 0;
+
+          const shapeGeo = new THREE.Shape();
+          shapeGeo.moveTo(shape.points[0].x, shape.points[0].y);
+          altitude += shape.points[0].z;
+
+          for (let index = 1; index < shape.points.length; index++) {
+            const point = shape.points[index];
+            shapeGeo.lineTo(point.x, point.y);
+
+            altitude += point.z;
+          }
+          shapeGeo.lineTo(shape.points[0].x, shape.points[0].y);
+
+          altitude /= shape.points.length;
+
+          const geometryExtrude = new THREE.ExtrudeGeometry(shapeGeo, {
+            depth: height,
+          });
+          const mesh = new THREE.Mesh(geometryExtrude, material);
+          mesh.position.z = altitude - height * 0.5;
+          renderComp.addObject3D(mesh);
+          break;
+        default:
+          console.error('wrong type shape');
+      }
+    });
   }
 };

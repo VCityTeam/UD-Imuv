@@ -2,6 +2,7 @@
   "name": "JitsiArea",
   "type": "GameObject",
   "static": true,
+  "forceSerializeComponents": ["Collider"],
   "components": {
     "Collider": {
       "type": "Collider",
@@ -19,7 +20,7 @@
       "type": "LocalScript"
     },
     "WorldScript": {
-      "idScripts": ["interaction_zone", "collider_sender"],
+      "idScripts": ["interaction_zone"],
       "conf": {},
       "type": "WorldScript"
     }
