@@ -14,7 +14,15 @@ module.exports = class GeoProject {
 
   init() {
     const go = arguments[0];
-    const localCtx = arguments[1];
+
+    this.createImagePlane(go);
+  }
+
+  createImagePlane(go) {
+    //image
+    if (this.imagePlane && this.imagePlane.parent) {
+      this.imagePlane.parent.remove(this.imagePlane);
+    }
 
     //create image conf.image_icon on a quad above the pin
     const onLoad = function (texture) {
@@ -29,9 +37,6 @@ module.exports = class GeoProject {
       );
       this.imagePlane = new udviz.THREE.Mesh(geometry, material);
 
-      this.imagePlane.translateZ(this.conf.image_height * 0.5 + 2);
-      this.imagePlane.rotateX(Math.PI * 0.5);
-
       const r = go.getComponent(udviz.Game.Render.TYPE);
       r.addObject3D(this.imagePlane);
     };
@@ -42,11 +47,25 @@ module.exports = class GeoProject {
     );
   }
 
+  onOutdated() {
+    const go = arguments[0];
+    this.createImagePlane(go);
+  }
+
   onClick() {
     //when image is clicked redirection to conf.href
     const a = document.createElement('a');
     a.href = this.conf.href;
     a.target = '_blank';
     a.click();
+  }
+
+  tick() {
+    const go = arguments[0];
+
+    const camera = arguments[1].getGameView().getCamera();
+
+    // const object3D = go.getObject3D();
+    this.imagePlane.lookAt(camera.getWorldPosition(new udviz.THREE.Vector3()));
   }
 };
