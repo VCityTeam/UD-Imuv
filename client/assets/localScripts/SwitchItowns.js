@@ -187,6 +187,8 @@ module.exports = class SwitchItowns {
                 ];
                 if (refine) refine.itownsControls();
                 gameView.appendToUI(_this.menuWidgets.html());
+
+                gameView.getItownsView().notifyChange(gameView.getCamera());
               }
             )
           );

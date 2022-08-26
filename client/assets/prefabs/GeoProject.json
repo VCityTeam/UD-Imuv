@@ -5,7 +5,7 @@
   "components": {
     "Render": {
       "type": "Render",
-      "idRenderData": "pin",
+      "idRenderData": null,
       "color": [1, 0, 0]
     },
     "LocalScript": {

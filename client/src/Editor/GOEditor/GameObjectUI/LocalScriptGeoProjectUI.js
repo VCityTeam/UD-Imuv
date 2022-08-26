@@ -30,6 +30,8 @@ export class LocalScriptGeoProjectUI {
 
     inputWidth.onchange = function () {
       lsComp.conf.image_width = parseFloat(this.value);
+      go.setOutdated(true);
+      gV.forceUpdate();
     };
 
     //create height input
@@ -40,6 +42,8 @@ export class LocalScriptGeoProjectUI {
 
     inputHeight.onchange = function () {
       lsComp.conf.image_height = parseFloat(this.value);
+      go.setOutdated(true);
+      gV.forceUpdate();
     };
 
     //image icon
