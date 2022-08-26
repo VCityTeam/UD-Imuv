@@ -65,7 +65,7 @@ module.exports = class GeoProject {
 
     const camera = arguments[1].getGameView().getCamera();
 
-    // const object3D = go.getObject3D();
-    this.imagePlane.lookAt(camera.getWorldPosition(new udviz.THREE.Vector3()));
+    const object3D = go.getObject3D();
+    object3D.lookAt(camera.getWorldPosition(new udviz.THREE.Vector3()));
   }
 };
