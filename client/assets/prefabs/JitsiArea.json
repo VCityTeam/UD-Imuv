@@ -16,7 +16,9 @@
     },
     "LocalScript": {
       "idScripts": ["local_interactions", "jitsi_area"],
-      "conf": {},
+      "conf": {
+        "jitsi_room_name": "default"
+      },
       "type": "LocalScript"
     },
     "WorldScript": {

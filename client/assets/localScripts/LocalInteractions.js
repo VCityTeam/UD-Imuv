@@ -78,7 +78,7 @@ module.exports = class LocalInteractions {
     this.localScripts.forEach((ls) => {
       if (conf.avatarsOnEnter.includes(avatarUUIDLC)) {
         if ((onEnterFunction = ls.onEnter)) {
-          onEnterFunction.call(ls);
+          onEnterFunction.call(ls, arguments[0], arguments[1]);
         }
         _this.tickIsColliding = null;
       }
@@ -91,7 +91,7 @@ module.exports = class LocalInteractions {
 
       if (conf.avatarsOnLeave.includes(avatarUUIDLC)) {
         if ((onLeaveFunction = ls.onLeave)) {
-          onLeaveFunction.call(ls);
+          onLeaveFunction.call(ls, arguments[0], arguments[1]);
         }
         _this.tickIsColliding = null;
       }

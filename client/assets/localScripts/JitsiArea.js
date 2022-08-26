@@ -14,6 +14,8 @@ module.exports = class JitsiArea {
     udviz = udvizBundle;
     Game = udviz.Game;
     THREE = Game.THREE;
+
+    this.divJitsi = null;
   }
 
   init() {
@@ -23,11 +25,65 @@ module.exports = class JitsiArea {
   }
 
   onEnter() {
-    console.log('onEnter');
+    if (this.divJitsi) return;
+
+    const localCtx = arguments[1];
+
+    if (navigator && navigator.mediaDevices) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          console.log('Video + audio allowed');
+        })
+        .catch((e) => {
+          console.log('e: ', e);
+        });
+    } else {
+      console.warn('cant request video and audio');
+    }
+
+    let name = 'editor';
+    const avatarGO = localCtx
+      .getRootGameObject()
+      .find(localCtx.getGameView().getUserData('avatarUUID'));
+
+    if (avatarGO) {
+      const lsComp = avatarGO.getComponent(udviz.Game.LocalScript.TYPE);
+      name = lsComp.conf.name;
+    }
+
+    //create iframe
+    const divJitsi = document.createElement('div');
+
+    const size = 500;
+
+    const options = {
+      roomName: this.conf.jitsi_room_name,
+      parentNode: divJitsi,
+      width: size,
+      height: size,
+      lang: 'fr',
+      userInfo: {
+        displayName: name,
+      },
+      configOverwrite: { prejoinPageEnabled: false },
+    };
+
+    const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
+      'JitsiIframeAPI'
+    ];
+    const api = new JitsiIframeAPI('meet.jit.si', options);
+
+    localCtx.getGameView().appendToUI(divJitsi);
+
+    this.divJitsi = divJitsi;
   }
 
   onLeave() {
-    console.log('onLeave');
+    if (this.divJitsi) {
+      this.divJitsi.remove();
+      this.divJitsi = null;
+    }
   }
 
   buildShapes(go) {
