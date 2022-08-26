@@ -8,7 +8,7 @@ const threeType = require('three');
 /** @type {threeType} */
 let THREE = null;
 
-module.exports = class ButterflySpawner {
+module.exports = class JitsiArea {
   constructor(conf, udvizBundle) {
     this.conf = conf;
     udviz = udvizBundle;
@@ -20,6 +20,14 @@ module.exports = class ButterflySpawner {
     const go = arguments[0];
 
     this.buildShapes(go);
+  }
+
+  onEnter() {
+    console.log('onEnter');
+  }
+
+  onLeave() {
+    console.log('onLeave');
   }
 
   buildShapes(go) {
