@@ -17,18 +17,6 @@ module.exports = class LocalInteractions {
     this.interactionLabel.classList.add('hidden');
   }
 
-  updateLabelPosition(size) {
-    this.interactionLabel.style.top = size.y * 0.1 + 'px';
-    const minWidth = 210; /*hardcode from css*/
-    this.interactionLabel.style.left = size.x * 0.5 - minWidth * 0.5 + 'px';
-  }
-
-  onResize() {
-    const localContext = arguments[1];
-    const gameView = localContext.getGameView();
-    this.updateLabelPosition(gameView.getSize());
-  }
-
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
@@ -39,7 +27,6 @@ module.exports = class LocalInteractions {
 
     //append can interact info html to gv ui
     localCtx.getGameView().appendToUI(this.interactionLabel);
-    this.updateLabelPosition(localCtx.getGameView().getSize());
   }
 
   tick() {

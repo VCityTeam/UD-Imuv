@@ -209,10 +209,14 @@
 
 /*Middle screen label*/
 .middle_screen_label {
-  position: absolute;
   font-size: x-large;
   color: black;
   background-color: antiquewhite;
   min-width: 210px;
   padding: 10px;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-family: sans-serif;
+  display: flex;
 }
