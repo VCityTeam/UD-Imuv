@@ -66,8 +66,11 @@ module.exports = class MiniMap {
       }
     });
 
-    //register inputs
-    manager.addKeyInput('m', 'keydown', function () {
+    //add button ui
+    const button = document.createElement('button');
+    button.innerHTML = 'mini map';
+    gameView.appendToUI(button);
+    button.onclick = function () {
       _this.displayMiniMap = !_this.displayMiniMap;
 
       if (_this.displayMiniMap) {
@@ -75,7 +78,7 @@ module.exports = class MiniMap {
       } else {
         ui.remove();
       }
-    });
+    };
 
     manager.addMouseCommand('click', function () {
       const event = this.event('click');

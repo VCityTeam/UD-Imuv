@@ -30,11 +30,9 @@
           "camera",
           "zeppelin_controller",
           "static_object",
-          "mini_map",
-          "jitsi"
+          "mini_map"
         ],
         "conf": {
-          "jitsi_room_name": "B5DC6670-C237-4E11-8835-59A514A659BE",
           "mini_map_no_teleport": [],
           "traveling_time": 3000,
           "mini_map_size": 232
@@ -3101,79 +3099,150 @@
             "freeze": false
           },
           {
-            "name": "JitsiArea",
+            "name": "Galeri3 Link",
             "type": "GameObject",
             "static": true,
             "outdated": false,
-            "uuid": "927E4F63-4DA2-4247-B7D6-3F1F8E5E851F",
+            "uuid": "6EF2CB39-2254-4992-89DE-E08EB9322240",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "3636BED5-879E-42D1-AFB3-2F9C1264D844",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "3B93E446-29AB-4197-96A2-7E9A3E7F2192",
+                "idScripts": ["geo_project", "clickable"],
+                "conf": {
+                  "image_width": 200,
+                  "image_height": 150,
+                  "href": "https://imu.universite-lyon.fr/studios-imu/studio-imu-galeri3/",
+                  "image_icon": "./assets/img/uploaded/A7B0B640-046F-4B98-8CF1-B85E0B360AC0.jpeg"
+                },
+                "type": "LocalScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                -1273.635703081265, 1778.979537917301, 78.20083793488465
+              ],
+              "rotation": [
+                0.08934673084773079,
+                -1.3933364720120336e-17,
+                -1.639998392652012,
+                "ZXY"
+              ],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "JitsiArea parasol jaune",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "417C0C39-C52D-4310-ABA2-577F663F9ADC",
             "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
             "forceSerializeComponents": ["Collider"],
             "components": {
               "Collider": {
-                "uuid": "8C15C0C6-8A5A-499C-9824-8376ACAA05BC",
+                "uuid": "5EEDE70C-5A20-4FFD-B903-876DA832DBC4",
                 "type": "Collider",
                 "shapes": [
                   {
-                    "type": "Polygon",
-                    "points": [
-                      {
-                        "x": -5.754117392934859,
-                        "y": 2.4451592545956373,
-                        "z": -0.5166552336290238
-                      },
-                      {
-                        "x": 0.47490403475239873,
-                        "y": -1.930382656864822,
-                        "z": -0.5626458563075403
-                      },
-                      {
-                        "x": 3.844131847843528,
-                        "y": 0.5159644074738026,
-                        "z": -0.5626459482866153
-                      },
-                      {
-                        "x": 1.2961972174234688,
-                        "y": 4.561250744387507,
-                        "z": -0.5626459351460653
-                      },
-                      {
-                        "x": -1.269401834346354,
-                        "y": 4.932271150872111,
-                        "z": -0.5166552336290238
-                      }
-                    ]
-                  },
-                  {
                     "type": "Circle",
                     "center": {
-                      "x": 2.216029309667647,
-                      "y": -6.567191377282143,
-                      "z": -0.36030555847344203
+                      "x": 0.06637203204445541,
+                      "y": 0.14066184777766466,
+                      "z": 0.06657110369729935
                     },
-                    "radius": 5
+                    "radius": "1.8"
                   }
                 ],
                 "body": false
               },
               "Render": {
-                "uuid": "889FDB0E-C698-43D1-8DBC-31B939CA0375",
+                "uuid": "E5AF555A-4D73-4038-A12D-85B2F46F6365",
                 "type": "Render",
                 "idRenderData": null,
                 "color": [0, 0.5, 1]
               },
               "LocalScript": {
-                "uuid": "175B9E47-750E-4208-9495-FAC58F65510A",
+                "uuid": "5482348B-DCFF-4E00-9402-12E1E9779315",
                 "idScripts": ["local_interactions", "jitsi_area"],
                 "conf": {
+                  "jitsi_room_name": "Parasol Jaune",
                   "avatarsOnEnter": [],
                   "avatarsColliding": [],
-                  "avatarsOnLeave": [],
-                  "jitsi_room_name": "RoomTest"
+                  "avatarsOnLeave": []
                 },
                 "type": "LocalScript"
               },
               "WorldScript": {
-                "uuid": "53178765-A9B5-47BA-B1DF-B9675DCA56F2",
+                "uuid": "383F0A68-5BFA-4150-9188-94501485588A",
+                "idScripts": ["interaction_zone"],
+                "conf": {},
+                "type": "WorldScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [6.606209757737815, 8.278683129698038, 0],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "JitsiArea Parasol orange",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "7438F5ED-1108-4F7B-A846-63C2991003F4",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": ["Collider"],
+            "components": {
+              "Collider": {
+                "uuid": "949FBCFC-7213-4EB1-B4FC-3957E825B812",
+                "type": "Collider",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 0.0752445817925036,
+                      "y": -0.9179148953408003,
+                      "z": 1.7244132155448142
+                    },
+                    "radius": "2.5"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "35567E5F-66C1-41FE-A955-0BA05B0C85A6",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1]
+              },
+              "LocalScript": {
+                "uuid": "D6722B6D-E80B-433F-8CD0-FE144173568A",
+                "idScripts": ["local_interactions", "jitsi_area"],
+                "conf": {
+                  "jitsi_room_name": "Parasol orange",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "LocalScript"
+              },
+              "WorldScript": {
+                "uuid": "A2B1304F-8C06-4983-A910-C0B971BB3F83",
                 "idScripts": ["interaction_zone"],
                 "conf": {},
                 "type": "WorldScript"
@@ -3182,7 +3251,234 @@
             "children": [],
             "transform": {
               "position": [
-                -28.465675408486277, -49.69649201165885, 0.5034054924755651
+                -9.05178421200253, 7.511407577432692, -1.6644471664831144
+              ],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "JitsiArea parasol rouge",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "89FFF9FD-9527-4F32-9642-7EA4F823A86A",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": ["Collider"],
+            "components": {
+              "Collider": {
+                "uuid": "36D9981C-7C3B-4E25-BC9A-EB27BF60F55D",
+                "type": "Collider",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 0.08988043642602861,
+                      "y": -0.1870624627918005,
+                      "z": 0.05769698114892208
+                    },
+                    "radius": "2.7"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "0B2911FC-808D-4561-B96A-6B80AA695934",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1]
+              },
+              "LocalScript": {
+                "uuid": "38AB6728-3414-4E06-968C-45453C639DDD",
+                "idScripts": ["local_interactions", "jitsi_area"],
+                "conf": {
+                  "jitsi_room_name": "Parasol rouge",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "LocalScript"
+              },
+              "WorldScript": {
+                "uuid": "635D7229-F623-470F-A3A3-C2F478FB3F47",
+                "idScripts": ["interaction_zone"],
+                "conf": {},
+                "type": "WorldScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [8.773562412476167, -6.498936024494469, 0],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "JitsiArea parasol violet",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "53DFCFD2-ABF5-4F9B-B530-13524AC7666C",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": ["Collider"],
+            "components": {
+              "Collider": {
+                "uuid": "D83FABD2-B801-4B62-8531-1252F60A474B",
+                "type": "Collider",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 0.001923099858686328,
+                      "y": 0.01402589213103056,
+                      "z": 0.07648773374864959
+                    },
+                    "radius": "2.2"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "4D411ABE-08A3-4A71-89C3-0C2AD691D6B0",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1]
+              },
+              "LocalScript": {
+                "uuid": "C900CBFF-95FE-4105-8AF1-511FB74E2241",
+                "idScripts": ["local_interactions", "jitsi_area"],
+                "conf": {
+                  "jitsi_room_name": "Parasol violet",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "LocalScript"
+              },
+              "WorldScript": {
+                "uuid": "A032450E-6D7A-4379-BC11-7DC98B870375",
+                "idScripts": ["interaction_zone"],
+                "conf": {},
+                "type": "WorldScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [-6.927874164422974, -8.983854912221432, 0],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "JitsiArea amphitheatre",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "64040633-3868-4DF6-A886-B8B1414FFAE6",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": ["Collider"],
+            "components": {
+              "Collider": {
+                "uuid": "7DAD73E8-400D-4FAE-A7D1-DBF2B1F3F884",
+                "type": "Collider",
+                "shapes": [
+                  {
+                    "type": "Polygon",
+                    "points": [
+                      {
+                        "x": -11.238815797958523,
+                        "y": 11.674453540705144,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": -11.058310141786933,
+                        "y": 8.353614849969745,
+                        "z": 2.4929511057707145
+                      },
+                      {
+                        "x": -9.420981619972736,
+                        "y": 4.829059813171625,
+                        "z": 2.574949205046323
+                      },
+                      {
+                        "x": -6.387379185762256,
+                        "y": 1.1279813628643751,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": -4.245201088255271,
+                        "y": -0.2009400576353073,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": -1.3333726285491139,
+                        "y": -1.053894879296422,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 2.845774671761319,
+                        "y": -1.07586351595819,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 6.927839296404272,
+                        "y": 0.43252596631646156,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 10.544387216679752,
+                        "y": 3.6945536499843,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 12.362755647161976,
+                        "y": 7.419243338517845,
+                        "z": 2.3741164613027195
+                      },
+                      {
+                        "x": -10.975984474178404,
+                        "y": 13.533617644570768,
+                        "z": 2.3486256466181317
+                      }
+                    ]
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "7AEE124B-CEDA-4CA8-9C41-306D318C0ADC",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1]
+              },
+              "LocalScript": {
+                "uuid": "74545F8B-759E-496C-BB42-F4BA1C8634D8",
+                "idScripts": ["local_interactions", "jitsi_area"],
+                "conf": {
+                  "jitsi_room_name": "Amphithéâtre IMUV",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "LocalScript"
+              },
+              "WorldScript": {
+                "uuid": "9293B0AB-15F0-4D79-9DB5-245C608A7215",
+                "idScripts": ["interaction_zone"],
+                "conf": {},
+                "type": "WorldScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                -5.213301999494433, 63.314065707847476, -14.630947611784336
               ],
               "rotation": [0, 0, 0, "ZXY"],
               "scale": [1, 1, 1]
@@ -3211,7 +3507,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 15 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {

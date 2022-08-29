@@ -6,6 +6,7 @@
     "outdated": false,
     "uuid": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
     "parentUUID": null,
+    "forceSerializeComponents": [],
     "components": {
       "WorldScript": {
         "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
@@ -22,8 +23,8 @@
       },
       "LocalScript": {
         "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-        "idScripts": ["avatar_controller", "camera", "static_object", "jitsi"],
-        "conf": { "jitsi_room_name": "D0A37339-58CB-4099-B848-43DC8D746B03" },
+        "idScripts": ["avatar_controller", "camera", "static_object"],
+        "conf": {},
         "type": "LocalScript"
       }
     },
@@ -35,6 +36,7 @@
         "outdated": false,
         "uuid": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
         "parentUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
+        "forceSerializeComponents": [],
         "components": {
           "Render": {
             "uuid": "AE767B21-FFE1-483C-A4F4-EE4F4BD70FD5",
@@ -292,6 +294,7 @@
             "outdated": false,
             "uuid": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "540A28B2-4AEE-425B-85B1-934BF95DD2ED",
@@ -358,6 +361,7 @@
             "outdated": false,
             "uuid": "EA6303DB-3F27-4152-AC42-FCFF3429CE37",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "3A615855-9115-4DAA-91E9-3656B6AB6527",
@@ -407,6 +411,7 @@
             "outdated": false,
             "uuid": "A3414589-3105-4095-93BE-66555A3014BB",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "79030A47-3230-48E5-B613-451916323EF7",
@@ -454,6 +459,7 @@
             "outdated": false,
             "uuid": "C6DFC197-3C19-47B2-A434-EB57763CA1DE",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "00A8D589-4136-4977-82B2-2E9F7AC5D155",
@@ -501,6 +507,7 @@
             "outdated": false,
             "uuid": "7A64ED51-FEFC-4404-A353-5AC782A7A643",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "D410B63A-9F98-4536-B0CC-1E34B53CCB59",
@@ -548,6 +555,7 @@
             "outdated": false,
             "uuid": "E90FCFB4-FEDD-4EB7-8B7F-27A6B8666B4D",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "38B1F877-4178-4F1A-AF9A-3A7AA0C82430",
@@ -595,6 +603,7 @@
             "outdated": false,
             "uuid": "BCB2714E-5FBE-4EE5-AC7C-979D62F720C9",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "764A1C6F-2F01-4C31-8829-7ADA1F8E9EFB",
@@ -642,6 +651,7 @@
             "outdated": false,
             "uuid": "B102A817-A891-4385-BA37-D56F4116A7CB",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "7FD59E1B-E61B-4B23-885F-B69C0BB6DDB9",
@@ -689,6 +699,7 @@
             "outdated": false,
             "uuid": "E5FAAECE-FFF0-43BB-9784-A63E1B8479F7",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "00DC69F3-64B7-45B6-83B2-0A47A68CC5A2",
@@ -736,6 +747,7 @@
             "outdated": false,
             "uuid": "5EAC9D00-7965-49FC-BDCF-FD621CAE2490",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "816498B3-433B-4581-8DC5-4495B29EE84D",
@@ -779,6 +791,7 @@
             "outdated": false,
             "uuid": "5E3BBA5F-8361-4ADE-8082-51C149A18DBB",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "E31DC288-3562-4C29-BFF6-E29E8B37A472",
@@ -826,6 +839,7 @@
             "outdated": false,
             "uuid": "1D3C9DB1-FE7E-4432-89A8-A8C6B14D002C",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "C5CA8789-6DF2-4493-9E6F-67B53B9FC3BB",
@@ -873,6 +887,7 @@
             "outdated": false,
             "uuid": "D1AC2F91-907F-4996-AA42-79725BAC05CA",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "8D9802FF-D8EF-47D9-95F0-3F6C4D46CE92",
@@ -920,6 +935,7 @@
             "outdated": false,
             "uuid": "D8746E7B-69E9-44BF-AF1A-DBBC2F8FD094",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "D43760C2-B2FA-450F-A76C-C0D93D3F5E49",
@@ -967,6 +983,7 @@
             "outdated": false,
             "uuid": "FD0591AA-FB07-4C5A-833E-5DB2FF8D7317",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "51AEC18D-5421-4130-8DCB-3E5BA15355BA",
@@ -1014,6 +1031,7 @@
             "outdated": false,
             "uuid": "933483AF-0F6B-48DB-A6B5-27E751A76B95",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "A735A9A1-89F8-4E70-B42E-0DEBD75605F7",
@@ -1061,6 +1079,7 @@
             "outdated": false,
             "uuid": "32A04124-AF70-4F99-8389-517CAFC55A32",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "618DFF2F-F909-46E1-9BDC-53E345B92CA1",
@@ -1108,6 +1127,7 @@
             "outdated": false,
             "uuid": "FACBD92D-6B37-41E8-802D-3B457299B243",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "3212901A-79D0-4F65-B157-67C6B5DA90F8",
@@ -1155,6 +1175,7 @@
             "outdated": false,
             "uuid": "4B052D44-031F-4710-83EE-0576E27D7797",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "A4A32233-22BF-4235-AF9B-22BE6D3838BC",
@@ -1202,6 +1223,7 @@
             "outdated": false,
             "uuid": "C5A09EAF-8ECA-4721-96DD-0365CFDAD023",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "08BE9C42-222A-4D70-AC95-7DE43304728E",
@@ -1249,6 +1271,7 @@
             "outdated": false,
             "uuid": "EA0D6E46-B94E-4961-AA0E-4612D9CEC91F",
             "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "450A652F-4D76-4616-A52D-35CAD15D8734",
@@ -1301,11 +1324,12 @@
         "outdated": true,
         "uuid": "F22A0B50-E633-464C-B2B4-A665986EEE65",
         "parentUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
+        "forceSerializeComponents": [],
         "components": {
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 27 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -1337,5 +1361,5 @@
   "origin": null,
   "type": "World",
   "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-  "version": "2.37.6"
+  "version": "2.38.1"
 }

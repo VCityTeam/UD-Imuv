@@ -6,6 +6,7 @@
     "outdated": false,
     "uuid": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
     "parentUUID": null,
+    "forceSerializeComponents": [],
     "components": {
       "WorldScript": {
         "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
@@ -28,10 +29,9 @@
           "avatar_controller",
           "camera",
           "place_post_it",
-          "static_object",
-          "jitsi"
+          "static_object"
         ],
-        "conf": { "jitsi_room_name": "FE65D04C-B79E-4D5E-B3E3-14E88CD58A70" },
+        "conf": {},
         "type": "LocalScript"
       }
     },
@@ -43,6 +43,7 @@
         "outdated": false,
         "uuid": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
         "parentUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
+        "forceSerializeComponents": [],
         "components": {
           "Render": {
             "uuid": "6F76A145-2DA7-43BA-BBD7-AF024BCC0F9E",
@@ -200,6 +201,7 @@
             "outdated": false,
             "uuid": "3266ECA0-571E-45A7-B63D-44BC303FE783",
             "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "D9804A53-E721-4823-8C33-E896F16D0B4D",
@@ -275,11 +277,12 @@
         "outdated": true,
         "uuid": "0CC069A2-AA64-42A9-9E81-7FA4444C862F",
         "parentUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
+        "forceSerializeComponents": [],
         "components": {
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 32 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -311,5 +314,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-  "version": "2.37.6"
+  "version": "2.38.1"
 }
