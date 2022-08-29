@@ -6,6 +6,7 @@
     "outdated": false,
     "uuid": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
     "parentUUID": null,
+    "forceSerializeComponents": [],
     "components": {
       "WorldScript": {
         "uuid": "4EEA3596-90B5-48B5-94FC-6E49EA5E2689",
@@ -35,6 +36,7 @@
         "outdated": false,
         "uuid": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
         "parentUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+        "forceSerializeComponents": [],
         "components": {
           "Render": {
             "uuid": "AA121FEF-68ED-4401-9759-C745AC32CE12",
@@ -217,6 +219,7 @@
             "outdated": false,
             "uuid": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "F88A0BC8-4CED-4565-BAA0-6AD08D42E0F2",
@@ -283,6 +286,7 @@
             "outdated": false,
             "uuid": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "EFC4BFEE-FBF4-4514-9E30-42B5DF6F8A4E",
@@ -353,6 +357,7 @@
             "outdated": false,
             "uuid": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+            "forceSerializeComponents": [],
             "components": {
               "Render": {
                 "uuid": "2E003489-9A20-48E0-A0CF-D7D9C4B92FDB",
@@ -419,13 +424,12 @@
             "outdated": false,
             "uuid": "2D4636F4-6D2E-4354-9B8D-6B4D497FC4BC",
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+            "forceSerializeComponents": [],
             "components": {
               "LocalScript": {
                 "uuid": "690A9688-1A2E-4FF0-9280-93116DD682D6",
                 "idScripts": ["jitsi_screen"],
-                "conf": {
-                  "jitsi_room_name": "214EF948-C7A7-482B-B98F-06BE0984C390"
-                },
+                "conf": { "jitsi_room_name": "Salle de conférence IMUV" },
                 "type": "LocalScript"
               }
             },
@@ -454,11 +458,12 @@
         "outdated": true,
         "uuid": "51072C32-C638-4304-B513-D8ED4FAA60C1",
         "parentUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+        "forceSerializeComponents": [],
         "components": {
           "LocalScript": {
             "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 28 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -490,5 +495,5 @@
   "origin": null,
   "type": "World",
   "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-  "version": "2.37.6"
+  "version": "2.38.1"
 }

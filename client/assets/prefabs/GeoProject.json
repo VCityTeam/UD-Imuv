@@ -6,7 +6,7 @@
     "Render": {
       "type": "Render",
       "idRenderData": null,
-      "color": [1, 0, 0]
+      "color": [1, 1, 1]
     },
     "LocalScript": {
       "idScripts": ["geo_project", "clickable"],
