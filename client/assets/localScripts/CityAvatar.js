@@ -22,18 +22,6 @@ module.exports = class CityAvatar {
     this.labelInfo.innerHTML = "Appuyez sur E pour revenir sur l'île";
   }
 
-  onResize() {
-    const localContext = arguments[1];
-    const gameView = localContext.getGameView();
-    this.updateLabelPosition(gameView.getSize());
-  }
-
-  updateLabelPosition(size) {
-    this.labelInfo.style.top = size.y * 0.1 + 'px';
-    const minWidth = 210; /*hardcode from css*/
-    this.labelInfo.style.left = size.x * 0.5 - minWidth * 0.5 + 'px';
-  }
-
   init() {
     this.go = arguments[0];
     const localCtx = arguments[1];
@@ -90,7 +78,6 @@ module.exports = class CityAvatar {
         function () {
           _this.setCityAvatarController(true, localCtx);
           localCtx.getGameView().appendToUI(_this.labelInfo);
-          _this.updateLabelPosition(localCtx.getGameView().getSize());
         }
       )
     );
