@@ -49,6 +49,7 @@ module.exports = class MiniMap {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
     const userID = gameView.getUserData('userID');
+    console.log('init mini map');
 
     const manager = gameView.getInputManager();
     const Command = udviz.Game.Command;
@@ -79,12 +80,12 @@ module.exports = class MiniMap {
 
     manager.addMouseCommand('click', function () {
       const event = this.event('click');
-      const id = event.path.indexOf(ui);
-      if (id < 0) return null;
+
+      if (event.target != ui) return null;
       const x = event.pageX;
       const y = event.pageY;
 
-      const rect = event.path[id].getBoundingClientRect();
+      const rect = event.target.getBoundingClientRect();
       const ratioX = (x - rect.left) / (rect.right - rect.left);
       const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
 
