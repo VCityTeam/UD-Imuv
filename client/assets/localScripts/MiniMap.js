@@ -150,7 +150,7 @@ module.exports = class MiniMap {
 
     if (newGO.isStatic()) {
       const scene = new udviz.THREE.Scene();
-      const utils = udviz.Game.Components.THREEUtils;
+      const utils = udviz.Components.THREEUtils;
       utils.addLights(scene);
 
       newGO.computeRoot().traverse(function (g) {
