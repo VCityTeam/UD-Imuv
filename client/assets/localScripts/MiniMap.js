@@ -49,7 +49,6 @@ module.exports = class MiniMap {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
     const userID = gameView.getUserData('userID');
-    console.log('init mini map');
 
     const manager = gameView.getInputManager();
     const Command = udviz.Game.Command;
