@@ -55,7 +55,7 @@ export class LocalScriptGeoProjectUI {
     imageInput.onchange = function (e) {
       File.readSingleFileAsDataUrl(e, function (data) {
         const url = data.target.result;
-        lsComp.conf.image_icon = url;
+        lsComp.conf.image_icon_path = url;
         go.setOutdated(true);
         gV.forceUpdate();
       });

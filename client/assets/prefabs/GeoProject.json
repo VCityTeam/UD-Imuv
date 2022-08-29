@@ -14,7 +14,7 @@
         "image_width": 50,
         "image_height": 30,
         "href": "default",
-        "image_icon": "./assets/img/labex_imu.jpeg"
+        "image_icon_path": "./assets/img/labex_imu.jpeg"
       },
       "type": "LocalScript"
     }

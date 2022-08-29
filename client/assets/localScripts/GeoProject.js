@@ -24,7 +24,7 @@ module.exports = class GeoProject {
       this.imagePlane.parent.remove(this.imagePlane);
     }
 
-    //create image conf.image_icon on a quad above the pin
+    //create image conf.image_icon_path on a quad above the pin
     const onLoad = function (texture) {
       const material = new udviz.THREE.MeshBasicMaterial({
         map: texture,
@@ -42,7 +42,7 @@ module.exports = class GeoProject {
     };
 
     new udviz.THREE.TextureLoader().load(
-      this.conf.image_icon,
+      this.conf.image_icon_path,
       onLoad.bind(this)
     );
   }
