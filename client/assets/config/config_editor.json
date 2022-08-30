@@ -212,6 +212,9 @@
       },
       "interaction_zone": {
         "path": "./assets/worldScripts/InteractionZone.js"
+      },
+      "city_avatar_not_allow_area": {
+        "path": "./assets/worldScripts/CityAvatarNotAllowArea.js"
       }
     },
     "prefabs": {
@@ -253,6 +256,9 @@
       },
       "jitsi_area": {
         "path": "./assets/prefabs/JitsiArea.json"
+      },
+      "city_avatar_not_allow_area": {
+        "path": "./assets/prefabs/CityAvatarNotAllowArea.json"
       }
     },
     "worlds": {

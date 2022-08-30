@@ -1,0 +1,23 @@
+{
+  "name": "CityAvatarNotAllowArea",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Collider": {
+      "type": "Collider",
+      "shapes": [],
+      "body": false
+    },
+    "WorldScript": {
+      "idScripts": ["city_avatar_not_allow_area"],
+      "conf": {},
+      "type": "WorldScript"
+    }
+  },
+  "children": [],
+  "transform": {
+    "position": [0, 0, 0],
+    "rotation": [0, 0, 0, "ZXY"],
+    "scale": [1, 1, 1]
+  }
+}
