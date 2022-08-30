@@ -26,6 +26,8 @@ module.exports = class Avatar {
 
     //city avatar go
     this.cityAvatar = null;
+
+    this.canJump = true;
   }
 
   init() {
@@ -119,6 +121,8 @@ module.exports = class Avatar {
       if (cmds.length) {
         const cmd = cmds[0];
 
+        const oldPosition = gameObject.getPosition().clone();
+
         switch (cmd.getType()) {
           case Command.TYPE.MOVE_FORWARD_START:
             gameObject.move(
@@ -173,7 +177,11 @@ module.exports = class Avatar {
         elevationComputed = true;
 
         if (isOut) {
-          this.createCityAvatar(worldContext);
+          if (scriptMap.cityAvatarAllow() && this.canJump) {
+            this.createCityAvatar(worldContext);
+          } else {
+            gameObject.setPosition(oldPosition);
+          }
         }
       }
     }
@@ -288,6 +296,13 @@ module.exports = class Avatar {
       teleporterScript.onAvatar(go);
     }
 
+    //check if is city_avatar_not_allow_area
+    const cityAvatarNotAllowAreaScript =
+      colliderGO.fetchWorldScripts()['city_avatar_not_allow_area'];
+    if (cityAvatarNotAllowAreaScript) {
+      this.canJump = false;
+    }
+
     this.collide(collider, go, result);
   }
 
@@ -311,6 +326,13 @@ module.exports = class Avatar {
       interactionZone.onAvatarColliding(go);
     }
 
+    //check if is city_avatar_not_allow_area
+    const cityAvatarNotAllowAreaScript =
+      colliderGO.fetchWorldScripts()['city_avatar_not_allow_area'];
+    if (cityAvatarNotAllowAreaScript) {
+      this.canJump = false;
+    }
+
     this.collide(collider, go, result);
   }
 
@@ -329,6 +351,13 @@ module.exports = class Avatar {
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
       interactionZone.onAvatarLeave(go);
+    }
+
+    //check if is city_avatar_not_allow_area
+    const cityAvatarNotAllowAreaScript =
+      colliderGO.fetchWorldScripts()['city_avatar_not_allow_area'];
+    if (cityAvatarNotAllowAreaScript) {
+      this.canJump = true;
     }
   }
 };

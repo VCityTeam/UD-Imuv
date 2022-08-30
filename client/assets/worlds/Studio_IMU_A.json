@@ -56,7 +56,8 @@
             "idScripts": ["map"],
             "conf": {
               "heightmap_path": "./assets/img/uploaded/E8A20418-D832-41CE-A39A-E9E4E4E9A4D8.jpeg",
-              "heightmap_geometry": { "max": 4, "min": -1, "size": 19 }
+              "heightmap_geometry": { "max": 4, "min": -1, "size": 19 },
+              "cityAvatarAllow": false
             },
             "type": "WorldScript"
           },
@@ -536,7 +537,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 15 },
             "type": "LocalScript"
           },
           "WorldScript": {

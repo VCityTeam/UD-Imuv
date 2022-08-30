@@ -168,6 +168,10 @@ module.exports = class Map {
     return getPixelHeight(indexMin.i, indexMin.j, 1);
   }
 
+  cityAvatarAllow() {
+    return this.conf.cityAvatarAllow;
+  }
+
   updateElevation(gameObject) {
     let elevation = this.getHeightValue(
       gameObject.getPosition().x,

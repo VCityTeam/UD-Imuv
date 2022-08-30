@@ -27,6 +27,9 @@
       },
       "interaction_zone": {
         "path": "../client/assets/worldScripts/InteractionZone.js"
+      },
+      "city_avatar_not_allow_area": {
+        "path": "../client/assets/worldScripts/CityAvatarNotAllowArea.js"
       }
     },
     "prefabs": {
