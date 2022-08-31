@@ -56,7 +56,7 @@ class AbstractShape {
     if (this.mesh) {
       this.mesh.material = this.matMesh;
     }
-    this.points.forEach(function (p) {
+    this.points.forEach(function(p) {
       p.material.color.set(_this.colPointDefault);
     });
   }
@@ -67,7 +67,7 @@ class AbstractShape {
     if (this.mesh) {
       this.mesh.material = this.matMesh;
     }
-    this.points.forEach(function (p) {
+    this.points.forEach(function(p) {
       if (objectSelected == p) {
         p.material.color.set(_this.colPointSelected);
       } else {
@@ -106,7 +106,7 @@ export class PolygonShape extends AbstractShape {
     if (points.length < 4) return;
 
     const vertices = [];
-    points.forEach((element) => {
+    points.forEach(element => {
       vertices.push(element.position);
     });
 
@@ -139,7 +139,7 @@ export class PolygonShape extends AbstractShape {
 
   adjustPoints() {
     const _this = this;
-    this.points.forEach((point) => {
+    this.points.forEach(point => {
       const newPosition = point.position
         .clone()
         .add(
@@ -154,11 +154,11 @@ export class PolygonShape extends AbstractShape {
   toJSON(posOffset) {
     const result = [];
 
-    this.points.forEach(function (p) {
+    this.points.forEach(function(p) {
       result.push(p.position.clone().sub(posOffset));
     });
 
-    let hull = QuickHull(result);
+    const hull = QuickHull(result);
     hull.pop();
 
     const shape = {};
@@ -178,7 +178,7 @@ export class CircleShape extends AbstractShape {
 
   addPoint(point) {
     const _this = this;
-    this.points.forEach(function (p) {
+    this.points.forEach(function(p) {
       _this.removePoint(p);
     });
     super.addPoint(point);

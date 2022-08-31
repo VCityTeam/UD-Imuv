@@ -23,7 +23,7 @@ const WorldDispatcherModule = class WorldDispatcher {
   }
 
   fetchUserInWorldWithUUID(uuid) {
-    for (let key in this.worldToThread) {
+    for (const key in this.worldToThread) {
       const thread = this.worldToThread[key];
       const user = thread.getUsers()[uuid];
       if (user) return user;
@@ -32,10 +32,10 @@ const WorldDispatcherModule = class WorldDispatcher {
   }
 
   fetchUserWithAvatarUUID(avatarUUID) {
-    for (let key in this.worldToThread) {
+    for (const key in this.worldToThread) {
       const thread = this.worldToThread[key];
       const users = thread.getUsers();
-      for (let userUUID in users) {
+      for (const userUUID in users) {
         const uuid = users[userUUID].getAvatarUUID();
         if (avatarUUID == uuid) return users[userUUID];
       }
@@ -57,7 +57,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     const _this = this;
 
     //clean
-    for (let key in _this.worldToThread) {
+    for (const key in _this.worldToThread) {
       const thread = _this.worldToThread[key];
       thread.stop();
       delete _this.worldToThread[key];
@@ -69,14 +69,14 @@ const WorldDispatcherModule = class WorldDispatcher {
 
     const worldsJSON = [];
 
-    for (let uuid in indexWorldsJSON) {
+    for (const uuid in indexWorldsJSON) {
       const path = _this.config.worldsFolder + indexWorldsJSON[uuid];
       worldsJSON.push(JSON.parse(fs.readFileSync(path)));
     }
 
     _this.worldsJSON = worldsJSON;
 
-    worldsJSON.forEach(function (worldJSON) {
+    worldsJSON.forEach(function(worldJSON) {
       //create a worldThread
       const thread = new WorldThread(_this.config.worldThread.script);
 
@@ -89,15 +89,15 @@ const WorldDispatcherModule = class WorldDispatcher {
       //callbacks
 
       //worldstate notification
-      thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function (worldstateJSON) {
+      thread.on(WorldThread.MSG_TYPES.WORLDSTATE, function(worldstateJSON) {
         const users = thread.getUsers();
-        for (let key in users) {
+        for (const key in users) {
           users[key].sendWorldState(worldstateJSON);
         }
       });
 
       //avatar portal
-      thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
+      thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function(data) {
         _this.placeAvatarInWorld(
           data.avatarUUID,
           data.worldUUID,
@@ -153,7 +153,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     thread.addUser(user);
     thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
       gameObject: user.getAvatarJSON(),
-      portalUUID: portalUUID,
+      portalUUID: portalUUID
     });
 
     const socket = user.getSocket();
@@ -171,48 +171,46 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
 
     //create BBB rooms
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM,
-      function (params) {
-        const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
+    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM, function(
+      params
+    ) {
+      const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
 
-        if (!_this.bbbWrapper.hasBBBApi()) {
-          socket.emit(
-            ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-            'no bbb api'
-          );
-          return;
-        }
-
-        _this.bbbWrapper
-          .createBBBRoom(worldUUID, worldJSON.name)
-          .then(function (value) {
-            //write dynamically bbb urls in localscript conf
-            thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, {
-              goUUID: params.goUUID,
-              componentUUID: params.componentUUID,
-              key: BBB_ROOM_TAG,
-              value: value,
-            });
-            console.log(worldJSON.name, ' create bbb room');
-          });
+      if (!_this.bbbWrapper.hasBBBApi()) {
+        socket.emit(
+          ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
+          'no bbb api'
+        );
+        return;
       }
-    );
+
+      _this.bbbWrapper
+        .createBBBRoom(worldUUID, worldJSON.name)
+        .then(function(value) {
+          //write dynamically bbb urls in localscript conf
+          thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, {
+            goUUID: params.goUUID,
+            componentUUID: params.componentUUID,
+            key: BBB_ROOM_TAG,
+            value: value
+          });
+          console.log(worldJSON.name, ' create bbb room');
+        });
+    });
 
     //client can edit conf component
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
-      function (params) {
-        thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, params);
-      }
-    );
+    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, function(
+      params
+    ) {
+      thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, params);
+    });
 
     //cmds are now sent to the new thread
-    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
+    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, function(cmdsJSON) {
       const commands = [];
 
       //parse
-      cmdsJSON.forEach(function (cmdJSON) {
+      cmdsJSON.forEach(function(cmdJSON) {
         const command = new Game.Command(cmdJSON);
 
         if (command.getUserID() == user.getUUID()) {
@@ -225,29 +223,27 @@ const WorldDispatcherModule = class WorldDispatcher {
     });
 
     //save settings
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS,
-      function (settingsJSON) {
-        //write user
-        user.setSettingsJSON(settingsJSON);
+    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS, function(
+      settingsJSON
+    ) {
+      //write user
+      user.setSettingsJSON(settingsJSON);
 
-        //if role is not guest save in database
-        const parseUser = user.getParseUser();
-        if (!parseUser) return; //not a user registered
-        parseUser.set('settings', JSON.stringify(settingsJSON));
-        parseUser.save(null, { useMasterKey: true });
-      }
-    );
+      //if role is not guest save in database
+      const parseUser = user.getParseUser();
+      if (!parseUser) return; //not a user registered
+      parseUser.set('settings', JSON.stringify(settingsJSON));
+      parseUser.save(null, { useMasterKey: true });
+    });
 
     //add go
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
-      function (goJSON) {
-        thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
-          gameObject: goJSON,
-        });
-      }
-    );
+    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, function(
+      goJSON
+    ) {
+      thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+        gameObject: goJSON
+      });
+    });
   }
 };
 

@@ -18,7 +18,7 @@ export class LocalScriptJitsiAreaUI {
     content.appendChild(input);
 
     //init callback
-    input.onchange = function () {
+    input.onchange = function() {
       lsComp.conf.jitsi_room_name = this.value;
     };
   }

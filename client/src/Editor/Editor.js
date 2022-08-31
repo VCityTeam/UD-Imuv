@@ -96,16 +96,16 @@ export class EditorView {
   initCallbacks() {
     const _this = this;
 
-    this.saveWorldsButton.onclick = function () {
+    this.saveWorldsButton.onclick = function() {
       _this.saveCurrentWorld();
 
-      let worldsJSON = _this.assetsManager.getWorldsJSON();
+      const worldsJSON = _this.assetsManager.getWorldsJSON();
 
       console.log('send data server ', worldsJSON);
 
       const messageSplitted = Pack.splitMessage(worldsJSON);
       // console.log(messageSplitted);
-      messageSplitted.forEach(function (pM) {
+      messageSplitted.forEach(function(pM) {
         _this.webSocketService.emit(
           ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
           pM
@@ -113,7 +113,7 @@ export class EditorView {
       });
     };
 
-    this.playCurrentWorldButton.onclick = function () {
+    this.playCurrentWorldButton.onclick = function() {
       if (!_this.currentWorldView) return;
       _this.saveCurrentWorld();
 
@@ -124,7 +124,7 @@ export class EditorView {
         .getWorld()
         .getUUID();
       let wJson = null;
-      _this.assetsManager.getWorldsJSON().forEach(function (json) {
+      _this.assetsManager.getWorldsJSON().forEach(function(json) {
         if (json.uuid == worldUUID) wJson = json;
       });
 
@@ -139,15 +139,15 @@ export class EditorView {
         assetsManager: _this.assetsManager,
         config: _this.config,
         worldJSON: wJson,
-        parentGameViewHtml: _this.rootHtml,
+        parentGameViewHtml: _this.rootHtml
       });
 
-      _this.currentPlayWorldView.setOnClose(function () {
+      _this.currentPlayWorldView.setOnClose(function() {
         _this.currentPlayWorldView.dispose();
       });
     };
 
-    this.refreshButton.onclick = function () {
+    this.refreshButton.onclick = function() {
       if (!_this.currentWorldView) return;
       _this.saveCurrentWorld();
       _this.onWorldJSON(_this.currentWorldUUID);
@@ -184,7 +184,7 @@ export class EditorView {
       list.removeChild(list.firstChild);
     }
     const _this = this;
-    worldsJSON.forEach(function (w) {
+    worldsJSON.forEach(function(w) {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
       li.innerHTML = w.name;
@@ -196,7 +196,7 @@ export class EditorView {
   onWorldJSON(uuid) {
     this.closeCurrentView();
     let worldJSON = null;
-    this.assetsManager.getWorldsJSON().forEach(function (w) {
+    this.assetsManager.getWorldsJSON().forEach(function(w) {
       if (w.uuid == uuid) {
         worldJSON = w;
         return;
@@ -209,11 +209,11 @@ export class EditorView {
       parentGameViewHtml: this.rootHtml,
       assetsManager: this.assetsManager,
       userData: { firstGameView: false },
-      config: this.config,
+      config: this.config
     });
 
     const _this = this;
-    this.currentWorldView.setOnClose(function () {
+    this.currentWorldView.setOnClose(function() {
       _this.currentWorldView.dispose();
     });
 
@@ -226,7 +226,7 @@ export class EditorView {
       try {
         _this.assetsManager
           .loadFromConfig(_this.config.assetsManager, document.body)
-          .then(function () {
+          .then(function() {
             _this.initUI();
             _this.initCallbacks();
             _this.updateUI();

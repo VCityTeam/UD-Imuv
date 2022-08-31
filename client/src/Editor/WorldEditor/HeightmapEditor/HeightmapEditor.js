@@ -39,7 +39,7 @@ export class HeightmapEditorView {
 
     //renderer heightmap
     this.rendererHeightmap = new THREE.WebGLRenderer({
-      canvas: this.canvasPreview,
+      canvas: this.canvasPreview
     });
     //camera heightmap
     this.cameraHeightmap = new THREE.OrthographicCamera(
@@ -54,7 +54,7 @@ export class HeightmapEditorView {
     this.heightmapMaterial = new THREE.ShaderMaterial({
       uniforms: {
         min: { value: null },
-        max: { value: null },
+        max: { value: null }
       },
 
       vertexShader: [
@@ -66,7 +66,7 @@ export class HeightmapEditorView {
 
         '	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
 
-        '}',
+        '}'
       ].join('\n'),
 
       fragmentShader: [
@@ -80,8 +80,8 @@ export class HeightmapEditorView {
         '	heightValue = clamp(heightValue, 0.0, 1.0);',
         '	gl_FragColor = vec4( vec3(heightValue) , 1 );',
 
-        '}',
-      ].join('\n'),
+        '}'
+      ].join('\n')
     });
 
     this.initUI();
@@ -104,7 +104,7 @@ export class HeightmapEditorView {
     );
     const matPlan = new THREE.MeshBasicMaterial({
       side: THREE.DoubleSide,
-      color: 0x00000,
+      color: 0x00000
     });
 
     this.planeTop = new THREE.Mesh(planGeometry, matPlan);
@@ -161,7 +161,7 @@ export class HeightmapEditorView {
   applyHeightmapVisibility(value) {
     //remove visibility with tag
     const obj = this.gameView.getObject3D();
-    obj.traverse(function (child) {
+    obj.traverse(function(child) {
       if (!value) {
         child.visible = true;
         return;
@@ -245,7 +245,7 @@ export class HeightmapEditorView {
   initCallbacks() {
     const _this = this;
 
-    this.bindButton.onclick = function () {
+    this.bindButton.onclick = function() {
       _this.renderHeightmap(); //useless since model update launch render but robust
       const url = _this.canvasPreview.toDataURL('image/png');
 
@@ -258,21 +258,21 @@ export class HeightmapEditorView {
       mapScript.conf.heightmap_geometry = {
         max: parseInt(_this.topPlaneAlt),
         min: parseInt(_this.bottomPlaneAlt),
-        size: parseInt(_this.planeSize),
+        size: parseInt(_this.planeSize)
       };
     };
 
-    this.bottomInput.onchange = function () {
+    this.bottomInput.onchange = function() {
       _this.bottomPlaneAlt = this.value;
       _this.updateModel();
     };
 
-    this.topInput.onchange = function () {
+    this.topInput.onchange = function() {
       _this.topPlaneAlt = this.value;
       _this.updateModel();
     };
 
-    this.sizeInput.onchange = function () {
+    this.sizeInput.onchange = function() {
       _this.planeSize = this.value;
       _this.updateModel();
     };

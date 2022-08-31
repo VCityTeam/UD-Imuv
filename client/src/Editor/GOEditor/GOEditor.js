@@ -40,7 +40,7 @@ export class GOEditorView {
   initPointerUpCallback() {
     const gV = this.gameView;
 
-    const cbPointerUp = function (event) {
+    const cbPointerUp = function(event) {
       if (gV.hasBeenRotated()) return;
       const go = this.goSelected;
       let o = go ? this.computeObject3D(go.getUUID()) : null;
@@ -67,7 +67,10 @@ export class GOEditorView {
 
     if (!object) return;
 
-    const world = this.gameView.getInterpolator().getWorldContext().getWorld();
+    const world = this.gameView
+      .getInterpolator()
+      .getWorldContext()
+      .getWorld();
     const worldGo = world.getGameObject();
     const uuid = object.userData.gameObjectUUID;
     this.goSelected = worldGo.find(uuid);
@@ -126,10 +129,13 @@ export class GOEditorView {
       list.removeChild(list.firstChild);
     }
 
-    const world = this.gameView.getInterpolator().getWorldContext().getWorld();
+    const world = this.gameView
+      .getInterpolator()
+      .getWorldContext()
+      .getWorld();
     const go = world.getGameObject();
     const _this = this;
-    go.traverse(function (child) {
+    go.traverse(function(child) {
       const li = document.createElement('li');
       li.classList.add('li_Editor');
       list.appendChild(li);
@@ -168,8 +174,11 @@ export class GOEditorView {
   initUI() {
     const labelCurrentWorld = document.createElement('h2');
     labelCurrentWorld.innerHTML =
-      this.gameView.getInterpolator().getWorldContext().getWorld().getName() +
-      ' :';
+      this.gameView
+        .getInterpolator()
+        .getWorldContext()
+        .getWorld()
+        .getName() + ' :';
     this.ui.appendChild(labelCurrentWorld);
     this.labelCurrentWorld = labelCurrentWorld;
 

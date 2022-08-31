@@ -13,17 +13,16 @@ window.__DEBUG__ = process.env.NODE_ENV === 'development' ? true : false;
 const webSocketService = new WebSocketService();
 webSocketService.connectToServer();
 
-webSocketService.on(
-  ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-  function (message) {
-    alert(message);
-  }
-);
+webSocketService.on(ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT, function(
+  message
+) {
+  alert(message);
+});
 
 const reception = new ReceptionView(webSocketService);
 document.body.appendChild(reception.html());
 
-SystemUtils.File.loadJSON('./commit_info.json').then((commitJson) => {
+SystemUtils.File.loadJSON('./commit_info.json').then(commitJson => {
   const commitInfo = new CommitInfo(commitJson);
   document.body.appendChild(commitInfo.html());
 });

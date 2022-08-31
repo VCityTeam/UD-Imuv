@@ -9,7 +9,7 @@ export class LocalScriptSignageDisplayerUI {
 
     const projectsUl = document.createElement('ul');
     content.appendChild(projectsUl);
-    const projectHtml = function (project) {
+    const projectHtml = function(project) {
       const projectLi = document.createElement('li');
       projectLi.innerHTML =
         project.title + ' ' + project.url + ' ' + project.position;
@@ -17,7 +17,7 @@ export class LocalScriptSignageDisplayerUI {
       const modifyButton = document.createElement('button');
       modifyButton.innerHTML = 'Modify';
 
-      modifyButton.onclick = function () {
+      modifyButton.onclick = function() {
         modal = createModalDiv({
           title: project.title,
           url: project.url,
@@ -26,7 +26,7 @@ export class LocalScriptSignageDisplayerUI {
             project.position[1],
             project.position[2]
           ),
-          uuid: project.uuid,
+          uuid: project.uuid
         });
 
         content.appendChild(modal);
@@ -37,7 +37,7 @@ export class LocalScriptSignageDisplayerUI {
       const deleteButton = document.createElement('button');
       deleteButton.innerHTML = 'Delete';
 
-      deleteButton.onclick = function () {
+      deleteButton.onclick = function() {
         const projects = goui.go.components.LocalScript.conf.projects;
         for (let i = 0; i < projects.length; i++) {
           const p = projects[i];
@@ -51,17 +51,17 @@ export class LocalScriptSignageDisplayerUI {
       projectLi.appendChild(deleteButton);
       return projectLi;
     };
-    const fillProjectsUl = function () {
+    const fillProjectsUl = function() {
       projectsUl.innerHTML = '';
       const projects = goui.go.components.LocalScript.conf.projects;
-      projects.forEach(function (p) {
+      projects.forEach(function(p) {
         projectsUl.appendChild(projectHtml(p));
       });
     };
     fillProjectsUl();
 
     let modal = null;
-    const createModalDiv = function (params = {}) {
+    const createModalDiv = function(params = {}) {
       modal = document.createElement('div');
       modal.classList.add('modal');
 
@@ -102,7 +102,7 @@ export class LocalScriptSignageDisplayerUI {
         buttonAddTransform.innerHTML = 'Modify BillBoard Transform';
       }
 
-      buttonAddTransform.onclick = function () {
+      buttonAddTransform.onclick = function() {
         modal.hidden = true;
         const transformObject3D = new THREE.Object3D();
         transformObject3D.name = 'TransformObject';
@@ -135,7 +135,7 @@ export class LocalScriptSignageDisplayerUI {
         validateButton.innerHTML = 'VALIDATE';
         validateButton.classList = 'validate_button';
         cloneClearUiEditor.appendChild(validateButton);
-        validateButton.onclick = function () {
+        validateButton.onclick = function() {
           modal.hidden = false;
           transformElement.innerHTML = '';
           transformElement.appendChild(
@@ -151,7 +151,7 @@ export class LocalScriptSignageDisplayerUI {
       buttonCreateNewProject.innerHTML = 'Create';
       modalContent.appendChild(buttonCreateNewProject);
 
-      buttonCreateNewProject.onclick = function () {
+      buttonCreateNewProject.onclick = function() {
         let x, y, z;
         const firstEl = transformElement.firstElementChild;
         if (firstEl) {
@@ -161,7 +161,7 @@ export class LocalScriptSignageDisplayerUI {
         }
         const validVector3 = isNaN(x) || isNaN(y) || isNaN(z);
 
-        const isValidURL = function (string) {
+        const isValidURL = function(string) {
           let url;
 
           try {
@@ -180,7 +180,7 @@ export class LocalScriptSignageDisplayerUI {
 
         const projects = goui.go.components.LocalScript.conf.projects;
         if (params.uuid) {
-          projects.forEach(function (p) {
+          projects.forEach(function(p) {
             if (p.uuid === params.uuid) {
               p.title = titleNewProject.value;
               p.url = url.value;
@@ -192,7 +192,7 @@ export class LocalScriptSignageDisplayerUI {
             title: titleNewProject.value,
             url: url.value,
             position: [x, y, z],
-            uuid: THREE.MathUtils.generateUUID(),
+            uuid: THREE.MathUtils.generateUUID()
           });
         }
         fillProjectsUl();
@@ -202,7 +202,7 @@ export class LocalScriptSignageDisplayerUI {
       buttonClose.innerHTML = 'Close';
       modalContent.appendChild(buttonClose);
 
-      buttonClose.onclick = function () {
+      buttonClose.onclick = function() {
         modal.remove();
         modal = null;
         goui.goEditor.initPointerUpCallback();
@@ -211,7 +211,7 @@ export class LocalScriptSignageDisplayerUI {
       return modal;
     };
 
-    addNewProjectButton.onclick = function () {
+    addNewProjectButton.onclick = function() {
       modal = createModalDiv();
       content.appendChild(modal);
     };

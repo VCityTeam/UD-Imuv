@@ -34,15 +34,15 @@ const BBBWrapperModule = class BBBWrapper {
       const pathTempXML = './assets/temp/bbb_data.xml';
 
       try {
-        exec('wget ' + meetingsURL + ' -O ' + pathTempXML).then(function () {
+        exec('wget ' + meetingsURL + ' -O ' + pathTempXML).then(function() {
           if (fs.existsSync(pathTempXML)) {
             //file exists
-            fs.readFile(pathTempXML, 'utf-8', function (err, data) {
+            fs.readFile(pathTempXML, 'utf-8', function(err, data) {
               if (err) {
                 throw new Error(err);
               }
 
-              parseString(data, function (errParser, jsData) {
+              parseString(data, function(errParser, jsData) {
                 const result = [];
 
                 if (errParser) {
@@ -64,7 +64,7 @@ const BBBWrapperModule = class BBBWrapper {
                 }
 
                 const meetings = jsData.response.meetings;
-                meetings[0].meeting.forEach(function (m) {
+                meetings[0].meeting.forEach(function(m) {
                   // api.administration.end(m.meetingID[0], m.moderatorPW[0]);
                   // console.log('end bbb meeting ', m.meetingID[0]);
                   result.push(new BBBRoom(m));
@@ -92,15 +92,15 @@ const BBBWrapperModule = class BBBWrapper {
       }
 
       this.queryBBBRooms()
-        .then(function (rooms) {
-          rooms.forEach(function (r) {
+        .then(function(rooms) {
+          rooms.forEach(function(r) {
             r.end(api);
           });
 
           console.log('clean bbb rooms on the server');
           resolve();
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
@@ -122,7 +122,7 @@ const BBBWrapperModule = class BBBWrapper {
 
       const meetingCreateUrl = api.administration.create(name, uuid, {
         attendeePW: aPw,
-        moderatorPW: mPw,
+        moderatorPW: mPw
       });
 
       bbb
@@ -131,10 +131,10 @@ const BBBWrapperModule = class BBBWrapper {
           resolve({
             url: this.bbbAPI.administration.join('attendee', uuid, aPw),
             name: name,
-            uuid: uuid,
+            uuid: uuid
           });
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
