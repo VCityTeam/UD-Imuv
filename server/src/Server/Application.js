@@ -77,7 +77,7 @@ const ApplicationModule = class Application {
 
     this.assetsManager
       .loadFromConfig(this.config.assetsManager)
-      .then(function() {
+      .then(function () {
         _this.worldDispatcher.initWorlds();
         const httpServer = _this.initExpress();
         _this.initWebSocket(httpServer);
@@ -101,7 +101,7 @@ const ApplicationModule = class Application {
     //http server
     const port = this.config.ENV.PORT || 8000;
     const folder = this.config.ENV.FOLDER || defaultFolder;
-    const httpServer = this.expressApp.listen(port, function(err) {
+    const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');
       console.log('HTTP server on Port', port, 'folder ' + folder);
     });
@@ -117,7 +117,7 @@ const ApplicationModule = class Application {
     //websocket
     this.io = socketio(httpServer, {
       pingInterval: this.config.websocket.pingInterval,
-      pingTimeout: this.config.websocket.pingTimeout
+      pingTimeout: this.config.websocket.pingTimeout,
     });
 
     this.io.on('connection', this.onSocketConnexion.bind(this));
@@ -137,11 +137,11 @@ const ApplicationModule = class Application {
     ));
     socket.emit(MSG_TYPES.SIGNED, {
       nameUser: u.getNameUser(),
-      role: u.getRole()
+      role: u.getRole(),
     });
 
     //SIGN UP
-    socket.on(MSG_TYPES.SIGN_UP, function(data) {
+    socket.on(MSG_TYPES.SIGN_UP, function (data) {
       (async () => {
         const user = new Parse.User();
         user.set('username', data.nameUser);
@@ -165,7 +165,7 @@ const ApplicationModule = class Application {
     });
 
     //SIGN IN
-    socket.on(MSG_TYPES.SIGN_IN, function(data) {
+    socket.on(MSG_TYPES.SIGN_IN, function (data) {
       (async () => {
         try {
           // Pass the username and password to logIn function
@@ -230,14 +230,14 @@ const ApplicationModule = class Application {
       })();
     });
 
-    socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function() {
+    socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
       //check if not already in world
       const user = _this.users[socket.id];
       _this.worldDispatcher.addUser(user);
     });
 
     //SAVE WORLDS
-    socket.on(MSG_TYPES.SAVE_WORLDS, function(partialMessage) {
+    socket.on(MSG_TYPES.SAVE_WORLDS, function (partialMessage) {
       const user = _this.users[socket.id];
       if (user.getRole() != ImuvConstants.USER.ROLE.ADMIN) return; //security
 
@@ -248,7 +248,7 @@ const ApplicationModule = class Application {
     });
 
     //Avatar json
-    socket.on(MSG_TYPES.QUERY_AVATAR, function() {
+    socket.on(MSG_TYPES.QUERY_AVATAR, function () {
       const user = _this.users[socket.id];
       if (user.getRole() == ImuvConstants.USER.ROLE.GUEST) return; //security
 
@@ -262,7 +262,7 @@ const ApplicationModule = class Application {
     });
 
     //save avatar
-    socket.on(MSG_TYPES.SAVE_AVATAR, function(partialMessage) {
+    socket.on(MSG_TYPES.SAVE_AVATAR, function (partialMessage) {
       try {
         const fullMessage = Pack.recomposeMessage(partialMessage);
         if (fullMessage) {
@@ -298,7 +298,7 @@ const ApplicationModule = class Application {
             '.jpeg';
           const serverPath = '../client/' + commonPath;
 
-          fs.writeFile(serverPath, bitmap, function(err) {
+          fs.writeFile(serverPath, bitmap, function (err) {
             if (err) {
               reject();
             }
@@ -335,7 +335,7 @@ const ApplicationModule = class Application {
                 color: avatarJSON.components.Render.color,
                 idRenderData: avatarJSON.components.Render.idRenderData,
                 path_face_texture:
-                  avatarJSON.components.LocalScript.conf.path_face_texture
+                  avatarJSON.components.LocalScript.conf.path_face_texture,
               });
 
             //clear unused images
@@ -344,13 +344,13 @@ const ApplicationModule = class Application {
             try {
               const results = await query.distinct('avatar');
               const paths = [];
-              results.forEach(function(string) {
+              results.forEach(function (string) {
                 const json = JSON.parse(string);
                 const path = json.components.LocalScript.conf.path_face_texture;
                 if (!paths.includes(path)) paths.push(path);
               });
 
-              const checkRef = function(fileName) {
+              const checkRef = function (fileName) {
                 //do not delete the default image
                 if (fileName.includes('default.jpeg')) return true;
 
@@ -367,11 +367,11 @@ const ApplicationModule = class Application {
               fs.readdir(folderPath, (err, files) => {
                 if (!files) return;
 
-                files.forEach(file => {
+                files.forEach((file) => {
                   //check if ref by something in paths
                   if (!checkRef(file)) {
                     //delete it
-                    fs.unlink(folderPath + file, err => {
+                    fs.unlink(folderPath + file, (err) => {
                       if (err) {
                         throw err;
                       }
@@ -389,7 +389,7 @@ const ApplicationModule = class Application {
           }
         })()
       )
-      .catch(e => {
+      .catch((e) => {
         console.error(e);
       });
   }
@@ -402,7 +402,7 @@ const ApplicationModule = class Application {
     const _this = this;
     const writeImagesOnDiskPromise = [];
 
-    JSONUtils.parse(data, function(json, key) {
+    JSONUtils.parse(data, function (json, key) {
       if (typeof json[key] == 'string' && json[key].startsWith('data:image')) {
         writeImagesOnDiskPromise.push(
           new Promise((resolve, reject) => {
@@ -417,7 +417,7 @@ const ApplicationModule = class Application {
             //ref path
             json[key] = './' + commonPath;
 
-            fs.writeFile(serverPath, bitmap, function(err) {
+            fs.writeFile(serverPath, bitmap, function (err) {
               if (err) {
                 reject();
               }
@@ -429,33 +429,33 @@ const ApplicationModule = class Application {
     });
 
     const worlds = [];
-    data.forEach(function(json) {
+    data.forEach(function (json) {
       worlds.push(
         new Game.World(json, {
           isServerSide: true,
-          modules: { gm: gm, PNG: PNG }
+          modules: { gm: gm, PNG: PNG },
         })
       );
     });
 
-    Promise.all(writeImagesOnDiskPromise).then(function() {
+    Promise.all(writeImagesOnDiskPromise).then(function () {
       console.log('IMAGES WRITED ON DISK');
 
       const loadPromises = [];
 
-      worlds.forEach(function(w) {
+      worlds.forEach(function (w) {
         const loadPromise = WorldStateComputer.WorldTest(
           w,
           _this.assetsManager,
           {
-            Game: Game
+            Game: Game,
           }
         );
         loadPromises.push(loadPromise);
       });
 
       try {
-        Promise.all(loadPromises).then(function() {
+        Promise.all(loadPromises).then(function () {
           console.log('ALL WORLD HAVE LOADED');
 
           //write on disks new worlds
@@ -465,7 +465,7 @@ const ApplicationModule = class Application {
             )
           );
 
-          const fetchWorldContent = function(uuid) {
+          const fetchWorldContent = function (uuid) {
             for (let index = 0; index < worlds.length; index++) {
               const element = worlds[index];
               if (element.getUUID() == uuid)
@@ -481,7 +481,7 @@ const ApplicationModule = class Application {
           }
 
           //prettier
-          exec('npm run format-worlds').then(function() {
+          exec('npm run format-worlds').then(function () {
             //reload worlds
             _this.worldDispatcher.initWorlds();
             socket.emit(MSG_TYPES.SERVER_ALERT, 'Worlds saved and reloaded !');
@@ -510,12 +510,12 @@ const ApplicationModule = class Application {
     }
 
     fs.readdir(folderPath, (err, files) => {
-      files.forEach(file => {
+      files.forEach((file) => {
         //check if ref by something in worlds
         if (!data.includes(file)) {
           //delete it
           // delete a file
-          fs.unlink(folderPath + file, err => {
+          fs.unlink(folderPath + file, (err) => {
             if (err) {
               throw err;
             }
@@ -535,7 +535,7 @@ const ApplicationModule = class Application {
       Game.Render.bindColor(avatarJSON, [
         Math.random(),
         Math.random(),
-        Math.random()
+        Math.random(),
       ]);
     }
     avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields

@@ -22,7 +22,7 @@ export class LocalScriptDisplayMediaUI {
     content.appendChild(input);
 
     //init callback
-    input.onchange = function() {
+    input.onchange = function () {
       lsComp.conf.iframe_src = this.value;
     };
   }

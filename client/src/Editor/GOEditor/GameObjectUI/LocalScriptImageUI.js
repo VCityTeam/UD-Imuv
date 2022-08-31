@@ -8,8 +8,8 @@ export class LocalScriptImageUI {
 
     const conf = go.components.LocalScript.conf;
 
-    imageInput.onchange = function(e) {
-      File.readSingleFileAsDataUrl(e, function(data) {
+    imageInput.onchange = function (e) {
+      File.readSingleFileAsDataUrl(e, function (data) {
         const url = data.target.result;
         conf.path = url;
         go.setOutdated(true);
@@ -19,7 +19,7 @@ export class LocalScriptImageUI {
 
     const buttonDescription = document.createElement('button');
     buttonDescription.innerHTML = 'Change Description';
-    buttonDescription.onclick = function() {
+    buttonDescription.onclick = function () {
       const modal = document.createElement('div');
       modal.classList.add('modal');
 
@@ -35,7 +35,7 @@ export class LocalScriptImageUI {
 
       const validateButton = document.createElement('button');
       validateButton.innerHTML = 'Validate';
-      validateButton.onclick = function() {
+      validateButton.onclick = function () {
         const value = inputTextDescription.value;
         const newValue = value != '' ? value : null;
         conf.descriptionText = newValue;
@@ -45,7 +45,7 @@ export class LocalScriptImageUI {
 
       const cancelButton = document.createElement('button');
       cancelButton.innerHTML = 'Cancel';
-      cancelButton.onclick = function() {
+      cancelButton.onclick = function () {
         modal.remove();
       };
       modalContent.appendChild(cancelButton);
@@ -55,7 +55,7 @@ export class LocalScriptImageUI {
 
     const divGPSCoord = document.createElement('div');
 
-    const initGPSCoordHTMLElements = function() {
+    const initGPSCoordHTMLElements = function () {
       const inputLat = document.createElement('input');
       inputLat.type = 'number';
       inputLat.step = 0.001;
@@ -76,12 +76,12 @@ export class LocalScriptImageUI {
       labelLng.innerHTML = 'Lng';
       divGPSCoord.appendChild(labelLng);
 
-      inputLat.onchange = function() {
+      inputLat.onchange = function () {
         const value = parseFloat(inputLat.value);
         conf.gpsCoord.lat = value;
       };
 
-      inputLng.onchange = function() {
+      inputLng.onchange = function () {
         const value = parseFloat(inputLng.value);
         conf.gpsCoord.lng = value;
       };
@@ -89,7 +89,7 @@ export class LocalScriptImageUI {
       const choseOnMapButton = document.createElement('button');
       choseOnMapButton.innerHTML = 'Chose on map';
       divGPSCoord.appendChild(choseOnMapButton);
-      choseOnMapButton.onclick = function() {
+      choseOnMapButton.onclick = function () {
         const modal = document.createElement('div');
         modal.classList.add('modal');
 
@@ -112,10 +112,10 @@ export class LocalScriptImageUI {
         modalContent.appendChild(validateButton);
         modalContent.appendChild(cancelButton);
 
-        img.onload = function() {
+        img.onload = function () {
           const imgDrawed = document.createElement('img');
           imgDrawed.src = conf.map_path;
-          img.onclick = function(event) {
+          img.onclick = function (event) {
             const x = event.pageX;
             const y = event.pageY;
             const rect = this.getBoundingClientRect();
@@ -136,7 +136,7 @@ export class LocalScriptImageUI {
 
             this.src = canvas.toDataURL();
 
-            validateButton.onclick = function() {
+            validateButton.onclick = function () {
               if (coords.lat) {
                 inputLat.value = coords.lat;
                 inputLat.dispatchEvent(new Event('change'));
@@ -150,7 +150,7 @@ export class LocalScriptImageUI {
           };
         };
 
-        cancelButton.onclick = function() {
+        cancelButton.onclick = function () {
           modal.remove();
         };
         content.appendChild(modal);
@@ -162,7 +162,7 @@ export class LocalScriptImageUI {
     const checkboxGPSCoord = document.createElement('input');
     checkboxGPSCoord.id = 'checkbox_gpscoord';
     checkboxGPSCoord.type = 'checkbox';
-    checkboxGPSCoord.onchange = function(event) {
+    checkboxGPSCoord.onchange = function (event) {
       const value = event.target.checked;
       conf.gpsCoord.checked = value;
       if (value) {
@@ -187,7 +187,7 @@ export class LocalScriptImageUI {
     inputFactorHeight.step = 0.1;
     inputFactorHeight.value = conf.factorHeight || 1;
     divGPSCoord.appendChild(inputFactorHeight);
-    inputFactorHeight.onchange = function(event) {
+    inputFactorHeight.onchange = function (event) {
       conf.factorHeight = event.target.value;
     };
 
@@ -200,7 +200,7 @@ export class LocalScriptImageUI {
     inputFactorWidth.step = 0.1;
     inputFactorWidth.value = conf.factorWidth || 1;
     divGPSCoord.appendChild(inputFactorWidth);
-    inputFactorWidth.onchange = function(event) {
+    inputFactorWidth.onchange = function (event) {
       conf.factorWidth = event.target.value;
     };
 
@@ -211,7 +211,7 @@ export class LocalScriptImageUI {
     const refresh = document.createElement('button');
     refresh.innerHTML = 'Refresh';
     divGPSCoord.appendChild(refresh);
-    refresh.onclick = function() {
+    refresh.onclick = function () {
       go.setOutdated(true);
       gV.forceUpdate();
     };

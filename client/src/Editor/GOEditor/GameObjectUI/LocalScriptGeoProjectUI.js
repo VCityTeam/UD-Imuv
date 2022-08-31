@@ -18,7 +18,7 @@ export class LocalScriptGeoProjectUI {
     content.appendChild(inputLink);
 
     //init callback
-    inputLink.onchange = function() {
+    inputLink.onchange = function () {
       lsComp.conf.href = this.value;
     };
 
@@ -28,7 +28,7 @@ export class LocalScriptGeoProjectUI {
     inputWidth.value = lsComp.conf.image_width;
     content.appendChild(inputWidth);
 
-    inputWidth.onchange = function() {
+    inputWidth.onchange = function () {
       lsComp.conf.image_width = parseFloat(this.value);
       go.setOutdated(true);
       gV.forceUpdate();
@@ -40,7 +40,7 @@ export class LocalScriptGeoProjectUI {
     inputHeight.value = lsComp.conf.image_height;
     content.appendChild(inputHeight);
 
-    inputHeight.onchange = function() {
+    inputHeight.onchange = function () {
       lsComp.conf.image_height = parseFloat(this.value);
       go.setOutdated(true);
       gV.forceUpdate();
@@ -52,8 +52,8 @@ export class LocalScriptGeoProjectUI {
     imageInput.accept = 'image/*';
     content.appendChild(imageInput);
 
-    imageInput.onchange = function(e) {
-      File.readSingleFileAsDataUrl(e, function(data) {
+    imageInput.onchange = function (e) {
+      File.readSingleFileAsDataUrl(e, function (data) {
         const url = data.target.result;
         lsComp.conf.image_icon_path = url;
         go.setOutdated(true);

@@ -72,7 +72,7 @@ export class ColliderEditorView {
         {
           type: 'Collider',
           shapes: [],
-          body: true
+          body: true,
         },
         this.gameView.getAssetsManager(),
         Shared,
@@ -119,7 +119,7 @@ export class ColliderEditorView {
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
     deleteButton.innerHTML = 'Delete';
-    deleteButton.onclick = function() {
+    deleteButton.onclick = function () {
       if (shape.mesh && shape.mesh == _this.model.getSelectedObject())
         _this.transformControls.detach();
       _this.model.removeShape(shape);
@@ -130,7 +130,7 @@ export class ColliderEditorView {
     const selectButton = document.createElement('div');
     selectButton.classList.add('button_Editor');
     selectButton.innerHTML = 'Select';
-    selectButton.onclick = function() {
+    selectButton.onclick = function () {
       _this.model.setCurrentShape(shape);
       if (shape.mesh) {
         _this.model.setSelectedObject(shape.mesh);
@@ -143,7 +143,7 @@ export class ColliderEditorView {
     const cloneButton = document.createElement('div');
     cloneButton.classList.add('button_Editor');
     cloneButton.innerHTML = 'Clone';
-    cloneButton.onclick = function() {
+    cloneButton.onclick = function () {
       let cloneShape = null;
       if (shape.getType() == POLYGON_TYPE)
         cloneShape = new PolygonShape(_this.colliderObject3D);
@@ -155,7 +155,7 @@ export class ColliderEditorView {
         return;
       }
       _this.model.addNewShape(cloneShape);
-      shape.points.forEach(point => {
+      shape.points.forEach((point) => {
         _this.model.placeSphereAtPoint(point.position.clone(), cloneShape);
         if (cloneShape) _this.model.setSelectedObject(cloneShape.mesh);
       });
@@ -168,7 +168,7 @@ export class ColliderEditorView {
       radiusInput.setAttribute('type', 'number');
       radiusInput.setAttribute('step', 0.1);
       radiusInput.value = shape.getRadius();
-      radiusInput.onchange = function() {
+      radiusInput.onchange = function () {
         shape.setRadius(radiusInput.value);
         _this.model.setSelectedObject(shape.mesh);
         _this.updateUI();
@@ -192,7 +192,7 @@ export class ColliderEditorView {
     const deleteButton = document.createElement('div');
     deleteButton.classList.add('button_Editor');
     deleteButton.innerHTML = 'Delete';
-    deleteButton.onclick = function() {
+    deleteButton.onclick = function () {
       if (point == _this.model.getSelectedObject())
         _this.transformControls.detach();
       _this.model.getCurrentShape().removePoint(point);
@@ -214,7 +214,7 @@ export class ColliderEditorView {
     while (sList.firstChild) {
       sList.removeChild(sList.firstChild);
     }
-    this.model.getShapes().forEach(function(shape) {
+    this.model.getShapes().forEach(function (shape) {
       sList.appendChild(_this.shapeHtml(shape));
     });
 
@@ -228,7 +228,7 @@ export class ColliderEditorView {
       pList.removeChild(pList.firstChild);
     }
     if (index >= 0) {
-      shape.points.forEach(function(point) {
+      shape.points.forEach(function (point) {
         pList.appendChild(_this.pointHtml(point));
       });
       sList.children[index].appendChild(pList);
@@ -307,17 +307,17 @@ export class ColliderEditorView {
     const _this = this;
     const manager = this.gameView.getInputManager();
 
-    this.newPolygonButton.onclick = function() {
+    this.newPolygonButton.onclick = function () {
       _this.model.addNewShape(new PolygonShape(_this.colliderObject3D));
       _this.updateUI();
     };
 
-    this.newCircleButton.onclick = function() {
+    this.newCircleButton.onclick = function () {
       _this.model.addNewShape(new CircleShape(_this.colliderObject3D));
       _this.updateUI();
     };
 
-    this.saveButton.onclick = function() {
+    this.saveButton.onclick = function () {
       console.log('Save Collider');
       const colliderComp = _this.getColliderComponent();
       colliderComp.shapesJSON = _this.model.toJSON();
@@ -326,7 +326,7 @@ export class ColliderEditorView {
 
     const gV = this.gameView;
 
-    const cbPointerUp = function(event) {
+    const cbPointerUp = function (event) {
       if (event.button != 0) return;
       if (_this.getAddPointMode()) {
         const intersect = gV.throwRay(event, gV.getObject3D());
@@ -357,7 +357,7 @@ export class ColliderEditorView {
     manager.addKeyInput('Control', 'keydown', this.refAddPointKeyDown);
     manager.addKeyInput('Control', 'keyup', this.refAddPointKeyUp);
 
-    manager.addKeyInput('f', 'keyup', function() {
+    manager.addKeyInput('f', 'keyup', function () {
       if (_this.model.getSelectedObject()) {
         _this.orbitControls.target.copy(
           _this.model.getSelectedObject().position
@@ -460,12 +460,12 @@ export class ColliderEditorModel {
 
     const posOffset = this.posOffset;
 
-    json.forEach(function(col) {
+    json.forEach(function (col) {
       if (col.type == POLYGON_TYPE) {
         const shape = new PolygonShape(object3D);
         _this.addNewShape(shape);
 
-        col.points.forEach(function(p) {
+        col.points.forEach(function (p) {
           const pos = new THREE.Vector3(
             posOffset.x + p.x,
             posOffset.y + p.y,
@@ -496,7 +496,7 @@ export class ColliderEditorModel {
   toJSON() {
     const result = [];
     const _this = this;
-    this.shapes.forEach(function(s) {
+    this.shapes.forEach(function (s) {
       result.push(s.toJSON(_this.posOffset));
     });
     return result;

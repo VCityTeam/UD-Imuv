@@ -18,7 +18,7 @@ export class EditorGameView extends GameView {
 
     this.object3DToRaycast = this.object3D;
 
-    this.callbackPointerUp = function() {};
+    this.callbackPointerUp = function () {};
     this.linkedHtmlElementTypeCbPointerUp = null;
 
     this.initTransformControls();
@@ -56,14 +56,15 @@ export class EditorGameView extends GameView {
     //cant handle this callback with our input manager
 
     //transformControls Listeners
-    this.transformControls.addEventListener('dragging-changed', function(
-      event
-    ) {
-      _this.orbitControls.enabled = !event.value;
-      if (event.value) {
-        _this.tcDragged = true;
+    this.transformControls.addEventListener(
+      'dragging-changed',
+      function (event) {
+        _this.orbitControls.enabled = !event.value;
+        if (event.value) {
+          _this.tcDragged = true;
+        }
       }
-    });
+    );
 
     //Listeners in InputManager
     const manager = this.getInputManager();
@@ -97,7 +98,7 @@ export class EditorGameView extends GameView {
   }
 
   setCallbackPointerUp(cb = null, type = null) {
-    if (!cb) cb = function() {};
+    if (!cb) cb = function () {};
 
     this.callbackPointerUp = cb;
 

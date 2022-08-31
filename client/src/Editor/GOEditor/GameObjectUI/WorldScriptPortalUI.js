@@ -18,7 +18,7 @@ export class WorldScriptPortalUI {
     buttonChangeSpawnRotation.innerHTML = 'Change Spawn Rotation';
     portalContent.appendChild(buttonChangeSpawnRotation);
 
-    buttonChangeSpawnRotation.onclick = function() {
+    buttonChangeSpawnRotation.onclick = function () {
       const cloneClearUiEditor = document.createElement('div');
       cloneClearUiEditor.classList.add('ui_Editor');
       goui.goEditor.ui.offsetParent.parentElement.appendChild(
@@ -45,7 +45,7 @@ export class WorldScriptPortalUI {
       gV.orbitControls.target.copy(cone.position);
       gV.orbitControls.update();
 
-      const cbOnChange = function() {
+      const cbOnChange = function () {
         cone.rotation.set(spawnRot.x, spawnRot.y, spawnRot.z);
       };
 
@@ -58,7 +58,7 @@ export class WorldScriptPortalUI {
       validateButton.innerHTML = 'VALIDATE';
       validateButton.classList = 'validate_button';
       cloneClearUiEditor.appendChild(validateButton);
-      validateButton.onclick = function() {
+      validateButton.onclick = function () {
         transformObject3D.removeFromParent();
         cloneClearUiEditor.remove();
       };
@@ -88,9 +88,9 @@ export class WorldScriptPortalUI {
     const selectPortal = document.createElement('select');
     portalContent.appendChild(selectPortal);
 
-    const createPortalsOptions = function(optGrp, wjson) {
+    const createPortalsOptions = function (optGrp, wjson) {
       const worldPortal = new World(wjson);
-      worldPortal.getGameObject().traverse(function(child) {
+      worldPortal.getGameObject().traverse(function (child) {
         const wS = child.getComponent(WorldScriptModule.TYPE);
         if (wS && wS.idScripts.includes('portal')) {
           const optionPortal = document.createElement('option');
@@ -107,7 +107,7 @@ export class WorldScriptPortalUI {
     selectPortal.appendChild(unsetOptionPortal);
 
     //Fill selectPortal Htmlelements
-    worldsJSON.forEach(function(wjson) {
+    worldsJSON.forEach(function (wjson) {
       const optGroup = document.createElement('optgroup');
       optGroup.title = wjson.uuid;
       optGroup.label = wjson.name;
@@ -115,7 +115,7 @@ export class WorldScriptPortalUI {
       createPortalsOptions(optGroup, wjson);
     });
 
-    selectPortal.onchange = function() {
+    selectPortal.onchange = function () {
       const options = selectPortal.getElementsByTagName('option');
       const iSelect = selectPortal.selectedIndex;
       const optionSelected = options[iSelect];
