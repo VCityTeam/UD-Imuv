@@ -5,7 +5,7 @@ import './Sign.css';
 import ImuvConstants from '../../../imuv.constants';
 
 //Helper
-const createInput = function(name, root, type = 'text') {
+const createInput = function (name, root, type = 'text') {
   const parent = document.createElement('div');
   parent.classList.add('parentInput_Sign');
   root.appendChild(parent);
@@ -72,7 +72,7 @@ export class SignUpView {
   initCallbacks() {
     const _this = this;
 
-    this.signUpButton.onclick = function() {
+    this.signUpButton.onclick = function () {
       const email = _this.inputMail.value;
       const confirmEmail = _this.inputMailConfirm.value;
       const password = _this.inputPassword.value;
@@ -86,7 +86,7 @@ export class SignUpView {
       _this.webSocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_UP, {
         email: email,
         password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
-        nameUser: nameUser
+        nameUser: nameUser,
       });
     };
   }
@@ -151,13 +151,13 @@ export class SignInView {
   initCallbacks() {
     const _this = this;
 
-    this.signInButton.onclick = function() {
+    this.signInButton.onclick = function () {
       const nameUser = _this.inputIdUser.value;
       const password = _this.inputPassword.value;
 
       _this.webSocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_IN, {
         nameUser: nameUser,
-        password: password
+        password: password,
       });
     };
   }

@@ -47,7 +47,7 @@ export class PlayWorldEditorView {
 
     const jsonCopy = JSON.parse(JSON.stringify(json));
     const world = new World(jsonCopy, {
-      modules: { ImuvConstants: ImuvConstants }
+      modules: { ImuvConstants: ImuvConstants },
     });
 
     const avatar = this.assetsManager.createPrefab('avatar');
@@ -58,15 +58,15 @@ export class PlayWorldEditorView {
         userData: {
           avatarUUID: avatar.getUUID(),
           editorMode: true,
-          settings: {}
+          settings: {},
         },
         localScriptModules: {
           ImuvConstants: ImuvConstants,
           AnimatedText: AnimatedText,
-          JitsiIframeAPI: JitsiIframeAPI
-        }
+          JitsiIframeAPI: JitsiIframeAPI,
+        },
       })
-      .then(function() {
+      .then(function () {
         const gV = _this.localGameApp.getGameView();
 
         world.addGameObject(
@@ -78,7 +78,7 @@ export class PlayWorldEditorView {
         //resize
         gV.setDisplaySize(new THREE.Vector2(_this.parentUIHtml.clientWidth, 0));
 
-        gV.getInterpolator().addAfterTickRequester(function() {
+        gV.getInterpolator().addAfterTickRequester(function () {
           const worldComputer = gV.getInterpolator();
           const inputManager = gV.getInputManager();
           const cmds = inputManager.computeCommands();
@@ -105,7 +105,7 @@ export class PlayWorldEditorView {
       this.heightmapConf = mapGO.fetchWorldScripts()['map'].conf;
       this.heightmapImg.src = this.heightmapConf.heightmap_path;
 
-      this.heightmapImg.onload = function() {
+      this.heightmapImg.onload = function () {
         canvas.width = this.width;
         canvas.height = this.height;
       };
@@ -119,7 +119,7 @@ export class PlayWorldEditorView {
     const center = canvas.width * 0.5;
     const avatarPosCanvas = {
       x: center + avatarPos.x / pixelSize,
-      y: center - avatarPos.y / pixelSize
+      y: center - avatarPos.y / pixelSize,
     };
     ctx.beginPath();
     ctx.fillStyle = 'red';

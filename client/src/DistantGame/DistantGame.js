@@ -32,7 +32,7 @@ export class DistantGame {
     //reset websocketservices
     this.webSocketService.reset([
       ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-      ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF
+      ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
     ]);
   }
 
@@ -44,7 +44,7 @@ export class DistantGame {
       interpolator: this.interpolator,
       config: this.config,
       userData: userData,
-      localScriptModules: localScriptModules
+      localScriptModules: localScriptModules,
     });
 
     const ctxGameView = gV.getLocalContext();
@@ -52,10 +52,10 @@ export class DistantGame {
 
     //register in tick of the gameview
     const _this = this;
-    gV.addTickRequester(function() {
+    gV.addTickRequester(function () {
       const cmds = gV.getInputManager().computeCommands();
       const cmdsJSON = [];
-      cmds.forEach(function(cmd) {
+      cmds.forEach(function (cmd) {
         cmdsJSON.push(cmd.toJSON());
       });
       _this.webSocketService.emit(
@@ -68,7 +68,7 @@ export class DistantGame {
   }
 
   start(userData = {}, localScriptModules) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.reset(userData, localScriptModules);
 
       const _this = this;
@@ -76,7 +76,7 @@ export class DistantGame {
       // Register callbacks
       this.webSocketService.on(
         ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-        json => {
+        (json) => {
           if (!json) throw new Error('no data');
           console.warn(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, json);
 
@@ -97,7 +97,7 @@ export class DistantGame {
 
       this.webSocketService.on(
         ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
-        diffJSON => {
+        (diffJSON) => {
           _this.interpolator.onNewDiff(new WorldStateDiff(diffJSON));
         }
       );

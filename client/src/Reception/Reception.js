@@ -32,7 +32,7 @@ export class ReceptionView {
     //user data
     this.userData = {
       nameUser: 'default_name_user',
-      role: 'default_role_user'
+      role: 'default_role_user',
     };
 
     //socket service
@@ -67,7 +67,7 @@ export class ReceptionView {
     buttonsTopNav.id = 'buttonsTopNav_Reception';
     containerBtnTopNav.append(buttonsTopNav);
 
-    const createButton = function(label, href = null) {
+    const createButton = function (label, href = null) {
       const result = document.createElement('a');
       result.classList.add('buttonTopNav_Reception');
       result.innerHTML = label;
@@ -205,7 +205,7 @@ export class ReceptionView {
     aboutSection.appendChild(aboutTitleTeam);
 
     const aboutTeamList = document.createElement('ul');
-    getTextByID('aboutLabelsTeamList', this.language).forEach(element => {
+    getTextByID('aboutLabelsTeamList', this.language).forEach((element) => {
       const liEl = document.createElement('li');
       liEl.innerHTML = element;
       aboutTeamList.appendChild(liEl);
@@ -329,23 +329,23 @@ export class ReceptionView {
   initCallbacks() {
     const _this = this;
 
-    this.hamburgerButton.onclick = function() {
+    this.hamburgerButton.onclick = function () {
       const x = document.getElementById('buttonsTopNav_Reception');
       x.style.display = x.style.display == 'block' ? 'none' : 'block';
     };
 
     //join flying campus
-    this.joinButton.onclick = function() {
+    this.joinButton.onclick = function () {
       _this.dispose();
 
       //load config
       SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
-        function(config) {
+        function (config) {
           //load assets
           const assetsManager = new AssetsManager();
           assetsManager
             .loadFromConfig(config.assetsManager, document.body)
-            .then(function() {
+            .then(function () {
               const distantGame = new DistantGame(
                 _this.webSocketService,
                 assetsManager,
@@ -356,12 +356,12 @@ export class ReceptionView {
                 {
                   firstGameView: true,
                   editorMode: false,
-                  role: _this.userData.role
+                  role: _this.userData.role,
                 },
                 {
                   ImuvConstants: ImuvConstants,
                   AnimatedText: AnimatedText,
-                  JitsiIframeAPI: JitsiIframeAPI
+                  JitsiIframeAPI: JitsiIframeAPI,
                 }
               );
 
@@ -375,7 +375,7 @@ export class ReceptionView {
     };
 
     //toggle language
-    this.languageButton.onclick = function() {
+    this.languageButton.onclick = function () {
       //toggle language
       if (_this.language == 'FR') {
         _this.language = 'EN';
@@ -392,7 +392,7 @@ export class ReceptionView {
 
     //sign up
     let signUpView = null;
-    this.signUpButton.onclick = function() {
+    this.signUpButton.onclick = function () {
       if (signUpView) return;
       if (signInView) {
         signInView.dispose();
@@ -401,14 +401,14 @@ export class ReceptionView {
       signUpView = new SignUpView(_this.webSocketService);
       document.body.appendChild(signUpView.html());
 
-      signUpView.setOnClose(function() {
+      signUpView.setOnClose(function () {
         signUpView.dispose();
         signUpView = null;
       });
     };
     this.webSocketService.on(
       ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
-      function() {
+      function () {
         console.log('sign up success ');
         if (signUpView) {
           signUpView.dispose();
@@ -419,7 +419,7 @@ export class ReceptionView {
 
     //sign in
     let signInView = null;
-    this.signInButton.onclick = function() {
+    this.signInButton.onclick = function () {
       if (signInView) return;
       if (signUpView) {
         signUpView.dispose();
@@ -428,44 +428,45 @@ export class ReceptionView {
       signInView = new SignInView(_this.webSocketService);
       document.body.appendChild(signInView.html());
 
-      signInView.setOnClose(function() {
+      signInView.setOnClose(function () {
         signInView.dispose();
         signInView = null;
       });
     };
 
-    this.webSocketService.on(ImuvConstants.WEBSOCKET.MSG_TYPES.SIGNED, function(
-      data
-    ) {
-      if (signInView) {
-        signInView.dispose();
-        signInView = null;
-      }
+    this.webSocketService.on(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.SIGNED,
+      function (data) {
+        if (signInView) {
+          signInView.dispose();
+          signInView = null;
+        }
 
-      //update ui
-      _this.nameUserLabel.innerHTML = data.nameUser;
-      _this.roleUserLabel.innerHTML = data.role;
-      //register values
-      _this.userData = data;
+        //update ui
+        _this.nameUserLabel.innerHTML = data.nameUser;
+        _this.roleUserLabel.innerHTML = data.role;
+        //register values
+        _this.userData = data;
 
-      if (data.role == ImuvConstants.USER.ROLE.ADMIN) {
-        _this.editorButton.classList.remove('hidden');
-      } else {
-        _this.editorButton.classList.add('hidden');
+        if (data.role == ImuvConstants.USER.ROLE.ADMIN) {
+          _this.editorButton.classList.remove('hidden');
+        } else {
+          _this.editorButton.classList.add('hidden');
+        }
       }
-    });
+    );
 
     //editor
-    this.editorButton.onclick = function() {
+    this.editorButton.onclick = function () {
       _this.dispose();
 
       SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
-        function(config) {
+        function (config) {
           _this.editor = new EditorView(_this.webSocketService, config);
-          _this.editor.load().then(function() {
+          _this.editor.load().then(function () {
             document.body.appendChild(_this.editor.html());
 
-            _this.editor.setOnClose(function() {
+            _this.editor.setOnClose(function () {
               _this.editor.dispose();
               document.body.appendChild(_this.html());
             });

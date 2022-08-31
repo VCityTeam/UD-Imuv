@@ -32,7 +32,7 @@ const WorldThreadModule = class WorldThread {
     //listen
     this.worker.on(
       'message',
-      function(msgPacked) {
+      function (msgPacked) {
         const msg = Pack.unpack(msgPacked);
         if (this.callbacks[msg.msgType]) {
           this.callbacks[msg.msgType](msg.data);
@@ -69,7 +69,7 @@ const WorldThreadModule = class WorldThread {
     this.worker.postMessage(
       Pack.pack({
         msgType: msgType,
-        data: data
+        data: data,
       })
     );
   }
@@ -92,10 +92,10 @@ WorldThreadModule.MSG_TYPES = {
   GAMEOBJECT_RESPONSE: 'gameobject_response',
   STOP: 'stop_thread',
   EDIT_CONF_COMPONENT: 'edit_conf_component',
-  EDIT_AVATAR_RENDER: 'edit_avatar_render'
+  EDIT_AVATAR_RENDER: 'edit_avatar_render',
 };
 
-WorldThreadModule.routine = function(serverConfig) {
+WorldThreadModule.routine = function (serverConfig) {
   if (workerThreads.isMainThread) {
     throw new Error('Its not a worker');
   }
@@ -104,7 +104,7 @@ WorldThreadModule.routine = function(serverConfig) {
   const assetsManager = new AssetsManagerServer();
 
   //load scripts
-  assetsManager.loadFromConfig(serverConfig.assetsManager).then(function() {
+  assetsManager.loadFromConfig(serverConfig.assetsManager).then(function () {
     const worldStateComputer = new Game.WorldStateComputer(
       assetsManager,
       serverConfig.worldDispatcher.worldThread.fps,
@@ -112,24 +112,24 @@ WorldThreadModule.routine = function(serverConfig) {
     );
 
     //listening parentPort
-    parentPort.on('message', msgPacked => {
+    parentPort.on('message', (msgPacked) => {
       const msg = Pack.unpack(msgPacked);
       switch (msg.msgType) {
         case WorldThreadModule.MSG_TYPES.INIT: {
           //create a server world
           const world = new World(msg.data, {
             isServerSide: true,
-            modules: { gm: gm, PNG: PNG, ImuvConstants: ImuvConstants }
+            modules: { gm: gm, PNG: PNG, ImuvConstants: ImuvConstants },
           });
 
           worldStateComputer.start(world);
 
-          worldStateComputer.addAfterTickRequester(function() {
+          worldStateComputer.addAfterTickRequester(function () {
             const currentState = worldStateComputer.computeCurrentState(false);
             //post worldstate to main thread
             const message = {
               msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
-              data: currentState.toJSON()
+              data: currentState.toJSON(),
             };
             parentPort.postMessage(Pack.pack(message));
           });
@@ -138,7 +138,7 @@ WorldThreadModule.routine = function(serverConfig) {
           worldStateComputer
             .getWorldContext()
             .getWorld()
-            .on(ImuvConstants.WORLD.EVENT.PORTAL, function(args) {
+            .on(ImuvConstants.WORLD.EVENT.PORTAL, function (args) {
               const avatarGO = args[0];
               const uuidDest = args[1];
               const portalUUID = args[2];
@@ -146,12 +146,12 @@ WorldThreadModule.routine = function(serverConfig) {
               const dataPortalEvent = {
                 avatarUUID: avatarGO.getUUID(),
                 worldUUID: uuidDest,
-                portalUUID: portalUUID
+                portalUUID: portalUUID,
               };
 
               const message = {
                 msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
-                data: dataPortalEvent
+                data: dataPortalEvent,
               };
               parentPort.postMessage(Pack.pack(message));
             });
@@ -160,7 +160,7 @@ WorldThreadModule.routine = function(serverConfig) {
         case WorldThreadModule.MSG_TYPES.COMMANDS: {
           //create js object from json
           const cmds = [];
-          msg.data.forEach(function(c) {
+          msg.data.forEach(function (c) {
             cmds.push(new Command(c));
           });
 
@@ -179,7 +179,7 @@ WorldThreadModule.routine = function(serverConfig) {
 
           if (!avatarGO) throw new Error('no avatar');
 
-          const editAvatarGO = function(go) {
+          const editAvatarGO = function (go) {
             const renderComp = go.getComponent(Game.Render.TYPE);
             //color
             renderComp.setColor(
@@ -213,7 +213,7 @@ WorldThreadModule.routine = function(serverConfig) {
           const transformJSON = msg.data.transform;
           const newGO = new GameObject(goJson);
 
-          worldStateComputer.onAddGameObject(newGO, function() {
+          worldStateComputer.onAddGameObject(newGO, function () {
             if (portalUUID) {
               const portal = worldStateComputer
                 .getWorldContext()
@@ -251,7 +251,7 @@ WorldThreadModule.routine = function(serverConfig) {
             .find(msg.data);
           const message = {
             msgType: WorldThreadModule.MSG_TYPES.GAMEOBJECT_RESPONSE,
-            data: go.toJSON(true)
+            data: go.toJSON(true),
           };
           parentPort.postMessage(Pack.pack(message));
           break;
@@ -287,10 +287,7 @@ WorldThreadModule.routine = function(serverConfig) {
         }
         case WorldThreadModule.MSG_TYPES.STOP: {
           console.warn(
-            worldStateComputer
-              .getWorldContext()
-              .getWorld()
-              .getName(),
+            worldStateComputer.getWorldContext().getWorld().getName(),
             ' stop'
           );
           process.exit(0);

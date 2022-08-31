@@ -17,7 +17,7 @@ module.exports = class AssetsManagerServer {
 
     if (!config) throw new Error('no config');
 
-    const toEvalCode = function(string) {
+    const toEvalCode = function (string) {
       const regexRequire = /^const.*=\W*\n*.*require.*;$/gm;
       const regexType = /^\/\*\*\W*@type.*\*\/$/gm;
       const resultRequire = string.replace(regexRequire, '');
@@ -84,7 +84,7 @@ module.exports = class AssetsManagerServer {
   //TODO waiting the avatar full customization to remove !
   createAvatarJSON() {
     const json = this.fetchPrefabJSON('avatar');
-    JSONUtils.parse(json, function(j, k) {
+    JSONUtils.parse(json, function (j, k) {
       if (k == 'idRenderData') {
         const random = Math.random();
 

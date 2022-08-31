@@ -25,7 +25,7 @@ export class DocPage {
 
     const rootHtml = this.rootHtml;
 
-    this.toggleShowButton.onclick = function() {
+    this.toggleShowButton.onclick = function () {
       if (getComputedStyle(rootHtml).display != 'none') {
         rootHtml.classList.add('hidden_Doc');
       } else {
@@ -79,7 +79,7 @@ export class DocPage {
     const loc = `${window.location.pathname}`;
     const path = loc.substring(0, loc.lastIndexOf('/'));
 
-    Array.from(newContentDoc.getElementsByTagName('img')).forEach(imageEl => {
+    Array.from(newContentDoc.getElementsByTagName('img')).forEach((imageEl) => {
       imageEl.src =
         `${window.location.origin}` +
         path +
@@ -88,7 +88,7 @@ export class DocPage {
     });
 
     const contentDoc = this.contentDoc;
-    title.onclick = function() {
+    title.onclick = function () {
       contentDoc.innerHTML = newContentDoc.innerHTML;
     };
     if (opening) {

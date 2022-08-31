@@ -65,7 +65,7 @@ const UserModule = class User {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),
         userID: this.getUUID(),
-        settings: this.getSettingsJSON()
+        settings: this.getSettingsJSON(),
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);

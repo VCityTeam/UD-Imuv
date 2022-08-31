@@ -48,7 +48,7 @@ export class AddPrefabEditorView {
       li.classList.add('li_Editor');
       li.innerHTML = key;
       this.prefabList.appendChild(li);
-      li.onclick = function() {
+      li.onclick = function () {
         const newGo = a.createPrefab(key);
         _this.parentView.addGameObject(newGo);
       };
