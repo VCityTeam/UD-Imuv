@@ -39,8 +39,8 @@ export class WorldEditorView {
       localScriptModules: {
         ImuvConstants: ImuvConstants,
         AnimatedText: AnimatedText,
-        JitsiIframeAPI: JitsiIframeAPI,
-      },
+        JitsiIframeAPI: JitsiIframeAPI
+      }
     });
 
     //offset the gameview
@@ -49,7 +49,7 @@ export class WorldEditorView {
     );
     const _this = this;
     //focus gameview go when new go
-    this.gameView.addOnNewGORequester(function () {
+    this.gameView.addOnNewGORequester(function() {
       _this.focusObject(_this.gameView.getObject3D());
     });
 
@@ -61,7 +61,7 @@ export class WorldEditorView {
       parentUIHtml: this.ui,
       gameView: this.gameView,
       parentView: this,
-      assetsManager: this.assetsManager,
+      assetsManager: this.assetsManager
     });
 
     //view to add prefab
@@ -69,7 +69,7 @@ export class WorldEditorView {
       parentUIHtml: this.ui.parentElement,
       assetsManager: this.assetsManager,
       gameView: this.gameView,
-      parentView: this,
+      parentView: this
     });
 
     //html
@@ -105,7 +105,7 @@ export class WorldEditorView {
     if (!mapGo) throw new Error('no map object in world');
 
     const _this = this;
-    world.addGameObject(newGo, wCxt, mapGo, function () {
+    world.addGameObject(newGo, wCxt, mapGo, function() {
       //force update gameview
       _this.gameView.forceUpdate();
 
@@ -128,7 +128,7 @@ export class WorldEditorView {
     this.gameView.dispose();
     this.ui.remove();
 
-    this.childrenViews.forEach(function (v) {
+    this.childrenViews.forEach(function(v) {
       v.dispose();
     });
   }
@@ -215,10 +215,10 @@ export class WorldEditorView {
     let center, radius;
 
     //avoid bug if no renderdata on this gameobject
-    const checkIfCoordInfinite = function (value) {
+    const checkIfCoordInfinite = function(value) {
       return value === Infinity || value === -Infinity;
     };
-    const checkIfVectorHasCoordInfinite = function (vector) {
+    const checkIfVectorHasCoordInfinite = function(vector) {
       return (
         checkIfCoordInfinite(vector.x) ||
         checkIfCoordInfinite(vector.y) ||
@@ -257,7 +257,7 @@ export class WorldEditorView {
   initCallbacks() {
     const _this = this;
 
-    this.heightmapButton.onclick = function () {
+    this.heightmapButton.onclick = function() {
       //check if one already exist
       for (let index = 0; index < _this.childrenViews.length; index++) {
         const element = _this.childrenViews[index];
@@ -268,10 +268,10 @@ export class WorldEditorView {
         parentUIHtml: _this.ui,
         assetsManager: _this.assetsManager,
         gameView: _this.gameView,
-        parentView: _this,
+        parentView: _this
       });
 
-      hV.setOnClose(function () {
+      hV.setOnClose(function() {
         hV.dispose();
 
         const index = _this.childrenViews.indexOf(hV);
@@ -282,8 +282,8 @@ export class WorldEditorView {
     };
 
     //TODO Maybe not the good way
-    const setTransparencyChild = function (GO, ratio) {
-      GO.children.forEach((child) => {
+    const setTransparencyChild = function(GO, ratio) {
+      GO.children.forEach(child => {
         if (child.material) {
           child.material.transparent = true;
           child.material.opacity = ratio;
@@ -296,7 +296,7 @@ export class WorldEditorView {
       });
     };
 
-    this.sliderOpacity.oninput = function (event) {
+    this.sliderOpacity.oninput = function(event) {
       if (!_this.model) return;
 
       const ratio = parseFloat(event.target.value) / 100;
@@ -305,7 +305,7 @@ export class WorldEditorView {
       setTransparencyChild(_this.gameView.object3D, ratio);
     };
 
-    const rotateCamera = function (dir) {
+    const rotateCamera = function(dir) {
       const camera = _this.gameView.getCamera();
       const center = _this.orbitControls.target.clone();
       const distance = camera.position.distanceTo(center);
@@ -319,8 +319,8 @@ export class WorldEditorView {
       camera.updateProjectionMatrix();
     };
 
-    const showHideFilter = function (GO, filterText, show) {
-      GO.traverse(function (child) {
+    const showHideFilter = function(GO, filterText, show) {
+      GO.traverse(function(child) {
         if (!(child instanceof THREE.Mesh)) {
           child.visible = true;
           return;
@@ -337,7 +337,7 @@ export class WorldEditorView {
       });
     };
 
-    this.hideButton.onclick = function () {
+    this.hideButton.onclick = function() {
       const filterTxt = _this.filterText.value;
 
       const mapGo = computeMapGO(_this.gameView);
@@ -345,7 +345,7 @@ export class WorldEditorView {
       showHideFilter(_this.gameView.object3D, filterTxt, false);
     };
 
-    this.showButton.onclick = function () {
+    this.showButton.onclick = function() {
       const filterTxt = _this.filterText.value;
       const mapGo = computeMapGO(_this.gameView);
       if (!mapGo) return;
@@ -379,7 +379,7 @@ export class WorldEditorView {
 
     const manager = this.gameView.getInputManager();
 
-    manager.addKeyInput('f', 'keyup', function () {
+    manager.addKeyInput('f', 'keyup', function() {
       const currentGO = _this.goEditorView.getSelectedGO();
       if (!currentGO) return;
       const objectInScene = _this.goEditorView.computeObject3D(
@@ -389,14 +389,14 @@ export class WorldEditorView {
     });
 
     const bufferInvisible = [];
-    manager.addKeyInput('Alt', 'keydown', function () {
-      _this.gameView.object3D.traverse(function (child) {
+    manager.addKeyInput('Alt', 'keydown', function() {
+      _this.gameView.object3D.traverse(function(child) {
         if (!child.visible) bufferInvisible.push(child);
         child.visible = true;
       });
     });
 
-    manager.addKeyInput('Alt', 'keyup', function () {
+    manager.addKeyInput('Alt', 'keyup', function() {
       while (bufferInvisible.length > 0) {
         bufferInvisible.pop().visible = false;
       }
@@ -412,7 +412,7 @@ class WorldEditorModel {
   constructor(assetsManager, json) {
     const worldStateComputer = new Game.WorldStateComputer(assetsManager, 30, {
       udviz: udviz,
-      Game: Game,
+      Game: Game
     });
 
     worldStateComputer.start(new Game.World(json));

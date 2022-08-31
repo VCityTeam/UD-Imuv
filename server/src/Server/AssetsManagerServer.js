@@ -17,16 +17,16 @@ module.exports = class AssetsManagerServer {
 
     if (!config) throw new Error('no config');
 
-    const toEvalCode = function (string) {
+    const toEvalCode = function(string) {
       const regexRequire = /^const.*=\W*\n*.*require.*;$/gm;
       const regexType = /^\/\*\*\W*@type.*\*\/$/gm;
-      let resultRequire = string.replace(regexRequire, '');
+      const resultRequire = string.replace(regexRequire, '');
       return resultRequire.replace(regexType, '');
     };
 
     const worldScriptsPromise = new Promise((resolve, reject) => {
       let count = 0;
-      for (let idScript in config.worldScripts) {
+      for (const idScript in config.worldScripts) {
         fs.readFile(config.worldScripts[idScript].path, 'utf8', (err, data) => {
           if (err) {
             reject();
@@ -45,7 +45,7 @@ module.exports = class AssetsManagerServer {
 
     const prefabsPromise = new Promise((resolve, reject) => {
       let count = 0;
-      for (let idPrefab in config.prefabs) {
+      for (const idPrefab in config.prefabs) {
         fs.readFile(config.prefabs[idPrefab].path, 'utf8', (err, data) => {
           if (err) {
             reject();
@@ -84,7 +84,7 @@ module.exports = class AssetsManagerServer {
   //TODO waiting the avatar full customization to remove !
   createAvatarJSON() {
     const json = this.fetchPrefabJSON('avatar');
-    JSONUtils.parse(json, function (j, k) {
+    JSONUtils.parse(json, function(j, k) {
       if (k == 'idRenderData') {
         const random = Math.random();
 

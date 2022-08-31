@@ -58,14 +58,14 @@ const UserModule = class User {
   }
 
   sendWorldState(stateJSON) {
-    let state = new WorldState(stateJSON);
+    const state = new WorldState(stateJSON);
 
     if (!this.lastState) {
       this.socket.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),
         userID: this.getUUID(),
-        settings: this.getSettingsJSON(),
+        settings: this.getSettingsJSON()
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);

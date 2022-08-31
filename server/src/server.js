@@ -5,5 +5,5 @@ const commonJsApplication = require('./Server/Application');
 
 module.exports = {
   WorldThread: commonJsThread,
-  Application: commonJsApplication,
+  Application: commonJsApplication
 };

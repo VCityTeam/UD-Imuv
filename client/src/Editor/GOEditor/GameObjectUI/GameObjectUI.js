@@ -45,13 +45,13 @@ export class GameObjectUI {
     inputName.value = go.getName();
     this.rootElementUI.appendChild(inputName);
 
-    inputName.onchange = function () {
+    inputName.onchange = function() {
       go.setName(inputName.value);
       goEditor.updateUI();
     };
 
     //Transfom UI
-    const cbOnChange = function () {
+    const cbOnChange = function() {
       go.setTransformFromObject3D(obj);
     };
 
@@ -60,7 +60,7 @@ export class GameObjectUI {
     translateButton.classList.add('button_Editor');
     this.rootElementUI.appendChild(translateButton);
 
-    translateButton.onclick = function () {
+    translateButton.onclick = function() {
       goEditor.gameView.getTransformControls().setMode('translate');
     };
 
@@ -76,7 +76,7 @@ export class GameObjectUI {
     rotateButton.innerHTML = 'rotate';
     this.rootElementUI.appendChild(rotateButton);
 
-    rotateButton.onclick = function () {
+    rotateButton.onclick = function() {
       goEditor.gameView.getTransformControls().setMode('rotate');
     };
 
@@ -91,7 +91,7 @@ export class GameObjectUI {
     scaleButton.innerHTML = 'scale';
     this.rootElementUI.appendChild(scaleButton);
 
-    scaleButton.onclick = function () {
+    scaleButton.onclick = function() {
       goEditor.gameView.getTransformControls().setMode('scale');
     };
 
@@ -105,9 +105,9 @@ export class GameObjectUI {
     cloneButton.innerHTML = 'Clone';
     this.rootElementUI.appendChild(cloneButton);
 
-    cloneButton.onclick = function () {
+    cloneButton.onclick = function() {
       const clone = GameObject.deepCopy(go);
-      goEditor.parentView.addGameObject(clone, function () {
+      goEditor.parentView.addGameObject(clone, function() {
         goEditor.setSelectedGOWithObject3D(
           goEditor.computeObject3D(clone.getUUID())
         );
@@ -122,7 +122,7 @@ export class GameObjectUI {
     deleteButton.innerHTML = 'Delete';
     this.rootElementUI.appendChild(deleteButton);
 
-    deleteButton.onclick = function () {
+    deleteButton.onclick = function() {
       goEditor.setSelectedGOWithObject3D(null);
       go.removeFromParent();
       goEditor.gameView.forceUpdate();
@@ -141,7 +141,7 @@ export class GameObjectUI {
     const rootHtml = this.rootElementUI;
 
     const _this = this;
-    colliderButton.onclick = function () {
+    colliderButton.onclick = function() {
       if (!goEditor.getSelectedGO()) {
         console.error('not GO selected');
         return;
@@ -149,11 +149,11 @@ export class GameObjectUI {
       if (_this.cEV) return;
       _this.cEV = new ColliderEditorView({
         goEditor: goEditor,
-        rootHtml: rootHtml,
+        rootHtml: rootHtml
       });
 
       _this.cEV.setOnClose(
-        function () {
+        function() {
           _this.cEV.dispose();
           _this.cEV = null;
           this.initPointerUpCallback();
@@ -176,14 +176,14 @@ export class GameObjectUI {
     const inputVector3 = document.createElement('div');
 
     for (let iInput = 0; iInput < 3; iInput++) {
-      let component = iInput === 0 ? vec3.x : iInput === 1 ? vec3.y : vec3.z;
+      const component = iInput === 0 ? vec3.x : iInput === 1 ? vec3.y : vec3.z;
       const componentElement = document.createElement('input');
       componentElement.type = 'number';
       componentElement.value = component;
       componentElement.step = 0.1;
       inputVector3.appendChild(componentElement);
 
-      componentElement.onchange = function () {
+      componentElement.onchange = function() {
         const value = parseFloat(componentElement.value);
         vec3.x = iInput === 0 ? value : vec3.x;
         vec3.y = iInput === 1 ? value : vec3.y;

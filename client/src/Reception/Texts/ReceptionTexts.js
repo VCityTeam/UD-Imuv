@@ -1,5 +1,5 @@
 /* A function that takes an id and returns the text associated with that id. */
-const getTextByID = function (id, lang) {
+const getTextByID = function(id, lang) {
   return texts[lang][id] || 'TEXT NOT DEFINED';
 };
 
@@ -26,7 +26,7 @@ const texts = {
       'Didier <b>CHANFRAY</b>',
       'Yael <b>BARROZ</b>',
       'Mathieu <b>LIVEBARDON</b>',
-      'Valentin <b>MACHADO</b>',
+      'Valentin <b>MACHADO</b>'
     ],
     aboutTitleDescription: 'Description',
     aboutDescription:
@@ -51,7 +51,7 @@ const texts = {
 
     //Sign
     signIn: 'Identification',
-    signUp: 'Créer compte',
+    signUp: 'Créer compte'
   },
 
   EN: {
@@ -73,7 +73,7 @@ const texts = {
       'Didier <b>CHANFRAY</b>',
       'Yael <b>BARROZ</b>',
       'Mathieu <b>LIVEBARDON</b>',
-      'Valentin <b>MACHADO</b>',
+      'Valentin <b>MACHADO</b>'
     ],
     aboutTitleDescription: 'Description',
     aboutDescription:
@@ -98,6 +98,6 @@ const texts = {
 
     //Sign
     signIn: 'Sign In',
-    signUp: 'Sign Up',
-  },
+    signUp: 'Sign Up'
+  }
 };

@@ -5,7 +5,7 @@ export function computeMapGO(g) {
   //find the map
   const wCxt = g.getInterpolator().getWorldContext();
   const world = wCxt.getWorld();
-  world.getGameObject().traverse(function (child) {
+  world.getGameObject().traverse(function(child) {
     const ws = child.getComponent(WorldScriptModule.TYPE);
     if (ws && ws.idScripts.includes('map')) {
       result = child;
