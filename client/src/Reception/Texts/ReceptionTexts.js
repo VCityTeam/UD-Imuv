@@ -12,7 +12,7 @@ const texts = {
     button_Home: 'Accueil',
     button_About: 'A propos',
     button_News: 'Actualités',
-    button_Services: 'Services',
+    button_Credits: 'Credits',
     button_FRUK: 'FR/UK',
     titleNav: 'IMUV - Flying Campus',
     button_Join: 'Rejoindre',
@@ -46,8 +46,9 @@ const texts = {
     newsBoxTitle: 'Actualités',
     newsLinkGithubReleases: 'Github Releases',
     feedbacksLink: "Retour d'expérience",
-    servicesBoxTitle: 'Services',
-    servicesContent: 'A venir',
+    creditsBoxTitle: 'Credits',
+    creditsContent:
+      'Souris modele 3D: https://free3d.com/3d-model/computer-mouse-v3--595560.html <br>Sons: https://universal-soundbank.com/',
 
     //Sign
     signIn: 'Identification',
@@ -59,7 +60,7 @@ const texts = {
     button_Home: 'Home',
     button_About: 'About',
     button_News: 'News',
-    button_Services: 'Services',
+    button_Credits: 'Credits',
     button_FRUK: 'FR/UK',
     titleNav: 'IMUV - Flying Campus',
     button_Join: 'Join',
@@ -93,8 +94,9 @@ const texts = {
     newsBoxTitle: 'News',
     newsLinkGithubReleases: 'Github Releases',
     feedbacksLink: 'Feedbacks',
-    servicesBoxTitle: 'Services',
-    servicesContent: 'Coming soon',
+    creditsBoxTitle: 'Credits',
+    creditsContent:
+      'Mouse 3D model: https://free3d.com/3d-model/computer-mouse-v3--595560.html <br>Sounds: https://universal-soundbank.com/',
 
     //Sign
     signIn: 'Sign In',
