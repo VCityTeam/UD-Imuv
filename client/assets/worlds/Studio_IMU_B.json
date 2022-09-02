@@ -253,9 +253,7 @@
             "children": [],
             "transform": {
               "position": [
-                -7.489242042880505,
-                3.61204466316849,
-                2.58712546654192
+                -7.489242042880505, 3.61204466316849, 2.58712546654192
               ],
               "rotation": [0, 0, 6.2480473677264605, "ZXY"],
               "scale": [0.6, 0.6, 1]
@@ -284,7 +282,7 @@
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 18 },
+            "conf": { "world_computer_dt": 15 },
             "type": "LocalScript"
           },
           "WorldScript": {
