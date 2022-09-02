@@ -3490,64 +3490,6 @@
             },
             "noLocalUpdate": false,
             "freeze": false
-          },
-          {
-            "name": "JitsiArea Fontaine",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "D0D990E1-31F7-48D2-AA0A-48069209B71D",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": ["Collider"],
-            "components": {
-              "Collider": {
-                "uuid": "800C675B-9240-4E0F-BC97-0ECA75A3817E",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": 0.006332439836114645,
-                      "y": -0.012081303633749485,
-                      "z": -0.006979852247297913
-                    },
-                    "radius": "4"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "A7E89222-BC44-4092-92FC-65B9B069DBF3",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [0, 0.5, 1]
-              },
-              "LocalScript": {
-                "uuid": "5F614DE5-97DD-43DA-B012-82672390D6AC",
-                "idScripts": ["local_interactions", "jitsi_area"],
-                "conf": {
-                  "jitsi_room_name": "Fontaine",
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "BE413714-C8F8-40DC-B00D-01505B4612A2",
-                "idScripts": ["interaction_zone"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
           }
         ],
         "transform": {
@@ -3570,7 +3512,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 17 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
