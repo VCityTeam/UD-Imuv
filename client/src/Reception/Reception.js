@@ -91,11 +91,11 @@ export class ReceptionView {
       '#news'
     );
     buttonsTopNav.appendChild(newsButton);
-    const servicesButton = createButton(
-      getTextByID('button_Services', this.language),
-      '#services'
+    const creditsButton = createButton(
+      getTextByID('button_Credits', this.language),
+      '#credits'
     );
-    buttonsTopNav.appendChild(servicesButton);
+    buttonsTopNav.appendChild(creditsButton);
     this.languageButton = createButton(
       getTextByID('button_FRUK', this.language)
     );
@@ -307,19 +307,19 @@ export class ReceptionView {
     feedbacksLink.target = '_blank';
     newsSection.appendChild(feedbacksLink);
 
-    //services
-    const servicesSection = document.createElement('section');
-    servicesSection.id = 'services';
-    contentDiv.appendChild(servicesSection);
+    //credits
+    const creditsSection = document.createElement('section');
+    creditsSection.id = 'credits';
+    contentDiv.appendChild(creditsSection);
 
-    const servicesBoxTitle = document.createElement('div');
-    servicesBoxTitle.classList.add('box_Reception');
-    servicesBoxTitle.innerHTML = getTextByID('servicesBoxTitle', this.language);
-    servicesSection.appendChild(servicesBoxTitle);
+    const creditsBoxTitle = document.createElement('div');
+    creditsBoxTitle.classList.add('box_Reception');
+    creditsBoxTitle.innerHTML = getTextByID('creditsBoxTitle', this.language);
+    creditsSection.appendChild(creditsBoxTitle);
 
-    const servicesContent = document.createElement('p');
-    servicesContent.innerHTML = getTextByID('servicesContent', this.language);
-    servicesSection.appendChild(servicesContent);
+    const creditsContent = document.createElement('p');
+    creditsContent.innerHTML = getTextByID('creditsContent', this.language);
+    creditsSection.appendChild(creditsContent);
   }
 
   dispose() {
