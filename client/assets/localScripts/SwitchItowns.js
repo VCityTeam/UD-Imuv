@@ -299,13 +299,15 @@ class MenuWidgets {
       new udviz.Widgets.Extensions.GeocodingView(geocodingService, view)
     );
 
-    //TODO widgets travaux
-    //geocoding + camera positioner isVisible not working
-    // + bugs throw in console ...
-
     ////ADD ITOWNS WIDGETS
-    // new udviz.itownsWidgets.Scale(localCtx.getGameView().getItownsView(),
-    //   { parentElement: this.rootHtml })
+    const itownsScale = new udviz.itownsWidgets.Scale(
+      localCtx.getGameView().getItownsView(),
+      {
+        parentElement: this.rootHtml,
+      }
+    );
+
+    itownsScale.domElement.id = 'itowns-scale';
   }
 
   html() {
