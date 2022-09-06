@@ -36,6 +36,8 @@ module.exports = class CameraTour {
     gameView.appendToUI(startTour);
 
     startTour.onclick = function () {
+      if (cameraScript.hasRoutine()) return;
+
       if (_this.menuTour) {
         let currentTime = 0;
         let startPos = camera.position.clone();
