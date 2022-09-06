@@ -100,6 +100,9 @@ export class GOEditorView {
       if (lS['geo_project']) {
         goUI.appendLSGeoProjectUI(this.gameView);
       }
+      if (lS['camera_tour']) {
+        goUI.appendLSCameraTourUI(this.gameView);
+      }
     }
 
     const wS = go.fetchWorldScripts();
