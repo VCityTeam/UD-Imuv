@@ -138,6 +138,9 @@
       },
       "jitsi_area": {
         "path": "./assets/localScripts/JitsiArea.js"
+      },
+      "camera_tour": {
+        "path": "./assets/localScripts/CameraTour.js"
       }
     },
     "renderData": {
@@ -259,6 +262,9 @@
       },
       "city_avatar_not_allow_area": {
         "path": "./assets/prefabs/CityAvatarNotAllowArea.json"
+      },
+      "camera_tour": {
+        "path": "./assets/prefabs/CameraTour.json"
       }
     },
     "worlds": {

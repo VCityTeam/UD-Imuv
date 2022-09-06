@@ -1308,6 +1308,47 @@
             },
             "noLocalUpdate": false,
             "freeze": false
+          },
+          {
+            "name": "CameraTour",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "65ABDECF-2AD3-435E-899C-7FD4E04D437A",
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "forceSerializeComponents": [],
+            "components": {
+              "LocalScript": {
+                "uuid": "575E0282-07D5-467B-B7A9-48420E36CD3E",
+                "idScripts": ["camera_tour"],
+                "conf": {
+                  "camera_transforms": [
+                    {
+                      "position": [
+                        -15.607704333822555, 7.043361356481087, 2.62284386252894
+                      ],
+                      "quaternion": [0.5, 0.5, 0.5, 0.5]
+                    },
+                    {
+                      "position": [
+                        -15.607704333822555, 11.89320440085747,
+                        2.460535546747694
+                      ],
+                      "quaternion": [0.5, 0.5, 0.5, 0.5]
+                    }
+                  ]
+                },
+                "type": "LocalScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [0, 0, 0],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
           }
         ],
         "transform": {
@@ -1330,7 +1371,7 @@
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 17 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {

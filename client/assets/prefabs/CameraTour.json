@@ -1,0 +1,14 @@
+{
+  "name": "CameraTour",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "LocalScript": {
+      "idScripts": ["camera_tour"],
+      "conf": {
+        "camera_transforms": []
+      },
+      "type": "LocalScript"
+    }
+  }
+}

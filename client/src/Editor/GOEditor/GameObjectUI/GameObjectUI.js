@@ -7,6 +7,7 @@ import { LocalScriptSignageDisplayerUI } from './LocalScriptSignageDisplayerUI';
 import { LocalScriptJitsiAreaUI } from './LocalScriptJitsiAreaUI';
 import { WorldScriptPortalUI } from './WorldScriptPortalUI';
 import { WorldScriptTeleporterUI } from './WorldScriptTeleporterUI';
+import { LocalScriptCameraTourUI } from './LocalScriptCameraTourUI';
 
 export class GameObjectUI {
   constructor(go, obj, goEditor) {
@@ -42,6 +43,7 @@ export class GameObjectUI {
     //Name
     const inputName = document.createElement('input');
     inputName.type = 'text';
+    inputName.style.display = 'block';
     inputName.value = go.getName();
     this.rootElementUI.appendChild(inputName);
 
@@ -225,5 +227,9 @@ export class GameObjectUI {
 
   appendLSGeoProjectUI(gV) {
     new LocalScriptGeoProjectUI(this, gV);
+  }
+
+  appendLSCameraTourUI(gV) {
+    new LocalScriptCameraTourUI(this, gV);
   }
 }
