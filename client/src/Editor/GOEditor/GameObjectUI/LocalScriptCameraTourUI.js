@@ -27,9 +27,33 @@ export class LocalScriptCameraTourUI {
     if (!lsComp) throw new Error('no localscript');
 
     lsComp.conf.camera_transforms.forEach(function (ct, index) {
-      const li = document.createElement('li');
-      li.innerHTML = index;
-      _this.rootHtml.appendChild(li);
+      //focus
+      const focusButton = document.createElement('button');
+      focusButton.innerHTML = 'Focus ' + index;
+      _this.rootHtml.appendChild(focusButton);
+
+      //delete
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = 'Delete ' + index;
+      _this.rootHtml.appendChild(deleteButton);
+
+      //backspace
+      const br = document.createElement('div');
+      br.innerHTML = '<br>';
+      _this.rootHtml.appendChild(br);
+
+      //callback
+      deleteButton.onclick = function () {
+        lsComp.conf.camera_transforms.splice(index, 1);
+        _this.buildUI(go, gV);
+      };
+
+      focusButton.onclick = function () {
+        const camera = gV.getCamera();
+        camera.position.fromArray(ct.position);
+        camera.quaternion.fromArray(ct.quaternion);
+        camera.updateProjectionMatrix();
+      };
     });
 
     const addCameraTransform = document.createElement('button');
