@@ -167,6 +167,25 @@ export class ReceptionView {
     labelJoin.innerHTML = getTextByID('button_Join', this.language);
     this.joinButton.appendChild(labelJoin);
 
+    const feedbacksDiv = document.createElement('div');
+    feedbacksDiv.classList.add('feedbacksDiv_Reception');
+    this.rootHtml.appendChild(feedbacksDiv);
+
+    const feedbacksLabel = document.createElement('h2');
+    feedbacksLabel.innerHTML = getTextByID('feedbacksLabel', this.language);
+    feedbacksDiv.appendChild(feedbacksLabel);
+
+    const feedbacksLink = document.createElement('a');
+    feedbacksLink.href =
+      'https://docs.google.com/forms/d/e/1FAIpQLSehPF3hsGpzgLnFABd8cbT0TZzzd7dznrJXCL2tEXvuw88hZQ/viewform?usp=pp_url';
+    feedbacksLink.target = '_blank';
+    feedbacksDiv.appendChild(feedbacksLink);
+
+    const feedbacksImage = document.createElement('img');
+    feedbacksImage.src =
+      'https://upload.wikimedia.org/wikipedia/commons/5/5b/Google_Forms_2020_Logo.svg';
+    feedbacksLink.appendChild(feedbacksImage);
+
     //content
     const contentDiv = document.createElement('div');
     contentDiv.classList.add('content_Reception');
@@ -300,13 +319,6 @@ export class ReceptionView {
     const backline = document.createElement('p');
     newsSection.appendChild(backline);
 
-    const feedbacksLink = document.createElement('a');
-    feedbacksLink.innerHTML = getTextByID('feedbacksLink', this.language);
-    feedbacksLink.href =
-      'https://docs.google.com/forms/d/e/1FAIpQLSehPF3hsGpzgLnFABd8cbT0TZzzd7dznrJXCL2tEXvuw88hZQ/viewform?usp=pp_url';
-    feedbacksLink.target = '_blank';
-    newsSection.appendChild(feedbacksLink);
-
     //credits
     const creditsSection = document.createElement('section');
     creditsSection.id = 'credits';
@@ -317,9 +329,13 @@ export class ReceptionView {
     creditsBoxTitle.innerHTML = getTextByID('creditsBoxTitle', this.language);
     creditsSection.appendChild(creditsBoxTitle);
 
-    const creditsContent = document.createElement('p');
-    creditsContent.innerHTML = getTextByID('creditsContent', this.language);
-    creditsSection.appendChild(creditsContent);
+    const creditsContentList = document.createElement('ul');
+    getTextByID('creditsContentList', this.language).forEach((element) => {
+      const liEl = document.createElement('li');
+      liEl.innerHTML = element;
+      creditsContentList.appendChild(liEl);
+    });
+    creditsSection.appendChild(creditsContentList);
   }
 
   dispose() {
