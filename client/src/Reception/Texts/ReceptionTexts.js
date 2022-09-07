@@ -45,10 +45,13 @@ const texts = {
     //News
     newsBoxTitle: 'Actualités',
     newsLinkGithubReleases: 'Github Releases',
-    feedbacksLink: "Retour d'expérience",
+    feedbacksLabel: "Retour d'expérience",
     creditsBoxTitle: 'Credits',
-    creditsContent:
-      'Souris modele 3D: https://free3d.com/3d-model/computer-mouse-v3--595560.html <br>Sons: https://universal-soundbank.com/',
+    creditsContentList: [
+      'Souris modele 3D : <a href=https://free3d.com/3d-model/computer-mouse-v3--595560.html>https://free3d.com/3d-model/computer-mouse-v3--595560.html</a>',
+      'Sons : <a href=https://universal-soundbank.com/>https://universal-soundbank.com/</a> <br>',
+      'Logo Google Form : <a href="https://commons.wikimedia.org/wiki/File:Google_Forms_2020_Logo.svg">Google</a>, Domaine publique, via Wikimedia Commons',
+    ],
 
     //Sign
     signIn: 'Identification',
@@ -93,10 +96,13 @@ const texts = {
     //News
     newsBoxTitle: 'News',
     newsLinkGithubReleases: 'Github Releases',
-    feedbacksLink: 'Feedbacks',
+    feedbacksLabel: 'Feedbacks',
     creditsBoxTitle: 'Credits',
-    creditsContent:
-      'Mouse 3D model: https://free3d.com/3d-model/computer-mouse-v3--595560.html <br>Sounds: https://universal-soundbank.com/',
+    creditsContentList: [
+      'Mouse 3D model : <a href=https://free3d.com/3d-model/computer-mouse-v3--595560.html>https://free3d.com/3d-model/computer-mouse-v3--595560.html</a>',
+      'Sounds : <a href=https://universal-soundbank.com/>https://universal-soundbank.com/</a> <br>',
+      'Logo Google Form : <a href="https://commons.wikimedia.org/wiki/File:Google_Forms_2020_Logo.svg">Google</a>, Public domain, via Wikimedia Commons',
+    ],
 
     //Sign
     signIn: 'Sign In',

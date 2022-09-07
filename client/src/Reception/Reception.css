@@ -138,6 +138,23 @@
   color: whitesmoke;
 }
 
+.feedbacksDiv_Reception {
+  color: #000000;
+  font-family: sans-serif;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.feedbacksDiv_Reception img {
+  height: 100px;
+}
+
+.feedbacksDiv_Reception h2 {
+  padding: 1rem;
+}
+
 .content_Reception {
   background-color: white;
   padding: 40px;
