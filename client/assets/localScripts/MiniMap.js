@@ -59,7 +59,7 @@ module.exports = class MiniMap {
 
     /* Finding the position of the portals and adding them to the array. */
     const portalIcons = this.portalIcons;
-    go.traverse(function (child) {
+    go.computeRoot().traverse(function (child) {
       const lS = child.fetchLocalScripts();
       if (lS && lS['portal_sweep']) {
         portalIcons.push(new PortalIcon(child.getPosition()));

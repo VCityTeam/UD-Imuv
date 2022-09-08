@@ -30,6 +30,9 @@
       },
       "city_avatar_not_allow_area": {
         "path": "../client/assets/worldScripts/CityAvatarNotAllowArea.js"
+      },
+      "mini_map": {
+        "path": "../client/assets/worldScripts/MiniMap.js"
       }
     },
     "prefabs": {

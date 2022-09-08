@@ -218,6 +218,9 @@
       },
       "city_avatar_not_allow_area": {
         "path": "./assets/worldScripts/CityAvatarNotAllowArea.js"
+      },
+      "mini_map": {
+        "path": "./assets/worldScripts/MiniMap.js"
       }
     },
     "prefabs": {
@@ -265,6 +268,9 @@
       },
       "camera_tour": {
         "path": "./assets/prefabs/CameraTour.json"
+      },
+      "mini_map": {
+        "path": "./assets/prefabs/MiniMap.json"
       }
     },
     "worlds": {

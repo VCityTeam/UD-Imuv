@@ -29,13 +29,10 @@
           "avatar_controller",
           "camera",
           "zeppelin_controller",
-          "static_object",
-          "mini_map"
+          "static_object"
         ],
         "conf": {
-          "mini_map_no_teleport": [],
-          "traveling_time": 3000,
-          "mini_map_size": 232
+          "traveling_time": 3000
         },
         "type": "LocalScript"
       }
