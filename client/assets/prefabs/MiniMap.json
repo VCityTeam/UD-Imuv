@@ -7,6 +7,7 @@
       "idScripts": ["mini_map"],
       "conf": {
         "mini_map_no_teleport": [],
+        "mini_map_ping": [],
         "mini_map_size": 232
       },
       "type": "LocalScript"

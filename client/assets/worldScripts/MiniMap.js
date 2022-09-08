@@ -16,15 +16,28 @@ module.exports = class MiniMap {
     const worldContext = arguments[1];
     const cmds = worldContext.getCommands();
     const teleportCmds = [];
+    const pingCmds = [];
     const lsMiniMap = gameObject.getComponent(Game.LocalScript.TYPE);
 
     /* Clearing the array of text that is displayed when a teleport command is rejected. */
     lsMiniMap.conf.mini_map_no_teleport.length = 0;
+    //clear array
+    lsMiniMap.conf.mini_map_ping.length = 0;
 
+    //teleport
     for (let i = cmds.length - 1; i >= 0; i--) {
       const cmd = cmds[i];
       if (cmd.getType() == Game.Command.TYPE.TELEPORT) {
         teleportCmds.push(cmd);
+        cmds.splice(i, 1);
+      }
+    }
+
+    //ping
+    for (let i = cmds.length - 1; i >= 0; i--) {
+      const cmd = cmds[i];
+      if (cmd.getType() == Game.Command.TYPE.PING_MINI_MAP) {
+        pingCmds.push(cmd);
         cmds.splice(i, 1);
       }
     }
@@ -56,6 +69,12 @@ module.exports = class MiniMap {
 
         avatar.setPosition(newPosition);
       }
+    });
+
+    pingCmds.forEach(function (pingCmd) {
+      const data = pingCmd.getData();
+      lsMiniMap.conf.mini_map_ping.push(data);
+      gameObject.setOutdated(true);
     });
   }
 };

@@ -3631,7 +3631,11 @@
               "LocalScript": {
                 "uuid": "2F691F24-B764-4916-B64E-F6290C1E7F39",
                 "idScripts": ["mini_map"],
-                "conf": { "mini_map_no_teleport": [], "mini_map_size": 232 },
+                "conf": {
+                  "mini_map_no_teleport": [],
+                  "mini_map_ping": [],
+                  "mini_map_size": 232
+                },
                 "type": "LocalScript"
               },
               "WorldScript": {

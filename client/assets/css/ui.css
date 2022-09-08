@@ -201,12 +201,6 @@
   margin: auto;
 }
 
-/* MiniMap */
-
-#canvas_mini_map {
-  cursor: pointer;
-}
-
 /*Middle screen label*/
 .middle_screen_label {
   font-size: x-large;

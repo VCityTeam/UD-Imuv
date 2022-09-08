@@ -7,6 +7,12 @@ const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
 const MAGNETISM = 2;
 
+const CLICK_MODE = {
+  DEFAULT: 0,
+  TELEPORT: 1,
+  PING: 2,
+};
+
 module.exports = class MiniMap {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -24,12 +30,19 @@ module.exports = class MiniMap {
     this.renderer.setSize(MINI_MAP_SIZE, MINI_MAP_SIZE);
 
     //what is display
-    this.ui = document.createElement('canvas');
-    this.ui.id = 'canvas_mini_map';
-    this.ui.width = MINI_MAP_SIZE;
-    this.ui.height = MINI_MAP_SIZE;
-    this.ui.style.width = MINI_MAP_SIZE + 'px';
-    this.ui.style.height = MINI_MAP_SIZE + 'px';
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root-menu-settings');
+
+    const title = document.createElement('h1');
+    title.innerHTML = 'MiniMap';
+    this.rootHtml.appendChild(title);
+
+    this.canvasMiniMap = document.createElement('canvas');
+    this.canvasMiniMap.width = MINI_MAP_SIZE;
+    this.canvasMiniMap.height = MINI_MAP_SIZE;
+    this.canvasMiniMap.style.width = MINI_MAP_SIZE + 'px';
+    this.canvasMiniMap.style.height = MINI_MAP_SIZE + 'px';
+    this.rootHtml.appendChild(this.canvasMiniMap);
 
     this.currentDT = 0;
 
@@ -38,6 +51,12 @@ module.exports = class MiniMap {
 
     //map is displayed or not
     this.displayMiniMap = false;
+
+    //mode
+    this.clickMode = CLICK_MODE.DEFAULT;
+
+    //ping
+    this.pings = [];
   }
 
   /**
@@ -54,7 +73,6 @@ module.exports = class MiniMap {
     const Command = udviz.Game.Command;
 
     const _this = this;
-    const ui = this.ui;
     const conf = this.conf;
 
     /* Finding the position of the portals and adding them to the array. */
@@ -74,16 +92,16 @@ module.exports = class MiniMap {
       _this.displayMiniMap = !_this.displayMiniMap;
 
       if (_this.displayMiniMap) {
-        gameView.appendToUI(ui);
+        gameView.appendToUI(_this.rootHtml);
       } else {
-        ui.remove();
+        _this.rootHtml.remove();
       }
     };
 
     manager.addMouseCommand('click', function () {
       const event = this.event('click');
 
-      if (event.target != ui) return null;
+      if (event.target != _this.canvasMiniMap) return null;
       const x = event.pageX;
       const y = event.pageY;
 
@@ -98,33 +116,65 @@ module.exports = class MiniMap {
       );
 
       //MAGNETISM
+      let isOnPortalIcon = false;
       _this.portalIcons.forEach(function (icon) {
         const posIcon = icon.getPosition();
         if (
           Math.abs(posIcon.x - teleportPosition.x) < MAGNETISM &&
           Math.abs(posIcon.y - teleportPosition.y) < MAGNETISM
         ) {
+          isOnPortalIcon = true;
           teleportPosition.x = posIcon.x;
           teleportPosition.y = posIcon.y;
         }
       });
 
-      return new Command({
-        type: Command.TYPE.TELEPORT,
-        data: {
-          mousePosition: { x: x, y: y },
-          position: teleportPosition,
-          avatarUUID: gameView.getUserData('avatarUUID'),
-        },
-        userID: userID,
-      });
+      let clickMode = _this.clickMode;
+      if (isOnPortalIcon) clickMode = CLICK_MODE.TELEPORT; //automatic teleport mode chan clicking portal icon
+
+      if (clickMode === CLICK_MODE.DEFAULT) {
+        //nothing
+        _this.setClickMode(CLICK_MODE.DEFAULT);
+
+        return null;
+      } else if (clickMode === CLICK_MODE.TELEPORT) {
+        _this.setClickMode(CLICK_MODE.DEFAULT);
+
+        return new Command({
+          type: Command.TYPE.TELEPORT,
+          data: {
+            mousePosition: { x: x, y: y },
+            position: teleportPosition,
+            avatarUUID: gameView.getUserData('avatarUUID'),
+          },
+          userID: userID,
+        });
+      } else if (clickMode === CLICK_MODE.PING) {
+        _this.setClickMode(CLICK_MODE.DEFAULT);
+
+        const avatarGO = localCtx
+          .getRootGameObject()
+          .find(gameView.getUserData('avatarUUID'));
+
+        return new Command({
+          type: Command.TYPE.PING_MINI_MAP,
+          data: {
+            mousePosition: {
+              x: ratioX * MINI_MAP_SIZE,
+              y: MINI_MAP_SIZE - ratioY * MINI_MAP_SIZE,
+            },
+            color: _this.fetchAvatarColor(avatarGO),
+          },
+          userID: userID,
+        });
+      }
     });
 
-    manager.addMouseInput(this.ui, 'mousemove', function (event) {
+    manager.addMouseInput(this.canvasMiniMap, 'mousemove', function (event) {
       const x = event.pageX;
       const y = event.pageY;
 
-      const rect = _this.ui.getBoundingClientRect();
+      const rect = _this.canvasMiniMap.getBoundingClientRect();
       const ratioX = (x - rect.left) / (rect.right - rect.left);
       const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
 
@@ -134,6 +184,16 @@ module.exports = class MiniMap {
         0
       );
 
+      let hover;
+
+      //check mode
+      if (_this.clickMode == CLICK_MODE.DEFAULT) {
+        hover = false; //click does nothing except if portal icon is hovered
+      } else {
+        hover = true; //a click should send a command
+      }
+
+      //check if on icon
       _this.portalIcons.forEach(function (icon) {
         const posIcon = icon.getPosition();
         if (
@@ -141,11 +201,51 @@ module.exports = class MiniMap {
           Math.abs(posIcon.y - positionMouse.y) < MAGNETISM
         ) {
           icon.setHover(true);
+          hover = true;
         } else {
           icon.setHover(false);
         }
       });
+
+      _this.setCursorPointer(hover);
     });
+
+    //add mode click button
+    const pingButton = document.createElement('button');
+    pingButton.innerHTML = 'Ping';
+    this.rootHtml.appendChild(pingButton);
+
+    const teleportButton = document.createElement('button');
+    teleportButton.innerHTML = 'Teleportation';
+    this.rootHtml.appendChild(teleportButton);
+
+    pingButton.onclick = function () {
+      _this.setClickMode(CLICK_MODE.PING);
+    };
+
+    teleportButton.onclick = function () {
+      _this.setClickMode(CLICK_MODE.TELEPORT);
+    };
+  }
+
+  setClickMode(mode) {
+    this.clickMode = mode;
+
+    if (mode == CLICK_MODE.DEFAULT) {
+      this.setCursorPointer(false);
+    } else if (mode == CLICK_MODE.PING) {
+      this.setCursorPointer(true);
+    } else if (mode == CLICK_MODE.TELEPORT) {
+      this.setCursorPointer(true);
+    }
+  }
+
+  setCursorPointer(value) {
+    if (value) {
+      this.canvasMiniMap.style.cursor = 'pointer';
+    } else {
+      this.canvasMiniMap.style.cursor = 'auto';
+    }
   }
 
   onNewGameObject() {
@@ -346,6 +446,19 @@ module.exports = class MiniMap {
     destCtx.stroke();
   }
 
+  fetchAvatarColor(avatarGO) {
+    const avatarColor = avatarGO.getComponent('Render').color;
+    return (
+      'rgb(' +
+      avatarColor.r * 255 +
+      ',' +
+      avatarColor.g * 255 +
+      ',' +
+      avatarColor.b * 255 +
+      ')'
+    );
+  }
+
   /**
    * It draws the mini-map, and then draws the avatar on top of it
    * @returns A function that takes in two arguments, go and localCtx.
@@ -357,7 +470,7 @@ module.exports = class MiniMap {
 
     if (!this.defaultCanvas || !this.displayMiniMap) return;
     //write
-    const destCtx = this.ui.getContext('2d');
+    const destCtx = this.canvasMiniMap.getContext('2d');
     destCtx.drawImage(this.defaultCanvas, 0, 0);
 
     this.currentDT += localCtx.getDt() * 0.002;
@@ -376,15 +489,7 @@ module.exports = class MiniMap {
         y: MINI_MAP_SIZE * 0.5 - avatarPos.y / pixelSize,
       };
       /* Drawing the avatar on the mini map. Set its color thanks to the render color */
-      const avatarColor = avatarGO.getComponent('Render').color;
-      destCtx.fillStyle =
-        'rgb(' +
-        avatarColor.r * 255 +
-        ',' +
-        avatarColor.g * 255 +
-        ',' +
-        avatarColor.b * 255 +
-        ')';
+      destCtx.fillStyle = _this.fetchAvatarColor(avatarGO);
 
       const rotation = -avatarGO.getRotation().z - Math.PI;
       const cos = Math.cos(rotation);
@@ -442,6 +547,15 @@ module.exports = class MiniMap {
       };
       _this.drawSpiral(destCtx, posPortal, _this.currentDT, icon.isHover());
     });
+
+    //draw pings
+    for (let i = this.pings.length - 1; i >= 0; i--) {
+      const ping = this.pings[i];
+      if (ping.step(destCtx, localCtx.getDt())) {
+        //end remove it
+        this.pings.splice(i, 1);
+      }
+    }
   }
 
   /**
@@ -459,6 +573,15 @@ module.exports = class MiniMap {
         });
         a.spawn(data.mousePosition.x, data.mousePosition.y);
       }
+    });
+
+    const _this = this;
+    this.conf.mini_map_ping.forEach(function (data) {
+      const ping = new Ping({
+        position: data.mousePosition,
+        color: data.color,
+      });
+      _this.pings.push(ping);
     });
   }
 };
@@ -479,5 +602,33 @@ class PortalIcon {
 
   setHover(value) {
     this.hover = value;
+  }
+}
+
+class Ping {
+  constructor(params) {
+    this.duration = params.duration || 2000;
+    this.maxSize = params.maxSize || 20;
+
+    this.position = params.position;
+    this.color = params.color;
+    this.currentTime = 0;
+  }
+
+  step(context2D, dt) {
+    this.currentTime += dt;
+
+    //draw context2D
+    const radius = (this.maxSize * this.currentTime) / this.duration;
+    context2D.beginPath();
+    context2D.strokeStyle = this.color;
+    context2D.arc(this.position.x, this.position.y, radius, 0, 2 * Math.PI);
+    context2D.stroke();
+
+    if (this.currentTime >= this.duration) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
