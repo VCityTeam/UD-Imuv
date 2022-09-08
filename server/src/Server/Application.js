@@ -174,12 +174,24 @@ const ApplicationModule = class Application {
             data.password
           );
 
+          const dbUUID = parseUser.id;
+
+          let found = false;
+          for (const id in _this.users) {
+            const other = _this.users[id];
+            if (other.getUUID() == dbUUID) {
+              found = true;
+              break;
+            }
+          }
+
+          if (found) throw new Error('already sign in ' + dbUUID);
+
           // Do stuff after successful login
           const nameUser = await parseUser.get('username');
           const role = await parseUser.get('role');
           const avatarString = await parseUser.get('avatar');
           const settingsString = await parseUser.get('settings');
-          const dbUUID = parseUser.id;
 
           const u = _this.users[socket.id];
           u.setRole(role);
@@ -207,17 +219,6 @@ const ApplicationModule = class Application {
               jsonDB.components.LocalScript.conf.name;
             u.setAvatarJSON(new Game.GameObject(avatarJSON).toJSON(true));
           }
-
-          let found = false;
-          for (const id in _this.users) {
-            const other = _this.users[id];
-            if (other.getUUID() == dbUUID) {
-              found = true;
-              break;
-            }
-          }
-
-          if (found) throw new Error('already sign in ' + dbUUID);
 
           u.setUUID(dbUUID);
 
