@@ -13,8 +13,6 @@ module.exports = class CityAvatar {
     udviz = udvizBundle;
     Game = udviz.Game;
 
-    this.raycaster = new udviz.THREE.Raycaster();
-
     this.go = null;
 
     this.labelInfo = document.createElement('div');
