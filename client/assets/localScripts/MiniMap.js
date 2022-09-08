@@ -2,7 +2,7 @@ const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
 
-const MINI_MAP_SIZE = 700;
+const MINI_MAP_SIZE = 600;
 const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
 const MAGNETISM = 2;
@@ -362,18 +362,14 @@ module.exports = class MiniMap {
 
     this.currentDT += localCtx.getDt() * 0.002;
 
-    //draw avatar
-    const avatarGO = go
-      .computeRoot()
-      .find(localCtx.getGameView().getUserData('avatarUUID'));
-    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
-    if (avatarGO) {
-      const avatarPos = avatarGO.getPosition();
+    const userAvatarSize =
+      AVATAR_SIZE_MIN +
+      (AVATAR_SIZE_MAX - AVATAR_SIZE_MIN) * Math.abs(Math.cos(this.currentDT));
 
-      const size =
-        AVATAR_SIZE_MIN +
-        (AVATAR_SIZE_MAX - AVATAR_SIZE_MIN) *
-          Math.abs(Math.cos(this.currentDT));
+    //draw avatars
+    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
+    const drawAvatar = function (avatarGO, size) {
+      const avatarPos = avatarGO.getPosition();
 
       const c = {
         x: MINI_MAP_SIZE * 0.5 + avatarPos.x / pixelSize,
@@ -419,7 +415,20 @@ module.exports = class MiniMap {
       );
       destCtx.closePath();
       destCtx.fill();
-    }
+    };
+
+    go.computeRoot().traverse(function (child) {
+      //retrieve avatar base on their name maybe it should be another way
+      if (child.getName() === 'avatar') {
+        if (
+          child.getUUID() === localCtx.getGameView().getUserData('avatarUUID')
+        ) {
+          drawAvatar(child, userAvatarSize);
+        } else {
+          drawAvatar(child, AVATAR_SIZE_MIN);
+        }
+      }
+    });
 
     //icons
     //PORTAL spirals
