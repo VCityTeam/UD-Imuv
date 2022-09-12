@@ -172,6 +172,10 @@ module.exports = class Map {
     return this.conf.cityAvatarAllow;
   }
 
+  getAvatarSpeedMove() {
+    return this.conf.avatarSpeedMove;
+  }
+
   updateElevation(gameObject) {
     let elevation = this.getHeightValue(
       gameObject.getPosition().x,
