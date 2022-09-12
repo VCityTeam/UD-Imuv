@@ -401,7 +401,7 @@
             "freeze": false
           },
           {
-            "name": "JoutUrbaine",
+            "name": "JOUT'Urbaines",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -424,7 +424,7 @@
                   "sprite_name"
                 ],
                 "conf": {
-                  "name": "Jout'Urbaine",
+                  "name": "JOUT'Urbaines",
                   "speed": 0.0005,
                   "iframe_src": "https://imu.universite-lyon.fr/animation-scientifique/animation-scientifique/studio-jouturbaines-jeu-comme-outil-de-transformations-urbaines/",
                   "sound_id": null
