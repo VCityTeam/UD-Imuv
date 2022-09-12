@@ -24,6 +24,7 @@ module.exports = class PlacePostIt {
 
     //toggle post it mode
     const postitButton = document.createElement('button');
+    postitButton.classList.add('button-imuv');
     postitButton.innerHTML = 'Post-it';
     gameView.appendToUI(postitButton);
     let postitEnable = false;
@@ -48,11 +49,13 @@ module.exports = class PlacePostIt {
     postitHtml.appendChild(inputMessage);
     //create button
     const createButton = document.createElement('button');
-    createButton.innerHTML = 'Creer';
+    createButton.classList.add('button-imuv');
+    createButton.innerHTML = 'Creer Post-it';
     postitHtml.appendChild(createButton);
     //cancel
     const cancelButton = document.createElement('button');
-    cancelButton.innerHTML = 'Cancel';
+    cancelButton.classList.add('button-imuv');
+    cancelButton.innerHTML = 'Annuler';
     postitHtml.appendChild(cancelButton);
 
     manager.addMouseInput(

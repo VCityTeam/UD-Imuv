@@ -65,6 +65,7 @@ module.exports = class MenuAvatar {
     });
 
     this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root-menu-settings');
     localCtx.getGameView().appendToUI(this.rootHtml);
   }
 
@@ -72,6 +73,10 @@ module.exports = class MenuAvatar {
     while (this.rootHtml.firstChild) {
       this.rootHtml.firstChild.remove();
     }
+
+    const title = document.createElement('h1');
+    title.innerHTML = 'Menu Avatar';
+    this.rootHtml.appendChild(title);
 
     const _this = this;
 
@@ -81,7 +86,7 @@ module.exports = class MenuAvatar {
     this.rootHtml.appendChild(flexParentModelId);
 
     const labelModelId = document.createElement('div');
-    labelModelId.innerHTML = 'ModelId';
+    labelModelId.innerHTML = '3D Modèle ';
     labelModelId.classList.add('label-menu-settings');
     flexParentModelId.appendChild(labelModelId);
 
@@ -114,7 +119,7 @@ module.exports = class MenuAvatar {
     this.rootHtml.appendChild(flexParentColor);
 
     const labelColor = document.createElement('div');
-    labelColor.innerHTML = 'Color';
+    labelColor.innerHTML = 'Couleur ';
     labelColor.classList.add('label-menu-settings');
     flexParentColor.appendChild(labelColor);
 
@@ -156,7 +161,8 @@ module.exports = class MenuAvatar {
 
     //SAVE
     const saveButton = document.createElement('button');
-    saveButton.innerHTML = 'Save';
+    saveButton.classList.add('button-imuv');
+    saveButton.innerHTML = 'Sauvegarder Avatar';
     this.rootHtml.appendChild(saveButton);
 
     saveButton.onclick = function () {

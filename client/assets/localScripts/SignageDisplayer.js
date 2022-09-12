@@ -89,7 +89,8 @@ class Popup {
     this.fillUlProjects();
 
     const closeButton = document.createElement('button');
-    closeButton.innerHTML = 'Close';
+    closeButton.classList.add('button-imuv');
+    closeButton.innerHTML = 'Fermer';
     closeButton.onclick = this.signageDisplayer.dispose.bind(
       this.signageDisplayer
     );
@@ -144,7 +145,8 @@ class Project {
 
   initHtml() {
     const backButton = document.createElement('button');
-    backButton.innerHTML = 'Back';
+    backButton.classList.add('button-imuv');
+    backButton.innerHTML = 'Retour en arrière';
     this.ui.appendChild(backButton);
 
     const sD = this.signageDisplayer;

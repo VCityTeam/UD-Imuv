@@ -1,7 +1,10 @@
 .root-menu-settings {
   padding: 10px;
   border: 1px solid;
+  border-color: var(--imuv-color-one);
+  color: var(--imuv-color-one);
   display: grid;
+  background-color: var(--imuv-color-two);
 }
 
 .label-menu-settings {

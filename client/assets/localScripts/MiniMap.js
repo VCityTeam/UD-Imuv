@@ -86,7 +86,8 @@ module.exports = class MiniMap {
 
     //add button ui
     const button = document.createElement('button');
-    button.innerHTML = 'mini map';
+    button.classList.add('button-imuv');
+    button.innerHTML = 'Mini Map';
     gameView.appendToUI(button);
     button.onclick = function () {
       _this.displayMiniMap = !_this.displayMiniMap;
@@ -212,10 +213,12 @@ module.exports = class MiniMap {
 
     //add mode click button
     const pingButton = document.createElement('button');
+    pingButton.classList.add('button-imuv');
     pingButton.innerHTML = 'Ping';
     this.rootHtml.appendChild(pingButton);
 
     const teleportButton = document.createElement('button');
+    teleportButton.classList.add('button-imuv');
     teleportButton.innerHTML = 'Teleportation';
     this.rootHtml.appendChild(teleportButton);
 
