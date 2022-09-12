@@ -3,7 +3,6 @@
 //scripts are commonJs module witout dependency all game context is pass as ud-viz/Game
 //this is due to the fact that the code is import as a string then eval() in code by the AsssetsManager
 
-const AVATAR_SPEED_MOVE = 0.01;
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
 const AVATAR_SPEED_ROTATION_X = 0.00001;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
@@ -113,6 +112,8 @@ module.exports = class Avatar {
     const scriptMap = mapGo.fetchWorldScripts()['map'];
     if (!scriptMap) throw new Error('no map world script');
 
+    const avatarSpeedMove = scriptMap.getAvatarSpeedMove();
+
     let elevationComputed = false;
 
     for (let type in this.commands) {
@@ -126,9 +127,7 @@ module.exports = class Avatar {
         switch (cmd.getType()) {
           case Command.TYPE.MOVE_FORWARD_START:
             gameObject.move(
-              gameObject
-                .computeForwardVector()
-                .setLength(dt * AVATAR_SPEED_MOVE)
+              gameObject.computeForwardVector().setLength(dt * avatarSpeedMove)
             );
             break;
           case Command.TYPE.MOVE_LEFT_START:
@@ -136,7 +135,7 @@ module.exports = class Avatar {
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI * 0.5)
-                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
+                .setLength(dt * avatarSpeedMove * 0.5)
             );
             break;
           case Command.TYPE.MOVE_RIGHT_START:
@@ -144,14 +143,14 @@ module.exports = class Avatar {
               gameObject
                 .computeForwardVector()
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
-                .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
+                .setLength(dt * avatarSpeedMove * 0.5)
             );
             break;
           case Command.TYPE.MOVE_BACKWARD_START:
             gameObject.move(
               gameObject
                 .computeBackwardVector()
-                .setLength(dt * AVATAR_SPEED_MOVE * 0.3)
+                .setLength(dt * avatarSpeedMove * 0.3)
             );
             break;
           case Command.TYPE.ROTATE:

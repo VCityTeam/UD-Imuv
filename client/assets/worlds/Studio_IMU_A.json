@@ -57,7 +57,8 @@
             "conf": {
               "heightmap_path": "./assets/img/uploaded/E8A20418-D832-41CE-A39A-E9E4E4E9A4D8.jpeg",
               "heightmap_geometry": { "max": 4, "min": -1, "size": 19 },
-              "cityAvatarAllow": false
+              "cityAvatarAllow": false,
+              "avatarSpeedMove": 0.006
             },
             "type": "WorldScript"
           },
