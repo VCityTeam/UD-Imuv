@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@egjs/hammerjs": "^2.0.17",
+    "canvg": "^4.0.1",
     "jitsi-iframe-api": "^1.0.0",
     "keycharm": "^0.4.0",
     "quickhull": "^1.0.3",

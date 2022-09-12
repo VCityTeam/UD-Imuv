@@ -1,6 +1,7 @@
 /** @format */
 
 import * as JitsiIframeAPI from 'jitsi-iframe-api';
+import { Canvg } from 'canvg';
 import ImuvConstants from '../../../imuv.constants';
 import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
 
@@ -378,6 +379,7 @@ export class ReceptionView {
                   ImuvConstants: ImuvConstants,
                   AnimatedText: AnimatedText,
                   JitsiIframeAPI: JitsiIframeAPI,
+                  Canvg: Canvg,
                 }
               );
 

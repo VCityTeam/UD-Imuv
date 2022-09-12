@@ -3,6 +3,7 @@
 import ImuvConstants from '../../../../imuv.constants';
 import { AnimatedText } from '../../LocalScriptsModule/AnimatedText/AnimatedText';
 import * as JitsiIframeAPI from 'jitsi-iframe-api';
+import { Canvg } from 'canvg';
 
 import { World } from 'ud-viz/src/Game/Game';
 import { LocalGame } from 'ud-viz/src/Templates/Templates';
@@ -64,6 +65,7 @@ export class PlayWorldEditorView {
           ImuvConstants: ImuvConstants,
           AnimatedText: AnimatedText,
           JitsiIframeAPI: JitsiIframeAPI,
+          Canvg: Canvg,
         },
       })
       .then(function () {
