@@ -30,6 +30,7 @@ module.exports = class DisplayMedia {
       content.style.left = gameView.getRootWebGL().style.left;
       this.content = content;
       content.src = this.conf.iframe_src;
+      content.style.backgroundColor = 'white';
 
       //size
       this.updateSize(gameView.getSize());

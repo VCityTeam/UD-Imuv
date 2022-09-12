@@ -174,7 +174,8 @@
         "path": "./assets/models/Room_Conf_Modulable.glb"
       },
       "mouse": {
-        "path": "./assets/models/mouse.glb"
+        "path": "./assets/models/mouse.glb",
+        "scale": { "x": 0.05, "y": 0.05, "z": 0.05 }
       },
       "avatar_petit": {
         "path": "./assets/models/Avatar_petit.glb",
