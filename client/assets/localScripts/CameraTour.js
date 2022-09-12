@@ -32,6 +32,7 @@ module.exports = class CameraTour {
 
     //ui
     const startTour = document.createElement('button');
+    startTour.classList.add('button-imuv');
     startTour.innerHTML = go.name;
     gameView.appendToUI(startTour);
 
@@ -110,10 +111,12 @@ class MenuTour {
     this.rootHtml.appendChild(parentPreviousNext);
 
     const previousButton = document.createElement('button');
+    previousButton.classList.add('button-imuv');
     previousButton.innerHTML = 'Precedent';
     parentPreviousNext.appendChild(previousButton);
 
     const nextButton = document.createElement('button');
+    nextButton.classList.add('button-imuv');
     nextButton.innerHTML = 'Suivant';
     parentPreviousNext.appendChild(nextButton);
 

@@ -65,7 +65,8 @@ module.exports = class SwitchItowns {
     const view = gameView.getItownsView();
     if (view) {
       this.menuWidgetsButton = document.createElement('button');
-      this.menuWidgetsButton.innerHTML = 'Changer mode de vue';
+      this.menuWidgetsButton.classList.add('button-imuv');
+      this.menuWidgetsButton.innerHTML = 'Vue Itowns';
       this.menuWidgetsButton.onclick = function () {
         if (cameraScript.hasRoutine()) return; //already routine
 
@@ -222,7 +223,7 @@ class MenuWidgets {
 
     //cityObjects
     this.addModuleView(
-      'City Objects',
+      'City Object',
       new udviz.Widgets.CityObjectModule(
         localCtx.getGameView().getLayerManager(),
         {
@@ -295,7 +296,7 @@ class MenuWidgets {
     );
 
     this.addModuleView(
-      'geocoding',
+      'Geocoding',
       new udviz.Widgets.Extensions.GeocodingView(geocodingService, view)
     );
 
@@ -308,6 +309,7 @@ class MenuWidgets {
     );
 
     itownsScale.domElement.id = 'itowns-scale';
+    itownsScale.update();
   }
 
   html() {
@@ -316,6 +318,8 @@ class MenuWidgets {
 
   addModuleView(moduleId, moduleClass, options = {}) {
     const button = document.createElement('button');
+    button.classList.add('button-imuv');
+
     button.innerHTML = moduleId;
     this.rootHtml.appendChild(button);
 

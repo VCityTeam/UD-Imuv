@@ -20,7 +20,8 @@ module.exports = class DisplayMedia {
 
     if (this.conf.iframe_src) {
       const closebutton = document.createElement('button');
-      closebutton.innerHTML = 'close iframe';
+      closebutton.classList.add('button-imuv');
+      closebutton.innerHTML = 'Fermer';
       closebutton.style.position = 'absolute';
       closebutton.style.top = '0px';
       closebutton.style.left = '0px';

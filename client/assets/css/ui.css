@@ -204,8 +204,8 @@
 /*Middle screen label*/
 .middle_screen_label {
   font-size: x-large;
-  color: black;
-  background-color: antiquewhite;
+  color: var(--imuv-color-one);
+  background-color: var(--imuv-color-two);
   min-width: 210px;
   padding: 10px;
   position: fixed;
@@ -226,9 +226,9 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.8);
   border-left: 1px solid rgba(255, 255, 255, 0.8);
   border-image: initial;
-  border-radius: 0px 0px 7px 7px;
+  border-radius: 7px;
   border-top: none;
-  background-image: linear-gradient(rgba(49, 51, 54, 0), rgb(49, 51, 54));
+  background-color: var(--imuv-color-one);
   color: rgb(255, 255, 255);
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;

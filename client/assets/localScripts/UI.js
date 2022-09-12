@@ -30,7 +30,8 @@ module.exports = class UI {
     this.menuSettings = menuSettings;
 
     this.menuButton = document.createElement('button');
-    this.menuButton.innerHTML = 'Settings';
+    this.menuButton.classList.add('button-imuv');
+    this.menuButton.innerHTML = 'Paramètres';
     this.menuButton.onclick = function () {
       if (!menuSettings.html().parentNode) {
         gameView.appendToUI(menuSettings.html());
@@ -48,6 +49,7 @@ module.exports = class UI {
       role == ImuvConstants.USER.ROLE.USER
     ) {
       this.menuAvatarButton = document.createElement('button');
+      this.menuAvatarButton.classList.add('button-imuv');
       this.menuAvatarButton.innerHTML = 'Menu Avatar';
       this.menuAvatarButton.onclick = function () {
         //pause gameview
@@ -101,7 +103,8 @@ module.exports = class UI {
                 .setWebSocketService(localCtx.getWebSocketService());
 
               const closeButton = document.createElement('button');
-              closeButton.innerHTML = 'Close';
+              closeButton.classList.add('button-imuv');
+              closeButton.innerHTML = 'Fermer';
               closeButton.onclick = function () {
                 menuAvatarGameView.dispose(true); //remove menu avatar
 
@@ -171,7 +174,7 @@ class MenuSettings {
     this.rootHtml.classList.add('root-menu-settings');
 
     const title = document.createElement('h1');
-    title.innerHTML = 'Settings';
+    title.innerHTML = 'Paramètres';
     this.rootHtml.appendChild(title);
 
     this.fogSlider = null;
@@ -201,7 +204,8 @@ class MenuSettings {
 
   createSaveButton(localCtx) {
     const button = document.createElement('button');
-    button.innerHTML = 'Save Settings on Server';
+    button.classList.add('button-imuv');
+    button.innerHTML = 'Sauvegarder';
     this.rootHtml.appendChild(button);
 
     const _this = this;
@@ -266,7 +270,7 @@ class MenuSettings {
     }
 
     const label = document.createElement('div');
-    label.innerHTML = 'Zoom factor';
+    label.innerHTML = 'Itowns Zoom Sensibilité';
     label.classList.add('label-menu-settings');
     this.rootHtml.appendChild(label);
 
@@ -309,7 +313,7 @@ class MenuSettings {
     }
 
     const label = document.createElement('div');
-    label.innerHTML = 'Fog Distance';
+    label.innerHTML = 'Distance Brouillard';
     label.classList.add('label-menu-settings');
     this.rootHtml.appendChild(label);
 
@@ -375,7 +379,7 @@ class MenuSettings {
 
         //label
         const labelEnableDirect = document.createElement('div');
-        labelEnableDirect.innerHTML = 'Sun';
+        labelEnableDirect.innerHTML = 'Soleil';
         labelEnableDirect.classList.add('label-menu-settings');
         flexParentEnableDirect.appendChild(labelEnableDirect);
 
@@ -405,7 +409,7 @@ class MenuSettings {
 
         //label
         const labelEnable = document.createElement('div');
-        labelEnable.innerHTML = 'Ombre';
+        labelEnable.innerHTML = 'Ombres';
         labelEnable.classList.add('label-menu-settings');
         flexParentEnable.appendChild(labelEnable);
 
@@ -431,7 +435,7 @@ class MenuSettings {
         flexParentSize.style.display = 'flex';
         this.rootHtml.appendChild(flexParentSize);
         const labelSize = document.createElement('div');
-        labelSize.innerHTML = 'Size';
+        labelSize.innerHTML = "Taille Texture d'Ombre";
         labelSize.classList.add('label-menu-settings');
         flexParentSize.appendChild(labelSize);
 

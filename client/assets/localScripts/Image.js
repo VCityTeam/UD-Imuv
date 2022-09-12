@@ -140,7 +140,7 @@ module.exports = class Image {
 
     const closeButton = document.createElement('button');
     closeButton.classList.add('popup_close_button');
-    closeButton.innerHTML = 'Close';
+    closeButton.innerHTML = 'Fermer';
     figureClose.appendChild(closeButton);
     closeButton.onclick = this.displayPopup.bind(this, false);
 

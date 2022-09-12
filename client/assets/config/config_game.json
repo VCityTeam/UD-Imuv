@@ -38,6 +38,9 @@
       },
       "menu_settings": {
         "path": "./assets/css/menu_settings.css"
+      },
+      "button-imuv": {
+        "path": "./assets/css/button_imuv.css"
       }
     },
     "prefabs": {
