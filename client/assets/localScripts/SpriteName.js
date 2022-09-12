@@ -46,7 +46,15 @@ module.exports = class SpriteName {
 
     ctx.fillStyle = 'black';
     ctx.font = '50px Arial';
+
     const wT = ctx.measureText(text).width;
+
+    canvas.width = Math.ceil(wT);
+
+    //force to bind it after changing the canvas.width
+    ctx.fillStyle = 'black';
+    ctx.font = '50px Arial';
+
     ctx.fillText(text, (canvas.width - wT) * 0.5, canvas.height * 0.5);
 
     const texture = new Game.THREE.TextureLoader().load(
