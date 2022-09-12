@@ -22,15 +22,15 @@ export class LocalScriptDisplayMediaUI {
     const lsComp = goInGame.getComponent(LocalScript.TYPE);
     if (!lsComp) throw new Error('no localscript');
 
-    //create input
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'http:// || https:// || ./*.html';
-    input.value = lsComp.conf.iframe_src || ''; //init
-    content.appendChild(input);
+    //create input iframe src
+    const inputIframeSrc = document.createElement('input');
+    inputIframeSrc.type = 'text';
+    inputIframeSrc.placeholder = 'http:// || https:// || ./*.html';
+    inputIframeSrc.value = lsComp.conf.iframe_src; //init
+    content.appendChild(inputIframeSrc);
 
     //init callback
-    input.onchange = function () {
+    inputIframeSrc.onchange = function () {
       lsComp.conf.iframe_src = this.value;
     };
 
