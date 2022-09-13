@@ -7,13 +7,17 @@ const sharedType = require('ud-viz/src/Game/Game');
 /** @type {sharedType} */
 let Game = null;
 
-const RADIUS_MAP = 20;
+const RADIUS_MAP = 40;
 
+//HARDCODED
 //Coordinates Image map path. src  https://commons.wikimedia.org/wiki/File:Lyon_et_ses_arrondissements_map.svg
-const topIP = 45.81186;
-const bottomIP = 45.70455;
-const leftIP = 4.76623;
-const rightIP = 4.90291;
+const CITY_MAP = {
+  PATH: './assets/img/citymap.png',
+  TOP: 45.81186,
+  BOTTOM: 45.70455,
+  LEFT: 4.76623,
+  RIGHT: 4.90291,
+};
 
 module.exports = class Image {
   constructor(conf, udvizBundle) {
@@ -86,7 +90,7 @@ module.exports = class Image {
       figureMap.appendChild(_this.imgMapGPS);
       _this.popupUI.appendChild(figureMap);
     });
-    mapImg.src = this.conf.map_path;
+    mapImg.src = CITY_MAP.PATH;
     return true;
   }
 
@@ -218,8 +222,9 @@ module.exports = class Image {
     const lat = this.conf.gpsCoord.lat || 0;
     const lng = this.conf.gpsCoord.lng || 0;
 
-    ratioX = ratioX || (lng - leftIP) / (rightIP - leftIP);
-    ratioY = ratioY || 1 - (lat - bottomIP) / (topIP - bottomIP);
+    ratioX = ratioX || (lng - CITY_MAP.LEFT) / (CITY_MAP.RIGHT - CITY_MAP.LEFT);
+    ratioY =
+      ratioY || 1 - (lat - CITY_MAP.BOTTOM) / (CITY_MAP.TOP - CITY_MAP.BOTTOM);
 
     const canvas = document.createElement('canvas');
     canvas.width = img.naturalWidth;
@@ -243,8 +248,8 @@ module.exports = class Image {
   }
 
   ratioToCoordinates(ratioX, ratioY) {
-    const lng = leftIP + ratioX * (rightIP - leftIP);
-    const lat = bottomIP + ratioY * (topIP - bottomIP);
+    const lng = CITY_MAP.LEFT + ratioX * (CITY_MAP.RIGHT - CITY_MAP.LEFT);
+    const lat = CITY_MAP.BOTTOM + ratioY * (CITY_MAP.TOP - CITY_MAP.BOTTOM);
     return {
       lng: lng,
       lat: lat,
