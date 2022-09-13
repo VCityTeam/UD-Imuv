@@ -38,4 +38,13 @@ module.exports = {
       ON_AVATAR: 'on_avatar', //return avatar json
     },
   },
+
+  //city map data
+  CITY_MAP: {
+    PATH: './assets/img/citymap.png',
+    TOP: 45.81186,
+    BOTTOM: 45.70455,
+    LEFT: 4.76623,
+    RIGHT: 4.90291,
+  },
 };

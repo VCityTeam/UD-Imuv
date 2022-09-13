@@ -9,16 +9,6 @@ let Game = null;
 
 const RADIUS_MAP = 40;
 
-//HARDCODED
-//Coordinates Image map path. src  https://commons.wikimedia.org/wiki/File:Lyon_et_ses_arrondissements_map.svg
-const CITY_MAP = {
-  PATH: './assets/img/citymap.png',
-  TOP: 45.81186,
-  BOTTOM: 45.70455,
-  LEFT: 4.76623,
-  RIGHT: 4.90291,
-};
-
 module.exports = class Image {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -90,7 +80,11 @@ module.exports = class Image {
       figureMap.appendChild(_this.imgMapGPS);
       _this.popupUI.appendChild(figureMap);
     });
-    mapImg.src = CITY_MAP.PATH;
+
+    const ImuvConstants = this.gV.getLocalScriptModules()['ImuvConstants'];
+
+    mapImg.src = ImuvConstants.CITY_MAP.PATH;
+
     return true;
   }
 
@@ -222,9 +216,17 @@ module.exports = class Image {
     const lat = this.conf.gpsCoord.lat || 0;
     const lng = this.conf.gpsCoord.lng || 0;
 
-    ratioX = ratioX || (lng - CITY_MAP.LEFT) / (CITY_MAP.RIGHT - CITY_MAP.LEFT);
+    const ImuvConstants = this.gV.getLocalScriptModules()['ImuvConstants'];
+
+    ratioX =
+      ratioX ||
+      (lng - ImuvConstants.CITY_MAP.LEFT) /
+        (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT);
     ratioY =
-      ratioY || 1 - (lat - CITY_MAP.BOTTOM) / (CITY_MAP.TOP - CITY_MAP.BOTTOM);
+      ratioY ||
+      1 -
+        (lat - ImuvConstants.CITY_MAP.BOTTOM) /
+          (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM);
 
     const canvas = document.createElement('canvas');
     canvas.width = img.naturalWidth;
@@ -248,8 +250,14 @@ module.exports = class Image {
   }
 
   ratioToCoordinates(ratioX, ratioY) {
-    const lng = CITY_MAP.LEFT + ratioX * (CITY_MAP.RIGHT - CITY_MAP.LEFT);
-    const lat = CITY_MAP.BOTTOM + ratioY * (CITY_MAP.TOP - CITY_MAP.BOTTOM);
+    const ImuvConstants = this.gV.getLocalScriptModules()['ImuvConstants'];
+
+    const lng =
+      ImuvConstants.CITY_MAP.LEFT +
+      ratioX * (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT);
+    const lat =
+      ImuvConstants.CITY_MAP.BOTTOM +
+      ratioY * (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM);
     return {
       lng: lng,
       lat: lat,
