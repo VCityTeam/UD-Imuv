@@ -4,7 +4,7 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
-const AVATAR_SPEED_MOVE = 0.03;
+const AVATAR_SPEED_MOVE = 1;
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
 const AVATAR_SPEED_ROTATION_X = 0.00001;
 const AVATAR_ANGLE_MIN = Math.PI / 5;

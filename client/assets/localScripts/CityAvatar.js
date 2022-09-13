@@ -18,6 +18,8 @@ module.exports = class CityAvatar {
     this.labelInfo = document.createElement('div');
     this.labelInfo.classList.add('middle_screen_label');
     this.labelInfo.innerHTML = "Appuyez sur E pour revenir sur l'île";
+
+    this.cityMap = null;
   }
 
   init() {
@@ -75,7 +77,6 @@ module.exports = class CityAvatar {
         },
         function () {
           _this.setCityAvatarController(true, localCtx);
-          localCtx.getGameView().appendToUI(_this.labelInfo);
         }
       )
     );
@@ -101,6 +102,10 @@ module.exports = class CityAvatar {
 
     if (value) {
       console.warn('add city avatar control');
+
+      this.cityMap = new CityMap(localContext);
+      localContext.getGameView().appendToUI(this.labelInfo);
+      localContext.getGameView().appendToUI(this.cityMap.html());
 
       //FORWARD
       inputManager.addKeyCommand(
@@ -210,6 +215,11 @@ module.exports = class CityAvatar {
       });
     } else {
       console.warn('remove city avatar command');
+
+      this.labelInfo.remove();
+      this.cityMap.dispose();
+      this.cityMap = null;
+
       inputManager.removeKeyCommand(commandIdForward, ['z', 'ArrowUp']);
       inputManager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
       inputManager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
@@ -233,7 +243,6 @@ module.exports = class CityAvatar {
     }
 
     this.setCityAvatarController(false, localCtx);
-    this.labelInfo.remove();
 
     //routine camera
     const camera = localCtx.getGameView().getCamera();
@@ -284,7 +293,9 @@ module.exports = class CityAvatar {
     //a context containing all data to script clientside script
     const localContext = arguments[1];
 
-    const pos = go.computeWorldTransform().position;
+    const wT = go.computeWorldTransform();
+    const pos = wT.position;
+    const rotation = wT.rotation;
     const ref = localContext.getGameView().getObject3D().position;
     const zParent = go.parent.getPosition().z + ref.z;
 
@@ -300,6 +311,28 @@ module.exports = class CityAvatar {
         new udviz.itowns.Coordinates(gameView.projection, worldPos),
         1 //PRECISE_READ_Z
       ) - zParent;
+
+    if (this.cityMap) {
+      const [lng, lat] = udviz.Game.proj4
+        .default(gameView.projection)
+        .inverse([worldPos.x, worldPos.y]);
+
+      const avatarColor = go.getComponent('Render').color;
+
+      this.cityMap.draw(
+        lng,
+        lat,
+        localContext,
+        rotation,
+        'rgb(' +
+          avatarColor.r * 255 +
+          ',' +
+          avatarColor.g * 255 +
+          ',' +
+          avatarColor.b * 255 +
+          ')'
+      );
+    }
 
     if (editorMode) {
       //add commands to the computer directly because not produce by the inputmanager
@@ -327,9 +360,196 @@ module.exports = class CityAvatar {
           type: Game.Command.TYPE.Z_UPDATE,
           gameObjectUUID: go.getUUID(),
           userID: userID,
-          data: elevation,
+          data: elevation + 200,
         },
       ]);
     }
   }
 };
+
+const CITY_MAP_SIZE = 500;
+const AVATAR_SIZE_MIN = 15;
+const AVATAR_SIZE_MAX = 25;
+const CLICK_MODE = {
+  DEFAULT: 0,
+  TELEPORT: 1,
+  PING: 2,
+};
+
+class CityMap {
+  constructor(localContext) {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root-menu-settings');
+
+    const title = document.createElement('h1');
+    title.innerHTML = 'City Map';
+    this.rootHtml.appendChild(title);
+
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = CITY_MAP_SIZE;
+    this.canvas.height = CITY_MAP_SIZE;
+    this.rootHtml.appendChild(this.canvas);
+
+    this.imageCityMap = document.createElement('img');
+    const ImuvConstants = localContext.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
+    this.imageCityMap.src = ImuvConstants.CITY_MAP.PATH;
+
+    this.currentDt = 0;
+
+    this.currentZoom = 1;
+
+    const _this = this;
+    this.canvas.onwheel = function (event) {
+      const newZoom = _this.currentZoom - event.wheelDelta * 0.0002;
+      _this.setCurrentZoom(newZoom);
+    };
+
+    //BUTTON
+    const pingButton = document.createElement('button');
+    pingButton.innerHTML = 'Ping';
+    this.rootHtml.appendChild(pingButton);
+
+    const teleportButton = document.createElement('button');
+    teleportButton.innerHTML = 'Teleportation';
+    this.rootHtml.appendChild(teleportButton);
+
+    this.clickMode = this.setClickMode(CLICK_MODE.DEFAULT);
+
+    teleportButton.onclick = function () {
+      _this.setClickMode(CLICK_MODE.TELEPORT);
+    };
+
+    pingButton.onclick = function () {
+      _this.setClickMode(CLICK_MODE.PING);
+    };
+
+    this.canvas.onclick = function (event) {
+      console.log(event);
+    };
+  }
+
+  setCursorPointer(value) {
+    if (value) {
+      this.canvas.style.cursor = 'pointer';
+    } else {
+      this.canvas.style.cursor = 'auto';
+    }
+  }
+
+  setClickMode(mode) {
+    this.clickMode = mode;
+
+    if (mode == CLICK_MODE.DEFAULT) {
+      this.setCursorPointer(false);
+    } else if (mode == CLICK_MODE.PING) {
+      this.setCursorPointer(true);
+    } else if (mode == CLICK_MODE.TELEPORT) {
+      this.setCursorPointer(true);
+    }
+  }
+
+  //zoom is clamp between 0->1
+  setCurrentZoom(value) {
+    this.currentZoom = Math.min(1, Math.max(0.02, value));
+  }
+
+  draw(lng, lat, localContext, rotation, color) {
+    const ctx = this.canvas.getContext('2d');
+
+    //draw citymap
+    const ImuvConstants = localContext.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
+
+    const sizeSrc =
+      Math.min(this.imageCityMap.width, this.imageCityMap.height) *
+      this.currentZoom;
+
+    const pixelSrcX =
+      (this.imageCityMap.width * (lng - ImuvConstants.CITY_MAP.LEFT)) /
+      (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT);
+
+    const pixelSrcY =
+      this.imageCityMap.height *
+      (1 -
+        (lat - ImuvConstants.CITY_MAP.BOTTOM) /
+          (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM));
+
+    const clampX = Math.min(
+      Math.max(0, pixelSrcX - sizeSrc * 0.5),
+      this.imageCityMap.width - sizeSrc
+    );
+
+    const clampY = Math.min(
+      Math.max(0, pixelSrcY - sizeSrc * 0.5),
+      this.imageCityMap.height - sizeSrc
+    );
+
+    ctx.drawImage(
+      this.imageCityMap,
+      clampX,
+      clampY,
+      sizeSrc,
+      sizeSrc,
+      0,
+      0,
+      CITY_MAP_SIZE,
+      CITY_MAP_SIZE
+    );
+
+    //draw avatar
+    this.currentDt += localContext.getDt() * 0.002;
+    const userAvatarSize =
+      AVATAR_SIZE_MIN +
+      (AVATAR_SIZE_MAX - AVATAR_SIZE_MIN) * Math.abs(Math.cos(this.currentDt));
+
+    const rotationValue = -rotation.z - Math.PI;
+    const cos = Math.cos(rotationValue);
+    const sin = Math.sin(rotationValue);
+
+    const xRot = function (x, y) {
+      return x * cos - y * sin;
+    };
+
+    const yRot = function (x, y) {
+      return y * cos + x * sin;
+    };
+
+    //draw triangle
+
+    const avatarPosX =
+      CITY_MAP_SIZE * 0.5 +
+      (pixelSrcX - clampX - sizeSrc * 0.5) * (CITY_MAP_SIZE / sizeSrc);
+    const avatarPosY =
+      CITY_MAP_SIZE * 0.5 +
+      (pixelSrcY - clampY - sizeSrc * 0.5) * (CITY_MAP_SIZE / sizeSrc);
+
+    const ratioTriangle = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(
+      avatarPosX + xRot(-userAvatarSize * 0.5, -userAvatarSize * ratioTriangle),
+      avatarPosY + yRot(-userAvatarSize * 0.5, -userAvatarSize * ratioTriangle)
+    );
+    ctx.lineTo(
+      avatarPosX + xRot(userAvatarSize * 0.5, -userAvatarSize * ratioTriangle),
+      avatarPosY + yRot(userAvatarSize * 0.5, -userAvatarSize * ratioTriangle)
+    );
+    ctx.lineTo(
+      avatarPosX + xRot(0, userAvatarSize * ratioTriangle),
+      avatarPosY + yRot(0, userAvatarSize * ratioTriangle)
+    );
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  html() {
+    return this.rootHtml;
+  }
+
+  dispose() {
+    this.rootHtml.remove();
+  }
+}
