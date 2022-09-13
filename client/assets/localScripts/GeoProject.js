@@ -9,36 +9,32 @@ module.exports = class GeoProject {
     this.conf = conf;
     udviz = udvizBundle;
 
-    this.imagePlane = null;
+    this.sprite = null;
   }
 
   init() {
     const go = arguments[0];
 
-    this.createImagePlane(go);
+    this.updateSprite(go);
   }
 
-  createImagePlane(go) {
+  updateSprite(go) {
     //image
-    if (this.imagePlane && this.imagePlane.parent) {
-      this.imagePlane.parent.remove(this.imagePlane);
+    if (this.sprite && this.sprite.parent) {
+      this.sprite.parent.remove(this.sprite);
     }
 
     //create image conf.image_icon_path on a quad above the pin
     const onLoad = function (texture) {
-      const material = new udviz.THREE.MeshBasicMaterial({
+      const material = new udviz.THREE.SpriteMaterial({
         map: texture,
-        side: udviz.THREE.DoubleSide,
       });
 
-      const geometry = new udviz.THREE.PlaneGeometry(
-        this.conf.image_width,
-        this.conf.image_height
-      );
-      this.imagePlane = new udviz.THREE.Mesh(geometry, material);
+      this.sprite = new udviz.THREE.Sprite(material);
+      this.sprite.scale.set(this.conf.image_width, this.conf.image_height, 1);
 
       const r = go.getComponent(udviz.Game.Render.TYPE);
-      r.addObject3D(this.imagePlane);
+      r.addObject3D(this.sprite);
     };
 
     new udviz.THREE.TextureLoader().load(
@@ -49,7 +45,7 @@ module.exports = class GeoProject {
 
   onOutdated() {
     const go = arguments[0];
-    this.createImagePlane(go);
+    this.updateSprite(go);
   }
 
   onClick() {
@@ -58,14 +54,5 @@ module.exports = class GeoProject {
     a.href = this.conf.href;
     a.target = '_blank';
     a.click();
-  }
-
-  tick() {
-    const go = arguments[0];
-
-    const camera = arguments[1].getGameView().getCamera();
-
-    const object3D = go.getObject3D();
-    object3D.lookAt(camera.getWorldPosition(new udviz.THREE.Vector3()));
   }
 };
