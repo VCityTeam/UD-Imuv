@@ -7,16 +7,6 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
-//HARDCODED
-//Coordinates Image map path. src  https://commons.wikimedia.org/wiki/File:Lyon_et_ses_arrondissements_map.svg
-const CITY_MAP = {
-  PATH: './assets/img/citymap.png',
-  TOP: 45.81186,
-  BOTTOM: 45.70455,
-  LEFT: 4.76623,
-  RIGHT: 4.90291,
-};
-
 module.exports = class CityAvatar {
   constructor(conf, udvizBundle) {
     this.conf = conf;
