@@ -1,6 +1,6 @@
 import { THREE } from 'ud-viz';
 import ColliderModule from 'ud-viz/src/Game/GameObject/Components/Collider';
-import { Shared } from 'ud-viz/src/Game/Game';
+import { Game } from 'ud-viz/src/Game/Game';
 import { PolygonShape, CircleShape, POLYGON_TYPE, CIRCLE_TYPE } from './Shape';
 
 import './ColliderEditor.css';
@@ -75,7 +75,7 @@ export class ColliderEditorView {
           body: true,
         },
         this.gameView.getAssetsManager(),
-        Shared,
+        Game,
         false
       );
     }
