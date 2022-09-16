@@ -8,6 +8,7 @@ const AVATAR_SPEED_ROTATION_X = 0.00001;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
+// eslint-disable-next-line no-unused-vars
 const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
@@ -38,7 +39,7 @@ module.exports = class Avatar {
     this.spawn();
 
     //init commands
-    for (let type in Game.Command.TYPE) {
+    for (const type in Game.Command.TYPE) {
       this.commands[Game.Command.TYPE[type]] = [];
     }
   }
@@ -116,7 +117,7 @@ module.exports = class Avatar {
 
     let elevationComputed = false;
 
-    for (let type in this.commands) {
+    for (const type in this.commands) {
       const cmds = this.commands[type];
 
       if (cmds.length) {
@@ -154,13 +155,13 @@ module.exports = class Avatar {
             );
             break;
           case Command.TYPE.ROTATE:
-            const vectorJSON = cmd.getData().vector;
-            const vector = new THREE.Vector3(
-              vectorJSON.x * AVATAR_SPEED_ROTATION_X,
-              vectorJSON.y,
-              vectorJSON.z * AVATAR_SPEED_ROTATION_Z
+            gameObject.rotate(
+              new THREE.Vector3(
+                cmd.getData().vector.x * AVATAR_SPEED_ROTATION_X,
+                cmd.getData().vector.y,
+                cmd.getData().vector.z * AVATAR_SPEED_ROTATION_Z
+              ).multiplyScalar(dt)
             );
-            gameObject.rotate(vector.multiplyScalar(dt));
             this.clampRotation(gameObject);
             cmds.shift(); //remove one by one
             break;
@@ -225,7 +226,7 @@ module.exports = class Avatar {
       .addGameObject(this.cityAvatar, worldContext, this.go);
 
     //clear cmds
-    for (let id in this.commands) {
+    for (const id in this.commands) {
       this.commands[id].length = 0;
     }
   }
@@ -272,7 +273,7 @@ module.exports = class Avatar {
   onEnterCollision() {
     const go = arguments[0];
     const result = arguments[1];
-    const worldContext = arguments[2];
+    // const worldContext = arguments[2];
 
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
