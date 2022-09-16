@@ -100,6 +100,11 @@ module.exports = class Avatar {
     );
   }
 
+  /**
+   * It applies the commands to the avatar
+   * @param {udviz.Game.GameObject} gameObject - The game object that the script is attached to.
+   * @param {udviz.Game.WorldContext} worldContext - the context of the world, which contains the asstetsManager, the world, the dt...
+   */
   applyCommands(gameObject, worldContext) {
     const dt = worldContext.getDt();
     const Command = Game.Command;
