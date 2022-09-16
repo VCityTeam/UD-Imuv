@@ -1,5 +1,6 @@
 /** @format */
 
+// eslint-disable-next-line no-unused-vars
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
@@ -18,6 +19,11 @@ module.exports = class GeoProject {
     this.updateSprite(go);
   }
 
+  /**
+   * It creates a sprite from the image at `conf.image_icon_path` and adds it to the `Render` component
+   * of the game object
+   * @param {udviz.Game.GameObject} go - the game object that this component is attached to
+   */
   updateSprite(go) {
     //image
     if (this.sprite && this.sprite.parent) {
@@ -48,8 +54,10 @@ module.exports = class GeoProject {
     this.updateSprite(go);
   }
 
+  /**
+   * When image is clicked redirection to conf.href
+   */
   onClick() {
-    //when image is clicked redirection to conf.href
     const a = document.createElement('a');
     a.href = this.conf.href;
     a.target = '_blank';
