@@ -1,5 +1,6 @@
 /** @format */
 
+// eslint-disable-next-line no-unused-vars
 const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
@@ -17,7 +18,7 @@ module.exports = class Map {
   loadLocal() {
     const _this = this;
     return new Promise((resolve, reject) => {
-      const gameObject = arguments[0];
+      // const gameObject = arguments[0];
       const conf = this.conf;
 
       const img = document.createElement('img');
@@ -59,8 +60,8 @@ module.exports = class Map {
 
   loadServer() {
     const modules = arguments[3];
-    return new Promise((resolve, reject) => {
-      const gameObject = arguments[0];
+    return new Promise((resolve) => {
+      // const gameObject = arguments[0];
       const gm = modules.gm;
       const PNG = modules.PNG;
 
@@ -177,7 +178,7 @@ module.exports = class Map {
   }
 
   updateElevation(gameObject) {
-    let elevation = this.getHeightValue(
+    const elevation = this.getHeightValue(
       gameObject.getPosition().x,
       gameObject.getPosition().y
     );
