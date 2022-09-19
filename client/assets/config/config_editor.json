@@ -286,6 +286,9 @@
       },
       "city_map": {
         "path": "./assets/prefabs/CityMap.json"
+      },
+      "signboard": {
+        "path": "./assets/prefabs/Signboard.json"
       }
     },
     "worlds": {
