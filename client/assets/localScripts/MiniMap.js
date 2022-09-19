@@ -99,7 +99,7 @@ module.exports = class MiniMap {
       }
     };
 
-    manager.addMouseCommand('click', function () {
+    manager.addMouseCommand('mini_map_click', 'click', function () {
       const event = this.event('click');
 
       if (event.target != _this.canvasMiniMap) return null;
@@ -149,6 +149,7 @@ module.exports = class MiniMap {
             avatarUUID: gameView.getUserData('avatarUUID'),
           },
           userID: userID,
+          gameObjectUUID: go.getUUID(),
         });
       } else if (clickMode === CLICK_MODE.PING) {
         _this.setClickMode(CLICK_MODE.DEFAULT);
@@ -167,6 +168,7 @@ module.exports = class MiniMap {
             color: _this.fetchAvatarColor(avatarGO),
           },
           userID: userID,
+          gameObjectUUID: go.getUUID(),
         });
       }
     });
@@ -554,7 +556,7 @@ module.exports = class MiniMap {
     //draw pings
     for (let i = this.pings.length - 1; i >= 0; i--) {
       const ping = this.pings[i];
-      if (ping.step(destCtx, localCtx.getDt())) {
+      if (ping.draw(destCtx, localCtx.getDt())) {
         //end remove it
         this.pings.splice(i, 1);
       }
@@ -612,13 +614,13 @@ class Ping {
   constructor(params) {
     this.duration = params.duration || 2000;
     this.maxSize = params.maxSize || 20;
+    this.currentTime = 0;
 
     this.position = params.position;
     this.color = params.color;
-    this.currentTime = 0;
   }
 
-  step(context2D, dt) {
+  draw(context2D, dt) {
     this.currentTime += dt;
 
     //draw context2D

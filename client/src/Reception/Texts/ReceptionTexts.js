@@ -51,6 +51,7 @@ const texts = {
       'Souris modele 3D : <a href=https://free3d.com/3d-model/computer-mouse-v3--595560.html>https://free3d.com/3d-model/computer-mouse-v3--595560.html</a>',
       'Sons : <a href=https://universal-soundbank.com/>https://universal-soundbank.com/</a> <br>',
       'Logo Google Form : <a href="https://commons.wikimedia.org/wiki/File:Google_Forms_2020_Logo.svg">Google</a>, Domaine publique, via Wikimedia Commons',
+      'Fond de carte Lyon : <a href="https://fr.wikipedia.org/wiki/Fichier:Lyon_et_ses_arrondissements_map.svg">Wikimedia</a>',
     ],
 
     //Sign
@@ -102,6 +103,7 @@ const texts = {
       'Mouse 3D model : <a href=https://free3d.com/3d-model/computer-mouse-v3--595560.html>https://free3d.com/3d-model/computer-mouse-v3--595560.html</a>',
       'Sounds : <a href=https://universal-soundbank.com/>https://universal-soundbank.com/</a> <br>',
       'Logo Google Form : <a href="https://commons.wikimedia.org/wiki/File:Google_Forms_2020_Logo.svg">Google</a>, Public domain, via Wikimedia Commons',
+      'Background map of Lyon : <a href="https://fr.wikipedia.org/wiki/Fichier:Lyon_et_ses_arrondissements_map.svg">Wikimedia</a>',
     ],
 
     //Sign

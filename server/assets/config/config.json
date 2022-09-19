@@ -33,6 +33,9 @@
       },
       "mini_map": {
         "path": "../client/assets/worldScripts/MiniMap.js"
+      },
+      "city_map": {
+        "path": "../client/assets/worldScripts/CityMap.js"
       }
     },
     "prefabs": {
@@ -41,6 +44,9 @@
       },
       "city_avatar": {
         "path": "../client/assets/prefabs/CityAvatar.json"
+      },
+      "city_map": {
+        "path": "../client/assets/prefabs/CityMap.json"
       }
     }
   },

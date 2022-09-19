@@ -144,6 +144,9 @@
       },
       "camera_tour": {
         "path": "./assets/localScripts/CameraTour.js"
+      },
+      "city_map": {
+        "path": "./assets/localScripts/CityMap.js"
       }
     },
     "renderData": {
@@ -224,6 +227,9 @@
       },
       "mini_map": {
         "path": "./assets/worldScripts/MiniMap.js"
+      },
+      "city_map": {
+        "path": "./assets/worldScripts/CityMap.js"
       }
     },
     "prefabs": {

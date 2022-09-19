@@ -15,6 +15,8 @@ module.exports = class Map {
     Game = GameBundle;
   }
 
+  init() {}
+
   loadLocal() {
     const _this = this;
     return new Promise((resolve, reject) => {
@@ -109,11 +111,33 @@ module.exports = class Map {
 
   load() {
     const isServerSide = arguments[2];
+
+    const promises = [];
+
     if (!isServerSide) {
-      return this.loadLocal.apply(this, arguments);
+      promises.push(this.loadLocal.apply(this, arguments));
     } else {
-      return this.loadServer.apply(this, arguments);
+      promises.push(this.loadServer.apply(this, arguments));
     }
+
+    if (this.cityAvatarAllow()) {
+      //add a citymap go
+      const go = arguments[0];
+      const worldContext = arguments[1];
+      const cityMapGO = worldContext
+        .getAssetsManager()
+        .createPrefab('city_map');
+
+      promises.push(
+        new Promise((resolve, reject) => {
+          worldContext
+            .getWorld()
+            .addGameObject(cityMapGO, worldContext, go, resolve);
+        })
+      );
+    }
+
+    return promises;
   }
 
   getHeightValue(x, y, size = this.heightmapSize, values = this.heightValues) {

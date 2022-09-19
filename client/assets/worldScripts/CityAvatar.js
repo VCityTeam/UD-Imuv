@@ -74,7 +74,7 @@ module.exports = class CityAvatar {
             );
             break;
           default:
-            throw new Error('command not handle ', cmd.getType());
+            console.warn('command not handle ', cmd.getType());
         }
         commands.splice(index, 1);
       }

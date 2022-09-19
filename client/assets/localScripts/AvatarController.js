@@ -67,6 +67,7 @@ module.exports = class AvatarController {
     const commandIdBackward = 'cmd_backward';
     const commandIdLeft = 'cmd_left';
     const commandIdRight = 'cmd_right';
+    const commandIdRotate = 'cmd_rotate';
 
     const switchItowns = localCtx.getRootGameObject().fetchLocalScripts()[
       'switch_itowns'
@@ -222,7 +223,7 @@ module.exports = class AvatarController {
         }
       });
 
-      manager.addMouseCommand('mousemove', function () {
+      manager.addMouseCommand(commandIdRotate, 'mousemove', function () {
         if (
           manager.getPointerLock() ||
           (this.isDragging() && !manager.getPointerLock())
@@ -257,7 +258,7 @@ module.exports = class AvatarController {
       manager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
       manager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
       manager.removeKeyCommand(commandIdLeft, ['q', 'ArrowLeft']);
-      manager.removeMouseCommand('mousemove');
+      manager.removeMouseCommand(commandIdRotate, 'mousemove');
       manager.setPointerLock(false);
     }
 
