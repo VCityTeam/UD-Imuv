@@ -1,0 +1,19 @@
+{
+  "name": "CityMap",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "LocalScript": {
+      "idScripts": ["city_map"],
+      "conf": {
+        "city_map_ping": []
+      },
+      "type": "LocalScript"
+    },
+    "WorldScript": {
+      "idScripts": ["city_map"],
+      "conf": {},
+      "type": "WorldScript"
+    }
+  }
+}

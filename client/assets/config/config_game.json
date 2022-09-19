@@ -152,6 +152,9 @@
       },
       "camera_tour": {
         "path": "./assets/localScripts/CameraTour.js"
+      },
+      "city_map": {
+        "path": "./assets/localScripts/CityMap.js"
       }
     },
     "renderData": {

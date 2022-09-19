@@ -27,7 +27,10 @@ module.exports = class MiniMap {
     //teleport
     for (let i = cmds.length - 1; i >= 0; i--) {
       const cmd = cmds[i];
-      if (cmd.getType() == Game.Command.TYPE.TELEPORT) {
+      if (
+        cmd.getGameObjectUUID() == gameObject.getUUID() &&
+        cmd.getType() == Game.Command.TYPE.TELEPORT
+      ) {
         teleportCmds.push(cmd);
         cmds.splice(i, 1);
       }
@@ -36,7 +39,10 @@ module.exports = class MiniMap {
     //ping
     for (let i = cmds.length - 1; i >= 0; i--) {
       const cmd = cmds[i];
-      if (cmd.getType() == Game.Command.TYPE.PING_MINI_MAP) {
+      if (
+        cmd.getGameObjectUUID() == gameObject.getUUID() &&
+        cmd.getType() == Game.Command.TYPE.PING_MINI_MAP
+      ) {
         pingCmds.push(cmd);
         cmds.splice(i, 1);
       }
