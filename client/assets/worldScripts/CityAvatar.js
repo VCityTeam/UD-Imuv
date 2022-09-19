@@ -4,7 +4,7 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
-const AVATAR_SPEED_MOVE = 1;
+const AVATAR_SPEED_MOVE = 0.03;
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
 const AVATAR_SPEED_ROTATION_X = 0.00001;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
@@ -27,16 +27,19 @@ module.exports = class CityAvatar {
     for (let index = commands.length - 1; index >= 0; index--) {
       const cmd = commands[index];
       if (cmd.getGameObjectUUID() == go.getUUID()) {
+        const oldZ = go.getPosition().z;
         switch (cmd.getType()) {
           case Game.Command.TYPE.MOVE_FORWARD:
             go.move(
               go.computeForwardVector().setLength(dt * AVATAR_SPEED_MOVE)
             );
+            go.getPosition().z = oldZ; //freeze z
             break;
           case Game.Command.TYPE.MOVE_BACKWARD:
             go.move(
               go.computeBackwardVector().setLength(dt * AVATAR_SPEED_MOVE * 0.3)
             );
+            go.getPosition().z = oldZ; //freeze z
             break;
           case Game.Command.TYPE.MOVE_LEFT:
             go.move(
@@ -45,6 +48,7 @@ module.exports = class CityAvatar {
                 .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), Math.PI * 0.5)
                 .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
+            go.getPosition().z = oldZ; //freeze z
             break;
           case Game.Command.TYPE.MOVE_RIGHT:
             go.move(
@@ -53,6 +57,7 @@ module.exports = class CityAvatar {
                 .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
                 .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
+            go.getPosition().z = oldZ; //freeze z
             break;
           case Game.Command.TYPE.ROTATE:
             const vectorJSON = cmd.getData().vector;
