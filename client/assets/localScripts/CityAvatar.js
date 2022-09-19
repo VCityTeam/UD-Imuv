@@ -353,7 +353,7 @@ module.exports = class CityAvatar {
           type: Game.Command.TYPE.Z_UPDATE,
           gameObjectUUID: go.getUUID(),
           userID: userID,
-          data: elevation + 200, //TODO remove
+          data: elevation,
         },
       ]);
     }

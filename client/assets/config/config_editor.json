@@ -280,6 +280,9 @@
       },
       "mini_map": {
         "path": "./assets/prefabs/MiniMap.json"
+      },
+      "city_map": {
+        "path": "./assets/prefabs/CityMap.json"
       }
     },
     "worlds": {
