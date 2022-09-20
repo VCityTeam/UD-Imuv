@@ -3664,27 +3664,43 @@
             "name": "Signboard",
             "type": "GameObject",
             "static": true,
-            "outdated": false,
-            "uuid": "277d19f0-2913-4f6c-bec9-1f438edcc568",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
             "components": {
               "Render": {
-                "uuid": "dab2e046-27d9-4dbd-99ae-5bf6c64d03a8",
                 "type": "Render",
                 "idRenderData": null,
                 "color": [1, 1, 1]
               },
               "LocalScript": {
-                "uuid": "d8f4c832-32d0-4583-9685-741af0b605e1",
                 "idScripts": ["clickable", "signboard"],
-                "conf": { "heightFrame": "1", "widthFrame": 1 },
+                "conf": {
+                  "heightFrame": 1,
+                  "widthFrame": 1
+                },
                 "type": "LocalScript"
               }
             },
-            "children": [],
+            "children": [
+              {
+                "name": "Frame",
+                "type": "GameObject",
+                "static": true,
+                "components": {
+                  "Render": {
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [1, 0, 1]
+                  }
+                },
+                "children": [],
+                "transform": {
+                  "position": [0, 0, 0],
+                  "rotation": [0, 0, 0, "ZXY"],
+                  "scale": [1, 1, 1]
+                }
+              }
+            ],
             "transform": {
-              "position": [-24.216450980165973, -51.12621964327991, 2.4],
+              "position": [0, 0, 2.4],
               "rotation": [0, 0, 0, "ZXY"],
               "scale": [1, 1, 1]
             },
