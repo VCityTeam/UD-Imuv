@@ -12,8 +12,6 @@ module.exports = class Clickable {
     this.conf = conf;
     udviz = udvizBundle;
     Game = udviz.Game;
-
-    this.currentDt = 0;
   }
 
   init() {
@@ -69,6 +67,4 @@ module.exports = class Clickable {
       }
     });
   }
-
-  tick() {}
 };

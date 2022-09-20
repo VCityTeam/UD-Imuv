@@ -6,7 +6,8 @@ let udviz = null;
 const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
-
+const threeType = require('three');
+/** @type {threeType} */
 let THREE = null;
 
 module.exports = class Signboard {
