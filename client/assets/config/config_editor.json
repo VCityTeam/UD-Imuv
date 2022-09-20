@@ -150,6 +150,12 @@
       },
       "city_map": {
         "path": "./assets/localScripts/CityMap.js"
+      },
+      "bounce": {
+        "path": "./assets/localScripts/Bounce.js"
+      },
+      "signboard": {
+        "path": "./assets/localScripts/Signboard.js"
       }
     },
     "renderData": {

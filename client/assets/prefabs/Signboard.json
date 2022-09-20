@@ -5,14 +5,22 @@
   "components": {
     "Render": {
       "type": "Render",
-      "idRenderData": "signboard",
+      "idRenderData": null,
       "color": [1, 1, 1]
+    },
+    "LocalScript": {
+      "idScripts": ["clickable", "signboard"],
+      "conf": {
+        "heightFrame": 1,
+        "widthFrame": 1
+      },
+      "type": "LocalScript"
     }
   },
   "children": [],
   "transform": {
     "position": [0, 0, 2.4],
-    "rotation": [1.56, 0, 0, "ZXY"],
+    "rotation": [0, 0, 0, "ZXY"],
     "scale": [1, 1, 1]
   }
 }

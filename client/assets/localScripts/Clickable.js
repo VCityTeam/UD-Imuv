@@ -70,18 +70,5 @@ module.exports = class Clickable {
     });
   }
 
-  tick() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-
-    const renderComp = go.getComponent(Game.Render.TYPE);
-    const obj = renderComp.getObject3D();
-
-    this.currentDt += localCtx.getDt();
-
-    const min = 0.8;
-    const bounce = (1 - min) * Math.abs(Math.sin(this.currentDt * 0.001)) + min;
-
-    obj.scale.set(bounce, bounce, bounce);
-  }
+  tick() {}
 };
