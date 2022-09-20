@@ -46,7 +46,7 @@ module.exports = class UI {
     const role = gameView.getUserData('role');
     if (
       role == ImuvConstants.USER.ROLE.ADMIN ||
-      role == ImuvConstants.USER.ROLE.USER
+      role == ImuvConstants.USER.ROLE.DEFAULT
     ) {
       this.menuAvatarButton = document.createElement('button');
       this.menuAvatarButton.classList.add('button-imuv');
