@@ -3,7 +3,7 @@ module.exports = {
     ROLE: {
       ADMIN: 'admin',
       GUEST: 'guest',
-      USER: 'user',
+      DEFAULT: 'default',
     },
   },
   WORLD: {
