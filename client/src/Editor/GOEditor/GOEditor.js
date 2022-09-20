@@ -103,6 +103,9 @@ export class GOEditorView {
       if (lS['camera_tour']) {
         goUI.appendLSCameraTourUI(this.gameView);
       }
+      if (lS['signboard']) {
+        goUI.appendLSSignboardUI(this.gameView);
+      }
     }
 
     const wS = go.fetchWorldScripts();
