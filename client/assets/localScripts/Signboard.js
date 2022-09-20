@@ -16,27 +16,17 @@ module.exports = class Signboard {
     udviz = udvizBundle;
     Game = udviz.Game;
     THREE = Game.THREE;
+    this.defaultMaterial = new THREE.MeshLambertMaterial({
+      color: 0x00ff00,
+    });
   }
 
   init() {
     const go = arguments[0];
     const render = go.getComponent(Game.Render.TYPE);
 
-    const objectBuilded = this.buildSignboard();
-    render.addObject3D(objectBuilded);
-  }
-
-  buildSignboard() {
-    const defaultMaterial = new THREE.MeshLambertMaterial({
-      color: 0x00ff00,
-    });
-
-    const result = new THREE.Object3D();
-
     const geometryPlaneFront = new THREE.PlaneGeometry(1, 1);
-    const geometryPlaneBG = new THREE.PlaneGeometry(1, 1);
-    const planeFront = new THREE.Mesh(geometryPlaneFront, defaultMaterial);
-    const planeBG = new THREE.Mesh(geometryPlaneBG, defaultMaterial);
+    const planeFront = new THREE.Mesh(geometryPlaneFront, this.defaultMaterial);
     planeFront.name = 'planeFront';
     planeFront.material = new THREE.MeshBasicMaterial({
       map: new THREE.TextureLoader().load(
@@ -44,9 +34,26 @@ module.exports = class Signboard {
       ),
       blendDst: THREE.ZeroFactor,
     });
+    render.addObject3D(planeFront);
+
+    if (go.children[0].name === 'Frame') {
+      const frameBuilded = this.buildSignboardFrame();
+      const renderFrame = go.children[0].getComponent(Game.Render.TYPE);
+      renderFrame.addObject3D(frameBuilded);
+    } else {
+      console.warn("Signboard's first child should be a Frame");
+    }
+  }
+
+  buildSignboardFrame() {
+    const defaultMaterial = this.defaultMaterial;
+
+    const result = new THREE.Object3D();
+
+    const geometryPlaneBG = new THREE.PlaneGeometry(1, 1);
+    const planeBG = new THREE.Mesh(geometryPlaneBG, defaultMaterial);
     planeBG.name = 'planeBG';
     planeBG.rotation.y = Math.PI;
-    result.add(planeFront);
     result.add(planeBG);
 
     const geometryFrameLeft = new THREE.BoxGeometry(0.1, 0.9, 0.1);
@@ -84,7 +91,6 @@ module.exports = class Signboard {
     result.add(supportLeft);
     result.add(supportRight);
 
-    result.rotation.x = Math.PI / 2;
     return result;
   }
 

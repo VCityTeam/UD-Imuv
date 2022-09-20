@@ -1,4 +1,4 @@
-import { GameObject, LocalScript } from 'ud-viz/src/Game/Game';
+import { LocalScript } from 'ud-viz/src/Game/Game';
 import { THREE } from 'ud-viz';
 
 export class LocalScriptSignboardUI {
@@ -9,7 +9,7 @@ export class LocalScriptSignboardUI {
 
     const uuid = go.getUUID();
     this.goInGame = gV.getLastState().getGameObject().find(uuid);
-    this.render = this.goInGame.getComponent('Render');
+    this.render = this.goInGame.children[0].getComponent('Render');
 
     //create UI
     //get ls component
@@ -69,15 +69,6 @@ export class LocalScriptSignboardUI {
     const meshes = this.render.getObject3D().children[0].children;
     this.render.setColor(new THREE.Color(this.inputColor.value));
     console.log('meshes', meshes);
-    // for (const mesh of meshes) {
-    //   if (mesh.name === 'frameFront') {
-    //     mesh.material.map = null;
-    //   } else {
-    //     mesh.material.color.set(new THREE.Color(this.inputColor.value));
-
-    //     mesh.material.needsUpdate = true;
-    //   }
-    // }
   }
 
   /**
