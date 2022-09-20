@@ -77,17 +77,17 @@ export class LocalScriptSignboardUI {
    */
   initCallback(lsComp) {
     const _this = this;
-    this.inputHeight.onchange = function () {
+    this.inputHeight.oninput = function () {
       lsComp.conf.heightFrame = this.value;
       _this.rebuildMesh();
     };
 
-    this.inputWidth.onchange = function () {
+    this.inputWidth.oninput = function () {
       lsComp.conf.widthFrame = this.value;
       _this.rebuildMesh();
     };
 
-    this.inputColor.onchange = function () {
+    this.inputColor.oninput = function () {
       _this.rebuildMesh();
     };
   }

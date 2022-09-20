@@ -131,7 +131,7 @@ module.exports = class MenuAvatar {
     inputColor.value =
       '#' + _this.worldAvatarGO.components.Render.color.getHexString();
 
-    inputColor.onchange = function () {
+    inputColor.oninput = function () {
       const color = new udviz.THREE.Color(this.value);
       const renderComp = _this.worldAvatarGO.getComponent(
         udviz.Game.Render.TYPE
