@@ -164,6 +164,13 @@ export class EditorView {
       .getWorldContext()
       .getWorld();
 
+    const goInGv = this.currentWorldView
+      .getGameView()
+      .getLastState()
+      .getGameObject();
+
+    world.setGameObject(goInGv);
+
     const worldsJSON = this.assetsManager.getWorldsJSON();
     for (let index = 0; index < worldsJSON.length; index++) {
       const json = worldsJSON[index];
