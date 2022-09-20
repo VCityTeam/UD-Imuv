@@ -139,6 +139,20 @@ export class GOEditorView {
       li.innerHTML = child.getName();
       li.title = child.getUUID();
 
+      //indent
+      let degree = 0;
+      const computeChildDegree = function (gameobject) {
+        if (!gameobject.getParent()) {
+          return null;
+        } else {
+          degree++;
+          return computeChildDegree(gameobject.getParent());
+        }
+      };
+      computeChildDegree(child);
+      const stepMargin = 10;
+      li.style.marginLeft = stepMargin * degree + 'px';
+
       li.onclick = _this.goButtonClicked.bind(_this, child.getUUID());
     });
 
