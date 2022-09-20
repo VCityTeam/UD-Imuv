@@ -8,6 +8,7 @@ import { LocalScriptJitsiAreaUI } from './LocalScriptJitsiAreaUI';
 import { WorldScriptPortalUI } from './WorldScriptPortalUI';
 import { WorldScriptTeleporterUI } from './WorldScriptTeleporterUI';
 import { LocalScriptCameraTourUI } from './LocalScriptCameraTourUI';
+import { LocalScriptSignboardUI } from './LocalScriptSignboardUI';
 
 export class GameObjectUI {
   constructor(go, obj, goEditor) {
@@ -231,5 +232,9 @@ export class GameObjectUI {
 
   appendLSCameraTourUI(gV) {
     new LocalScriptCameraTourUI(this, gV);
+  }
+
+  appendLSSignboardUI(gV) {
+    new LocalScriptSignboardUI(this, gV);
   }
 }
