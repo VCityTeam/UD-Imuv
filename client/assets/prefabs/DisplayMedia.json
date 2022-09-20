@@ -9,7 +9,7 @@
       "color": [1, 1, 1]
     },
     "LocalScript": {
-      "idScripts": ["clickable", "rotate", "display_media"],
+      "idScripts": ["clickable", "rotate", "display_media", "bounce"],
       "conf": { "speed": 0.0005, "iframe_src": "default" },
       "type": "LocalScript"
     }
