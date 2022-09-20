@@ -9,7 +9,7 @@ export class LocalScriptSignboardUI {
 
     const uuid = go.getUUID();
     this.goInGame = gV.getLastState().getGameObject().find(uuid);
-    this.render = this.goInGame.children[0].getComponent('Render');
+    this.renderFrame = this.goInGame.children[0].getComponent('Render');
 
     //create UI
     //get ls component
@@ -51,13 +51,13 @@ export class LocalScriptSignboardUI {
     //create Color Label
     const divColor = document.createElement('div');
     const labelColor = document.createElement('label');
-    labelColor.innerHTML = 'Color';
+    labelColor.innerHTML = 'Color Frame';
     divColor.appendChild(labelColor);
 
     //create input
     const inputColor = document.createElement('input');
     inputColor.type = 'color';
-    inputColor.value = lsComp.conf.colorFrameHex;
+    inputColor.value = '#' + this.renderFrame.color.getHexString();
     divColor.appendChild(inputColor);
     this.inputColor = inputColor;
     content.appendChild(divColor);
@@ -66,8 +66,8 @@ export class LocalScriptSignboardUI {
   }
 
   rebuildMesh() {
-    const meshes = this.render.getObject3D().children[0].children;
-    this.render.setColor(new THREE.Color(this.inputColor.value));
+    const meshes = this.renderFrame.getObject3D().children[0].children;
+    this.renderFrame.setColor(new THREE.Color(this.inputColor.value));
     console.log('meshes', meshes);
   }
 
