@@ -1,5 +1,4 @@
 import { LocalScript } from 'ud-viz/src/Game/Game';
-import { THREE } from 'ud-viz';
 
 export class LocalScriptSignboardUI {
   constructor(goUI, gV) {
@@ -9,11 +8,16 @@ export class LocalScriptSignboardUI {
 
     const uuid = go.getUUID();
     this.goInGame = gV.getLastState().getGameObject().find(uuid);
+
+    if (!this.goInGame.children[0]) {
+      console.error('No child found for the signboard');
+      return;
+    }
     this.renderFrame = this.goInGame.children[0].getComponent('Render');
 
     //create UI
     //get ls component
-    const lsComp = go.getComponent(LocalScript.TYPE);
+    const lsComp = this.goInGame.getComponent(LocalScript.TYPE);
     if (!lsComp) throw new Error('no localscript');
 
     const titleSignboard = document.createElement('div');
@@ -21,32 +25,14 @@ export class LocalScriptSignboardUI {
     content.appendChild(titleSignboard);
 
     //create Height Label
-    const divHeight = document.createElement('div');
     const labelHeight = document.createElement('label');
-    labelHeight.innerHTML = 'Height';
-    divHeight.appendChild(labelHeight);
+    labelHeight.innerHTML = 'Height: ' + lsComp.conf.heightFrame;
+    content.appendChild(labelHeight);
 
-    //create input
-    const inputHeight = document.createElement('input');
-    inputHeight.type = 'number';
-    inputHeight.value = lsComp.conf.heightFrame; //init
-    divHeight.appendChild(inputHeight);
-    this.inputHeight = inputHeight;
-    content.appendChild(divHeight);
-
-    //create Width Label
-    const divWidth = document.createElement('div');
-    const labelWidth = document.createElement('label');
-    labelWidth.innerHTML = 'Width';
-    divWidth.appendChild(labelWidth);
-
-    //create input
-    const inputWidth = document.createElement('input');
-    inputWidth.type = 'number';
-    inputWidth.value = lsComp.conf.widthFrame; //init
-    divWidth.appendChild(inputWidth);
-    this.inputWidth = inputWidth;
-    content.appendChild(divWidth);
+    //create Width Parameter
+    const labelWidth = document.createElement('p');
+    labelWidth.innerHTML = 'Width:' + lsComp.conf.widthFrame;
+    content.appendChild(labelWidth);
 
     //create Color Label
     const divColor = document.createElement('div');
@@ -54,7 +40,7 @@ export class LocalScriptSignboardUI {
     labelColor.innerHTML = 'Color Frame';
     divColor.appendChild(labelColor);
 
-    //create input
+    //create Color input
     const inputColor = document.createElement('input');
     inputColor.type = 'color';
     inputColor.value = '#' + this.renderFrame.color.getHexString();
@@ -62,13 +48,36 @@ export class LocalScriptSignboardUI {
     this.inputColor = inputColor;
     content.appendChild(divColor);
 
-    this.initCallback(lsComp);
-  }
+    //create Image URL Label
+    const divImageUrl = document.createElement('div');
+    const labelImageUrl = document.createElement('label');
+    labelImageUrl.innerHTML = 'Image URL';
+    divImageUrl.appendChild(labelImageUrl);
 
-  rebuildMesh() {
-    const meshes = this.renderFrame.getObject3D().children[0].children;
-    this.renderFrame.setColor(new THREE.Color(this.inputColor.value));
-    console.log('meshes', meshes);
+    //create Input Image URL
+    const inputImageURL = document.createElement('input');
+    inputImageURL.type = 'text';
+    inputImageURL.placeholder = 'https://example.com/image.png';
+    inputImageURL.value = lsComp.conf.imageURL || '';
+    divImageUrl.appendChild(inputImageURL);
+    this.inputImageURL = inputImageURL;
+    content.appendChild(divImageUrl);
+
+    //create Size Factor Label
+    const divSizeFactor = document.createElement('div');
+    const labelSizeFactor = document.createElement('label');
+    labelSizeFactor.innerHTML = 'Size Factor';
+    divSizeFactor.appendChild(labelSizeFactor);
+
+    //create Input Size Factor
+    const inputSizeFactor = document.createElement('input');
+    inputSizeFactor.type = 'number';
+    inputSizeFactor.value = lsComp.conf.sizeFactor;
+    divSizeFactor.appendChild(inputSizeFactor);
+    this.inputSizeFactor = inputSizeFactor;
+    content.appendChild(divSizeFactor);
+
+    this.initCallback(lsComp);
   }
 
   /**
@@ -76,19 +85,31 @@ export class LocalScriptSignboardUI {
    * @param {Object} lsComp - the component object
    */
   initCallback(lsComp) {
-    const _this = this;
-    this.inputHeight.oninput = function () {
-      lsComp.conf.heightFrame = this.value;
-      _this.rebuildMesh();
-    };
-
-    this.inputWidth.oninput = function () {
-      lsComp.conf.widthFrame = this.value;
-      _this.rebuildMesh();
-    };
-
+    const lsSignboard = lsComp.scripts['signboard'];
     this.inputColor.oninput = function () {
-      _this.rebuildMesh();
+      lsComp.conf.colorFrame = this.value;
+      lsSignboard.changeColorRenderFrame.call(lsSignboard, this.value);
+    };
+
+    const imgTest = document.createElement('img');
+    imgTest.onload = () => {
+      lsComp.conf.imageURL = this.inputImageURL.value;
+      lsSignboard.buildMesh.call(lsSignboard);
+    };
+    imgTest.onerror = () => {
+      alert('The URL is not valid');
+    };
+    this.inputImageURL.onchange = function () {
+      if (this.value == '') {
+        lsSignboard.buildMesh.call(lsSignboard, true);
+      } else {
+        imgTest.src = this.value;
+      }
+    };
+
+    this.inputSizeFactor.onchange = function () {
+      lsComp.conf.sizeFactor = this.value;
+      lsSignboard.buildMesh.call(lsSignboard);
     };
   }
 }
