@@ -11,8 +11,9 @@
     "LocalScript": {
       "idScripts": ["clickable", "signboard"],
       "conf": {
-        "heightFrame": 1,
-        "widthFrame": 1
+        "heightFrame": null,
+        "widthFrame": null,
+        "sizeFactor": 1
       },
       "type": "LocalScript"
     }
@@ -26,7 +27,7 @@
         "Render": {
           "type": "Render",
           "idRenderData": null,
-          "color": [1, 0, 1]
+          "color": [0.24, 0.17, 0.12]
         }
       },
       "children": [],
@@ -38,8 +39,8 @@
     }
   ],
   "transform": {
-    "position": [0, 0, 2.4],
-    "rotation": [0, 0, 0, "ZXY"],
+    "position": [0, 0, 0],
+    "rotation": [1.57, 0, 0, "ZXY"],
     "scale": [1, 1, 1]
   }
 }
