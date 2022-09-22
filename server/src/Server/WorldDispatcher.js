@@ -98,24 +98,34 @@ const WorldDispatcherModule = class WorldDispatcher {
 
       //avatar portal
       thread.on(WorldThread.MSG_TYPES.AVATAR_PORTAL, function (data) {
-        _this.placeAvatarInWorld(
-          data.avatarUUID,
-          data.worldUUID,
-          data.portalUUID
-        );
+        const user = _this.fetchUserWithAvatarUUID(data.avatarUUID);
+        _this.placeAvatarInWorld(user, data.worldUUID, data.portalUUID, null);
       });
     });
   }
 
-  addUser(user) {
-    if (this.fetchUserInWorldWithUUID(user.getUUID()))
-      throw new Error('add user already added');
+  addUser(user, data) {
+    if (this.fetchUserInWorldWithUUID(user.getUUID())) {
+      console.warn('add user already added');
+      return;
+    }
 
-    const avatarUUID = user.getAvatarUUID();
-    const worldUUID = this.config.uuidEntryWorld;
-    // const worldUUID = '7027C0BF-BC84-48B6-BCFD-FA97DAE8874C'; //room conf
+    let worldUUID = null;
 
-    this.placeAvatarInWorld(avatarUUID, worldUUID, null, user);
+    if (data && data.worldUUID) {
+      worldUUID = data.worldUUID;
+    } else {
+      worldUUID = this.config.uuidEntryWorld;
+    }
+
+    let transform = null;
+    if (data) {
+      transform = {};
+      transform.position = data.position;
+      transform.rotation = data.rotation;
+    }
+
+    this.placeAvatarInWorld(user, worldUUID, null, transform);
   }
 
   removeUser(user) {
@@ -130,15 +140,12 @@ const WorldDispatcherModule = class WorldDispatcher {
     user.getThread().removeUser(user);
   }
 
-  placeAvatarInWorld(avatarUUID, worldUUID, portalUUID, user) {
-    //find user with avatar uuid
-    if (!user) user = this.fetchUserWithAvatarUUID(avatarUUID);
-
-    if (!user) throw new Error('no user with avatar id ', avatarUUID);
-
+  placeAvatarInWorld(user, worldUUID, portalUUID, transform) {
     const thread = this.worldToThread[worldUUID];
-
-    if (!thread) throw new Error('no thread with world uuid ', worldUUID);
+    if (!thread) {
+      console.warn('no thread with world uuid ', worldUUID);
+      return;
+    }
 
     //remove from last world if one
     const oldThread = user.getThread();
@@ -154,6 +161,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
       gameObject: user.getAvatarJSON(),
       portalUUID: portalUUID,
+      transform: transform,
     });
 
     const socket = user.getSocket();
@@ -161,43 +169,11 @@ const WorldDispatcherModule = class WorldDispatcher {
 
     //remove old listener
     socket.removeAllListeners(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM
-    );
-    socket.removeAllListeners(
       ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
     );
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
-
-    //create BBB rooms
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM,
-      function (params) {
-        const worldJSON = _this.fetchWorldJSONWithUUID(worldUUID);
-
-        if (!_this.bbbWrapper.hasBBBApi()) {
-          socket.emit(
-            ImuvConstants.WEBSOCKET.MSG_TYPES.SERVER_ALERT,
-            'no bbb api'
-          );
-          return;
-        }
-
-        _this.bbbWrapper
-          .createBBBRoom(worldUUID, worldJSON.name)
-          .then(function (value) {
-            //write dynamically bbb urls in localscript conf
-            thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, {
-              goUUID: params.goUUID,
-              componentUUID: params.componentUUID,
-              key: BBB_ROOM_TAG,
-              value: value,
-            });
-            console.log(worldJSON.name, ' create bbb room');
-          });
-      }
-    );
 
     //client can edit conf component
     socket.on(
@@ -216,7 +192,6 @@ const WorldDispatcherModule = class WorldDispatcher {
         const command = new Game.Command(cmdJSON);
 
         if (command.getUserID() == user.getUUID()) {
-          //security so another client cant control another avatar
           commands.push(command);
         }
       });

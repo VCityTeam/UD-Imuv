@@ -106,18 +106,14 @@ export class SignInView {
     this.rootHtml.classList.add('root_Sign');
 
     //html
-    this.closeButton = null;
     this.inputIdUser = null;
     this.inputPassword = null;
     this.signInButton = null;
+    this.parentCentered = null;
 
     this.webSocketService = webSocketService;
 
     this.init();
-  }
-
-  setOnClose(f) {
-    this.closeButton.onclick = f;
   }
 
   init() {
@@ -128,6 +124,7 @@ export class SignInView {
   initUI() {
     const parentCentered = document.createElement('div');
     parentCentered.classList.add('parentCentered_Sign');
+    this.parentCentered = parentCentered;
     this.rootHtml.appendChild(parentCentered);
 
     this.inputIdUser = createInput('Nom d utilisateur / email', parentCentered);
@@ -141,11 +138,6 @@ export class SignInView {
     this.signInButton.classList.add('button_Sign');
     this.signInButton.innerHTML = 'Connexion';
     parentCentered.appendChild(this.signInButton);
-
-    this.closeButton = document.createElement('div');
-    this.closeButton.classList.add('button_Sign');
-    this.closeButton.innerHTML = 'Retour';
-    parentCentered.appendChild(this.closeButton);
   }
 
   initCallbacks() {
@@ -160,6 +152,15 @@ export class SignInView {
         password: password,
       });
     };
+  }
+
+  addButton(label, cb) {
+    const button = document.createElement('div');
+    button.classList.add('button_Sign');
+    button.innerHTML = label;
+    this.parentCentered.appendChild(button);
+
+    button.onclick = cb;
   }
 
   dispose() {

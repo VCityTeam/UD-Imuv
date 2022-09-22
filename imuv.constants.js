@@ -1,4 +1,20 @@
 module.exports = {
+  //imuv url event
+  URL_PARAMETER: {
+    ID_KEY: 'url_parameter_event_id_key',
+    EVENT: {
+      TELEPORT_AVATAR_WORLD: {
+        //data structure of this event
+        ID_VALUE: 'teleport_avatar_world_ID', //ID is mandatory
+        PARAMS_KEY: {
+          POSITION: 'position',
+          ROTATION: 'rotation',
+          WORLDUUID: 'worldUUID',
+        },
+      },
+    },
+  },
+  //different imuv role
   USER: {
     ROLE: {
       ADMIN: 'admin',
@@ -6,13 +22,14 @@ module.exports = {
       DEFAULT: 'default',
     },
   },
+  //world imuv event
   WORLD: {
     EVENT: {
       PORTAL: 'portal',
     },
   },
   /**
-   * Define the type of message of a websocket communication
+   * Define the type of message of a websocket communication between client and imuv server
    */
   WEBSOCKET: {
     MSG_TYPES: {
