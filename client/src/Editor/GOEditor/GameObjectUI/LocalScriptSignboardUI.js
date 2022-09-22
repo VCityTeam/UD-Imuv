@@ -33,7 +33,8 @@ export class LocalScriptSignboardUI {
   initHtml(lsComp) {
     const content = this.content;
 
-    const titleSignboard = document.createElement('div');
+    //title
+    const titleSignboard = document.createElement('h3');
     titleSignboard.innerHTML = 'Signboard:';
     content.appendChild(titleSignboard);
 
