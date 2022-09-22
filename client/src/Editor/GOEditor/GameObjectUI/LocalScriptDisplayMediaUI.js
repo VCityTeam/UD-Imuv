@@ -6,6 +6,11 @@ export class LocalScriptDisplayMediaUI {
     const content = goUI.content;
     const go = goUI.go;
 
+    //title
+    const titleDisplayMedia = document.createElement('h3');
+    titleDisplayMedia.innerHTML = 'DisplayMedia:';
+    content.appendChild(titleDisplayMedia);
+
     //add a label to the input iframe_src
     const label = document.createElement('div');
     label.innerHTML = 'Lien iframe';
@@ -18,7 +23,8 @@ export class LocalScriptDisplayMediaUI {
     //create input
     const input = document.createElement('input');
     input.type = 'text';
-    input.value = lsComp.conf.iframe_src; //init
+    input.placeholder = 'http:// || https:// || ./*.html';
+    input.value = lsComp.conf.iframe_src || ''; //init
     content.appendChild(input);
 
     //init callback
