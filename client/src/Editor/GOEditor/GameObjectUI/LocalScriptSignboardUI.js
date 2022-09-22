@@ -1,9 +1,10 @@
 import { LocalScript } from 'ud-viz/src/Game/Game';
+import File from 'ud-viz/src/Components/SystemUtils/File';
 
 export class LocalScriptSignboardUI {
   constructor(goUI, gV) {
     //variables
-    const content = goUI.content;
+    this.content = goUI.content;
     const go = goUI.go;
 
     const uuid = go.getUUID();
@@ -15,10 +16,22 @@ export class LocalScriptSignboardUI {
     }
     this.renderFrame = this.goInGame.children[0].getComponent('Render');
 
-    //create UI
     //get ls component
     const lsComp = this.goInGame.getComponent(LocalScript.TYPE);
     if (!lsComp) throw new Error('no localscript');
+
+    //init html
+    this.inputColor = null;
+    this.inputImageURL = null;
+    this.inputImageFile = null;
+    this.inputSizeFactor = null;
+
+    this.initHtml(lsComp);
+    this.initCallback(lsComp);
+  }
+
+  initHtml(lsComp) {
+    const content = this.content;
 
     const titleSignboard = document.createElement('div');
     titleSignboard.innerHTML = 'Signboard:';
@@ -58,10 +71,26 @@ export class LocalScriptSignboardUI {
     const inputImageURL = document.createElement('input');
     inputImageURL.type = 'text';
     inputImageURL.placeholder = 'https://example.com/image.png';
-    inputImageURL.value = lsComp.conf.imageURL || '';
+    inputImageURL.value = lsComp.conf.imageURL
+      ? lsComp.conf.imageURL.substring(0, 42) + '...'
+      : '';
     divImageUrl.appendChild(inputImageURL);
     this.inputImageURL = inputImageURL;
     content.appendChild(divImageUrl);
+
+    //create Image File Label
+    const divImageFile = document.createElement('div');
+    const labelImageFile = document.createElement('label');
+    labelImageFile.innerHTML = 'Image File';
+    divImageFile.appendChild(labelImageFile);
+
+    //create Input Image File
+    const inputImageFile = document.createElement('input');
+    inputImageFile.type = 'file';
+    inputImageFile.accept = 'image/*';
+    divImageFile.appendChild(inputImageFile);
+    this.inputImageFile = inputImageFile;
+    content.appendChild(divImageFile);
 
     //create Size Factor Label
     const divSizeFactor = document.createElement('div');
@@ -76,8 +105,6 @@ export class LocalScriptSignboardUI {
     divSizeFactor.appendChild(inputSizeFactor);
     this.inputSizeFactor = inputSizeFactor;
     content.appendChild(divSizeFactor);
-
-    this.initCallback(lsComp);
   }
 
   /**
@@ -107,9 +134,17 @@ export class LocalScriptSignboardUI {
       }
     };
 
-    this.inputSizeFactor.onchange = function () {
+    this.inputSizeFactor.oninput = function () {
       lsComp.conf.sizeFactor = this.value;
       lsSignboard.buildMesh.call(lsSignboard);
+    };
+
+    this.inputImageFile.onchange = function (e) {
+      File.readSingleFileAsDataUrl(e, function (data) {
+        const url = data.target.result;
+        lsComp.conf.imageURL = url;
+        lsSignboard.buildMesh.call(lsSignboard);
+      });
     };
   }
 }
