@@ -3659,75 +3659,6 @@
             },
             "noLocalUpdate": false,
             "freeze": false
-          },
-          {
-            "name": "Signboard",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "0D050D9B-4A89-41FC-A3CA-5516738AC7D0",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "E5615134-A8BE-4CB0-AFB6-04BCDB227862",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "6CDAD4E8-2EDC-4C9D-87C1-F8D16A7108F9",
-                "idScripts": ["clickable", "signboard"],
-                "conf": {
-                  "heightFrame": 5,
-                  "widthFrame": 5,
-                  "sizeFactor": "5",
-                  "imageURL": "./assets/img/uploaded/4820CF9C-0477-41BC-A526-455220AD547E.jpeg"
-                },
-                "type": "LocalScript"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "71E0B81D-7E7E-420E-B365-B6C9F55D6C3D",
-                "parentUUID": "0D050D9B-4A89-41FC-A3CA-5516738AC7D0",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "DA567B99-3642-44BF-B469-AEBC4D3AA825",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [
-                -19.69910214313306, -54.02166868574918, 4.508154356384075
-              ],
-              "rotation": [
-                1.5699999999999876,
-                -6.970901576331024e-14,
-                -0.850051895021836,
-                "ZXY"
-              ],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
           }
         ],
         "transform": {
@@ -3750,7 +3681,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {
