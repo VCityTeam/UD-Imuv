@@ -50,12 +50,13 @@ const addReceptionView = function () {
 if (paramsUrl.has(ImuvConstants.URL_PARAMETER.ID_KEY)) {
   const id = paramsUrl.get(ImuvConstants.URL_PARAMETER.ID_KEY);
   let event = null;
+  let wrongParams = false;
+  const params = {};
+
   switch (id) {
     case ImuvConstants.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD.ID_VALUE:
       event = ImuvConstants.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
       //get params
-      let wrongParams = false;
-      const params = {};
       for (const key in event.PARAMS_KEY) {
         const paramsKey = encodeURI(event.PARAMS_KEY[key]);
         if (!paramsUrl.has(paramsKey)) {
