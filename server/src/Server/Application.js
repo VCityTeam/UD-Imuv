@@ -231,10 +231,13 @@ const ApplicationModule = class Application {
       })();
     });
 
-    socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function () {
+    //URL PARAMETER
+
+    //READY TO RECEIVE STATE
+    socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function (data) {
       //check if not already in world
       const user = _this.users[socket.id];
-      _this.worldDispatcher.addUser(user);
+      _this.worldDispatcher.addUser(user, data);
     });
 
     //SAVE WORLDS

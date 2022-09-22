@@ -123,6 +123,46 @@ module.exports = class UI {
       gameView.appendToUI(this.menuAvatarButton);
     }
 
+    //URL LINK TELEPORT
+    const urlTeleportLink = document.createElement('button');
+    urlTeleportLink.classList.add('button-imuv');
+    urlTeleportLink.innerHTML = 'Copier Lien';
+    gameView.appendToUI(urlTeleportLink);
+
+    urlTeleportLink.onclick = function () {
+      //get params event
+      const avatarGO = go
+        .computeRoot()
+        .find(gameView.getUserData('avatarUUID'));
+
+      const position = avatarGO.getPosition().toArray();
+      const rotation = avatarGO.getRotation().toArray();
+      const worldUUID = gameView.getLastState().getWorldUUID();
+
+      const urlEvent = ImuvConstants.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
+      const url = new URL(window.location.origin + window.location.pathname);
+
+      url.searchParams.append(
+        encodeURI(ImuvConstants.URL_PARAMETER.ID_KEY),
+        encodeURIComponent(urlEvent.ID_VALUE)
+      );
+      url.searchParams.append(
+        encodeURI(urlEvent.PARAMS_KEY.POSITION),
+        encodeURIComponent(position)
+      );
+      url.searchParams.append(
+        encodeURI(urlEvent.PARAMS_KEY.ROTATION),
+        encodeURIComponent(rotation)
+      );
+      url.searchParams.append(
+        encodeURI(urlEvent.PARAMS_KEY.WORLDUUID),
+        encodeURIComponent(worldUUID)
+      );
+
+      //put it in clipboard
+      navigator.clipboard.writeText(url);
+    };
+
     //DEBUG infos
     this.gameViewFps = document.createElement('div');
     this.gameViewFps.classList.add('label_controller');

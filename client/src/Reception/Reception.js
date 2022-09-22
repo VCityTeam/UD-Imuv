@@ -444,7 +444,7 @@ export class ReceptionView {
       signInView = new SignInView(_this.webSocketService);
       document.body.appendChild(signInView.html());
 
-      signInView.setOnClose(function () {
+      signInView.addButton('Retour', function () {
         signInView.dispose();
         signInView = null;
       });
