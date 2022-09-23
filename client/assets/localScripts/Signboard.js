@@ -26,7 +26,7 @@ module.exports = class Signboard {
     this.frameBuilded = null;
     this.sizeFactor = this.conf.sizeFactor || 1;
     this.defaultImageURL = this.createDefaultImageURL();
-    this.conf.imageURL = this.defaultImageURL;
+    if (!this.conf.imageURL) this.conf.imageURL = this.defaultImageURL;
   }
 
   init() {
@@ -164,15 +164,6 @@ module.exports = class Signboard {
    */
   changeColorRenderFrame(newColor) {
     this.renderFrame.setColor(new THREE.Color(newColor));
-  }
-
-  onClick() {
-    const go = arguments[0];
-    // const localCtx = arguments[1];
-
-    const renderComp = go.getComponent(Game.Render.TYPE);
-    const obj = renderComp.getObject3D();
-    console.log('clicked on signboard', obj);
   }
 
   /**
