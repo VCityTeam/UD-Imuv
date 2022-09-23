@@ -24,6 +24,8 @@ export class EditorGameView extends GameView {
     this.initTransformControls();
     this.initOrbitControls();
     this.initListeners();
+
+    this.writeUserData('isEditorGameView', true);
   }
 
   initTransformControls() {

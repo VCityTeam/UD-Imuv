@@ -23,6 +23,8 @@ module.exports = class Clickable {
     const raycaster = new Game.THREE.Raycaster();
 
     manager.addMouseInput(gameView.getRootWebGL(), 'click', function (event) {
+      if (gameView.getUserData('isEditorGameView')) return;
+
       let currentNode = event.target;
       let uiClicked = false;
       while (currentNode.parentNode) {
