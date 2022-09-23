@@ -6,8 +6,6 @@ const Game = require('ud-viz/src/Game/Game');
 
 const ImuvConstants = require('../../../imuv.constants');
 
-const BBB_ROOM_TAG = 'bbb_room_tag';
-
 const WorldDispatcherModule = class WorldDispatcher {
   constructor(config, bbbWrapper) {
     this.config = config;
@@ -165,7 +163,6 @@ const WorldDispatcherModule = class WorldDispatcher {
     });
 
     const socket = user.getSocket();
-    const _this = this;
 
     //remove old listener
     socket.removeAllListeners(
