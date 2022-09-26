@@ -24,11 +24,7 @@ module.exports = class JitsiArea {
     this.buildShapes(go);
   }
 
-  onEnter() {
-    if (this.divJitsi) return;
-
-    const localCtx = arguments[1];
-
+  createJitsiIframe(localCtx) {
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
@@ -77,6 +73,19 @@ module.exports = class JitsiArea {
     localCtx.getGameView().appendToUI(divJitsi);
 
     this.divJitsi = divJitsi;
+  }
+
+  onEnter() {
+    if (this.divJitsi) return;
+    const localCtx = arguments[1];
+    this.createJitsiIframe(localCtx);
+  }
+
+  onColliding() {
+    //check also the onColliding method, so when url parameter teleport in jitsi area the iframe is created
+    if (this.divJitsi) return;
+    const localCtx = arguments[1];
+    this.createJitsiIframe(localCtx);
   }
 
   onLeave() {
