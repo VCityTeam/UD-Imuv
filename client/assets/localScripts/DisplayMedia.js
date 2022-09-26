@@ -30,6 +30,7 @@ module.exports = class DisplayMedia {
 
       const content = document.createElement('iframe');
       content.classList.add('display_media_iframe');
+      content.style.left = gameView.getRootWebGL().style.left;
       this.content = content;
       content.src = this.conf.iframe_src;
 
