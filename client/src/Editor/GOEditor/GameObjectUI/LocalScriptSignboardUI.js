@@ -136,7 +136,7 @@ export class LocalScriptSignboardUI {
     };
 
     this.inputSizeFactor.oninput = function () {
-      lsComp.conf.sizeFactor = this.value;
+      lsComp.conf.sizeFactor = this.valueAsNumber;
       lsSignboard.buildMesh.call(lsSignboard);
     };
 
