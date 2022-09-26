@@ -10,12 +10,13 @@ module.exports = class DisplayMedia {
     udviz = udvizBundle;
 
     this.content = null;
+    if (!this.conf.iframe_src) this.conf.iframe_src = 'default';
   }
 
   onClick() {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
-
+    debugger;
     if (this.content) return;
 
     if (this.conf.iframe_src) {
