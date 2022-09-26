@@ -36,8 +36,11 @@
       "menu_settings": {
         "path": "./assets/css/menu_settings.css"
       },
-      "button-imuv": {
+      "button_imuv": {
         "path": "./assets/css/button_imuv.css"
+      },
+      "display_media": {
+        "path": "./assets/css/display_media.css"
       }
     },
     "videos": {
