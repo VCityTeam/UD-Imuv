@@ -29,9 +29,7 @@ module.exports = class DisplayMedia {
       gameView.appendToUI(closebutton);
 
       const content = document.createElement('iframe');
-      content.style.position = 'absolute';
-      content.style.top = '0px';
-      content.style.left = '0px';
+      content.classList.add('display_media_iframe');
       this.content = content;
       content.src = this.conf.iframe_src;
 
