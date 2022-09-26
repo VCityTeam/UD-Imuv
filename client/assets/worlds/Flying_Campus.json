@@ -2288,7 +2288,7 @@
               "position": [
                 30.111797388177365, 46.484672989696264, -2.799337193664371
               ],
-              "rotation": [0, 0, 5.759341801320209, "ZXY"],
+              "rotation": [0, 0, 5.633341068898334, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2359,7 +2359,7 @@
               "position": [
                 18.5993127070833, -49.274458384141326, 0.037513740578333454
               ],
-              "rotation": [0, 0, 5.759341801320209, "ZXY"],
+              "rotation": [0, 0, 5.633341068898334, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2516,7 +2516,7 @@
             "children": [],
             "transform": {
               "position": [12.36441638157703, 28.440718629397452, 0],
-              "rotation": [0, 0, 5.759341801320209, "ZXY"],
+              "rotation": [0, 0, 5.633341068898334, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2587,7 +2587,7 @@
               "position": [
                 36.88026909297332, 32.29033400025219, -2.920996962569461
               ],
-              "rotation": [0, 0, 5.759341801320209, "ZXY"],
+              "rotation": [0, 0, 5.633341068898334, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2655,9 +2655,9 @@
                 27.629728958709165, -8.571165604516864, 0.9133055604198148
               ],
               "rotation": [
-                6.274727622879944,
-                0.014533047230150586,
-                5.7935406998930485,
+                6.2729683907774625,
+                0.013355061760620401,
+                5.6675467334426735,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -2727,9 +2727,9 @@
                 27.653164114337415, -11.20519773196429, 0.9079655714667751
               ],
               "rotation": [
-                6.27419334548042,
-                0.014208691544983054,
-                5.75636831930505,
+                6.27247910596914,
+                0.012966130052733504,
+                5.63037311400695,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -3094,7 +3094,7 @@
               "position": [
                 -43.31914057559334, 46.65819201152772, -2.7596450138749447
               ],
-              "rotation": [0, 0, 5.725202152882709, "ZXY"],
+              "rotation": [0, 0, 5.599201420460833, "ZXY"],
               "scale": [0.1, 0.1, 0.1]
             },
             "noLocalUpdate": false,
@@ -3661,37 +3661,6 @@
             "freeze": false
           },
           {
-            "name": "CityMap",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "96F85209-3AB6-4C0F-BA21-4BDBA29ADC85",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "C210D33F-9E8C-48F5-9B6E-E1A7BAF6330F",
-                "idScripts": ["city_map"],
-                "conf": { "city_map_ping": [] },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "73DA3691-D9E8-43F3-BB48-527C98F2A9C3",
-                "idScripts": ["city_map"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
             "name": "Signboard",
             "type": "GameObject",
             "static": true,
@@ -3766,68 +3735,6 @@
             "type": "GameObject",
             "static": true,
             "outdated": false,
-            "uuid": "2F92E631-B460-40FE-8666-67ACA6EC7901",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "A3EA05FF-2C31-4368-B504-948D3A6F7778",
-                "idScripts": ["city_map"],
-                "conf": { "city_map_ping": [] },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "B47891AF-2147-4D47-BA07-D635E8B4B006",
-                "idScripts": ["city_map"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "CityMap",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "3DD814C8-4A53-44CC-81AC-14048C183C8E",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "D1683051-8FFA-4BDD-A10F-A67CDA317C4C",
-                "idScripts": ["city_map"],
-                "conf": { "city_map_ping": [] },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "B3BE3769-6AD3-4890-B8D5-C405E4D1E967",
-                "idScripts": ["city_map"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "CityMap",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
             "uuid": "2A0ABF15-2458-4BFC-A4CE-C1FB01E13186",
             "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
             "forceSerializeComponents": [],
@@ -3875,7 +3782,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 58 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
