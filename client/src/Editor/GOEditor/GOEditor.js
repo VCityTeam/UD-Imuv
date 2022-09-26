@@ -92,7 +92,7 @@ export class GOEditorView {
         goUI.appendLSSignageDisplayerUI(this.gameView);
       }
       if (lS['display_media']) {
-        goUI.appendLSDisplayMediaUI();
+        goUI.appendLSDisplayMediaUI(this.gameView);
       }
       if (lS['jitsi_area']) {
         goUI.appendLSJitsiAreaUI();

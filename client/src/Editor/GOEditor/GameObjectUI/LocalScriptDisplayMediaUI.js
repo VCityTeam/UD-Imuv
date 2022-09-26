@@ -1,10 +1,12 @@
 import { LocalScript } from 'ud-viz/src/Game/Game';
 
 export class LocalScriptDisplayMediaUI {
-  constructor(goUI) {
+  constructor(goUI, gV) {
     //variables
     const content = goUI.content;
-    const go = goUI.go;
+
+    const uuid = goUI.go.getUUID();
+    const goInGame = gV.getLastState().getGameObject().find(uuid);
 
     //title
     const titleDisplayMedia = document.createElement('h3');
@@ -17,7 +19,7 @@ export class LocalScriptDisplayMediaUI {
     content.appendChild(label);
 
     //get ls component
-    const lsComp = go.getComponent(LocalScript.TYPE);
+    const lsComp = goInGame.getComponent(LocalScript.TYPE);
     if (!lsComp) throw new Error('no localscript');
 
     //create input

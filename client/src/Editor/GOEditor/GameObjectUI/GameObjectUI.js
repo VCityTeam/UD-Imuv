@@ -218,8 +218,8 @@ export class GameObjectUI {
     new WorldScriptTeleporterUI(this, wS);
   }
 
-  appendLSDisplayMediaUI() {
-    new LocalScriptDisplayMediaUI(this);
+  appendLSDisplayMediaUI(gV) {
+    new LocalScriptDisplayMediaUI(this, gV);
   }
 
   appendLSJitsiAreaUI() {
