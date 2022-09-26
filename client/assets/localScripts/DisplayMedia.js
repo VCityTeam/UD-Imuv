@@ -21,11 +21,8 @@ module.exports = class DisplayMedia {
     if (this.conf.iframe_src) {
       const closebutton = document.createElement('button');
       closebutton.classList.add('button-imuv');
+      closebutton.classList.add('diplay_media_close_button');
       closebutton.innerHTML = 'Fermer';
-      closebutton.style.position = 'absolute';
-      closebutton.style.top = '0px';
-      closebutton.style.left = '0px';
-      closebutton.style.zIndex = 3;
       gameView.appendToUI(closebutton);
 
       const content = document.createElement('iframe');
