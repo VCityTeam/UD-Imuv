@@ -15,7 +15,6 @@ module.exports = class DisplayMedia {
   onClick() {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
-    debugger;
     if (this.content) return;
 
     if (this.conf.iframe_src) {
