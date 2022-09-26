@@ -41,7 +41,7 @@ const ApplicationModule = class Application {
     //express app
     this.expressApp = express();
 
-    //third module (firebase)
+    //third module
     this.bbbWrapper = new BBBWrapper(config);
 
     //parse
@@ -144,10 +144,10 @@ const ApplicationModule = class Application {
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
       (async () => {
         const user = new Parse.User();
-        user.set('username', data.nameUser);
-        user.set('email', data.email);
-        user.set('password', data.password);
-        user.set('role', ImuvConstants.USER.ROLE.DEFAULT);
+        user.set(ImuvConstants.DB.USER.NAME, data.nameUser);
+        user.set(ImuvConstants.DB.USER.EMAIL, data.email);
+        user.set(ImuvConstants.DB.USER.PASSWORD, data.password);
+        user.set(ImuvConstants.DB.USER.ROLE, ImuvConstants.USER.ROLE.DEFAULT);
 
         try {
           await user.signUp();
@@ -188,10 +188,14 @@ const ApplicationModule = class Application {
           if (found) throw new Error('already sign in ' + dbUUID);
 
           // Do stuff after successful login
-          const nameUser = await parseUser.get('username');
-          const role = await parseUser.get('role');
-          const avatarString = await parseUser.get('avatar');
-          const settingsString = await parseUser.get('settings');
+          const nameUser = await parseUser.get(ImuvConstants.DB.USER.NAME);
+          const role = await parseUser.get(ImuvConstants.DB.USER.ROLE);
+          const avatarString = await parseUser.get(
+            ImuvConstants.DB.USER.AVATAR
+          );
+          const settingsString = await parseUser.get(
+            ImuvConstants.DB.USER.SETTINGS
+          );
 
           const u = _this.users[socket.id];
           u.setRole(role);
@@ -322,7 +326,10 @@ const ApplicationModule = class Application {
         (async () => {
           //avatarJSON is ready to be write to db
           const parseUser = user.getParseUser();
-          parseUser.set('avatar', JSON.stringify(avatarJSON));
+          parseUser.set(
+            ImuvConstants.DB.USER.AVATAR,
+            JSON.stringify(avatarJSON)
+          );
           try {
             // Saves the user with the updated data
             const response = await parseUser.save(null, { useMasterKey: true });
@@ -346,7 +353,9 @@ const ApplicationModule = class Application {
             const User = new Parse.User();
             const query = new Parse.Query(User);
             try {
-              const results = await query.distinct('avatar');
+              const results = await query.distinct(
+                ImuvConstants.DB.USER.AVATAR
+              );
               const paths = [];
               results.forEach(function (string) {
                 const json = JSON.parse(string);
