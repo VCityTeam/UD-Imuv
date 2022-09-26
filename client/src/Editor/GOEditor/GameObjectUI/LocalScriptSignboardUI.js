@@ -113,7 +113,7 @@ export class LocalScriptSignboardUI {
    * @param {Object} lsComp - the component object
    */
   initCallback(lsComp) {
-    const lsSignboard = lsComp.scripts['signboard'];
+    const lsSignboard = this.goInGame.fetchLocalScripts()['signboard'];
     this.inputColor.oninput = function () {
       lsComp.conf.colorFrame = this.value;
       lsSignboard.changeColorRenderFrame.call(lsSignboard, this.value);
