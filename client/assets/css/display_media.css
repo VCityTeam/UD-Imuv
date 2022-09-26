@@ -2,3 +2,10 @@
   position: fixed;
   top: 0px;
 }
+
+.diplay_media_close_button {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 3;
+}
