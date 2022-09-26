@@ -10,7 +10,6 @@ module.exports = class DisplayMedia {
     udviz = udvizBundle;
 
     this.content = null;
-    if (!this.conf.iframe_src) this.conf.iframe_src = 'default';
   }
 
   onClick() {
