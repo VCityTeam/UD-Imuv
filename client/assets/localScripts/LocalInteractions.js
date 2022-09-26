@@ -86,7 +86,11 @@ module.exports = class LocalInteractions {
 
       if (conf.avatarsColliding.includes(avatarUUIDLC)) {
         if ((onCollidingFunction = ls.onColliding)) {
-          _this.tickIsColliding = onCollidingFunction.bind(ls);
+          _this.tickIsColliding = onCollidingFunction.bind(
+            ls,
+            arguments[0],
+            arguments[1]
+          );
         }
       }
 
