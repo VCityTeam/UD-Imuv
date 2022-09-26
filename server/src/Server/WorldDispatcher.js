@@ -206,7 +206,10 @@ const WorldDispatcherModule = class WorldDispatcher {
         //if role is not guest save in database
         const parseUser = user.getParseUser();
         if (!parseUser) return; //not a user registered
-        parseUser.set('settings', JSON.stringify(settingsJSON));
+        parseUser.set(
+          ImuvConstants.DB.USER.SETTINGS,
+          JSON.stringify(settingsJSON)
+        );
         parseUser.save(null, { useMasterKey: true });
       }
     );

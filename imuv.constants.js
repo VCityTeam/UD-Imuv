@@ -55,7 +55,6 @@ module.exports = {
       ON_AVATAR: 'on_avatar', //return avatar json
     },
   },
-
   //city map data
   CITY_MAP: {
     PATH: './assets/img/citymap.png',
@@ -63,5 +62,16 @@ module.exports = {
     BOTTOM: 45.70455,
     LEFT: 4.76623,
     RIGHT: 4.90291,
+  },
+  //db key
+  DB: {
+    USER: {
+      NAME: 'username', //name of the user
+      EMAIL: 'email', //email of the user
+      PASSWORD: 'password', //pwd of the user
+      ROLE: 'role', //role of the user
+      AVATAR: 'avatar', //json string of the user gameobject avatar
+      SETTINGS: 'settings', //json string of the user settings
+    },
   },
 };
