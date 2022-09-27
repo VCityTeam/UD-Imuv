@@ -38,16 +38,6 @@ export class LocalScriptSignboardUI {
     titleSignboard.innerHTML = 'Signboard:';
     content.appendChild(titleSignboard);
 
-    //create Height Label
-    const labelHeight = document.createElement('label');
-    labelHeight.innerHTML = 'Height: ' + lsComp.conf.heightFrame;
-    content.appendChild(labelHeight);
-
-    //create Width Parameter
-    const labelWidth = document.createElement('p');
-    labelWidth.innerHTML = 'Width:' + lsComp.conf.widthFrame;
-    content.appendChild(labelWidth);
-
     //create Color Label
     const divColor = document.createElement('div');
     const labelColor = document.createElement('label');
@@ -103,6 +93,7 @@ export class LocalScriptSignboardUI {
     const inputSizeFactor = document.createElement('input');
     inputSizeFactor.type = 'number';
     inputSizeFactor.value = lsComp.conf.sizeFactor;
+    inputSizeFactor.step = 0.1;
     divSizeFactor.appendChild(inputSizeFactor);
     this.inputSizeFactor = inputSizeFactor;
     content.appendChild(divSizeFactor);
