@@ -25,7 +25,6 @@ module.exports = class Clickable {
     const raycaster = new Game.THREE.Raycaster();
 
     const renderComp = go.getComponent(Game.Render.TYPE);
-    const object = renderComp.getObject3D();
 
     manager.addMouseInput(gameView.getRootWebGL(), 'click', function (event) {
       let currentNode = event.target;
