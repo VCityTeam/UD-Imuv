@@ -28,6 +28,19 @@ module.exports = class Clickable {
     const object = renderComp.getObject3D();
 
     manager.addMouseInput(gameView.getRootWebGL(), 'click', function (event) {
+      let currentNode = event.target;
+      let uiClicked = false;
+      while (currentNode.parentNode) {
+        if (currentNode == gameView.ui) {
+          uiClicked = true;
+          break;
+        } else {
+          currentNode = currentNode.parentNode;
+        }
+      }
+
+      if (uiClicked) return;
+
       const mouse = new Game.THREE.Vector2(
         -1 +
           (2 * event.offsetX) /
@@ -41,13 +54,18 @@ module.exports = class Clickable {
 
       raycaster.setFromCamera(mouse, gameView.getCamera());
 
-      const i = raycaster.intersectObject(object, true);
+      const i = raycaster.intersectObject(gameView.getScene(), true);
 
       if (i.length) {
-        const lss = go.fetchLocalScripts();
-        for (let id in lss) {
-          const script = lss[id];
-          if (script.onClick) script.onClick(go, localCtx);
+        const firstObjectClicked = i[0].object;
+        if (
+          udviz.Game.GameObject.findObject3D(go.getUUID(), firstObjectClicked)
+        ) {
+          const lss = go.fetchLocalScripts();
+          for (let id in lss) {
+            const script = lss[id];
+            if (script.onClick) script.onClick(go, localCtx);
+          }
         }
       }
     });
