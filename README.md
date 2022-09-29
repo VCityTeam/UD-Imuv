@@ -84,10 +84,6 @@ Note that technically the `npm run debug` command will use the [nodemon](https:/
 and then use your favorite (web) browser to open
 `http://localhost:8000/`.
 
-## Setup Back4App
-
-Go to [Back4App](https://dashboard.back4app.com/) and create a new account then create a new app. Type the following command line: `cp ./server/default.env ./server/.env` and fill the with your own keys/ids that you can find on the dashboard Back4App website in the tabs App Settings -> Security & Keys. Enable email verification App Settings -> Server Settings -> Verification emails then check "Verify User Emails" and "Prevent login if email is not verified" (phone number must be verified) then **save**.
-
 ## Setup of the coding environment
 
 Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
