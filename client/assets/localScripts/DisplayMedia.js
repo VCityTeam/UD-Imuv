@@ -13,6 +13,7 @@ module.exports = class DisplayMedia {
   }
 
   onClick() {
+    const go = arguments[0];
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
     if (this.content) return;
@@ -46,6 +47,17 @@ module.exports = class DisplayMedia {
         closebutton.remove();
         avatarController.setAvatarControllerMode(true, localCtx);
       };
+    }
+
+    if (this.conf.sound_id) {
+      const audioComp = go.getComponent(udviz.Game.Audio.TYPE);
+      if (!audioComp) console.error('no audio comp');
+      const sound = audioComp.getSounds()[this.conf.sound_id];
+      if (sound.playing()) {
+        sound.pause();
+      } else {
+        sound.play();
+      }
     }
   }
 

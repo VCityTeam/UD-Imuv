@@ -3,8 +3,8 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Game');
-/** @type {sharedType} */
+const gameType = require('ud-viz/src/Game/Game');
+/** @type {gameType} */
 let Game = null;
 
 const RADIUS_MAP = 40;

@@ -390,7 +390,7 @@
               "Audio": {
                 "uuid": "3BE79B39-5B63-4C33-B94F-7BB7C7DED1FF",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -439,7 +439,7 @@
               "Audio": {
                 "uuid": "52BBA6DC-9242-4B62-8E3D-39190648DA78",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -486,7 +486,7 @@
               "Audio": {
                 "uuid": "328717FA-2206-4F64-B80F-1C429E1349E9",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -533,7 +533,7 @@
               "Audio": {
                 "uuid": "132AE5BC-3FBF-4A3C-8DE3-4F268AF2F05F",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -580,7 +580,7 @@
               "Audio": {
                 "uuid": "B9D36191-4BBF-486A-8395-5079EEC42364",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -627,7 +627,7 @@
               "Audio": {
                 "uuid": "8D2B6C8D-A3CA-4A7C-87A7-A33255A984E5",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -674,7 +674,7 @@
               "Audio": {
                 "uuid": "084B88A6-045C-444A-89CF-BF28D4C1DE88",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -721,7 +721,7 @@
               "Audio": {
                 "uuid": "3D986F2B-9586-4C66-8B5F-95C874C41094",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -764,7 +764,7 @@
               "Audio": {
                 "uuid": "53986ED9-8F6C-49D9-843A-8322377214BB",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -811,7 +811,7 @@
               "Audio": {
                 "uuid": "F31A52D0-330E-41C8-8A72-4D5DBEC08ACA",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -858,7 +858,7 @@
               "Audio": {
                 "uuid": "465BC352-EF3A-4CB1-931C-B2E9FC08E026",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -905,7 +905,7 @@
               "Audio": {
                 "uuid": "3BB4A1A4-506B-425D-9E25-5816BBA70896",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -952,7 +952,7 @@
               "Audio": {
                 "uuid": "4EEEB147-6086-45C2-BC0E-84DB86162A5A",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -999,7 +999,7 @@
               "Audio": {
                 "uuid": "6060ACC4-144C-4AB9-A73A-7F6E30E495CF",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -1046,7 +1046,7 @@
               "Audio": {
                 "uuid": "A38D8FE7-5381-4435-8CF7-F254536A044B",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -1093,7 +1093,7 @@
               "Audio": {
                 "uuid": "3FA9005B-348A-46E5-9FB9-B97146007BB7",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -1140,7 +1140,7 @@
               "Audio": {
                 "uuid": "08A550C7-42F0-4D2B-B876-CEB06369BC1A",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -1187,7 +1187,7 @@
               "Audio": {
                 "uuid": "653087B5-37BA-453A-A3C6-F29DCDD2C3C0",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -1234,7 +1234,7 @@
               "Audio": {
                 "uuid": "3F287C69-38ED-43A6-91E1-7E076421A713",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -1277,7 +1277,7 @@
               "Audio": {
                 "uuid": "7BC5BA26-37CC-45FD-8783-1318D8422889",
                 "sounds": ["open_popup", "close_popup"],
-                "conf": { "shared": true },
+                "conf": {},
                 "type": "Audio"
               }
             },
@@ -1484,7 +1484,7 @@
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 17 },
+            "conf": { "world_computer_dt": 15 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -1516,5 +1516,5 @@
   "origin": null,
   "type": "World",
   "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-  "version": "2.38.1"
+  "version": "2.38.3"
 }

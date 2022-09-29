@@ -333,9 +333,16 @@
                 "idScripts": ["clickable", "rotate", "display_media"],
                 "conf": {
                   "speed": 0.0005,
-                  "iframe_src": "https://projet.liris.cnrs.fr/vcity/"
+                  "iframe_src": "https://projet.liris.cnrs.fr/vcity/",
+                  "sound_id": null
                 },
                 "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "0791D692-3228-441F-85AD-C86E9E6E9F3E",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
               }
             },
             "children": [],
@@ -407,9 +414,16 @@
                 "idScripts": ["clickable", "rotate", "display_media"],
                 "conf": {
                   "speed": 0.0005,
-                  "iframe_src": "https://imu.universite-lyon.fr/animation-scientifique/animation-scientifique/studio-jouturbaines-jeu-comme-outil-de-transformations-urbaines/"
+                  "iframe_src": "https://imu.universite-lyon.fr/animation-scientifique/animation-scientifique/studio-jouturbaines-jeu-comme-outil-de-transformations-urbaines/",
+                  "sound_id": "city"
                 },
                 "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "409F7C4E-D571-4B73-96B0-775637C2AF3E",
+                "sounds": ["city"],
+                "conf": {},
+                "type": "Audio"
               }
             },
             "children": [],
@@ -538,7 +552,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 15 },
+            "conf": { "world_computer_dt": 16 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -570,5 +584,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
-  "version": "2.38.1"
+  "version": "2.38.3"
 }

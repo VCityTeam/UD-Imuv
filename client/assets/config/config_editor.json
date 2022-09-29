@@ -24,6 +24,9 @@
       },
       "portal_in": {
         "path": "./assets/sounds/sweep_transition.webm"
+      },
+      "step": {
+        "path": "./assets/sounds/step.webm"
       }
     },
     "css": {
@@ -251,8 +254,8 @@
       "zeppelin_start": {
         "path": "./assets/prefabs/ZeppelinStart.json"
       },
-      "display_media": {
-        "path": "./assets/prefabs/DisplayMedia.json"
+      "mouse_icon": {
+        "path": "./assets/prefabs/MouseIcon.json"
       },
       "avatar": {
         "path": "./assets/prefabs/Avatar.json"
