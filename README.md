@@ -1,4 +1,5 @@
 # Imuv
+
 ![1](https://user-images.githubusercontent.com/34244904/175906788-96bad344-d4ac-4baa-b7b9-78451a9ba59b.png)
 
 Imuv is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
@@ -6,35 +7,20 @@ Imuv is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD
 `client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`
 its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
 
-## Installing the applications
-
-### Pre-requisites
-
-- **Ubuntu**
-
-  - Install and update npm
-
-    ```bash
-    sudo apt-get install npm    ## Will pull NodeJS
-    sudo npm install -g n
-    sudo n latest
-    ```
-
-  - References: [how can I update Nodejs](https://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version), and [install Ubuntu](http://www.hostingadvice.com/how-to/install-nodejs-ubuntu-14-04/#ubuntu-package-manager)
-
-- **Windows**
-
-  - Installing from the [installer](https://nodejs.org/en/download/)
-  - Installing with the [CLI](https://en.wikipedia.org/wiki/Command-line_interface)
-
-    ```bash
-    iex (new-object net.webclient).downstring(‘https://get.scoop.sh’)
-    scoop install nodejs
-    ```
-
 ## Pre-requisites to install Imuv
 
-Install [imagemagick](https://imagemagick.org/index.php) and [graphicsmagick](http://www.graphicsmagick.org/) binary sub dependencies since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme).
+### Install node/npm
+
+For the npm installation refer [here](https://github.com/VCityTeam/UD-SV/blob/master/Tools/ToolNpm.md)
+
+UD-Imuv has been reported to work with versions:
+
+- node version 16 (16.13.2)
+- npm version: 6.X, 7.X. and 8.X
+
+### Install ImageMagick and GraphicsMagick
+
+For the install [imagemagick](https://imagemagick.org/index.php) and [graphicsmagick](http://www.graphicsmagick.org/) binary sub dependencies since the server needs [gm](https://www.npmjs.com/package/gm?activeTab=readme).
 
 - **Linux**
 
@@ -42,16 +28,36 @@ Install [imagemagick](https://imagemagick.org/index.php) and [graphicsmagick](ht
  sudo apt-get install -y imagemagick graphicsmagick
 ```
 
-You can also refer to the installation steps with this [Dockerfile](https://github.com/VCityTeam/UD-Viz-demo-docker/blob/main/v2.31.6/Imuv/Dockerfile)
-
 - **Windows**
   FIXME: unmature section
 
+> ⚠️ TIP : allias `gm` doesn't work in powershell because it conflicts with the command Get-Member !!!!
+
 If at runtime the imuv server displayed images errors then you should check the installation of thoses binary dependencies.
 
-> ⚠️ allias `gm` doesn't work in powershell because it conflicts with the command Get-Member !!!!
+### Install Parse-Server and MongoDB (optionnal)
 
-## Installing Imuv applications
+For certain features (**authentification**, **editor**, **menu avatar**...), Imuv requires a parse-server. It stores the **user accounts** and the **user's data**.
+
+Self-hosting :
+
+- You can clone the repo of the docker-compose [UD-Demo-IMU-Imuv
+  ](https://github.com/VCityTeam/UD-Demo-IMU-Imuv) and follow the instructions to install the parse-server and the mongoDB database:
+  - Set-up environment variables in **UD-Demo-IMU-Imuv** : `cp env-default .env` and edit the `.env` file. (_Put default proposed values in PARSE_SERVER_URL and PARSE_SERVER_FQDN_).
+  - Run `docker-compose up -d parse-server mongodb` to start the parse-server and the mongoDB database.
+
+OR
+
+- You can find docker image and read doc [here](https://hub.docker.com/r/parseplatform/parse-server).
+
+### Set the environment variables
+
+You can set the environment variables in a `./server/.env` file:
+
+- `cp ./server/env-default ./server/.env`
+- edit the `./server/.env` file (Make sure to set the correct value for the `PARSE_APP_ID` and `PARSE_MASTER_KEY` variables)
+
+## Debugging Imuv applications
 
 Imuv can be locally (on your desktop) started in the following way:
 
@@ -119,3 +125,7 @@ npm run travis
 ```
 
 To check if eslint and the webpack command run well
+
+### Docker
+
+You can find DockerFile in this repo [UD-Imuv-docker](https://github.com/VCityTeam/UD-Imuv-docker)
