@@ -11,11 +11,18 @@
     "LocalScript": {
       "idScripts": ["clickable", "signboard", "display_media"],
       "conf": {
+        "iframe_src": null,
+        "sound_id": null,
         "heightFrame": null,
         "widthFrame": null,
         "sizeFactor": 1
       },
       "type": "LocalScript"
+    },
+    "Audio": {
+      "sounds": [],
+      "conf": {},
+      "type": "Audio"
     }
   },
   "children": [

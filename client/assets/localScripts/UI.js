@@ -106,7 +106,7 @@ module.exports = class UI {
               closeButton.classList.add('button-imuv');
               closeButton.innerHTML = 'Fermer';
               closeButton.onclick = function () {
-                menuAvatarGameView.dispose(true); //remove menu avatar
+                menuAvatarGameView.dispose(); //remove menu avatar
 
                 //unpause gameview
                 gameView.setIsRendering(true);

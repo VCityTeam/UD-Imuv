@@ -1,5 +1,5 @@
 {
-  "name": "DisplayMedia",
+  "name": "MouseIcon",
   "type": "GameObject",
   "static": true,
   "components": {
@@ -10,8 +10,13 @@
     },
     "LocalScript": {
       "idScripts": ["clickable", "rotate", "display_media", "bounce"],
-      "conf": { "speed": 0.0005, "iframe_src": "default" },
+      "conf": { "speed": 0.0005, "iframe_src": null, "sound_id": null },
       "type": "LocalScript"
+    },
+    "Audio": {
+      "sounds": [],
+      "conf": {},
+      "type": "Audio"
     }
   },
   "children": [],

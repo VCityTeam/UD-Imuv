@@ -14,15 +14,14 @@
         "path": "./assets/img/labex_imu.jpeg",
         "factorWidth": 3,
         "factorHeight": 3,
-        "map_path": "./assets/img/uploaded/8DA2C1D5-2E2A-4A52-8681-44044E78D171.jpeg",
         "gpsCoord": { "lng": null, "lat": null, "checked": false }
       },
-      "Audio": {
-        "sounds": ["open_popup", "close_popup"],
-        "conf": { "shared": true },
-        "type": "Audio"
-      },
       "type": "LocalScript"
+    },
+    "Audio": {
+      "sounds": ["open_popup", "close_popup"],
+      "conf": {},
+      "type": "Audio"
     }
   },
   "children": [],

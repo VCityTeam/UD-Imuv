@@ -27,6 +27,9 @@
       },
       "portal_in": {
         "path": "./assets/sounds/sweep_transition.webm"
+      },
+      "step": {
+        "path": "./assets/sounds/step.webm"
       }
     },
     "css": {

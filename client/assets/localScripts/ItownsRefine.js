@@ -3,11 +3,11 @@
 const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
-const sharedType = require('ud-viz/src/Game/Game');
-/** @type {sharedType} */
+const gameType = require('ud-viz/src/Game/Game');
+/** @type {gameType} */
 let Game = null;
 
-const AVATAR_SSE = 300;
+const AVATAR_SSE = 400;
 const ZEPPELIN_SSE = 100;
 const ITOWNS_CONTROLS_SSE = 16;
 

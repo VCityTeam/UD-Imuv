@@ -1,4 +1,4 @@
-import { LocalScript } from 'ud-viz/src/Game/Game';
+import { LocalScript, Audio } from 'ud-viz/src/Game/Game';
 
 export class LocalScriptDisplayMediaUI {
   constructor(goUI, gV) {
@@ -32,6 +32,52 @@ export class LocalScriptDisplayMediaUI {
     //init callback
     input.onchange = function () {
       lsComp.conf.iframe_src = this.value;
+    };
+
+    //sound input
+    const audioComp = goInGame.getComponent(Audio.TYPE);
+    if (!audioComp) throw new Error('no audio comp');
+
+    const labelSound = document.createElement('div');
+    labelSound.innerHTML = 'Son ID';
+    content.appendChild(labelSound);
+
+    //select
+    const selectSoundID = document.createElement('select');
+    content.appendChild(selectSoundID);
+
+    const assetsManager = gV.getAssetsManager();
+
+    const sounds = assetsManager.conf['sounds'];
+
+    //null option
+    const addOption = function (label, value) {
+      const option = document.createElement('option');
+      option.innerHTML = label;
+      option.value = value;
+      selectSoundID.appendChild(option);
+
+      //init
+      if (lsComp.conf.sound_id == value) {
+        selectSoundID.value = value;
+      }
+    };
+
+    addOption('none', null);
+
+    for (const idSound in sounds) {
+      addOption(idSound, idSound);
+    }
+
+    selectSoundID.onchange = function () {
+      const valueSelected = this.selectedOptions[0].value;
+      lsComp.conf.sound_id = valueSelected;
+
+      //update audioComp
+      audioComp.reset();
+      if (valueSelected) {
+        audioComp.addSound(valueSelected, gV.getAssetsManager());
+      }
     };
   }
 }

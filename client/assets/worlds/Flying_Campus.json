@@ -2288,7 +2288,7 @@
               "position": [
                 30.111797388177365, 46.484672989696264, -2.799337193664371
               ],
-              "rotation": [0, 0, 5.633341068898334, "ZXY"],
+              "rotation": [0, 0, 5.597968754445208, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2359,7 +2359,7 @@
               "position": [
                 18.5993127070833, -49.274458384141326, 0.037513740578333454
               ],
-              "rotation": [0, 0, 5.633341068898334, "ZXY"],
+              "rotation": [0, 0, 5.597968754445208, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2516,7 +2516,7 @@
             "children": [],
             "transform": {
               "position": [12.36441638157703, 28.440718629397452, 0],
-              "rotation": [0, 0, 5.633341068898334, "ZXY"],
+              "rotation": [0, 0, 5.597968754445208, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2587,7 +2587,7 @@
               "position": [
                 36.88026909297332, 32.29033400025219, -2.920996962569461
               ],
-              "rotation": [0, 0, 5.633341068898334, "ZXY"],
+              "rotation": [0, 0, 5.597968754445208, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2655,9 +2655,9 @@
                 27.629728958709165, -8.571165604516864, 0.9133055604198148
               ],
               "rotation": [
-                6.2729683907774625,
-                0.013355061760620401,
-                5.6675467334426735,
+                6.272502494014223,
+                0.01298540591480446,
+                5.632175555574182,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -2727,9 +2727,9 @@
                 27.653164114337415, -11.20519773196429, 0.9079655714667751
               ],
               "rotation": [
-                6.27247910596914,
-                0.012966130052733504,
-                5.63037311400695,
+                6.272027268676416,
+                0.012579411485079461,
+                5.595001571352226,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -3094,7 +3094,7 @@
               "position": [
                 -43.31914057559334, 46.65819201152772, -2.7596450138749447
               ],
-              "rotation": [0, 0, 5.599201420460833, "ZXY"],
+              "rotation": [0, 0, 5.563829106007708, "ZXY"],
               "scale": [0.1, 0.1, 0.1]
             },
             "noLocalUpdate": false,
@@ -3683,9 +3683,16 @@
                   "widthFrame": 9,
                   "sizeFactor": 9,
                   "imageURL": "./assets/img/uploaded/EA34A0B4-A102-411B-AA5D-F97AB5BDD1BA.jpeg",
-                  "iframe_src": "https://www.imuvirtuel.fr/"
+                  "iframe_src": "https://www.imuvirtuel.fr/",
+                  "sound_id": null
                 },
                 "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "4B615A8C-0C34-4281-A6F0-3A7E4935275A",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
               }
             },
             "children": [
@@ -3760,6 +3767,78 @@
             },
             "noLocalUpdate": false,
             "freeze": false
+          },
+          {
+            "name": "Signboard",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "055664FB-0833-4EF5-9087-CC863EE39CEC",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "958985A0-17E8-4D47-BBDE-AB9A8855EE19",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "C974BCE7-2EB7-4769-930F-5707020BC9EF",
+                "idScripts": ["clickable", "signboard", "display_media"],
+                "conf": {
+                  "iframe_src": null,
+                  "sound_id": "step",
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 1,
+                  "imageURL": "./assets/img/uploaded/700D60F4-229D-40F0-A6EC-CC571347072E.jpeg"
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "A847C83C-0557-4751-8346-F12C9DC68DA9",
+                "sounds": ["step"],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [
+              {
+                "name": "Frame",
+                "type": "GameObject",
+                "static": true,
+                "outdated": false,
+                "uuid": "A479F976-5400-4FB4-A438-45D0A8753CB0",
+                "parentUUID": "055664FB-0833-4EF5-9087-CC863EE39CEC",
+                "forceSerializeComponents": [],
+                "components": {
+                  "Render": {
+                    "uuid": "2B0B7DF6-EF13-4BBE-A8DA-6F7C49D876E7",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12]
+                  }
+                },
+                "children": [],
+                "transform": {
+                  "position": [0, 0, 0],
+                  "rotation": [0, 0, 0, "ZXY"],
+                  "scale": [1, 1, 1]
+                },
+                "noLocalUpdate": false,
+                "freeze": false
+              }
+            ],
+            "transform": {
+              "position": [
+                -25.200516723562032, -56.10542578995228, 0.9134593161734301
+              ],
+              "rotation": [1.5699999999999876, 0, -2.4907509439005677, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
           }
         ],
         "transform": {
@@ -3782,7 +3861,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {

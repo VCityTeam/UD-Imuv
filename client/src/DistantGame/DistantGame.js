@@ -27,8 +27,8 @@ export class DistantGame {
   /**
    * dispose the application
    */
-  dispose(keepAssets = false) {
-    if (this.gameView) this.gameView.dispose(keepAssets); //keep assets
+  dispose() {
+    if (this.gameView) this.gameView.dispose();
     //reset websocketservices
     this.webSocketService.reset([
       ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
