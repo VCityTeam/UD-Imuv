@@ -68,7 +68,11 @@ module.exports = class JitsiArea {
     const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
       'JitsiIframeAPI'
     ];
-    const api = new JitsiIframeAPI('meet.jit.si', options);
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
+    const url = new URL(ImuvConstants.JITSI.PUBLIC_URL);
+    const api = new JitsiIframeAPI(url.host + url.pathname, options);
 
     localCtx.getGameView().appendToUI(divJitsi);
 

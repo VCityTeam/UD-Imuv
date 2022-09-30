@@ -74,4 +74,7 @@ module.exports = {
       SETTINGS: 'settings', //json string of the user settings
     },
   },
+  JITSI: {
+    PUBLIC_URL: JITSI_PUBLIC_URL,
+  },
 };

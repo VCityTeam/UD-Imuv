@@ -52,10 +52,10 @@ OR
 
 ### Set the environment variables
 
-You can set the environment variables in a `./server/.env` file:
+You can set the environment variables in a `.env` file:
 
-- `cp ./server/env-default ./server/.env`
-- edit the `./server/.env` file (Make sure to set the correct value for the `PARSE_APP_ID` and `PARSE_MASTER_KEY` variables)
+- `cp env-default .env`
+- edit the `.env` file (Make sure to set the correct value for the `PARSE_APP_ID` and `PARSE_MASTER_KEY` variables)
 
 ## Debugging Imuv applications
 

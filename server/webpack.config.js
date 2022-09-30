@@ -1,6 +1,8 @@
 /** @format */
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const webpack = require('webpack');
+require('dotenv').config({ path: '../.env' });
 
 const mode = process.env.NODE_ENV;
 
@@ -17,5 +19,10 @@ module.exports = () => {
       libraryTarget: 'umd',
       umdNamedDefine: true,
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        JITSI_PUBLIC_URL: JSON.stringify(process.env.JITSI_PUBLIC_URL),
+      }),
+    ],
   };
 };
