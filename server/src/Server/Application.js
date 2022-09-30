@@ -95,12 +95,12 @@ const ApplicationModule = class Application {
 
     //serve the folder pass in config
     this.expressApp.use(
-      express.static(this.config.ENV.FOLDER || defaultFolder)
+      express.static(this.config.ENV.IMUV_CLIENT_FOLDER || defaultFolder)
     );
 
     //http server
-    const port = this.config.ENV.PORT || 8000;
-    const folder = this.config.ENV.FOLDER || defaultFolder;
+    const port = this.config.ENV.IMUV_PORT || 8000;
+    const folder = this.config.ENV.IMUV_CLIENT_FOLDER || defaultFolder;
     const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');
       console.log('HTTP server on Port', port, 'folder ' + folder);

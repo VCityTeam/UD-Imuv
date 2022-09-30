@@ -2,6 +2,8 @@
 const path = require('path');
 const mode = process.env.NODE_ENV;
 const debugBuild = mode === 'development';
+const webpack = require('webpack');
+require('dotenv').config({ path: '../.env' });
 
 let outputPath;
 let devTool;
@@ -50,5 +52,10 @@ module.exports = (env) => {
     module: {
       rules: rules,
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        JITSI_PUBLIC_URL: JSON.stringify(process.env.JITSI_PUBLIC_URL),
+      }),
+    ],
   };
 };
