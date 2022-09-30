@@ -6,6 +6,11 @@ require('dotenv').config({ path: '../.env' });
 
 const mode = process.env.NODE_ENV;
 
+console.log(
+  'JITSI_PUBLIC_URL = ',
+  JSON.stringify(process.env.JITSI_PUBLIC_URL)
+);
+
 module.exports = () => {
   return {
     target: 'node',

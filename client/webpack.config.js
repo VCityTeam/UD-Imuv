@@ -14,6 +14,11 @@ if (debugBuild) {
   outputPath = path.resolve(__dirname, 'dist/release');
 }
 
+console.log(
+  'JITSI_PUBLIC_URL = ',
+  JSON.stringify(process.env.JITSI_PUBLIC_URL)
+);
+
 module.exports = (env) => {
   const rules = [
     {
