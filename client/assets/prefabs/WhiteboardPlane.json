@@ -19,8 +19,8 @@
   },
   "children": [],
   "transform": {
-    "position": [0, 0, 0],
-    "rotation": [1.57, 0, 0, "ZXY"],
+    "position": [-27, -48, 2.9],
+    "rotation": [1.57, 7, -1.2, "ZXY"],
     "scale": [1, 1, 1]
   }
 }

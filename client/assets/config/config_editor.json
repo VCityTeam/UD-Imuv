@@ -159,6 +159,9 @@
       },
       "signboard": {
         "path": "./assets/localScripts/Signboard.js"
+      },
+      "whiteboard": {
+        "path": "./assets/localScripts/Whiteboard.js"
       }
     },
     "renderData": {
@@ -299,6 +302,9 @@
       },
       "signboard": {
         "path": "./assets/prefabs/Signboard.json"
+      },
+      "whiteboard_plane": {
+        "path": "./assets/prefabs/WhiteboardPlane.json"
       }
     },
     "worlds": {
