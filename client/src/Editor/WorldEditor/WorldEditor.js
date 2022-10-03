@@ -13,7 +13,6 @@ import { EditorGameView } from '../Components/EditorGameView';
 import ImuvConstants from '../../../../imuv.constants';
 import { AnimatedText } from '../../LocalScriptsModule/AnimatedText/AnimatedText';
 import * as JitsiIframeAPI from 'jitsi-iframe-api';
-import { Canvg } from 'canvg';
 
 export class WorldEditorView {
   constructor(params) {
@@ -41,7 +40,6 @@ export class WorldEditorView {
         ImuvConstants: ImuvConstants,
         AnimatedText: AnimatedText,
         JitsiIframeAPI: JitsiIframeAPI,
-        Canvg: Canvg,
       },
     });
 
