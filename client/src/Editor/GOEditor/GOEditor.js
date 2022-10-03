@@ -106,6 +106,9 @@ export class GOEditorView {
       if (lS['signboard']) {
         goUI.appendLSSignboardUI(this.gameView);
       }
+      if (lS['whiteboard']) {
+        goUI.appendLSWhiteboardUI(this.gameView);
+      }
     }
 
     const wS = go.fetchWorldScripts();

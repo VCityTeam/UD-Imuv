@@ -167,6 +167,9 @@
       },
       "signboard": {
         "path": "./assets/localScripts/Signboard.js"
+      },
+      "whiteboard": {
+        "path": "./assets/localScripts/Whiteboard.js"
       }
     },
     "renderData": {
