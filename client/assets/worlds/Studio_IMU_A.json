@@ -415,7 +415,7 @@
                 "conf": {
                   "speed": 0.0005,
                   "iframe_src": "https://imu.universite-lyon.fr/animation-scientifique/animation-scientifique/studio-jouturbaines-jeu-comme-outil-de-transformations-urbaines/",
-                  "sound_id": "city"
+                  "sound_id": null
                 },
                 "type": "LocalScript"
               },
