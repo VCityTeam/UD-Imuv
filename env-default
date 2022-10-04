@@ -5,3 +5,4 @@ PARSE_MASTER_KEY=your_master_key
 IMUV_PORT=8000 #imuv port
 IMUV_CLIENT_FOLDER=../client
 JITSI_PUBLIC_URL=https://meet.jit.si
+WBO_PUBLIC_URL=http://localhost:5001/boards
