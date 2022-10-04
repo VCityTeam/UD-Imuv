@@ -421,7 +421,7 @@
               },
               "Audio": {
                 "uuid": "409F7C4E-D571-4B73-96B0-775637C2AF3E",
-                "sounds": ["city"],
+                "sounds": [],
                 "conf": {},
                 "type": "Audio"
               }
