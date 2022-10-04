@@ -169,7 +169,7 @@ export class EditorView {
       .getLastState()
       .getGameObject();
 
-    const cloneWorld = world.clone()
+    const cloneWorld = world.clone();
     cloneWorld.setGameObject(goInGv.clone());
 
     const worldsJSON = this.assetsManager.getWorldsJSON();
