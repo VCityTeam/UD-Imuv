@@ -5,12 +5,6 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
-const INIT_CONF = {
-  factorHeight: 3,
-  factorWidth: 3,
-  iframe_src: null,
-};
-
 const DEFAULT_IMG_SRC =
   'https://upload.wikimedia.org/wikipedia/commons/3/31/White_paper.jpg';
 
@@ -24,24 +18,13 @@ module.exports = class Whiteboard {
 
     this.imagePlane = null;
     this.mapImg = null;
-
-    this.conf = Object.assign(this.conf, INIT_CONF);
   }
 
   init() {
     this.go = arguments[0];
     this.gV = arguments[1].getGameView();
+    const localCtx = arguments[1];
     if (!this.go) return;
-
-    this.wboPort = 5001;
-    this.conf.iframe_src =
-      window.location.protocol +
-      '//' +
-      window.location.hostname +
-      ':' +
-      this.wboPort +
-      '/boards/' +
-      this.go.uuid;
 
     this.drawOnWhiteboard();
     this.getImageFromWhitebophir();
@@ -81,8 +64,4 @@ module.exports = class Whiteboard {
     };
     tempIframe.src = this.conf.iframe_src;
   }
-
-  onOutdated() {}
-
-  tick() {}
 };

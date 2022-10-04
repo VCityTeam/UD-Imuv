@@ -61,6 +61,9 @@ module.exports = (env) => {
       new webpack.DefinePlugin({
         JITSI_PUBLIC_URL: JSON.stringify(process.env.JITSI_PUBLIC_URL),
       }),
+      new webpack.DefinePlugin({
+        WBO_PUBLIC_URL: JSON.stringify(process.env.WBO_PUBLIC_URL),
+      }),
     ],
   };
 };

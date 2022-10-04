@@ -77,4 +77,7 @@ module.exports = {
   JITSI: {
     PUBLIC_URL: JITSI_PUBLIC_URL,
   },
+  WBO: {
+    PUBLIC_URL: WBO_PUBLIC_URL,
+  },
 };
