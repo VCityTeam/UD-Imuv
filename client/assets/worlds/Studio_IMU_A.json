@@ -250,7 +250,7 @@
             "name": "Portal campus",
             "type": "GameObject",
             "static": true,
-            "outdated": false,
+            "outdated": true,
             "uuid": "B4E03693-2431-466A-9B9B-22777E047422",
             "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
             "forceSerializeComponents": [],
@@ -307,7 +307,12 @@
               "position": [
                 -7.469917587703094, -3.7522212974727154, 2.64320013383076
               ],
-              "rotation": [6.283105433539172, 6.3, 0.0501722997557561, "ZXY"],
+              "rotation": [
+                6.281957405425997,
+                0.0167699932161689,
+                6.2650244581512915,
+                "ZXY"
+              ],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -317,7 +322,7 @@
             "name": "Projet VCity",
             "type": "GameObject",
             "static": true,
-            "outdated": false,
+            "outdated": true,
             "uuid": "2D60C11C-7DD7-48BA-B2EE-C9DF9022642D",
             "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
             "forceSerializeComponents": [],
@@ -356,7 +361,7 @@
               "position": [
                 4.759824144421145, 1.5161861134693027, 0.970013791762085
               ],
-              "rotation": [0, 0, 6.266099613820211, "ZXY"],
+              "rotation": [0, 0, 6.231928227101461, "ZXY"],
               "scale": [1, 1, 1]
             },
             "noLocalUpdate": false,
@@ -404,7 +409,7 @@
             "name": "JOUT'Urbaines",
             "type": "GameObject",
             "static": true,
-            "outdated": false,
+            "outdated": true,
             "uuid": "5F67A010-1369-4C12-BDBF-38BD99D39862",
             "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
             "forceSerializeComponents": [],
@@ -443,7 +448,7 @@
               "position": [
                 5.924179473426193, -5.955301378853619, 1.1006009112429638
               ],
-              "rotation": [0, 0, 6.243955570851462, "ZXY"],
+              "rotation": [0, 0, 6.209784184132712, "ZXY"],
               "scale": [1, 1, 1]
             },
             "noLocalUpdate": false,
@@ -544,42 +549,88 @@
             "freeze": false
           },
           {
-            "name": "Tableau Blanc",
+            "name": "WhiteboardPlane",
             "type": "GameObject",
             "static": true,
             "outdated": false,
-            "uuid": "B87CF4D5-6CFC-4C47-83B1-8C137D7BB7EA",
+            "uuid": "79DF87D7-2E03-499E-ABF2-533C27EAA8B1",
             "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
             "forceSerializeComponents": [],
             "components": {
               "Render": {
-                "uuid": "258B3F6A-E321-4C72-BAAB-28A516B51F5C",
+                "uuid": "A24469DC-7C74-4053-925A-91E65DC3791B",
                 "type": "Render",
-                "idRenderData": "mouse",
+                "idRenderData": null,
                 "color": [1, 1, 1]
               },
               "LocalScript": {
-                "uuid": "F0F54401-0A21-4CD8-9DBA-5DD6726F62B6",
-                "idScripts": [
-                  "clickable",
-                  "rotate",
-                  "display_media",
-                  "sprite_name"
-                ],
+                "uuid": "9A9A74B0-C50E-43C8-B769-0384D362B725",
+                "idScripts": ["whiteboard", "clickable", "display_media"],
                 "conf": {
-                  "name": "Tableau Blanc",
-                  "speed": 0.0005,
-                  "iframe_src": "https://wbo.ophir.dev/boards/F4A33810-0B24-4C56-B58C-025DF85CA277"
+                  "name": "default_name",
+                  "iframe_src": "http://localhost:5001/boards/79DF87D7-2E03-499E-ABF2-533C27EAA8B1",
+                  "factorWidth": "3.3",
+                  "factorHeight": "2.4"
                 },
                 "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "F26B1C58-B1D1-40A4-9B41-4B110C23E333",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
               }
             },
             "children": [],
             "transform": {
               "position": [
-                4.746743044583127, -0.7217460945248604, 0.9625426044312348
+                5.840562013210729, 6.213937516324222, 2.2612625560083757
               ],
-              "rotation": [0, 0, 6.261041264210837, "ZXY"],
+              "rotation": [1.57, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "WhiteboardPlane (clone)",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "13BC39DB-E011-46B6-A4DA-3F5FEC520D9F",
+            "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "9C83050E-BE92-4DCE-9EB6-5EEF00625021",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "3FFA40EE-0583-474D-A40E-0F91C796CCB8",
+                "idScripts": ["whiteboard", "clickable", "display_media"],
+                "conf": {
+                  "name": "default_name (clone)",
+                  "iframe_src": "http://localhost:5001/boards/13BC39DB-E011-46B6-A4DA-3F5FEC520D9F",
+                  "factorWidth": "5.2",
+                  "factorHeight": "3.8"
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "175592A5-CCBE-497B-B020-AAE6150E8197",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                -8.214501460781321, 1.6077822428196669, 5.450171080093412
+              ],
+              "rotation": [1.57, 1.57, 0, "ZXY"],
               "scale": [1, 1, 1]
             },
             "noLocalUpdate": false,
@@ -606,7 +657,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 347 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -638,5 +689,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
-  "version": "2.38.3"
+  "version": "2.38.4"
 }
