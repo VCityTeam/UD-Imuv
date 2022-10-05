@@ -10,7 +10,6 @@ const DEFAULT_IMG_SRC =
 
 module.exports = class Whiteboard {
   constructor(conf, udvizBundle) {
-    console.log('Whiteboard constructor');
     this.conf = conf;
 
     udviz = udvizBundle;
@@ -26,10 +25,10 @@ module.exports = class Whiteboard {
     const localCtx = arguments[1];
     if (!this.go) return;
 
-    this.drawOnWhiteboard();
+    this.createWhiteboardPlane();
   }
 
-  drawOnWhiteboard(url = DEFAULT_IMG_SRC) {
+  createWhiteboardPlane(url = DEFAULT_IMG_SRC) {
     //image
     if (this.imagePlane && this.imagePlane.parent) {
       this.imagePlane.parent.remove(this.imagePlane);
@@ -42,8 +41,8 @@ module.exports = class Whiteboard {
       const ratio = image.width / image.height;
       const material = new Game.THREE.MeshBasicMaterial({ map: texture });
       const geometry = new Game.THREE.PlaneGeometry(
-        ratio > 1 ? this.conf.factorWidth : this.conf.factorWidth * ratio,
-        ratio < 1 ? this.conf.factorHeight : this.conf.factorHeight / ratio,
+        ratio > 1 ? factorWidth : factorWidth * ratio,
+        ratio < 1 ? factorHeight : factorHeight / ratio,
         32
       );
       this.imagePlane = new Game.THREE.Mesh(geometry, material);
