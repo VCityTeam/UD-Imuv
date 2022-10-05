@@ -12,7 +12,9 @@
       "idScripts": ["whiteboard", "clickable", "display_media"],
       "conf": {
         "name": "default_name",
-        "iframe_src": "default"
+        "iframe_src": null,
+        "factorWidth": 3,
+        "factorHeight": 3
       },
       "type": "LocalScript"
     }
