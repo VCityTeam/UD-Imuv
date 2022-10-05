@@ -284,7 +284,7 @@
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 16 },
+            "conf": { "world_computer_dt": 347 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -316,5 +316,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-  "version": "2.38.3"
+  "version": "2.38.4"
 }
