@@ -17,6 +17,11 @@
         "factorHeight": 3
       },
       "type": "LocalScript"
+    },
+    "Audio": {
+      "sounds": [],
+      "conf": {},
+      "type": "Audio"
     }
   },
   "children": [],

@@ -7,6 +7,11 @@ export class LocalScriptDisplayMediaUI {
 
     const uuid = goUI.go.getUUID();
     const goInGame = gV.getLastState().getGameObject().find(uuid);
+    const localCtx = gV.getLocalContext();
+
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
 
     //title
     const titleDisplayMedia = document.createElement('h3');
@@ -33,6 +38,17 @@ export class LocalScriptDisplayMediaUI {
     inputIframeSrc.onchange = function () {
       lsComp.conf.iframe_src = this.value;
     };
+
+    const isWhiteboard = goInGame.fetchLocalScripts()['whiteboard'];
+    if (isWhiteboard) {
+      const wboUrl = ImuvConstants.WBO.PUBLIC_URL + '/' + goInGame.getUUID();
+      inputIframeSrc.disabled = isWhiteboard;
+      inputIframeSrc.value = wboUrl;
+      lsComp.conf.iframe_src = wboUrl;
+      inputIframeSrc.onchange = function () {
+        throw new Error('Cannot change the URL of a whiteboard');
+      };
+    }
 
     //sound input
     const audioComp = goInGame.getComponent(Audio.TYPE);
