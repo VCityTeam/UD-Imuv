@@ -1,6 +1,5 @@
 PARSE_SERVER_URL=http://localhost:1337/parse
 PARSE_APP_ID=your_app_id
-PARSE_JAVASCRIPT_KEY=your_javascript_key
 PARSE_MASTER_KEY=your_master_key
 IMUV_PORT=8000 #imuv port
 IMUV_CLIENT_FOLDER=../client

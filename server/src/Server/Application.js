@@ -49,7 +49,6 @@ const ApplicationModule = class Application {
     // Remember to inform BOTH the Back4App Application ID AND the JavaScript KEY
     Parse.initialize(
       config.ENV.PARSE_APP_ID, // This is your Application ID
-      config.ENV.PARSE_JAVASCRIPT_KEY, // This is your Javascript key
       config.ENV.PARSE_MASTER_KEY // This is your Master key (never use it in the frontend)
     );
 

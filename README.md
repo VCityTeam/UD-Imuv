@@ -1,13 +1,22 @@
-# Imuv
+# IMUV - Flying Campus
 
 ![1](https://user-images.githubusercontent.com/34244904/175906788-96bad344-d4ac-4baa-b7b9-78451a9ba59b.png)
 
-Imuv is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
+IMUV is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
+It's composed of two parts: the server and the client.
 `client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`
-its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections),
+its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections).
 
-## Pre-requisites to install Imuv
+## REPOSITORIES GITHUB
+
+| Repository       | Link                                          | Description                                                                                                                                     |
+| ---------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| UD-Viz           | https://github.com/VCityTeam/UD-Viz           | Javascript framework for urban data visualization.                                                                                              |
+| UD-Imuv-Docker   | https://github.com/VCityTeam/UD-Imuv-docker   | Docker image for the IMUV server.                                                                                                               |
+| UD-Demo-IMU-Imuv | https://github.com/VCityTeam/UD-Demo-IMU-Imuv | Docker-compose file to run IMUV and services it depends on for some features. (Authentification, Editor, Whiteboard, chat audio/video/text ...) |
+
+## Pre-requisites to install IMUV
 
 ### Install node/npm
 
@@ -15,7 +24,7 @@ For the npm installation refer [here](https://github.com/VCityTeam/UD-SV/blob/ma
 
 UD-Imuv has been reported to work with versions:
 
-- node version 16 (16.13.2)
+- node version 16 (16.15.0)
 - npm version: 6.X, 7.X. and 8.X
 
 ### Install ImageMagick and GraphicsMagick
@@ -55,7 +64,13 @@ OR
 You can set the environment variables in a `.env` file:
 
 - `cp env-default .env`
-- edit the `.env` file (Make sure to set the correct value for the `PARSE_APP_ID` and `PARSE_MASTER_KEY` variables)
+- edit the `.env` file. (Make sure to set the correct value for the `PARSE_APP_ID` and `PARSE_MASTER_KEY` variables)
+
+| VARIABLES        | DESCRIPTION                                                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| PARSE_SERVER_URL | URL of your parse-server (ex: http://localhost:1337/parse ; cf https://github.com/VCityTeam/UD-Imuv#install-parse-server-and-mongodb-optionnal |
+| PARSE_APP_ID     | Application ID of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                   |
+| PARSE_MASTER_KEY | Master key of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                       |
 
 ## Debugging Imuv applications
 
