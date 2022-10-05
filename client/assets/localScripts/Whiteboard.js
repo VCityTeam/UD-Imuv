@@ -27,7 +27,6 @@ module.exports = class Whiteboard {
     if (!this.go) return;
 
     this.drawOnWhiteboard();
-    this.getImageFromWhitebophir();
   }
 
   drawOnWhiteboard(url = DEFAULT_IMG_SRC) {
@@ -35,6 +34,8 @@ module.exports = class Whiteboard {
     if (this.imagePlane && this.imagePlane.parent) {
       this.imagePlane.parent.remove(this.imagePlane);
     }
+    const factorWidth = this.conf.factorWidth || 3;
+    const factorHeight = this.conf.factorHeight || 3;
 
     const onLoad = function (texture) {
       const image = texture.image;
@@ -51,17 +52,5 @@ module.exports = class Whiteboard {
     };
 
     this.texture = new Game.THREE.TextureLoader().load(url, onLoad.bind(this));
-  }
-
-  getImageFromWhitebophir() {
-    /* Creating an iframe element and setting its source to the url of the whiteboard. */
-    const tempIframe = document.createElement('iframe');
-    tempIframe.style.display = 'none';
-    tempIframe.sandbox = 'allow-scripts allow-same-origin';
-    this.gV.appendToUI(tempIframe);
-    tempIframe.onload = function (event) {
-      console.log(tempIframe.contentWindow.document);
-    };
-    tempIframe.src = this.conf.iframe_src;
   }
 };
