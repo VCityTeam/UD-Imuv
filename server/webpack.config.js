@@ -16,12 +16,12 @@ const keyEnvVariables = [
   'IMUV_PORT',
 ];
 const plugins = [];
+const params = {};
 keyEnvVariables.forEach(function (key) {
   console.log(key, ' = ', JSON.stringify(process.env[key]));
-  const params = {};
   params[key] = JSON.stringify(process.env[key]);
-  plugins.push(new webpack.DefinePlugin(params));
 });
+plugins.push(new webpack.DefinePlugin(params));
 
 module.exports = () => {
   return {
