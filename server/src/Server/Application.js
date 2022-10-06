@@ -99,7 +99,7 @@ const ApplicationModule = class Application {
     );
 
     //http server
-    const port = this.config.ENV.IMUV_PORT || 8000;
+    const port = this.config.port || 8000;
     const folder = this.config.ENV.IMUV_CLIENT_FOLDER || defaultFolder;
     const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');

@@ -61,5 +61,6 @@
   "websocket": {
     "pingInterval": 10000,
     "pingTimeout": 10000
-  }
+  },
+  "port": 8000
 }
