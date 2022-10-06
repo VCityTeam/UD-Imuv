@@ -38,7 +38,8 @@ For the install [imagemagick](https://imagemagick.org/index.php) and [graphicsma
 ```
 
 - **Windows**
-  FIXME: unmature section
+  - It seems not necessary to install imagemagick on windows.
+  - Download and install graphicsmagick from [graphicmagick-binaries](https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick-binaries/) (IMUV has been reported to work with version 1.3.34-Q8)
 
 > ⚠️ TIP : allias `gm` doesn't work in powershell because it conflicts with the command Get-Member !!!!
 
@@ -66,11 +67,15 @@ You can set the environment variables in a `.env` file:
 - `cp env-default .env`
 - edit the `.env` file. (Make sure to set the correct value for the `PARSE_APP_ID` and `PARSE_MASTER_KEY` variables)
 
-| VARIABLES        | DESCRIPTION                                                                                                                                    |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| PARSE_SERVER_URL | URL of your parse-server (ex: http://localhost:1337/parse ; cf https://github.com/VCityTeam/UD-Imuv#install-parse-server-and-mongodb-optionnal |
-| PARSE_APP_ID     | Application ID of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                   |
-| PARSE_MASTER_KEY | Master key of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                       |
+| VARIABLES          | DESCRIPTION                                                                                                                                    |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| PARSE_SERVER_URL   | URL of your parse-server (ex: http://localhost:1337/parse ; cf https://github.com/VCityTeam/UD-Imuv#install-parse-server-and-mongodb-optionnal |
+| PARSE_APP_ID       | Application ID of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                   |
+| PARSE_MASTER_KEY   | Master key of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                       |
+| IMUV_PORT          | Port of the imuv server.                                                                                                                       |
+| IMUV_CLIENT_FOLDER | Path to the imuv client folder.                                                                                                                |
+| JITSI_PUBLIC_URL   | URL of the jitsi server. You can use the dev serv https://meet.jit.si                                                                          |
+| WBO_PUBLIC_URL     | URL of the whitebophir server. You can use the dev serv https://wbo.ophir.dev                                                                  |
 
 ## Debugging Imuv applications
 
@@ -132,15 +137,8 @@ In VS Code you can open terminal here is the possible layout:
 Imuv:
 ![layout_demo_full](./Doc/Devel/Pictures/imuv_layout.png)
 
-Before to push your modifications run:
+Before to push your modifications, check check if your code respect eslint rules and if your application build correctly. For that you can use the following command:
 
 ```
 npm run travis
-
 ```
-
-To check if eslint and the webpack command run well
-
-### Docker
-
-You can find DockerFile in this repo [UD-Imuv-docker](https://github.com/VCityTeam/UD-Imuv-docker)
