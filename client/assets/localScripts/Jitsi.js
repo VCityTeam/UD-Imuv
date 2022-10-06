@@ -108,16 +108,6 @@ module.exports = class Jitsi {
     this.divJitsi = null;
   }
 
-  dispose() {
-    const localCtx = arguments[1];
-    const webSocketService = localCtx.getWebSocketService();
-    if (!webSocketService) return;
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-    webSocketService.reset([ImuvConstants.WEBSOCKET.MSG_TYPES.CREATE_BBB_ROOM]);
-  }
-
   /**
    * *Update the join button to say "Leave" instead of "Join"*
    * @returns Nothing.

@@ -7,7 +7,7 @@ const Game = require('ud-viz/src/Game/Game');
 const ImuvConstants = require('../../../imuv.constants');
 
 const WorldDispatcherModule = class WorldDispatcher {
-  constructor(config, bbbWrapper) {
+  constructor(config) {
     this.config = config;
 
     //worlds json
@@ -15,9 +15,6 @@ const WorldDispatcherModule = class WorldDispatcher {
 
     //map world to thread
     this.worldToThread = {};
-
-    //service
-    this.bbbWrapper = bbbWrapper;
   }
 
   fetchUserInWorldWithUUID(uuid) {

@@ -3,7 +3,6 @@
 const ImuvConstants = require('../../../imuv.constants');
 
 const WorldDispatcher = require('./WorldDispatcher');
-const BBBWrapper = require('./BBBWrapper');
 const Parse = require('parse/node');
 
 const gm = require('gm');
@@ -41,9 +40,6 @@ const ApplicationModule = class Application {
     //express app
     this.expressApp = express();
 
-    //third module
-    this.bbbWrapper = new BBBWrapper(config);
-
     //parse
     Parse.serverURL = config.ENV.PARSE_SERVER_URL; // This is your Server URL
     // Remember to inform BOTH the Back4App Application ID AND the JavaScript KEY
@@ -54,10 +50,7 @@ const ApplicationModule = class Application {
     );
 
     //world handling
-    this.worldDispatcher = new WorldDispatcher(
-      this.config.worldDispatcher,
-      this.bbbWrapper //to handle bbb rooms with worlds
-    );
+    this.worldDispatcher = new WorldDispatcher(this.config.worldDispatcher);
 
     //assets worlds
     this.assetsManager = new AssetsManagerServer();
