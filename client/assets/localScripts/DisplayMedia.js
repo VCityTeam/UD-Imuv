@@ -41,7 +41,8 @@ module.exports = class DisplayMedia {
       const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
       avatarController.setAvatarControllerMode(false, localCtx);
 
-      closebutton.onclick = function () {
+      closebutton.onclick = function (event) {
+        event.stopPropagation();
         content.remove();
         _this.content = null;
         closebutton.remove();
