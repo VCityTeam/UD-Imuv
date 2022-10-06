@@ -465,7 +465,7 @@
           "LocalScript": {
             "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 346 },
+            "conf": { "world_computer_dt": 308 },
             "type": "LocalScript"
           },
           "WorldScript": {

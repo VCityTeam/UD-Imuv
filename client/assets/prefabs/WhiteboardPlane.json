@@ -9,10 +9,9 @@
       "color": [1, 1, 1]
     },
     "LocalScript": {
-      "idScripts": ["whiteboard", "clickable", "display_media"],
+      "idScripts": ["whiteboard", "clickable"],
       "conf": {
         "name": "default_name",
-        "iframe_src": null,
         "factorWidth": 3,
         "factorHeight": 3
       },

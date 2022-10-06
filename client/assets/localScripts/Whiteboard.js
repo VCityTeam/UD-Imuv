@@ -17,12 +17,15 @@ module.exports = class Whiteboard {
 
     this.imagePlane = null;
     this.mapImg = null;
+    this.go = null;
+    this.gV = null;
+    this.content = null;
+    this.texture = null;
   }
 
   init() {
     this.go = arguments[0];
     this.gV = arguments[1].getGameView();
-    const localCtx = arguments[1];
     if (!this.go) return;
 
     this.createWhiteboardPlane();
@@ -51,5 +54,55 @@ module.exports = class Whiteboard {
     };
 
     this.texture = new Game.THREE.TextureLoader().load(url, onLoad.bind(this));
+  }
+
+  onClick() {
+    const localCtx = arguments[1];
+    const gameView = localCtx.getGameView();
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
+
+    const closebutton = document.createElement('button');
+    closebutton.classList.add('button-imuv');
+    closebutton.classList.add('whiteboard_close_button');
+    closebutton.innerHTML = 'Fermer';
+    gameView.appendToUI(closebutton);
+
+    const content = document.createElement('iframe');
+    content.classList.add('whiteboard_iframe');
+    content.style.left = gameView.getRootWebGL().style.left;
+    this.content = content;
+    content.src = ImuvConstants.WBO.PUBLIC_URL + '/' + this.go.getUUID();
+
+    //size
+    this.updateSize(gameView.getSize());
+
+    gameView.appendToUI(content);
+
+    const _this = this;
+    const rootGO = localCtx.getRootGameObject();
+    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    avatarController.setAvatarControllerMode(false, localCtx);
+
+    closebutton.onclick = function () {
+      content.remove();
+      _this.content = null;
+      closebutton.remove();
+      avatarController.setAvatarControllerMode(true, localCtx);
+    };
+  }
+
+  updateSize(size) {
+    this.content.style.height = size.y + 'px';
+    this.content.style.width = size.x + 'px';
+  }
+
+  onResize() {
+    if (!this.content) return;
+
+    const localContext = arguments[1];
+    const gameView = localContext.getGameView();
+    this.updateSize(gameView.getSize());
   }
 };
