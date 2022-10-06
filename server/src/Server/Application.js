@@ -92,11 +92,10 @@ const ApplicationModule = class Application {
     this.expressApp.use(express.static(clientFolder));
 
     //http server
-    // eslint-disable-next-line no-undef
-    const httpServer = this.expressApp.listen(IMUV_PORT, function (err) {
+    const port = this.config.port || 8000;
+    const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');
-      // eslint-disable-next-line no-undef
-      console.log('HTTP server on Port', IMUV_PORT, 'folder ' + clientFolder);
+      console.log('HTTP server on Port', port, 'folder ' + clientFolder);
     });
 
     return httpServer;

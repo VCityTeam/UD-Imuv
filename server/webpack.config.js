@@ -11,9 +11,8 @@ const keyEnvVariables = [
   'JITSI_PUBLIC_URL',
   'PARSE_SERVER_URL',
   'PARSE_APP_ID',
-  'PARSE_JAVASCRIPT_KEY',
   'PARSE_MASTER_KEY',
-  'IMUV_PORT',
+  'WBO_PUBLIC_URL',
 ];
 const plugins = [];
 const params = {};
