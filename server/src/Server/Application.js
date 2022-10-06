@@ -41,11 +41,13 @@ const ApplicationModule = class Application {
     this.expressApp = express();
 
     //parse
+    // eslint-disable-next-line no-undef
     Parse.serverURL = PARSE_SERVER_URL; // This is your Server URL
-    // Remember to inform BOTH the Back4App Application ID AND the JavaScript KEY
     Parse.initialize(
+      // eslint-disable-next-line no-undef
       PARSE_APP_ID, // This is your Application ID
       null, // Javascript Key is not required with a self-hosted Parse Server
+      // eslint-disable-next-line no-undef
       PARSE_MASTER_KEY // This is your Master key (never use it in the frontend)
     );
 
@@ -90,8 +92,10 @@ const ApplicationModule = class Application {
     this.expressApp.use(express.static(clientFolder));
 
     //http server
+    // eslint-disable-next-line no-undef
     const httpServer = this.expressApp.listen(IMUV_PORT, function (err) {
       if (err) console.log('Error in server setup');
+      // eslint-disable-next-line no-undef
       console.log('HTTP server on Port', IMUV_PORT, 'folder ' + clientFolder);
     });
 
