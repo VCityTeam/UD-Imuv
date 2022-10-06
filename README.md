@@ -72,7 +72,6 @@ You can set the environment variables in a `.env` file:
 | PARSE_SERVER_URL | URL of your parse-server (ex: http://localhost:1337/parse ; cf https://github.com/VCityTeam/UD-Imuv#install-parse-server-and-mongodb-optionnal                                            |
 | PARSE_APP_ID     | Application ID of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                                                              |
 | PARSE_MASTER_KEY | Master key of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                                                                  |
-| PORT             | Port of the imuv server.                                                                                                                                                                  |
 | JITSI_PUBLIC_URL | URL of the jitsi server. You can use the dev serv https://meet.jit.si or install your own jitsi server with [docker-compose](https://github.com/VCityTeam/UD-Demo-IMU-Imuv)               |
 | WBO_PUBLIC_URL   | URL of the whitebophir server. You can use the dev serv https://wbo.ophir.dev or install your own whitebophir server with [docker-compose](https://github.com/VCityTeam/UD-Demo-IMU-Imuv) |
 
