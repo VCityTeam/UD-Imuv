@@ -43,7 +43,6 @@ module.exports = {
       SIGN_IN: 'sign_in', //sign in
       READY_TO_RECEIVE_STATE: 'ready_to_receive_state', //client game is ready to receive the join_world
       SAVE_WORLDS: 'save_worlds', //save new worlds on server
-      CREATE_BBB_ROOM: 'create_bbb_room', //query bbb url
       EDIT_CONF_COMPONENT: 'edit_conf_comp', //modify conf of a go component
       //server => client
       JOIN_WORLD: 'join_world', //first complete worldstate when joining a world
@@ -51,7 +50,6 @@ module.exports = {
       SERVER_ALERT: 'server_alert', //alert client with a message
       SIGN_UP_SUCCESS: 'sign_up_success', //sign up
       SIGNED: 'signed', //client is signed in imuv server
-      ON_BBB_URL: 'on_bbb_url', //return a bbb url
       ON_AVATAR: 'on_avatar', //return avatar json
     },
   },
