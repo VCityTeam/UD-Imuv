@@ -41,12 +41,12 @@ const ApplicationModule = class Application {
     this.expressApp = express();
 
     //parse
-    Parse.serverURL = config.ENV.PARSE_SERVER_URL; // This is your Server URL
+    Parse.serverURL = PARSE_SERVER_URL; // This is your Server URL
     // Remember to inform BOTH the Back4App Application ID AND the JavaScript KEY
     Parse.initialize(
-      config.ENV.PARSE_APP_ID, // This is your Application ID
+      PARSE_APP_ID, // This is your Application ID
       null, // Javascript Key is not required with a self-hosted Parse Server
-      config.ENV.PARSE_MASTER_KEY // This is your Master key (never use it in the frontend)
+      PARSE_MASTER_KEY // This is your Master key (never use it in the frontend)
     );
 
     //world handling
@@ -84,19 +84,15 @@ const ApplicationModule = class Application {
   initExpress() {
     console.log(this.constructor.name, 'init express');
 
-    const defaultFolder = '../client';
+    const clientFolder = '../client';
 
     //serve the folder pass in config
-    this.expressApp.use(
-      express.static(this.config.ENV.IMUV_CLIENT_FOLDER || defaultFolder)
-    );
+    this.expressApp.use(express.static(clientFolder));
 
     //http server
-    const port = this.config.port || 8000;
-    const folder = this.config.ENV.IMUV_CLIENT_FOLDER || defaultFolder;
-    const httpServer = this.expressApp.listen(port, function (err) {
+    const httpServer = this.expressApp.listen(IMUV_PORT, function (err) {
       if (err) console.log('Error in server setup');
-      console.log('HTTP server on Port', port, 'folder ' + folder);
+      console.log('HTTP server on Port', IMUV_PORT, 'folder ' + clientFolder);
     });
 
     return httpServer;

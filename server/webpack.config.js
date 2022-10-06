@@ -6,10 +6,22 @@ require('dotenv').config({ path: '../.env' });
 
 const mode = process.env.NODE_ENV;
 
-console.log(
-  'JITSI_PUBLIC_URL = ',
-  JSON.stringify(process.env.JITSI_PUBLIC_URL)
-);
+//Inject environnement variables (they have to be declare in your .env !!!)
+const keyEnvVariables = [
+  'JITSI_PUBLIC_URL',
+  'PARSE_SERVER_URL',
+  'PARSE_APP_ID',
+  'PARSE_JAVASCRIPT_KEY',
+  'PARSE_MASTER_KEY',
+  'IMUV_PORT',
+];
+const plugins = [];
+keyEnvVariables.forEach(function (key) {
+  console.log(key, ' = ', JSON.stringify(process.env[key]));
+  const params = {};
+  params[key] = JSON.stringify(process.env[key]);
+  plugins.push(new webpack.DefinePlugin(params));
+});
 
 module.exports = () => {
   return {
@@ -24,13 +36,6 @@ module.exports = () => {
       libraryTarget: 'umd',
       umdNamedDefine: true,
     },
-    plugins: [
-      new webpack.DefinePlugin({
-        JITSI_PUBLIC_URL: JSON.stringify(process.env.JITSI_PUBLIC_URL),
-      }),
-      new webpack.DefinePlugin({
-        WBO_PUBLIC_URL: JSON.stringify(process.env.WBO_PUBLIC_URL),
-      }),
-    ],
+    plugins: plugins,
   };
 };
