@@ -14,10 +14,15 @@ if (debugBuild) {
   outputPath = path.resolve(__dirname, 'dist/release');
 }
 
-console.log(
-  'JITSI_PUBLIC_URL = ',
-  JSON.stringify(process.env.JITSI_PUBLIC_URL)
-);
+//Inject environnement variables (they have to be declare in your .env !!!)
+const keyEnvVariables = ['JITSI_PUBLIC_URL', 'WBO_PUBLIC_URL'];
+const plugins = [];
+const params = {};
+keyEnvVariables.forEach(function (key) {
+  console.log(key, ' = ', JSON.stringify(process.env[key]));
+  params[key] = JSON.stringify(process.env[key]);
+});
+plugins.push(new webpack.DefinePlugin(params));
 
 module.exports = (env) => {
   const rules = [
@@ -57,13 +62,6 @@ module.exports = (env) => {
     module: {
       rules: rules,
     },
-    plugins: [
-      new webpack.DefinePlugin({
-        JITSI_PUBLIC_URL: JSON.stringify(process.env.JITSI_PUBLIC_URL),
-      }),
-      new webpack.DefinePlugin({
-        WBO_PUBLIC_URL: JSON.stringify(process.env.WBO_PUBLIC_URL),
-      }),
-    ],
+    plugins: plugins,
   };
 };
