@@ -47,6 +47,9 @@
       },
       "display_media": {
         "path": "./assets/css/display_media.css"
+      },
+      "whiteboard": {
+        "path": "./assets/css/whiteboard.css"
       }
     },
     "prefabs": {

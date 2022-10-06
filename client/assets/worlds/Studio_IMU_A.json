@@ -308,9 +308,9 @@
                 -7.469917587703094, -3.7522212974727154, 2.64320013383076
               ],
               "rotation": [
-                6.281957405425997,
-                0.0167699932161689,
-                6.2650244581512915,
+                6.279668511158196,
+                0.016443039082048472,
+                6.12742320299826,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -361,7 +361,7 @@
               "position": [
                 4.759824144421145, 1.5161861134693027, 0.970013791762085
               ],
-              "rotation": [0, 0, 6.231928227101461, "ZXY"],
+              "rotation": [0, 0, 6.163118290578023, "ZXY"],
               "scale": [1, 1, 1]
             },
             "noLocalUpdate": false,
@@ -448,7 +448,7 @@
               "position": [
                 5.924179473426193, -5.955301378853619, 1.1006009112429638
               ],
-              "rotation": [0, 0, 6.209784184132712, "ZXY"],
+              "rotation": [0, 0, 6.1409742476092735, "ZXY"],
               "scale": [1, 1, 1]
             },
             "noLocalUpdate": false,
@@ -553,29 +553,28 @@
             "type": "GameObject",
             "static": true,
             "outdated": false,
-            "uuid": "79DF87D7-2E03-499E-ABF2-533C27EAA8B1",
+            "uuid": "F3DD73D1-93A2-42DB-BF1F-27AA48066555",
             "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
             "forceSerializeComponents": [],
             "components": {
               "Render": {
-                "uuid": "A24469DC-7C74-4053-925A-91E65DC3791B",
+                "uuid": "6D8F5948-09F6-4A19-9B7B-58DC99067089",
                 "type": "Render",
                 "idRenderData": null,
                 "color": [1, 1, 1]
               },
               "LocalScript": {
-                "uuid": "9A9A74B0-C50E-43C8-B769-0384D362B725",
-                "idScripts": ["whiteboard", "clickable", "display_media"],
+                "uuid": "275931C1-AB1F-4C9E-B783-448353A4DA34",
+                "idScripts": ["whiteboard", "clickable"],
                 "conf": {
                   "name": "default_name",
-                  "iframe_src": "http://localhost:5001/boards/79DF87D7-2E03-499E-ABF2-533C27EAA8B1",
                   "factorWidth": "3.3",
                   "factorHeight": "2.4"
                 },
                 "type": "LocalScript"
               },
               "Audio": {
-                "uuid": "F26B1C58-B1D1-40A4-9B41-4B110C23E333",
+                "uuid": "91FE9FFE-7103-4172-9559-A046606C1D04",
                 "sounds": [],
                 "conf": {},
                 "type": "Audio"
@@ -583,9 +582,7 @@
             },
             "children": [],
             "transform": {
-              "position": [
-                5.840562013210729, 6.213937516324222, 2.2612625560083757
-              ],
+              "position": [5.84, 6.21, 2.26],
               "rotation": [1.57, 0, 0, "ZXY"],
               "scale": [1, 1, 1]
             },
@@ -593,33 +590,32 @@
             "freeze": false
           },
           {
-            "name": "WhiteboardPlane (clone)",
+            "name": "WhiteboardPlane",
             "type": "GameObject",
             "static": true,
             "outdated": false,
-            "uuid": "13BC39DB-E011-46B6-A4DA-3F5FEC520D9F",
+            "uuid": "85C850E2-A508-4750-BC7E-8BCC0CD5AE1A",
             "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
             "forceSerializeComponents": [],
             "components": {
               "Render": {
-                "uuid": "9C83050E-BE92-4DCE-9EB6-5EEF00625021",
+                "uuid": "E9A9F822-4A00-4B1D-B208-A86649A6A05E",
                 "type": "Render",
                 "idRenderData": null,
                 "color": [1, 1, 1]
               },
               "LocalScript": {
-                "uuid": "3FFA40EE-0583-474D-A40E-0F91C796CCB8",
-                "idScripts": ["whiteboard", "clickable", "display_media"],
+                "uuid": "66F1A28B-FC10-49AB-93D4-8C291EAEA58D",
+                "idScripts": ["whiteboard", "clickable"],
                 "conf": {
-                  "name": "default_name (clone)",
-                  "iframe_src": "http://localhost:5001/boards/13BC39DB-E011-46B6-A4DA-3F5FEC520D9F",
+                  "name": "default_name",
                   "factorWidth": "5.2",
                   "factorHeight": "3.8"
                 },
                 "type": "LocalScript"
               },
               "Audio": {
-                "uuid": "175592A5-CCBE-497B-B020-AAE6150E8197",
+                "uuid": "4B1D9E01-043A-458E-9E41-1C40374FB152",
                 "sounds": [],
                 "conf": {},
                 "type": "Audio"
@@ -627,9 +623,7 @@
             },
             "children": [],
             "transform": {
-              "position": [
-                -8.214501460781321, 1.6077822428196669, 5.450171080093412
-              ],
+              "position": [-8.215, 1.61, 5.45],
               "rotation": [1.57, 1.57, 0, "ZXY"],
               "scale": [1, 1, 1]
             },
@@ -657,7 +651,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 347 },
+            "conf": { "world_computer_dt": 308 },
             "type": "LocalScript"
           },
           "WorldScript": {
