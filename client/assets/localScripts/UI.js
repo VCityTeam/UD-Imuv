@@ -8,13 +8,12 @@ module.exports = class UI {
 
     udviz = udvizBundle;
 
-    this.gameViewFps = null;
-    this.worldComputerFps = null;
-    this.pingUI = null;
-    this.avatarCount = null;
     this.menuButton = null;
     this.menuSettings = null;
     this.menuAvatarButton = null;
+
+    //display debug info
+    this.debugInfo = null;
   }
 
   getMenuSettings() {
@@ -163,38 +162,44 @@ module.exports = class UI {
       navigator.clipboard.writeText(url);
     };
 
-    //DEBUG infos
-    this.gameViewFps = document.createElement('div');
-    this.gameViewFps.classList.add('label_controller');
-    if (__DEBUG__) gameView.appendToUI(this.gameViewFps);
-
-    this.worldComputerFps = document.createElement('div');
-    this.worldComputerFps.classList.add('label_controller');
-    if (__DEBUG__) gameView.appendToUI(this.worldComputerFps);
-
-    this.pingUI = document.createElement('div');
-    this.pingUI.classList.add('label_controller');
-    if (__DEBUG__) gameView.appendToUI(this.pingUI);
-
-    this.avatarCount = document.createElement('div');
-    this.avatarCount.classList.add('label_controller');
-    if (__DEBUG__) gameView.appendToUI(this.avatarCount);
+    //Debug Info
+    if (__DEBUG__) this.debugInfo = new DebugInfo(gameView);
   }
 
   tick() {
-    this.updateUI(arguments[0], arguments[1]);
+    const localCtx = arguments[1];
+
+    if (this.debugInfo) this.debugInfo.update(localCtx, this.conf);
+  }
+};
+
+class DebugInfo {
+  constructor(gameView) {
+    this.gameViewFps = document.createElement('div');
+    this.gameViewFps.classList.add('label_controller');
+    gameView.appendToUI(this.gameViewFps);
+
+    this.worldComputerFps = document.createElement('div');
+    this.worldComputerFps.classList.add('label_controller');
+    gameView.appendToUI(this.worldComputerFps);
+
+    this.pingUI = document.createElement('div');
+    this.pingUI.classList.add('label_controller');
+    gameView.appendToUI(this.pingUI);
+
+    this.avatarCount = document.createElement('div');
+    this.avatarCount.classList.add('label_controller');
+    gameView.appendToUI(this.avatarCount);
   }
 
-  updateUI(go, localCtx) {
-    if (!__DEBUG__) return;
-
+  update(localCtx, conf) {
     //update ui
     this.gameViewFps.innerHTML =
       'Client FPS = ' + Math.round(1000 / localCtx.getDt());
 
     let worldFps = -1;
-    if (this.conf.world_computer_dt)
-      worldFps = Math.round(1000 / this.conf.world_computer_dt);
+    if (conf.world_computer_dt)
+      worldFps = Math.round(1000 / conf.world_computer_dt);
     this.worldComputerFps.innerHTML = 'World FPS = ' + worldFps;
 
     this.pingUI.innerHTML =
@@ -206,7 +211,7 @@ module.exports = class UI {
     });
     this.avatarCount.innerHTML = 'Player: ' + avatarCount;
   }
-};
+}
 
 class MenuSettings {
   constructor(localCtx) {
