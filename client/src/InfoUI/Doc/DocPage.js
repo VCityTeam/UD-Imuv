@@ -19,6 +19,7 @@ export class DocPage {
     this.rootHtml = document.createElement('div');
 
     this.toggleShowButton = document.createElement('a');
+    this.toggleShowButton.title = 'Help';
     this.toggleShowButton.style.backgroundImage =
       'url(./assets/img/ui/help_icon_white.png)';
     this.rootHtml.appendChild(this.toggleShowButton);
