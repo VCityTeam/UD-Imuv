@@ -1,0 +1,7 @@
+.tools_contextual_menu {
+  top: 50%;
+  left: 0;
+  transform: translate(-100%, -50%);
+  position: fixed;
+  transition: 1s;
+}

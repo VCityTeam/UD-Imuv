@@ -134,8 +134,8 @@
   border-radius: 40%;
   cursor: pointer;
   background: #e5007aec;
-  border: solid #2a2d2f;
-  color: whitesmoke;
+  border: solid var(--imuv-color-two);
+  color: var(--imuv-color-two);
 }
 
 .feedbacksDiv_Reception {

@@ -1,5 +1,14 @@
 :root {
   --imuv-color-one: #e5007b;
-  --imuv-color-two: white;
+  --imuv-color-two: whitesmoke;
   --imuv-color-three: #aebbc2;
+}
+
+/*UD-Viz overwrite*/
+
+.ui_View3D {
+  overflow: auto;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
 }

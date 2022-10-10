@@ -146,8 +146,3 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
 }
-
-.ui_View3D {
-  overflow: auto;
-  max-height: 100%;
-}
