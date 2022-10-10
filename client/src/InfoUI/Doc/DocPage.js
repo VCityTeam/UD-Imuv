@@ -1,41 +1,43 @@
-import './Doc.css';
+import './DocPage.css';
 import * as showdown from 'showdown';
 
-import openingMd from '../../assets/md/Doc/Opening.md';
-import signMd from '../../assets/md/Doc/SignDoc.md';
-import commandMd from '../../assets/md/Doc/HowToPlayDoc.md';
-import chatMd from '../../assets/md/Doc/ChatDoc.md';
-import exhibitRoomMd from '../../assets/md/Doc/ExhibitRoomDoc.md';
-import postItMd from '../../assets/md/Doc/PostItDoc.md';
-import signageAreaMd from '../../assets/md/Doc/SignageAreaDoc.md';
-import underWorldMd from '../../assets/md/Doc/UnderWorldDoc.md';
-import widgetsMd from '../../assets/md/Doc/WidgetsDoc.md';
-import zeppelinTourMd from '../../assets/md/Doc/ZeppelinTourDoc.md';
+import openingMd from './md/Opening.md';
+import signMd from './md/SignDoc.md';
+import commandMd from './md/HowToPlayDoc.md';
+import chatMd from './md/ChatDoc.md';
+import exhibitRoomMd from './md/ExhibitRoomDoc.md';
+import postItMd from './md/PostItDoc.md';
+import signageAreaMd from './md/SignageAreaDoc.md';
+import underWorldMd from './md/UnderWorldDoc.md';
+import widgetsMd from './md/WidgetsDoc.md';
+import zeppelinTourMd from './md/ZeppelinTourDoc.md';
 
 const folderImages = '/assets/img/doc/';
+
 export class DocPage {
   constructor() {
     this.rootHtml = document.createElement('div');
-    this.rootHtml.id = 'root_Doc';
-    this.rootHtml.classList.add('hidden_Doc');
 
     this.toggleShowButton = document.createElement('a');
-    this.toggleShowButton.innerHTML = '?';
-    this.toggleShowButton.id = 'toggle_Shower_Doc';
+    this.toggleShowButton.style.backgroundImage =
+      'url(./assets/img/ui/help_icon_white.png)';
+    this.rootHtml.appendChild(this.toggleShowButton);
 
-    const rootHtml = this.rootHtml;
-
-    this.toggleShowButton.onclick = function () {
-      if (getComputedStyle(rootHtml).display != 'none') {
-        rootHtml.classList.add('hidden_Doc');
-      } else {
-        rootHtml.classList.remove('hidden_Doc');
-      }
-    };
-
+    this.parentElementDoc = document.createElement('div');
+    this.parentElementDoc.id = 'parentElementDoc_Doc';
+    this.parentElementDoc.classList.add('hidden_Doc');
     this.menuDoc = null;
     this.contentDoc = null;
     this.listMenuDoc = null;
+
+    const _this = this;
+    this.toggleShowButton.onclick = function () {
+      if (getComputedStyle(_this.parentElementDoc).display != 'none') {
+        _this.parentElementDoc.classList.add('hidden_Doc');
+      } else {
+        _this.parentElementDoc.classList.remove('hidden_Doc');
+      }
+    };
 
     const converter = new showdown.Converter();
     converter.setOption('tables', true);
@@ -56,17 +58,21 @@ export class DocPage {
     this.addEntry('Zeppelin Tour', converter.makeHtml(zeppelinTourMd.body));
   }
 
+  getParentElementDoc() {
+    return this.parentElementDoc;
+  }
+
   initHtml() {
     this.menuDoc = document.createElement('div');
     this.menuDoc.id = 'menu_Doc';
-    this.rootHtml.appendChild(this.menuDoc);
+    this.parentElementDoc.appendChild(this.menuDoc);
 
     this.listMenuDoc = document.createElement('ul');
     this.menuDoc.appendChild(this.listMenuDoc);
 
     this.contentDoc = document.createElement('div');
     this.contentDoc.id = 'content_Doc';
-    this.rootHtml.appendChild(this.contentDoc);
+    this.parentElementDoc.appendChild(this.contentDoc);
   }
 
   addEntry(titleString, contentString, opening = false) {

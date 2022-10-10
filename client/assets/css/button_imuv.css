@@ -1,11 +1,5 @@
 /* CSS take here https://getcssscan.com/css-buttons-examples*/
 
-:root {
-  --imuv-color-one: #e5007b;
-  --imuv-color-two: white;
-  --imuv-color-three: #aebbc2;
-}
-
 .button-imuv {
   appearance: none;
   background-color: var(--imuv-color-two);

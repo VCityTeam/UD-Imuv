@@ -1,0 +1,20 @@
+.root_InfoUI {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: 3;
+}
+
+.root_InfoUI a {
+  display: block;
+  background-color: var(--imuv-color-three);
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  margin: 2px;
+}
+
+.root_InfoUI a:hover {
+  background-color: var(--imuv-color-one);
+  cursor: pointer;
+}
