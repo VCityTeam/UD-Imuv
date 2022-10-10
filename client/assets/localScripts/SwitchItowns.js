@@ -21,17 +21,6 @@ module.exports = class SwitchItowns {
     //buffer DEBUG
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
-
-    this.menuWidgets = null;
-    this.menuWidgetsButton = null;
-  }
-
-  setWidgetButtonVisible(value) {
-    if (value) {
-      this.menuWidgetsButton.classList.remove('hidden');
-    } else {
-      this.menuWidgetsButton.classList.add('hidden');
-    }
   }
 
   //DEBUG
@@ -39,8 +28,6 @@ module.exports = class SwitchItowns {
     const _this = this;
 
     const localCtx = arguments[1];
-
-    this.menuWidgets = new MenuWidgets(localCtx);
 
     const gameView = localCtx.getGameView();
     const camera = gameView.getCamera();
@@ -64,10 +51,7 @@ module.exports = class SwitchItowns {
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
-      this.menuWidgetsButton = document.createElement('button');
-      this.menuWidgetsButton.classList.add('button-imuv');
-      this.menuWidgetsButton.innerHTML = 'Vue Itowns';
-      this.menuWidgetsButton.onclick = function () {
+      const promiseFunction = function (resolve) {
         if (cameraScript.hasRoutine()) return; //already routine
 
         let onZeppelin = false;
@@ -83,8 +67,8 @@ module.exports = class SwitchItowns {
         const duration = 2000;
         let currentTime = 0;
 
-        let startPos = camera.position.clone();
-        let startQuat = camera.quaternion.clone();
+        const startPos = camera.position.clone();
+        const startQuat = camera.quaternion.clone();
 
         if (gameView.isItownsRendering()) {
           //record
@@ -121,15 +105,13 @@ module.exports = class SwitchItowns {
               function () {
                 avatarController.setAvatarControllerMode(true, localCtx);
 
-                _this.menuWidgets.dispose();
+                resolve();
               }
             )
           );
         } else {
           //remove avatar controls
           avatarController.setAvatarControllerMode(false, localCtx);
-          //restore widget button visibility to permit to close it
-          _this.setWidgetButtonVisible(true);
 
           if (!_this.itownsCamPos && !_this.itownsCamQuat) {
             //first time camera in sky
@@ -187,15 +169,24 @@ module.exports = class SwitchItowns {
                   'itowns_refine'
                 ];
                 if (refine) refine.itownsControls();
-                gameView.appendToUI(_this.menuWidgets.html());
 
                 gameView.getItownsView().notifyChange(gameView.getCamera());
+
+                resolve();
               }
             )
           );
         }
       };
-      gameView.appendToUI(this.menuWidgetsButton);
+
+      const menuWidgets = new MenuWidgets(localCtx);
+
+      scriptUI.addTool(
+        './assets/img/ui/icon_town_white.png',
+        'Vue itowns',
+        promiseFunction,
+        menuWidgets
+      );
     }
   }
 };
@@ -342,7 +333,7 @@ class MenuWidgets {
     this.rootHtml.remove();
 
     //remove active widgets
-    for (let id in this.widgets) {
+    for (const id in this.widgets) {
       this.widgets[id].disable();
     }
   }

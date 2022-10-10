@@ -5,6 +5,7 @@
   color: var(--imuv-color-one);
   display: grid;
   background-color: var(--imuv-color-two);
+  width: fit-content;
 }
 
 .label-menu-settings {

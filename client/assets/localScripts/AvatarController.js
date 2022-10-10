@@ -69,13 +69,6 @@ module.exports = class AvatarController {
     const commandIdRight = 'cmd_right';
     const commandIdRotate = 'cmd_rotate';
 
-    const switchItowns = localCtx.getRootGameObject().fetchLocalScripts()[
-      'switch_itowns'
-    ];
-    if (switchItowns) {
-      switchItowns.setWidgetButtonVisible(value);
-    }
-
     if (value) {
       const refine = localCtx.getRootGameObject().fetchLocalScripts()[
         'itowns_refine'

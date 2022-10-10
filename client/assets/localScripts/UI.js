@@ -8,12 +8,20 @@ module.exports = class UI {
 
     udviz = udvizBundle;
 
+    //-------------------------------------------------------WIP
     this.menuButton = null;
     this.menuSettings = null;
     this.menuAvatarButton = null;
+    //-------------------------------------------------------WIP
 
     //display debug info
     this.debugInfo = null;
+
+    //toolsbar ui
+    this.toolsBar = new ToolsBar();
+
+    //contextual menu
+    this.toolsContextualMenu = new ToolsContextualMenu();
   }
 
   getMenuSettings() {
@@ -25,6 +33,7 @@ module.exports = class UI {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
 
+    //-------------------------------------------------------WIP
     const menuSettings = new MenuSettings(localCtx);
     this.menuSettings = menuSettings;
 
@@ -161,9 +170,47 @@ module.exports = class UI {
       //put it in clipboard
       navigator.clipboard.writeText(url);
     };
+    //-------------------------------------------------------WIP
 
     //Debug Info
-    if (__DEBUG__) this.debugInfo = new DebugInfo(gameView);
+    if (__DEBUG__) {
+      this.debugInfo = new DebugInfo();
+      gameView.appendToUI(this.debugInfo.html());
+    }
+
+    //Toolsbar
+    gameView.appendToUI(this.toolsBar.html());
+
+    //contextual
+    gameView.appendToUI(this.toolsContextualMenu.html());
+  }
+
+  /**
+   * Add a tool to toolsbar
+   */
+  addTool(pathIcon, title, promiseFunction, menuContextual) {
+    const icon = document.createElement('img');
+    icon.src = pathIcon;
+    icon.title = title;
+
+    this.toolsBar.addIcon(icon, promiseFunction, menuContextual);
+
+    let toolEnabled = false;
+    const toolsContextualMenu = this.toolsContextualMenu;
+
+    icon.onclick = function () {
+      toolEnabled = !toolEnabled;
+
+      const promise = new Promise(promiseFunction);
+
+      promise.then(function () {
+        if (toolEnabled) {
+          toolsContextualMenu.add(menuContextual);
+        } else {
+          toolsContextualMenu.remove(menuContextual);
+        }
+      });
+    };
   }
 
   tick() {
@@ -174,22 +221,28 @@ module.exports = class UI {
 };
 
 class DebugInfo {
-  constructor(gameView) {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+
     this.gameViewFps = document.createElement('div');
     this.gameViewFps.classList.add('label_controller');
-    gameView.appendToUI(this.gameViewFps);
+    this.rootHtml.appendChild(this.gameViewFps);
 
     this.worldComputerFps = document.createElement('div');
     this.worldComputerFps.classList.add('label_controller');
-    gameView.appendToUI(this.worldComputerFps);
+    this.rootHtml.appendChild(this.worldComputerFps);
 
     this.pingUI = document.createElement('div');
     this.pingUI.classList.add('label_controller');
-    gameView.appendToUI(this.pingUI);
+    this.rootHtml.appendChild(this.pingUI);
 
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('label_controller');
-    gameView.appendToUI(this.avatarCount);
+    this.rootHtml.appendChild(this.avatarCount);
+  }
+
+  html() {
+    return this.rootHtml;
   }
 
   update(localCtx, conf) {
@@ -527,5 +580,51 @@ class MenuSettings {
 
   dispose() {
     this.rootHtml.remove();
+  }
+}
+
+class ToolsBar {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root_toolsbar');
+  }
+
+  addIcon(icon) {
+    this.rootHtml.appendChild(icon);
+  }
+
+  html() {
+    return this.rootHtml;
+  }
+}
+
+class ToolsContextualMenu {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('tools_contextual_menu');
+  }
+
+  html() {
+    return this.rootHtml;
+  }
+
+  add(menu) {
+    this.rootHtml.appendChild(menu.html());
+    this.rootHtml.style.transform = 'translate(0%,-50%)';
+  }
+
+  remove(menu) {
+    this.rootHtml.style.transform = 'translate(-100%,-50%)';
+
+    function getCSSTransitionDuration(element, ms = true) {
+      return (
+        parseFloat(window.getComputedStyle(element).transitionDuration) *
+        (ms ? 1000 : 1)
+      );
+    }
+
+    setTimeout(function () {
+      menu.dispose();
+    }, getCSSTransitionDuration(this.rootHtml));
   }
 }

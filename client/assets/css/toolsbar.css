@@ -1,0 +1,14 @@
+.root_toolsbar {
+  border-radius: 10px 10px 0px 0px;
+  background: var(--imuv-color-one);
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%);
+  padding: 5px;
+}
+
+.root_toolsbar img:hover {
+  cursor: pointer;
+  background-color: var(--imuv-color-three);
+}
