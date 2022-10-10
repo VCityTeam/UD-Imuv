@@ -1,12 +1,14 @@
 /** @format */
 
+import './style.css';
+
 import { ReceptionView } from './Reception/Reception';
 import { WebSocketService } from 'ud-viz/src/Components/WebSocketService';
 import Pack from 'ud-viz/src/Game/Components/Pack';
 import ImuvConstants from '../../imuv.constants';
-import { CommitInfo } from './CommitInfo/CommitInfo';
-import { DocPage } from './Doc/Doc';
 import { SystemUtils } from 'ud-viz/src/Components/Components';
+
+import { InfoUI } from './InfoUI/InfoUI';
 
 //to launch a game
 import * as JitsiIframeAPI from 'jitsi-iframe-api';
@@ -29,15 +31,10 @@ webSocketService.on(
   }
 );
 
-//Create Permanent UI
-SystemUtils.File.loadJSON('./commit_info.json').then((commitJson) => {
-  const commitInfo = new CommitInfo(commitJson);
-  document.body.appendChild(commitInfo.html());
+const infoUI = new InfoUI();
+infoUI.load('./commit_info.json').then(function () {
+  document.body.appendChild(infoUI.html());
 });
-
-const documentation = new DocPage();
-document.body.appendChild(documentation.html());
-document.body.appendChild(documentation.toggleShowButton);
 
 //Check URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD to decide what to do
 const paramsUrl = new URLSearchParams(window.location.search);
