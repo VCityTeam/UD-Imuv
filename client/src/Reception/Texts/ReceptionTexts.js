@@ -57,6 +57,7 @@ const texts = {
       '<a href="https://www.flaticon.com/fr/icones-gratuites/roue-dentee" title="roue dentée icônes">Roue dentée icônes créées par Saepul Nahwan - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/chain" title="chain icons">Chain icons created by Creaticca Creative Agency - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/fullscreen" title="fullscreen icons">Fullscreen icons created by Those Icons - Flaticon</a>',
     ],
 
     //Sign
@@ -114,6 +115,7 @@ const texts = {
       '<a href="https://www.flaticon.com/fr/icones-gratuites/roue-dentee" title="roue dentée icônes">Roue dentée icônes créées par Saepul Nahwan - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/chain" title="chain icons">Chain icons created by Creaticca Creative Agency - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/fullscreen" title="fullscreen icons">Fullscreen icons created by Those Icons - Flaticon</a>',
     ],
 
     //Sign
