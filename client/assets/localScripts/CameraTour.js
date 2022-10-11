@@ -31,6 +31,9 @@ module.exports = class CameraTour {
     const _this = this;
 
     //ui
+    // const scriptUI = localContext.findLocalScriptWithID('ui');
+    // scriptUI.addTool('./assets/img/ui/icon_towns_white.png', 'Tour Images');
+
     const startTour = document.createElement('button');
     startTour.classList.add('button-imuv');
     startTour.innerHTML = go.name;

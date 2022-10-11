@@ -6,6 +6,7 @@
   display: grid;
   background-color: var(--imuv-color-two);
   width: fit-content;
+  z-index: 2;
 }
 
 .label-menu-settings {

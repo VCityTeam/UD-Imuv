@@ -20,8 +20,10 @@ module.exports = class MiniMap {
     this.renderer = new udviz.THREE.WebGLRenderer({
       canvas: document.createElement('canvas'),
       antialias: true,
+      alpha: true,
     });
     this.renderer.setSize(MINI_MAP_SIZE, MINI_MAP_SIZE);
+    this.renderer.setClearColor(0xffffff, 0);
 
     //what is display
     this.rootHtml = document.createElement('div');

@@ -182,6 +182,11 @@ module.exports = class MenuAvatar {
         ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR, pM);
       });
     };
+
+    //CLOSE button
+    this.rootHtml.appendChild(
+      localCtx.getGameView().getUserData('close_button')
+    );
   }
 
   dispose() {
