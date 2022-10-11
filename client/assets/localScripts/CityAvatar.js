@@ -18,15 +18,11 @@ module.exports = class CityAvatar {
     this.labelInfo = document.createElement('div');
     this.labelInfo.classList.add('middle_screen_label');
     this.labelInfo.innerHTML = "Appuyez sur E pour revenir sur l'île";
-
-    this.cityMapGO = null;
   }
 
   init() {
     this.go = arguments[0];
     const localCtx = arguments[1];
-
-    const rootGO = localCtx.getRootGameObject();
 
     if (
       localCtx.getGameView().getUserData('avatarUUID') !=
@@ -36,24 +32,9 @@ module.exports = class CityAvatar {
       return;
     }
 
-    //add citymap
-    let cityMapGO = null;
-    rootGO.traverse(function (child) {
-      const scripts = child.fetchLocalScripts();
-      if (scripts && scripts['city_map']) {
-        cityMapGO = child;
-        return true;
-      }
-      return false;
-    });
-
-    if (!cityMapGO) console.error('no city map object');
-
-    this.cityMapGO = cityMapGO;
-    this.cityMapGO.fetchLocalScripts()['city_map'].add(this.go, localCtx);
-
     //avatar_controller
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    const avatarController =
+      localCtx.findLocalScriptWithID('avatar_controller');
     if (!avatarController) throw new Error('no avatar controller script');
 
     //remove avatar controls
@@ -63,12 +44,12 @@ module.exports = class CityAvatar {
 
     //routine camera
     const camera = localCtx.getGameView().getCamera();
-    const cameraScript = rootGO.fetchLocalScripts()['camera'];
+    const cameraScript = localCtx.findLocalScriptWithID('camera');
 
     //buffer
     const duration = 2000;
-    let startPos = camera.position.clone();
-    let startQuat = camera.quaternion.clone();
+    const startPos = camera.position.clone();
+    const startQuat = camera.quaternion.clone();
     let currentTime = 0;
 
     //first travelling
@@ -102,6 +83,7 @@ module.exports = class CityAvatar {
     const avatarUUID = localContext.getGameView().getUserData('avatarUUID');
     if (this.go.getParent().getUUID() != avatarUUID) return; //only controls its own city avatar
 
+    const scriptUI = localContext.findLocalScriptWithID('ui');
     const goUUID = this.go.getUUID();
     const parentGoUUID = this.go.getParentUUID();
 
@@ -119,6 +101,14 @@ module.exports = class CityAvatar {
 
     if (value) {
       console.warn('add city avatar control');
+
+      const cityMapScript = localContext.findLocalScriptWithID('city_map');
+      if (!cityMapScript) console.error('no city map script');
+      //add citymap
+      scriptUI.addToMapUI(
+        cityMapScript,
+        localContext.getGameView().getLocalScriptModules()['ImuvConstants']
+      );
 
       localContext.getGameView().appendToUI(this.labelInfo);
 
@@ -180,16 +170,6 @@ module.exports = class CityAvatar {
 
       //ROTATE
 
-      //fetch ui script
-      let scriptUI = null;
-      localContext.getRootGameObject().traverse(function (child) {
-        const scripts = child.fetchLocalScripts();
-        if (scripts && scripts['ui']) {
-          scriptUI = scripts['ui'];
-          return true;
-        }
-      });
-
       inputManager.addMouseCommand(commandIdRotate, 'mousemove', function () {
         if (
           inputManager.getPointerLock() ||
@@ -240,12 +220,13 @@ module.exports = class CityAvatar {
       inputManager.removeMouseCommand(commandIdRotate, 'mousemove');
       inputManager.removeKeyCommand(commandIdEscape, ['e']);
       inputManager.setPointerLock(false);
+
+      scriptUI.clearMapUI();
     }
   }
 
   onRemove() {
     const localCtx = arguments[1];
-    const rootGO = localCtx.getRootGameObject();
 
     if (
       localCtx.getGameView().getUserData('avatarUUID') !=
@@ -255,19 +236,16 @@ module.exports = class CityAvatar {
       return;
     }
 
-    //remove citymap
-    this.cityMapGO.fetchLocalScripts()['city_map'].remove(localCtx);
-
     this.setCityAvatarController(false, localCtx);
 
     //routine camera
     const camera = localCtx.getGameView().getCamera();
-    const cameraScript = rootGO.fetchLocalScripts()['camera'];
+    const cameraScript = localCtx.findLocalScriptWithID('camera');
 
     //buffer
     const duration = 2000;
-    let startPos = camera.position.clone();
-    let startQuat = camera.quaternion.clone();
+    const startPos = camera.position.clone();
+    const startQuat = camera.quaternion.clone();
     let currentTime = 0;
 
     //first travelling
@@ -293,7 +271,7 @@ module.exports = class CityAvatar {
         function () {
           //avatar_controller
           const avatarController =
-            rootGO.fetchLocalScripts()['avatar_controller'];
+            localCtx.findLocalScriptWithID('avatar_controller');
           if (!avatarController) throw new Error('no avatar controller script');
           //restore avatar controls
           avatarController.setAvatarControllerMode(true, localCtx);

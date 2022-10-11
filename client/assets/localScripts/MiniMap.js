@@ -7,12 +7,6 @@ const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
 const MAGNETISM = 2;
 
-const CLICK_MODE = {
-  DEFAULT: 0,
-  TELEPORT: 1,
-  PING: 2,
-};
-
 module.exports = class MiniMap {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -31,11 +25,6 @@ module.exports = class MiniMap {
 
     //what is display
     this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root-menu-settings');
-
-    const title = document.createElement('h1');
-    title.innerHTML = 'MiniMap';
-    this.rootHtml.appendChild(title);
 
     this.canvasMiniMap = document.createElement('canvas');
     this.canvasMiniMap.width = MINI_MAP_SIZE;
@@ -50,13 +39,47 @@ module.exports = class MiniMap {
     this.defaultCanvas = null;
 
     //map is displayed or not
-    this.displayMiniMap = false;
+    this.displayMap = false;
 
     //mode
-    this.clickMode = CLICK_MODE.DEFAULT;
+    this.clickMode = null;
 
     //ping
     this.pings = [];
+
+    this.mapClickMode = null;
+  }
+
+  /**
+   * Map interface
+   * @param {*} value
+   */
+  setDisplayMap(value) {
+    this.displayMap = value;
+  }
+
+  /**
+   * Map interface
+   * @returns
+   */
+  getRootHtml() {
+    return this.rootHtml;
+  }
+
+  /**
+   * Map interface
+   * @param {*} mode
+   */
+  setClickMode(mode) {
+    this.clickMode = mode;
+
+    if (mode == this.mapClickMode.DEFAULT) {
+      this.setCursorPointer(false);
+    } else if (mode == this.mapClickMode.PING) {
+      this.setCursorPointer(true);
+    } else if (mode == this.mapClickMode.TELEPORT) {
+      this.setCursorPointer(true);
+    }
   }
 
   /**
@@ -66,7 +89,14 @@ module.exports = class MiniMap {
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
+
     const gameView = localCtx.getGameView();
+
+    //init constants
+    this.mapClickMode =
+      gameView.getLocalScriptModules()['ImuvConstants'].MAP_CLICK_MODE;
+    this.setClickMode(this.mapClickMode.DEFAULT);
+
     const userID = gameView.getUserData('userID');
 
     const manager = gameView.getInputManager();
@@ -83,21 +113,6 @@ module.exports = class MiniMap {
         portalIcons.push(new PortalIcon(child.getPosition()));
       }
     });
-
-    //add button ui
-    const button = document.createElement('button');
-    button.classList.add('button-imuv');
-    button.innerHTML = 'Mini Map';
-    gameView.appendToUI(button);
-    button.onclick = function () {
-      _this.displayMiniMap = !_this.displayMiniMap;
-
-      if (_this.displayMiniMap) {
-        gameView.appendToUI(_this.rootHtml);
-      } else {
-        _this.rootHtml.remove();
-      }
-    };
 
     manager.addMouseCommand('mini_map_click', 'click', function () {
       const event = this.event('click');
@@ -131,15 +146,15 @@ module.exports = class MiniMap {
       });
 
       let clickMode = _this.clickMode;
-      if (isOnPortalIcon) clickMode = CLICK_MODE.TELEPORT; //automatic teleport mode chan clicking portal icon
+      if (isOnPortalIcon) clickMode = _this.mapClickMode.TELEPORT; //automatic teleport mode chan clicking portal icon
 
-      if (clickMode === CLICK_MODE.DEFAULT) {
+      if (clickMode === _this.mapClickMode.DEFAULT) {
         //nothing
-        _this.setClickMode(CLICK_MODE.DEFAULT);
+        _this.setClickMode(_this.mapClickMode.DEFAULT);
 
         return null;
-      } else if (clickMode === CLICK_MODE.TELEPORT) {
-        _this.setClickMode(CLICK_MODE.DEFAULT);
+      } else if (clickMode === _this.mapClickMode.TELEPORT) {
+        _this.setClickMode(_this.mapClickMode.DEFAULT);
 
         return new Command({
           type: Command.TYPE.TELEPORT,
@@ -151,8 +166,8 @@ module.exports = class MiniMap {
           userID: userID,
           gameObjectUUID: go.getUUID(),
         });
-      } else if (clickMode === CLICK_MODE.PING) {
-        _this.setClickMode(CLICK_MODE.DEFAULT);
+      } else if (clickMode === _this.mapClickMode.PING) {
+        _this.setClickMode(_this.mapClickMode.DEFAULT);
 
         const avatarGO = localCtx
           .getRootGameObject()
@@ -190,7 +205,7 @@ module.exports = class MiniMap {
       let hover;
 
       //check mode
-      if (_this.clickMode == CLICK_MODE.DEFAULT) {
+      if (_this.clickMode == _this.mapClickMode.DEFAULT) {
         hover = false; //click does nothing except if portal icon is hovered
       } else {
         hover = true; //a click should send a command
@@ -212,37 +227,6 @@ module.exports = class MiniMap {
 
       _this.setCursorPointer(hover);
     });
-
-    //add mode click button
-    const pingButton = document.createElement('button');
-    pingButton.classList.add('button-imuv');
-    pingButton.innerHTML = 'Ping';
-    this.rootHtml.appendChild(pingButton);
-
-    const teleportButton = document.createElement('button');
-    teleportButton.classList.add('button-imuv');
-    teleportButton.innerHTML = 'Teleportation';
-    this.rootHtml.appendChild(teleportButton);
-
-    pingButton.onclick = function () {
-      _this.setClickMode(CLICK_MODE.PING);
-    };
-
-    teleportButton.onclick = function () {
-      _this.setClickMode(CLICK_MODE.TELEPORT);
-    };
-  }
-
-  setClickMode(mode) {
-    this.clickMode = mode;
-
-    if (mode == CLICK_MODE.DEFAULT) {
-      this.setCursorPointer(false);
-    } else if (mode == CLICK_MODE.PING) {
-      this.setCursorPointer(true);
-    } else if (mode == CLICK_MODE.TELEPORT) {
-      this.setCursorPointer(true);
-    }
   }
 
   setCursorPointer(value) {
@@ -473,7 +457,7 @@ module.exports = class MiniMap {
     const localCtx = arguments[1];
     const _this = this;
 
-    if (!this.defaultCanvas || !this.displayMiniMap) return;
+    if (!this.defaultCanvas || !this.displayMap) return;
     //write
     const destCtx = this.canvasMiniMap.getContext('2d');
     destCtx.drawImage(this.defaultCanvas, 0, 0);
@@ -626,6 +610,7 @@ class Ping {
     //draw context2D
     const radius = (this.maxSize * this.currentTime) / this.duration;
     context2D.beginPath();
+    context2D.lineWidth = 3;
     context2D.strokeStyle = this.color;
     context2D.arc(this.position.x, this.position.y, radius, 0, 2 * Math.PI);
     context2D.stroke();

@@ -20,7 +20,7 @@ module.exports = class PlacePostIt {
     const manager = gameView.getInputManager();
 
     const raycaster = new Game.THREE.Raycaster();
-    const objectStatic = this.fetchStaticObject.call(this, arguments[0]);
+    const objectStatic = this.fetchStaticObject(localCtx);
 
     //toggle post it mode
     const postitButton = document.createElement('button');
@@ -36,14 +36,14 @@ module.exports = class PlacePostIt {
     let postitGo = null;
 
     //controller
-    const rootGO = localCtx.getRootGameObject();
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    const avatarController =
+      localCtx.findLocalScriptWithID('avatar_controller');
 
     //html
     const postitHtml = document.createElement('div');
     postitHtml.classList.add('post-it');
     //input
-    let inputMessage = document.createElement('input');
+    const inputMessage = document.createElement('input');
     inputMessage.classList.add('post-it-input');
     inputMessage.type = 'text';
     postitHtml.appendChild(inputMessage);
@@ -151,8 +151,9 @@ module.exports = class PlacePostIt {
     };
   }
 
-  fetchStaticObject(go) {
-    const scriptStaticObject = go.fetchLocalScripts()['static_object'];
+  fetchStaticObject(localContext) {
+    const scriptStaticObject =
+      localContext.findLocalScriptWithID('static_object');
     return scriptStaticObject.getObject();
   }
 };

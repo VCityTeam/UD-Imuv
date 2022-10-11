@@ -52,6 +52,8 @@ const texts = {
       'Sons : <a href=https://universal-soundbank.com/>https://universal-soundbank.com/</a> <br>',
       'Logo Google Form : <a href="https://commons.wikimedia.org/wiki/File:Google_Forms_2020_Logo.svg">Google</a>, Domaine publique, via Wikimedia Commons',
       'Fond de carte Lyon : <a href="https://fr.wikipedia.org/wiki/Fichier:Lyon_et_ses_arrondissements_map.svg">Wikimedia</a>',
+      '<a href="https://www.flaticon.com/free-icons/town" title="town icons">Town icons created by Eucalyp - Flaticon</a>',
+      '<a href="https://www.flaticon.com/fr/icones-gratuites/teleporter" title="téléporter icônes">Téléporter icônes créées par Freepik - Flaticon</a>',
     ],
 
     //Sign
@@ -104,6 +106,8 @@ const texts = {
       'Sounds : <a href=https://universal-soundbank.com/>https://universal-soundbank.com/</a> <br>',
       'Logo Google Form : <a href="https://commons.wikimedia.org/wiki/File:Google_Forms_2020_Logo.svg">Google</a>, Public domain, via Wikimedia Commons',
       'Background map of Lyon : <a href="https://fr.wikipedia.org/wiki/Fichier:Lyon_et_ses_arrondissements_map.svg">Wikimedia</a>',
+      '<a href="https://www.flaticon.com/free-icons/town" title="town icons">Town icons created by Eucalyp - Flaticon</a>',
+      '<a href="https://www.flaticon.com/fr/icones-gratuites/teleporter" title="téléporter icônes">Téléporter icônes créées par Freepik - Flaticon</a>',
     ],
 
     //Sign

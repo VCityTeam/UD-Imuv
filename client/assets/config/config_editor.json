@@ -53,6 +53,9 @@
       },
       "tools_menu_contextual": {
         "path": "./assets/css/tools_menu_contextual.css"
+      },
+      "map_ui": {
+        "path": "./assets/css/map_ui.css"
       }
     },
     "videos": {
