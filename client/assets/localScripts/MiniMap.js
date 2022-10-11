@@ -2,7 +2,7 @@ const udvizType = require('ud-viz');
 /** @type {udvizType} */
 let udviz = null;
 
-const MINI_MAP_SIZE = 600;
+const MINI_MAP_SIZE = 500;
 const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
 const MAGNETISM = 2;
