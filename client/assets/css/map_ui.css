@@ -1,0 +1,18 @@
+.mapUI {
+  position: fixed;
+  top: 0;
+  right: 0;
+  transform: scale(0.5) translate(50%, -50%);
+  transition: 1s;
+}
+
+.map_button {
+  background: var(--imuv-color-one);
+  border-radius: 25px;
+  padding: 5px;
+}
+
+.map_button:hover {
+  background: var(--imuv-color-three);
+  cursor: pointer;
+}

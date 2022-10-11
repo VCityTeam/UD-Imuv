@@ -51,8 +51,9 @@ module.exports = class Camera {
     return this.avatarGO;
   }
 
-  fetchStaticObject(go) {
-    const scriptStaticObject = go.fetchLocalScripts()['static_object'];
+  fetchStaticObject(localContext) {
+    const scriptStaticObject =
+      localContext.findLocalScriptWithID('static_object');
     return scriptStaticObject.getObject();
   }
 
@@ -134,9 +135,9 @@ module.exports = class Camera {
         },
         function () {
           splash.remove();
-          const rootGO = localCtx.getRootGameObject();
+
           const avatarController =
-            rootGO.fetchLocalScripts()['avatar_controller'];
+            localCtx.findLocalScriptWithID('avatar_controller');
           avatarController.setAvatarControllerMode(true, localCtx);
         }
       )
@@ -161,10 +162,11 @@ module.exports = class Camera {
       this.zeppelinGO = localCtx.getRootGameObject().findByName('Zeppelin');
     }
 
-    const rootGO = localCtx.getRootGameObject();
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
-    const zeppelinController =
-      rootGO.fetchLocalScripts()['zeppelin_controller'];
+    const avatarController =
+      localCtx.findLocalScriptWithID('avatar_controller');
+    const zeppelinController = localCtx.findLocalScriptWithID(
+      'zeppelin_controller'
+    );
 
     //routines are prior
     if (this.hasRoutine()) {
@@ -175,20 +177,23 @@ module.exports = class Camera {
         this.routines.shift(); //remove
       }
     } else if (cityAvatar) {
-      this.focusTarget(rootGO, cityAvatar, 3);
+      this.focusTarget(localCtx, cityAvatar, 3);
     } else if (avatarController.getAvatarControllerMode()) {
-      this.focusTarget(rootGO, this.avatarGO, 3);
+      this.focusTarget(localCtx, this.avatarGO, 3);
     } else if (
       zeppelinController &&
       zeppelinController.getZeppelinControllerMode()
     ) {
-      this.focusTarget(rootGO, this.zeppelinGO, 30);
+      this.focusTarget(localCtx, this.zeppelinGO, 30);
     }
   }
 
-  focusTarget(root, target, distance) {
+  focusTarget(localContext, target, distance) {
     this.focusCamera.setTarget(target);
-    this.focusCamera.focusTarget(this.fetchStaticObject(root), distance);
+    this.focusCamera.focusTarget(
+      this.fetchStaticObject(localContext),
+      distance
+    );
   }
 };
 

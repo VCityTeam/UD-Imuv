@@ -42,7 +42,7 @@ module.exports = class ZeppelinStart {
       }
 
       const obj = this.zeppelinGO.getObject3D();
-      let position = new Game.THREE.Vector3();
+      const position = new Game.THREE.Vector3();
       obj.matrixWorld.decompose(
         position,
         new Game.THREE.Quaternion(),
@@ -96,7 +96,8 @@ module.exports = class ZeppelinStart {
     });
 
     //avatar_controller
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    const avatarController =
+      localCtx.findLocalScriptWithID('avatar_controller');
     if (!avatarController) throw new Error('no avatar controller script');
 
     //remove avatar controls
@@ -142,8 +143,9 @@ module.exports = class ZeppelinStart {
       };
       manager.addKeyInput('e', 'keydown', cb);
     } else {
-      const zeppelinController =
-        rootGO.fetchLocalScripts()['zeppelin_controller'];
+      const zeppelinController = localCtx.findLocalScriptWithID(
+        'zeppelin_controller'
+      );
 
       if (!zeppelinController) throw new Error('no zeppelin controller script');
 

@@ -61,6 +61,12 @@ module.exports = {
     LEFT: 4.76623,
     RIGHT: 4.90291,
   },
+  //different click mode of map
+  MAP_CLICK_MODE: {
+    DEFAULT: 0,
+    TELEPORT: 1,
+    PING: 2,
+  },
   //db key
   DB: {
     USER: {

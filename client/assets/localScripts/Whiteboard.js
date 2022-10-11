@@ -81,8 +81,8 @@ module.exports = class Whiteboard {
     gameView.appendToUI(content);
 
     const _this = this;
-    const rootGO = localCtx.getRootGameObject();
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    const avatarController =
+      localCtx.findLocalScriptWithID('avatar_controller');
     avatarController.setAvatarControllerMode(false, localCtx);
 
     closebutton.onclick = function () {

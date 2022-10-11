@@ -69,10 +69,19 @@ module.exports = class AvatarController {
     const commandIdRight = 'cmd_right';
     const commandIdRotate = 'cmd_rotate';
 
+    const scriptUI = localCtx.findLocalScriptWithID('ui');
+
     if (value) {
-      const refine = localCtx.getRootGameObject().fetchLocalScripts()[
-        'itowns_refine'
-      ];
+      const miniMapScript = localCtx.findLocalScriptWithID('mini_map');
+      if (miniMapScript) {
+        //add mini map
+        scriptUI.addToMapUI(
+          miniMapScript,
+          gameView.getLocalScriptModules()['ImuvConstants']
+        );
+      }
+
+      const refine = localCtx.findLocalScriptWithID('itowns_refine');
       if (refine) refine.avatar();
 
       console.warn('add avatar control');
@@ -206,16 +215,6 @@ module.exports = class AvatarController {
 
       //ROTATE
 
-      //fetch ui script
-      let scriptUI = null;
-      localCtx.getRootGameObject().traverse(function (child) {
-        const scripts = child.fetchLocalScripts();
-        if (scripts && scripts['ui']) {
-          scriptUI = scripts['ui'];
-          return true;
-        }
-      });
-
       manager.addMouseCommand(commandIdRotate, 'mousemove', function () {
         if (
           manager.getPointerLock() ||
@@ -253,6 +252,8 @@ module.exports = class AvatarController {
       manager.removeKeyCommand(commandIdLeft, ['q', 'ArrowLeft']);
       manager.removeMouseCommand(commandIdRotate, 'mousemove');
       manager.setPointerLock(false);
+
+      scriptUI.clearMapUI();
     }
 
     return true;

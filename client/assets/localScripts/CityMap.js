@@ -11,11 +11,6 @@ const CITY_MAP_SIZE = 500;
 const CITY_AVATAR_SIZE_MIN = 15;
 const CITY_AVATAR_SIZE_MAX = 25;
 const CITY_MAP_CMD_ID = 'city_map_cmd_id';
-const CLICK_MODE = {
-  DEFAULT: 0,
-  TELEPORT: 1,
-  PING: 2,
-};
 
 module.exports = class CityMap {
   constructor(conf, udvizBundle) {
@@ -23,17 +18,12 @@ module.exports = class CityMap {
     udviz = udvizBundle;
     Game = udviz.Game;
 
-    this.menuHtml = document.createElement('div');
-    this.menuHtml.classList.add('root-menu-settings');
-
-    const title = document.createElement('h1');
-    title.innerHTML = 'City Map';
-    this.menuHtml.appendChild(title);
+    this.rootHtml = document.createElement('div');
 
     this.canvas = document.createElement('canvas');
     this.canvas.width = CITY_MAP_SIZE;
     this.canvas.height = CITY_MAP_SIZE;
-    this.menuHtml.appendChild(this.canvas);
+    this.rootHtml.appendChild(this.canvas);
 
     this.imageCityMap = document.createElement('img');
 
@@ -51,45 +41,118 @@ module.exports = class CityMap {
       _this.setCurrentZoom(newZoom);
     };
 
-    //BUTTON
-    const pingButton = document.createElement('button');
-    pingButton.innerHTML = 'Ping';
-    this.menuHtml.appendChild(pingButton);
-
-    const teleportButton = document.createElement('button');
-    teleportButton.innerHTML = 'Teleportation';
-    this.menuHtml.appendChild(teleportButton);
-
-    this.clickMode = this.setClickMode(CLICK_MODE.DEFAULT);
-
-    teleportButton.onclick = function () {
-      _this.setClickMode(CLICK_MODE.TELEPORT);
-    };
-
-    pingButton.onclick = function () {
-      _this.setClickMode(CLICK_MODE.PING);
-    };
-
-    this.displayCityMap = false;
-    //ui button
-    this.uiButton = document.createElement('button');
-    this.uiButton.innerHTML = 'City Map';
-
-    this.cityMapGO = null;
-    this.cityAvatarGO = null;
+    this.displayMap = false;
 
     this.pings = [];
+
+    this.mapClickMode = null;
+  }
+
+  /**
+   * Map interface
+   * @param {*} mode
+   */
+  setClickMode(mode) {
+    this.clickMode = mode;
+
+    if (mode == this.mapClickMode.DEFAULT) {
+      this.setCursorPointer(false);
+    } else if (mode == this.mapClickMode.PING) {
+      this.setCursorPointer(true);
+    } else if (mode == this.mapClickMode.TELEPORT) {
+      this.setCursorPointer(true);
+    }
+  }
+
+  /**
+   * Map interface
+   * @param {*} value
+   */
+  setDisplayMap(value) {
+    this.displayMap = value;
+  }
+
+  /**
+   * Map interface
+   * @returns
+   */
+  getRootHtml() {
+    return this.rootHtml;
+  }
+
+  fetchUserCityAvatar(localContext) {
+    //init
+    const avatarGO = localContext
+      .getRootGameObject()
+      .find(localContext.getGameView().getUserData('avatarUUID'));
+    return avatarGO.findByName('city_avatar');
   }
 
   init() {
-    this.cityMapGO = arguments[0];
+    const cityMapGO = arguments[0];
 
     const localContext = arguments[1];
-
+    const _this = this;
+    const manager = localContext.getGameView().getInputManager();
+    const gameView = localContext.getGameView();
+    const userID = gameView.getUserData('userID');
     const ImuvConstants = localContext.getGameView().getLocalScriptModules()[
       'ImuvConstants'
     ];
+
+    this.mapClickMode = ImuvConstants.MAP_CLICK_MODE;
+
+    //init src
     this.imageCityMap.src = ImuvConstants.CITY_MAP.PATH;
+
+    manager.addMouseCommand(CITY_MAP_CMD_ID, 'click', function () {
+      const event = this.event('click');
+
+      if (event.target != _this.canvas) return null;
+      const x = event.pageX;
+      const y = event.pageY;
+
+      const rect = event.target.getBoundingClientRect();
+      const ratioX = (x - rect.left) / (rect.right - rect.left);
+      const ratioY = (y - rect.top) / (rect.bottom - rect.top);
+
+      const coord = _this.pixelToCoord(ratioX, ratioY, ImuvConstants);
+
+      const userCityAvatar = _this.fetchUserCityAvatar(localContext);
+
+      if (_this.clickMode === _this.mapClickMode.DEFAULT) {
+        //nothing
+        _this.setClickMode(_this.mapClickMode.DEFAULT);
+
+        return null;
+      } else if (_this.clickMode === _this.mapClickMode.TELEPORT) {
+        _this.setClickMode(_this.mapClickMode.DEFAULT);
+
+        const position = _this.coordToLocalPosition(coord, localContext);
+
+        return new udviz.Game.Command({
+          type: udviz.Game.Command.TYPE.TELEPORT,
+          data: {
+            position: position,
+            cityAvatarUUID: userCityAvatar.getUUID(),
+          },
+          userID: userID,
+          gameObjectUUID: cityMapGO.getUUID(),
+        });
+      } else if (_this.clickMode === _this.mapClickMode.PING) {
+        _this.setClickMode(_this.mapClickMode.DEFAULT);
+
+        return new udviz.Game.Command({
+          type: udviz.Game.Command.TYPE.PING_MINI_MAP,
+          data: {
+            coord: coord,
+            color: _this.fetchCityAvatarColor(userCityAvatar),
+          },
+          userID: userID,
+          gameObjectUUID: cityMapGO.getUUID(),
+        });
+      }
+    });
   }
 
   onOutdated() {
@@ -103,103 +166,11 @@ module.exports = class CityMap {
     });
   }
 
-  add(cityAvatarGO, localContext) {
-    this.cityAvatarGO = cityAvatarGO;
-
-    const _this = this;
-    const manager = localContext.getGameView().getInputManager();
-    const gameView = localContext.getGameView();
-    const userID = gameView.getUserData('userID');
-
-    manager.addMouseCommand(CITY_MAP_CMD_ID, 'click', function () {
-      const event = this.event('click');
-
-      if (event.target != _this.canvas) return null;
-      const x = event.pageX;
-      const y = event.pageY;
-
-      const rect = event.target.getBoundingClientRect();
-      const ratioX = (x - rect.left) / (rect.right - rect.left);
-      const ratioY = (y - rect.top) / (rect.bottom - rect.top);
-
-      const ImuvConstants = localContext.getGameView().getLocalScriptModules()[
-        'ImuvConstants'
-      ];
-      const coord = _this.pixelToCoord(ratioX, ratioY, ImuvConstants);
-
-      if (_this.clickMode === CLICK_MODE.DEFAULT) {
-        //nothing
-        _this.setClickMode(CLICK_MODE.DEFAULT);
-
-        return null;
-      } else if (_this.clickMode === CLICK_MODE.TELEPORT) {
-        _this.setClickMode(CLICK_MODE.DEFAULT);
-
-        const position = _this.coordToLocalPosition(coord, localContext);
-
-        return new udviz.Game.Command({
-          type: udviz.Game.Command.TYPE.TELEPORT,
-          data: {
-            position: position,
-            cityAvatarUUID: _this.cityAvatarGO.getUUID(),
-          },
-          userID: userID,
-          gameObjectUUID: _this.cityMapGO.getUUID(),
-        });
-      } else if (_this.clickMode === CLICK_MODE.PING) {
-        _this.setClickMode(CLICK_MODE.DEFAULT);
-
-        return new udviz.Game.Command({
-          type: udviz.Game.Command.TYPE.PING_MINI_MAP,
-          data: {
-            coord: coord,
-            color: _this.fetchCityAvatarColor(_this.cityAvatarGO),
-          },
-          userID: userID,
-          gameObjectUUID: _this.cityMapGO.getUUID(),
-        });
-      }
-    });
-
-    this.displayCityMap = false;
-    this.uiButton.onclick = function () {
-      _this.displayCityMap = !_this.displayCityMap;
-      if (_this.displayCityMap) {
-        gameView.appendToUI(_this.menuHtml);
-      } else {
-        _this.menuHtml.remove();
-      }
-    };
-    gameView.appendToUI(this.uiButton);
-  }
-
-  remove(localContext) {
-    //html
-    this.uiButton.remove();
-    this.menuHtml.remove();
-
-    //listener
-    const manager = localContext.getGameView().getInputManager();
-    manager.removeMouseCommand(CITY_MAP_CMD_ID, 'click');
-  }
-
   setCursorPointer(value) {
     if (value) {
       this.canvas.style.cursor = 'pointer';
     } else {
       this.canvas.style.cursor = 'auto';
-    }
-  }
-
-  setClickMode(mode) {
-    this.clickMode = mode;
-
-    if (mode == CLICK_MODE.DEFAULT) {
-      this.setCursorPointer(false);
-    } else if (mode == CLICK_MODE.PING) {
-      this.setCursorPointer(true);
-    } else if (mode == CLICK_MODE.TELEPORT) {
-      this.setCursorPointer(true);
     }
   }
 
@@ -256,7 +227,9 @@ module.exports = class CityMap {
       .forward(coord);
 
     //compute local
-    const wTParent = this.cityAvatarGO.getParent().computeWorldTransform();
+    const wTParent = this.fetchUserCityAvatar(localContext)
+      .getParent()
+      .computeWorldTransform();
     const ref = localContext.getGameView().getObject3D().position;
 
     return {
@@ -266,7 +239,7 @@ module.exports = class CityMap {
   }
 
   tick() {
-    if (this.displayCityMap) {
+    if (this.displayMap) {
       this.drawCityMap(arguments[1]);
     }
   }
@@ -311,9 +284,10 @@ module.exports = class CityMap {
       Math.min(this.imageCityMap.width, this.imageCityMap.height) *
       this.currentZoom;
 
-    //compute lng lat of this.cityAvatar
+    //compute lng lat of user city avatar
+    const userCityAvatar = this.fetchUserCityAvatar(localContext);
     const [lng, lat, rotation] = this.cityAvatarToGeoData(
-      this.cityAvatarGO,
+      userCityAvatar,
       localContext.getGameView()
     );
 
@@ -404,10 +378,10 @@ module.exports = class CityMap {
     };
 
     //draw all city avatar
-    this.cityMapGO.computeRoot().traverse(function (child) {
+    localContext.getRootGameObject().traverse(function (child) {
       const ls = child.fetchLocalScripts();
       if (ls && ls['city_avatar']) {
-        if (child == _this.cityAvatarGO) {
+        if (child == userCityAvatar) {
           drawCityAvatar(child, userAvatarSize);
         } else {
           drawCityAvatar(child, CITY_AVATAR_SIZE_MIN);
@@ -454,6 +428,7 @@ class Ping {
     //draw context2D
     const radius = (this.maxSize * this.currentTime) / this.duration;
     context2D.beginPath();
+    context2D.lineWidth = 3;
     context2D.strokeStyle = this.color;
     context2D.arc(x, y, radius, 0, 2 * Math.PI);
     context2D.stroke();

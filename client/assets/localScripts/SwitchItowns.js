@@ -34,19 +34,12 @@ module.exports = class SwitchItowns {
     const manager = gameView.getInputManager();
     const Routine = Game.Components.Routine;
 
-    const rootGO = localCtx.getRootGameObject();
-    const cameraScript = rootGO.fetchLocalScripts()['camera'];
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    const cameraScript = localCtx.findLocalScriptWithID('camera');
+    const avatarController =
+      localCtx.findLocalScriptWithID('avatar_controller');
 
     //fetch ui script
-    let scriptUI = null;
-    rootGO.traverse(function (child) {
-      const scripts = child.fetchLocalScripts();
-      if (scripts && scripts['ui']) {
-        scriptUI = scripts['ui'];
-        return true;
-      }
-    });
+    const scriptUI = localCtx.findLocalScriptWithID('ui');
 
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
@@ -55,12 +48,10 @@ module.exports = class SwitchItowns {
         if (cameraScript.hasRoutine()) return; //already routine
 
         let onZeppelin = false;
-        const zeppelinStart = rootGO.findByName('ZeppelinStart');
-        if (zeppelinStart) {
-          const scriptZeppelinStart =
-            zeppelinStart.fetchLocalScripts()['zeppelin_start'];
+        const scriptZeppelinStart =
+          localCtx.findLocalScriptWithID('zeppelin_start');
+        if (scriptZeppelinStart)
           onZeppelin = scriptZeppelinStart.getOnZeppelinInteraction();
-        }
 
         if (onZeppelin) return; //cant itowns while zeppelin
 
@@ -165,9 +156,7 @@ module.exports = class SwitchItowns {
                 view.controls.zoomOutFactor =
                   1 / scriptUI.getMenuSettings().getZoomFactorValue();
 
-                const refine = localCtx.getRootGameObject().fetchLocalScripts()[
-                  'itowns_refine'
-                ];
+                const refine = localCtx.findLocalScriptWithID('itowns_refine');
                 if (refine) refine.itownsControls();
 
                 gameView.getItownsView().notifyChange(gameView.getCamera());

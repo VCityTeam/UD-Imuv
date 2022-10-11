@@ -22,6 +22,9 @@ module.exports = class UI {
 
     //contextual menu
     this.toolsContextualMenu = new ToolsContextualMenu();
+
+    //map ui
+    this.mapUI = new MapUI();
   }
 
   getMenuSettings() {
@@ -183,6 +186,9 @@ module.exports = class UI {
 
     //contextual
     gameView.appendToUI(this.toolsContextualMenu.html());
+
+    //mapUI
+    gameView.appendToUI(this.mapUI.html());
   }
 
   /**
@@ -193,7 +199,7 @@ module.exports = class UI {
     icon.src = pathIcon;
     icon.title = title;
 
-    this.toolsBar.addIcon(icon, promiseFunction, menuContextual);
+    this.toolsBar.addIcon(icon);
 
     let toolEnabled = false;
     const toolsContextualMenu = this.toolsContextualMenu;
@@ -211,6 +217,14 @@ module.exports = class UI {
         }
       });
     };
+  }
+
+  addToMapUI(scriptMap, ImuvConstants) {
+    this.mapUI.add(scriptMap, ImuvConstants);
+  }
+
+  clearMapUI() {
+    this.mapUI.clear();
   }
 
   tick() {
@@ -618,7 +632,7 @@ class ToolsContextualMenu {
 
     function getCSSTransitionDuration(element, ms = true) {
       return (
-        parseFloat(window.getComputedStyle(element).transitionDuration) *
+        parseFloat(getComputedStyle(element).transitionDuration) *
         (ms ? 1000 : 1)
       );
     }
@@ -626,5 +640,107 @@ class ToolsContextualMenu {
     setTimeout(function () {
       menu.dispose();
     }, getCSSTransitionDuration(this.rootHtml));
+  }
+}
+
+const MAP_MINIZE_SCALE = 0.5;
+
+class MapUI {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('mapUI');
+
+    this.minimized = null;
+    this.setMinimized(true);
+
+    this.currentMapScript = null;
+  }
+
+  setMinimized(value) {
+    this.minimized = value;
+
+    if (value) {
+      this.rootHtml.style.transform =
+        'scale(' +
+        MAP_MINIZE_SCALE +
+        ') translate(' +
+        MAP_MINIZE_SCALE * 100 +
+        '%,' +
+        -MAP_MINIZE_SCALE * 100 +
+        '%)';
+    } else {
+      this.rootHtml.style.transform = 'initial';
+    }
+  }
+
+  add(scriptMap, ImuvConstants) {
+    this.currentMapScript = scriptMap;
+
+    //Map interface
+    this.rootHtml.appendChild(scriptMap.getRootHtml());
+    scriptMap.setDisplayMap(true);
+
+    //add button
+    const minimizeTitle = 'Réduire';
+    const minimizeSrc = './assets/img/ui/icon_minimize.png';
+    const maximizeTitle = 'Agrandir';
+    const maximizeSrc = './assets/img/ui/icon_maximize.png';
+
+    const scaleButton = document.createElement('img');
+    if (!this.minimized) {
+      scaleButton.title = minimizeTitle;
+      scaleButton.src = minimizeSrc;
+    } else {
+      scaleButton.title = maximizeTitle;
+      scaleButton.src = maximizeSrc;
+    }
+    scaleButton.classList.add('map_button');
+    this.rootHtml.appendChild(scaleButton);
+
+    const _this = this;
+    scaleButton.onclick = function () {
+      _this.setMinimized(!_this.minimized);
+      if (!_this.minimized) {
+        scaleButton.title = minimizeTitle;
+        scaleButton.src = minimizeSrc;
+      } else {
+        scaleButton.title = maximizeTitle;
+        scaleButton.src = maximizeSrc;
+      }
+    };
+
+    const teleportButton = document.createElement('img');
+    teleportButton.title = 'Teleportation';
+    teleportButton.src = './assets/img/ui/icon_teleport_white.png';
+    teleportButton.classList.add('map_button');
+    this.rootHtml.appendChild(teleportButton);
+
+    teleportButton.onclick = function () {
+      scriptMap.setClickMode(ImuvConstants.MAP_CLICK_MODE.TELEPORT);
+    };
+
+    const pingButton = document.createElement('img');
+    pingButton.title = 'Ping';
+    pingButton.src = './assets/img/ui/icon_ping.png';
+    pingButton.classList.add('map_button');
+    this.rootHtml.appendChild(pingButton);
+
+    pingButton.onclick = function () {
+      scriptMap.setClickMode(ImuvConstants.MAP_CLICK_MODE.PING);
+    };
+  }
+
+  clear() {
+    while (this.rootHtml.firstChild) {
+      this.rootHtml.firstChild.remove();
+    }
+
+    //no display for old script map
+    this.currentMapScript.setDisplayMap(false);
+    this.currentMapScript = null;
+  }
+
+  html() {
+    return this.rootHtml;
   }
 }

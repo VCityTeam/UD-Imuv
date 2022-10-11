@@ -23,10 +23,10 @@ module.exports = class CameraTour {
     const go = arguments[0];
     const localContext = arguments[1];
     const gameView = localContext.getGameView();
-    const rootGO = localContext.getRootGameObject();
-    const avatarController = rootGO.fetchLocalScripts()['avatar_controller'];
+    const avatarController =
+      localContext.findLocalScriptWithID('avatar_controller');
     const camera = localContext.getGameView().getCamera();
-    const cameraScript = rootGO.fetchLocalScripts()['camera'];
+    const cameraScript = localContext.findLocalScriptWithID('camera');
     const Routine = Game.Components.Routine;
     const _this = this;
 
@@ -41,8 +41,8 @@ module.exports = class CameraTour {
 
       if (_this.menuTour) {
         let currentTime = 0;
-        let startPos = camera.position.clone();
-        let startQuat = camera.quaternion.clone();
+        const startPos = camera.position.clone();
+        const startQuat = camera.quaternion.clone();
 
         cameraScript.addRoutine(
           new Routine(
@@ -168,15 +168,14 @@ class MenuTour {
       return false;
     }
 
-    const rootGO = localContext.getRootGameObject();
     const camera = localContext.getGameView().getCamera();
-    const cameraScript = rootGO.fetchLocalScripts()['camera'];
+    const cameraScript = localContext.findLocalScriptWithID('camera');
     const Routine = Game.Components.Routine;
     const _this = this;
 
     let currentTime = 0;
-    let startPos = camera.position.clone();
-    let startQuat = camera.quaternion.clone();
+    const startPos = camera.position.clone();
+    const startQuat = camera.quaternion.clone();
     const destPos = new Game.THREE.Vector3().fromArray(
       conf.camera_transforms[this.currentIndex].position
     );
