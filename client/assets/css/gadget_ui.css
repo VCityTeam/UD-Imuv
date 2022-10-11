@@ -1,0 +1,16 @@
+.root_gadget {
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 2;
+}
+
+.root_gadget img {
+  background-color: var(--imuv-color-one);
+  padding: 2px;
+}
+
+.root_gadget img:hover {
+  cursor: pointer;
+  background-color: var(--imuv-color-three);
+}

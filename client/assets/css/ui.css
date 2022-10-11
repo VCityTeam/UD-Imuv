@@ -146,3 +146,9 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
 }
+
+.root_debug {
+  position: fixed;
+  top: 60px;
+  z-index: 2;
+}

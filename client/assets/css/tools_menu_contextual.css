@@ -4,4 +4,5 @@
   transform: translate(-100%, -50%);
   position: fixed;
   transition: 1s;
+  z-index: 2;
 }

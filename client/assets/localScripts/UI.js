@@ -8,14 +8,11 @@ module.exports = class UI {
 
     udviz = udvizBundle;
 
-    //-------------------------------------------------------WIP
-    this.menuButton = null;
+    //menu settings
     this.menuSettings = null;
-    this.menuAvatarButton = null;
-    //-------------------------------------------------------WIP
 
     //display debug info
-    this.debugInfo = null;
+    this.debugInfo = new DebugInfo();
 
     //toolsbar ui
     this.toolsBar = new ToolsBar();
@@ -25,6 +22,9 @@ module.exports = class UI {
 
     //map ui
     this.mapUI = new MapUI();
+
+    //gadget
+    this.gadgetUI = new GadgetUI();
   }
 
   getMenuSettings() {
@@ -36,150 +36,7 @@ module.exports = class UI {
     const localCtx = arguments[1];
     const gameView = localCtx.getGameView();
 
-    //-------------------------------------------------------WIP
-    const menuSettings = new MenuSettings(localCtx);
-    this.menuSettings = menuSettings;
-
-    this.menuButton = document.createElement('button');
-    this.menuButton.classList.add('button-imuv');
-    this.menuButton.innerHTML = 'Paramètres';
-    this.menuButton.onclick = function () {
-      if (!menuSettings.html().parentNode) {
-        gameView.appendToUI(menuSettings.html());
-      } else {
-        menuSettings.dispose();
-      }
-    };
-    gameView.appendToUI(this.menuButton);
-
-    //MENU AVATAR
-    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
-    const role = gameView.getUserData('role');
-    if (
-      role == ImuvConstants.USER.ROLE.ADMIN ||
-      role == ImuvConstants.USER.ROLE.DEFAULT
-    ) {
-      this.menuAvatarButton = document.createElement('button');
-      this.menuAvatarButton.classList.add('button-imuv');
-      this.menuAvatarButton.innerHTML = 'Menu Avatar';
-      this.menuAvatarButton.onclick = function () {
-        //pause gameview
-        gameView.setIsRendering(false);
-        gameView.getInputManager().setPause(true);
-
-        //register
-        const parentHtml = gameView.html().parentNode;
-
-        //remove html
-        gameView.html().remove();
-
-        //create world
-        const menuAvatarWorld = new udviz.Game.World({
-          name: 'Menu Avatar',
-          gameObject: {
-            name: 'MenuAvatar',
-            static: true,
-            components: {
-              LocalScript: {
-                conf: {},
-                idScripts: ['menu_avatar'],
-              },
-            },
-          },
-        });
-
-        //launch menu avatar
-        udviz.Components.SystemUtils.File.loadJSON(
-          './assets/config/config_game.json'
-        ).then(function (config) {
-          const app = new udviz.Templates.LocalGame();
-          app
-            .startWithAssetsLoaded(
-              menuAvatarWorld,
-              gameView.getAssetsManager(),
-              config,
-              {
-                htmlParent: parentHtml,
-                // userData: { avatarUUID: avatar.getUUID(), editorMode: true },
-                localScriptModules: { ImuvConstants: ImuvConstants },
-              }
-            )
-            .then(function () {
-              const menuAvatarGameView = app.getGameView();
-
-              //tweak websocketservice
-              console.log('TWEAK WS');
-              menuAvatarGameView
-                .getLocalContext()
-                .setWebSocketService(localCtx.getWebSocketService());
-
-              const closeButton = document.createElement('button');
-              closeButton.classList.add('button-imuv');
-              closeButton.innerHTML = 'Fermer';
-              closeButton.onclick = function () {
-                menuAvatarGameView.dispose(); //remove menu avatar
-
-                //unpause gameview
-                gameView.setIsRendering(true);
-                gameView.getInputManager().setPause(false);
-
-                //add html
-                parentHtml.appendChild(gameView.html());
-              };
-
-              menuAvatarGameView.appendToUI(closeButton);
-            });
-        });
-      };
-      gameView.appendToUI(this.menuAvatarButton);
-    }
-
-    //URL LINK TELEPORT
-    const urlTeleportLink = document.createElement('button');
-    urlTeleportLink.classList.add('button-imuv');
-    urlTeleportLink.innerHTML = 'Copier Lien';
-    gameView.appendToUI(urlTeleportLink);
-
-    urlTeleportLink.onclick = function () {
-      //get params event
-      const avatarGO = go
-        .computeRoot()
-        .find(gameView.getUserData('avatarUUID'));
-
-      const position = avatarGO.getPosition().toArray();
-      const rotation = avatarGO.getRotation().toArray();
-      const worldUUID = gameView.getLastState().getWorldUUID();
-
-      const urlEvent = ImuvConstants.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
-      const url = new URL(window.location.origin + window.location.pathname);
-
-      url.searchParams.append(
-        encodeURI(ImuvConstants.URL_PARAMETER.ID_KEY),
-        encodeURIComponent(urlEvent.ID_VALUE)
-      );
-      url.searchParams.append(
-        encodeURI(urlEvent.PARAMS_KEY.POSITION),
-        encodeURIComponent(position)
-      );
-      url.searchParams.append(
-        encodeURI(urlEvent.PARAMS_KEY.ROTATION),
-        encodeURIComponent(rotation)
-      );
-      url.searchParams.append(
-        encodeURI(urlEvent.PARAMS_KEY.WORLDUUID),
-        encodeURIComponent(worldUUID)
-      );
-
-      //put it in clipboard
-      navigator.clipboard.writeText(url);
-    };
-    //-------------------------------------------------------WIP
-
-    //Debug Info
-    if (__DEBUG__) {
-      this.debugInfo = new DebugInfo();
-      gameView.appendToUI(this.debugInfo.html());
-    }
+    //FILL UI WITH CONTAINER
 
     //Toolsbar
     gameView.appendToUI(this.toolsBar.html());
@@ -189,6 +46,191 @@ module.exports = class UI {
 
     //mapUI
     gameView.appendToUI(this.mapUI.html());
+
+    //gadget ui
+    gameView.appendToUI(this.gadgetUI.html());
+
+    //Debug Info
+    if (__DEBUG__) {
+      gameView.appendToUI(this.debugInfo.html());
+    }
+
+    //Gadget Menu Settings
+    const menuSettings = new MenuSettings(localCtx);
+    this.menuSettings = menuSettings; //ref to be access from other scripts
+
+    // this.gadgetUI.addGadget(
+    //   './assets/img/ui/icon_settings.png',
+    //   'Paramètres',
+    //   function () {
+    //     if (!menuSettings.html().parentNode) {
+    //       gameView.appendToUI(menuSettings.html());
+    //     } else {
+    //       menuSettings.dispose();
+    //     }
+    //   }
+    // );
+
+    //Gadget Link URL
+    this.gadgetUI.addGadget(
+      './assets/img/ui/icon_link.png',
+      'Copier Lien',
+      function () {
+        //get params event
+        const avatarGO = go
+          .computeRoot()
+          .find(gameView.getUserData('avatarUUID'));
+
+        const position = avatarGO.getPosition().toArray();
+        const rotation = avatarGO.getRotation().toArray();
+        const worldUUID = gameView.getLastState().getWorldUUID();
+
+        const urlEvent =
+          ImuvConstants.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
+        const url = new URL(window.location.origin + window.location.pathname);
+
+        url.searchParams.append(
+          encodeURI(ImuvConstants.URL_PARAMETER.ID_KEY),
+          encodeURIComponent(urlEvent.ID_VALUE)
+        );
+        url.searchParams.append(
+          encodeURI(urlEvent.PARAMS_KEY.POSITION),
+          encodeURIComponent(position)
+        );
+        url.searchParams.append(
+          encodeURI(urlEvent.PARAMS_KEY.ROTATION),
+          encodeURIComponent(rotation)
+        );
+        url.searchParams.append(
+          encodeURI(urlEvent.PARAMS_KEY.WORLDUUID),
+          encodeURIComponent(worldUUID)
+        );
+
+        //put it in clipboard
+        navigator.clipboard.writeText(url);
+      }
+    );
+
+    //Gadget menu avatar
+    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
+    const role = gameView.getUserData('role');
+    if (
+      role == ImuvConstants.USER.ROLE.ADMIN ||
+      role == ImuvConstants.USER.ROLE.DEFAULT
+    ) {
+      this.gadgetUI.addGadget(
+        './assets/img/ui/icon_menu_avatar.png',
+        'Menu Avatar',
+        function () {
+          //pause gameview
+          gameView.setIsRendering(false);
+          gameView.getInputManager().setPause(true);
+
+          //register
+          const parentHtml = gameView.html().parentNode;
+
+          //remove html
+          gameView.html().remove();
+
+          //create world
+          const menuAvatarWorld = new udviz.Game.World({
+            name: 'Menu Avatar',
+            gameObject: {
+              name: 'MenuAvatar',
+              static: true,
+              components: {
+                LocalScript: {
+                  conf: {},
+                  idScripts: ['menu_avatar'],
+                },
+              },
+            },
+          });
+
+          //launch menu avatar
+          udviz.Components.SystemUtils.File.loadJSON(
+            './assets/config/config_game.json'
+          ).then(function (config) {
+            const app = new udviz.Templates.LocalGame();
+            app
+              .startWithAssetsLoaded(
+                menuAvatarWorld,
+                gameView.getAssetsManager(),
+                config,
+                {
+                  htmlParent: parentHtml,
+                  localScriptModules: { ImuvConstants: ImuvConstants },
+                }
+              )
+              .then(function () {
+                const menuAvatarGameView = app.getGameView();
+
+                //tweak websocketservice
+                menuAvatarGameView
+                  .getLocalContext()
+                  .setWebSocketService(localCtx.getWebSocketService());
+
+                const closeButton = document.createElement('button');
+                closeButton.classList.add('button-imuv');
+                closeButton.innerHTML = 'Fermer';
+                closeButton.onclick = function () {
+                  menuAvatarGameView.dispose(); //remove menu avatar
+
+                  //unpause gameview
+                  gameView.setIsRendering(true);
+                  gameView.getInputManager().setPause(false);
+
+                  //add html
+                  parentHtml.appendChild(gameView.html());
+                };
+
+                //make it accessible in menuavatar localscript
+                menuAvatarGameView.writeUserData('close_button', closeButton);
+              });
+          });
+        }
+      );
+    }
+
+    //Gadget fullscreen
+    this.gadgetUI.addGadget(
+      './assets/img/ui/icon_settings.png',
+      '',
+      function () {
+        //toggle fullscreen
+
+        const elem = document.documentElement;
+        function openFullscreen() {
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) {
+            /* Safari */
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            /* IE11 */
+            elem.msRequestFullscreen();
+          }
+        }
+
+        function closeFullscreen() {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            /* Safari */
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            /* IE11 */
+            document.msExitFullscreen();
+          }
+        }
+
+        if (!document.fullscreenElement) {
+          openFullscreen();
+        } else {
+          closeFullscreen();
+        }
+      }
+    );
   }
 
   /**
@@ -237,6 +279,7 @@ module.exports = class UI {
 class DebugInfo {
   constructor() {
     this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root_debug');
 
     this.gameViewFps = document.createElement('div');
     this.gameViewFps.classList.add('label_controller');
@@ -736,8 +779,30 @@ class MapUI {
     }
 
     //no display for old script map
-    this.currentMapScript.setDisplayMap(false);
-    this.currentMapScript = null;
+    if (this.currentMapScript) {
+      this.currentMapScript.setDisplayMap(false);
+      this.currentMapScript = null;
+    }
+  }
+
+  html() {
+    return this.rootHtml;
+  }
+}
+
+class GadgetUI {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root_gadget');
+  }
+
+  addGadget(path, title, cb) {
+    const icon = document.createElement('img');
+    icon.src = path;
+    icon.title = title;
+    icon.onclick = cb;
+
+    this.rootHtml.appendChild(icon);
   }
 
   html() {

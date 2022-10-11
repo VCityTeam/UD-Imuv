@@ -54,6 +54,9 @@ const texts = {
       'Fond de carte Lyon : <a href="https://fr.wikipedia.org/wiki/Fichier:Lyon_et_ses_arrondissements_map.svg">Wikimedia</a>',
       '<a href="https://www.flaticon.com/free-icons/town" title="town icons">Town icons created by Eucalyp - Flaticon</a>',
       '<a href="https://www.flaticon.com/fr/icones-gratuites/teleporter" title="téléporter icônes">Téléporter icônes créées par Freepik - Flaticon</a>',
+      '<a href="https://www.flaticon.com/fr/icones-gratuites/roue-dentee" title="roue dentée icônes">Roue dentée icônes créées par Saepul Nahwan - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/chain" title="chain icons">Chain icons created by Creaticca Creative Agency - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>',
     ],
 
     //Sign
@@ -108,6 +111,9 @@ const texts = {
       'Background map of Lyon : <a href="https://fr.wikipedia.org/wiki/Fichier:Lyon_et_ses_arrondissements_map.svg">Wikimedia</a>',
       '<a href="https://www.flaticon.com/free-icons/town" title="town icons">Town icons created by Eucalyp - Flaticon</a>',
       '<a href="https://www.flaticon.com/fr/icones-gratuites/teleporter" title="téléporter icônes">Téléporter icônes créées par Freepik - Flaticon</a>',
+      '<a href="https://www.flaticon.com/fr/icones-gratuites/roue-dentee" title="roue dentée icônes">Roue dentée icônes créées par Saepul Nahwan - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/chain" title="chain icons">Chain icons created by Creaticca Creative Agency - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>',
     ],
 
     //Sign
