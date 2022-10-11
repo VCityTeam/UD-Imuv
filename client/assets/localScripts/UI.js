@@ -194,7 +194,7 @@ module.exports = class UI {
 
     //Gadget fullscreen
     this.gadgetUI.addGadget(
-      './assets/img/ui/icon_settings.png',
+      './assets/img/ui/icon_fullscreen.png',
       '',
       function () {
         //toggle fullscreen
