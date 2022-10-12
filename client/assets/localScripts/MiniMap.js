@@ -547,6 +547,15 @@ module.exports = class MiniMap {
         this.pings.splice(i, 1);
       }
     }
+
+    //feedbacks clickable
+    if (this.canvasMiniMap.style.cursor == 'pointer') {
+      const brightnessValue =
+        120 + (150 - 120) * Math.abs(Math.cos(this.currentDT));
+      destCtx.filter = 'brightness(' + brightnessValue + '%)';
+    } else {
+      destCtx.filter = 'brightness(100%)';
+    }
   }
 
   /**

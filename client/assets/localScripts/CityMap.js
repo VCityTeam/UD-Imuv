@@ -405,6 +405,15 @@ module.exports = class CityMap {
         this.pings.splice(i, 1);
       }
     }
+
+    //feedbacks clickable
+    if (this.canvas.style.cursor == 'pointer') {
+      const brightnessValue =
+        100 + (120 - 100) * Math.abs(Math.cos(this.currentDt));
+      ctx.filter = 'brightness(' + brightnessValue + '%)';
+    } else {
+      ctx.filter = 'brightness(100%)';
+    }
   }
 };
 
