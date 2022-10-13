@@ -92,7 +92,21 @@ module.exports = class UI {
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_link.png',
       'Copier Lien',
-      function () {
+      function (event) {
+        const iconImg = event.target;
+        if (iconImg.disable) return;
+        iconImg.disable = true;
+        const cloneImg = event.target.cloneNode(true);
+        iconImg.src = './assets/img/ui/icon_copy.png';
+        iconImg.style.backgroundColor = 'var(--imuv-color-four)';
+
+        const interval = setInterval(function () {
+          iconImg.src = cloneImg.src;
+          iconImg.style.backgroundColor = cloneImg.style.backgroundColor;
+          iconImg.disable = cloneImg.disable;
+          clearInterval(interval);
+        }, 1000);
+
         //get params event
         const avatarGO = go
           .computeRoot()
