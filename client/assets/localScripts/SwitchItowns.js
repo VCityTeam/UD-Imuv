@@ -44,8 +44,11 @@ module.exports = class SwitchItowns {
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
-      const promiseFunction = function (resolve) {
-        if (cameraScript.hasRoutine()) return; //already routine
+      const promiseFunction = function (resolve, reject, toolEnabled) {
+        if (cameraScript.hasRoutine()) {
+          resolve(false); //already routine
+          return;
+        }
 
         let onZeppelin = false;
         const scriptZeppelinStart =
@@ -53,7 +56,10 @@ module.exports = class SwitchItowns {
         if (scriptZeppelinStart)
           onZeppelin = scriptZeppelinStart.getOnZeppelinInteraction();
 
-        if (onZeppelin) return; //cant itowns while zeppelin
+        if (onZeppelin) {
+          resolve(false); //cant itowns while zeppelin
+          return;
+        }
 
         const duration = 2000;
         let currentTime = 0;
@@ -61,7 +67,7 @@ module.exports = class SwitchItowns {
         const startPos = camera.position.clone();
         const startQuat = camera.quaternion.clone();
 
-        if (gameView.isItownsRendering()) {
+        if (toolEnabled) {
           //record
           _this.itownsCamPos.set(
             camera.position.x,
@@ -96,7 +102,7 @@ module.exports = class SwitchItowns {
               function () {
                 avatarController.setAvatarControllerMode(true, localCtx);
 
-                resolve();
+                resolve(true);
               }
             )
           );
@@ -161,29 +167,30 @@ module.exports = class SwitchItowns {
 
                 gameView.getItownsView().notifyChange(gameView.getCamera());
 
-                resolve();
+                resolve(true);
               }
             )
           );
         }
       };
 
-      const menuWidgets = new MenuWidgets(localCtx);
+      const menuItowns = new MenuItowns(localCtx);
 
       scriptUI.addTool(
         './assets/img/ui/icon_town_white.png',
         'Vue itowns',
         promiseFunction,
-        menuWidgets
+        menuItowns
       );
     }
   }
 };
 
-class MenuWidgets {
+class MenuItowns {
   constructor(localCtx) {
     this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root-menu-settings');
+    this.rootHtml.classList.add('root_menu_itowns');
+    this.rootHtml.classList.add('contextual_menu');
 
     const title = document.createElement('h1');
     title.innerHTML = 'Widgets';
