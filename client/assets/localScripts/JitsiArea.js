@@ -74,7 +74,8 @@ module.exports = class JitsiArea {
     const url = new URL(ImuvConstants.JITSI.PUBLIC_URL);
     const api = new JitsiIframeAPI(url.host + url.pathname, options);
 
-    localCtx.getGameView().appendToUI(divJitsi);
+    const scriptUI = localCtx.findLocalScriptWithID('ui');
+    scriptUI.addSocialIframe(divJitsi);
 
     this.divJitsi = divJitsi;
   }
@@ -94,7 +95,9 @@ module.exports = class JitsiArea {
 
   onLeave() {
     if (this.divJitsi) {
-      this.divJitsi.remove();
+      const localCtx = arguments[1];
+      const scriptUI = localCtx.findLocalScriptWithID('ui');
+      scriptUI.removeSocialIframe();
       this.divJitsi = null;
     }
   }
