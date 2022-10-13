@@ -199,7 +199,7 @@ module.exports = class Camera {
 };
 
 //focus
-const CAMERA_ANGLE = Math.PI / 12;
+const CAMERA_ANGLE = Math.PI / 20;
 const THIRD_PERSON_FOV = 60;
 
 class Focus {
