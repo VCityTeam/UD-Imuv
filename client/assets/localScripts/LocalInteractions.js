@@ -8,13 +8,6 @@ module.exports = class LocalInteractions {
     ///attr
     this.tickIsColliding = null;
     this.localScripts = null;
-
-    //html
-    this.interactionLabel = document.createElement('div');
-    this.interactionLabel.classList.add('middle_screen_label');
-    this.interactionLabel.innerHTML =
-      this.conf['label_interaction'] || 'Appuyez sur E pour intéragir';
-    this.interactionLabel.classList.add('hidden');
   }
 
   init() {
@@ -24,29 +17,30 @@ module.exports = class LocalInteractions {
     const indexThis = this.localScripts.indexOf(this);
     this.localScripts.splice(indexThis, 1);
     this.initInputs(localCtx);
-
-    //append can interact info html to gv ui
-    localCtx.getGameView().appendToUI(this.interactionLabel);
   }
 
   tick() {
+    const go = arguments[0];
+
     if (this.tickIsColliding) {
       this.tickIsColliding();
     }
     const localCtx = arguments[1];
-    const _this = this;
     let canInteract = false;
     for (let index = 0; index < this.localScripts.length; index++) {
       const ls = this.localScripts[index];
-      if (_this.canInteract(localCtx, ls)) {
+      if (this.canInteract(localCtx, ls)) {
         canInteract = true;
         break;
       }
     }
+
+    const scriptUI = localCtx.findLocalScriptWithID('ui');
+    const labelInfo = scriptUI.getLabelInfo();
     if (canInteract) {
-      this.interactionLabel.classList.remove('hidden');
+      labelInfo.writeLabel(go.getUUID(), this.conf.label_interaction || 'E');
     } else {
-      this.interactionLabel.classList.add('hidden');
+      labelInfo.clear(go.getUUID());
     }
   }
 

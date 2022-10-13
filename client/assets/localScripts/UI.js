@@ -28,6 +28,9 @@ module.exports = class UI {
 
     //social ui
     this.socialUI = new SocialUI();
+
+    //label info
+    this.labelInfo = new LabelInfo();
   }
 
   getMenuSettings() {
@@ -55,6 +58,9 @@ module.exports = class UI {
 
     //social ui
     gameView.appendToUI(this.socialUI.html());
+
+    //label info
+    gameView.appendToUI(this.labelInfo.html());
 
     //Debug Info
     if (__DEBUG__) {
@@ -281,6 +287,10 @@ module.exports = class UI {
 
   removeSocialIframe() {
     this.socialUI.clear();
+  }
+
+  getLabelInfo() {
+    return this.labelInfo;
   }
 
   tick() {
@@ -892,5 +902,34 @@ class SocialUI {
     while (this.rootHtml.firstChild) {
       this.rootHtml.firstChild.remove();
     }
+  }
+}
+
+class LabelInfo {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root_label_info');
+
+    this.currentID = null;
+    this.rootHtml.classList.add('hidden');
+  }
+
+  writeLabel(id, label) {
+    this.currentID = id;
+
+    this.rootHtml.innerHTML = label;
+    this.rootHtml.classList.remove('hidden');
+  }
+
+  clear(id) {
+    if (id == this.currentID) {
+      this.currentID = null;
+      this.rootHtml.innerHTML = '';
+      this.rootHtml.classList.add('hidden');
+    }
+  }
+
+  html() {
+    return this.rootHtml;
   }
 }
