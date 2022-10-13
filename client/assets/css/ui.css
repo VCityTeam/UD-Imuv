@@ -49,6 +49,7 @@
   left: 0;
   background-color: #0000004d;
   backdrop-filter: blur(6px);
+  z-index: 3;
 }
 
 .popup_descr {
@@ -170,4 +171,18 @@
   z-index: 2;
   background-color: var(--imuv-color-two);
   display: grid;
+}
+
+.close_cross {
+  background-color: red;
+  -webkit-mask-image: url(./assets/img/ui/icon_close.png);
+  mask-image: url(./assets/images/close.png);
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  height: 40px;
+  width: 40px;
 }
