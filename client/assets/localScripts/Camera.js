@@ -169,6 +169,7 @@ module.exports = class Camera {
     );
 
     //routines are prior
+    const distanceAvatar = 5;
     if (this.hasRoutine()) {
       const currentRoutine = this.routines[0];
       const finished = currentRoutine.tick(localCtx.getDt());
@@ -177,14 +178,14 @@ module.exports = class Camera {
         this.routines.shift(); //remove
       }
     } else if (cityAvatar) {
-      this.focusTarget(localCtx, cityAvatar, 3);
+      this.focusTarget(localCtx, cityAvatar, distanceAvatar);
     } else if (avatarController.getAvatarControllerMode()) {
-      this.focusTarget(localCtx, this.avatarGO, 3);
+      this.focusTarget(localCtx, this.avatarGO, distanceAvatar);
     } else if (
       zeppelinController &&
       zeppelinController.getZeppelinControllerMode()
     ) {
-      this.focusTarget(localCtx, this.zeppelinGO, 30);
+      this.focusTarget(localCtx, this.zeppelinGO, 40);
     }
   }
 
