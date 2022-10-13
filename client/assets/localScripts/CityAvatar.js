@@ -14,10 +14,6 @@ module.exports = class CityAvatar {
     Game = udviz.Game;
 
     this.go = null;
-
-    this.labelInfo = document.createElement('div');
-    this.labelInfo.classList.add('middle_screen_label');
-    this.labelInfo.innerHTML = "Appuyez sur E pour revenir sur l'île";
   }
 
   init() {
@@ -110,7 +106,7 @@ module.exports = class CityAvatar {
         localContext.getGameView().getLocalScriptModules()['ImuvConstants']
       );
 
-      localContext.getGameView().appendToUI(this.labelInfo);
+      scriptUI.getLabelInfo().writeLabel(goUUID, 'E');
 
       //FORWARD
       inputManager.addKeyCommand(
@@ -211,8 +207,6 @@ module.exports = class CityAvatar {
     } else {
       console.warn('remove city avatar command');
 
-      this.labelInfo.remove();
-
       inputManager.removeKeyCommand(commandIdForward, ['z', 'ArrowUp']);
       inputManager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
       inputManager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
@@ -222,6 +216,7 @@ module.exports = class CityAvatar {
       inputManager.setPointerLock(false);
 
       scriptUI.clearMapUI();
+      scriptUI.getLabelInfo().clear(goUUID);
     }
   }
 
