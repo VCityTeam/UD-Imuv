@@ -44,7 +44,9 @@ module.exports = class SwitchItowns {
     //SWITCH CONTROLS
     const view = gameView.getItownsView();
     if (view) {
-      const promiseFunction = function (resolve, reject, toolEnabled) {
+      const promiseFunction = function (resolve, reject, onClose) {
+        console.log('switch function', onClose);
+
         if (cameraScript.hasRoutine()) {
           resolve(false); //already routine
           return;
@@ -67,7 +69,7 @@ module.exports = class SwitchItowns {
         const startPos = camera.position.clone();
         const startQuat = camera.quaternion.clone();
 
-        if (toolEnabled) {
+        if (onClose) {
           //record
           _this.itownsCamPos.set(
             camera.position.x,

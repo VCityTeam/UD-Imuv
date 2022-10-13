@@ -12,6 +12,7 @@
 }
 
 .contextual_menu {
+  border-radius: 0px 5px 5px 0px;
   display: grid;
   padding: 10px;
   border-color: var(--imuv-color-one);
