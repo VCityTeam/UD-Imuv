@@ -92,7 +92,21 @@ module.exports = class UI {
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_link.png',
       'Copier Lien',
-      function () {
+      function (event) {
+        const iconImg = event.target;
+        if (iconImg.disable) return;
+        iconImg.disable = true;
+        const cloneImg = event.target.cloneNode(true);
+        iconImg.src = './assets/img/ui/icon_copy.png';
+        iconImg.style.backgroundColor = 'var(--imuv-color-four)';
+
+        const interval = setInterval(function () {
+          iconImg.src = cloneImg.src;
+          iconImg.style.backgroundColor = cloneImg.style.backgroundColor;
+          iconImg.disable = cloneImg.disable;
+          clearInterval(interval);
+        }, 1000);
+
         //get params event
         const avatarGO = go
           .computeRoot()
@@ -189,7 +203,10 @@ module.exports = class UI {
 
                 const closeButton = document.createElement('button');
                 closeButton.classList.add('button-imuv');
-                closeButton.innerHTML = 'Fermer';
+                closeButton.title = 'Fermer';
+                const closeCross = document.createElement('div');
+                closeCross.classList.add('close_cross');
+                closeButton.appendChild(closeCross);
                 closeButton.onclick = function () {
                   menuAvatarGameView.dispose(); //remove menu avatar
 
@@ -400,7 +417,10 @@ class MenuSettings {
     this.shadowMapSelect = null;
 
     this.closeButton = document.createElement('button');
-    this.closeButton.innerHTML = 'CLose';
+    this.closeButton.classList.add('button-imuv');
+    const closeCross = document.createElement('div');
+    closeCross.classList.add('close_cross');
+    this.closeButton.appendChild(closeCross);
     this.rootHtml.appendChild(this.closeButton);
 
     //differents options
@@ -814,6 +834,10 @@ class MapUI {
     this.rootHtml.appendChild(scriptMap.getRootHtml());
     scriptMap.setDisplayMap(true);
 
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.classList.add('map_buttons');
+    this.rootHtml.appendChild(buttonsDiv);
+
     //add button
     const minimizeTitle = 'Réduire';
     const minimizeSrc = './assets/img/ui/icon_minimize.png';
@@ -829,7 +853,7 @@ class MapUI {
       scaleButton.src = maximizeSrc;
     }
     scaleButton.classList.add('map_button');
-    this.rootHtml.appendChild(scaleButton);
+    buttonsDiv.appendChild(scaleButton);
 
     const _this = this;
     scaleButton.onclick = function () {
@@ -847,7 +871,7 @@ class MapUI {
     teleportButton.title = 'Teleportation';
     teleportButton.src = './assets/img/ui/icon_teleport_white.png';
     teleportButton.classList.add('map_button');
-    this.rootHtml.appendChild(teleportButton);
+    buttonsDiv.appendChild(teleportButton);
 
     teleportButton.onclick = function () {
       scriptMap.setClickMode(ImuvConstants.MAP_CLICK_MODE.TELEPORT);
@@ -857,7 +881,7 @@ class MapUI {
     pingButton.title = 'Ping';
     pingButton.src = './assets/img/ui/icon_ping.png';
     pingButton.classList.add('map_button');
-    this.rootHtml.appendChild(pingButton);
+    buttonsDiv.appendChild(pingButton);
 
     pingButton.onclick = function () {
       scriptMap.setClickMode(ImuvConstants.MAP_CLICK_MODE.PING);

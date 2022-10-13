@@ -65,6 +65,7 @@ export class EditorView {
     this.closeButton = document.createElement('div');
     this.closeButton.classList.add('button_Editor');
     this.closeButton.innerHTML = 'Close';
+    this.closeButton.title = 'Fermer';
     this.ui.appendChild(this.closeButton);
 
     const worldsList = document.createElement('ul');
