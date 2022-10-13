@@ -26,7 +26,7 @@ module.exports = class PlacePostIt {
     const postitButton = document.createElement('button');
     postitButton.classList.add('button-imuv');
     postitButton.innerHTML = 'Post-it';
-    gameView.appendToUI(postitButton);
+    // gameView.appendToUI(postitButton);
     let postitEnable = false;
     postitButton.onclick = function () {
       postitEnable = !postitEnable;
@@ -83,7 +83,7 @@ module.exports = class PlacePostIt {
           const closestI = i[0];
           const point = closestI.point;
 
-          let quaternionObj = new Game.THREE.Quaternion();
+          const quaternionObj = new Game.THREE.Quaternion();
           closestI.object.matrixWorld.decompose(
             new Game.THREE.Vector3(),
             quaternionObj,
@@ -149,6 +149,21 @@ module.exports = class PlacePostIt {
         ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, json);
       }
     };
+
+    //add tool
+    const scriptUI = localCtx.findLocalScriptWithID('ui');
+
+    const menuPostIt = new MenuPostIt();
+
+    scriptUI.addTool(
+      './assets/img/ui/icon_town_white.png',
+      'Post-it',
+      function (resolve, reject, onClose) {
+        console.log('onclose', onClose);
+        resolve(true);
+      },
+      menuPostIt
+    );
   }
 
   fetchStaticObject(localContext) {
@@ -157,3 +172,22 @@ module.exports = class PlacePostIt {
     return scriptStaticObject.getObject();
   }
 };
+
+class MenuPostIt {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('contextual_menu');
+
+    const title = document.createElement('h1');
+    title.innerHTML = 'Post-it';
+    this.rootHtml.appendChild(title);
+  }
+
+  html() {
+    return this.rootHtml;
+  }
+
+  dispose() {
+    this.rootHtml.remove();
+  }
+}

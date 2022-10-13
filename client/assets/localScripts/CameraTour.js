@@ -35,13 +35,13 @@ module.exports = class CameraTour {
     scriptUI.addTool(
       './assets/img/ui/icon_town_white.png',
       'Tour Images',
-      function (resolve, reject, toolEnabled) {
+      function (resolve, reject, onClose) {
         if (cameraScript.hasRoutine()) {
           resolve(false); //cant open/close menu while camera routine
           return;
         }
 
-        if (toolEnabled) {
+        if (onClose) {
           //menu is open close it
           let currentTime = 0;
           const startPos = camera.position.clone();

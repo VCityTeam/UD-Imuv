@@ -277,7 +277,6 @@ module.exports = class UI {
 
     this.toolsBar.addIcon(icon);
 
-    let toolEnabled = false;
     const toolsContextualMenu = this.toolsContextualMenu;
 
     // Bind arguments starting after however many are passed in.
@@ -287,22 +286,42 @@ module.exports = class UI {
       };
     }
 
-    icon.onclick = function () {
-      const promise = new Promise(
-        bind_trailing_args(promiseFunction, toolEnabled)
-      );
-
-      promise.then(function (success) {
-        if (success) {
-          toolEnabled = !toolEnabled;
-
-          if (toolEnabled) {
-            toolsContextualMenu.add(menuContextual);
-          } else {
+    const closeMenu = function () {
+      return new Promise(function (resolve) {
+        const promise = new Promise(bind_trailing_args(promiseFunction, true)); //true onClose
+        promise.then(function (success) {
+          if (success) {
             toolsContextualMenu.remove(menuContextual);
+            toolsContextualMenu.setCloseFunction(null);
           }
-        }
+          resolve(success);
+        });
       });
+    };
+
+    const openMenu = function () {
+      return new Promise(function (resolve) {
+        const promise = new Promise(bind_trailing_args(promiseFunction, false)); //false onClose
+        promise.then(function (success) {
+          if (success) {
+            toolsContextualMenu.add(menuContextual);
+            toolsContextualMenu.setCloseFunction(closeMenu);
+          }
+          resolve(success);
+        });
+      });
+    };
+
+    icon.onclick = function () {
+      if (toolsContextualMenu.getCurrentMenu()) {
+        if (menuContextual == toolsContextualMenu.getCurrentMenu()) {
+          closeMenu();
+        } else {
+          toolsContextualMenu.closeCurrentMenu().then(openMenu);
+        }
+      } else {
+        openMenu();
+      }
     };
   }
 
@@ -727,6 +746,24 @@ class ToolsContextualMenu {
   constructor() {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('tools_contextual_menu');
+
+    this.closeFunction = null;
+    this.currentMenu = null;
+  }
+
+  setCloseFunction(f) {
+    this.closeFunction = f;
+  }
+
+  closeCurrentMenu() {
+    if (this.closeFunction) {
+      return this.closeFunction();
+    } else {
+      //nothing
+      return new Promise((resolve) => {
+        resolve();
+      });
+    }
   }
 
   html() {
@@ -736,10 +773,16 @@ class ToolsContextualMenu {
   add(menu) {
     this.rootHtml.appendChild(menu.html());
     this.rootHtml.style.transform = 'translate(0%,-50%)';
+    this.currentMenu = menu;
+  }
+
+  getCurrentMenu() {
+    return this.currentMenu;
   }
 
   remove(menu) {
     this.rootHtml.style.transform = 'translate(-100%,-50%)';
+    this.currentMenu = null;
 
     function getCSSTransitionDuration(element, ms = true) {
       return (

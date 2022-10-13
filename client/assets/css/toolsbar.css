@@ -11,6 +11,7 @@
 
 .root_toolsbar img {
   border-radius: 5px;
+  padding: 5px;
 }
 
 .root_toolsbar img:hover {
