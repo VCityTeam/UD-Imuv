@@ -15,14 +15,12 @@ module.exports = class CameraTour {
 
     udviz = udvizBundle;
     Game = udviz.Game;
-
-    this.menuTour = null;
   }
 
   init() {
     const go = arguments[0];
     const localContext = arguments[1];
-    const gameView = localContext.getGameView();
+
     const avatarController =
       localContext.findLocalScriptWithID('avatar_controller');
     const camera = localContext.getGameView().getCamera();
@@ -31,63 +29,68 @@ module.exports = class CameraTour {
     const _this = this;
 
     //ui
-    // const scriptUI = localContext.findLocalScriptWithID('ui');
-    // scriptUI.addTool('./assets/img/ui/icon_towns_white.png', 'Tour Images');
+    const scriptUI = localContext.findLocalScriptWithID('ui');
+    const menuTour = new MenuTour(localContext, this.conf, go);
 
-    const startTour = document.createElement('button');
-    startTour.classList.add('button-imuv');
-    startTour.innerHTML = go.name;
-    gameView.appendToUI(startTour);
+    scriptUI.addTool(
+      './assets/img/ui/icon_town_white.png',
+      'Tour Images',
+      function (resolve, reject, toolEnabled) {
+        if (cameraScript.hasRoutine()) {
+          resolve(false); //cant open/close menu while camera routine
+          return;
+        }
 
-    startTour.onclick = function () {
-      if (cameraScript.hasRoutine()) return;
+        if (toolEnabled) {
+          //menu is open close it
+          let currentTime = 0;
+          const startPos = camera.position.clone();
+          const startQuat = camera.quaternion.clone();
 
-      if (_this.menuTour) {
-        let currentTime = 0;
-        const startPos = camera.position.clone();
-        const startQuat = camera.quaternion.clone();
+          cameraScript.addRoutine(
+            new Routine(
+              function (dt) {
+                const t = cameraScript
+                  .getFocusCamera()
+                  .computeTransformTarget(null, 5);
 
-        cameraScript.addRoutine(
-          new Routine(
-            function (dt) {
-              const t = cameraScript
-                .getFocusCamera()
-                .computeTransformTarget(null, 3);
+                currentTime += dt;
+                let ratio = currentTime / TRAVELING_DURATION;
+                ratio = Math.min(Math.max(0, ratio), 1);
 
-              currentTime += dt;
-              let ratio = currentTime / TRAVELING_DURATION;
-              ratio = Math.min(Math.max(0, ratio), 1);
+                const p = t.position.lerp(startPos, 1 - ratio);
+                const q = t.quaternion.slerp(startQuat, 1 - ratio);
 
-              const p = t.position.lerp(startPos, 1 - ratio);
-              const q = t.quaternion.slerp(startQuat, 1 - ratio);
+                camera.position.copy(p);
+                camera.quaternion.copy(q);
 
-              camera.position.copy(p);
-              camera.quaternion.copy(q);
+                camera.updateProjectionMatrix();
 
-              camera.updateProjectionMatrix();
-
-              return ratio >= 1;
-            },
-            function () {
-              _this.menuTour.dispose();
-              _this.menuTour = null;
-              avatarController.setAvatarControllerMode(true, localContext);
-            }
-          )
-        );
-      } else {
-        avatarController.setAvatarControllerMode(false, localContext);
-        _this.menuTour = new MenuTour(localContext, _this.conf, go);
-        gameView.appendToUI(_this.menuTour.html());
-      }
-    };
+                return ratio >= 1;
+              },
+              function () {
+                avatarController.setAvatarControllerMode(true, localContext);
+                resolve(true); // success
+              }
+            )
+          );
+        } else {
+          avatarController.setAvatarControllerMode(false, localContext);
+          if (!menuTour.travelToCurrentIndex(localContext, _this.conf)) {
+            console.error('no travel on init');
+          }
+          resolve(true);
+        }
+      },
+      menuTour
+    );
   }
 };
 
 class MenuTour {
   constructor(localContext, conf, go) {
     this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root-menu-settings');
+    this.rootHtml.classList.add('contextual_menu');
 
     const title = document.createElement('h1');
     title.innerHTML = go.name;
@@ -98,7 +101,6 @@ class MenuTour {
 
     this.currentIndex = 0;
     this.isTraveling = false;
-    this.travelToCurrentIndex(localContext, conf);
 
     //slider
     const slider = document.createElement('input');
@@ -115,12 +117,12 @@ class MenuTour {
 
     const previousButton = document.createElement('button');
     previousButton.classList.add('button-imuv');
-    previousButton.innerHTML = 'Precedent';
+    previousButton.innerHTML = '<';
     parentPreviousNext.appendChild(previousButton);
 
     const nextButton = document.createElement('button');
     nextButton.classList.add('button-imuv');
-    nextButton.innerHTML = 'Suivant';
+    nextButton.innerHTML = '>';
     parentPreviousNext.appendChild(nextButton);
 
     //cb
