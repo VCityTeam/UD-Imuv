@@ -25,6 +25,9 @@ module.exports = class UI {
 
     //gadget
     this.gadgetUI = new GadgetUI();
+
+    //social ui
+    this.socialUI = new SocialUI();
   }
 
   getMenuSettings() {
@@ -49,6 +52,9 @@ module.exports = class UI {
 
     //gadget ui
     gameView.appendToUI(this.gadgetUI.html());
+
+    //social ui
+    gameView.appendToUI(this.socialUI.html());
 
     //Debug Info
     if (__DEBUG__) {
@@ -267,6 +273,14 @@ module.exports = class UI {
 
   clearMapUI() {
     this.mapUI.clear();
+  }
+
+  addSocialIframe(iframe) {
+    this.socialUI.addIframe(iframe);
+  }
+
+  removeSocialIframe() {
+    this.socialUI.clear();
   }
 
   tick() {
@@ -807,5 +821,76 @@ class GadgetUI {
 
   html() {
     return this.rootHtml;
+  }
+}
+
+const SOCIAL_MINIZE_SCALE = 0.5;
+
+class SocialUI {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('root_social_ui');
+
+    this.minimized = null;
+    this.setMinimized(true);
+  }
+
+  html() {
+    return this.rootHtml;
+  }
+
+  setMinimized(value) {
+    this.minimized = value;
+
+    if (value) {
+      this.rootHtml.style.transform =
+        'scale(' +
+        SOCIAL_MINIZE_SCALE +
+        ') translate(' +
+        SOCIAL_MINIZE_SCALE * 100 +
+        '%,' +
+        SOCIAL_MINIZE_SCALE * 100 +
+        '%)';
+    } else {
+      this.rootHtml.style.transform = 'initial';
+    }
+  }
+
+  addIframe(iframe) {
+    const minimizeTitle = 'Réduire';
+    const minimizeSrc = './assets/img/ui/icon_minimize.png';
+    const maximizeTitle = 'Agrandir';
+    const maximizeSrc = './assets/img/ui/icon_maximize.png';
+
+    const scaleButton = document.createElement('img');
+    if (!this.minimized) {
+      scaleButton.title = minimizeTitle;
+      scaleButton.src = minimizeSrc;
+    } else {
+      scaleButton.title = maximizeTitle;
+      scaleButton.src = maximizeSrc;
+    }
+    scaleButton.classList.add('map_button');
+    this.rootHtml.appendChild(scaleButton);
+
+    const _this = this;
+    scaleButton.onclick = function () {
+      _this.setMinimized(!_this.minimized);
+      if (!_this.minimized) {
+        scaleButton.title = minimizeTitle;
+        scaleButton.src = minimizeSrc;
+      } else {
+        scaleButton.title = maximizeTitle;
+        scaleButton.src = maximizeSrc;
+      }
+    };
+
+    this.rootHtml.appendChild(iframe);
+  }
+
+  clear() {
+    while (this.rootHtml.firstChild) {
+      this.rootHtml.firstChild.remove();
+    }
   }
 }

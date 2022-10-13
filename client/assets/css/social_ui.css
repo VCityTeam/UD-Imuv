@@ -1,0 +1,8 @@
+.root_social_ui {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  transform: scale(0.5) translate(50%, -50%);
+  transition: 1s;
+}

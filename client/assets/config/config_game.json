@@ -62,6 +62,9 @@
       },
       "gadget_ui": {
         "path": "./assets/css/gadget_ui.css"
+      },
+      "social_ui": {
+        "path": "./assets/css/social_ui.css"
       }
     },
     "prefabs": {
