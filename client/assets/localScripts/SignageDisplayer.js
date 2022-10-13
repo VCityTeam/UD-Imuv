@@ -90,7 +90,10 @@ class Popup {
 
     const closeButton = document.createElement('button');
     closeButton.classList.add('button-imuv');
-    closeButton.innerHTML = 'Fermer';
+    closeButton.title = 'Fermer';
+    const closeCross = document.createElement('div');
+    closeCross.classList.add('close_cross');
+    closeButton.appendChild(closeCross);
     closeButton.onclick = this.signageDisplayer.dispose.bind(
       this.signageDisplayer
     );
