@@ -65,7 +65,7 @@ module.exports = class MenuAvatar {
     });
 
     this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root-menu-settings');
+    this.rootHtml.classList.add('root_menu_avatar');
     localCtx.getGameView().appendToUI(this.rootHtml);
   }
 

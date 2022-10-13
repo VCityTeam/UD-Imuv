@@ -71,17 +71,22 @@ module.exports = class UI {
     const menuSettings = new MenuSettings(localCtx);
     this.menuSettings = menuSettings; //ref to be access from other scripts
 
-    // this.gadgetUI.addGadget(
-    //   './assets/img/ui/icon_settings.png',
-    //   'Paramètres',
-    //   function () {
-    //     if (!menuSettings.html().parentNode) {
-    //       gameView.appendToUI(menuSettings.html());
-    //     } else {
-    //       menuSettings.dispose();
-    //     }
-    //   }
-    // );
+    this.gadgetUI.addGadget(
+      './assets/img/ui/icon_settings.png',
+      'Paramètres',
+      function () {
+        //pause gameview
+        gameView.setIsRendering(false);
+        gameView.getInputManager().setPause(true);
+        gameView.appendToUI(menuSettings.html());
+
+        menuSettings.setOnClose(function () {
+          gameView.setIsRendering(true);
+          gameView.getInputManager().setPause(false);
+          menuSettings.html().remove();
+        });
+      }
+    );
 
     //Gadget Link URL
     this.gadgetUI.addGadget(
@@ -364,6 +369,10 @@ class MenuSettings {
     this.shadowChecBox = null;
     this.shadowMapSelect = null;
 
+    this.closeButton = document.createElement('button');
+    this.closeButton.innerHTML = 'CLose';
+    this.rootHtml.appendChild(this.closeButton);
+
     //differents options
     this.createDirectionalOptions(localCtx);
     this.createVolumeControl(localCtx);
@@ -371,6 +380,10 @@ class MenuSettings {
     this.createMouseSensitivtySlider(localCtx);
     this.createZoomFactorSlider(localCtx);
     this.createSaveButton(localCtx);
+  }
+
+  setOnClose(f) {
+    this.closeButton.onclick = f;
   }
 
   getMouseSensitivityValue() {
