@@ -263,16 +263,27 @@ module.exports = class UI {
     let toolEnabled = false;
     const toolsContextualMenu = this.toolsContextualMenu;
 
+    // Bind arguments starting after however many are passed in.
+    function bind_trailing_args(fn, ...bound_args) {
+      return function (...args) {
+        return fn(...args, ...bound_args);
+      };
+    }
+
     icon.onclick = function () {
-      toolEnabled = !toolEnabled;
+      const promise = new Promise(
+        bind_trailing_args(promiseFunction, toolEnabled)
+      );
 
-      const promise = new Promise(promiseFunction);
+      promise.then(function (success) {
+        if (success) {
+          toolEnabled = !toolEnabled;
 
-      promise.then(function () {
-        if (toolEnabled) {
-          toolsContextualMenu.add(menuContextual);
-        } else {
-          toolsContextualMenu.remove(menuContextual);
+          if (toolEnabled) {
+            toolsContextualMenu.add(menuContextual);
+          } else {
+            toolsContextualMenu.remove(menuContextual);
+          }
         }
       });
     };

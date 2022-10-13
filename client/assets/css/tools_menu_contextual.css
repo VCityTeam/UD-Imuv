@@ -6,3 +6,15 @@
   transition: 1s;
   z-index: 2;
 }
+
+.root_menu_itowns {
+  min-width: 230px;
+}
+
+.contextual_menu {
+  display: grid;
+  padding: 10px;
+  border-color: var(--imuv-color-one);
+  color: var(--imuv-color-one);
+  background-color: var(--imuv-color-two);
+}
