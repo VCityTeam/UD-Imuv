@@ -100,11 +100,10 @@ module.exports = class UI {
         iconImg.src = './assets/img/ui/icon_copy.png';
         iconImg.style.backgroundColor = 'var(--imuv-color-four)';
 
-        const interval = setInterval(function () {
+        setTimeout(function () {
           iconImg.src = cloneImg.src;
           iconImg.style.backgroundColor = cloneImg.style.backgroundColor;
           iconImg.disable = cloneImg.disable;
-          clearInterval(interval);
         }, 1000);
 
         //get params event
