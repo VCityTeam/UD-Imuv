@@ -76,10 +76,11 @@ module.exports = class CameraTour {
           );
         } else {
           avatarController.setAvatarControllerMode(false, localContext);
-          if (!menuTour.travelToCurrentIndex(localContext, _this.conf)) {
-            console.error('no travel on init');
-          }
-          resolve(true);
+          menuTour
+            .travelToCurrentIndex(localContext, _this.conf)
+            .then(function (success) {
+              resolve(success);
+            });
         }
       },
       menuTour
@@ -132,11 +133,13 @@ class MenuTour {
       const oldIndex = _this.currentIndex;
       _this.setCurrentIndex(Math.max(_this.currentIndex - 1, 0));
 
-      if (_this.travelToCurrentIndex(localContext, conf)) {
-        slider.value = _this.currentIndex;
-      } else {
-        _this.setCurrentIndex(oldIndex);
-      }
+      _this.travelToCurrentIndex(localContext, conf).then(function (success) {
+        if (success) {
+          slider.value = _this.currentIndex;
+        } else {
+          _this.setCurrentIndex(oldIndex);
+        }
+      });
     };
 
     nextButton.onclick = function () {
@@ -146,20 +149,24 @@ class MenuTour {
         Math.min(_this.currentIndex + 1, conf.camera_transforms.length - 1)
       );
 
-      if (_this.travelToCurrentIndex(localContext, conf)) {
-        slider.value = _this.currentIndex;
-      } else {
-        _this.setCurrentIndex(oldIndex);
-      }
+      _this.travelToCurrentIndex(localContext, conf).then(function (success) {
+        if (success) {
+          slider.value = _this.currentIndex;
+        } else {
+          _this.setCurrentIndex(oldIndex);
+        }
+      });
     };
 
     slider.onchange = function () {
       const oldIndex = _this.currentIndex;
       _this.setCurrentIndex(slider.value);
 
-      if (!_this.travelToCurrentIndex(localContext, conf)) {
-        _this.setCurrentIndex(oldIndex);
-      }
+      _this.travelToCurrentIndex(localContext, conf).then(function (success) {
+        if (!success) {
+          _this.setCurrentIndex(oldIndex);
+        }
+      });
     };
   }
 
@@ -168,52 +175,54 @@ class MenuTour {
   }
 
   travelToCurrentIndex(localContext, conf) {
-    if (this.isTraveling) {
-      console.warn('already traveling');
-      return false;
-    }
+    return new Promise((resolve) => {
+      if (this.isTraveling) {
+        console.warn('already traveling');
+        resolve(false);
+        return;
+      }
 
-    const camera = localContext.getGameView().getCamera();
-    const cameraScript = localContext.findLocalScriptWithID('camera');
-    const Routine = Game.Components.Routine;
-    const _this = this;
+      this.isTraveling = true;
 
-    let currentTime = 0;
-    const startPos = camera.position.clone();
-    const startQuat = camera.quaternion.clone();
-    const destPos = new Game.THREE.Vector3().fromArray(
-      conf.camera_transforms[this.currentIndex].position
-    );
-    const destQuat = new Game.THREE.Quaternion().fromArray(
-      conf.camera_transforms[this.currentIndex].quaternion
-    );
+      const camera = localContext.getGameView().getCamera();
+      const cameraScript = localContext.findLocalScriptWithID('camera');
+      const Routine = Game.Components.Routine;
+      const _this = this;
 
-    cameraScript.addRoutine(
-      new Routine(
-        function (dt) {
-          _this.isTraveling = true;
+      let currentTime = 0;
+      const startPos = camera.position.clone();
+      const startQuat = camera.quaternion.clone();
+      const destPos = new Game.THREE.Vector3().fromArray(
+        conf.camera_transforms[this.currentIndex].position
+      );
+      const destQuat = new Game.THREE.Quaternion().fromArray(
+        conf.camera_transforms[this.currentIndex].quaternion
+      );
 
-          currentTime += dt;
-          let ratio = currentTime / TRAVELING_DURATION;
-          ratio = Math.min(Math.max(0, ratio), 1);
+      cameraScript.addRoutine(
+        new Routine(
+          function (dt) {
+            currentTime += dt;
+            let ratio = currentTime / TRAVELING_DURATION;
+            ratio = Math.min(Math.max(0, ratio), 1);
 
-          const p = destPos.clone().lerp(startPos, 1 - ratio);
-          const q = destQuat.clone().slerp(startQuat, 1 - ratio);
+            const p = destPos.clone().lerp(startPos, 1 - ratio);
+            const q = destQuat.clone().slerp(startQuat, 1 - ratio);
 
-          camera.position.copy(p);
-          camera.quaternion.copy(q);
+            camera.position.copy(p);
+            camera.quaternion.copy(q);
 
-          camera.updateProjectionMatrix();
+            camera.updateProjectionMatrix();
 
-          return ratio >= 1;
-        },
-        function () {
-          _this.isTraveling = false;
-        }
-      )
-    );
-
-    return true;
+            return ratio >= 1;
+          },
+          function () {
+            _this.isTraveling = false;
+            resolve(true);
+          }
+        )
+      );
+    });
   }
 
   html() {
