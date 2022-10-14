@@ -45,8 +45,6 @@ module.exports = class SwitchItowns {
     const view = gameView.getItownsView();
     if (view) {
       const promiseFunction = function (resolve, reject, onClose) {
-        console.log('switch function', onClose);
-
         if (cameraScript.hasRoutine()) {
           resolve(false); //already routine
           return;
