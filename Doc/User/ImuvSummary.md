@@ -32,7 +32,7 @@
   - Walk around the model (with the 3D avatar)
   - Use the data visualization features of Itowns and UD-Viz :
     - Top-view
-    - Interaction wigdets
+    - Interaction widgets
 
 ## Example of use
 
