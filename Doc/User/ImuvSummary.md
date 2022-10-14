@@ -13,7 +13,7 @@
 
 ## Communication
 
-- Conference room :
+- Conference room:
 
   - Conference room with a large screen allowing for audio / video / text / screen sharing communication tool.
 
