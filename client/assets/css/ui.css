@@ -105,16 +105,6 @@
   background-color: white;
 }
 
-.post-it {
-  background-color: yellow;
-  width: 200px;
-  height: 200px;
-  padding: 5px;
-  font-family: system-ui;
-  text-align: center;
-  margin: auto;
-}
-
 #itowns-scale {
   user-select: none;
   z-index: 10;

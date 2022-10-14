@@ -291,10 +291,10 @@ module.exports = class UI {
         const promise = new Promise(bind_trailing_args(promiseFunction, true)); //true onClose
         promise.then(function (success) {
           if (success) {
-            toolsContextualMenu.remove(menuContextual);
-            toolsContextualMenu.setCloseFunction(null);
+            toolsContextualMenu.remove(menuContextual).then(function () {
+              resolve(success);
+            });
           }
-          resolve(success);
         });
       });
     };
@@ -304,8 +304,7 @@ module.exports = class UI {
         const promise = new Promise(bind_trailing_args(promiseFunction, false)); //false onClose
         promise.then(function (success) {
           if (success) {
-            toolsContextualMenu.add(menuContextual);
-            toolsContextualMenu.setCloseFunction(closeMenu);
+            toolsContextualMenu.add(menuContextual, closeMenu);
           }
           resolve(success);
         });
@@ -313,6 +312,8 @@ module.exports = class UI {
     };
 
     icon.onclick = function () {
+      if (!toolsContextualMenu.isAvailable()) return;
+
       if (toolsContextualMenu.getCurrentMenu()) {
         if (menuContextual == toolsContextualMenu.getCurrentMenu()) {
           closeMenu();
@@ -749,51 +750,62 @@ class ToolsContextualMenu {
 
     this.closeFunction = null;
     this.currentMenu = null;
-  }
-
-  setCloseFunction(f) {
-    this.closeFunction = f;
+    this.available = true;
   }
 
   closeCurrentMenu() {
-    if (this.closeFunction) {
-      return this.closeFunction();
-    } else {
-      //nothing
-      return new Promise((resolve) => {
-        resolve();
-      });
-    }
+    return this.closeFunction();
   }
 
   html() {
     return this.rootHtml;
   }
 
-  add(menu) {
-    this.rootHtml.appendChild(menu.html());
-    this.rootHtml.style.transform = 'translate(0%,-50%)';
-    this.currentMenu = menu;
+  isAvailable() {
+    return this.available;
+  }
+
+  add(menu, closeFunction) {
+    const duration = this.getCSSTransitionDuration(this.rootHtml);
+    this.closeFunction = closeFunction;
+    this.available = false;
+    return new Promise((resolve) => {
+      this.rootHtml.appendChild(menu.html());
+      this.rootHtml.style.transform = 'translate(0%,-50%)';
+      this.currentMenu = menu;
+
+      setTimeout(() => {
+        this.available = true;
+        resolve();
+      }, duration);
+    });
   }
 
   getCurrentMenu() {
     return this.currentMenu;
   }
 
+  getCSSTransitionDuration(element, ms = true) {
+    return (
+      parseFloat(getComputedStyle(element).transitionDuration) * (ms ? 1000 : 1)
+    );
+  }
+
   remove(menu) {
-    this.rootHtml.style.transform = 'translate(-100%,-50%)';
-    this.currentMenu = null;
+    const duration = this.getCSSTransitionDuration(this.rootHtml);
+    this.closeFunction = null;
+    this.available = false;
 
-    function getCSSTransitionDuration(element, ms = true) {
-      return (
-        parseFloat(getComputedStyle(element).transitionDuration) *
-        (ms ? 1000 : 1)
-      );
-    }
+    return new Promise((resolve) => {
+      this.rootHtml.style.transform = 'translate(-100%,-50%)';
+      this.currentMenu = null;
 
-    setTimeout(function () {
-      menu.dispose();
-    }, getCSSTransitionDuration(this.rootHtml));
+      setTimeout(() => {
+        menu.dispose();
+        this.available = true;
+        resolve();
+      }, duration);
+    });
   }
 }
 

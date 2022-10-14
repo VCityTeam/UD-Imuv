@@ -52,7 +52,7 @@ module.exports = class PostIt {
 
         if (i.length) {
           _this.htmlPostIt = document.createElement('div');
-          _this.htmlPostIt.classList.add('post-it');
+          _this.htmlPostIt.classList.add('display-post-it');
           _this.htmlPostIt.innerHTML = _this.conf.content;
           gameView.appendToUI(_this.htmlPostIt);
         }

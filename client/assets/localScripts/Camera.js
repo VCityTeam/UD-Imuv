@@ -260,8 +260,8 @@ class Focus {
 
     //world transform
     const obj = this.target.getObject3D();
-    let position = new Game.THREE.Vector3();
-    let quaternion = new Game.THREE.Quaternion();
+    const position = new Game.THREE.Vector3();
+    const quaternion = new Game.THREE.Quaternion();
     obj.matrixWorld.decompose(position, quaternion, new Game.THREE.Vector3());
 
     const zDiff = this.bbTarget.max.z - this.bbTarget.min.z;
