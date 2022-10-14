@@ -83,7 +83,7 @@ module.exports = class SwitchItowns {
               function (dt) {
                 const t = cameraScript
                   .getFocusCamera()
-                  .computeTransformTarget(null, 3);
+                  .computeTransformTarget(null, 5);
 
                 currentTime += dt;
                 let ratio = currentTime / duration;

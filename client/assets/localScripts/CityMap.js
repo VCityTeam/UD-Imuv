@@ -409,7 +409,7 @@ module.exports = class CityMap {
     //feedbacks clickable
     if (this.canvas.style.cursor == 'pointer') {
       const brightnessValue =
-        100 + (120 - 100) * Math.abs(Math.cos(this.currentDt));
+        100 + (105 - 100) * Math.abs(Math.cos(this.currentDt));
       ctx.filter = 'brightness(' + brightnessValue + '%)';
     } else {
       ctx.filter = 'brightness(100%)';

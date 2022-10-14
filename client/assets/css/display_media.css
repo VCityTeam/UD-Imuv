@@ -1,6 +1,7 @@
 .display_media_iframe {
   position: fixed;
   top: 0px;
+  z-index: 2;
 }
 
 .diplay_media_close_button {
