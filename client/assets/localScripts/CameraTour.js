@@ -52,7 +52,10 @@ module.exports = class CameraTour {
               function (dt) {
                 const t = cameraScript
                   .getFocusCamera()
-                  .computeTransformTarget(null, 5);
+                  .computeTransformTarget(
+                    null,
+                    cameraScript.getDistanceCameraAvatar()
+                  );
 
                 currentTime += dt;
                 let ratio = currentTime / TRAVELING_DURATION;
