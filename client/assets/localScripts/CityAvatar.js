@@ -53,7 +53,10 @@ module.exports = class CityAvatar {
       new Game.Components.Routine(
         function (dt) {
           cameraScript.focusCamera.setTarget(_this.go);
-          const t = cameraScript.focusCamera.computeTransformTarget(null, 3);
+          const t = cameraScript.focusCamera.computeTransformTarget(
+            null,
+            cameraScript.getDistanceCameraAvatar()
+          );
 
           currentTime += dt;
           const ratio = Math.min(Math.max(0, currentTime / duration), 1);
@@ -248,7 +251,10 @@ module.exports = class CityAvatar {
       new Game.Components.Routine(
         function (dt) {
           cameraScript.focusCamera.setTarget(cameraScript.getAvatarGO());
-          const t = cameraScript.focusCamera.computeTransformTarget(null, 3);
+          const t = cameraScript.focusCamera.computeTransformTarget(
+            null,
+            cameraScript.getDistanceCameraAvatar()
+          );
 
           currentTime += dt;
           const ratio = Math.min(Math.max(0, currentTime / duration), 1);

@@ -7,6 +7,8 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
+const DISTANCE_CAMERA_AVATAR = 5;
+
 module.exports = class Camera {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -21,6 +23,10 @@ module.exports = class Camera {
 
     //routines camera
     this.routines = [];
+  }
+
+  getDistanceCameraAvatar() {
+    return DISTANCE_CAMERA_AVATAR;
   }
 
   getFocusCamera() {
@@ -104,7 +110,10 @@ module.exports = class Camera {
           if (!_this.avatarGO) return false;
 
           _this.focusCamera.setTarget(_this.avatarGO);
-          const t = _this.focusCamera.computeTransformTarget(null, 3);
+          const t = _this.focusCamera.computeTransformTarget(
+            null,
+            DISTANCE_CAMERA_AVATAR
+          );
 
           //init relatively
           if (!startPos && !startQuat) {
@@ -169,7 +178,6 @@ module.exports = class Camera {
     );
 
     //routines are prior
-    const distanceAvatar = 5;
     if (this.hasRoutine()) {
       const currentRoutine = this.routines[0];
       const finished = currentRoutine.tick(localCtx.getDt());
@@ -178,9 +186,9 @@ module.exports = class Camera {
         this.routines.shift(); //remove
       }
     } else if (cityAvatar) {
-      this.focusTarget(localCtx, cityAvatar, distanceAvatar);
+      this.focusTarget(localCtx, cityAvatar, DISTANCE_CAMERA_AVATAR);
     } else if (avatarController.getAvatarControllerMode()) {
-      this.focusTarget(localCtx, this.avatarGO, distanceAvatar);
+      this.focusTarget(localCtx, this.avatarGO, DISTANCE_CAMERA_AVATAR);
     } else if (
       zeppelinController &&
       zeppelinController.getZeppelinControllerMode()
