@@ -1,14 +1,1 @@
-.whiteboard_iframe {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  background-color: white;
-  z-index: 2;
-}
 
-.whiteboard_close_button {
-  position: fixed;
-  top: 10px;
-  right: 20px;
-  z-index: 3;
-}

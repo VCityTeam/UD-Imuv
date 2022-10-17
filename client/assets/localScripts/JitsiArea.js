@@ -75,7 +75,7 @@ module.exports = class JitsiArea {
     const api = new JitsiIframeAPI(url.host + url.pathname, options);
 
     const scriptUI = localCtx.findLocalScriptWithID('ui');
-    scriptUI.addSocialIframe(divJitsi);
+    scriptUI.displaySocialIframe(divJitsi);
 
     this.divJitsi = divJitsi;
   }

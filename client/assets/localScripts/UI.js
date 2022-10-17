@@ -266,6 +266,43 @@ module.exports = class UI {
     );
   }
 
+  displayIframe(localCtx, iframeSrc) {
+    const gameView = localCtx.getGameView();
+
+    const closebutton = document.createElement('button');
+    closebutton.classList.add('button-imuv');
+    closebutton.classList.add('close-button');
+    closebutton.title = 'Fermer';
+
+    const closeCross = document.createElement('div');
+    closeCross.classList.add('close_cross');
+    closebutton.appendChild(closeCross);
+    gameView.appendToUI(closebutton);
+
+    const content = document.createElement('iframe');
+    content.classList.add('ui-iframe');
+    content.style.left = gameView.getRootWebGL().style.left;
+    content.src = iframeSrc;
+
+    gameView.appendToUI(content);
+
+    //pause avatar command stop rendering
+    gameView.setIsRendering(false);
+    const avatarController =
+      localCtx.findLocalScriptWithID('avatar_controller');
+    avatarController.setAvatarControllerMode(false, localCtx);
+
+    closebutton.onclick = function (event) {
+      event.stopPropagation();
+      content.remove();
+      closebutton.remove();
+
+      //restore rendering + avatar command
+      gameView.setIsRendering(true);
+      avatarController.setAvatarControllerMode(true, localCtx);
+    };
+  }
+
   /**
    * Add a tool to toolsbar
    */
@@ -333,8 +370,8 @@ module.exports = class UI {
     this.mapUI.clear();
   }
 
-  addSocialIframe(iframe) {
-    this.socialUI.addIframe(iframe);
+  displaySocialIframe(iframe) {
+    this.socialUI.displayIframe(iframe);
   }
 
   removeSocialIframe() {
@@ -970,7 +1007,7 @@ class SocialUI {
     }
   }
 
-  addIframe(iframe) {
+  displayIframe(iframe) {
     const minimizeTitle = 'Réduire';
     const minimizeSrc = './assets/img/ui/icon_minimize.png';
     const maximizeTitle = 'Agrandir';
