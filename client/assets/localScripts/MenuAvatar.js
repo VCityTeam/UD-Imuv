@@ -162,7 +162,9 @@ module.exports = class MenuAvatar {
     //SAVE
     const saveButton = document.createElement('button');
     saveButton.classList.add('button-imuv');
-    saveButton.innerHTML = 'Sauvegarder Avatar';
+    const saveIcon = document.createElement('div');
+    saveIcon.classList.add('save_icon');
+    saveButton.appendChild(saveIcon);
     this.rootHtml.appendChild(saveButton);
 
     saveButton.onclick = function () {

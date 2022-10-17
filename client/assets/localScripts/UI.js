@@ -447,7 +447,9 @@ class MenuSettings {
   createSaveButton(localCtx) {
     const button = document.createElement('button');
     button.classList.add('button-imuv');
-    button.innerHTML = 'Sauvegarder';
+    const saveIcon = document.createElement('div');
+    saveIcon.classList.add('save_icon');
+    button.appendChild(saveIcon);
     this.rootHtml.appendChild(button);
 
     const _this = this;
