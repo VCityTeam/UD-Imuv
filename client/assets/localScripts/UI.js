@@ -358,19 +358,19 @@ class DebugInfo {
     this.rootHtml.classList.add('root_debug');
 
     this.gameViewFps = document.createElement('div');
-    this.gameViewFps.classList.add('label_controller');
+    this.gameViewFps.classList.add('debug_label');
     this.rootHtml.appendChild(this.gameViewFps);
 
     this.worldComputerFps = document.createElement('div');
-    this.worldComputerFps.classList.add('label_controller');
+    this.worldComputerFps.classList.add('debug_label');
     this.rootHtml.appendChild(this.worldComputerFps);
 
     this.pingUI = document.createElement('div');
-    this.pingUI.classList.add('label_controller');
+    this.pingUI.classList.add('debug_label');
     this.rootHtml.appendChild(this.pingUI);
 
     this.avatarCount = document.createElement('div');
-    this.avatarCount.classList.add('label_controller');
+    this.avatarCount.classList.add('debug_label');
     this.rootHtml.appendChild(this.avatarCount);
   }
 
