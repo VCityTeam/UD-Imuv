@@ -211,3 +211,21 @@
   height: 100%;
   position: absolute;
 }
+
+.ui-iframe {
+  position: fixed;
+  top: 0px;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 0px;
+  /* left: 0px; */
+  z-index: 3;
+  right: 0;
+  margin: 5px;
+}

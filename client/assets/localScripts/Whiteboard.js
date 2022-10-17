@@ -58,54 +58,14 @@ module.exports = class Whiteboard {
 
   onClick() {
     const localCtx = arguments[1];
-    const gameView = localCtx.getGameView();
+
     const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
       'ImuvConstants'
     ];
-
-    const closebutton = document.createElement('button');
-    closebutton.classList.add('button-imuv');
-    closebutton.classList.add('whiteboard_close_button');
-    closebutton.title = 'Fermer';
-    const closeCross = document.createElement('div');
-    closeCross.classList.add('mask_icon', 'close_cross');
-    closebutton.appendChild(closeCross);
-    gameView.appendToUI(closebutton);
-
-    const content = document.createElement('iframe');
-    content.classList.add('whiteboard_iframe');
-    content.style.left = gameView.getRootWebGL().style.left;
-    this.content = content;
-    content.src = ImuvConstants.WBO.PUBLIC_URL + '/' + this.go.getUUID();
-
-    //size
-    this.updateSize(gameView.getSize());
-
-    gameView.appendToUI(content);
-
-    const _this = this;
-    const avatarController =
-      localCtx.findLocalScriptWithID('avatar_controller');
-    avatarController.setAvatarControllerMode(false, localCtx);
-
-    closebutton.onclick = function () {
-      content.remove();
-      _this.content = null;
-      closebutton.remove();
-      avatarController.setAvatarControllerMode(true, localCtx);
-    };
-  }
-
-  updateSize(size) {
-    this.content.style.height = size.y + 'px';
-    this.content.style.width = size.x + 'px';
-  }
-
-  onResize() {
-    if (!this.content) return;
-
-    const localContext = arguments[1];
-    const gameView = localContext.getGameView();
-    this.updateSize(gameView.getSize());
+    const scriptUI = localCtx.findLocalScriptWithID('ui');
+    scriptUI.displayIframe(
+      localCtx,
+      ImuvConstants.WBO.PUBLIC_URL + '/' + this.go.getUUID()
+    );
   }
 };
