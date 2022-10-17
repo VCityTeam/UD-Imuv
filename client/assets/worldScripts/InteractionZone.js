@@ -28,62 +28,78 @@ module.exports = class InteractionZone {
     this.localScript.conf.avatarsOnLeave = [];
   }
 
-  tick() {
-    //reset onleave fix bug
-    if (this.localScript.conf.avatarsOnLeave.length) {
-      this.localScript.conf.avatarsOnLeave = [];
-      this.go.setOutdated(true);
-    }
-  }
-
   onAvatarEnter(avatarGO) {
-    this.go.setOutdated(true);
+    let confHasChanged = false;
 
     const confLS = this.localScript.conf;
     const avatarGOUUID = avatarGO.getUUID();
     let index;
     if ((index = confLS.avatarsOnLeave.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsOnLeave.splice(index, 1);
+      confHasChanged = true;
     }
     if ((index = confLS.avatarsColliding.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsColliding.splice(index, 1);
+      confHasChanged = true;
     }
-    if (confLS.avatarsOnEnter.includes(avatarGOUUID)) return;
-    confLS.avatarsOnEnter.push(avatarGOUUID);
+    if (!confLS.avatarsOnEnter.includes(avatarGOUUID)) {
+      confLS.avatarsOnEnter.push(avatarGOUUID);
+      confHasChanged = true;
+    }
+
+    if (confHasChanged) {
+      this.go.setOutdated(confHasChanged);
+      // console.log('ON ENTER conf changed');
+    }
   }
 
   onAvatarColliding(avatarGO) {
-    this.go.setOutdated(true);
+    let confHasChanged = false;
 
     const confLS = this.localScript.conf;
     const avatarGOUUID = avatarGO.getUUID();
     let index;
-    if ((index = confLS.avatarsOnEnter.indexOf(avatarGOUUID)) >= 0) {
-      confLS.avatarsOnEnter.splice(index, 1);
-    }
     if ((index = confLS.avatarsOnLeave.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsOnLeave.splice(index, 1);
+      confHasChanged = true;
+    }
+    if ((index = confLS.avatarsOnEnter.indexOf(avatarGOUUID)) >= 0) {
+      confLS.avatarsOnEnter.splice(index, 1);
+      confHasChanged = true;
+    }
+    if (!confLS.avatarsColliding.includes(avatarGOUUID)) {
+      confLS.avatarsColliding.push(avatarGOUUID);
+      confHasChanged = true;
     }
 
-    if (confLS.avatarsColliding.includes(avatarGOUUID)) return;
-    confLS.avatarsColliding.push(avatarGOUUID);
+    if (confHasChanged) {
+      this.go.setOutdated(confHasChanged);
+      // console.log('ON COLLIDING conf changed');
+    }
   }
 
   onAvatarLeave(avatarGO) {
-    this.go.setOutdated(true);
+    let confHasChanged = false;
 
     const confLS = this.localScript.conf;
     const avatarGOUUID = avatarGO.getUUID();
-
     let index;
-    if ((index = confLS.avatarsOnEnter.indexOf(avatarGOUUID)) >= 0) {
-      confLS.avatarsOnEnter.splice(index, 1);
-    }
     if ((index = confLS.avatarsColliding.indexOf(avatarGOUUID)) >= 0) {
       confLS.avatarsColliding.splice(index, 1);
+      confHasChanged = true;
+    }
+    if ((index = confLS.avatarsOnEnter.indexOf(avatarGOUUID)) >= 0) {
+      confLS.avatarsOnEnter.splice(index, 1);
+      confHasChanged = true;
+    }
+    if (!confLS.avatarsOnLeave.includes(avatarGOUUID)) {
+      confLS.avatarsOnLeave.push(avatarGOUUID);
+      confHasChanged = true;
     }
 
-    if (confLS.avatarsOnLeave.includes(avatarGOUUID)) return;
-    confLS.avatarsOnLeave.push(avatarGOUUID);
+    if (confHasChanged) {
+      this.go.setOutdated(confHasChanged);
+      // console.log('ON LEAVE conf changed');
+    }
   }
 };

@@ -25,6 +25,7 @@ module.exports = class LocalInteractions {
     if (this.tickIsColliding) {
       this.tickIsColliding();
     }
+
     const localCtx = arguments[1];
     let canInteract = false;
     for (let index = 0; index < this.localScripts.length; index++) {

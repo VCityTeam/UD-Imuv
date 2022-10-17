@@ -1,0 +1,19 @@
+/** @format */
+
+.debug_label {
+  color: red;
+  width: 120px;
+}
+
+.root_debug {
+  position: fixed;
+  top: 60px;
+  z-index: 2;
+  background-color: antiquewhite;
+}
+
+.debug_div {
+  width: 500px;
+  height: 500px;
+  background-color: red;
+}

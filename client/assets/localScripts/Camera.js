@@ -75,14 +75,14 @@ module.exports = class Camera {
     //anonymous function
     const createSplashScreen = function () {
       const result = document.createElement('div');
-      result.classList.add('splash_controller');
+      result.classList.add('splash');
 
       const bg = document.createElement('div');
-      bg.classList.add('bg_splash_controller');
+      bg.classList.add('bg_splash');
       result.appendChild(bg);
 
       const label = document.createElement('div');
-      label.classList.add('label_splash_controller');
+      label.classList.add('label_splash');
       label.innerHTML = 'Welcome to Flying Campus';
       result.appendChild(label);
 

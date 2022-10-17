@@ -124,13 +124,6 @@
   font-size: 15px;
 }
 
-.root_debug {
-  position: fixed;
-  top: 60px;
-  z-index: 2;
-  background-color: antiquewhite;
-}
-
 .root_label_info {
   border-radius: 5px;
   z-index: 2;
@@ -175,4 +168,29 @@
   mask-size: cover;
   height: 40px;
   width: 40px;
+}
+
+.splash {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label_splash {
+  opacity: unset;
+  font-size: xxx-large;
+  z-index: 1;
+  font-family: sans-serif;
+}
+
+.bg_splash {
+  background-color: gray;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }

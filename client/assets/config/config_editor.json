@@ -30,8 +30,8 @@
       }
     },
     "css": {
-      "controller": {
-        "path": "./assets/css/controller.css"
+      "debug": {
+        "path": "./assets/css/debug.css"
       },
       "ui": {
         "path": "./assets/css/ui.css"
