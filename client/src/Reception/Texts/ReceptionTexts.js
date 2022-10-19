@@ -60,6 +60,9 @@ const texts = {
       '<a href="https://www.flaticon.com/free-icons/fullscreen" title="fullscreen icons">Fullscreen icons created by Those Icons - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/paper" title="paper icons">Paper icons created by Gregor Cresnar - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/save" title="save icons">Save icons created by Yogi Aprelliyanto - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/slideshow" title="slideshow icons">Slideshow icons created by Smashicons - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/post-it" title="Post it icons">Post it icons created by Freepik - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/drag-and-drop" title="drag and drop icons">Drag and drop icons created by Bharat Icons - Flaticon</a>',
     ],
 
     //Sign
@@ -120,6 +123,9 @@ const texts = {
       '<a href="https://www.flaticon.com/free-icons/fullscreen" title="fullscreen icons">Fullscreen icons created by Those Icons - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/paper" title="paper icons">Paper icons created by Gregor Cresnar - Flaticon</a>',
       '<a href="https://www.flaticon.com/free-icons/save" title="save icons">Save icons created by Yogi Aprelliyanto - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/slideshow" title="slideshow icons">Slideshow icons created by Smashicons - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/post-it" title="Post it icons">Post it icons created by Freepik - Flaticon</a>',
+      '<a href="https://www.flaticon.com/free-icons/drag-and-drop" title="drag and drop icons">Drag and drop icons created by Bharat Icons - Flaticon</a>',
     ],
 
     //Sign

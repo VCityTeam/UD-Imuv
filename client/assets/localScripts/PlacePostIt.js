@@ -30,7 +30,7 @@ module.exports = class PlacePostIt {
     );
 
     scriptUI.addTool(
-      './assets/img/ui/icon_town_white.png',
+      './assets/img/ui/icon_post_it.png',
       'Post-it',
       function (resolve, reject, onClose) {
         avatarController.setAvatarControllerMode(onClose, localCtx);
@@ -58,11 +58,13 @@ class MenuPostIt {
 
     //input
     const textAreaMessage = document.createElement('textarea');
+    textAreaMessage.placeholder = 'Post-it message...';
     postitHtml.appendChild(textAreaMessage);
 
     //create button
     const placePostItImage = document.createElement('img');
-    placePostItImage.src = './assets/img/ui/icon_ping.png';
+    placePostItImage.src = './assets/img/ui/icon_drag_post_it.png';
+    placePostItImage.classList.add('draggable');
     this.rootHtml.appendChild(placePostItImage);
 
     //callbacks
