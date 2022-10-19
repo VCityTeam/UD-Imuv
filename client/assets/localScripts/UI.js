@@ -204,7 +204,7 @@ module.exports = class UI {
                 closeButton.classList.add('button-imuv');
                 closeButton.title = 'Fermer';
                 const closeCross = document.createElement('div');
-                closeCross.classList.add('close_cross');
+                closeCross.classList.add('mask_icon', 'close_cross');
                 closeButton.appendChild(closeCross);
                 closeButton.onclick = function () {
                   menuAvatarGameView.dispose(); //remove menu avatar
@@ -419,7 +419,7 @@ class MenuSettings {
     this.closeButton = document.createElement('button');
     this.closeButton.classList.add('button-imuv');
     const closeCross = document.createElement('div');
-    closeCross.classList.add('close_cross');
+    closeCross.classList.add('mask_icon', 'close_cross');
     this.closeButton.appendChild(closeCross);
     this.rootHtml.appendChild(this.closeButton);
 
@@ -448,7 +448,7 @@ class MenuSettings {
     const button = document.createElement('button');
     button.classList.add('button-imuv');
     const saveIcon = document.createElement('div');
-    saveIcon.classList.add('save_icon');
+    saveIcon.classList.add('mask_icon', 'save_icon');
     button.appendChild(saveIcon);
     this.rootHtml.appendChild(button);
 

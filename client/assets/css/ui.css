@@ -163,10 +163,8 @@
   display: grid;
 }
 
-.close_cross {
+.mask_icon {
   background-color: var(--imuv-color-one);
-  -webkit-mask-image: url(./assets/img/ui/icon_close.png);
-  mask-image: url(./assets/img/ui/icon_close.png);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -175,24 +173,20 @@
   mask-size: cover;
   height: 40px;
   width: 40px;
+  margin: auto;
 }
 
 .save_icon {
-  background-color: var(--imuv-color-one);
   -webkit-mask-image: url(./assets/img/ui/icon_save.png);
   mask-image: url(./assets/img/ui/icon_save.png);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: cover;
-  mask-size: cover;
-  height: 40px;
-  width: 40px;
 }
 
-.button-imuv:hover .close_cross,
-.button-imuv:hover .save_icon {
+.close_cross {
+  -webkit-mask-image: url(./assets/img/ui/icon_close.png);
+  mask-image: url(./assets/img/ui/icon_close.png);
+}
+
+.button-imuv:hover .mask_icon {
   background-color: var(--imuv-color-two);
 }
 
