@@ -195,3 +195,7 @@
 .button-imuv:hover .save_icon {
   background-color: var(--imuv-color-two);
 }
+
+.draggable {
+  cursor: move;
+}
