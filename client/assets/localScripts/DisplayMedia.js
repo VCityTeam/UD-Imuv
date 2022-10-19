@@ -25,7 +25,7 @@ module.exports = class DisplayMedia {
       closebutton.title = 'Fermer';
 
       const closeCross = document.createElement('div');
-      closeCross.classList.add('close_cross');
+      closeCross.classList.add('mask_icon', 'close_cross');
       closebutton.appendChild(closeCross);
       gameView.appendToUI(closebutton);
 

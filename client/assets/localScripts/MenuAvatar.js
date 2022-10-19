@@ -163,7 +163,7 @@ module.exports = class MenuAvatar {
     const saveButton = document.createElement('button');
     saveButton.classList.add('button-imuv');
     const saveIcon = document.createElement('div');
-    saveIcon.classList.add('save_icon');
+    saveIcon.classList.add('mask_icon', 'save_icon');
     saveButton.appendChild(saveIcon);
     this.rootHtml.appendChild(saveButton);
 
