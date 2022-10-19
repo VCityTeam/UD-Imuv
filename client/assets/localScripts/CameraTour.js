@@ -33,7 +33,7 @@ module.exports = class CameraTour {
     const menuTour = new MenuTour(localContext, this.conf, go);
 
     scriptUI.addTool(
-      './assets/img/ui/icon_town_white.png',
+      './assets/img/ui/icon_tour_images.png',
       'Tour Images',
       function (resolve, reject, onClose) {
         if (cameraScript.hasRoutine()) {
