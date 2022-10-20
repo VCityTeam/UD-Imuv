@@ -19,7 +19,7 @@
       "type": "LocalScript"
     },
     "Audio": {
-      "sounds": ["open_popup", "close_popup"],
+      "sounds": ["open_popup"],
       "conf": {},
       "type": "Audio"
     }
