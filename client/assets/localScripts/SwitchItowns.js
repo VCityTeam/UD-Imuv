@@ -61,6 +61,15 @@ module.exports = class SwitchItowns {
           return;
         }
 
+        //check if city avatar
+        const avatarGO = localCtx
+          .getRootGameObject()
+          .find(localCtx.getGameView().getUserData('avatarUUID'));
+        if (avatarGO.findByName('city_avatar')) {
+          resolve(false); //cant itowns while city avatar
+          return;
+        }
+
         const duration = 2000;
         let currentTime = 0;
 
