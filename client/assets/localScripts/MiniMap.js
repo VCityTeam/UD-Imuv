@@ -5,7 +5,6 @@ let udviz = null;
 const MINI_MAP_SIZE = 500;
 const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
-const MAGNETISM = 2;
 
 module.exports = class MiniMap {
   constructor(conf, udvizBundle) {
@@ -50,6 +49,9 @@ module.exports = class MiniMap {
     this.pings = [];
 
     this.mapClickMode = null;
+
+    //info div
+    this.infoDivs = [];
   }
 
   /**
@@ -99,27 +101,17 @@ module.exports = class MiniMap {
       gameView.getLocalScriptModules()['ImuvConstants'].MAP_CLICK_MODE;
     this.setClickMode(this.mapClickMode.DEFAULT);
 
-    const userID = gameView.getUserData('userID');
+    this.createDivInfos();
 
-    const manager = gameView.getInputManager();
-    const Command = udviz.Game.Command;
+    this.createPortalIcons(localCtx, go);
 
     const _this = this;
+    const userID = gameView.getUserData('userID');
     const conf = this.conf;
+    const Command = udviz.Game.Command;
+    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
 
-    /* Finding the position of the portals and adding them to the array. */
-    const portalIcons = this.portalIcons;
-    go.computeRoot().traverse(function (child) {
-      const lS = child.fetchLocalScripts();
-      if (lS && lS['portal_sweep']) {
-        portalIcons.push(new PortalIcon(child.getPosition()));
-      }
-    });
-
-    manager.addMouseCommand('mini_map_click', 'click', function () {
-      const event = this.event('click');
-
-      if (event.target != _this.canvasMiniMap) return null;
+    this.canvasMiniMap.onclick = function (event) {
       const x = event.pageX;
       const y = event.pageY;
 
@@ -133,32 +125,11 @@ module.exports = class MiniMap {
         0
       );
 
-      //MAGNETISM
-      let isOnPortalIcon = false;
-      _this.portalIcons.forEach(function (icon) {
-        const posIcon = icon.getPosition();
-        if (
-          Math.abs(posIcon.x - teleportPosition.x) < MAGNETISM &&
-          Math.abs(posIcon.y - teleportPosition.y) < MAGNETISM
-        ) {
-          isOnPortalIcon = true;
-          teleportPosition.x = posIcon.x;
-          teleportPosition.y = posIcon.y;
-        }
-      });
-
-      let clickMode = _this.clickMode;
-      if (isOnPortalIcon) clickMode = _this.mapClickMode.TELEPORT; //automatic teleport mode chan clicking portal icon
-
-      if (clickMode === _this.mapClickMode.DEFAULT) {
-        //nothing
+      //check mode
+      if (_this.clickMode === _this.mapClickMode.TELEPORT) {
         _this.setClickMode(_this.mapClickMode.DEFAULT);
 
-        return null;
-      } else if (clickMode === _this.mapClickMode.TELEPORT) {
-        _this.setClickMode(_this.mapClickMode.DEFAULT);
-
-        return new Command({
+        const command = new Command({
           type: Command.TYPE.TELEPORT,
           data: {
             mousePosition: { x: x, y: y },
@@ -168,14 +139,18 @@ module.exports = class MiniMap {
           userID: userID,
           gameObjectUUID: go.getUUID(),
         });
-      } else if (clickMode === _this.mapClickMode.PING) {
+
+        localCtx
+          .getWebSocketService()
+          .emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [command.toJSON()]);
+      } else if (_this.clickMode === _this.mapClickMode.PING) {
         _this.setClickMode(_this.mapClickMode.DEFAULT);
 
         const avatarGO = localCtx
           .getRootGameObject()
           .find(gameView.getUserData('avatarUUID'));
 
-        return new Command({
+        const command = new Command({
           type: Command.TYPE.PING_MINI_MAP,
           data: {
             mousePosition: {
@@ -187,54 +162,131 @@ module.exports = class MiniMap {
           userID: userID,
           gameObjectUUID: go.getUUID(),
         });
+
+        localCtx
+          .getWebSocketService()
+          .emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [command.toJSON()]);
+      }
+    };
+  }
+
+  createPortalIcons(localCtx, go) {
+    /* Finding the position of the portals and adding them to the array. */
+
+    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
+
+    go.computeRoot().traverse((child) => {
+      const lS = child.fetchLocalScripts();
+      if (lS && lS['portal_sweep']) {
+        const icon = document.createElement('img');
+        icon.src = './assets/img/ui/arobase.png';
+        icon.classList.add('map_icon');
+        this.rootHtml.appendChild(icon);
+
+        //position
+        icon.style.left =
+          100 * (0.5 + child.getPosition().x / (pixelSize * MINI_MAP_SIZE)) +
+          '%';
+
+        icon.style.top =
+          100 * (0.5 - child.getPosition().y / (pixelSize * MINI_MAP_SIZE)) +
+          '%';
+
+        icon.title = child.getName();
+
+        this.portalIcons.push(icon);
+
+        icon.onclick = (event) => {
+          const x = event.pageX;
+          const y = event.pageY;
+
+          const command = new udviz.Game.Command({
+            type: udviz.Game.Command.TYPE.TELEPORT,
+            data: {
+              mousePosition: { x: x, y: y },
+              position: child.getPosition(),
+              avatarUUID: localCtx.getGameView().getUserData('avatarUUID'),
+            },
+            userID: localCtx.getGameView().getUserData('userID'),
+            gameObjectUUID: go.getUUID(),
+          });
+
+          localCtx
+            .getWebSocketService()
+            .emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [
+              command.toJSON(),
+            ]);
+        };
       }
     });
+  }
 
-    manager.addMouseInput(this.canvasMiniMap, 'mousemove', function (event) {
-      const x = event.pageX;
-      const y = event.pageY;
+  createDivInfo(ratioXStart, ratioYStart, ratioXEnd, ratioYEnd, text) {
+    //create a html div
+    const div = document.createElement('div');
+    div.classList.add('map_info');
 
-      const rect = _this.canvasMiniMap.getBoundingClientRect();
-      const ratioX = (x - rect.left) / (rect.right - rect.left);
-      const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
+    div.style.left = ratioXStart * 100 + '%';
+    div.style.top = ratioYStart * 100 + '%';
 
-      const positionMouse = new udviz.THREE.Vector3(
-        (ratioX - 0.5) * conf.mini_map_size,
-        (ratioY - 0.5) * conf.mini_map_size,
-        0
-      );
+    const width = ratioXEnd - ratioXStart;
+    const height = ratioYEnd - ratioYStart;
 
-      let hover;
+    div.style.width = width * 100 + '%';
+    div.style.height = height * 100 + '%';
 
-      //check mode
-      if (_this.clickMode == _this.mapClickMode.DEFAULT) {
-        hover = false; //click does nothing except if portal icon is hovered
-      } else {
-        hover = true; //a click should send a command
-      }
+    div.title = text;
 
-      //check if on icon
-      _this.portalIcons.forEach(function (icon) {
-        const posIcon = icon.getPosition();
-        if (
-          Math.abs(posIcon.x - positionMouse.x) < MAGNETISM &&
-          Math.abs(posIcon.y - positionMouse.y) < MAGNETISM
-        ) {
-          icon.setHover(true);
-          hover = true;
-        } else {
-          icon.setHover(false);
-        }
-      });
+    this.infoDivs.push(div);
 
-      _this.setCursorPointer(hover);
-    });
+    this.rootHtml.appendChild(div);
+  }
+
+  createDivInfos() {
+    //Point interest HARD CODED
+    //TODO : Compute ratio from positions in the world. Store a list of points of interest with their positions in the world.
+    this.createDivInfo(
+      390 / 700,
+      445 / 700,
+      471 / 700,
+      500 / 700,
+      "Salle d'exposition"
+    );
+
+    this.createDivInfo(
+      266 / 700,
+      69 / 700,
+      294 / 700,
+      93 / 700,
+      "Zone d'observation"
+    );
+
+    this.createDivInfo(212 / 700, 203 / 700, 227 / 700, 217 / 700, 'ZeppeLyon');
+
+    this.createDivInfo(
+      381 / 700,
+      212 / 700,
+      456 / 700,
+      264 / 700,
+      'Salle conférence'
+    );
+
+    this.createDivInfo(424 / 700, 363 / 700, 490 / 700, 400 / 700, 'Studios');
   }
 
   setCursorPointer(value) {
     if (value) {
       this.canvasMiniMap.style.cursor = 'pointer';
+      this.infoDivs.concat(this.portalIcons).forEach((el) => {
+        el.classList.add('no_event');
+      });
     } else {
+      this.infoDivs.concat(this.portalIcons).forEach((el) => {
+        el.classList.remove('no_event');
+      });
       this.canvasMiniMap.style.cursor = 'auto';
     }
   }
@@ -297,45 +349,6 @@ module.exports = class MiniMap {
     }
   }
 
-  drawPointOfInterest(
-    contextCanvas,
-    ratioXStart,
-    ratioYStart,
-    ratioXEnd,
-    ratioYEnd,
-    text,
-    colorStyle = 'yellow'
-  ) {
-    contextCanvas.save();
-
-    const width = (ratioXEnd - ratioXStart) * MINI_MAP_SIZE;
-    const height = (ratioYEnd - ratioYStart) * MINI_MAP_SIZE;
-    const lineWidth = 4;
-
-    //draw box
-    contextCanvas.beginPath();
-    contextCanvas.strokeStyle = colorStyle;
-    contextCanvas.lineWidth = lineWidth;
-    contextCanvas.rect(
-      ratioXStart * MINI_MAP_SIZE,
-      ratioYStart * MINI_MAP_SIZE,
-      width,
-      height
-    );
-    contextCanvas.stroke();
-
-    //draw text
-    contextCanvas.font = '20px Arial';
-    contextCanvas.fillStyle = colorStyle;
-    contextCanvas.fillText(
-      text,
-      ratioXStart * MINI_MAP_SIZE + width + lineWidth,
-      ratioYStart * MINI_MAP_SIZE + height * 0.5
-    );
-
-    contextCanvas.restore();
-  }
-
   /**
    * It draws the background image, then draws a red circle around each portal
    * @returns A canvas element with a background image and a red circle drawn on it.
@@ -348,69 +361,9 @@ module.exports = class MiniMap {
     defaultCanvas.style.height = MINI_MAP_SIZE + 'px';
     defaultCanvas.style.background = 'green';
 
-    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
     const ctx = defaultCanvas.getContext('2d');
 
     ctx.drawImage(this.backgroundImage, 0, 0);
-
-    //Point interest HARD CODED
-    //TODO : Compute ratio from positions in the world. Store a list of points of interest with their positions in the world.
-    this.drawPointOfInterest(
-      ctx,
-      390 / 700,
-      445 / 700,
-      471 / 700,
-      500 / 700,
-      "Salle d'exposition"
-    );
-
-    this.drawPointOfInterest(
-      ctx,
-      266 / 700,
-      69 / 700,
-      294 / 700,
-      93 / 700,
-      "Zone d'observation"
-    );
-
-    this.drawPointOfInterest(
-      ctx,
-      212 / 700,
-      203 / 700,
-      227 / 700,
-      217 / 700,
-      'Zeppelin Tour'
-    );
-
-    this.drawPointOfInterest(
-      ctx,
-      381 / 700,
-      212 / 700,
-      456 / 700,
-      264 / 700,
-      'Salle conférence'
-    );
-
-    this.drawPointOfInterest(
-      ctx,
-      424 / 700,
-      363 / 700,
-      490 / 700,
-      400 / 700,
-      'Studios'
-    );
-
-    //draw instruction teleport
-    ctx.save();
-    ctx.font = '20px Arial';
-    ctx.fillStyle = 'red';
-    ctx.fillText('Cliquez sur les', 20, 20);
-    ctx.fillText('pour vous teleporter dans la salle voulu.', 180, 20);
-    ctx.restore();
-    this.drawSpiral(ctx, {
-      x: 163,
-      y: 10,
-    });
 
     return defaultCanvas;
   }
@@ -462,6 +415,12 @@ module.exports = class MiniMap {
     if (!this.defaultCanvas || !this.displayMap) return;
     //write
     const destCtx = this.canvasMiniMap.getContext('2d');
+    destCtx.clearRect(
+      0,
+      0,
+      this.canvasMiniMap.width,
+      this.canvasMiniMap.height
+    );
     destCtx.drawImage(this.defaultCanvas, 0, 0);
 
     this.currentDT += localCtx.getDt() * 0.002;
@@ -526,19 +485,6 @@ module.exports = class MiniMap {
       }
     });
 
-    //icons
-    //PORTAL spirals
-
-    this.portalIcons.forEach(function (icon) {
-      const pos = icon.getPosition();
-
-      const posPortal = {
-        x: MINI_MAP_SIZE * 0.5 + pos.x / pixelSize,
-        y: MINI_MAP_SIZE * 0.5 - pos.y / pixelSize,
-      };
-      _this.drawSpiral(destCtx, posPortal, _this.currentDT, icon.isHover());
-    });
-
     //draw pings
     for (let i = this.pings.length - 1; i >= 0; i--) {
       const ping = this.pings[i];
@@ -585,25 +531,6 @@ module.exports = class MiniMap {
     });
   }
 };
-
-class PortalIcon {
-  constructor(position) {
-    this.position = position;
-    this.hover = false;
-  }
-
-  getPosition() {
-    return this.position;
-  }
-
-  isHover() {
-    return this.hover;
-  }
-
-  setHover(value) {
-    this.hover = value;
-  }
-}
 
 class Ping {
   constructor(params) {
