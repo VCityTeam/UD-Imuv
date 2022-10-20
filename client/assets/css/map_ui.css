@@ -18,3 +18,41 @@
   background: var(--imuv-color-three);
   cursor: pointer;
 }
+
+.map_info {
+  position: absolute;
+  z-index: 5;
+  border: 2px dotted var(--imuv-color-one);
+  background-color: yellow;
+  opacity: 0.3;
+}
+
+.map_icon {
+  position: absolute;
+  z-index: 6;
+  width: 20px;
+  animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.map_icon:hover {
+  cursor: pointer;
+  filter: brightness(120);
+}
+
+.map_info:hover {
+  cursor: help;
+  opacity: 0.5;
+}
+
+.no_event {
+  pointer-events: none;
+}
