@@ -19,9 +19,6 @@
       "open_popup": {
         "path": "./assets/sounds/open_popup.webm"
       },
-      "close_popup": {
-        "path": "./assets/sounds/close_popup.webm"
-      },
       "video_happy_song": {
         "path": "./assets/sounds/video_happy_song.webm"
       },

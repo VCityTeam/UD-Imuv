@@ -164,13 +164,10 @@ module.exports = class Image {
     if (!audioComp) return;
 
     const sounds = audioComp.getSounds();
-    if (!sounds) debugger;
+
     if (value) {
       //play open sound
       sounds['open_popup'].play();
-    } else {
-      //play close sound
-      sounds['close_popup'].play();
     }
   }
 
@@ -203,7 +200,7 @@ module.exports = class Image {
           if (g == go) return false;
           const ls = g.fetchLocalScripts();
           if (ls && ls['image']) {
-            ls['image'].displayPopup(false);
+            ls['image'].displayPopup(false, false); //do not play sound when close and another one is open
           }
         });
       } else {
