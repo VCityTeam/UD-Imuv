@@ -1,0 +1,6 @@
+.root_menu_avatar {
+  position: fixed;
+  z-index: 2;
+  background-color: var(--imuv-color-two);
+  display: grid;
+}

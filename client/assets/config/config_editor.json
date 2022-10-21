@@ -59,6 +59,15 @@
       },
       "social_ui": {
         "path": "./assets/css/social_ui.css"
+      },
+      "popup": {
+        "path": "./assets/css/popup.css"
+      },
+      "menu_avatar": {
+        "path": "./assets/css/menu_avatar.css"
+      },
+      "label_info": {
+        "path": "./assets/css/label_info.css"
       }
     },
     "videos": {
