@@ -75,62 +75,70 @@ if (paramsUrl.has(ImuvConstants.URL_PARAMETER.ID_KEY)) {
           params[event.PARAMS_KEY.ROTATION]
         );
 
-        const signInView = new SignInView(webSocketService);
-        document.body.appendChild(signInView.html());
+        if (
+          params[event.PARAMS_KEY.POSITION] &&
+          params[event.PARAMS_KEY.ROTATION]
+        ) {
+          const signInView = new SignInView(webSocketService);
+          document.body.appendChild(signInView.html());
 
-        const launchGame = function (role) {
-          signInView.dispose();
+          const launchGame = function (role) {
+            signInView.dispose();
 
-          SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
-            function (config) {
-              //load assets
-              const assetsManager = new AssetsManager();
-              assetsManager
-                .loadFromConfig(config.assetsManager, document.body)
-                .then(function () {
-                  const distantGame = new DistantGame(
-                    webSocketService,
-                    assetsManager,
-                    config
-                  );
+            SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
+              function (config) {
+                //load assets
+                const assetsManager = new AssetsManager();
+                assetsManager
+                  .loadFromConfig(config.assetsManager, document.body)
+                  .then(function () {
+                    const distantGame = new DistantGame(
+                      webSocketService,
+                      assetsManager,
+                      config
+                    );
 
-                  distantGame.start(
-                    {
-                      firstGameView: false,
-                      editorMode: false,
-                      role: role,
-                    },
-                    {
-                      ImuvConstants: ImuvConstants,
-                      AnimatedText: AnimatedText,
-                      JitsiIframeAPI: JitsiIframeAPI,
-                    }
-                  );
+                    distantGame.start(
+                      {
+                        firstGameView: false,
+                        editorMode: false,
+                        role: role,
+                      },
+                      {
+                        ImuvConstants: ImuvConstants,
+                        AnimatedText: AnimatedText,
+                        JitsiIframeAPI: JitsiIframeAPI,
+                      }
+                    );
 
-                  //app is loaded and ready to receive worldstate
-                  webSocketService.emit(
-                    ImuvConstants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE,
-                    params
-                  );
-                });
+                    //app is loaded and ready to receive worldstate
+                    webSocketService.emit(
+                      ImuvConstants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE,
+                      params
+                    );
+                  });
+              }
+            );
+          };
+
+          //wait event to launchGame as not guest
+          webSocketService.on(
+            ImuvConstants.WEBSOCKET.MSG_TYPES.SIGNED,
+            function (data) {
+              if (data.role != ImuvConstants.USER.ROLE.GUEST) {
+                launchGame(data.role);
+              }
             }
           );
-        };
 
-        //wait event to launchGame as not guest
-        webSocketService.on(
-          ImuvConstants.WEBSOCKET.MSG_TYPES.SIGNED,
-          function (data) {
-            if (data.role != ImuvConstants.USER.ROLE.GUEST) {
-              launchGame(data.role);
-            }
-          }
-        );
-
-        //launchGame as a guest
-        signInView.addButton("Continuer en tant qu'invité", function () {
-          launchGame(ImuvConstants.USER.ROLE.GUEST);
-        });
+          //launchGame as a guest
+          signInView.addButton("Continuer en tant qu'invité", function () {
+            launchGame(ImuvConstants.USER.ROLE.GUEST);
+          });
+        } else {
+          console.warn('wrong uri component');
+          addReceptionView();
+        }
       }
 
       break;
