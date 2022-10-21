@@ -168,6 +168,9 @@ const WorldDispatcherModule = class WorldDispatcher {
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS);
     socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
+    socket.removeAllListeners(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT
+    );
 
     //client can edit conf component
     socket.on(
@@ -211,13 +214,21 @@ const WorldDispatcherModule = class WorldDispatcher {
       }
     );
 
-    //add go
+    //add go (TODO security check if its a go that can be add)
     socket.on(
       ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
       function (goJSON) {
         thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
           gameObject: goJSON,
         });
+      }
+    );
+
+    //remove go (TODO security check if its go that can be deleted)
+    socket.on(
+      ImuvConstants.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT,
+      function (uuid) {
+        thread.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, uuid);
       }
     );
   }
