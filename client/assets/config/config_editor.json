@@ -68,6 +68,9 @@
       },
       "label_info": {
         "path": "./assets/css/label_info.css"
+      },
+      "display_post_it": {
+        "path": "./assets/css/display_post_it.css"
       }
     },
     "videos": {
