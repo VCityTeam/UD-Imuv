@@ -1,0 +1,24 @@
+.root_label_info {
+  border-radius: 5px;
+  z-index: 2;
+  font-size: x-large;
+  color: var(--imuv-color-one);
+  background-color: var(--imuv-color-two);
+  /* min-width: 210px; */
+  padding: 10px;
+  position: fixed;
+  left: 50%;
+  top: 5%;
+  font-family: sans-serif;
+  animation: bounce 1s infinite alternate;
+  border: solid;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translate(-50%, 0%) scale(0.75);
+  }
+  100% {
+    transform: translate(-50%, 0%) scale(1);
+  }
+}
