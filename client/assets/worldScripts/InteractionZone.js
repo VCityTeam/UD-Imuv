@@ -48,7 +48,7 @@ module.exports = class InteractionZone {
     }
 
     if (confHasChanged) {
-      this.go.setOutdated(confHasChanged);
+      this.go.setOutdated(true);
       // console.log('ON ENTER conf changed');
     }
   }
@@ -73,7 +73,7 @@ module.exports = class InteractionZone {
     }
 
     if (confHasChanged) {
-      this.go.setOutdated(confHasChanged);
+      this.go.setOutdated(true);
       // console.log('ON COLLIDING conf changed');
     }
   }
@@ -98,7 +98,7 @@ module.exports = class InteractionZone {
     }
 
     if (confHasChanged) {
-      this.go.setOutdated(confHasChanged);
+      this.go.setOutdated(true);
       // console.log('ON LEAVE conf changed');
     }
   }
