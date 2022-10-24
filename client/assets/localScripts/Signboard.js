@@ -96,6 +96,7 @@ module.exports = class Signboard {
     planeFrontObject.material = new THREE.MeshBasicMaterial({
       map: textureLoaded,
     });
+    planeFrontObject.castShadow = true;
     return planeFrontObject;
   }
 
@@ -156,6 +157,8 @@ module.exports = class Signboard {
     supportRight.name = 'supportRight';
     frameObject.add(supportLeft);
     frameObject.add(supportRight);
+
+    frameObject.castShadow = true;
 
     return frameObject;
   }
