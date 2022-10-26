@@ -1,10 +1,13 @@
 .root-menu-settings {
-  position: fixed;
-  padding: 10px;
   /* border: 1px solid; */
   border-color: var(--imuv-color-one);
   color: var(--imuv-color-one);
-  /* display: grid; */
+  display: grid;
+  grid-template-areas:
+    'title title title'
+    'panels panels panels'
+    'panels panels panels'
+    'saveclose saveclose saveclose';
   background-color: var(--imuv-color-two);
   width: 100%;
   height: 100%;
@@ -13,4 +16,39 @@
 
 .label-menu-settings {
   font-family: system-ui;
+}
+
+.root-menu-settings section {
+  padding: 0;
+  height: auto;
+}
+
+.panels-section {
+  display: flex;
+  justify-content: space-between;
+  grid-area: panels;
+}
+
+.panels-section section {
+  width: 25%;
+  padding: 10px;
+  border: solid;
+}
+
+.panels-section div {
+  display: flex;
+}
+
+.title-section,
+.save-and-close-section {
+  text-align: center;
+  align-self: center;
+}
+
+.title-section {
+  grid-area: title;
+}
+
+.save-and-close-section {
+  grid-area: saveclose;
 }
