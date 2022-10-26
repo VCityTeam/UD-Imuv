@@ -441,32 +441,22 @@ class MenuSettings {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root-menu-settings');
 
-    const title = document.createElement('h1');
-    title.innerHTML = 'Paramètres';
-    this.rootHtml.appendChild(title);
+    // html elements will be set
+    this.closeButton = null;
 
-    this.fogSlider = null;
-    this.mouseSensitivitySlider = null;
-    this.zoomFactorSlider = null;
-    this.volumeSlider = null;
+    // html elements with saved values
+    // graphics
     this.sunCheckBox = null;
     this.shadowChecBox = null;
     this.shadowMapSelect = null;
+    this.fogSlider = null;
+    // audio
+    this.volumeSlider = null;
+    // controls
+    this.mouseSensitivitySlider = null;
+    this.zoomFactorSlider = null;
 
-    this.closeButton = document.createElement('button');
-    this.closeButton.classList.add('button-imuv');
-    const closeCross = document.createElement('div');
-    closeCross.classList.add('mask_icon', 'close_cross');
-    this.closeButton.appendChild(closeCross);
-    this.rootHtml.appendChild(this.closeButton);
-
-    //differents options
-    this.createDirectionalOptions(localCtx);
-    this.createVolumeControl(localCtx);
-    this.createFogControl(localCtx);
-    this.createMouseSensitivtySlider(localCtx);
-    this.createZoomFactorSlider(localCtx);
-    this.createSaveButton(localCtx);
+    this.initHtml(localCtx);
   }
 
   setOnClose(f) {
@@ -481,16 +471,69 @@ class MenuSettings {
     return this.zoomFactorSlider.value;
   }
 
+  initHtml(localCtx) {
+    // sections
+    this.createTitleSection(this.rootHtml);
+
+    const panelsSection = document.createElement('section');
+    panelsSection.classList.add('panels-section');
+    this.createGraphicsSection(localCtx, panelsSection);
+    this.createAudioSection(localCtx, panelsSection);
+    this.createControlsSection(localCtx, panelsSection);
+    this.rootHtml.appendChild(panelsSection);
+
+    this.createSaveAndCloseSection(localCtx, this.rootHtml);
+  }
+
+  // TITLE SECTION
+  createTitleSection(parentElement) {
+    const titleSection = document.createElement('section');
+    titleSection.classList.add('title-section');
+    // Title section
+    const title = document.createElement('h1');
+    title.innerHTML = 'Paramètres';
+    titleSection.appendChild(title);
+
+    parentElement.appendChild(titleSection);
+  }
+
+  // SAVE AND CLOSE SECTION
+  createSaveAndCloseSection(localCtx, parentElement) {
+    const saveAndCloseSection = document.createElement('section');
+    saveAndCloseSection.classList.add('save-and-close-section');
+
+    // Close button
+    const closeButton = this.createCloseButton();
+    saveAndCloseSection.appendChild(closeButton);
+    this.closeButton = closeButton;
+
+    // Save button
+    const saveButton = this.createSaveButton(localCtx);
+    saveAndCloseSection.appendChild(saveButton);
+
+    parentElement.appendChild(saveAndCloseSection);
+  }
+
+  createCloseButton() {
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('button-imuv');
+    const closeCross = document.createElement('div');
+    closeCross.title = 'Fermer';
+    closeCross.classList.add('mask_icon', 'close_cross');
+    closeButton.appendChild(closeCross);
+    return closeButton;
+  }
+
   createSaveButton(localCtx) {
-    const button = document.createElement('button');
-    button.classList.add('button-imuv');
+    const saveButton = document.createElement('button');
+    saveButton.classList.add('button-imuv');
     const saveIcon = document.createElement('div');
+    saveIcon.title = 'Sauvegarder';
     saveIcon.classList.add('mask_icon', 'save_icon');
-    button.appendChild(saveIcon);
-    this.rootHtml.appendChild(button);
+    saveButton.appendChild(saveIcon);
 
     const _this = this;
-    button.onclick = function () {
+    saveButton.onclick = function () {
       const ws = localCtx.getWebSocketService();
       const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
         'ImuvConstants'
@@ -506,75 +549,150 @@ class MenuSettings {
         shadowMapSize: _this.shadowMapSelect.value,
       });
     };
+
+    return saveButton;
   }
 
-  createMouseSensitivtySlider(localCtx) {
+  //GRAPHICS SECTION
+  createGraphicsSection(localCtx, parentElement) {
+    const graphicsSection = document.createElement('section');
+    graphicsSection.classList.add('graphics-section');
+
+    const graphicsTitle = document.createElement('h2');
+    graphicsTitle.innerHTML = 'Graphismes';
+    graphicsSection.appendChild(graphicsTitle);
+
+    /* Getting the directional light from the scene. */
     const gameView = localCtx.getGameView();
-
-    //init fog according extent
-    const max = 40;
-    const min = 3;
-
-    //check is settings has been saved
-    let init = (min + max) / 2;
-    if (!isNaN(gameView.getUserData('settings').mouseSensitivitySlider)) {
-      init = gameView.getUserData('settings').mouseSensitivitySlider;
-    }
-
-    const label = document.createElement('div');
-    label.innerHTML = 'Mouse Sensibilité';
-    label.classList.add('label-menu-settings');
-    this.rootHtml.appendChild(label);
-
-    const slider = document.createElement('input');
-    slider.type = 'range';
-    slider.step = 0.1;
-    slider.min = min;
-    slider.max = max;
-    slider.value = init;
-    this.rootHtml.appendChild(slider);
-
-    this.mouseSensitivitySlider = slider;
-  }
-
-  createZoomFactorSlider(localCtx) {
-    const gameView = localCtx.getGameView();
-
-    //init fog according extent
-    const max = 2.5;
-    const min = 1.2;
-
-    //check is settings has been saved
-    let init = (min + max) / 2;
-    if (!isNaN(gameView.getUserData('settings').zoomFactor)) {
-      init = gameView.getUserData('settings').zoomFactor;
-    }
-
-    const label = document.createElement('div');
-    label.innerHTML = 'Itowns Zoom Sensibilité';
-    label.classList.add('label-menu-settings');
-    this.rootHtml.appendChild(label);
-
-    const slider = document.createElement('input');
-    slider.type = 'range';
-    slider.step = 0.01;
-    slider.min = min;
-    slider.max = max;
-    slider.value = init;
-    this.rootHtml.appendChild(slider);
-
-    this.zoomFactorSlider = slider;
-
-    slider.onchange = function () {
-      const view = gameView.getItownsView();
-      if (view.controls) {
-        view.controls.zoomInFactor = this.value;
-        view.controls.zoomOutFactor = 1 / this.value;
+    const scene = gameView.getScene();
+    let dirLight;
+    for (let index = 0; index < scene.children.length; index++) {
+      const element = scene.children[index];
+      if (element.isDirectionalLight) {
+        dirLight = element;
       }
-    };
+    }
+    if (!dirLight) {
+      console.error('No directional light found');
+      return;
+    }
+    /* ---Directional Light Options---*/
+    // Sun option
+    const sunOptionDiv = this.createSunOptionDiv(gameView, dirLight);
+    graphicsSection.appendChild(sunOptionDiv);
+    // Shadow option
+    const shadowOptionDiv = this.createShadowOptionDiv(gameView, dirLight);
+    graphicsSection.appendChild(shadowOptionDiv);
+    // Texture size option
+    const textureSizeOptionDiv = this.createTextureSizeOptionDiv(
+      gameView,
+      dirLight
+    );
+    graphicsSection.appendChild(textureSizeOptionDiv);
+
+    /*---Other---*/
+    // Fog option
+    const fogOptionDiv = this.createFogOptionDiv(localCtx);
+    graphicsSection.appendChild(fogOptionDiv);
+
+    parentElement.appendChild(graphicsSection);
   }
 
-  createFogControl(localCtx) {
+  createSunOptionDiv(gameView, dirLight) {
+    //parent
+    const sunOptionDiv = document.createElement('div');
+
+    //label
+    const labelEnableDirect = document.createElement('div');
+    labelEnableDirect.innerHTML = 'Soleil';
+    labelEnableDirect.classList.add('label-menu-settings');
+    sunOptionDiv.appendChild(labelEnableDirect);
+
+    //checkbox
+    const checkboxDirect = document.createElement('input');
+    checkboxDirect.type = 'checkbox';
+    sunOptionDiv.appendChild(checkboxDirect);
+
+    //check is settings has been saved
+    if (gameView.getUserData('settings').sunValue != undefined) {
+      dirLight.visible = gameView.getUserData('settings').sunValue;
+    }
+    checkboxDirect.checked = dirLight.visible;
+    checkboxDirect.onchange = function () {
+      dirLight.visible = this.checked;
+    };
+
+    this.sunCheckBox = checkboxDirect;
+
+    return sunOptionDiv;
+  }
+
+  createShadowOptionDiv(gameView, dirLight) {
+    //parent
+    const shadowOptionDiv = document.createElement('div');
+
+    //label
+    const labelEnable = document.createElement('div');
+    labelEnable.innerHTML = 'Ombres';
+    labelEnable.classList.add('label-menu-settings');
+    shadowOptionDiv.appendChild(labelEnable);
+
+    //checkbox
+    const shadowCheckbox = document.createElement('input');
+    shadowCheckbox.type = 'checkbox';
+    shadowOptionDiv.appendChild(shadowCheckbox);
+
+    //check is settings has been saved
+    if (gameView.getUserData('settings').shadowValue != undefined) {
+      dirLight.castShadow = gameView.getUserData('settings').shadowValue;
+    }
+
+    shadowCheckbox.checked = dirLight.castShadow;
+    shadowCheckbox.onchange = function () {
+      dirLight.castShadow = this.checked;
+    };
+
+    this.shadowChecBox = shadowCheckbox;
+
+    return shadowOptionDiv;
+  }
+
+  createTextureSizeOptionDiv(gameView, dirLight) {
+    //size
+    const textureSizeOptionDiv = document.createElement('div');
+    this.rootHtml.appendChild(textureSizeOptionDiv);
+    const labelSize = document.createElement('div');
+    labelSize.innerHTML = "Taille Texture d'Ombre";
+    labelSize.classList.add('label-menu-settings');
+    textureSizeOptionDiv.appendChild(labelSize);
+
+    //select
+    const selectSize = document.createElement('select');
+    textureSizeOptionDiv.appendChild(selectSize);
+
+    const values = [512, 1024, 2048, 4096];
+    values.forEach(function (value) {
+      const option = document.createElement('option');
+      option.innerHTML = value + ' pixels';
+      option.value = value;
+      selectSize.appendChild(option);
+    });
+
+    //check is settings has been saved
+    if (!isNaN(gameView.getUserData('settings').shadowMapSize)) {
+      dirLight.shadow.mapSize.width =
+        gameView.getUserData('settings').shadowMapSize;
+      dirLight.shadow.mapSize.height =
+        gameView.getUserData('settings').shadowMapSize;
+      dirLight.shadow.map = null;
+    }
+
+    this.shadowMapSelect = selectSize;
+
+    return textureSizeOptionDiv;
+  }
+
+  createFogOptionDiv(localCtx) {
     const gameView = localCtx.getGameView();
     const scene = gameView.getScene();
 
@@ -593,10 +711,12 @@ class MenuSettings {
       scene.fog.far = gameView.getUserData('settings').fogValue;
     }
 
-    const label = document.createElement('div');
+    const fogOptionDiv = document.createElement('div');
+
+    const label = document.createElement('label');
     label.innerHTML = 'Distance Brouillard';
     label.classList.add('label-menu-settings');
-    this.rootHtml.appendChild(label);
+    fogOptionDiv.appendChild(label);
 
     const slider = document.createElement('input');
     slider.type = 'range';
@@ -604,7 +724,7 @@ class MenuSettings {
     slider.min = min;
     slider.max = max;
     slider.value = scene.fog.far;
-    this.rootHtml.appendChild(slider);
+    fogOptionDiv.appendChild(slider);
 
     this.fogSlider = slider;
 
@@ -612,15 +732,36 @@ class MenuSettings {
     slider.onchange = function () {
       scene.fog.far = this.value;
     };
+
+    return fogOptionDiv;
   }
 
-  createVolumeControl(localCtx) {
+  // AUDIO SECTION
+  createAudioSection(localCtx, parentElement) {
+    const audioSection = document.createElement('section');
+    audioSection.classList.add('audio-section');
+
+    //title
+    const audioTitle = document.createElement('h2');
+    audioTitle.innerHTML = 'Audio';
+    audioSection.appendChild(audioTitle);
+
+    //audio slider
+    const audioSliderDiv = this.createVolumeSliderDiv(localCtx);
+    audioSection.appendChild(audioSliderDiv);
+
+    parentElement.appendChild(audioSection);
+  }
+
+  createVolumeSliderDiv(localCtx) {
     const gameView = localCtx.getGameView();
 
-    const labelGlobalSound = document.createElement('div');
+    const audioSliderDiv = document.createElement('div');
+
+    const labelGlobalSound = document.createElement('label');
     labelGlobalSound.innerHTML = 'Volume';
     labelGlobalSound.classList.add('label-menu-settings');
-    this.rootHtml.appendChild(labelGlobalSound);
+    audioSliderDiv.appendChild(labelGlobalSound);
 
     //check is settings has been saved
     if (!isNaN(gameView.getUserData('settings').volumeValue)) {
@@ -633,7 +774,7 @@ class MenuSettings {
     globalVolumeSlider.min = 0;
     globalVolumeSlider.max = 1;
     globalVolumeSlider.value = Howler.volume();
-    this.rootHtml.appendChild(globalVolumeSlider);
+    audioSliderDiv.appendChild(globalVolumeSlider);
 
     this.volumeSlider = globalVolumeSlider;
 
@@ -642,119 +783,102 @@ class MenuSettings {
       //Howler is global
       Howler.volume(this.value);
     };
+
+    return audioSliderDiv;
   }
 
-  createDirectionalOptions(localCtx) {
+  // CONTROLS SECTION
+  createControlsSection(localCtx, parentElement) {
+    const controlsSection = document.createElement('section');
+    controlsSection.classList.add('controls-section');
+
+    //title
+    const controlsTitle = document.createElement('h2');
+    controlsTitle.innerHTML = 'Contrôles';
+    controlsSection.appendChild(controlsTitle);
+
+    // Mouse sensitivity
+    const mouseSensitivityDiv = this.createMouseSensitivitysDiv(localCtx);
+    controlsSection.appendChild(mouseSensitivityDiv);
+
+    // Zoom factor
+    const zoomFactorDiv = this.createZoomFactorDiv(localCtx);
+    controlsSection.appendChild(zoomFactorDiv);
+
+    parentElement.appendChild(controlsSection);
+  }
+
+  createMouseSensitivitysDiv(localCtx) {
     const gameView = localCtx.getGameView();
-    const scene = gameView.getScene();
 
-    for (let index = 0; index < scene.children.length; index++) {
-      const element = scene.children[index];
-      if (element.isDirectionalLight) {
-        //enable directional
+    //init fog according extent
+    const max = 40;
+    const min = 3;
 
-        //parent
-        const flexParentEnableDirect = document.createElement('div');
-        flexParentEnableDirect.style.display = 'flex';
-        this.rootHtml.appendChild(flexParentEnableDirect);
-
-        //label
-        const labelEnableDirect = document.createElement('div');
-        labelEnableDirect.innerHTML = 'Soleil';
-        labelEnableDirect.classList.add('label-menu-settings');
-        flexParentEnableDirect.appendChild(labelEnableDirect);
-
-        //checkbox
-        const checkboxDirect = document.createElement('input');
-        checkboxDirect.type = 'checkbox';
-
-        //check is settings has been saved
-        if (gameView.getUserData('settings').sunValue != undefined) {
-          element.visible = gameView.getUserData('settings').sunValue;
-        }
-
-        checkboxDirect.checked = element.visible;
-        checkboxDirect.onchange = function () {
-          element.visible = this.checked;
-        };
-        flexParentEnableDirect.appendChild(checkboxDirect);
-
-        this.sunCheckBox = checkboxDirect;
-
-        //enable shadow
-
-        //parent
-        const flexParentEnable = document.createElement('div');
-        flexParentEnable.style.display = 'flex';
-        this.rootHtml.appendChild(flexParentEnable);
-
-        //label
-        const labelEnable = document.createElement('div');
-        labelEnable.innerHTML = 'Ombres';
-        labelEnable.classList.add('label-menu-settings');
-        flexParentEnable.appendChild(labelEnable);
-
-        //checkbox
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-
-        //check is settings has been saved
-        if (gameView.getUserData('settings').shadowValue != undefined) {
-          element.castShadow = gameView.getUserData('settings').shadowValue;
-        }
-
-        checkbox.checked = element.castShadow;
-        checkbox.onchange = function () {
-          element.castShadow = this.checked;
-        };
-        flexParentEnable.appendChild(checkbox);
-
-        this.shadowChecBox = checkbox;
-
-        //size
-        const flexParentSize = document.createElement('div');
-        flexParentSize.style.display = 'flex';
-        this.rootHtml.appendChild(flexParentSize);
-        const labelSize = document.createElement('div');
-        labelSize.innerHTML = "Taille Texture d'Ombre";
-        labelSize.classList.add('label-menu-settings');
-        flexParentSize.appendChild(labelSize);
-
-        //select
-        const selectSize = document.createElement('select');
-        flexParentSize.appendChild(selectSize);
-
-        const values = [512, 1024, 2048, 4096];
-        values.forEach(function (value) {
-          const option = document.createElement('option');
-          option.innerHTML = value + ' pixels';
-          option.value = value;
-          selectSize.appendChild(option);
-        });
-
-        //check is settings has been saved
-        if (!isNaN(gameView.getUserData('settings').shadowMapSize)) {
-          element.shadow.mapSize.width =
-            gameView.getUserData('settings').shadowMapSize;
-          element.shadow.mapSize.height =
-            gameView.getUserData('settings').shadowMapSize;
-          element.shadow.map = null;
-        }
-
-        //init
-        selectSize.value = element.shadow.mapSize.width;
-
-        this.shadowMapSelect = selectSize;
-
-        //update shadow map
-        selectSize.onchange = function () {
-          const valueSelected = parseInt(this.selectedOptions[0].value);
-          element.shadow.mapSize.width = valueSelected;
-          element.shadow.mapSize.height = valueSelected;
-          element.shadow.map = null;
-        };
-      }
+    //check is settings has been saved
+    let init = (min + max) / 2;
+    if (!isNaN(gameView.getUserData('settings').mouseSensitivitySlider)) {
+      init = gameView.getUserData('settings').mouseSensitivitySlider;
     }
+
+    const mouseSensitivityDiv = document.createElement('div');
+
+    const label = document.createElement('label');
+    label.innerHTML = 'Mouse Sensibilité';
+    label.classList.add('label-menu-settings');
+    mouseSensitivityDiv.appendChild(label);
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.step = 0.1;
+    slider.min = min;
+    slider.max = max;
+    slider.value = init;
+    mouseSensitivityDiv.appendChild(slider);
+
+    this.mouseSensitivitySlider = slider;
+
+    return mouseSensitivityDiv;
+  }
+
+  createZoomFactorDiv(localCtx) {
+    const gameView = localCtx.getGameView();
+
+    //init fog according extent
+    const max = 2.5;
+    const min = 1.2;
+
+    //check is settings has been saved
+    let init = (min + max) / 2;
+    if (!isNaN(gameView.getUserData('settings').zoomFactor)) {
+      init = gameView.getUserData('settings').zoomFactor;
+    }
+
+    const zoomFactorDiv = document.createElement('div');
+    const label = document.createElement('div');
+    label.innerHTML = 'Itowns Zoom Sensibilité';
+    label.classList.add('label-menu-settings');
+    zoomFactorDiv.appendChild(label);
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.step = 0.01;
+    slider.min = min;
+    slider.max = max;
+    slider.value = init;
+    zoomFactorDiv.appendChild(slider);
+
+    this.zoomFactorSlider = slider;
+
+    slider.onchange = function () {
+      const view = gameView.getItownsView();
+      if (view.controls) {
+        view.controls.zoomInFactor = this.value;
+        view.controls.zoomOutFactor = 1 / this.value;
+      }
+    };
+
+    return zoomFactorDiv;
   }
 
   html() {
