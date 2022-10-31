@@ -1,0 +1,17 @@
+{
+  "name": "CityMockUp",
+  "type": "GameObject",
+  "static": true,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": null,
+      "color": [1, 1, 1]
+    },
+    "LocalScript": {
+      "idScripts": ["city_mock_up"],
+      "conf": {},
+      "type": "LocalScript"
+    }
+  }
+}
