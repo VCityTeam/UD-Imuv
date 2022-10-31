@@ -186,6 +186,9 @@
       },
       "whiteboard": {
         "path": "./assets/localScripts/Whiteboard.js"
+      },
+      "city_mock_up": {
+        "path": "./assets/localScripts/CityMockUp.js"
       }
     },
     "renderData": {
@@ -329,6 +332,9 @@
       },
       "whiteboard_plane": {
         "path": "./assets/prefabs/WhiteboardPlane.json"
+      },
+      "city_mock_up": {
+        "path": "./assets/prefabs/CityMockUp.json"
       }
     },
     "worlds": {
