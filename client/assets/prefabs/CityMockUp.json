@@ -10,7 +10,12 @@
     },
     "LocalScript": {
       "idScripts": ["city_mock_up"],
-      "conf": {},
+      "conf": {
+        "area": {
+          "start": null,
+          "end": null
+        }
+      },
       "type": "LocalScript"
     }
   }

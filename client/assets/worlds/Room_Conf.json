@@ -23,7 +23,12 @@
       },
       "LocalScript": {
         "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
-        "idScripts": ["avatar_controller", "camera", "static_object"],
+        "idScripts": [
+          "avatar_controller",
+          "camera",
+          "static_object",
+          "itowns_refine"
+        ],
         "conf": {},
         "type": "LocalScript"
       }
@@ -462,7 +467,12 @@
               "LocalScript": {
                 "uuid": "DA04F566-1D8C-4FDA-82AA-9FBDFD86D319",
                 "idScripts": ["city_mock_up"],
-                "conf": {},
+                "conf": {
+                  "area": {
+                    "start": null,
+                    "end": null
+                  }
+                },
                 "type": "LocalScript"
               }
             },
@@ -527,7 +537,7 @@
     "freeze": false
   },
   "name": "Room Conf Modulable",
-  "origin": null,
+  "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
   "version": "2.39.2"

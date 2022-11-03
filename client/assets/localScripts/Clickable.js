@@ -25,18 +25,7 @@ module.exports = class Clickable {
     manager.addMouseInput(gameView.getRootWebGL(), 'click', function (event) {
       if (gameView.getUserData('isEditorGameView')) return;
 
-      let currentNode = event.target;
-      let uiClicked = false;
-      while (currentNode.parentNode) {
-        if (currentNode == gameView.ui) {
-          uiClicked = true;
-          break;
-        } else {
-          currentNode = currentNode.parentNode;
-        }
-      }
-
-      if (uiClicked) return;
+      if (udviz.Components.checkParentChild(event.target, gameView.ui)) return; //ui has been clicked
 
       const mouse = new Game.THREE.Vector2(
         -1 +
