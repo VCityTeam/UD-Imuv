@@ -697,7 +697,7 @@ class MenuSettings {
     const scene = gameView.getScene();
 
     //init fog according extent
-    const max = gameView.config.game.radiusExtent;
+    const max = gameView.config.game.radiusExtent * 2;
     const min = 50;
     scene.fog = new udviz.THREE.Fog(
       // new udviz.THREE.Color("red"),

@@ -18,6 +18,6 @@ module.exports = class Ui {
 
     const localScript = go.getComponent(Game.LocalScript.TYPE);
     localScript.conf.world_computer_dt = dt;
-    go.setOutdated(true);
+    go.setOutdated(true); //TODO should be only outdated in DEBUG
   }
 };

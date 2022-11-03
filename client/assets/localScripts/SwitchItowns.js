@@ -18,12 +18,11 @@ module.exports = class SwitchItowns {
     Game = udviz.Game;
     itowns = udviz.itowns;
 
-    //buffer DEBUG
+    //buffer
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
   }
 
-  //DEBUG
   init() {
     const _this = this;
 
@@ -110,6 +109,8 @@ module.exports = class SwitchItowns {
         } else {
           //remove avatar controls
           avatarController.setAvatarControllerMode(false, localCtx);
+          const refine = localCtx.findLocalScriptWithID('itowns_refine');
+          if (refine) refine.itownsControls();
 
           if (!_this.itownsCamPos && !_this.itownsCamQuat) {
             //first time camera in sky
@@ -162,9 +163,6 @@ module.exports = class SwitchItowns {
                   .getZoomFactorValue();
                 view.controls.zoomOutFactor =
                   1 / scriptUI.getMenuSettings().getZoomFactorValue();
-
-                const refine = localCtx.findLocalScriptWithID('itowns_refine');
-                if (refine) refine.itownsControls();
 
                 gameView.getItownsView().notifyChange(gameView.getCamera());
 
