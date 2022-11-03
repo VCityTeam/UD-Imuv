@@ -361,7 +361,7 @@ module.exports = class CityMockUp {
       const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
       const depthMockUp = bbMockUp.max.y - bbMockUp.min.y;
       const widthTable = go.getScale().x; //edited via editor
-      const depthTable = go.getScale().x; //edited via editor
+      const depthTable = go.getScale().y; //edited via editor
       const minMockUpScale = Math.min(1 / widthMockUp, 1 / depthMockUp);
       const minTableScale = Math.min(widthTable, depthTable);
       //scale = constant / go.scale => remain mockup proportion
