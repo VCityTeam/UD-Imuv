@@ -269,7 +269,22 @@ module.exports = class CityMockUp {
         if (!object) return;
 
         object.traverse((child) => {
-          if (child.geometry) {
+          //provisoireu
+          const childIsVisible = () => {
+            let current = child;
+            let isVisible = current.visible;
+
+            while (current.parent) {
+              if (!current.visible) {
+                isVisible = false;
+                break;
+              }
+              current = current.parent;
+            }
+            return isVisible;
+          };
+
+          if (child.geometry && childIsVisible()) {
             //check if its belong to the area
             const bb = child.geometry.boundingBox;
 
