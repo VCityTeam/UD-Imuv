@@ -40,6 +40,61 @@ module.exports = class CityMockUp {
       renderComp.addObject3D(plane);
     }
 
+    //Custom refine the conf area
+
+    const boundingVolumeBox = new udviz.THREE.Box3();
+
+    const layerManager = localCtx.getGameView().getLayerManager();
+    layerManager.tilesManagers.forEach((tileManager) => {
+      tileManager.layer.update = udviz.itowns.process3dTilesNode(
+        (layer, camera, node, tileMatrixWorld) => {
+          if (!node.boundingVolume || !node.boundingVolume.box) return true; //do not requet (culling it)
+
+          boundingVolumeBox.copy(node.boundingVolume.box);
+          boundingVolumeBox.applyMatrix4(tileMatrixWorld);
+
+          return !this.intersectArea(
+            boundingVolumeBox.min,
+            boundingVolumeBox.max
+          ); //request if it is intersected area
+        },
+        (context, layer, node) => {
+          if (layer.tileset.tiles[node.tileId].children === undefined) {
+            return false; // I guess no object so no refine
+          }
+          if (layer.tileset.tiles[node.tileId].isTileset) {
+            return true; // ?
+          }
+
+          boundingVolumeBox.copy(node.boundingVolume.box);
+          boundingVolumeBox.applyMatrix4(node.matrixWorld);
+
+          return this.intersectArea(
+            boundingVolumeBox.min,
+            boundingVolumeBox.max
+          ); //refine if it's intersecting area
+        }
+      );
+
+      tileManager.addEventListener(
+        udviz.Components.TilesManager.EVENT_TILE_LOADED,
+        (tile) => {
+          const boundingBox = new Game.THREE.Box3().setFromObject(tile);
+
+          //only update if this intersect the area
+          if (this.intersectArea(boundingBox.min, boundingBox.max)) {
+            console.log('a tile intersecting has loaded');
+            this.updateMockUpObject(localCtx, go); //not ready yet
+          } else {
+            console.log('a tile has loaded');
+          }
+        }
+      );
+    });
+
+    //update mock up if area is already configure
+    this.updateMockUpObject(localCtx, go);
+
     //add tool
     const scriptUI = localCtx.findLocalScriptWithID('ui');
     const cameraScript = localCtx.findLocalScriptWithID('camera');
@@ -107,9 +162,6 @@ module.exports = class CityMockUp {
         } else {
           //remove avatar controls
           avatarController.setAvatarControllerMode(false, localCtx);
-          //refine itowns
-          const refine = localCtx.findLocalScriptWithID('itowns_refine');
-          if (refine) refine.itownsControls();
 
           if (!this.itownsCamPos && !this.itownsCamQuat) {
             //first time camera in sky
@@ -162,22 +214,33 @@ module.exports = class CityMockUp {
       menu
     );
 
-    //update mock up if area is already configure
-    this.updateMockUpObject(localCtx, go);
-
-    //listen TILE_LOADED event
-    const layerManager = gameView.getLayerManager();
-    layerManager.tilesManagers.forEach((tileManager) => {
-      tileManager.addEventListener(
-        udviz.Components.TilesManager.EVENT_TILE_LOADED,
-        () => {
-          //Actually Tile load in a chaotic way meaning there are loading unloading all the time leading to a lot of computation
-          //And if the more precise are unload then the mockup update changes not in the way we expect
-          //The user have to go in itowns view to load the tile he needs for the mock up
-          this.updateMockUpObject(localCtx, go); //not ready yet
-        }
-      );
+    //DEBUG
+    gameView.getInputManager().addKeyInput('a', 'keyup', () => {
+      this.updateMockUpObject(localCtx, go);
     });
+  }
+
+  intersectArea(min, max) {
+    const area = this.conf.area;
+
+    if (!area.start || !area.end) return false;
+
+    //TODO could be optimize if not compute at each intersect
+    const minArea = new Game.THREE.Vector3(
+      Math.min(area.start[0], area.end[0]),
+      Math.min(area.start[1], area.end[1])
+    );
+    const maxArea = new Game.THREE.Vector3(
+      Math.max(area.start[0], area.end[0]),
+      Math.max(area.start[1], area.end[1])
+    );
+
+    return (
+      minArea.x <= max.x &&
+      maxArea.x >= min.x &&
+      minArea.y <= max.y &&
+      maxArea.y >= min.y
+    );
   }
 
   //TODO throttle it for performance wait for localscript refacto
@@ -187,24 +250,6 @@ module.exports = class CityMockUp {
     console.log('UPDATE MOCK UP => ', area);
 
     if (area.start && area.end) {
-      const minArea = new Game.THREE.Vector3(
-        Math.min(area.start[0], area.end[0]),
-        Math.min(area.start[1], area.end[1])
-      );
-      const maxArea = new Game.THREE.Vector3(
-        Math.max(area.start[0], area.end[0]),
-        Math.max(area.start[1], area.end[1])
-      );
-
-      const intersectArea = function intersect(min, max) {
-        return (
-          minArea.x <= max.x &&
-          maxArea.x >= min.x &&
-          minArea.y <= max.y &&
-          maxArea.y >= min.y
-        );
-      };
-
       const gameView = localCtx.getGameView();
 
       //update 3DTiles mock up object
@@ -213,7 +258,7 @@ module.exports = class CityMockUp {
       }
 
       //parse geometry intersected
-      //TODO how filter lod from loa + how to colorized roof => ask LMA
+      //TODO how filter lod from loa + how to colorized roof => ask LMA CCO
       const geometryMockUp = new Game.THREE.BufferGeometry();
       const positionsMockUp = [];
       const normalsMockUp = [];
@@ -231,7 +276,7 @@ module.exports = class CityMockUp {
             const minChild = bb.min.clone().applyMatrix4(child.matrixWorld);
             const maxChild = bb.max.clone().applyMatrix4(child.matrixWorld);
 
-            if (intersectArea(minChild, maxChild)) {
+            if (this.intersectArea(minChild, maxChild)) {
               //check more precisely what batchID intersect
               const positions = child.geometry.attributes.position.array;
               const normals = child.geometry.attributes.normal.array;
@@ -276,7 +321,7 @@ module.exports = class CityMockUp {
                   maxBB.y = Math.max(y, maxBB.y);
                 }
 
-                if (intersectArea(minBB, maxBB)) {
+                if (this.intersectArea(minBB, maxBB)) {
                   //intersect area should be add
                   positionsMockUp.push(...currentPositions);
                   normalsMockUp.push(...currentNormals);
@@ -375,6 +420,14 @@ module.exports = class CityMockUp {
       if (this.selectedAreaObject && this.selectedAreaObject.parent) {
         this.selectedAreaObject.parent.remove(this.selectedAreaObject);
       }
+      const minArea = new Game.THREE.Vector3(
+        Math.min(area.start[0], area.end[0]),
+        Math.min(area.start[1], area.end[1])
+      );
+      const maxArea = new Game.THREE.Vector3(
+        Math.max(area.start[0], area.end[0]),
+        Math.max(area.start[1], area.end[1])
+      );
       const dim = maxArea.clone().sub(minArea);
       const geometrySelectedArea = new Game.THREE.BoxGeometry(
         dim.x,
@@ -426,7 +479,7 @@ class MenuCityMockUp {
     this.listeners = [];
 
     //callbacks
-    buttonSelect.onclick = (event) => {
+    buttonSelect.onclick = () => {
       this.setItownsController(!this.itownsController); //toggle
     };
   }
@@ -514,6 +567,18 @@ class MenuCityMockUp {
       const worldCoordCurrent = new Game.THREE.Vector3();
       const center = new Game.THREE.Vector3();
 
+      const updateSelectAreaObject = () => {
+        center.lerpVectors(worldCoordStart, worldCoordCurrent, 0.5);
+
+        //place on the xy plane
+        selectAreaObject.position.x = center.x;
+        selectAreaObject.position.y = center.y;
+
+        //compute scale
+        selectAreaObject.scale.x = worldCoordCurrent.x - worldCoordStart.x;
+        selectAreaObject.scale.y = worldCoordCurrent.y - worldCoordStart.y;
+      };
+
       const dragStart = (event) => {
         if (udviz.Components.checkParentChild(event.target, gameView.ui))
           return; //ui has been clicked
@@ -524,6 +589,9 @@ class MenuCityMockUp {
 
         mouseCoordToWorldCoord(event, worldCoordStart);
         mouseCoordToWorldCoord(event, worldCoordCurrent);
+
+        updateSelectAreaObject();
+
         gameView.getScene().add(selectAreaObject);
       };
       manager.addMouseInput(rootWelGL, 'mousedown', dragStart);
@@ -536,26 +604,17 @@ class MenuCityMockUp {
           return; //ui
 
         mouseCoordToWorldCoord(event, worldCoordCurrent);
-
-        center.lerpVectors(worldCoordStart, worldCoordCurrent, 0.5);
-
-        //place on the xy plane
-        selectAreaObject.position.x = center.x;
-        selectAreaObject.position.y = center.y;
-
-        //compute scale
-        selectAreaObject.scale.x = worldCoordCurrent.x - worldCoordStart.x;
-        selectAreaObject.scale.y = worldCoordCurrent.y - worldCoordStart.y;
+        updateSelectAreaObject();
       };
       manager.addMouseInput(rootWelGL, 'mousemove', dragging);
 
-      const dragEnd = (event) => {
+      const dragEnd = () => {
         if (!isDragging) return; //was not dragging
+
         gameView.getScene().remove(selectAreaObject);
+        isDragging = false;
 
         if (worldCoordStart.equals(worldCoordCurrent)) return; //it is not an area
-
-        isDragging = false;
 
         //edit conf go
         const ws = this.localCtx.getWebSocketService();
