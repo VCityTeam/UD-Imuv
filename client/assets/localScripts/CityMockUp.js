@@ -103,7 +103,7 @@ module.exports = class CityMockUp {
     const camera = gameView.getCamera();
     const menu = new MenuCityMockUp(localCtx, go);
     scriptUI.addTool(
-      './assets/img/ui/icon_town_white.png',
+      './assets/img/ui/icon_mock_up.png',
       'Maquette',
       (resolve, reject, onClose) => {
         if (cameraScript.hasRoutine()) {
