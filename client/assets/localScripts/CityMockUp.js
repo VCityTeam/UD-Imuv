@@ -459,6 +459,8 @@ module.exports = class CityMockUp {
       );
       this.selectedAreaObject.name = 'Selected Area MockUp';
       this.selectedAreaObject.position.lerpVectors(minArea, maxArea, 0.5);
+      this.selectedAreaObject.renderOrder = 2; //render after preview of selected area
+
       gameView.getScene().add(this.selectedAreaObject);
     }
   }
@@ -553,7 +555,7 @@ class MenuCityMockUp {
 
       const geometry = new Game.THREE.BoxGeometry(1, 1, 1);
       const material = new Game.THREE.MeshBasicMaterial({
-        color: 0x00ff00,
+        color: 0x0000ff,
         opacity: 0.3,
         transparent: true,
       });
