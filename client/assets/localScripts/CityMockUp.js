@@ -487,8 +487,14 @@ class MenuCityMockUp {
     buttonSelect.innerHTML = 'Changer de mode';
     this.rootHtml.appendChild(buttonSelect);
 
+    //icon Mode
+    this.iconMode = document.createElement('img');
+    this.iconMode.classList.add('mock_up_icon_mode', 'mask_icon');
+    this.rootHtml.appendChild(this.iconMode);
+
     //label mode
     this.labelMode = document.createElement('div');
+    this.labelMode.classList.add('mock_up_label_mode');
     this.rootHtml.appendChild(this.labelMode);
 
     //attr
@@ -521,6 +527,8 @@ class MenuCityMockUp {
 
     if (value == true) {
       this.labelMode.innerHTML = 'Itowns';
+      this.iconMode.classList.remove('select_area_icon');
+      this.iconMode.classList.add('town_icon');
 
       //remove pointer lock
       gameView.getInputManager().setPointerLock(false);
@@ -543,6 +551,8 @@ class MenuCityMockUp {
       this.removeListeners();
     } else {
       this.labelMode.innerHTML = 'Selectionez une région';
+      this.iconMode.classList.remove('town_icon');
+      this.iconMode.classList.add('select_area_icon');
 
       //disbale itowns rendering
       gameView.setItownsRendering(false);
