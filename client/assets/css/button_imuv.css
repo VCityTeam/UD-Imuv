@@ -23,6 +23,8 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   will-change: transform;
+  margin: 0;
+  padding: 2vh 2vw;
 }
 
 .button-imuv:disabled {

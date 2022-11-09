@@ -80,6 +80,16 @@
   mask-image: url(./assets/img/ui/icon_close.png);
 }
 
+.town_icon {
+  -webkit-mask-image: url(./assets/img/ui/icon_town_white.png);
+  mask-image: url(./assets/img/ui/icon_town_white.png);
+}
+
+.select_area_icon {
+  -webkit-mask-image: url(./assets/img/ui/icon_select_area.png);
+  mask-image: url(./assets/img/ui/icon_select_area.png);
+}
+
 .button-imuv:hover .mask_icon {
   background-color: var(--imuv-color-two);
 }
