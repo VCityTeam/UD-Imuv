@@ -1,6 +1,8 @@
 .root-menu-settings {
-  /* border: 1px solid; */
+  border: 2px solid;
   border-color: var(--imuv-color-one);
+  padding: 2px;
+  box-sizing: border-box; /* padding and border are included in the width and height */
   color: var(--imuv-color-one);
   display: grid;
   grid-template-areas:
