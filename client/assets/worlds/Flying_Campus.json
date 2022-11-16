@@ -2738,7 +2738,7 @@
             "freeze": false
           },
           {
-            "name": "audio birds (clone)",
+            "name": "audio birds",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -3981,7 +3981,7 @@
             "freeze": false
           },
           {
-            "name": "SignboardBaignades (clone)",
+            "name": "SignboardBaignades",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -4017,7 +4017,7 @@
             },
             "children": [
               {
-                "name": "Frame (clone)",
+                "name": "Frame",
                 "type": "GameObject",
                 "static": true,
                 "outdated": false,
@@ -4051,7 +4051,7 @@
             "freeze": false
           },
           {
-            "name": "SignboardPorts (clone)",
+            "name": "SignboardPorts",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -4087,7 +4087,7 @@
             },
             "children": [
               {
-                "name": "Frame (clone) (clone)",
+                "name": "Frame",
                 "type": "GameObject",
                 "static": true,
                 "outdated": false,
@@ -4121,7 +4121,7 @@
             "freeze": false
           },
           {
-            "name": "SignboardGaleri3 (clone)",
+            "name": "SignboardGaleri3",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -4157,7 +4157,7 @@
             },
             "children": [
               {
-                "name": "Frame (clone)",
+                "name": "Frame",
                 "type": "GameObject",
                 "static": true,
                 "outdated": false,
@@ -4211,7 +4211,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 429 },
+            "conf": { "world_computer_dt": 427 },
             "type": "LocalScript"
           },
           "WorldScript": {
