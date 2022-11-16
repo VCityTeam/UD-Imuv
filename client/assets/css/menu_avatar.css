@@ -4,3 +4,7 @@
   background-color: var(--imuv-color-two);
   display: grid;
 }
+
+.root_menu_avatar .button-imuv {
+  margin: auto;
+}
