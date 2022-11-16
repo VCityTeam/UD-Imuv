@@ -32,11 +32,13 @@ module.exports = class Signboard {
     const go = arguments[0];
 
     this.renderPlane = go.getComponent(Game.Render.TYPE);
-
-    if (go.children[0].name === 'Frame') {
+    const renderFrame = go.children[0].getComponent(Game.Render.TYPE);
+    if (renderFrame) {
       this.renderFrame = go.children[0].getComponent(Game.Render.TYPE);
     } else {
-      console.error("Signboard's first child should be a Frame");
+      console.error(
+        'No render component found for the first child of the game object'
+      );
     }
 
     this.buildMesh();
@@ -65,12 +67,12 @@ module.exports = class Signboard {
     const _this = this;
     /* Loading the image from the url and then using the image to create the signboard. */
     new THREE.TextureLoader().load(imageURL, function (texture) {
-      let h = texture.image.height;
-      let w = texture.image.width;
+      const heightImage = texture.image.height;
+      const widthImage = texture.image.width;
       const sF = _this.sizeFactor;
 
-      h = h > w ? sF : (h / w) * sF;
-      w = w > h ? sF : (w / h) * sF;
+      const h = heightImage > widthImage ? sF : (heightImage / widthImage) * sF;
+      const w = widthImage > heightImage ? sF : (widthImage / heightImage) * sF;
 
       _this.planeFrontBuilded = _this.buildPlaneFront(texture, h, w);
       _this.renderPlane.addObject3D(_this.planeFrontBuilded);
