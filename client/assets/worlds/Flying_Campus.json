@@ -2288,7 +2288,7 @@
               "position": [
                 30.111797388177365, 46.484672989696264, -2.799337193664371
               ],
-              "rotation": [0, 0, 5.432924564992083, "ZXY"],
+              "rotation": [0, 0, 4.57554907671083, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2359,7 +2359,7 @@
               "position": [
                 18.5993127070833, -49.274458384141326, 0.037513740578333454
               ],
-              "rotation": [0, 0, 5.432924564992083, "ZXY"],
+              "rotation": [0, 0, 4.57554907671083, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2516,7 +2516,7 @@
             "children": [],
             "transform": {
               "position": [12.36441638157703, 28.440718629397452, 0],
-              "rotation": [0, 0, 5.432924564992083, "ZXY"],
+              "rotation": [0, 0, 4.57554907671083, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2587,7 +2587,7 @@
               "position": [
                 36.88026909297332, 32.29033400025219, -2.920996962569461
               ],
-              "rotation": [0, 0, 5.432924564992083, "ZXY"],
+              "rotation": [0, 0, 4.57554907671083, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2655,9 +2655,9 @@
                 27.629728958709165, -8.571165604516864, 0.9133055604198148
               ],
               "rotation": [
-                6.270514255575701,
-                0.011053860863516007,
-                5.467132037824962,
+                6.2665352287497385,
+                6.280837489688706,
+                4.609666969739685,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -2727,9 +2727,9 @@
                 27.653164114337415, -11.20519773196429, 0.9079655714667751
               ],
               "rotation": [
-                6.270112187371426,
-                0.010575290025006012,
-                5.429956327112151,
+                6.266633992803911,
+                6.280220236426969,
+                4.572487172698148,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -3094,7 +3094,7 @@
               "position": [
                 -43.31914057559334, 46.65819201152772, -2.7596450138749447
               ],
-              "rotation": [0, 0, 5.3987849165545825, "ZXY"],
+              "rotation": [0, 0, 4.541409428273331, "ZXY"],
               "scale": [0.1, 0.1, 0.1]
             },
             "noLocalUpdate": false,
@@ -3839,6 +3839,356 @@
             },
             "noLocalUpdate": false,
             "freeze": false
+          },
+          {
+            "name": "Signboard",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "20ED0AC3-5D51-4F90-822F-CCB2EF27D6DA",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "78CFB76C-BBAC-4765-BC76-5B5729900526",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "7DE2784E-9AEB-4DA5-BD0D-9D55788D344C",
+                "idScripts": ["clickable", "signboard", "display_media"],
+                "conf": {
+                  "iframe_src": null,
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/uploaded/9F439000-A086-431E-B706-FE05679B7BAF.jpeg"
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "708F0CA1-3CDA-4EF3-BE0C-A24D8F5DAB79",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [
+              {
+                "name": "Frame",
+                "type": "GameObject",
+                "static": true,
+                "outdated": false,
+                "uuid": "D93CFBD5-F5D5-4F29-B897-6260E90768BD",
+                "parentUUID": "20ED0AC3-5D51-4F90-822F-CCB2EF27D6DA",
+                "forceSerializeComponents": [],
+                "components": {
+                  "Render": {
+                    "uuid": "ABC19208-C6B5-4E56-B242-0A27854CA732",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12]
+                  }
+                },
+                "children": [],
+                "transform": {
+                  "position": [0, 0, 0],
+                  "rotation": [0, 0, 0, "ZXY"],
+                  "scale": [1, 1, 1]
+                },
+                "noLocalUpdate": false,
+                "freeze": false
+              }
+            ],
+            "transform": {
+              "position": [16, -12.281919957138598, 2.3],
+              "rotation": [1.57, 1.57, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "Signboard",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "982466D7-D67A-41FF-9AB0-D72581A6CF9B",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "F5AA12C5-E09E-472E-AA95-505EE0790280",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "CCB2CDB8-36C3-4CA3-BB47-8FE53986FE5B",
+                "idScripts": ["clickable", "signboard", "display_media"],
+                "conf": {
+                  "iframe_src": null,
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/uploaded/A5AC9BF9-D17B-42BF-8FA3-77CEA1A81121.jpeg"
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "7CEEFD80-A150-478A-B696-7B31DBCA28D5",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [
+              {
+                "name": "Frame",
+                "type": "GameObject",
+                "static": true,
+                "outdated": false,
+                "uuid": "63B88B7B-B2BA-4CF1-BB71-8A575F6C7096",
+                "parentUUID": "982466D7-D67A-41FF-9AB0-D72581A6CF9B",
+                "forceSerializeComponents": [],
+                "components": {
+                  "Render": {
+                    "uuid": "76F273FA-4067-4DCC-957C-203CCE522897",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12]
+                  }
+                },
+                "children": [],
+                "transform": {
+                  "position": [0, 0, 0],
+                  "rotation": [0, 0, 0, "ZXY"],
+                  "scale": [1, 1, 1]
+                },
+                "noLocalUpdate": false,
+                "freeze": false
+              }
+            ],
+            "transform": {
+              "position": [16, -6, 2.3],
+              "rotation": [1.57, 1.57, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "SignboardBaignades (clone)",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "70196D1C-9E95-4EE1-B968-E8E0F2DD8DF8",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "F449CFE2-1267-4D93-B0E6-72494A37D57F",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "41DA6516-645C-4B5B-9B63-70A000DE03FB",
+                "idScripts": ["clickable", "signboard", "display_media"],
+                "conf": {
+                  "iframe_src": null,
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/uploaded/675436DB-AF90-42A2-860B-779A469C0D1B.jpeg"
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "97235F97-C964-4208-AFFD-566857B3BECC",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [
+              {
+                "name": "Frame (clone)",
+                "type": "GameObject",
+                "static": true,
+                "outdated": false,
+                "uuid": "FF59315B-D548-44FC-B212-1C9E2125F8F3",
+                "parentUUID": "70196D1C-9E95-4EE1-B968-E8E0F2DD8DF8",
+                "forceSerializeComponents": [],
+                "components": {
+                  "Render": {
+                    "uuid": "B27C7134-1330-44CD-BAD0-13A48D5D1FAF",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12]
+                  }
+                },
+                "children": [],
+                "transform": {
+                  "position": [0, 0, 0],
+                  "rotation": [0, 0, 0, "ZXY"],
+                  "scale": [1, 1, 1]
+                },
+                "noLocalUpdate": false,
+                "freeze": false
+              }
+            ],
+            "transform": {
+              "position": [16, 6.29874512180686, 2.3],
+              "rotation": [1.57, 1.57, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "SignboardPorts (clone)",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "173E5FB1-C7ED-4B56-BE87-C858D506D064",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "F7FCD147-DD30-424D-AEFD-849D842E0592",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "503DEBE2-F639-4936-935B-CF1DA890AB7F",
+                "idScripts": ["clickable", "signboard", "display_media"],
+                "conf": {
+                  "iframe_src": null,
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/uploaded/C34276E3-F5C5-4302-8D41-4CBB004BB475.jpeg"
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "A75FBEB1-312B-4156-BACF-0F1A1FDEEB5C",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [
+              {
+                "name": "Frame (clone) (clone)",
+                "type": "GameObject",
+                "static": true,
+                "outdated": false,
+                "uuid": "D5B2132C-9A5E-423D-8E4D-BC96992DD667",
+                "parentUUID": "173E5FB1-C7ED-4B56-BE87-C858D506D064",
+                "forceSerializeComponents": [],
+                "components": {
+                  "Render": {
+                    "uuid": "65D1CC43-62AE-4415-B0D1-7AAED7BC39D7",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12]
+                  }
+                },
+                "children": [],
+                "transform": {
+                  "position": [0, 0, 0],
+                  "rotation": [0, 0, 0, "ZXY"],
+                  "scale": [1, 1, 1]
+                },
+                "noLocalUpdate": false,
+                "freeze": false
+              }
+            ],
+            "transform": {
+              "position": [16, 12.590549303218722, 2.3],
+              "rotation": [1.57, 1.57, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "SignboardGaleri3 (clone)",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "E660A06F-B283-4097-AC02-04EE275E056D",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "F92FC57F-A867-42C6-9491-DA73A9930461",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "FBF1B5EC-EE72-4AFA-BB3C-ED28ABD2AF84",
+                "idScripts": ["clickable", "signboard", "display_media"],
+                "conf": {
+                  "iframe_src": null,
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/uploaded/A8D7901A-609D-43DF-B74C-63B96B2E1553.jpeg"
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "DCF7CD42-E796-43B5-BA9B-6A0A86EA7DFC",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [
+              {
+                "name": "Frame (clone)",
+                "type": "GameObject",
+                "static": true,
+                "outdated": false,
+                "uuid": "42C3AE37-76DF-4D56-A77E-8B72937B06EE",
+                "parentUUID": "E660A06F-B283-4097-AC02-04EE275E056D",
+                "forceSerializeComponents": [],
+                "components": {
+                  "Render": {
+                    "uuid": "6C2DB02A-0DF5-4743-8BCB-3FEF23EAA5BE",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12]
+                  }
+                },
+                "children": [],
+                "transform": {
+                  "position": [0, 0, 0],
+                  "rotation": [0, 0, 0, "ZXY"],
+                  "scale": [1, 1, 1]
+                },
+                "noLocalUpdate": false,
+                "freeze": false
+              }
+            ],
+            "transform": {
+              "position": [16, 0.04644567333161831, 2.3],
+              "rotation": [1.57, 1.57, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
           }
         ],
         "transform": {
@@ -3861,7 +4211,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 311 },
+            "conf": { "world_computer_dt": 429 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -3893,5 +4243,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-  "version": "2.38.4"
+  "version": "2.39.2"
 }

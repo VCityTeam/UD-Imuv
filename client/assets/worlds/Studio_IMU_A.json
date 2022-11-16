@@ -651,7 +651,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 308 },
+            "conf": { "world_computer_dt": 428 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -683,5 +683,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
-  "version": "2.38.4"
+  "version": "2.39.2"
 }
