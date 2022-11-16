@@ -50,15 +50,16 @@ module.exports = class MenuAvatar {
 
         const obj = go.computeObject3D();
         const bb = new udviz.THREE.Box3().setFromObject(obj);
-
         const center = bb.min.lerp(bb.max, 0.5);
 
-        _this.orbitCtrl.target.copy(center);
+        const direction = go.computeForwardVector();
+        const distance = 2;
+        const cameraPosition = center
+          .clone()
+          .add(direction.clone().multiplyScalar(distance));
 
-        //hard coded tweak values (TODO could be computed with the bb)
-        gameView.getCamera().position.x = -0.89;
-        gameView.getCamera().position.y = 1.92;
-        gameView.getCamera().position.z = 0.97;
+        gameView.getCamera().position.copy(cameraPosition);
+        _this.orbitCtrl.target.copy(center);
 
         _this.buildUI(localCtx);
       });
@@ -159,13 +160,16 @@ module.exports = class MenuAvatar {
       );
     };
 
+    const saveAndCloseSection = document.createElement('section');
+    this.rootHtml.appendChild(saveAndCloseSection);
+
     //SAVE
     const saveButton = document.createElement('button');
     saveButton.classList.add('button-imuv');
     const saveIcon = document.createElement('div');
     saveIcon.classList.add('mask_icon', 'save_icon');
     saveButton.appendChild(saveIcon);
-    this.rootHtml.appendChild(saveButton);
+    saveAndCloseSection.appendChild(saveButton);
 
     saveButton.onclick = function () {
       const content = _this.worldAvatarGO.toJSON(true);
@@ -186,7 +190,7 @@ module.exports = class MenuAvatar {
     };
 
     //CLOSE button
-    this.rootHtml.appendChild(
+    saveAndCloseSection.appendChild(
       localCtx.getGameView().getUserData('close_button')
     );
   }
