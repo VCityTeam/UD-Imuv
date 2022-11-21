@@ -157,6 +157,7 @@ const WorldDispatcherModule = class WorldDispatcher {
       gameObject: user.getAvatarJSON(),
       portalUUID: portalUUID,
       transform: transform,
+      isInsideMap: true,
     });
 
     const socket = user.getSocket();
@@ -220,6 +221,7 @@ const WorldDispatcherModule = class WorldDispatcher {
       function (goJSON) {
         thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
           gameObject: goJSON,
+          isInsideMap: false,
         });
       }
     );

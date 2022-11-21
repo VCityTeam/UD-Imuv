@@ -211,6 +211,7 @@ WorldThreadModule.routine = function (serverConfig) {
           const goJson = msg.data.gameObject;
           const portalUUID = msg.data.portalUUID;
           const transformJSON = msg.data.transform;
+          const isInsideMap = msg.data.isInsideMap;
           const newGO = new GameObject(goJson);
 
           worldStateComputer.onAddGameObject(newGO, function () {
@@ -229,6 +230,33 @@ WorldThreadModule.routine = function (serverConfig) {
                   .updateCollisionBuffer();
               }
             } else if (transformJSON) {
+              if (isInsideMap) {
+                //TODO this ref worldscript asset not sure if it should be called here
+                const computePositionInsideMap = (position) => {
+                  const world = worldStateComputer.getWorldContext().getWorld();
+                  const gameManagerScript = world
+                    .getGameObject()
+                    .fetchWorldScripts()['worldGameManager'];
+                  const mapGO = gameManagerScript.getMap();
+                  const mapScript = mapGO.fetchWorldScripts()['map'];
+
+                  //check if position is inside map
+                  const elevation = mapScript.getHeightValue(
+                    position.x,
+                    position.y
+                  );
+                  if (isNaN(elevation)) {
+                    //not inside return the spawn transform
+                    return gameManagerScript.getSpawnTransform().position;
+                  } else {
+                    return position;
+                  }
+                };
+                transformJSON.position = computePositionInsideMap(
+                  transformJSON.position
+                );
+              }
+
               newGO.setFromTransformJSON(transformJSON);
               worldStateComputer
                 .getWorldContext()
