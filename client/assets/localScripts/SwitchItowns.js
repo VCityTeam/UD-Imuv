@@ -109,8 +109,6 @@ module.exports = class SwitchItowns {
         } else {
           //remove avatar controls
           avatarController.setAvatarControllerMode(false, localCtx);
-          const refine = localCtx.findLocalScriptWithID('itowns_refine');
-          if (refine) refine.itownsControls();
 
           if (!_this.itownsCamPos && !_this.itownsCamQuat) {
             //first time camera in sky
