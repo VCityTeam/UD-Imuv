@@ -65,7 +65,7 @@ if (paramsUrl.has(ImuvConstants.URL_PARAMETER.ID_KEY)) {
 
       if (wrongParams) {
         console.warn('wrong params url');
-        addReceptionView;
+        addReceptionView();
       } else {
         //JSON transform
         params[event.PARAMS_KEY.POSITION] = Pack.vector3ArrayFromURIComponent(
