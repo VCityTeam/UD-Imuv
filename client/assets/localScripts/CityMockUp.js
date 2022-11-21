@@ -243,8 +243,6 @@ module.exports = class CityMockUp {
     );
   }
 
-  //TODO throttle it for performance wait for localscript refacto
-  //http://www.kevinsubileau.fr/informatique/boite-a-code/php-html-css/javascript-debounce-throttle-reduire-appels-fonction.html
   updateMockUpObject(localCtx, go) {
     const area = this.conf.area;
     console.log('UPDATE MOCK UP => ', area);

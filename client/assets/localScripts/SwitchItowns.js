@@ -109,8 +109,6 @@ module.exports = class SwitchItowns {
         } else {
           //remove avatar controls
           avatarController.setAvatarControllerMode(false, localCtx);
-          const refine = localCtx.findLocalScriptWithID('itowns_refine');
-          if (refine) refine.itownsControls();
 
           if (!_this.itownsCamPos && !_this.itownsCamQuat) {
             //first time camera in sky
@@ -165,6 +163,9 @@ module.exports = class SwitchItowns {
                   1 / scriptUI.getMenuSettings().getZoomFactorValue();
 
                 gameView.getItownsView().notifyChange(gameView.getCamera());
+
+                const refine = localCtx.findLocalScriptWithID('itowns_refine');
+                if (refine) refine.itownsControls();
 
                 resolve(true);
               }
