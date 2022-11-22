@@ -135,6 +135,7 @@ module.exports = class Avatar {
             gameObject.move(
               gameObject.computeForwardVector().setLength(dt * avatarSpeedMove)
             );
+            gameObject.setOutdated(true);
             break;
           case Command.TYPE.MOVE_LEFT_START:
             gameObject.move(
@@ -143,6 +144,7 @@ module.exports = class Avatar {
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI * 0.5)
                 .setLength(dt * avatarSpeedMove * 0.5)
             );
+            gameObject.setOutdated(true);
             break;
           case Command.TYPE.MOVE_RIGHT_START:
             gameObject.move(
@@ -151,6 +153,7 @@ module.exports = class Avatar {
                 .applyAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
                 .setLength(dt * avatarSpeedMove * 0.5)
             );
+            gameObject.setOutdated(true);
             break;
           case Command.TYPE.MOVE_BACKWARD_START:
             gameObject.move(
@@ -158,6 +161,7 @@ module.exports = class Avatar {
                 .computeBackwardVector()
                 .setLength(dt * avatarSpeedMove * 0.3)
             );
+            gameObject.setOutdated(true);
             break;
           case Command.TYPE.ROTATE:
             gameObject.rotate(
@@ -168,6 +172,7 @@ module.exports = class Avatar {
               ).multiplyScalar(dt)
             );
             this.clampRotation(gameObject);
+            gameObject.setOutdated(true);
             cmds.shift(); //remove one by one
             break;
           case Command.TYPE.ESCAPE:
@@ -186,6 +191,7 @@ module.exports = class Avatar {
             this.createCityAvatar(worldContext);
           } else {
             gameObject.setPosition(oldPosition);
+            gameObject.setOutdated(true);
           }
         }
       }
@@ -205,6 +211,9 @@ module.exports = class Avatar {
 
     //invisible
     this.go.getComponent(Game.LocalScript.TYPE).conf.visible = false;
+
+    //notify change
+    this.go.setOutdated(true);
 
     //add a city avatar
     this.cityAvatar = worldContext
@@ -316,6 +325,7 @@ module.exports = class Avatar {
       const p = go.getPosition();
       p.x -= result.overlap * result.overlap_x;
       p.y -= result.overlap * result.overlap_y;
+      go.setOutdated(true);
     }
   }
 

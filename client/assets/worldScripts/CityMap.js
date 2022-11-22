@@ -53,6 +53,7 @@ module.exports = class CityMap {
       cityAvatarGO.setPosition(
         new Game.THREE.Vector3(data.position.x, data.position.y, oldPos.z)
       );
+      cityAvatarGO.setOutdated(true);
     });
 
     pingCmds.forEach(function (pingCmd) {

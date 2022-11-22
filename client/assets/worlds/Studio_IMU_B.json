@@ -276,7 +276,7 @@
         "name": "UI_GO",
         "type": "GameObject",
         "static": false,
-        "outdated": true,
+        "outdated": false,
         "uuid": "0CC069A2-AA64-42A9-9E81-7FA4444C862F",
         "parentUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
         "forceSerializeComponents": [],

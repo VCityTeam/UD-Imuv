@@ -44,15 +44,19 @@ module.exports = class Zeppelin {
         switch (cmd.getType()) {
           case Game.Command.TYPE.MOVE_FORWARD:
             go.move(go.computeForwardVector().setLength(dt * speedTranslate));
+            go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_BACKWARD:
             go.move(go.computeBackwardVector().setLength(dt * speedTranslate));
+            go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_LEFT:
             go.rotate(new Game.THREE.Vector3(0, 0, speedRotate * dt));
+            go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_RIGHT:
             go.rotate(new Game.THREE.Vector3(0, 0, -speedRotate * dt));
+            go.setOutdated(true);
             break;
           default:
             throw new Error('command not handle ', cmd.getType());

@@ -22,7 +22,7 @@
     "quickhull": "^1.0.3",
     "showdown": "^2.1.0",
     "timsort": "^0.3.0",
-    "ud-viz": "^2.39.2",
+    "ud-viz": "file:../../UD-Viz",
     "uuid": "^8.3.2",
     "vis-util": "^5.0.2"
   },
