@@ -3121,7 +3121,7 @@
                 "conf": {
                   "image_width": 200,
                   "image_height": 150,
-                  "href": "https://imu.universite-lyon.fr/studios-imu/studio-imu-galeri3/",
+                  "href": "https://imu.universite-lyon.fr/studios/galeri3/",
                   "image_icon_path": "./assets/img/uploaded/A7B0B640-046F-4B98-8CF1-B85E0B360AC0.jpeg"
                 },
                 "type": "LocalScript"
