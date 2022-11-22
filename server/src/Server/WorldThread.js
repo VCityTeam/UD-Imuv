@@ -242,8 +242,8 @@ WorldThreadModule.routine = function (serverConfig) {
 
                   //check if position is inside map
                   const elevation = mapScript.getHeightValue(
-                    position.x,
-                    position.y
+                    parseFloat(position[0]),
+                    parseFloat(position[1])
                   );
                   if (isNaN(elevation)) {
                     //not inside return the spawn transform

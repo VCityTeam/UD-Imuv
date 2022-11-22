@@ -233,6 +233,28 @@ const ApplicationModule = class Application {
     socket.on(MSG_TYPES.READY_TO_RECEIVE_STATE, function (data) {
       //check if not already in world
       const user = _this.users[socket.id];
+
+      //check if data are valid
+      if (
+        data &&
+        data.position instanceof Array &&
+        data.rotation instanceof Array &&
+        data.worldUUID
+      ) {
+        //data have all fields require
+        if (
+          !Pack.checkIfSubStringIsVector3(data.position) ||
+          !Pack.checkIfSubStringIsEuler(data.rotation) ||
+          !_this.worldDispatcher.hasWorld(data.worldUUID)
+        ) {
+          //data are not valid
+          data = null;
+        }
+      } else {
+        //not well formated
+        data = null;
+      }
+
       _this.worldDispatcher.addUser(user, data);
     });
 
