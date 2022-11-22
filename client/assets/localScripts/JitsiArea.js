@@ -62,7 +62,20 @@ module.exports = class JitsiArea {
       userInfo: {
         displayName: name,
       },
-      configOverwrite: { prejoinPageEnabled: false },
+      interfaceConfigOverwrite: {
+        TOOLBAR_BUTTONS: [
+          'camera',
+          'chat',
+          'fullscreen',
+          'help',
+          'microphone',
+          'participants-pane',
+          'raisehand',
+          'recording',
+          'settings',
+          'shortcuts',
+        ],
+      },
     };
 
     const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
