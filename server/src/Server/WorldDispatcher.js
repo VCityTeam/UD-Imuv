@@ -47,6 +47,12 @@ const WorldDispatcherModule = class WorldDispatcher {
     return null;
   }
 
+  hasWorld(worldUUID) {
+    if (this.worldToThread[worldUUID]) return true;
+
+    return false;
+  }
+
   initWorlds() {
     console.log(this.constructor.name, 'init worlds');
     const _this = this;
