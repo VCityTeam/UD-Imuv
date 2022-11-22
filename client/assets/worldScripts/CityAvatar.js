@@ -34,12 +34,14 @@ module.exports = class CityAvatar {
               go.computeForwardVector().setLength(dt * AVATAR_SPEED_MOVE)
             );
             go.getPosition().z = oldZ; //freeze z
+            go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_BACKWARD:
             go.move(
               go.computeBackwardVector().setLength(dt * AVATAR_SPEED_MOVE * 0.3)
             );
             go.getPosition().z = oldZ; //freeze z
+            go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_LEFT:
             go.move(
@@ -49,6 +51,7 @@ module.exports = class CityAvatar {
                 .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
             go.getPosition().z = oldZ; //freeze z
+            go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_RIGHT:
             go.move(
@@ -58,6 +61,7 @@ module.exports = class CityAvatar {
                 .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
             go.getPosition().z = oldZ; //freeze z
+            go.setOutdated(true);
             break;
           case Game.Command.TYPE.ROTATE:
             const vectorJSON = cmd.getData().vector;
@@ -68,6 +72,7 @@ module.exports = class CityAvatar {
             );
             go.rotate(vector.multiplyScalar(dt));
             this.clampRotation(go);
+            go.setOutdated(true);
             commands.unshift(); //remove one by one
             break;
           case Game.Command.TYPE.Z_UPDATE:
@@ -77,6 +82,7 @@ module.exports = class CityAvatar {
             go.setPosition(
               new Game.THREE.Vector3(currentPos.x, currentPos.y, z)
             );
+            go.setOutdated(true);
             break;
           default:
             console.warn('command not handle ', cmd.getType());

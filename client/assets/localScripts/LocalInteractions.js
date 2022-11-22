@@ -7,6 +7,7 @@ module.exports = class LocalInteractions {
 
     ///attr
     this.tickIsColliding = null;
+    this.isCollidingLocalAvatar = false;
     this.localScripts = null;
   }
 
@@ -30,7 +31,7 @@ module.exports = class LocalInteractions {
     let canInteract = false;
     for (let index = 0; index < this.localScripts.length; index++) {
       const ls = this.localScripts[index];
-      if (this.canInteract(localCtx, ls)) {
+      if (this.canInteract(ls)) {
         canInteract = true;
         break;
       }
@@ -53,47 +54,49 @@ module.exports = class LocalInteractions {
 
     manager.addKeyInput('e', 'keydown', function () {
       localScripts.forEach((ls) => {
-        if (_this.canInteract(localCtx, ls)) {
+        if (_this.canInteract(ls)) {
           ls.interaction.call(ls, localCtx);
         }
       });
     });
   }
 
-  canInteract(localCtx, ls) {
-    const avatarUUIDLC = localCtx.getGameView().getUserData('avatarUUID');
-    return this.conf.avatarsColliding.includes(avatarUUIDLC) && ls.interaction;
+  canInteract(ls) {
+    return this.isCollidingLocalAvatar && ls.interaction;
   }
 
   onOutdated() {
     const _this = this;
     const conf = this.conf;
-    let onEnterFunction, onCollidingFunction, onLeaveFunction;
+
     const localCtx = arguments[1];
     const avatarUUIDLC = localCtx.getGameView().getUserData('avatarUUID');
     this.localScripts.forEach((ls) => {
       if (conf.avatarsOnEnter.includes(avatarUUIDLC)) {
-        if ((onEnterFunction = ls.onEnter)) {
-          onEnterFunction.call(ls, arguments[0], arguments[1]);
+        if (ls.onEnter) {
+          ls.onEnter.call(ls, arguments[0], arguments[1]);
         }
         _this.tickIsColliding = null;
+        _this.isCollidingLocalAvatar = true;
       }
 
       if (conf.avatarsColliding.includes(avatarUUIDLC)) {
-        if ((onCollidingFunction = ls.onColliding)) {
-          _this.tickIsColliding = onCollidingFunction.bind(
+        if (ls.onColliding) {
+          _this.tickIsColliding = ls.onColliding.bind(
             ls,
             arguments[0],
             arguments[1]
           );
         }
+        _this.isCollidingLocalAvatar = true;
       }
 
       if (conf.avatarsOnLeave.includes(avatarUUIDLC)) {
-        if ((onLeaveFunction = ls.onLeave)) {
-          onLeaveFunction.call(ls, arguments[0], arguments[1]);
+        if (ls.onLeave) {
+          ls.onLeave.call(ls, arguments[0], arguments[1]);
         }
         _this.tickIsColliding = null;
+        _this.isCollidingLocalAvatar = false;
       }
     });
   }

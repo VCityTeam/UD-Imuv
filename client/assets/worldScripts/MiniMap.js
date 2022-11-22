@@ -56,7 +56,6 @@ module.exports = class MiniMap {
     const scriptMap = mapGo.fetchWorldScripts()['map'];
     if (!scriptMap) throw new Error('no map world script');
 
-    const _this = this;
     teleportCmds.forEach((tpCmd) => {
       const data = tpCmd.getData();
       const result = scriptMap.getHeightValue(data.position.x, data.position.y);
@@ -74,6 +73,7 @@ module.exports = class MiniMap {
         }
 
         avatar.setPosition(newPosition);
+        avatar.setOutdated(true);
       }
     });
 
