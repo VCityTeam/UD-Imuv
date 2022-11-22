@@ -3661,7 +3661,7 @@
             "freeze": false
           },
           {
-            "name": "Signboard",
+            "name": "SignboardIMUV",
             "type": "GameObject",
             "static": true,
             "outdated": true,
@@ -3769,7 +3769,7 @@
             "freeze": false
           },
           {
-            "name": "Signboard",
+            "name": "SignboardStep",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -3841,7 +3841,7 @@
             "freeze": false
           },
           {
-            "name": "Signboard",
+            "name": "SignboardBaignades",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -3859,7 +3859,7 @@
                 "uuid": "7DE2784E-9AEB-4DA5-BD0D-9D55788D344C",
                 "idScripts": ["clickable", "signboard", "display_media"],
                 "conf": {
-                  "iframe_src": null,
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-baignades-urbaines-vf_1668639850940-pdf?ID_FICHE=118648",
                   "sound_id": null,
                   "heightFrame": null,
                   "widthFrame": null,
@@ -3911,7 +3911,7 @@
             "freeze": false
           },
           {
-            "name": "Signboard",
+            "name": "SignboardGaleri3",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -3929,7 +3929,7 @@
                 "uuid": "CCB2CDB8-36C3-4CA3-BB47-8FE53986FE5B",
                 "idScripts": ["clickable", "signboard", "display_media"],
                 "conf": {
-                  "iframe_src": null,
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-galeri3-vf_1668641194661-pdf?ID_FICHE=119648",
                   "sound_id": null,
                   "heightFrame": null,
                   "widthFrame": null,
@@ -3981,7 +3981,7 @@
             "freeze": false
           },
           {
-            "name": "SignboardBaignades",
+            "name": "SignboardPortsRomains",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -3999,7 +3999,7 @@
                 "uuid": "41DA6516-645C-4B5B-9B63-70A000DE03FB",
                 "idScripts": ["clickable", "signboard", "display_media"],
                 "conf": {
-                  "iframe_src": null,
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-ports-romains-vf_1668639588861-pdf?ID_FICHE=119916",
                   "sound_id": null,
                   "heightFrame": null,
                   "widthFrame": null,
@@ -4051,7 +4051,7 @@
             "freeze": false
           },
           {
-            "name": "SignboardPorts",
+            "name": "SignboardSaintGermain",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -4069,7 +4069,7 @@
                 "uuid": "503DEBE2-F639-4936-935B-CF1DA890AB7F",
                 "idScripts": ["clickable", "signboard", "display_media"],
                 "conf": {
-                  "iframe_src": null,
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-saint-germain-en-transition-vf_1668640587812-pdf?ID_FICHE=119589",
                   "sound_id": null,
                   "heightFrame": null,
                   "widthFrame": null,
@@ -4121,7 +4121,7 @@
             "freeze": false
           },
           {
-            "name": "SignboardGaleri3",
+            "name": "SignboardSurchauffes",
             "type": "GameObject",
             "static": true,
             "outdated": false,
@@ -4139,7 +4139,7 @@
                 "uuid": "FBF1B5EC-EE72-4AFA-BB3C-ED28ABD2AF84",
                 "idScripts": ["clickable", "signboard", "display_media"],
                 "conf": {
-                  "iframe_src": null,
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-surchauffes-vf_1668640847118-pdf?ID_FICHE=120154",
                   "sound_id": null,
                   "heightFrame": null,
                   "widthFrame": null,
@@ -4211,7 +4211,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 427 },
+            "conf": { "world_computer_dt": 831 },
             "type": "LocalScript"
           },
           "WorldScript": {
