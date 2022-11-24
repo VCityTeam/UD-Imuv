@@ -219,7 +219,7 @@ figure:hover figcaption {
   transition: 0.3s;
 }
 
-section {
+.content_Reception section {
   padding-top: 100px;
 }
 
