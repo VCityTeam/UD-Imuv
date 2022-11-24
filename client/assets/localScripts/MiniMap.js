@@ -181,25 +181,16 @@ module.exports = class MiniMap {
     go.computeRoot().traverse((child) => {
       const lS = child.fetchLocalScripts();
       if (lS && lS['portal_sweep']) {
-        const icon = document.createElement('img');
-        icon.src = './assets/img/ui/arobase.png';
-        icon.classList.add('map_icon');
-        this.rootHtml.appendChild(icon);
+        //check if intersecting a dropdown menu (portalIcons)
 
         //position
-        icon.style.left =
-          100 * (0.5 + child.getPosition().x / (pixelSize * MINI_MAP_SIZE)) +
-          '%';
+        const portalPosition = new udviz.THREE.Vector2(
+          100 * (0.5 + child.getPosition().x / (pixelSize * MINI_MAP_SIZE)),
+          100 * (0.5 - child.getPosition().y / (pixelSize * MINI_MAP_SIZE))
+        );
 
-        icon.style.top =
-          100 * (0.5 - child.getPosition().y / (pixelSize * MINI_MAP_SIZE)) +
-          '%';
-
-        icon.title = child.getName();
-
-        this.portalIcons.push(icon);
-
-        icon.onclick = (event) => {
+        //callback
+        const callbackPortal = (event) => {
           const x = event.pageX;
           const y = event.pageY;
 
@@ -220,6 +211,37 @@ module.exports = class MiniMap {
               command.toJSON(),
             ]);
         };
+
+        let intersectPortalIcons = false;
+        const intersectionDist = (100 * 20) / MINI_MAP_SIZE; //TODO pick in css of map_UI could be compute procedurally
+
+        for (let index = 0; index < this.portalIcons.length; index++) {
+          const portalIcon = this.portalIcons[index];
+          const menuPosition = portalIcon.fetchPosition();
+
+          if (menuPosition.distanceTo(portalPosition) < intersectionDist) {
+            intersectPortalIcons = true;
+
+            //modify menu position TODO this is not the good way because only work well for two item in the list
+            const newPosition = menuPosition.lerp(portalPosition, 0.5);
+            portalIcon.setPosition(newPosition);
+
+            //add item in the list
+            portalIcon.addItem(child.getName(), callbackPortal);
+
+            break;
+          }
+        }
+
+        if (!intersectPortalIcons) {
+          //create a portal icon
+          const portalIcon = new DropDownMenu();
+          portalIcon.setPosition(portalPosition);
+          portalIcon.addItem(child.getName(), callbackPortal);
+
+          this.portalIcons.push(portalIcon);
+          this.rootHtml.appendChild(portalIcon.html());
+        }
       }
     });
   }
@@ -558,5 +580,45 @@ class Ping {
     } else {
       return false;
     }
+  }
+}
+
+
+class DropDownMenu {
+  constructor() {
+    this.rootHtml = document.createElement('div');
+    this.rootHtml.classList.add('dropdown');
+
+    const icon = document.createElement('img');
+    icon.src = './assets/img/ui/arobase.png';
+    icon.classList.add('map_icon');
+    this.rootHtml.appendChild(icon);
+
+    this.content = document.createElement('div');
+    this.content.classList.add('dropdown-content');
+    this.rootHtml.appendChild(this.content);
+  }
+
+  addItem(label, callback) {
+    const item = document.createElement('div');
+    item.innerHTML = label;
+    item.onclick = callback;
+    this.content.appendChild(item);
+  }
+
+  fetchPosition() {
+    return new udviz.THREE.Vector2(
+      parseFloat(this.rootHtml.style.left),
+      parseFloat(this.rootHtml.style.top)
+    );
+  }
+
+  setPosition(position) {
+    this.rootHtml.style.left = position.x + '%';
+    this.rootHtml.style.top = position.y + '%';
+  }
+
+  html() {
+    return this.rootHtml;
   }
 }
