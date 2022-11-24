@@ -165,6 +165,7 @@ module.exports = class MenuAvatar {
 
     //SAVE
     const saveButton = document.createElement('button');
+    saveButton.title = 'Sauvegarder';
     saveButton.classList.add('button-imuv');
     const saveIcon = document.createElement('div');
     saveIcon.classList.add('mask_icon', 'save_icon');
