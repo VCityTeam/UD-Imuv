@@ -302,12 +302,18 @@ module.exports = class MiniMap {
   setCursorPointer(value) {
     if (value) {
       this.canvasMiniMap.style.cursor = 'pointer';
-      this.infoDivs.concat(this.portalIcons).forEach((el) => {
+      this.infoDivs.forEach((el) => {
         el.classList.add('no_event');
       });
+      this.portalIcons.forEach((p) => {
+        p.html().classList.add('no_event');
+      });
     } else {
-      this.infoDivs.concat(this.portalIcons).forEach((el) => {
+      this.infoDivs.forEach((el) => {
         el.classList.remove('no_event');
+      });
+      this.portalIcons.forEach((p) => {
+        p.html().classList.remove('no_event');
       });
       this.canvasMiniMap.style.cursor = 'auto';
     }
@@ -582,7 +588,6 @@ class Ping {
     }
   }
 }
-
 
 class DropDownMenu {
   constructor() {
