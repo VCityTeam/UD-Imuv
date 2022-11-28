@@ -303,8 +303,6 @@ module.exports = class MiniMap {
       "Zone d'observation"
     );
 
-    this.createDivInfo(212 / 700, 203 / 700, 227 / 700, 217 / 700, 'ZeppeLyon');
-
     this.createDivInfo(
       381 / 700,
       212 / 700,

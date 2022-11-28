@@ -50,17 +50,6 @@ module.exports = class SwitchItowns {
           return;
         }
 
-        let onZeppelin = false;
-        const scriptZeppelinStart =
-          localCtx.findLocalScriptWithID('zeppelin_start');
-        if (scriptZeppelinStart)
-          onZeppelin = scriptZeppelinStart.getOnZeppelinInteraction();
-
-        if (onZeppelin) {
-          resolve(false); //cant itowns while zeppelin
-          return;
-        }
-
         //check if city avatar
         const avatarGO = localCtx
           .getRootGameObject()

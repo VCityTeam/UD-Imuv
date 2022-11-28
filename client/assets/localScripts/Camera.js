@@ -8,6 +8,7 @@ const GameType = require('ud-viz/src/Game/Game');
 let Game = null;
 
 const DISTANCE_CAMERA_AVATAR = 5;
+const DISTANCE_CAMERA_ZEPPELIN = 40;
 
 module.exports = class Camera {
   constructor(conf, udvizBundle) {
@@ -27,6 +28,10 @@ module.exports = class Camera {
 
   getDistanceCameraAvatar() {
     return DISTANCE_CAMERA_AVATAR;
+  }
+
+  getDistanceCameraZeppelin() {
+    return DISTANCE_CAMERA_ZEPPELIN;
   }
 
   getFocusCamera() {
@@ -154,7 +159,6 @@ module.exports = class Camera {
   }
 
   tick() {
-    const go = arguments[0];
     const localCtx = arguments[1];
 
     //if not initialized look for avatar go
@@ -193,7 +197,7 @@ module.exports = class Camera {
       zeppelinController &&
       zeppelinController.getZeppelinControllerMode()
     ) {
-      this.focusTarget(localCtx, this.zeppelinGO, 40);
+      this.focusTarget(localCtx, this.zeppelinGO, DISTANCE_CAMERA_ZEPPELIN);
     }
   }
 
