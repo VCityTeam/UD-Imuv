@@ -166,6 +166,7 @@ module.exports = class ZeppelinStart {
                     localCtx.getGameView().getCamera(),
                     elementToListen
                   );
+                  this.oldPositionZeppelin = null; //reset
 
                   if (refine) refine.itownsControls();
 
