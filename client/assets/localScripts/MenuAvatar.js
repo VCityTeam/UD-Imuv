@@ -205,6 +205,7 @@ module.exports = class MenuAvatar {
 
     this.rootHtml.appendChild(flexParentImage);
     const saveAndCloseSection = document.createElement('section');
+    saveAndCloseSection.id = 'menu-avatar-save-and-close-section';
     this.rootHtml.appendChild(saveAndCloseSection);
 
     //SAVE

@@ -41,6 +41,11 @@
   filter: drop-shadow(4px 3px 10px) invert(0.8);
 }
 
+.root_menu_avatar #menu-avatar-save-and-close-section {
+  display: flex;
+}
+
+/* Styling the input file. */
 .root_menu_avatar .wrap-input-file input {
   margin: 0;
   padding: 0;
