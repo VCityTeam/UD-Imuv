@@ -9,6 +9,7 @@
   color: var(--imuv-color-one);
   grid-gap: 20px;
   padding: 0px 5px;
+  width: 25%;
 }
 
 .root_menu_avatar .button-imuv {
@@ -27,6 +28,8 @@
 .root_menu_avatar .wrap-input-file {
   border: 1px dashed var(--imuv-color-one);
   width: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .root_menu_avatar .wrap-input-file:hover {
@@ -45,6 +48,7 @@
   height: 100%;
   outline: none;
   opacity: 0;
+  position: absolute;
 }
 
 .root_menu_avatar .wrap-input-file > * {
@@ -52,8 +56,14 @@
 }
 
 .root_menu_avatar .wrap-input-file label {
-  position: absolute;
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.root_menu_avatar .wrap-input-file img {
+  margin: auto;
+  pointer-events: none;
+  height: 100px;
+  max-width: 90%;
 }

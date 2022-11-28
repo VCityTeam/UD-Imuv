@@ -151,6 +151,24 @@ module.exports = class MenuAvatar {
     wrapInputFile.classList.add('wrap-input-file');
     flexParentImage.appendChild(wrapInputFile);
 
+    const labelDragOrClick = document.createElement('label');
+    labelDragOrClick.innerHTML = 'Glisser ou cliquer ici';
+    wrapInputFile.appendChild(labelDragOrClick);
+
+    const imgSelected = document.createElement('img');
+    imgSelected.id = 'img-selected';
+
+    const updateSrcImgSelected = () => {
+      const localScriptComp = this.worldAvatarGO.getComponent(
+        udviz.Game.LocalScript.TYPE
+      );
+      const src = localScriptComp.getConf()['path_face_texture'];
+      imgSelected.src = src;
+    };
+    updateSrcImgSelected();
+
+    wrapInputFile.appendChild(imgSelected);
+
     //select input image
     const imageInput = document.createElement('input');
     imageInput.id = 'image-input-file';
@@ -168,6 +186,7 @@ module.exports = class MenuAvatar {
           );
           localScriptComp.getConf()['path_face_texture'] = url;
           _this.worldAvatarGO.setOutdated(true);
+          updateSrcImgSelected();
         }
       );
     };
@@ -183,11 +202,6 @@ module.exports = class MenuAvatar {
         wrapInputFile.classList.remove('is-dragover');
       });
     });
-
-    const labelDragOrClick = document.createElement('label');
-    labelDragOrClick.innerHTML = 'Glisser ou cliquer ici';
-    labelDragOrClick.htmlFor = imageInput.id;
-    wrapInputFile.appendChild(labelDragOrClick);
 
     this.rootHtml.appendChild(flexParentImage);
     const saveAndCloseSection = document.createElement('section');
