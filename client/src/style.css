@@ -5,6 +5,13 @@
   --imuv-color-four: #63e500;
 }
 
+/* https://stackoverflow.com/a/23860302 */
+input[type=file], /* FF, IE7+, chrome (except button) */
+input[type=file]::-webkit-file-upload-button {
+  /* chromes and blink button */
+  cursor: pointer;
+}
+
 /*UD-Viz overwrite*/
 
 .ui_View3D {
