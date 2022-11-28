@@ -60,6 +60,8 @@ const UserModule = class User {
   sendWorldState(stateJSON) {
     const state = new WorldState(stateJSON);
 
+    if (!state.includes(this.getAvatarUUID())) return; //notify client only when avatar has been added
+
     if (!this.lastState) {
       this.socket.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
