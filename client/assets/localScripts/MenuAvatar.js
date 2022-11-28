@@ -75,7 +75,7 @@ module.exports = class MenuAvatar {
       this.rootHtml.firstChild.remove();
     }
 
-    const title = document.createElement('h1');
+    const title = document.createElement('h2');
     title.innerHTML = 'Menu Avatar';
     this.rootHtml.appendChild(title);
 
@@ -83,7 +83,6 @@ module.exports = class MenuAvatar {
 
     //select model
     const flexParentModelId = document.createElement('div');
-    flexParentModelId.style.display = 'flex';
     this.rootHtml.appendChild(flexParentModelId);
 
     const labelModelId = document.createElement('div');
@@ -116,7 +115,6 @@ module.exports = class MenuAvatar {
 
     //select color
     const flexParentColor = document.createElement('div');
-    flexParentColor.style.display = 'flex';
     this.rootHtml.appendChild(flexParentColor);
 
     const labelColor = document.createElement('div');
@@ -141,11 +139,25 @@ module.exports = class MenuAvatar {
       _this.worldAvatarGO.setOutdated(true);
     };
 
-    //select image
+    const flexParentImage = document.createElement('div');
+
+    //label select image
+    const labelImageInput = document.createElement('label');
+    labelImageInput.innerHTML = "Photo tête de l'avatar ";
+    flexParentImage.appendChild(labelImageInput);
+
+    //wrap input file
+    const wrapInputFile = document.createElement('div');
+    wrapInputFile.classList.add('wrap-input-file');
+    flexParentImage.appendChild(wrapInputFile);
+
+    //select input image
     const imageInput = document.createElement('input');
+    imageInput.id = 'image-input-file';
     imageInput.type = 'file';
     imageInput.accept = 'image/*';
-    this.rootHtml.appendChild(imageInput);
+    wrapInputFile.appendChild(imageInput);
+
     imageInput.onchange = function (e) {
       udviz.Components.SystemUtils.File.readSingleFileAsDataUrl(
         e,
@@ -160,6 +172,24 @@ module.exports = class MenuAvatar {
       );
     };
 
+    ['dragover', 'dragenter'].forEach((eventStr) => {
+      imageInput.addEventListener(eventStr, function () {
+        wrapInputFile.classList.add('is-dragover');
+      });
+    });
+
+    ['dragleave', 'dragend', 'drop'].forEach((eventStr) => {
+      imageInput.addEventListener(eventStr, function () {
+        wrapInputFile.classList.remove('is-dragover');
+      });
+    });
+
+    const labelDragOrClick = document.createElement('label');
+    labelDragOrClick.innerHTML = 'Glisser ou cliquer ici';
+    labelDragOrClick.htmlFor = imageInput.id;
+    wrapInputFile.appendChild(labelDragOrClick);
+
+    this.rootHtml.appendChild(flexParentImage);
     const saveAndCloseSection = document.createElement('section');
     this.rootHtml.appendChild(saveAndCloseSection);
 
