@@ -40,6 +40,8 @@ module.exports = class JitsiScreen {
     //create iframe
     const divJitsi = document.createElement('div');
 
+    return
+
     const size = 200;
 
     const options = {
