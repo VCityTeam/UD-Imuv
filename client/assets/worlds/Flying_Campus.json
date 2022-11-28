@@ -2288,7 +2288,7 @@
               "position": [
                 30.111797388177365, 46.484672989696264, -2.799337193664371
               ],
-              "rotation": [0, 0, 4.57554907671083, "ZXY"],
+              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2359,7 +2359,7 @@
               "position": [
                 18.5993127070833, -49.274458384141326, 0.037513740578333454
               ],
-              "rotation": [0, 0, 4.57554907671083, "ZXY"],
+              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2516,7 +2516,7 @@
             "children": [],
             "transform": {
               "position": [12.36441638157703, 28.440718629397452, 0],
-              "rotation": [0, 0, 4.57554907671083, "ZXY"],
+              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2587,7 +2587,7 @@
               "position": [
                 36.88026909297332, 32.29033400025219, -2.920996962569461
               ],
-              "rotation": [0, 0, 4.57554907671083, "ZXY"],
+              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
               "scale": [0.6, 0.6, 1]
             },
             "noLocalUpdate": false,
@@ -2655,9 +2655,9 @@
                 27.629728958709165, -8.571165604516864, 0.9133055604198148
               ],
               "rotation": [
-                6.2665352287497385,
-                6.280837489688706,
-                4.609666969739685,
+                6.26673269798138,
+                6.279714055658532,
+                4.541814209627722,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -2727,9 +2727,9 @@
                 27.653164114337415, -11.20519773196429, 0.9079655714667751
               ],
               "rotation": [
-                6.266633992803911,
-                6.280220236426969,
-                4.572487172698148,
+                6.266873079128487,
+                6.279104922137428,
+                4.5046346803155775,
                 "ZXY"
               ],
               "scale": [0.6, 0.6, 1]
@@ -3039,63 +3039,6 @@
               "scale": [
                 0.2926460686026723, 0.2926460686026723, 0.2926460686026723
               ]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "ZeppelinStart",
-            "type": "GameObject",
-            "static": true,
-            "outdated": true,
-            "uuid": "B4FD18EA-A653-4A49-B045-9F1BA672F001",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "7BFB44A4-9E02-42EA-B77A-8655A4C804ED",
-                "type": "Render",
-                "idRenderData": "zeppelin",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "C546A6DB-111B-40BF-823E-D3254632E3B9",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0 },
-                    "radius": 1
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "9293B455-B3B4-42B6-B906-D3FEEC33B8BE",
-                "idScripts": ["interaction_zone"],
-                "conf": {},
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "5FD51FF0-2166-425E-8197-BC4E391A0D0C",
-                "idScripts": ["rotate", "local_interactions", "zeppelin_start"],
-                "conf": {
-                  "pilotUUID": null,
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -43.31914057559334, 46.65819201152772, -2.7596450138749447
-              ],
-              "rotation": [0, 0, 4.541409428273331, "ZXY"],
-              "scale": [0.1, 0.1, 0.1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -4189,6 +4132,31 @@
             },
             "noLocalUpdate": false,
             "freeze": false
+          },
+          {
+            "name": "ZeppelinStart",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "ED752022-7995-4C65-BF17-B4E7A92A34D7",
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "forceSerializeComponents": [],
+            "components": {
+              "LocalScript": {
+                "uuid": "99BA8C7D-52B8-4E83-A5A2-66AC7DE17490",
+                "idScripts": ["zeppelin_start"],
+                "conf": {},
+                "type": "LocalScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [0, 0, 0],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
           }
         ],
         "transform": {
@@ -4211,7 +4179,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 831 },
+            "conf": { "world_computer_dt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {
