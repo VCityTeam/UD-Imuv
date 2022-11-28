@@ -257,32 +257,39 @@ module.exports = class CityMockUp {
 
       //parse geometry intersected
       //TODO how filter lod from loa + how to colorized roof => ask LMA CCO
+
+      // const layerManager = gameView.getLayerManager();
+      // layerManager.tilesManagers.forEach((tileManager) => {
+      //   // tileManager.layer.tileset.tiles.forEach((tile) => {
+      //   //   if (!tile.children) {
+      //   //     //is Leaf
+
+      //   //   }
+      //   // });
+      //   const object = tileManager.layer.root;
+      //   if (!object) return;
+      //   object.traverse((child) => {
+
+      //   });
+      // });
+
+      // return;
+
       const geometryMockUp = new Game.THREE.BufferGeometry();
       const positionsMockUp = [];
       const normalsMockUp = [];
       const layerManager = gameView.getLayerManager();
+      console.log(layerManager);
       layerManager.tilesManagers.forEach((tileManager) => {
         const object = tileManager.layer.root;
+        console.log(tileManager);
 
         if (!object) return;
 
         object.traverse((child) => {
-          //provisoireu
-          const childIsVisible = () => {
-            let current = child;
-            let isVisible = current.visible;
+          if (child.geometry && !child.userData.metadata.children) {
+            console.log(child);
 
-            while (current.parent) {
-              if (!current.visible) {
-                isVisible = false;
-                break;
-              }
-              current = current.parent;
-            }
-            return isVisible;
-          };
-
-          if (child.geometry && childIsVisible()) {
             //check if its belong to the area
             const bb = child.geometry.boundingBox;
 
