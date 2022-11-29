@@ -22,6 +22,8 @@ module.exports = class ZeppelinStart {
     this.zeppelinGO = null;
 
     this.menuZeppelin = null;
+
+    this.onCloseCallbackMenu = null;
   }
 
   init() {
@@ -29,7 +31,7 @@ module.exports = class ZeppelinStart {
     const localCtx = arguments[1];
 
     //ADD UI to toolbar
-    const menuZeppelin = new MenuZeppelin(localCtx, this.conf);
+    const menuZeppelin = new MenuZeppelin();
     this.menuZeppelin = menuZeppelin;
 
     const scriptUI = localCtx.findLocalScriptWithID('ui');
@@ -51,8 +53,6 @@ module.exports = class ZeppelinStart {
       'ImuvConstants'
     ];
     const refine = localCtx.findLocalScriptWithID('itowns_refine');
-
-    let onCloseCallback = null; //record the onClose callback when opening the tool
 
     scriptUI.addTool(
       './assets/img/ui/icon_zeppelin.png',
@@ -106,8 +106,18 @@ module.exports = class ZeppelinStart {
 
                 return ratio >= 1;
               },
-              function () {
-                onCloseCallback(); //should not ne null
+              () => {
+                this.onCloseCallbackMenu(); //should not ne null
+
+                //reset avatar controls
+                avatarController.setAvatarControllerMode(true, localCtx);
+
+                ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+                  goUUID: avatarGO.getUUID(),
+                  componentUUID: localScriptAvatar.getUUID(),
+                  key: 'visible',
+                  value: true,
+                });
 
                 resolve(true);
               }
@@ -124,6 +134,40 @@ module.exports = class ZeppelinStart {
             key: 'visible',
             value: false,
           });
+
+          //check locally if there is a different pilot still in game
+          const pilot = rootGO.find(this.conf.pilotUUID);
+
+          //update html
+          menuZeppelin.update(localCtx, this.conf);
+
+          if (pilot && this.conf.pilotUUID != avatarUUID) {
+            //cant listen to canvas because zIndex is 0 and labelRenderer zIndex is 1
+            //cant listen to rootWebGL because the icon cant be clicked cause of the orbit control
+            //have to listen the labelRenderer domElement
+
+            const elementToListen =
+              gameView.getItownsView().mainLoop.gfxEngine.label2dRenderer
+                .domElement;
+
+            //new orbitctrl
+            this.orbitCtrl = new udviz.OrbitControls(
+              localCtx.getGameView().getCamera(),
+              elementToListen
+            );
+            this.oldPositionZeppelin = null; //reset
+
+            if (refine) refine.itownsControls();
+
+            //on leave zeppelin cb
+            this.onCloseCallbackMenu = () => {
+              //dispose orbit ctrl
+              this.orbitCtrl.dispose();
+              this.orbitCtrl = null;
+            };
+          } else {
+            this.claimPiloting(localCtx, go);
+          }
 
           cameraScript.addRoutine(
             new udviz.Game.Components.Routine(
@@ -148,115 +192,6 @@ module.exports = class ZeppelinStart {
                 return ratio >= 1;
               },
               () => {
-                //check locally if there is a different pilot still in game
-                const pilotUUID = this.conf.pilotUUID;
-                const inGame = rootGO.find(pilotUUID);
-
-                if (pilotUUID && inGame && pilotUUID != avatarUUID) {
-                  //cant listen to canvas because zIndex is 0 and labelRenderer zIndex is 1
-                  //cant listen to rootWebGL because the icon cant be clicked cause of the orbit control
-                  //have to listen the labelRenderer domElement
-
-                  const elementToListen =
-                    gameView.getItownsView().mainLoop.gfxEngine.label2dRenderer
-                      .domElement;
-
-                  //new orbitctrl
-                  this.orbitCtrl = new udviz.OrbitControls(
-                    localCtx.getGameView().getCamera(),
-                    elementToListen
-                  );
-                  this.oldPositionZeppelin = null; //reset
-
-                  if (refine) refine.itownsControls();
-
-                  //on leave zeppelin cb
-                  onCloseCallback = () => {
-                    //restore avatar controls
-                    avatarController.setAvatarControllerMode(true, localCtx);
-
-                    //dispose orbit ctrl
-                    this.orbitCtrl.dispose();
-                    this.orbitCtrl = null;
-
-                    ws.emit(
-                      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
-                      {
-                        goUUID: avatarGO.getUUID(),
-                        componentUUID: localScriptAvatar.getUUID(),
-                        key: 'visible',
-                        value: true,
-                      }
-                    );
-                  };
-                } else {
-                  const zeppelinController = localCtx.findLocalScriptWithID(
-                    'zeppelin_controller'
-                  );
-
-                  if (!zeppelinController)
-                    throw new Error('no zeppelin controller script');
-
-                  const zeppelinSetted =
-                    zeppelinController.setZeppelinControllerMode(
-                      true,
-                      localCtx
-                    );
-
-                  if (refine) refine.zeppelin();
-
-                  if (zeppelinSetted) {
-                    //scope variables need to edit conf server side
-                    const goUUID = go.getUUID();
-                    const ls = go.getComponent(udviz.Game.LocalScript.TYPE);
-
-                    //edit server side
-                    ws.emit(
-                      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
-                      {
-                        goUUID: goUUID,
-                        componentUUID: ls.getUUID(),
-                        key: 'pilotUUID',
-                        value: avatarUUID,
-                      }
-                    );
-
-                    //on leave zeppelin cb
-                    onCloseCallback = () => {
-                      //remove zeppelin controls
-                      zeppelinController.setZeppelinControllerMode(
-                        false,
-                        localCtx
-                      );
-                      //reset avatar controls
-                      avatarController.setAvatarControllerMode(true, localCtx);
-
-                      //edit server side to remove pilot
-                      ws.emit(
-                        ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
-                        {
-                          goUUID: goUUID,
-                          componentUUID: ls.getUUID(),
-                          key: 'pilotUUID',
-                          value: null,
-                        }
-                      );
-
-                      ws.emit(
-                        ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
-                        {
-                          goUUID: avatarGO.getUUID(),
-                          componentUUID: localScriptAvatar.getUUID(),
-                          key: 'visible',
-                          value: true,
-                        }
-                      );
-                    };
-                  } else {
-                    console.error('zeppelin controls not setted');
-                  }
-                }
-
                 resolve(true);
               }
             )
@@ -265,10 +200,109 @@ module.exports = class ZeppelinStart {
       },
       menuZeppelin
     );
+
+    //callback to become the pilot
+    //update claimPilotingButton callback
+    //should be only necessary here since when init the user cannot claim the piloting
+    this.menuZeppelin.setClaimPilotingButtonCallback(() => {
+      const pilot = localCtx.getRootGameObject().find(this.conf.pilotUUID);
+      if (!pilot) {
+        //no pilot meaning user was passenger and the piot leave
+        if (this.orbitCtrl) {
+          this.orbitCtrl.dispose();
+          this.orbitCtrl = null;
+
+          this.claimPiloting(localCtx, go);
+
+          //routine
+          const cameraScript = localCtx.findLocalScriptWithID('camera');
+          const camera = localCtx.getGameView().getCamera();
+          const duration = 2000;
+          let currentTime = 0;
+
+          const startPos = camera.position.clone();
+          const startQuat = camera.quaternion.clone();
+
+          cameraScript.addRoutine(
+            new udviz.Game.Components.Routine(
+              (dt) => {
+                cameraScript.focusCamera.setTarget(this.zeppelinGO);
+                const t = cameraScript.focusCamera.computeTransformTarget(
+                  null,
+                  cameraScript.getDistanceCameraZeppelin()
+                );
+
+                currentTime += dt;
+                const ratio = Math.min(Math.max(0, currentTime / duration), 1);
+
+                const p = t.position.lerp(startPos, 1 - ratio);
+                const q = t.quaternion.slerp(startQuat, 1 - ratio);
+
+                camera.position.copy(p);
+                camera.quaternion.copy(q);
+
+                camera.updateProjectionMatrix();
+
+                return ratio >= 1;
+              },
+              () => {}
+            )
+          );
+        } else {
+          console.warn('There was not orbit control ???');
+        }
+      }
+    });
+  }
+
+  claimPiloting(localCtx, go) {
+    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
+      'ImuvConstants'
+    ];
+    const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
+    const ws = localCtx.getWebSocketService();
+    const zeppelinController = localCtx.findLocalScriptWithID(
+      'zeppelin_controller'
+    );
+
+    if (!zeppelinController) throw new Error('no zeppelin controller script');
+
+    const zeppelinSetted = zeppelinController.setZeppelinControllerMode(
+      true,
+      localCtx
+    );
+
+    if (!zeppelinSetted) throw 'zeppelin controller not set';
+
+    //scope variables need to edit conf server side
+    const goUUID = go.getUUID();
+    const ls = go.getComponent(udviz.Game.LocalScript.TYPE);
+
+    //edit server side
+    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+      goUUID: goUUID,
+      componentUUID: ls.getUUID(),
+      key: 'pilotUUID',
+      value: avatarUUID,
+    });
+
+    this.onCloseCallbackMenu = () => {
+      //remove zeppelin controls
+      zeppelinController.setZeppelinControllerMode(false, localCtx);
+
+      //edit server side to remove pilot
+      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+        goUUID: goUUID,
+        componentUUID: ls.getUUID(),
+        key: 'pilotUUID',
+        value: null,
+      });
+    };
   }
 
   onOutdated() {
-    this.menuZeppelin.updateLabel(arguments[1], this.conf);
+    //update ui
+    this.menuZeppelin.update(arguments[1], this.conf);
   }
 
   tick() {
@@ -299,16 +333,24 @@ module.exports = class ZeppelinStart {
 };
 
 class MenuZeppelin {
-  constructor(localCtx, conf) {
+  constructor() {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('contextual_menu');
 
-    this.updateLabel(localCtx, conf);
+    this.claimPilotingButton = document.createElement('div');
+    this.claimPilotingButton.classList.add('button-imuv');
+    this.claimPilotingButton.innerHTML = 'Devenir Pilote';
   }
 
-  updateLabel(localCtx, conf) {
+  setClaimPilotingButtonCallback(f) {
+    this.claimPilotingButton.onclick = f;
+  }
+
+  update(localCtx, conf) {
+    if (this.isClosing) return; //TODO WAIT REFACTO TO MAKE A GENERIC ISCLOSING FLAG ON CONTEXTUAL MENU
+
     const pilot = localCtx.getRootGameObject().find(conf.pilotUUID);
-    console.log('Pilote est ' + pilot);
+
     if (pilot) {
       const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
       if (conf.pilotUUID == avatarUUID) {
@@ -317,8 +359,11 @@ class MenuZeppelin {
         const namePilot = pilot.getComponent(Game.LocalScript.TYPE).conf.name;
         this.rootHtml.innerHTML = namePilot + ' est le pilote';
       }
+
+      this.claimPilotingButton.remove();
     } else {
       this.rootHtml.innerHTML = 'Personne ne pilote le Zeppelyon';
+      this.rootHtml.appendChild(this.claimPilotingButton);
     }
   }
 
