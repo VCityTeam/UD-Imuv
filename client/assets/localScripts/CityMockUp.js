@@ -286,7 +286,6 @@ module.exports = class CityMockUp {
       const layerManager = gameView.getLayerManager();
       layerManager.tilesManagers.forEach((tileManager) => {
         const object = tileManager.layer.root;
-        console.log(tileManager);
 
         if (!object) return;
 
