@@ -958,12 +958,15 @@ class ToolsContextualMenu {
     this.closeFunction = null;
     this.available = false;
 
+    menu.isClosing = true; //TODO LIKE DISPOSE HTML CREATE A ISCLOSING FLAG IN CONTEXTUAL MENU GENERIC WAIT FOR REFACTO (is coming ...)
+
     return new Promise((resolve) => {
       this.rootHtml.style.transform = 'translate(-100%,-50%)';
       this.currentMenu = null;
 
       setTimeout(() => {
         menu.dispose();
+        menu.isClosing = false; //TODO LIKE DISPOSE HTML CREATE A ISCLOSING FLAG IN CONTEXTUAL MENU GENERIC WAIT FOR REFACTO (is coming ...)
         this.available = true;
         resolve();
       }, duration);
