@@ -256,39 +256,51 @@ module.exports = class CityMockUp {
       }
 
       //parse geometry intersected
-      //TODO how filter lod from loa + how to colorized roof => ask LMA CCO
-
-      // const layerManager = gameView.getLayerManager();
-      // layerManager.tilesManagers.forEach((tileManager) => {
-      //   // tileManager.layer.tileset.tiles.forEach((tile) => {
-      //   //   if (!tile.children) {
-      //   //     //is Leaf
-
-      //   //   }
-      //   // });
-      //   const object = tileManager.layer.root;
-      //   if (!object) return;
-      //   object.traverse((child) => {
-
-      //   });
-      // });
-
-      // return;
-
+      const materialsMockup = [];
       const geometryMockUp = new Game.THREE.BufferGeometry();
       const positionsMockUp = [];
       const normalsMockUp = [];
+
+      const addToFinalMockUp = (positions, normals, material) => {
+        let materialIndex = -1;
+        for (let index = 0; index < materialsMockup.length; index++) {
+          const m = materialsMockup[index];
+          if (m.uuid == material.uuid) {
+            materialIndex = index;
+            break;
+          }
+        }
+        if (materialIndex == -1) {
+          materialsMockup.push(material);
+          materialIndex = materialsMockup.length - 1;
+        }
+
+        //TODO could mix group between them
+        geometryMockUp.addGroup(
+          positionsMockUp.length / 3,
+          positions.length / 3,
+          materialIndex
+        );
+
+        positionsMockUp.push(...positions);
+        normalsMockUp.push(...normals);
+      };
+
       const layerManager = gameView.getLayerManager();
-      console.log(layerManager);
+
       layerManager.tilesManagers.forEach((tileManager) => {
         const object = tileManager.layer.root;
-        console.log(tileManager);
 
         if (!object) return;
 
+        //gml and cityobjectid intersecting area
+        const cityObjectIDs = [];
+        const gmlIds = [];
+
+        //add cityobject intersecting area
         object.traverse((child) => {
           if (child.geometry && !child.userData.metadata.children) {
-            console.log(child);
+            const tileId = udviz.Components.getTileFromMesh(child).tileId;
 
             //check if its belong to the area
             const bb = child.geometry.boundingBox;
@@ -311,9 +323,10 @@ module.exports = class CityMockUp {
 
               //buffer attr
               let minBB, maxBB;
-              let currentBatchID = -1;
+
               const currentPositions = [];
               const currentNormals = [];
+              let currentCount = -1;
               const position = new Game.THREE.Vector3();
               const normal = new Game.THREE.Vector3();
               const normalMatrixWorld =
@@ -321,7 +334,22 @@ module.exports = class CityMockUp {
 
               //check if the current positions normals should be add to mockup geometry
               const checkCurrentBatch = () => {
-                if (currentBatchID < 0) return; // =-1 this is the first check
+                //find material
+                const groups = child.geometry.groups;
+                let currentMaterial;
+                for (let j = 0; j < groups.length; j++) {
+                  const group = groups[j];
+                  if (
+                    currentCount >= group.start &&
+                    currentCount <= group.start + group.count
+                  ) {
+                    //include
+                    currentMaterial = child.material[group.materialIndex];
+                    break;
+                  }
+                }
+
+                if (!currentMaterial) throw 'do not find material';
 
                 //compute bb
                 minBB = new Game.THREE.Vector2(Infinity, Infinity); //reset
@@ -343,8 +371,22 @@ module.exports = class CityMockUp {
 
                 if (this.intersectArea(minBB, maxBB)) {
                   //intersect area should be add
-                  positionsMockUp.push(...currentPositions);
-                  normalsMockUp.push(...currentNormals);
+                  addToFinalMockUp(
+                    currentPositions,
+                    currentNormals,
+                    currentMaterial
+                  );
+
+                  //record cityobject id and gml id for further pass
+                  cityObjectIDs.push(
+                    new udviz.Components.CityObjectID(tileId, currentBatchID)
+                  );
+
+                  const gmlID =
+                    tileManager.tiles[tileId].cityObjects[currentBatchID].props
+                      .gml_id;
+
+                  if (!gmlIds.includes(gmlID)) gmlIds.push(gmlID);
                 }
 
                 //reset
@@ -352,8 +394,11 @@ module.exports = class CityMockUp {
                 currentNormals.length = 0;
               };
 
-              for (let index = 0; index < positions.length; index += 3) {
-                const batchID = batchIds[index / 3];
+              let currentBatchID = batchIds[0];
+              for (let i = 0; i < positions.length; i += 3) {
+                const count = i / 3;
+                currentCount = count;
+                const batchID = batchIds[count];
 
                 if (currentBatchID != batchID) {
                   //new batch id check if previous one should be add to geometry
@@ -362,9 +407,9 @@ module.exports = class CityMockUp {
                 }
 
                 //position
-                position.x = positions[index];
-                position.y = positions[index + 1];
-                position.z = positions[index + 2];
+                position.x = positions[i];
+                position.y = positions[i + 1];
+                position.z = positions[i + 2];
 
                 //add world position
                 position.applyMatrix4(child.matrixWorld);
@@ -373,9 +418,9 @@ module.exports = class CityMockUp {
                 currentPositions.push(position.z);
 
                 //normal
-                normal.x = normals[index];
-                normal.y = normals[index + 1];
-                normal.z = normals[index + 2];
+                normal.x = normals[i];
+                normal.y = normals[i + 1];
+                normal.z = normals[i + 2];
 
                 //add world normal
                 normal.applyMatrix3(normalMatrixWorld);
@@ -385,6 +430,119 @@ module.exports = class CityMockUp {
               }
               //the last batchID has not been checked
               checkCurrentBatch();
+            }
+          }
+        });
+
+        //add missing batch if not intersected
+        object.traverse((child) => {
+          if (child.geometry && !child.userData.metadata.children) {
+            const tileId = udviz.Components.getTileFromMesh(child).tileId;
+
+            //atributes
+            const positions = child.geometry.attributes.position.array;
+            const normals = child.geometry.attributes.normal.array;
+            const batchIds = child.geometry.attributes._BATCHID.array;
+
+            if (
+              positions.length != normals.length ||
+              positions.length != 3 * batchIds.length
+            ) {
+              throw 'wrong count geometry';
+            }
+
+            const normalMatrixWorld = new Game.THREE.Matrix3().getNormalMatrix(
+              child.matrixWorld
+            );
+
+            for (let i = 0; i < batchIds.length; i++) {
+              const batchID = batchIds[i];
+              const cityObjectId = new udviz.Components.CityObjectID(
+                tileId,
+                batchID
+              );
+
+              const cityObject = tileManager.getCityObject(cityObjectId);
+
+              const gmlID = cityObject.props.gml_id;
+
+              if (gmlIds.includes(gmlID)) {
+                //cityobject having a gmlid intersecting
+                let alreadyAdded = false;
+                for (let j = 0; j < cityObjectIDs.length; j++) {
+                  const alreadyAddCityObjectID = cityObjectIDs[j];
+                  if (cityObjectId.equal(alreadyAddCityObjectID)) {
+                    alreadyAdded = true;
+                    break;
+                  }
+                }
+
+                if (!alreadyAdded) {
+                  //cityobject not intersecting but having a gml id intersecting
+                  const chunkPositions = positions.slice(
+                    cityObject.indexStart * 3,
+                    (cityObject.indexEnd + 1) * 3
+                  ); //+1 because slice does not include last index
+
+                  const chunkNormals = normals.slice(
+                    cityObject.indexStart * 3,
+                    (cityObject.indexEnd + 1) * 3
+                  );
+
+                  if (cityObject.indexCount <= 2) {
+                    throw 'wrong indexCount';
+                  }
+
+                  //apply world transform
+                  const position = new Game.THREE.Vector3();
+                  const normal = new Game.THREE.Vector3();
+                  for (let j = 0; j < chunkPositions.length; j += 3) {
+                    //position
+                    position.x = chunkPositions[j];
+                    position.y = chunkPositions[j + 1];
+                    position.z = chunkPositions[j + 2];
+
+                    //add world position
+                    position.applyMatrix4(child.matrixWorld);
+                    chunkPositions[j] = position.x;
+                    chunkPositions[j + 1] = position.y;
+                    chunkPositions[j + 2] = position.z;
+
+                    //normal
+                    normal.x = chunkNormals[j];
+                    normal.y = chunkNormals[j + 1];
+                    normal.z = chunkNormals[j + 2];
+
+                    //add world normal
+                    normal.applyMatrix3(normalMatrixWorld);
+                    chunkNormals[j] = normal.x;
+                    chunkNormals[j + 1] = normal.y;
+                    chunkNormals[j + 2] = normal.z;
+                  }
+
+                  //one cityobject get one material index dynamic search
+                  const count = cityObject.indexStart;
+                  let added = false; //just for debug
+                  for (let j = 0; j < child.geometry.groups.length; j++) {
+                    const group = child.geometry.groups[j];
+
+                    if (
+                      count >= group.start &&
+                      count <= group.start + group.count
+                    ) {
+                      //found material add to mock up and break
+                      addToFinalMockUp(
+                        chunkPositions,
+                        chunkNormals,
+                        child.material[group.materialIndex]
+                      );
+                      added = true;
+                      break;
+                    }
+                  }
+                  if (!added) throw 'do not find material'; //just for debug
+                }
+              }
             }
           }
         });
@@ -412,12 +570,7 @@ module.exports = class CityMockUp {
       }
 
       //create mesh
-      this.mockUpObject = new Game.THREE.Mesh(
-        geometryMockUp,
-        new Game.THREE.MeshLambertMaterial({
-          color: new Game.THREE.Color().fromArray([1, 1, 1]),
-        })
-      );
+      this.mockUpObject = new Game.THREE.Mesh(geometryMockUp, materialsMockup);
       this.mockUpObject.name = 'MockUp Object';
       const renderComp = go.getComponent(Game.Render.TYPE);
       renderComp.addObject3D(this.mockUpObject);
