@@ -92,9 +92,6 @@ module.exports = class CityMockUp {
       );
     });
 
-    //update mock up if area is already configure
-    this.updateMockUpObject(localCtx, go);
-
     //add tool
     const scriptUI = localCtx.findLocalScriptWithID('ui');
     const cameraScript = localCtx.findLocalScriptWithID('camera');
