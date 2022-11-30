@@ -244,6 +244,23 @@ module.exports = class MiniMap {
         }
       }
     });
+    this.orderPortalIconsZIndex();
+  }
+
+  orderPortalIconsZIndex() {
+    const portalIconsByTopOffset = this.portalIcons.sort((a, b) => {
+      if (parseFloat(a.html().style.top) > parseFloat(b.html().style.top)) {
+        return -1;
+      }
+      if (parseFloat(a.html().style.top) < parseFloat(b.html().style.top)) {
+        return 1;
+      }
+      return 0;
+    });
+    for (let index = 0; index < portalIconsByTopOffset.length; index++) {
+      const portalIcon = portalIconsByTopOffset[index];
+      portalIcon.html().style.zIndex = 6 + index; // 6 is the default z-index of the dropdown of map
+    }
   }
 
   createDivInfo(ratioXStart, ratioYStart, ratioXEnd, ratioYEnd, text) {
