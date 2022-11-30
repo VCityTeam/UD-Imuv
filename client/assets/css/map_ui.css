@@ -21,33 +21,33 @@
 
 /* dropdown menu */
 
-.dropdown {
+.mapUI .dropdown {
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 6;
   display: inline-block;
 }
 
-.dropdown-content {
+.mapUI .dropdown-content {
   display: none;
   position: absolute;
   background-color: var(--imuv-color-one);
   min-width: 160px;
 }
 
-.dropdown-content div {
+.mapUI .dropdown-content div {
   color: var(--imuv-color-two);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.dropdown-content div:hover {
+.mapUI .dropdown-content div:hover {
   background-color: var(--imuv-color-three);
   cursor: pointer;
 }
 
-.dropdown:hover .dropdown-content {
+.mapUI .dropdown:hover .dropdown-content {
   display: block;
 }
 
