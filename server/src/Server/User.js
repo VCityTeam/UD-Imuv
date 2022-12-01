@@ -63,6 +63,7 @@ const UserModule = class User {
     if (!state.includes(this.getAvatarUUID())) return; //notify client only when avatar has been added
 
     if (!this.lastState) {
+      //there is no last state meaning it's the first time the user is notify for this world
       this.socket.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),

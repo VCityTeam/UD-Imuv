@@ -4145,7 +4145,7 @@
               "LocalScript": {
                 "uuid": "99BA8C7D-52B8-4E83-A5A2-66AC7DE17490",
                 "idScripts": ["zeppelin_start"],
-                "conf": {},
+                "conf": { "pilotUUID": null },
                 "type": "LocalScript"
               }
             },
