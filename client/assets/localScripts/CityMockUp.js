@@ -63,7 +63,7 @@ module.exports = class CityMockUp {
             return false; // I guess no object so no refine
           }
           if (layer.tileset.tiles[node.tileId].isTileset) {
-            return true; // ?
+            return true; //refine if it's tileset
           }
 
           boundingVolumeBox.copy(node.boundingVolume.box);
@@ -81,12 +81,9 @@ module.exports = class CityMockUp {
         (tile) => {
           const boundingBox = new Game.THREE.Box3().setFromObject(tile);
 
-          //only update if this intersect the area
+          //only update if tile intersect the area
           if (this.intersectArea(boundingBox.min, boundingBox.max)) {
-            console.log('a tile intersecting has loaded');
-            this.updateMockUpObject(localCtx, go); //not ready yet
-          } else {
-            console.log('a tile has loaded');
+            this.updateMockUpObject(localCtx, go);
           }
         }
       );
