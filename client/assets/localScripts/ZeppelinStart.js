@@ -64,9 +64,6 @@ module.exports = class ZeppelinStart {
         }
 
         //check if city avatar
-        const avatarGO = localCtx
-          .getRootGameObject()
-          .find(localCtx.getGameView().getUserData('avatarUUID'));
         if (avatarGO.findByName('city_avatar')) {
           resolve(false); //cant zeppelin while city avatar
           return;
@@ -79,8 +76,6 @@ module.exports = class ZeppelinStart {
         const startQuat = camera.quaternion.clone();
 
         if (onClose) {
-          const avatarGO = rootGO.find(avatarUUID);
-
           cameraScript.addRoutine(
             new udviz.Game.Components.Routine(
               function (dt) {

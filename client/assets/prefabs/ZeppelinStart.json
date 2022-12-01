@@ -5,7 +5,7 @@
   "components": {
     "LocalScript": {
       "idScripts": ["zeppelin_start"],
-      "conf": {},
+      "conf": { "pilotUUID": null },
       "type": "LocalScript"
     }
   }
