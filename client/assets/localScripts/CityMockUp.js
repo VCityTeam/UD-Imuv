@@ -563,14 +563,14 @@ module.exports = class CityMockUp {
       }
 
       //create mesh
-      console.log('Legonizer');
-      legonizer(geometryMockUp, 50);
-      console.log('End Legonizer');
       this.mockUpObject = new Game.THREE.Mesh(geometryMockUp, materialsMockup);
       this.mockUpObject.name = 'MockUp Object';
       const renderComp = go.getComponent(Game.Render.TYPE);
       renderComp.addObject3D(this.mockUpObject);
 
+      console.log('Legonizer');
+      legonizer(geometryMockUp, 5);
+      console.log('End Legonizer');
       //adapt scale to fit the table
       const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
       const depthMockUp = bbMockUp.max.y - bbMockUp.min.y;
@@ -632,36 +632,42 @@ module.exports = class CityMockUp {
 function legonizer(geometryBuffer, ratioXY) {
   console.log('enter');
   geometryBuffer.computeBoundingBox();
+  console.log(geometryBuffer);
   const bbMockUp = geometryBuffer.boundingBox;
 
-  const ratioX = Math.trunc(
-    Math.abs(bbMockUp.min.x - bbMockUp.max.x) / ratioXY
-  );
+  const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
+
+  const distanceEntrePoint = widthMockUp / ratioXY;
   const ratioY = Math.trunc(
-    Math.abs(bbMockUp.min.y - bbMockUp.max.y) / ratioXY
+    Math.abs(bbMockUp.min.y - bbMockUp.max.y) / distanceEntrePoint
   );
 
   const mesh = new Game.THREE.Mesh(geometryBuffer);
-  console.log(ratioX);
+  console.log('distance x ' + distanceEntrePoint);
   console.log(ratioY);
 
   const raycaster = new Game.THREE.Raycaster();
-  const heightMap = new Array(ratioX * ratioY);
-  for (let i = 0; i < ratioX; i++) {
+  const heightMap = new Array(ratioXY * ratioY);
+  console.log(mesh);
+  for (let i = 0; i < ratioXY; i++) {
     // console.log('hello');
     for (let j = 0; j < ratioY; j++) {
-      raycaster.set(
-        new Game.THREE.Vector3(bbMockUp.min.x, bbMockUp.min.y, 500),
-        new Game.THREE.Vector3(0, 0, -1)
+      const positionRaycast = new Game.THREE.Vector3(
+        bbMockUp.min.x + i * distanceEntrePoint,
+        bbMockUp.min.y + j * distanceEntrePoint,
+        150
       );
-      const object = raycaster.intersectObject(mesh);
-      console.log(object);
-      heightMap[i * ratioY + j] = object.distance;
+      console.log(positionRaycast);
+      raycaster.set(positionRaycast, new Game.THREE.Vector3(0, 0, -1));
+      const objects = raycaster.intersectObject(mesh);
+      if (objects.length > 0) {
+        const object = objects[0];
+        console.log(object);
+        heightMap[i * ratioY + j] = object;
+      }
     }
   }
   console.log(heightMap);
-  //boucle pour le lancer de rayon
-  //
 }
 //
 
