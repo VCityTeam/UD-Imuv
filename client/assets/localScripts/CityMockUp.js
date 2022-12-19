@@ -220,11 +220,11 @@ module.exports = class CityMockUp {
     if (!area.start || !area.end) return false;
 
     //TODO could be optimize if not compute at each intersect
-    const minArea = new Game.THREE.Vector3(
+    const minArea = new Game.THREE.Vector2(
       Math.min(area.start[0], area.end[0]),
       Math.min(area.start[1], area.end[1])
     );
-    const maxArea = new Game.THREE.Vector3(
+    const maxArea = new Game.THREE.Vector2(
       Math.max(area.start[0], area.end[0]),
       Math.max(area.start[1], area.end[1])
     );
@@ -563,6 +563,9 @@ module.exports = class CityMockUp {
       }
 
       //create mesh
+      console.log('Legonizer');
+      legonizer(geometryMockUp, 50);
+      console.log('End Legonizer');
       this.mockUpObject = new Game.THREE.Mesh(geometryMockUp, materialsMockup);
       this.mockUpObject.name = 'MockUp Object';
       const renderComp = go.getComponent(Game.Render.TYPE);
@@ -620,6 +623,47 @@ module.exports = class CityMockUp {
     this.updateMockUpObject(arguments[1], arguments[0]);
   }
 };
+
+//TODO Raycast method
+/**
+ *
+ * @param {BufferGeometry} geometryBuffer
+ */
+function legonizer(geometryBuffer, ratioXY) {
+  console.log('enter');
+  geometryBuffer.computeBoundingBox();
+  const bbMockUp = geometryBuffer.boundingBox;
+
+  const ratioX = Math.trunc(
+    Math.abs(bbMockUp.min.x - bbMockUp.max.x) / ratioXY
+  );
+  const ratioY = Math.trunc(
+    Math.abs(bbMockUp.min.y - bbMockUp.max.y) / ratioXY
+  );
+
+  const mesh = new Game.THREE.Mesh(geometryBuffer);
+  console.log(ratioX);
+  console.log(ratioY);
+
+  const raycaster = new Game.THREE.Raycaster();
+  const heightMap = new Array(ratioX * ratioY);
+  for (let i = 0; i < ratioX; i++) {
+    // console.log('hello');
+    for (let j = 0; j < ratioY; j++) {
+      raycaster.set(
+        new Game.THREE.Vector3(bbMockUp.min.x, bbMockUp.min.y, 500),
+        new Game.THREE.Vector3(0, 0, -1)
+      );
+      const object = raycaster.intersectObject(mesh);
+      console.log(object);
+      heightMap[i * ratioY + j] = object.distance;
+    }
+  }
+  console.log(heightMap);
+  //boucle pour le lancer de rayon
+  //
+}
+//
 
 //TODO make the city visible only when menu is active since no need to view the city in conf room
 //TODO make the select area an object with a transform control
