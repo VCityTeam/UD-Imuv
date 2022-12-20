@@ -571,7 +571,8 @@ module.exports = class CityMockUp {
       console.log('Legonizer');
       const heigtMap = legonizer(geometryMockUp, 50);
       console.log('End Legonizer');
-      generateCSV(heigtMap);
+      generateCSVwithHeightMap(heigtMap);
+      console.log('generateFile');
       //adapt scale to fit the table
       const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
       const depthMockUp = bbMockUp.max.y - bbMockUp.min.y;
@@ -675,20 +676,14 @@ function legonizer(geometryBuffer, ratioXY) {
 }
 //
 
-function generateCSV(heightMap) {
+function generateCSVwithHeightMap(heightMap) {
   let csvContent = 'data:text/csv;charset=utf-8,';
-
-  // heightMap.forEach(function (rowArray) {
-  //   const row = rowArray.join(',');
-  //   csvContent += row + '\r\n';
-  // });
 
   for (let i = 0; i < heightMap.length; i++) {
     const value = heightMap[i];
-
-    for (var j = 0; j < value.length; j++) {
-      var innerValue = value[j] === null ? '' : value[j].toString();
-      var result = innerValue.replace(/"/g, '""');
+    for (let j = 0; j < value.length; j++) {
+      const innerValue = value[j] === null ? '' : value[j].toString();
+      const result = innerValue.replace(/"/g, '""');
       // if (result.search(/("|,|\n)/g) >= 0) result = '"' + result + '"';
       if (j > 0) csvContent += ';';
       csvContent += result;
@@ -699,7 +694,6 @@ function generateCSV(heightMap) {
 
   const encodedUri = encodeURI(csvContent);
   window.open(encodedUri);
-  console.log('end csv');
 }
 
 //TODO make the city visible only when menu is active since no need to view the city in conf room
