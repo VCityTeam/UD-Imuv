@@ -568,11 +568,10 @@ module.exports = class CityMockUp {
       const renderComp = go.getComponent(Game.Render.TYPE);
       renderComp.addObject3D(this.mockUpObject);
 
-      console.log('Legonizer');
+      //Legonizer workflow
       const heigtMap = legonizer(geometryMockUp, 50);
-      console.log('End Legonizer');
       generateCSVwithHeightMap(heigtMap);
-      console.log('generateFile');
+
       //adapt scale to fit the table
       const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
       const depthMockUp = bbMockUp.max.y - bbMockUp.min.y;
@@ -626,66 +625,64 @@ module.exports = class CityMockUp {
   }
 };
 
-//TODO Raycast method
 /**
  *
- * @param {BufferGeometry} geometryBuffer
+ * @param {BufferGeometry} geometryBuffer Geometry that will be transform in heightmap
+ * @param {Int32Array} ratio ratio to discretise modelisation
  */
-function legonizer(geometryBuffer, ratioXY) {
-  geometryBuffer.computeBoundingBox();
+function legonizer(geometryBuffer, ratio) {
+  geometryBuffer.computeBoundingBox(); //Generate Bounding box of the geometry
+  const maxLegoHeight = 10;
   const bbMockUp = geometryBuffer.boundingBox;
-
   const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
-
-  const distanceEntrePoint = widthMockUp / ratioXY;
+  const stepDistance = widthMockUp / ratio;
   const ratioY = Math.trunc(
-    Math.abs(bbMockUp.min.y - bbMockUp.max.y) / distanceEntrePoint
+    Math.abs(bbMockUp.min.y - bbMockUp.max.y) / stepDistance
   );
-
   const mesh = new Game.THREE.Mesh(geometryBuffer);
-
   const raycaster = new Game.THREE.Raycaster();
   const maxZMockup = bbMockUp.max.z;
+  const heightMap = Array.from(Array(ratioY), () => new Array(ratio));
 
-  const heightMap = Array.from(Array(ratioXY), () => new Array(ratioY));
-
-  for (let i = 0; i < ratioXY; i++) {
-    for (let j = 0; j < ratioY; j++) {
+  for (let j = 0; j < ratioY; j++) {
+    for (let i = 0; i < ratio; i++) {
       const positionRaycast = new Game.THREE.Vector3(
-        bbMockUp.min.x + i * distanceEntrePoint,
-        bbMockUp.min.y + j * distanceEntrePoint,
+        bbMockUp.min.x + i * stepDistance,
+        bbMockUp.min.y + j * stepDistance,
         maxZMockup
       );
       raycaster.set(positionRaycast, new Game.THREE.Vector3(0, 0, -1));
       const objects = raycaster.intersectObject(mesh);
       if (objects.length > 0) {
         const object = objects[0];
-        heightMap[i][j] = maxZMockup - object.distance;
+        heightMap[j][i] = maxZMockup - object.distance;
       } else {
-        heightMap[i][j] = 0;
+        heightMap[j][i] = 0;
       }
     }
   }
   // Lego transformation
-  const ratioZ = maxZMockup / 10;
+  const ratioZ = maxZMockup / maxLegoHeight;
   for (let i = 0; i < heightMap.length; i++) {
     for (let j = 0; j < heightMap[i].length; j++)
       heightMap[i][j] = Math.trunc(heightMap[i][j] / ratioZ);
   }
   return heightMap;
 }
-//
 
+/**
+ * generate CSV file from an heightmap
+ * @param {Array} heightMap Array in two dimension that will be integrated in the CSV file
+ */
 function generateCSVwithHeightMap(heightMap) {
   let csvContent = 'data:text/csv;charset=utf-8,';
 
-  for (let i = 0; i < heightMap.length; i++) {
-    const value = heightMap[i];
-    for (let j = 0; j < value.length; j++) {
-      const innerValue = value[j] === null ? '' : value[j].toString();
+  for (let j = heightMap.length - 1; j >= 0; j--) {
+    const value = heightMap[j];
+    for (let i = 0; i < value.length; i++) {
+      const innerValue = value[i] === null ? '' : value[i].toString();
       const result = innerValue.replace(/"/g, '""');
-      // if (result.search(/("|,|\n)/g) >= 0) result = '"' + result + '"';
-      if (j > 0) csvContent += ';';
+      if (i > 0) csvContent += ';';
       csvContent += result;
     }
 
