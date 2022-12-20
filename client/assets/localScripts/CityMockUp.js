@@ -569,8 +569,9 @@ module.exports = class CityMockUp {
       renderComp.addObject3D(this.mockUpObject);
 
       console.log('Legonizer');
-      legonizer(geometryMockUp, 50);
+      const heigtMap = legonizer(geometryMockUp, 50);
       console.log('End Legonizer');
+      generateCSV(heigtMap);
       //adapt scale to fit the table
       const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
       const depthMockUp = bbMockUp.max.y - bbMockUp.min.y;
@@ -630,9 +631,7 @@ module.exports = class CityMockUp {
  * @param {BufferGeometry} geometryBuffer
  */
 function legonizer(geometryBuffer, ratioXY) {
-  console.log('enter');
   geometryBuffer.computeBoundingBox();
-  console.log(geometryBuffer);
   const bbMockUp = geometryBuffer.boundingBox;
 
   const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
@@ -642,12 +641,9 @@ function legonizer(geometryBuffer, ratioXY) {
     Math.abs(bbMockUp.min.y - bbMockUp.max.y) / distanceEntrePoint
   );
 
-  console.log(ratioY);
-
   const mesh = new Game.THREE.Mesh(geometryBuffer);
 
   const raycaster = new Game.THREE.Raycaster();
-  // const heightMap = new Array(ratioXY * ratioY);
   const maxZMockup = bbMockUp.max.z;
 
   const heightMap = Array.from(Array(ratioXY), () => new Array(ratioY));
@@ -664,21 +660,33 @@ function legonizer(geometryBuffer, ratioXY) {
       if (objects.length > 0) {
         const object = objects[0];
         heightMap[i][j] = maxZMockup - object.distance;
-        // heightMap[i * ratioY + j] = maxZMockup - object.distance;
       } else {
         heightMap[i][j] = 0;
       }
     }
   }
-  console.log(heightMap);
-  // console.log('real distance' + heightMap);
+  // Lego transformation
   const ratioZ = maxZMockup / 10;
   for (let i = 0; i < heightMap.length; i++) {
-    heightMap[i] = Math.trunc(heightMap[i] / ratioZ);
+    for (let j = 0; j < heightMap[i].length; j++)
+      heightMap[i][j] = Math.trunc(heightMap[i][j] / ratioZ);
   }
-  console.log('Lego distance' + heightMap);
+  return heightMap;
 }
 //
+
+function generateCSV(heightMap) {
+  let csvContent = 'data:text/csv;charset=utf-8,';
+
+  heightMap.forEach(function (rowArray) {
+    const row = rowArray.join(',');
+    csvContent += row + '\r\n';
+  });
+
+  const encodedUri = encodeURI(csvContent);
+  window.open(encodedUri);
+  console.log('end csv');
+}
 
 //TODO make the city visible only when menu is active since no need to view the city in conf room
 //TODO make the select area an object with a transform control
