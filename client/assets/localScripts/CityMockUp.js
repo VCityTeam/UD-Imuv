@@ -678,10 +678,24 @@ function legonizer(geometryBuffer, ratioXY) {
 function generateCSV(heightMap) {
   let csvContent = 'data:text/csv;charset=utf-8,';
 
-  heightMap.forEach(function (rowArray) {
-    const row = rowArray.join(',');
-    csvContent += row + '\r\n';
-  });
+  // heightMap.forEach(function (rowArray) {
+  //   const row = rowArray.join(',');
+  //   csvContent += row + '\r\n';
+  // });
+
+  for (let i = 0; i < heightMap.length; i++) {
+    const value = heightMap[i];
+
+    for (var j = 0; j < value.length; j++) {
+      var innerValue = value[j] === null ? '' : value[j].toString();
+      var result = innerValue.replace(/"/g, '""');
+      // if (result.search(/("|,|\n)/g) >= 0) result = '"' + result + '"';
+      if (j > 0) csvContent += ';';
+      csvContent += result;
+    }
+
+    csvContent += '\n';
+  }
 
   const encodedUri = encodeURI(csvContent);
   window.open(encodedUri);
