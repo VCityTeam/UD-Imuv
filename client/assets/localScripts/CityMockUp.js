@@ -569,8 +569,11 @@ module.exports = class CityMockUp {
       renderComp.addObject3D(this.mockUpObject);
 
       //Legonizer workflow
-      const heigtMap = legonizer(geometryMockUp, 50);
-      generateCSVwithHeightMap(heigtMap);
+      const heigtMap = Game.createHeightMapFromBufferGeometry(
+        geometryMockUp,
+        50
+      );
+      Game.generateCSVwithHeightMap(heigtMap);
 
       //adapt scale to fit the table
       const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
@@ -624,74 +627,6 @@ module.exports = class CityMockUp {
     this.updateMockUpObject(arguments[1], arguments[0]);
   }
 };
-
-/**
- *
- * @param {BufferGeometry} geometryBuffer Geometry that will be transform in heightmap
- * @param {Int32Array} ratio ratio to discretise modelisation
- */
-function legonizer(geometryBuffer, ratio) {
-  geometryBuffer.computeBoundingBox(); //Generate Bounding box of the geometry
-  const maxLegoHeight = 10;
-  const bbMockUp = geometryBuffer.boundingBox;
-  const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
-  const stepDistance = widthMockUp / ratio;
-  const ratioY = Math.trunc(
-    Math.abs(bbMockUp.min.y - bbMockUp.max.y) / stepDistance
-  );
-  const mesh = new Game.THREE.Mesh(geometryBuffer);
-  const raycaster = new Game.THREE.Raycaster();
-  const maxZMockup = bbMockUp.max.z;
-  const heightMap = Array.from(Array(ratioY), () => new Array(ratio));
-
-  for (let j = 0; j < ratioY; j++) {
-    for (let i = 0; i < ratio; i++) {
-      const positionRaycast = new Game.THREE.Vector3(
-        bbMockUp.min.x + i * stepDistance,
-        bbMockUp.min.y + j * stepDistance,
-        maxZMockup
-      );
-      raycaster.set(positionRaycast, new Game.THREE.Vector3(0, 0, -1));
-      const objects = raycaster.intersectObject(mesh);
-      if (objects.length > 0) {
-        const object = objects[0];
-        heightMap[j][i] = maxZMockup - object.distance;
-      } else {
-        heightMap[j][i] = 0;
-      }
-    }
-  }
-  // Lego transformation
-  const ratioZ = maxZMockup / maxLegoHeight;
-  for (let i = 0; i < heightMap.length; i++) {
-    for (let j = 0; j < heightMap[i].length; j++)
-      heightMap[i][j] = Math.trunc(heightMap[i][j] / ratioZ);
-  }
-  return heightMap;
-}
-
-/**
- * generate CSV file from an heightmap
- * @param {Array} heightMap Array in two dimension that will be integrated in the CSV file
- */
-function generateCSVwithHeightMap(heightMap) {
-  let csvContent = 'data:text/csv;charset=utf-8,';
-
-  for (let j = heightMap.length - 1; j >= 0; j--) {
-    const value = heightMap[j];
-    for (let i = 0; i < value.length; i++) {
-      const innerValue = value[i] === null ? '' : value[i].toString();
-      const result = innerValue.replace(/"/g, '""');
-      if (i > 0) csvContent += ';';
-      csvContent += result;
-    }
-
-    csvContent += '\n';
-  }
-
-  const encodedUri = encodeURI(csvContent);
-  window.open(encodedUri);
-}
 
 //TODO make the city visible only when menu is active since no need to view the city in conf room
 //TODO make the select area an object with a transform control
