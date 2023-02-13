@@ -413,6 +413,6 @@ class MenuBox3D {
   dispose() {
     this.select(null);
     this.rootHtml.remove();
-    this.manager.removeInputListener(this.listener);
+    // this.manager.removeInputListener(this.listener);
   }
 }
