@@ -36,6 +36,9 @@
       },
       "city_map": {
         "path": "../client/assets/worldScripts/CityMap.js"
+      },
+      "box3D_tool": {
+        "path": "../client/assets/worldScripts/Box3DTool.js"
       }
     },
     "prefabs": {

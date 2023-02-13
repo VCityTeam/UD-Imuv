@@ -79,6 +79,9 @@
     "prefabs": {
       "post_it": {
         "path": "./assets/prefabs/PostIt.json"
+      },
+      "box3D": {
+        "path": "./assets/prefabs/Box3D.json"
       }
     },
     "videos": {
@@ -197,6 +200,9 @@
       },
       "city_mock_up": {
         "path": "./assets/localScripts/CityMockUp.js"
+      },
+      "box3D_tool": {
+        "path": "./assets/localScripts/Box3DTool.js"
       }
     },
     "renderData": {

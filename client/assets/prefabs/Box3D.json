@@ -1,0 +1,12 @@
+{
+  "name": "Box3D",
+  "type": "GameObject",
+  "static": false,
+  "components": {
+    "Render": {
+      "type": "Render",
+      "idRenderData": "cube",
+      "color": [1, 1, 1]
+    }
+  }
+}

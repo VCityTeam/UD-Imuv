@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
-        "idScripts": ["worldGameManager"],
+        "idScripts": ["worldGameManager", "box3D_tool"],
         "conf": {
           "mapUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
           "spawnTransform": {
@@ -29,6 +29,7 @@
           "avatar_controller",
           "camera",
           "zeppelin_controller",
+          "box3D_tool",
           "static_object"
         ],
         "conf": { "traveling_time": 3000 },

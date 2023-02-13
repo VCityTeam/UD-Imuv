@@ -195,9 +195,9 @@ const WorldDispatcherModule = class WorldDispatcher {
       cmdsJSON.forEach(function (cmdJSON) {
         const command = new Game.Command(cmdJSON);
 
-        if (command.getUserID() == user.getUUID()) {
-          commands.push(command);
-        }
+        // if (command.getUserID() == user.getUUID()) {
+        commands.push(command);
+        // }
       });
 
       thread.post(WorldThread.MSG_TYPES.COMMANDS, commands);
