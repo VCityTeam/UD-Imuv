@@ -189,6 +189,9 @@
       },
       "city_mock_up": {
         "path": "./assets/localScripts/CityMockUp.js"
+      },
+      "box3D_tool": {
+        "path": "./assets/localScripts/Box3DTool.js"
       }
     },
     "renderData": {
@@ -273,6 +276,9 @@
       },
       "city_map": {
         "path": "./assets/worldScripts/CityMap.js"
+      },
+      "box3D": {
+        "path": "./assets/worldScripts/Box3D.js"
       }
     },
     "prefabs": {
