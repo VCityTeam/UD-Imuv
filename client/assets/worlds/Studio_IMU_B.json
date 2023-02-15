@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
-        "idScripts": ["worldGameManager"],
+        "idScripts": ["worldGameManager", "box3D_tool"],
         "conf": {
           "mapUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
           "spawnTransform": {
@@ -29,7 +29,8 @@
           "avatar_controller",
           "camera",
           "place_post_it",
-          "static_object"
+          "static_object",
+          "box3D_tool"
         ],
         "conf": {},
         "type": "LocalScript"

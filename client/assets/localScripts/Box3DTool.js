@@ -36,7 +36,7 @@ module.exports = class Box3DTool {
     const refine = localCtx.findLocalScriptWithID('itowns_refine');
 
     scriptUI.addTool(
-      './assets/img/ui/icon_zeppelin.png',
+      './assets/img/ui/icon_box.png',
       'AddBox3D',
       (resolve, reject, onClose) => {
         if (cameraScript.hasRoutine()) {
