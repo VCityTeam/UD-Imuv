@@ -28,5 +28,9 @@
   "bugs": {
     "url": "https://github.com/VCityTeam/UD-Imuv/issues"
   },
-  "homepage": "https://github.com/VCityTeam/UD-Imuv#readme"
+  "homepage": "https://github.com/VCityTeam/UD-Imuv#readme",
+  "devDependencies": {
+    "@ud-viz/node": "^3.0.0",
+    "child-process-promise": "^2.2.1"
+  }
 }

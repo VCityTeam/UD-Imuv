@@ -1,13 +1,19 @@
 /** @format */
 
 try {
-  const gameServer = require('./dist/server.js');
+  // const udImuvNode = require('./src/index');
+  const udvizNode = require('@ud-viz/node');
   const config = require('./assets/config/config.json');
 
-  console.log('server version ', require('./package.json').version);
+  // const app = new udImuvNode.Application(config);
+  // app.start(config);
 
-  const app = new gameServer.Application(config);
-  app.start();
+  const expressAppWrapper = new udvizNode.ExpressAppWrapper();
+  expressAppWrapper.start({
+    folder: '../browser',
+    port: 8000,
+    withDefaultGameSocketService: false,
+  });
 } catch (e) {
   console.error(e);
 }

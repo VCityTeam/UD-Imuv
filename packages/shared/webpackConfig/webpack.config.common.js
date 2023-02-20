@@ -1,8 +1,5 @@
-/** @format */
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../../.env' });
 
 const mode = process.env.NODE_ENV;
 
@@ -22,19 +19,23 @@ keyEnvVariables.forEach(function (key) {
 });
 plugins.push(new webpack.DefinePlugin(params));
 
-module.exports = () => {
-  return {
-    target: 'node',
-    mode: mode,
-    externals: [nodeExternals()],
-    entry: path.resolve(__dirname, 'src/server.js'),
-    output: {
-      path: path.resolve(__dirname, 'dist/'),
-      filename: 'bundle.js',
-      library: 'udImuvNode',
-      libraryTarget: 'umd',
-      umdNamedDefine: true,
-    },
-    plugins: plugins,
-  };
+module.exports = {
+  entry: ['./src/index.js'],
+  output: {
+    filename: 'bundle.js',
+    library: 'udvizShared',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
+    globalObject: 'this',
+  },
+  plugins: plugins,
+  module: {
+    rules: [],
+  },
+  resolve: {
+    modules: [
+      'node_modules', // The default
+      'src',
+    ],
+  },
 };
