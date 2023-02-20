@@ -4,14 +4,9 @@
   "description": "application hosting a imuv client",
   "main": "index.js",
   "scripts": {
-    "travis": "npm run eslint && npm run build",
-    "eslint": "eslint ./src",
-    "eslint-fix": "eslint ./src --fix",
-    "format-worlds": "prettier --write ../client/assets/worlds/*",
     "build": "cross-env NODE_ENV=production webpack",
     "build-debug": "cross-env NODE_ENV=development webpack",
-    "debug": "nodemon --verbose --watch src --delay 2500ms ./bin/debug.js -e js,css,html",
-    "clear-node": "sudo killall -9 node"
+    "debug": "nodemon --verbose --watch src --delay 2500ms ./bin/debug.js -e js,css,html"
   },
   "keywords": [
     "game"

@@ -1,7 +1,7 @@
 /** @format */
 
 import * as JitsiIframeAPI from 'jitsi-iframe-api';
-import ImuvConstants from '../../../imuv.constants';
+import { Constant } from '@ud-imuv/shared';
 import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
 
 import { SignInView, SignUpView } from '../Sign/Sign';
@@ -375,7 +375,7 @@ export class ReceptionView {
                   role: _this.userData.role,
                 },
                 {
-                  ImuvConstants: ImuvConstants,
+                  Constant: Constant,
                   AnimatedText: AnimatedText,
                   JitsiIframeAPI: JitsiIframeAPI,
                 }
@@ -383,7 +383,7 @@ export class ReceptionView {
 
               //app is loaded and ready to receive worldstate
               _this.webSocketService.emit(
-                ImuvConstants.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
+                Constant.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
               );
             });
         }
@@ -423,7 +423,7 @@ export class ReceptionView {
       });
     };
     this.webSocketService.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
+      Constant.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
       function () {
         console.log('sign up success ');
         if (signUpView) {
@@ -451,7 +451,7 @@ export class ReceptionView {
     };
 
     this.webSocketService.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.SIGNED,
+      Constant.WEBSOCKET.MSG_TYPES.SIGNED,
       function (data) {
         if (signInView) {
           signInView.dispose();
@@ -464,7 +464,7 @@ export class ReceptionView {
         //register values
         _this.userData = data;
 
-        if (data.role == ImuvConstants.USER.ROLE.ADMIN) {
+        if (data.role == Constant.USER.ROLE.ADMIN) {
           _this.editorButton.classList.remove('hidden');
         } else {
           _this.editorButton.classList.add('hidden');

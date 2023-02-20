@@ -3,7 +3,7 @@
 import WorldStateInterpolator from 'ud-viz/src/Game/WorldStateInterpolator';
 import { WorldState, WorldStateDiff } from 'ud-viz/src/Game/Game';
 import { GameView } from 'ud-viz/src/Views/Views';
-import ImuvConstants from '../../../imuv.constants';
+import { Constant } from '@ud-imuv/shared';
 
 export class DistantGame {
   constructor(webSocketService, assetsManager, config) {
@@ -31,8 +31,8 @@ export class DistantGame {
     if (this.gameView) this.gameView.dispose();
     //reset websocketservices
     this.webSocketService.reset([
-      ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-      ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+      Constant.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+      Constant.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
     ]);
   }
 
@@ -59,7 +59,7 @@ export class DistantGame {
         cmdsJSON.push(cmd.toJSON());
       });
       _this.webSocketService.emit(
-        ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS,
+        Constant.WEBSOCKET.MSG_TYPES.COMMANDS,
         cmdsJSON
       );
     });
@@ -75,10 +75,10 @@ export class DistantGame {
 
       // Register callbacks
       this.webSocketService.on(
-        ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+        Constant.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
         (json) => {
           if (!json) throw new Error('no data');
-          console.warn(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, json);
+          console.warn(Constant.WEBSOCKET.MSG_TYPES.JOIN_WORLD, json);
 
           const state = new WorldState(json.state);
 
@@ -96,7 +96,7 @@ export class DistantGame {
       );
 
       this.webSocketService.on(
-        ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+        Constant.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
         (diffJSON) => {
           _this.interpolator.onNewDiff(new WorldStateDiff(diffJSON));
         }

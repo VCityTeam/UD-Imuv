@@ -10,7 +10,7 @@ import { HeightmapEditorView } from './HeightmapEditor/HeightmapEditor';
 import { computeMapGO } from '../Components/EditorUtility';
 const WorldStateInterpolator = Game.WorldStateInterpolator;
 import { EditorGameView } from '../Components/EditorGameView';
-import ImuvConstants from '../../../../imuv.constants';
+import { Constant } from '@ud-imuv/shared';
 import { AnimatedText } from '../../LocalScriptsModule/AnimatedText/AnimatedText';
 import * as JitsiIframeAPI from 'jitsi-iframe-api';
 
@@ -37,7 +37,7 @@ export class WorldEditorView {
       interpolator: this.model.getInterpolator(),
       updateGameObject: false,
       localScriptModules: {
-        ImuvConstants: ImuvConstants,
+        Constant: Constant,
         AnimatedText: AnimatedText,
         JitsiIframeAPI: JitsiIframeAPI,
       },
