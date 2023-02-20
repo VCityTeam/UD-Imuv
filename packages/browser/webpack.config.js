@@ -3,7 +3,7 @@ const path = require('path');
 const mode = process.env.NODE_ENV;
 const debugBuild = mode === 'development';
 const webpack = require('webpack');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../../.env' });
 
 let outputPath;
 let devTool;
@@ -23,6 +23,12 @@ keyEnvVariables.forEach(function (key) {
   params[key] = JSON.stringify(process.env[key]);
 });
 plugins.push(new webpack.DefinePlugin(params));
+// possible de write in sources DEBUG flag that is going to be replace by a boolean during webpack
+plugins.push(
+  new webpack.DefinePlugin({
+    DEBUG: debugBuild,
+  })
+);
 
 module.exports = (env) => {
   const rules = [
@@ -54,8 +60,8 @@ module.exports = (env) => {
     devtool: devTool,
     output: {
       path: outputPath,
-      filename: 'app_name.js',
-      library: 'app_name',
+      filename: 'bundle.js',
+      library: 'udImuvBrowser',
       libraryTarget: 'umd',
       umdNamedDefine: true,
     },

@@ -1,5 +1,3 @@
-/** @format */
-
 module.exports = {
   env: {
     browser: true,
@@ -11,8 +9,6 @@ module.exports = {
   plugins: ['prettier'],
   parserOptions: {
     ecmaVersion: 12,
-  },
-  parserOptions: {
     sourceType: 'module',
   },
   rules: {

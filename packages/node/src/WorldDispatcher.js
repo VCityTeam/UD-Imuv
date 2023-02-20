@@ -3,8 +3,7 @@
 const fs = require('fs');
 const WorldThread = require('./WorldThread');
 const Game = require('ud-viz/src/Game/Game');
-
-const ImuvConstants = require('../../../imuv.constants');
+const Constant = require('@ud-imuv/shared').Constant;
 
 const WorldDispatcherModule = class WorldDispatcher {
   constructor(config) {
@@ -169,26 +168,22 @@ const WorldDispatcherModule = class WorldDispatcher {
     const socket = user.getSocket();
 
     //remove old listener
-    socket.removeAllListeners(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT
-    );
-    socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS);
-    socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS);
-    socket.removeAllListeners(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
-    socket.removeAllListeners(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT
-    );
+    socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT);
+    socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPES.COMMANDS);
+    socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS);
+    socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT);
+    socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT);
 
     //client can edit conf component
     socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
+      Constant.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT,
       function (params) {
         thread.post(WorldThread.MSG_TYPES.EDIT_CONF_COMPONENT, params);
       }
     );
 
     //cmds are now sent to the new thread
-    socket.on(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
+    socket.on(Constant.WEBSOCKET.MSG_TYPES.COMMANDS, function (cmdsJSON) {
       const commands = [];
 
       //parse
@@ -205,7 +200,7 @@ const WorldDispatcherModule = class WorldDispatcher {
 
     //save settings
     socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS,
+      Constant.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS,
       function (settingsJSON) {
         //write user
         user.setSettingsJSON(settingsJSON);
@@ -213,32 +208,23 @@ const WorldDispatcherModule = class WorldDispatcher {
         //if role is not guest save in database
         const parseUser = user.getParseUser();
         if (!parseUser) return; //not a user registered
-        parseUser.set(
-          ImuvConstants.DB.USER.SETTINGS,
-          JSON.stringify(settingsJSON)
-        );
+        parseUser.set(Constant.DB.USER.SETTINGS, JSON.stringify(settingsJSON));
         parseUser.save(null, { useMasterKey: true });
       }
     );
 
     //add go (TODO security check if its a go that can be add)
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
-      function (goJSON) {
-        thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
-          gameObject: goJSON,
-          isInsideMap: false,
-        });
-      }
-    );
+    socket.on(Constant.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, function (goJSON) {
+      thread.post(WorldThread.MSG_TYPES.ADD_GAMEOBJECT, {
+        gameObject: goJSON,
+        isInsideMap: false,
+      });
+    });
 
     //remove go (TODO security check if its go that can be deleted)
-    socket.on(
-      ImuvConstants.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT,
-      function (uuid) {
-        thread.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, uuid);
-      }
-    );
+    socket.on(Constant.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT, function (uuid) {
+      thread.post(WorldThread.MSG_TYPES.REMOVE_GAMEOBJECT, uuid);
+    });
   }
 };
 

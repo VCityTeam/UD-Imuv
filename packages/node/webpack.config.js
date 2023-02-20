@@ -1,8 +1,7 @@
-/** @format */
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../../.env' });
 
 const mode = process.env.NODE_ENV;
 
@@ -27,7 +26,7 @@ module.exports = () => {
     target: 'node',
     mode: mode,
     externals: [nodeExternals()],
-    entry: path.resolve(__dirname, 'src/server.js'),
+    entry: path.resolve(__dirname, 'src/index.js'),
     output: {
       path: path.resolve(__dirname, 'dist/'),
       filename: 'bundle.js',

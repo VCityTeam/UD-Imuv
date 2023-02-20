@@ -1,5 +1,5 @@
 module.exports = {
-  Constants: {
+  Constant: {
     //imuv url event
     URL_PARAMETER: {
       ID_KEY: 'url_parameter_event_id_key',

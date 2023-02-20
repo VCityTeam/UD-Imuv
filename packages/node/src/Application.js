@@ -1,6 +1,6 @@
 /** @format */
 
-const ImuvConstants = require('../../../imuv.constants');
+import { Constant } from '@ud-imuv/shared';
 
 const WorldDispatcher = require('./WorldDispatcher');
 const Parse = require('parse/node');
@@ -118,14 +118,14 @@ const ApplicationModule = class Application {
   onSocketConnexion(socket) {
     const _this = this;
 
-    const MSG_TYPES = ImuvConstants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = Constant.WEBSOCKET.MSG_TYPES;
 
     //REGISTER in app
     const u = (this.users[socket.id] = this.createUser(
       socket,
       'Guest@' + parseInt(Math.random() * 10000),
       Game.THREE.MathUtils.generateUUID(),
-      ImuvConstants.USER.ROLE.GUEST
+      Constant.USER.ROLE.GUEST
     ));
     socket.emit(MSG_TYPES.SIGNED, {
       nameUser: u.getNameUser(),
@@ -136,10 +136,10 @@ const ApplicationModule = class Application {
     socket.on(MSG_TYPES.SIGN_UP, function (data) {
       (async () => {
         const user = new Parse.User();
-        user.set(ImuvConstants.DB.USER.NAME, data.nameUser);
-        user.set(ImuvConstants.DB.USER.EMAIL, data.email);
-        user.set(ImuvConstants.DB.USER.PASSWORD, data.password);
-        user.set(ImuvConstants.DB.USER.ROLE, ImuvConstants.USER.ROLE.DEFAULT);
+        user.set(Constant.DB.USER.NAME, data.nameUser);
+        user.set(Constant.DB.USER.EMAIL, data.email);
+        user.set(Constant.DB.USER.PASSWORD, data.password);
+        user.set(Constant.DB.USER.ROLE, Constant.USER.ROLE.DEFAULT);
 
         try {
           await user.signUp();
@@ -180,13 +180,13 @@ const ApplicationModule = class Application {
           if (found) throw new Error('already sign in ' + dbUUID);
 
           // Do stuff after successful login
-          const nameUser = await parseUser.get(ImuvConstants.DB.USER.NAME);
-          const role = await parseUser.get(ImuvConstants.DB.USER.ROLE);
+          const nameUser = await parseUser.get(Constant.DB.USER.NAME);
+          const role = await parseUser.get(Constant.DB.USER.ROLE);
           const avatarString = await parseUser.get(
-            ImuvConstants.DB.USER.AVATAR
+            Constant.DB.USER.AVATAR
           );
           const settingsString = await parseUser.get(
-            ImuvConstants.DB.USER.SETTINGS
+            Constant.DB.USER.SETTINGS
           );
 
           const u = _this.users[socket.id];
@@ -261,7 +261,7 @@ const ApplicationModule = class Application {
     //SAVE WORLDS
     socket.on(MSG_TYPES.SAVE_WORLDS, function (partialMessage) {
       const user = _this.users[socket.id];
-      if (user.getRole() != ImuvConstants.USER.ROLE.ADMIN) return; //security
+      if (user.getRole() != Constant.USER.ROLE.ADMIN) return; //security
 
       const fullMessage = Pack.recomposeMessage(partialMessage);
       if (fullMessage) {
@@ -272,7 +272,7 @@ const ApplicationModule = class Application {
     //Avatar json
     socket.on(MSG_TYPES.QUERY_AVATAR, function () {
       const user = _this.users[socket.id];
-      if (user.getRole() == ImuvConstants.USER.ROLE.GUEST) return; //security
+      if (user.getRole() == Constant.USER.ROLE.GUEST) return; //security
 
       try {
         const response = user.getAvatarJSON();
@@ -341,7 +341,7 @@ const ApplicationModule = class Application {
           //avatarJSON is ready to be write to db
           const parseUser = user.getParseUser();
           parseUser.set(
-            ImuvConstants.DB.USER.AVATAR,
+            Constant.DB.USER.AVATAR,
             JSON.stringify(avatarJSON)
           );
           try {
@@ -368,7 +368,7 @@ const ApplicationModule = class Application {
             const query = new Parse.Query(User);
             try {
               const results = await query.distinct(
-                ImuvConstants.DB.USER.AVATAR
+                Constant.DB.USER.AVATAR
               );
               const paths = [];
               results.forEach(function (string) {
@@ -424,7 +424,7 @@ const ApplicationModule = class Application {
   saveWorlds(data, socket) {
     console.log('Save Worlds');
 
-    const MSG_TYPES = ImuvConstants.WEBSOCKET.MSG_TYPES;
+    const MSG_TYPES = Constant.WEBSOCKET.MSG_TYPES;
 
     const _this = this;
     const writeImagesOnDiskPromise = [];

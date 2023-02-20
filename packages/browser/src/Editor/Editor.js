@@ -5,7 +5,7 @@ import { Views } from 'ud-viz';
 import { WorldEditorView } from './WorldEditor/WorldEditor';
 import { PlayWorldEditorView } from './PlayWorldEditor/PlayWorldEditor';
 import Pack from 'ud-viz/src/Game/Components/Pack';
-import ImuvConstants from '../../../imuv.constants';
+import { Constant } from '@ud-imuv/shared';
 
 export class EditorView {
   constructor(webSocketService, config) {
@@ -108,7 +108,7 @@ export class EditorView {
       // console.log(messageSplitted);
       messageSplitted.forEach(function (pM) {
         _this.webSocketService.emit(
-          ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+          Constant.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
           pM
         );
       });

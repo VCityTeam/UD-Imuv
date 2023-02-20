@@ -1,6 +1,6 @@
 /** @format */
 
-import ImuvConstants from '../../../../imuv.constants';
+import { Constant } from '@ud-imuv/shared';
 import { AnimatedText } from '../../LocalScriptsModule/AnimatedText/AnimatedText';
 import * as JitsiIframeAPI from 'jitsi-iframe-api';
 
@@ -47,7 +47,7 @@ export class PlayWorldEditorView {
 
     const jsonCopy = JSON.parse(JSON.stringify(json));
     const world = new World(jsonCopy, {
-      modules: { ImuvConstants: ImuvConstants },
+      modules: { Constant: Constant },
     });
 
     const avatar = this.assetsManager.createPrefab('avatar');
@@ -61,7 +61,7 @@ export class PlayWorldEditorView {
           settings: {},
         },
         localScriptModules: {
-          ImuvConstants: ImuvConstants,
+          Constant: Constant,
           AnimatedText: AnimatedText,
           JitsiIframeAPI: JitsiIframeAPI,
         },

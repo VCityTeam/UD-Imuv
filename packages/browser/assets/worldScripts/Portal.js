@@ -4,8 +4,6 @@ const GameType = require('ud-viz/src/Game/Game');
 /** @type {GameType} */
 let Game = null;
 
-const ImuvConstantsType = require('../../../imuv.constants');
-/** @type {ImuvConstantsType} */
 let ImuvConstants = null;
 
 module.exports = class Portal {

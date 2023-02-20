@@ -1,7 +1,7 @@
 /** @format */
 
 const Game = require('ud-viz/src/Game/Game');
-const ImuvConstants = require('../../../imuv.constants');
+const Constant = require('@ud-imuv/shared').Constant;
 const WorldState = Game.WorldState;
 
 const UserModule = class User {
@@ -64,7 +64,7 @@ const UserModule = class User {
 
     if (!this.lastState) {
       //there is no last state meaning it's the first time the user is notify for this world
-      this.socket.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
+      this.socket.emit(Constant.WEBSOCKET.MSG_TYPES.JOIN_WORLD, {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),
         userID: this.getUUID(),
@@ -72,10 +72,7 @@ const UserModule = class User {
       });
     } else {
       const diffJSON = state.toDiff(this.lastState);
-      this.socket.emit(
-        ImuvConstants.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
-        diffJSON
-      );
+      this.socket.emit(Constant.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF, diffJSON);
     }
 
     this.lastState = state;
