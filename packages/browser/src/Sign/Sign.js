@@ -22,7 +22,7 @@ const createInput = function (name, root, type = 'text') {
 };
 
 export class SignUpView {
-  constructor(webSocketService) {
+  constructor(socketIOWrapper) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Sign');
 
@@ -34,7 +34,7 @@ export class SignUpView {
     this.inputPassword = null;
     this.signUpButton = null;
 
-    this.webSocketService = webSocketService;
+    this.socketIOWrapper = socketIOWrapper;
 
     this.init();
   }
@@ -83,7 +83,7 @@ export class SignUpView {
         return;
       }
 
-      _this.webSocketService.emit(Constant.WEBSOCKET.MSG_TYPES.SIGN_UP, {
+      _this.socketIOWrapper.emit(Constant.WEBSOCKET.MSG_TYPE.SIGN_UP, {
         email: email,
         password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
         nameUser: nameUser,
@@ -101,7 +101,7 @@ export class SignUpView {
 }
 
 export class SignInView {
-  constructor(webSocketService) {
+  constructor(socketIOWrapper) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Sign');
 
@@ -111,7 +111,7 @@ export class SignInView {
     this.signInButton = null;
     this.parentCentered = null;
 
-    this.webSocketService = webSocketService;
+    this.socketIOWrapper = socketIOWrapper;
 
     this.init();
   }
@@ -147,7 +147,7 @@ export class SignInView {
       const nameUser = _this.inputIdUser.value;
       const password = _this.inputPassword.value;
 
-      _this.webSocketService.emit(Constant.WEBSOCKET.MSG_TYPES.SIGN_IN, {
+      _this.socketIOWrapper.emit(Constant.WEBSOCKET.MSG_TYPE.SIGN_IN, {
         nameUser: nameUser,
         password: password,
       });

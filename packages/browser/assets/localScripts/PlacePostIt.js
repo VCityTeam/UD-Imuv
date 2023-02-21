@@ -136,7 +136,7 @@ class MenuPostIt {
           }
         } else {
           //export
-          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT, json);
+          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.ADD_GAMEOBJECT, json);
         }
       }
     });

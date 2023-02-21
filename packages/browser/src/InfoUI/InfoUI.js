@@ -1,6 +1,6 @@
-import { SystemUtils } from 'ud-viz/src/Components/Components';
 import { CommitInfo } from './CommitInfo/CommitInfo';
 import { DocPage } from './Doc/DocPage';
+import { FileUtil } from '@ud-viz/browser';
 
 import './InfoUI.css';
 
@@ -17,7 +17,7 @@ export class InfoUI {
     const _this = this;
 
     return new Promise((resolve) => {
-      SystemUtils.File.loadJSON(path).then((commitJson) => {
+      FileUtil.loadJSON(path).then((commitJson) => {
         _this.commitInfo = new CommitInfo(commitJson);
         _this.rootHtml.appendChild(_this.commitInfo.html());
         resolve();

@@ -28,8 +28,8 @@ module.exports = class MenuAvatar {
       'ImuvConstants'
     ];
 
-    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.QUERY_AVATAR, null);
-    ws.on(ImuvConstants.WEBSOCKET.MSG_TYPES.ON_AVATAR, function (avatarJSON) {
+    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.QUERY_AVATAR, null);
+    ws.on(ImuvConstants.WEBSOCKET.MSG_TYPE.ON_AVATAR, function (avatarJSON) {
       //remove serverside component
       _this.bufferCollider = avatarJSON.components.Collider;
       delete avatarJSON.components.Collider;
@@ -231,7 +231,7 @@ module.exports = class MenuAvatar {
       ];
 
       messageSplitted.forEach(function (pM) {
-        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_AVATAR, pM);
+        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.SAVE_AVATAR, pM);
       });
     };
 
@@ -247,7 +247,7 @@ module.exports = class MenuAvatar {
       'ImuvConstants'
     ];
 
-    ws.reset([ImuvConstants.WEBSOCKET.MSG_TYPES.ON_AVATAR]);
+    ws.reset([ImuvConstants.WEBSOCKET.MSG_TYPE.ON_AVATAR]);
   }
 
   tick() {

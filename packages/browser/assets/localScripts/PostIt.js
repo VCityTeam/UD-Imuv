@@ -92,7 +92,7 @@ class MenuPostIt {
       localCtx
         .getWebSocketService()
         .emit(
-          ImuvConstants.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT,
+          ImuvConstants.WEBSOCKET.MSG_TYPE.REMOVE_GAMEOBJECT,
           go.getUUID()
         );
     };

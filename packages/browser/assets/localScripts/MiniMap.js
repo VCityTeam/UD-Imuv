@@ -142,7 +142,7 @@ module.exports = class MiniMap {
 
         localCtx
           .getWebSocketService()
-          .emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [command.toJSON()]);
+          .emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [command.toJSON()]);
       } else if (_this.clickMode === _this.mapClickMode.PING) {
         _this.setClickMode(_this.mapClickMode.DEFAULT);
 
@@ -165,7 +165,7 @@ module.exports = class MiniMap {
 
         localCtx
           .getWebSocketService()
-          .emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [command.toJSON()]);
+          .emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [command.toJSON()]);
       }
     };
   }
@@ -207,7 +207,7 @@ module.exports = class MiniMap {
 
           localCtx
             .getWebSocketService()
-            .emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [
+            .emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [
               command.toJSON(),
             ]);
         };

@@ -212,7 +212,7 @@ class MenuBox3D {
       newBox3D.setScale(new Game.THREE.Vector3(50, 50, 50));
 
       ws.emit(
-        ImuvConstants.WEBSOCKET.MSG_TYPES.ADD_GAMEOBJECT,
+        ImuvConstants.WEBSOCKET.MSG_TYPE.ADD_GAMEOBJECT,
         newBox3D.toJSON()
       );
     };
@@ -298,7 +298,7 @@ class MenuBox3D {
     removeButton.innerHTML = 'Remove';
     removeButton.onclick = () => {
       ws.emit(
-        ImuvConstants.WEBSOCKET.MSG_TYPES.REMOVE_GAMEOBJECT,
+        ImuvConstants.WEBSOCKET.MSG_TYPE.REMOVE_GAMEOBJECT,
         this.selectedBox3D.uuid
       );
     };
@@ -389,7 +389,7 @@ class MenuBox3D {
       });
 
       this.transformCtrl.addEventListener('change', () => {
-        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [
+        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [
           new Game.Command({
             type: 'update_transform',
             data: {

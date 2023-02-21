@@ -107,7 +107,7 @@ module.exports = class ZeppelinStart {
                 //reset avatar controls
                 avatarController.setAvatarControllerMode(true, localCtx);
 
-                ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+                ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
                   goUUID: avatarGO.getUUID(),
                   componentUUID: localScriptAvatar.getUUID(),
                   key: 'visible',
@@ -123,7 +123,7 @@ module.exports = class ZeppelinStart {
           avatarController.setAvatarControllerMode(false, localCtx);
 
           //avatar invisible
-          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
             goUUID: avatarGO.getUUID(),
             componentUUID: localScriptAvatar.getUUID(),
             key: 'visible',
@@ -274,7 +274,7 @@ module.exports = class ZeppelinStart {
     const ls = go.getComponent(udviz.Game.LocalScript.TYPE);
 
     //edit server side
-    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
       goUUID: goUUID,
       componentUUID: ls.getUUID(),
       key: 'pilotUUID',
@@ -286,7 +286,7 @@ module.exports = class ZeppelinStart {
       zeppelinController.setZeppelinControllerMode(false, localCtx);
 
       //edit server side to remove pilot
-      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
         goUUID: goUUID,
         componentUUID: ls.getUUID(),
         key: 'pilotUUID',

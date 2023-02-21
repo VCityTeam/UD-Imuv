@@ -21,6 +21,13 @@ keyEnvVariables.forEach(function (key) {
 });
 plugins.push(new webpack.DefinePlugin(params));
 
+let outputPath;
+if (mode === 'development') {
+  outputPath = path.resolve(__dirname, 'dist/debug');
+} else {
+  outputPath = path.resolve(__dirname, 'dist/release');
+}
+
 module.exports = () => {
   return {
     target: 'node',
@@ -28,7 +35,7 @@ module.exports = () => {
     externals: [nodeExternals()],
     entry: path.resolve(__dirname, 'src/index.js'),
     output: {
-      path: path.resolve(__dirname, 'dist/'),
+      path: outputPath,
       filename: 'bundle.js',
       library: 'udImuvNode',
       libraryTarget: 'umd',

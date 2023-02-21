@@ -538,7 +538,7 @@ class MenuSettings {
       const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
         'ImuvConstants'
       ];
-      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.SAVE_SETTINGS, {
+      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.SAVE_SETTINGS, {
         //SETTINGS MODEL IS DESCRIBE HERE
         fogValue: _this.fogSlider.value,
         zoomFactor: _this.zoomFactorSlider.value,

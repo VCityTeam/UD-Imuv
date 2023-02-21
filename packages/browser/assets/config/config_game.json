@@ -2,7 +2,7 @@
   "worldStateInterpolator": {
     "renderDelay": 150
   },
-  "assetsManager": {
+  "assetManager": {
     "sounds": {
       "fontain": {
         "path": "./assets/sounds/fontain.webm"
