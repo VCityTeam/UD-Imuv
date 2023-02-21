@@ -108,7 +108,7 @@ export class EditorView {
       // console.log(messageSplitted);
       messageSplitted.forEach(function (pM) {
         _this.webSocketService.emit(
-          Constant.WEBSOCKET.MSG_TYPES.SAVE_WORLDS,
+          Constant.WEBSOCKET.MSG_TYPE.SAVE_WORLDS,
           pM
         );
       });

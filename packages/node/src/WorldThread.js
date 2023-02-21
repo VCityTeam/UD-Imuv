@@ -46,7 +46,7 @@ const WorldThreadModule = class WorldThread {
   }
 
   stop() {
-    this.post(WorldThreadModule.MSG_TYPES.STOP, {});
+    this.post(WorldThreadModule.MSG_TYPE.STOP, {});
 
     //disconnect users
     for (const key in this.users) {
@@ -81,7 +81,7 @@ const WorldThreadModule = class WorldThread {
 };
 
 //dont know how to create static var other way
-WorldThreadModule.MSG_TYPES = {
+WorldThreadModule.MSG_TYPE = {
   INIT: 'init',
   COMMANDS: 'cmds',
   WORLDSTATE: 'state',
@@ -115,7 +115,7 @@ WorldThreadModule.routine = function (serverConfig) {
     parentPort.on('message', (msgPacked) => {
       const msg = Pack.unpack(msgPacked);
       switch (msg.msgType) {
-        case WorldThreadModule.MSG_TYPES.INIT: {
+        case WorldThreadModule.MSG_TYPE.INIT: {
           //create a server world
           const world = new World(msg.data, {
             isServerSide: true,
@@ -128,7 +128,7 @@ WorldThreadModule.routine = function (serverConfig) {
             const currentState = worldStateComputer.computeCurrentState(false);
             //post worldstate to main thread
             const message = {
-              msgType: WorldThreadModule.MSG_TYPES.WORLDSTATE,
+              msgType: WorldThreadModule.MSG_TYPE.WORLDSTATE,
               data: currentState.toJSON(),
             };
             parentPort.postMessage(Pack.pack(message));
@@ -150,14 +150,14 @@ WorldThreadModule.routine = function (serverConfig) {
               };
 
               const message = {
-                msgType: WorldThreadModule.MSG_TYPES.AVATAR_PORTAL,
+                msgType: WorldThreadModule.MSG_TYPE.AVATAR_PORTAL,
                 data: dataPortalEvent,
               };
               parentPort.postMessage(Pack.pack(message));
             });
           break;
         }
-        case WorldThreadModule.MSG_TYPES.COMMANDS: {
+        case WorldThreadModule.MSG_TYPE.COMMANDS: {
           //create js object from json
           const cmds = [];
           msg.data.forEach(function (c) {
@@ -168,7 +168,7 @@ WorldThreadModule.routine = function (serverConfig) {
           worldStateComputer.onCommands(cmds);
           break;
         }
-        case WorldThreadModule.MSG_TYPES.EDIT_AVATAR_RENDER: {
+        case WorldThreadModule.MSG_TYPE.EDIT_AVATAR_RENDER: {
           // console.log(msg.data)
 
           const avatarGO = worldStateComputer
@@ -207,7 +207,7 @@ WorldThreadModule.routine = function (serverConfig) {
 
           break;
         }
-        case WorldThreadModule.MSG_TYPES.ADD_GAMEOBJECT: {
+        case WorldThreadModule.MSG_TYPE.ADD_GAMEOBJECT: {
           const goJson = msg.data.gameObject;
           const portalUUID = msg.data.portalUUID;
           const transformJSON = msg.data.transform;
@@ -267,24 +267,24 @@ WorldThreadModule.routine = function (serverConfig) {
 
           break;
         }
-        case WorldThreadModule.MSG_TYPES.REMOVE_GAMEOBJECT: {
+        case WorldThreadModule.MSG_TYPE.REMOVE_GAMEOBJECT: {
           worldStateComputer.onRemoveGameObject(msg.data);
           break;
         }
-        case WorldThreadModule.MSG_TYPES.QUERY_GAMEOBJECT: {
+        case WorldThreadModule.MSG_TYPE.QUERY_GAMEOBJECT: {
           const go = worldStateComputer
             .getWorldContext()
             .getWorld()
             .getGameObject()
             .find(msg.data);
           const message = {
-            msgType: WorldThreadModule.MSG_TYPES.GAMEOBJECT_RESPONSE,
+            msgType: WorldThreadModule.MSG_TYPE.GAMEOBJECT_RESPONSE,
             data: go.toJSON(true),
           };
           parentPort.postMessage(Pack.pack(message));
           break;
         }
-        case WorldThreadModule.MSG_TYPES.EDIT_CONF_COMPONENT: {
+        case WorldThreadModule.MSG_TYPE.EDIT_CONF_COMPONENT: {
           const goUUID = msg.data.goUUID;
           const componentUUID = msg.data.componentUUID;
           const key = msg.data.key;
@@ -313,7 +313,7 @@ WorldThreadModule.routine = function (serverConfig) {
 
           break;
         }
-        case WorldThreadModule.MSG_TYPES.STOP: {
+        case WorldThreadModule.MSG_TYPE.STOP: {
           console.warn(
             worldStateComputer.getWorldContext().getWorld().getName(),
             ' stop'

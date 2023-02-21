@@ -798,7 +798,7 @@ class MenuCityMockUp {
         const ws = this.localCtx.getWebSocketService();
         const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
         const localScriptComp = this.go.getComponent(Game.LocalScript.TYPE);
-        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.EDIT_CONF_COMPONENT, {
+        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
           goUUID: this.go.getUUID(),
           componentUUID: localScriptComp.getUUID(),
           key: 'area',

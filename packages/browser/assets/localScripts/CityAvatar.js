@@ -327,7 +327,7 @@ module.exports = class CityAvatar {
         'ImuvConstants'
       ];
 
-      websocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPES.COMMANDS, [
+      websocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [
         {
           type: Game.Command.TYPE.Z_UPDATE,
           gameObjectUUID: go.getUUID(),

@@ -1,21 +1,33 @@
-/** @format */
+// import * as JitsiIframeAPI from 'jitsi-iframe-api';
+// import { Constant } from '@ud-imuv/shared';
+// import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
 
-import * as JitsiIframeAPI from 'jitsi-iframe-api';
-import { Constant } from '@ud-imuv/shared';
-import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
+// import { EditorView } from '../Editor/Editor';
+// import { SystemUtils } from 'ud-viz/src/Components/Components';
 
-import { SignInView, SignUpView } from '../Sign/Sign';
-import { EditorView } from '../Editor/Editor';
-import { SystemUtils } from 'ud-viz/src/Components/Components';
-
-import { AssetsManager } from 'ud-viz/src/Views/Views';
-import { DistantGame } from '../DistantGame/DistantGame';
+// import { AssetsManager } from 'ud-viz/src/Views/Views';
+// import { DistantGame } from '../DistantGame/DistantGame';
 
 import './Reception.css';
 import { getTextByID } from './Texts/ReceptionTexts';
+import { SignInView, SignUpView } from '../Sign/Sign';
+
+import {
+  MultiPlayerGamePlanar,
+  FileUtil,
+  AssetManager,
+  Frame3DPlanar,
+  itowns,
+  proj4,
+  addBaseMapLayer,
+  addElevationLayer,
+  add3DTilesLayers,
+  InputManager,
+} from '@ud-viz/browser';
+import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
 
 export class ReceptionView {
-  constructor(webSocketService) {
+  constructor(socketIOWrapper) {
     //root
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Reception');
@@ -36,7 +48,7 @@ export class ReceptionView {
     };
 
     //socket service
-    this.webSocketService = webSocketService;
+    this.socketIOWrapper = socketIOWrapper;
 
     //default lang is FR
     this.language = 'FR';
@@ -351,43 +363,89 @@ export class ReceptionView {
     };
 
     //join flying campus
-    this.joinButton.onclick = function () {
+    this.joinButton.onclick = () => {
       _this.dispose();
 
       //load config
-      SystemUtils.File.loadJSON('./assets/config/config_game.json').then(
-        function (config) {
-          //load assets
-          const assetsManager = new AssetsManager();
-          assetsManager
-            .loadFromConfig(config.assetsManager, document.body)
-            .then(function () {
-              const distantGame = new DistantGame(
-                _this.webSocketService,
-                assetsManager,
-                config
-              );
+      FileUtil.loadJSON('./assets/config/config.json').then((config) => {
+        //load assets
+        const assetManager = new AssetManager();
+        assetManager
+          .loadFromConfig(config.assetManager, document.body)
+          .then(() => {
+            // http://proj4js.org/
+            // define a projection as a string and reference it that way
+            // the definition of the projection should be in config TODO_ISSUE
+            proj4.default.defs(
+              config['extent'].crs,
+              '+proj=lcc +lat_1=45.25 +lat_2=46.75' +
+                ' +lat_0=46 +lon_0=3 +x_0=1700000 +y_0=5200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+            );
 
-              distantGame.start(
-                {
-                  firstGameView: true,
-                  editorMode: false,
-                  role: _this.userData.role,
-                },
-                {
-                  Constant: Constant,
-                  AnimatedText: AnimatedText,
-                  JitsiIframeAPI: JitsiIframeAPI,
-                }
-              );
+            const extent = new itowns.Extent(
+              config['extent'].crs,
+              parseInt(config['extent'].west),
+              parseInt(config['extent'].east),
+              parseInt(config['extent'].south),
+              parseInt(config['extent'].north)
+            );
 
-              //app is loaded and ready to receive worldstate
-              _this.webSocketService.emit(
-                Constant.WEBSOCKET.MSG_TYPES.READY_TO_RECEIVE_STATE
-              );
-            });
-        }
-      );
+            const frame3DPlanar = new Frame3DPlanar(extent);
+            const game = new MultiPlayerGamePlanar(
+              this.socketIOWrapper,
+              frame3DPlanar,
+              assetManager,
+              new InputManager(),
+              {
+                sceneConfig: config.scene,
+              }
+            );
+
+            game.start();
+
+            addBaseMapLayer(
+              config.baseMapLayer,
+              frame3DPlanar.itownsView,
+              extent
+            );
+
+            addElevationLayer(
+              config.elevationLayer,
+              frame3DPlanar.itownsView,
+              extent
+            );
+
+            add3DTilesLayers(
+              config['3DTilesLayer'],
+              frame3DPlanar.layerManager,
+              frame3DPlanar.itownsView
+            );
+
+            // const distantGame = new DistantGame(
+            //   _this.socketIOWrapper,
+            //   assetManager,
+            //   config
+            // );
+
+            // distantGame.start(
+            //   {
+            //     firstGameView: true,
+            //     editorMode: false,
+            //     role: _this.userData.role,
+            //   },
+            //   {
+            //     Constant: Constant,
+            //     AnimatedText: AnimatedText,
+            //     JitsiIframeAPI: JitsiIframeAPI,
+            //   }
+            // );
+
+            //app is loaded and ready to receive worldstate
+            // _this.socketIOWrapper.emit(
+            //   Constant.WEBSOCKET.MSG_TYPE.READY_TO_RECEIVE_STATE
+            // );
+          });
+      });
     };
 
     //toggle language
@@ -414,7 +472,7 @@ export class ReceptionView {
         signInView.dispose();
         signInView = null;
       }
-      signUpView = new SignUpView(_this.webSocketService);
+      signUpView = new SignUpView(_this.socketIOWrapper);
       document.body.appendChild(signUpView.html());
 
       signUpView.setOnClose(function () {
@@ -422,8 +480,8 @@ export class ReceptionView {
         signUpView = null;
       });
     };
-    this.webSocketService.on(
-      Constant.WEBSOCKET.MSG_TYPES.SIGN_UP_SUCCESS,
+    this.socketIOWrapper.on(
+      UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGN_UP_SUCCESS,
       function () {
         console.log('sign up success ');
         if (signUpView) {
@@ -441,7 +499,7 @@ export class ReceptionView {
         signUpView.dispose();
         signUpView = null;
       }
-      signInView = new SignInView(_this.webSocketService);
+      signInView = new SignInView(_this.socketIOWrapper);
       document.body.appendChild(signInView.html());
 
       signInView.addButton('Retour', function () {
@@ -450,8 +508,8 @@ export class ReceptionView {
       });
     };
 
-    this.webSocketService.on(
-      Constant.WEBSOCKET.MSG_TYPES.SIGNED,
+    this.socketIOWrapper.on(
+      UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGNED,
       function (data) {
         if (signInView) {
           signInView.dispose();
@@ -464,7 +522,7 @@ export class ReceptionView {
         //register values
         _this.userData = data;
 
-        if (data.role == Constant.USER.ROLE.ADMIN) {
+        if (data.role == UDIMUVConstant.USER.ROLE.ADMIN) {
           _this.editorButton.classList.remove('hidden');
         } else {
           _this.editorButton.classList.add('hidden');
@@ -476,19 +534,19 @@ export class ReceptionView {
     this.editorButton.onclick = function () {
       _this.dispose();
 
-      SystemUtils.File.loadJSON('./assets/config/config_editor.json').then(
-        function (config) {
-          _this.editor = new EditorView(_this.webSocketService, config);
-          _this.editor.load().then(function () {
-            document.body.appendChild(_this.editor.html());
+      FileUtil.loadJSON('./assets/config/config_editor.json').then(function (
+        config
+      ) {
+        _this.editor = new EditorView(_this.socketIOWrapper, config);
+        _this.editor.load().then(function () {
+          document.body.appendChild(_this.editor.html());
 
-            _this.editor.setOnClose(function () {
-              _this.editor.dispose();
-              document.body.appendChild(_this.html());
-            });
+          _this.editor.setOnClose(function () {
+            _this.editor.dispose();
+            document.body.appendChild(_this.html());
           });
-        }
-      );
+        });
+      });
     };
   }
 

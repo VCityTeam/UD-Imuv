@@ -1,7 +1,6 @@
 /** @file Running the build-debug script */
-
-const { ExpressAppWrapper, Game } = require('@ud-viz/node');
 const exec = require('child-process-promise').exec;
+const path = require('path');
 
 /**
  * It prints the stdout and stderr of a result object
@@ -13,20 +12,21 @@ const printExec = function (result) {
   console.log('stderr: \n', result.stderr);
 };
 
-// run an express app wrapper with a gamesocket service
-const expressAppWrapper = new ExpressAppWrapper();
-expressAppWrapper
-  .start({
-    folder: './packages/browser',
-    port: 8000,
-    withDefaultGameSocketService: false,
-  })
-  .then(() => {
-    // this code below should write somewhere else
-    const gameSocketService = new Game.SocketService(
-      expressAppWrapper.httpServer
-    );
-  });
-
-// run a build debug browser bundle
+// run a build debug bundle browser
 exec('npm run build-debug --prefix ./packages/browser').then(printExec);
+
+// run a build debug bundle node
+exec('npm run build-debug --prefix ./packages/node')
+  .then(printExec)
+  .then(() => {
+    const { UDIMUVServer } = require('../packages/node/dist/debug/bundle');
+    const app = new UDIMUVServer();
+    app.start({
+      folder: './packages/browser',
+      port: 8000,
+      threadProcessPath: path.resolve(
+        __dirname,
+        '../../UD-Viz/packages/node/src/Game/ThreadProcess.js'
+      ),
+    });
+  });

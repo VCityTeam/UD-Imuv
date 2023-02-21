@@ -31,8 +31,8 @@ export class DistantGame {
     if (this.gameView) this.gameView.dispose();
     //reset websocketservices
     this.webSocketService.reset([
-      Constant.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
-      Constant.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+      Constant.WEBSOCKET.MSG_TYPE.JOIN_WORLD,
+      Constant.WEBSOCKET.MSG_TYPE.WORLDSTATE_DIFF,
     ]);
   }
 
@@ -59,7 +59,7 @@ export class DistantGame {
         cmdsJSON.push(cmd.toJSON());
       });
       _this.webSocketService.emit(
-        Constant.WEBSOCKET.MSG_TYPES.COMMANDS,
+        Constant.WEBSOCKET.MSG_TYPE.COMMANDS,
         cmdsJSON
       );
     });
@@ -75,10 +75,10 @@ export class DistantGame {
 
       // Register callbacks
       this.webSocketService.on(
-        Constant.WEBSOCKET.MSG_TYPES.JOIN_WORLD,
+        Constant.WEBSOCKET.MSG_TYPE.JOIN_WORLD,
         (json) => {
           if (!json) throw new Error('no data');
-          console.warn(Constant.WEBSOCKET.MSG_TYPES.JOIN_WORLD, json);
+          console.warn(Constant.WEBSOCKET.MSG_TYPE.JOIN_WORLD, json);
 
           const state = new WorldState(json.state);
 
@@ -96,7 +96,7 @@ export class DistantGame {
       );
 
       this.webSocketService.on(
-        Constant.WEBSOCKET.MSG_TYPES.WORLDSTATE_DIFF,
+        Constant.WEBSOCKET.MSG_TYPE.WORLDSTATE_DIFF,
         (diffJSON) => {
           _this.interpolator.onNewDiff(new WorldStateDiff(diffJSON));
         }
