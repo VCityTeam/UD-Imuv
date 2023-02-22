@@ -23,9 +23,9 @@ export class StaticObject extends ExternalGame.ScriptBase {
       //register in object
       const r = newGO.getComponent(Game.Component.Render.TYPE);
       if (r) {
-        const clone = r.object3D.clone();
+        const clone = r.getController().object3D.clone();
 
-        r.object3D.matrixWorld.decompose(
+        r.getController().object3D.matrixWorld.decompose(
           clone.position,
           clone.quaternion,
           clone.scale
