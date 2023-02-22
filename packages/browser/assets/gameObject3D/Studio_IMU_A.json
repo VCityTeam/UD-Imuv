@@ -652,7 +652,7 @@
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 21 },
+            "conf": { "gameContextDt": 428 },
             "type": "LocalScript"
           },
           "WorldScript": {

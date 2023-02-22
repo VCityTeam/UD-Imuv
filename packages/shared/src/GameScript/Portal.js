@@ -1,23 +1,13 @@
 const { Game } = require('@ud-viz/shared');
+const { Constant } = require('@ud-imuv/shared');
 
 module.exports = class Portal extends Game.ScriptBase {
-  init() {
-    this.go = arguments[0];
-    this.worldCtxt = arguments[1];
-    this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
-  }
-
   notifyEnter(avatarGo) {
-    avatarGo.setFreeze(true);
-
-    const conf = this.conf;
-    const world = this.worldCtxt.getWorld();
-    setTimeout(function () {
-      avatarGo.setFreeze(false);
-      world.notify(ImuvConstants.WORLD.EVENT.PORTAL, [
+    setTimeout(() => {
+      this.context.dispatch(Constant.CONTEXT.EVENT.PORTAL, [
         avatarGo,
-        conf.worldDestUUID,
-        conf.portalUUID,
+        this.variables.worldDestUUID,
+        this.variables.portalUUID,
       ]);
     }, 1000);
   }

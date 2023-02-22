@@ -23,8 +23,8 @@ module.exports = {
         DEFAULT: 'default',
       },
     },
-    //world imuv event
-    WORLD: {
+    //game context event
+    CONTEXT: {
       EVENT: {
         PORTAL: 'portal',
       },
