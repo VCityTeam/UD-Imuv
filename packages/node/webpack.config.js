@@ -21,11 +21,18 @@ keyEnvVariables.forEach(function (key) {
 });
 plugins.push(new webpack.DefinePlugin(params));
 
+let entryPath;
+if (process.env.TYPE === 'main_thread') {
+  entryPath = path.resolve(__dirname, 'src/index.js');
+} else {
+  entryPath = path.resolve(__dirname, 'src/thread.js');
+}
+
 let outputPath;
 if (mode === 'development') {
-  outputPath = path.resolve(__dirname, 'dist/debug');
+  outputPath = path.resolve(__dirname, 'dist/' + process.env.TYPE + '/debug');
 } else {
-  outputPath = path.resolve(__dirname, 'dist/release');
+  outputPath = path.resolve(__dirname, 'dist/' + process.env.TYPE + '/release');
 }
 
 module.exports = () => {
@@ -33,7 +40,7 @@ module.exports = () => {
     target: 'node',
     mode: mode,
     externals: [nodeExternals()],
-    entry: path.resolve(__dirname, 'src/index.js'),
+    entry: entryPath,
     output: {
       path: outputPath,
       filename: 'bundle.js',

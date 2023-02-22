@@ -1,18 +1,13 @@
-/** @format */
-
-// eslint-disable-next-line no-unused-vars
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
+const { Game } = require('@ud-viz/shared');
 
 const OFFSET_ELEVATION = 0.2;
 
-module.exports = class Map {
-  constructor(conf, GameBundle) {
-    this.conf = conf;
+module.exports = class AbstractMap extends Game.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
+
     this.heightmapSize = 0; //size of the heightmap
     this.heightValues = []; //values extract from heightmap
-    Game = GameBundle;
   }
 
   loadLocal() {

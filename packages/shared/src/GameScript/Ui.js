@@ -1,16 +1,6 @@
-/** @format */
+const { Game } = require('@ud-viz/shared');
 
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
-
-module.exports = class Ui {
-  constructor(conf, GameModule) {
-    this.conf = conf;
-
-    Game = GameModule;
-  }
-
+module.exports = class Ui extends Game.ScriptBase {
   tick() {
     const worldContext = arguments[1];
     const dt = worldContext.getDt();

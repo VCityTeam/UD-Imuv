@@ -1,23 +1,13 @@
-/** @format */
-
-//scripts are commonJs module witout dependency all game context is pass as ud-viz/Game
-//this is due to the fact that the code is import as a string then eval() in code by the AsssetsManager
+const { Game } = require('@ud-viz/shared');
 
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
 const AVATAR_SPEED_ROTATION_X = 0.00001;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
-// eslint-disable-next-line no-unused-vars
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
-
-module.exports = class Avatar {
-  constructor(conf, GameModule) {
-    this.conf = conf;
-
-    Game = GameModule;
+module.exports = class Avatar extends Game.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     //commands buffer
     this.commands = {};

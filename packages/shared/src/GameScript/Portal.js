@@ -1,23 +1,6 @@
-/** @format */
+const { Game } = require('@ud-viz/shared');
 
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
-
-let ImuvConstants = null;
-
-module.exports = class Portal {
-  constructor(conf, GameModule) {
-    this.conf = conf;
-    this.go = null;
-    Game = GameModule;
-  }
-
-  load() {
-    ImuvConstants = arguments[3].ImuvConstants;
-    return null; //no promise just to access easily a external module TODO as localscript pass external module
-  }
-
+module.exports = class Portal extends Game.ScriptBase {
   init() {
     this.go = arguments[0];
     this.worldCtxt = arguments[1];
