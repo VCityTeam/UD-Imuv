@@ -1,45 +1,43 @@
-export class PlacePostIt {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
-  }
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { PrefabFactory } from '@ud-imuv/shared';
+import { Game, Command } from '@ud-viz/shared';
 
+export class PlacePostIt extends ExternalGame.ScriptBase {
   init() {
-    const localCtx = arguments[1];
-
     //controller
     const avatarController =
-      localCtx.findLocalScriptWithID('avatar_controller');
+      this.context.findExternalScriptWithID('AvatarController');
 
     //add tool
-    const scriptUI = localCtx.findLocalScriptWithID('ui');
+    const scriptUI = this.context.findLocalScriptWithID('Ui');
 
-    const menuPostIt = new MenuPostIt(
-      localCtx,
-      this.fetchStaticObject(localCtx)
-    );
+    const menuPostIt = new MenuPostIt(this.context, this.fetchStaticObject());
 
     scriptUI.addTool(
       './assets/img/ui/icon_post_it.png',
       'Post-it',
-      function (resolve, reject, onClose) {
-        avatarController.setAvatarControllerMode(onClose, localCtx);
+      (resolve, reject, onClose) => {
+        avatarController.setAvatarControllerMode(onClose);
         resolve(true);
       },
       menuPostIt
     );
   }
 
-  fetchStaticObject(localContext) {
+  fetchStaticObject() {
     const scriptStaticObject =
-      localContext.findLocalScriptWithID('static_object');
-    return scriptStaticObject.getObject();
+      this.context.findExternalScriptWithID('StaticObject');
+    return scriptStaticObject.object3D;
   }
 }
 
 class MenuPostIt {
-  constructor(localCtx, objectStatic) {
+  /**
+   *
+   * @param {ExternalGame.Context} externalContext
+   * @param {object} objectStatic
+   */
+  constructor(externalContext, objectStatic) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('contextual_menu');
 
@@ -59,78 +57,74 @@ class MenuPostIt {
     this.rootHtml.appendChild(placePostItImage);
 
     //callbacks
-    const gameView = localCtx.getGameView();
-    const manager = gameView.getInputManager();
-    const raycaster = new Game.THREE.Raycaster();
-    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
+    const raycaster = new THREE.Raycaster();
 
-    manager.addMouseInput(gameView.getRootWebGL(), 'dragend', function (event) {
-      if (event.target != placePostItImage) return;
+    externalContext.inputManager.addMouseInput(
+      externalContext.frame3D.rootWebGL,
+      'dragend',
+      (event) => {
+        if (event.target != placePostItImage) return;
 
-      //TODO maybe this is not working in editor cause of the left bar ui but for some reason offsetY is not working in that case
-      const mouse = new Game.THREE.Vector2(
-        -1 +
-          (2 * event.clientX) /
-            (gameView.getRootWebGL().clientWidth -
-              parseInt(gameView.getRootWebGL().offsetLeft)),
-        1 -
-          (2 * event.clientY) /
-            (gameView.getRootWebGL().clientHeight -
-              parseInt(gameView.getRootWebGL().offsetTop))
-      );
-
-      raycaster.setFromCamera(mouse, gameView.getCamera());
-
-      const i = raycaster.intersectObject(objectStatic, true);
-
-      if (i.length) {
-        const closestI = i[0];
-        const point = closestI.point;
-
-        const quaternionObj = new Game.THREE.Quaternion();
-        closestI.object.matrixWorld.decompose(
-          new Game.THREE.Vector3(),
-          quaternionObj,
-          new Game.THREE.Vector3()
-        );
-        const normal = closestI.face.normal.applyQuaternion(quaternionObj);
-
-        const postitGo = gameView.getAssetsManager().createPrefab('post_it');
-
-        //rotate
-        const quaternion = new Game.THREE.Quaternion().setFromUnitVectors(
-          new Game.THREE.Vector3(0, 0, 1),
-          normal
-        );
-        postitGo.getObject3D().quaternion.multiply(quaternion);
-
-        //avoid z fighting
-        postitGo.setPosition(
-          point
-            .sub(gameView.getObject3D().position)
-            .add(normal.clone().setLength(0.08))
+        //TODO maybe this is not working in editor cause of the left bar ui but for some reason offsetY is not working in that case
+        const mouse = new THREE.Vector2(
+          -1 +
+            (2 * event.clientX) /
+              (externalContext.frame3D.rootWebGL.clientWidth -
+                parseInt(externalContext.frame3D.rootWebGL.offsetLeft)),
+          1 -
+            (2 * event.clientY) /
+              (externalContext.frame3D.rootWebGL.clientHeight -
+                parseInt(externalContext.frame3D.rootWebGL.offsetTop))
         );
 
-        //write message
-        const message = textAreaMessage.value;
-        postitGo.components.LocalScript.conf.content = message;
-        const json = postitGo.toJSON(true);
-        const ws = localCtx.getWebSocketService();
-        if (!ws) {
-          if (gameView.getUserData('editorMode')) {
-            gameView
-              .getInterpolator()
-              .getLocalComputer()
-              .onAddGameObject(postitGo);
-          } else {
-            console.error('no websocket service');
-          }
-        } else {
-          //export
-          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.ADD_GAMEOBJECT, json);
+        raycaster.setFromCamera(mouse, externalContext.frame3D.camera);
+
+        const i = raycaster.intersectObject(objectStatic, true);
+
+        if (i.length) {
+          const closestI = i[0];
+          const point = closestI.point;
+
+          const quaternionObj = new THREE.Quaternion();
+          closestI.object.matrixWorld.decompose(
+            new THREE.Vector3(),
+            quaternionObj,
+            new THREE.Vector3()
+          );
+          const normal = closestI.face.normal.applyQuaternion(quaternionObj);
+
+          const postitGo = PrefabFactory.postIt();
+
+          //rotate
+          const quaternion = new THREE.Quaternion().setFromUnitVectors(
+            new THREE.Vector3(0, 0, 1),
+            normal
+          );
+          postitGo.quaternion.multiply(quaternion);
+
+          //avoid z fighting
+          postitGo.position.copy(
+            point
+              .sub(externalContext.object3D.position)
+              .add(normal.clone().setLength(0.08))
+          );
+
+          //write message
+          const message = textAreaMessage.value;
+          const externalScriptComp = postitGo.getComponent(
+            Game.Component.ExternalScript.TYPE
+          );
+          externalScriptComp.getModel().getVariables().content = message;
+
+          externalContext.sendCommandToGameContext([
+            new Command({
+              type: Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
+              data: { object3D: postitGo.toJSON() },
+            }),
+          ]);
         }
       }
-    });
+    );
   }
 
   html() {
