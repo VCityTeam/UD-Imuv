@@ -79,6 +79,9 @@
       },
       "final_IMU": {
         "path": "./assets/videos/final_IMU_sept2019.webm"
+      },
+      "presentation_IMU": {
+        "path": "./assets/videos/labex_imu_la_transition_urbaine.mp4"
       }
     },
     "localScripts": {
@@ -277,8 +280,8 @@
       "city_map": {
         "path": "./assets/worldScripts/CityMap.js"
       },
-      "box3D": {
-        "path": "./assets/worldScripts/Box3D.js"
+      "box3D_tool": {
+        "path": "./assets/worldScripts/Box3DTool.js"
       }
     },
     "prefabs": {
@@ -299,6 +302,9 @@
       },
       "image": {
         "path": "./assets/prefabs/Image.json"
+      },
+      "video": {
+        "path": "./assets/prefabs/Video.json"
       },
       "portal": {
         "path": "./assets/prefabs/Portal.json"

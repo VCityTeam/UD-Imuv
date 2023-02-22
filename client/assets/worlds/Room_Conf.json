@@ -462,12 +462,7 @@
               "LocalScript": {
                 "uuid": "DA04F566-1D8C-4FDA-82AA-9FBDFD86D319",
                 "idScripts": ["city_mock_up"],
-                "conf": {
-                  "area": {
-                    "start": null,
-                    "end": null
-                  }
-                },
+                "conf": { "area": { "start": null, "end": null } },
                 "type": "LocalScript"
               }
             },
@@ -495,7 +490,7 @@
         "name": "UI_GO",
         "type": "GameObject",
         "static": false,
-        "outdated": false,
+        "outdated": true,
         "uuid": "51072C32-C638-4304-B513-D8ED4FAA60C1",
         "parentUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
         "forceSerializeComponents": [],
@@ -503,7 +498,7 @@
           "LocalScript": {
             "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 15 },
+            "conf": { "world_computer_dt": 21 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -535,5 +530,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
-  "version": "2.39.2"
+  "version": "2.39.3"
 }

@@ -90,6 +90,9 @@
       },
       "final_IMU": {
         "path": "./assets/videos/final_IMU_sept2019.webm"
+      },
+      "presentation_IMU": {
+        "path": "./assets/videos/labex_imu_la_transition_urbaine.mp4"
       }
     },
     "localScripts": {

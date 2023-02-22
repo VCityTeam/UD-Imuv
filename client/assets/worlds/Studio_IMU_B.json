@@ -258,8 +258,436 @@
               "position": [
                 -7.489242042880505, 3.61204466316849, 2.58712546654192
               ],
-              "rotation": [0, 0, 6.2480473677264605, "ZXY"],
+              "rotation": [0, 0, 5.970768070851459, "ZXY"],
               "scale": [0.6, 0.6, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "WhiteboardPlane",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "721CDCA7-47C1-42EF-A240-09598A653773",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "24F0B438-3E49-46D4-992E-24E0382F1FA8",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "1936E644-A43B-493E-8EB3-9ADD7AEF625E",
+                "idScripts": ["whiteboard", "clickable"],
+                "conf": {
+                  "name": "default_name",
+                  "factorWidth": 3,
+                  "factorHeight": 3
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "73621ABA-1F9C-47F4-8226-FB6FFAA652E6",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                5.987123474245891, 6.086144627071917, 2.270241848486421
+              ],
+              "rotation": [1.57, 0, 0, "ZXY"],
+              "scale": [1.1, 0.8, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "WhiteboardPlane (clone)",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "811A546C-BEF5-4EE1-948C-D187F848F01A",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "0A3A4798-6445-4830-B872-F0949ED3AA6B",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "D27F1F16-E80E-4509-BB5F-94C18818AE8C",
+                "idScripts": ["whiteboard", "clickable"],
+                "conf": {
+                  "name": "default_name (clone)",
+                  "factorWidth": 3,
+                  "factorHeight": 3
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "E80C1039-B923-4C69-801A-655052381810",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                -8.199579772772267, -1.7587612541392446, 5.462716136138113
+              ],
+              "rotation": [1.57, 1.57, 0, "ZXY"],
+              "scale": [1.7425029024403191, 1.26429774551401, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "JitsiArea",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "780F6C8D-6C3E-4C24-932A-A7E3E07B0C37",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": ["Collider"],
+            "components": {
+              "Collider": {
+                "uuid": "BABCE389-6127-420E-B262-0E9E9F9473C0",
+                "type": "Collider",
+                "shapes": [
+                  {
+                    "type": "Polygon",
+                    "points": [
+                      {
+                        "x": -1.79294827231206,
+                        "y": -0.052417400293052197,
+                        "z": 0.12102320001969247
+                      },
+                      {
+                        "x": -1.561713867355138,
+                        "y": -2.0862491857260466,
+                        "z": 0.11472749445243835
+                      },
+                      {
+                        "x": -0.10476728319190443,
+                        "y": -3.45758502651006,
+                        "z": 0.1224077745644081
+                      },
+                      {
+                        "x": 1.4413540691602975,
+                        "y": -2.2114331666380167,
+                        "z": 0.11689721100327688
+                      },
+                      {
+                        "x": 1.948377211112529,
+                        "y": -0.5817998694255948,
+                        "z": 0.11141761804219641
+                      },
+                      {
+                        "x": 1.6445800233632326,
+                        "y": 1.5847777556627989,
+                        "z": 0.12220107727864615
+                      },
+                      {
+                        "x": 0.13990847836248577,
+                        "y": 2.767757883295417,
+                        "z": 0.11172021872658888
+                      },
+                      {
+                        "x": -1.4193417427595705,
+                        "y": 1.8048794204369187,
+                        "z": 0.11508838506074426
+                      }
+                    ]
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "B56FB484-B16E-4B1C-A9FA-07AC07423AB4",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1]
+              },
+              "LocalScript": {
+                "uuid": "6891B8AC-29E4-4F0C-A009-9270913BE6B5",
+                "idScripts": ["local_interactions", "jitsi_area"],
+                "conf": {
+                  "jitsi_room_name": "default",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "LocalScript"
+              },
+              "WorldScript": {
+                "uuid": "5C7AB7EB-6C74-4A68-9A52-D0AE194A70CB",
+                "idScripts": ["interaction_zone"],
+                "conf": {},
+                "type": "WorldScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                -4.264253675239161, -1.292892536148429, 2.8008706073127314
+              ],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "JitsiArea",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "8631C87E-94B4-4C65-9845-F6B7721CBBEB",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": ["Collider"],
+            "components": {
+              "Collider": {
+                "uuid": "4A900179-2DCA-4785-8B32-B89A4838653B",
+                "type": "Collider",
+                "shapes": [
+                  {
+                    "type": "Polygon",
+                    "points": [
+                      {
+                        "x": -1.3966504228301346,
+                        "y": 2.9469094779342413,
+                        "z": -0.8789997068755611
+                      },
+                      {
+                        "x": -1.3534671284724027,
+                        "y": -2.584701527841389,
+                        "z": -0.8789997068755611
+                      },
+                      {
+                        "x": 1.836745987413451,
+                        "y": -2.400926393456757,
+                        "z": -0.8789997068755611
+                      },
+                      {
+                        "x": 1.7415475624147803,
+                        "y": 2.955590228550136,
+                        "z": -0.8789997068755611
+                      }
+                    ]
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "9B3D046C-025F-4AD6-BC50-A0A4476AC551",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1]
+              },
+              "LocalScript": {
+                "uuid": "5269EA5C-6998-4038-B5F0-163E00699D86",
+                "idScripts": ["local_interactions", "jitsi_area"],
+                "conf": {
+                  "jitsi_room_name": "default",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "LocalScript"
+              },
+              "WorldScript": {
+                "uuid": "F7AD7943-47BC-44E1-B595-1E18013BE678",
+                "idScripts": ["interaction_zone"],
+                "conf": {},
+                "type": "WorldScript"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                3.35529100545682, -0.8527642292901874, 0.5130355844804058
+              ],
+              "rotation": [0, 0, 0, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "Video",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "8B1F4A9C-D358-4295-B355-6D93315D229F",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": [],
+            "components": {
+              "LocalScript": {
+                "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
+                "idScripts": ["video"],
+                "conf": {
+                  "idVideo": "presentation_IMU",
+                  "width": 10,
+                  "height": 6,
+                  "size": { "width": 1920, "height": 1080 }
+                },
+                "type": "LocalScript"
+              },
+              "Render": {
+                "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                5.838158192578703, -6.35523937176913, 2.2568481123342394
+              ],
+              "rotation": [1.5707, 0, 3.14, "ZXY"],
+              "scale": [0.33, 0.3, 0.4]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "Image",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "E16566E6-7E6A-4B67-A515-5D739040E35C",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "002A342F-B617-48A8-A300-629600C34BBE",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "BC5C5776-CD7B-4B2E-B1E4-6E00FB762253",
+                "idScripts": ["image"],
+                "conf": {
+                  "path": "./assets/img/labex_imu.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": { "lng": null, "lat": null, "checked": false }
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "679A5667-9CD6-4D7A-9D76-BD729801D3C4",
+                "sounds": ["open_popup"],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                -3.2971474102232605, -6.3321140464395285, 4.9161817589561565
+              ],
+              "rotation": [1.5707000000020088, 0, 3.1198255814867415, "ZXY"],
+              "scale": [
+                1.3660396552021605, 1.3660396552021605, 1.3660396552021605
+              ]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "MouseIcon",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "EF5812F7-74F7-45F5-99B3-79CE5A966816",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "E57A57AB-2DE3-492B-9DAE-33AE14BFFD0F",
+                "type": "Render",
+                "idRenderData": "mouse",
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "4C1A9687-7B1A-4FB6-8FEB-EEB9870BCECB",
+                "idScripts": ["clickable", "rotate", "display_media", "bounce"],
+                "conf": {
+                  "speed": 0.0005,
+                  "iframe_src": "https://imu.universite-lyon.fr/",
+                  "sound_id": null
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "BBF8CA2F-974C-47A8-94CB-B40DF1EA58DD",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                2.39397407672368, 0.29042850248515606, 1.3474279165179723
+              ],
+              "rotation": [0, 0, 6.247522099171773, "ZXY"],
+              "scale": [1, 1, 1]
+            },
+            "noLocalUpdate": false,
+            "freeze": false
+          },
+          {
+            "name": "MouseIcon (clone)",
+            "type": "GameObject",
+            "static": true,
+            "outdated": false,
+            "uuid": "3955A52B-696F-4567-8B3A-7A2ADDAF45A3",
+            "parentUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
+            "forceSerializeComponents": [],
+            "components": {
+              "Render": {
+                "uuid": "FB37C074-8671-4114-92AE-F749DA8538B0",
+                "type": "Render",
+                "idRenderData": "mouse",
+                "color": [1, 1, 1]
+              },
+              "LocalScript": {
+                "uuid": "C17B0919-B8FC-4DF5-9435-B606FE58498C",
+                "idScripts": ["clickable", "rotate", "display_media", "bounce"],
+                "conf": {
+                  "speed": 0.0005,
+                  "iframe_src": "https://imu.universite-lyon.fr/imu-fr/le-projet-imuv-point-d-etape-289181.kjsp?RH=IMU_FR",
+                  "sound_id": null
+                },
+                "type": "LocalScript"
+              },
+              "Audio": {
+                "uuid": "3332D790-C5D8-407F-A935-A31B7827A8D8",
+                "sounds": [],
+                "conf": {},
+                "type": "Audio"
+              }
+            },
+            "children": [],
+            "transform": {
+              "position": [
+                2.39397407672368, -1.77914325799793, 1.3474279165179723
+              ],
+              "rotation": [0, 0, 6.247522099171773, "ZXY"],
+              "scale": [1, 1, 1]
             },
             "noLocalUpdate": false,
             "freeze": false
@@ -277,7 +705,7 @@
         "name": "UI_GO",
         "type": "GameObject",
         "static": false,
-        "outdated": false,
+        "outdated": true,
         "uuid": "0CC069A2-AA64-42A9-9E81-7FA4444C862F",
         "parentUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
         "forceSerializeComponents": [],
@@ -285,7 +713,7 @@
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 427 },
+            "conf": { "world_computer_dt": 20 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -317,5 +745,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
-  "version": "2.39.2"
+  "version": "2.39.3"
 }

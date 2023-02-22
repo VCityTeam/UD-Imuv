@@ -1,0 +1,38 @@
+{
+    "name": "Video",
+    "type": "GameObject",
+    "static": true,
+    "outdated": false,
+    "uuid": "8B1F4A9C-D358-4295-B355-6D93315D229F",
+    "parentUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+    "forceSerializeComponents": [],
+    "components": {
+      "LocalScript": {
+        "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
+        "idScripts": ["video"],
+        "conf": {
+          "idVideo": "presentation_IMU",
+          "width": 10,
+          "height": 6,
+          "size": { "width": 1920, "height": 1080 }
+        },
+        "type": "LocalScript"
+      },
+      "Render": {
+        "uuid": "688EBC8B-FBC0-4CE1-B042-6B12EF7AB58B",
+        "type": "Render",
+        "idRenderData": null,
+        "color": [1, 1, 1]
+      }
+    },
+    "children": [],
+    "transform": {
+      "position": [
+        0,0,0
+      ],
+      "rotation": [1.5707, 0, 3.14, "ZXY"],
+      "scale": [0.33, 0.3, 0.4]
+    },
+    "noLocalUpdate": false,
+    "freeze": false
+  }

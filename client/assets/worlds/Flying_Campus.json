@@ -4172,7 +4172,7 @@
         "name": "UI_GO",
         "type": "GameObject",
         "static": false,
-        "outdated": false,
+        "outdated": true,
         "uuid": "8EE2385E-E924-436F-8F94-D816B62979A2",
         "parentUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
         "forceSerializeComponents": [],
@@ -4180,7 +4180,7 @@
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
             "idScripts": ["ui"],
-            "conf": { "world_computer_dt": 17 },
+            "conf": { "world_computer_dt": 21 },
             "type": "LocalScript"
           },
           "WorldScript": {
@@ -4212,5 +4212,5 @@
   "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
   "type": "World",
   "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-  "version": "2.39.2"
+  "version": "2.39.3"
 }
