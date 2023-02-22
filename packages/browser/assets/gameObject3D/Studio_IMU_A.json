@@ -651,13 +651,13 @@
         "components": {
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
-            "idScripts": ["ui"],
+            "idScripts": ["UI"],
             "conf": { "gameContextDt": 428 },
             "type": "LocalScript"
           },
           "WorldScript": {
             "uuid": "FD5FAD5B-AFBB-4511-B757-E1F6EB1D2512",
-            "idScripts": ["ui"],
+            "idScripts": ["UI"],
             "conf": {},
             "type": "WorldScript"
           }

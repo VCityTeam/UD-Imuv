@@ -9,7 +9,7 @@ module.exports = {
   MiniMap: require('./MiniMap'),
   Portal: require('./Portal'),
   Teleporter: require('./Teleporter'),
-  Ui: require('./Ui'),
+  UI: require('./UI'),
   WorldGameManager: require('./WorldGameManager'),
   Zeppelin: require('./Zeppelin'),
 };

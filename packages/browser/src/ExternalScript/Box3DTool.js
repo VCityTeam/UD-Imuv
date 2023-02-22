@@ -19,7 +19,7 @@ export class Box3DTool extends ExternalGame.ScriptBase {
   init() {
     const menu = new MenuBox3D(this.context);
 
-    const scriptUI = this.context.findExternalScriptWithID('Ui');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
     const cameraScript = this.context.findExternalScriptWithID('Camera');
     const avatarController =
       this.context.findExternalScriptWithID('AvatarController');

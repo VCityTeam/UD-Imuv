@@ -44,7 +44,7 @@ export class AvatarController extends ExternalGame.ScriptBase {
     const commandIdRight = 'cmd_right';
     const commandIdRotate = 'cmd_rotate';
 
-    const scriptUI = this.context.findExternalScriptWithID('Ui');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
 
     if (value) {
       const miniMapScript = this.context.findExternalScriptWithID('MiniMap');

@@ -125,16 +125,16 @@ export class LocalScriptSignageDisplayerUI {
         gV.attachTCToObject(sphereP);
         transformObject3D.updateMatrixWorld();
 
-        const cloneClearUiEditor = document.createElement('div');
-        cloneClearUiEditor.classList.add('ui_Editor');
+        const cloneClearUIEditor = document.createElement('div');
+        cloneClearUIEditor.classList.add('ui_Editor');
         goui.goEditor.ui.offsetParent.parentElement.appendChild(
-          cloneClearUiEditor
+          cloneClearUIEditor
         );
 
         const validateButton = document.createElement('button');
         validateButton.innerHTML = 'VALIDATE';
         validateButton.classList = 'validate_button';
-        cloneClearUiEditor.appendChild(validateButton);
+        cloneClearUIEditor.appendChild(validateButton);
         validateButton.onclick = function () {
           modal.hidden = false;
           transformElement.innerHTML = '';
@@ -143,7 +143,7 @@ export class LocalScriptSignageDisplayerUI {
           );
 
           transformObject3D.removeFromParent();
-          cloneClearUiEditor.remove();
+          cloneClearUIEditor.remove();
         };
       };
 
