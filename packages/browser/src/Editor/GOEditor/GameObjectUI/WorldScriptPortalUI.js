@@ -19,10 +19,10 @@ export class WorldScriptPortalUI {
     portalContent.appendChild(buttonChangeSpawnRotation);
 
     buttonChangeSpawnRotation.onclick = function () {
-      const cloneClearUiEditor = document.createElement('div');
-      cloneClearUiEditor.classList.add('ui_Editor');
+      const cloneClearUIEditor = document.createElement('div');
+      cloneClearUIEditor.classList.add('ui_Editor');
       goui.goEditor.ui.offsetParent.parentElement.appendChild(
-        cloneClearUiEditor
+        cloneClearUIEditor
       );
 
       const transformObject3D = new THREE.Object3D();
@@ -49,7 +49,7 @@ export class WorldScriptPortalUI {
         cone.rotation.set(spawnRot.x, spawnRot.y, spawnRot.z);
       };
 
-      cloneClearUiEditor.appendChild(
+      cloneClearUIEditor.appendChild(
         goui.createInputFromVector3(spawnRot, cbOnChange)
       );
 
@@ -57,10 +57,10 @@ export class WorldScriptPortalUI {
       const validateButton = document.createElement('button');
       validateButton.innerHTML = 'VALIDATE';
       validateButton.classList = 'validate_button';
-      cloneClearUiEditor.appendChild(validateButton);
+      cloneClearUIEditor.appendChild(validateButton);
       validateButton.onclick = function () {
         transformObject3D.removeFromParent();
-        cloneClearUiEditor.remove();
+        cloneClearUIEditor.remove();
       };
 
       transformObject3D.updateMatrixWorld();

@@ -1,6 +1,6 @@
 const { Game } = require('@ud-viz/shared');
 
-module.exports = class Ui extends Game.ScriptBase {
+module.exports = class UI extends Game.ScriptBase {
   tick() {
     const externalScriptComp = this.object3D.getComponent(
       Game.Component.ExternalScript.TYPE

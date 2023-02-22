@@ -1,8 +1,10 @@
-export class UI {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
+import { ExternalGame, FileUtil, THREE } from '@ud-viz/browser';
+import { Constant } from '@ud-imuv/shared';
+import { Game } from '@ud-viz/shared';
 
-    udviz = udvizBundle;
+export class UI extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     //menu settings
     this.menuSettings = null;
@@ -34,51 +36,48 @@ export class UI {
   }
 
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-    const gameView = localCtx.getGameView();
-
     //FILL UI WITH CONTAINER
 
     //Toolsbar
-    gameView.appendToUI(this.toolsBar.html());
+    this.context.frame3D.appendToUI(this.toolsBar.html());
 
     //contextual
-    gameView.appendToUI(this.toolsContextualMenu.html());
+    this.context.frame3D.appendToUI(this.toolsContextualMenu.html());
 
     //mapUI
-    gameView.appendToUI(this.mapUI.html());
+    this.context.frame3D.appendToUI(this.mapUI.html());
 
     //gadget ui
-    gameView.appendToUI(this.gadgetUI.html());
+    this.context.frame3D.appendToUI(this.gadgetUI.html());
 
     //social ui
-    gameView.appendToUI(this.socialUI.html());
+    this.context.frame3D.appendToUI(this.socialUI.html());
 
     //label info
-    gameView.appendToUI(this.labelInfo.html());
+    this.context.frame3D.appendToUI(this.labelInfo.html());
 
-    //Debug Info
-    if (__DEBUG__) {
-      gameView.appendToUI(this.debugInfo.html());
+    //DEBUG variable is going to be replace by webpack
+    // eslint-disable-next-line no-undef
+    if (DEBUG) {
+      this.context.frame3D.appendToUI(this.debugInfo.html());
     }
 
     //Gadget Menu Settings
-    const menuSettings = new MenuSettings(localCtx);
+    const menuSettings = new MenuSettings(this.context);
     this.menuSettings = menuSettings; //ref to be access from other scripts
 
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_settings.png',
       'Paramètres',
-      function () {
+      () => {
         //pause gameview
-        gameView.setIsRendering(false);
-        gameView.getInputManager().setPause(true);
-        gameView.appendToUI(menuSettings.html());
+        this.context.frame3D.setIsRendering(false);
+        this.context.inputManager.setPause(true);
+        this.context.frame3D.appendToUI(menuSettings.html());
 
-        menuSettings.setOnClose(function () {
-          gameView.setIsRendering(true);
-          gameView.getInputManager().setPause(false);
+        menuSettings.setOnClose(() => {
+          this.context.frame3D.setIsRendering(true);
+          this.context.inputManager.setPause(false);
           menuSettings.html().remove();
         });
       }
@@ -88,7 +87,7 @@ export class UI {
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_link.png',
       'Copier Lien',
-      function (event) {
+      (event) => {
         const iconImg = event.target;
         if (iconImg.disable) return;
         iconImg.disable = true;
@@ -103,20 +102,20 @@ export class UI {
         }, 1000);
 
         //get params event
-        const avatarGO = go
-          .computeRoot()
-          .find(gameView.getUserData('avatarUUID'));
+        const avatarGO = this.context.object3D.getObjectByProperty(
+          'uuid',
+          this.context.userData.avatarUUID
+        );
 
-        const position = avatarGO.getPosition().toArray();
-        const rotation = avatarGO.getRotation().toArray();
-        const worldUUID = gameView.getLastState().getWorldUUID();
+        const position = avatarGO.position.toArray();
+        const rotation = avatarGO.rotation.toArray();
+        const worldUUID = this.context.userData.worldUUID;
 
-        const urlEvent =
-          ImuvConstants.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
+        const urlEvent = Constant.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
         const url = new URL(window.location.origin + window.location.pathname);
 
         url.searchParams.append(
-          encodeURI(ImuvConstants.URL_PARAMETER.ID_KEY),
+          encodeURI(Constant.URL_PARAMETER.ID_KEY),
           encodeURIComponent(urlEvent.ID_VALUE)
         );
         url.searchParams.append(
@@ -138,133 +137,120 @@ export class UI {
     );
 
     //Gadget menu avatar
-    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
-    const role = gameView.getUserData('role');
     if (
-      role == ImuvConstants.USER.ROLE.ADMIN ||
-      role == ImuvConstants.USER.ROLE.DEFAULT
+      this.context.userData.role == Constant.USER.ROLE.ADMIN ||
+      this.context.userData.role == Constant.USER.ROLE.DEFAULT
     ) {
       this.gadgetUI.addGadget(
         './assets/img/ui/icon_menu_avatar.png',
         'Menu Avatar',
-        function () {
+        () => {
           //pause gameview
-          gameView.setIsRendering(false);
-          gameView.getInputManager().setPause(true);
+          this.context.frame3D.setIsRendering(false);
+          this.context.inputManager.setPause(true);
 
           //register
-          const parentHtml = gameView.html().parentNode;
+          const parentHtml = this.context.frame3D.html().parentNode;
 
           //remove html
-          gameView.html().remove();
+          this.context.frame3D.html().remove();
 
           //create world
-          const menuAvatarWorld = new udviz.Game.World({
-            name: 'Menu Avatar',
-            gameObject: {
-              name: 'MenuAvatar',
-              static: true,
-              components: {
-                LocalScript: {
-                  conf: {},
-                  idScripts: ['menu_avatar'],
-                },
+          const menuAvatar = new Game.Object3D({
+            name: 'MenuAvatar',
+            static: true,
+            components: {
+              ExternalScript: {
+                idScripts: ['MenuAvatar'],
               },
             },
           });
 
           //launch menu avatar
-          udviz.Components.SystemUtils.File.loadJSON(
-            './assets/config/config_game.json'
-          ).then(function (config) {
-            const app = new udviz.Templates.LocalGame();
-            app
-              .startWithAssetsLoaded(
-                menuAvatarWorld,
-                gameView.getAssetsManager(),
-                config,
-                {
-                  htmlParent: parentHtml,
-                  localScriptModules: { ImuvConstants: ImuvConstants },
-                }
-              )
-              .then(function () {
-                const menuAvatarGameView = app.getGameView();
+          FileUtil.loadJSON('./assets/config/config.json').then((config) => {
+            console.error('no reimplemented yet');
+            // const app = new udviz.Templates.LocalGame();
+            // app
+            //   .startWithAssetsLoaded(
+            //     menuAvatarWorld,
+            //     gameView.getAssetsManager(),
+            //     config,
+            //     {
+            //       htmlParent: parentHtml,
+            //       localScriptModules: { Constant: Constant },
+            //     }
+            //   )
+            //   .then(function () {
+            //     const menuAvatarGameView = app.getGameView();
 
-                //tweak websocketservice
-                menuAvatarGameView
-                  .getLocalContext()
-                  .setWebSocketService(localCtx.getWebSocketService());
+            //     //tweak websocketservice
+            //     menuAvatarGameView
+            //       .getLocalContext()
+            //       .setWebSocketService(externalContext.getWebSocketService());
 
-                const closeButton = document.createElement('button');
-                closeButton.classList.add('button-imuv');
-                closeButton.title = 'Fermer';
-                const closeCross = document.createElement('div');
-                closeCross.classList.add('mask_icon', 'close_cross');
-                closeButton.appendChild(closeCross);
-                closeButton.onclick = function () {
-                  menuAvatarGameView.dispose(); //remove menu avatar
+            //     const closeButton = document.createElement('button');
+            //     closeButton.classList.add('button-imuv');
+            //     closeButton.title = 'Fermer';
+            //     const closeCross = document.createElement('div');
+            //     closeCross.classList.add('mask_icon', 'close_cross');
+            //     closeButton.appendChild(closeCross);
+            //     closeButton.onclick = function () {
+            //       menuAvatarGameView.dispose(); //remove menu avatar
 
-                  //unpause gameview
-                  gameView.setIsRendering(true);
-                  gameView.getInputManager().setPause(false);
+            //       //unpause gameview
+            //       gameView.setIsRendering(true);
+            //       gameView.getInputManager().setPause(false);
 
-                  //add html
-                  parentHtml.appendChild(gameView.html());
-                };
+            //       //add html
+            //       parentHtml.appendChild(gameView.html());
+            //     };
 
-                //make it accessible in menuavatar localscript
-                menuAvatarGameView.writeUserData('close_button', closeButton);
-              });
+            //     //make it accessible in menuavatar localscript
+            //     menuAvatarGameView.writeUserData('close_button', closeButton);
+            //   });
           });
         }
       );
     }
 
     //Gadget fullscreen
-    this.gadgetUI.addGadget(
-      './assets/img/ui/icon_fullscreen.png',
-      '',
-      function () {
-        //toggle fullscreen
+    this.gadgetUI.addGadget('./assets/img/ui/icon_fullscreen.png', '', () => {
+      //toggle fullscreen
 
-        const elem = document.documentElement;
-        function openFullscreen() {
-          if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-          } else if (elem.webkitRequestFullscreen) {
-            /* Safari */
-            elem.webkitRequestFullscreen();
-          } else if (elem.msRequestFullscreen) {
-            /* IE11 */
-            elem.msRequestFullscreen();
-          }
-        }
-
-        function closeFullscreen() {
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          } else if (document.webkitExitFullscreen) {
-            /* Safari */
-            document.webkitExitFullscreen();
-          } else if (document.msExitFullscreen) {
-            /* IE11 */
-            document.msExitFullscreen();
-          }
-        }
-
-        if (!document.fullscreenElement) {
-          openFullscreen();
-        } else {
-          closeFullscreen();
+      const elem = document.documentElement;
+      function openFullscreen() {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          /* Safari */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          /* IE11 */
+          elem.msRequestFullscreen();
         }
       }
-    );
+
+      function closeFullscreen() {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          /* Safari */
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          /* IE11 */
+          document.msExitFullscreen();
+        }
+      }
+
+      if (!document.fullscreenElement) {
+        openFullscreen();
+      } else {
+        closeFullscreen();
+      }
+    });
   }
 
-  displayIframe(localCtx, iframeSrc) {
-    const gameView = localCtx.getGameView();
-
+  displayIframe(iframeSrc) {
     const closebutton = document.createElement('button');
     closebutton.classList.add('button-imuv');
     closebutton.classList.add('close-button');
@@ -273,29 +259,29 @@ export class UI {
     const closeCross = document.createElement('div');
     closeCross.classList.add('close_cross', 'mask_icon');
     closebutton.appendChild(closeCross);
-    gameView.appendToUI(closebutton);
+    this.context.frame3D.appendToUI(closebutton);
 
     const content = document.createElement('iframe');
     content.classList.add('ui-iframe');
-    content.style.left = gameView.getRootWebGL().style.left;
+    content.style.left = this.context.frame3D.rootWebGL.style.left;
     content.src = iframeSrc;
 
-    gameView.appendToUI(content);
+    this.context.frame3D.appendToUI(content);
 
     //pause avatar command stop rendering
-    gameView.setIsRendering(false);
+    this.context.frame3D.setIsRendering(false);
     const avatarController =
-      localCtx.findLocalScriptWithID('avatar_controller');
-    avatarController.setAvatarControllerMode(false, localCtx);
+      this.context.findExternalScriptWithID('AvatarController');
+    avatarController.setAvatarControllerMode(false);
 
-    closebutton.onclick = function (event) {
+    closebutton.onclick = (event) => {
       event.stopPropagation();
       content.remove();
       closebutton.remove();
 
       //restore rendering + avatar command
-      gameView.setIsRendering(true);
-      avatarController.setAvatarControllerMode(true, localCtx);
+      this.context.frame3D.setIsRendering(true);
+      avatarController.setAvatarControllerMode(true);
     };
   }
 
@@ -358,8 +344,8 @@ export class UI {
     };
   }
 
-  addToMapUI(scriptMap, ImuvConstants) {
-    this.mapUI.add(scriptMap, ImuvConstants);
+  addToMapUI(scriptMap) {
+    this.mapUI.add(scriptMap);
   }
 
   clearMapUI() {
@@ -379,11 +365,9 @@ export class UI {
   }
 
   tick() {
-    const localCtx = arguments[1];
-
-    if (this.debugInfo) this.debugInfo.update(localCtx, this.conf);
+    if (this.debugInfo) this.debugInfo.update(this.context, this.variables);
   }
-};
+}
 
 class DebugInfo {
   constructor() {
@@ -411,21 +395,25 @@ class DebugInfo {
     return this.rootHtml;
   }
 
-  update(localCtx, conf) {
+  /**
+   *
+   * @param {ExternalGame.Context} context
+   * @param {*} variables
+   */
+  update(context, variables) {
     //update ui
     this.gameViewFps.innerHTML =
-      'Client FPS = ' + Math.round(1000 / localCtx.getDt());
+      'Client FPS = ' + Math.round(1000 / context.dt);
 
     let worldFps = -1;
-    if (conf.gameContextDt)
-      worldFps = Math.round(1000 / conf.gameContextDt);
+    if (variables.gameContextDt)
+      worldFps = Math.round(1000 / variables.gameContextDt);
     this.worldComputerFps.innerHTML = 'World FPS = ' + worldFps;
 
-    this.pingUI.innerHTML =
-      'Ping = ' + localCtx.getGameView().getInterpolator().getPing();
+    this.pingUI.innerHTML = 'Ping = ' + context.interpolator.ping;
 
     let avatarCount = 0;
-    localCtx.getRootGameObject().traverse(function (g) {
+    context.object3D.traverse(function (g) {
       if (g.name == 'avatar') avatarCount++;
     });
     this.avatarCount.innerHTML = 'Player: ' + avatarCount;
@@ -433,7 +421,13 @@ class DebugInfo {
 }
 
 class MenuSettings {
-  constructor(localCtx) {
+  /**
+   *
+   * @param {ExternalGame.Context} externalContext - external context
+   */
+  constructor(externalContext) {
+    this.context = externalContext;
+
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root-menu-settings');
 
@@ -452,7 +446,7 @@ class MenuSettings {
     this.mouseSensitivitySlider = null;
     this.zoomFactorSlider = null;
 
-    this.initHtml(localCtx);
+    this.initHtml();
   }
 
   setOnClose(f) {
@@ -467,18 +461,18 @@ class MenuSettings {
     return this.zoomFactorSlider.value;
   }
 
-  initHtml(localCtx) {
+  initHtml() {
     // sections
     this.createTitleSection(this.rootHtml);
 
     const panelsSection = document.createElement('section');
     panelsSection.classList.add('panels-section');
-    this.createGraphicsSection(localCtx, panelsSection);
-    this.createAudioSection(localCtx, panelsSection);
-    this.createControlsSection(localCtx, panelsSection);
+    this.createGraphicsSection(panelsSection);
+    this.createAudioSection(panelsSection);
+    this.createControlsSection(panelsSection);
     this.rootHtml.appendChild(panelsSection);
 
-    this.createSaveAndCloseSection(localCtx, this.rootHtml);
+    this.createSaveAndCloseSection(this.rootHtml);
   }
 
   // TITLE SECTION
@@ -494,7 +488,7 @@ class MenuSettings {
   }
 
   // SAVE AND CLOSE SECTION
-  createSaveAndCloseSection(localCtx, parentElement) {
+  createSaveAndCloseSection(parentElement) {
     const saveAndCloseSection = document.createElement('section');
     saveAndCloseSection.classList.add('save-and-close-section');
 
@@ -504,7 +498,7 @@ class MenuSettings {
     this.closeButton = closeButton;
 
     // Save button
-    const saveButton = this.createSaveButton(localCtx);
+    const saveButton = this.createSaveButton();
     saveAndCloseSection.appendChild(saveButton);
 
     parentElement.appendChild(saveAndCloseSection);
@@ -520,7 +514,7 @@ class MenuSettings {
     return closeButton;
   }
 
-  createSaveButton(localCtx) {
+  createSaveButton() {
     const saveButton = document.createElement('button');
     saveButton.classList.add('button-imuv');
     const saveIcon = document.createElement('div');
@@ -528,29 +522,27 @@ class MenuSettings {
     saveIcon.classList.add('mask_icon', 'save_icon');
     saveButton.appendChild(saveIcon);
 
-    const _this = this;
-    saveButton.onclick = function () {
-      const ws = localCtx.getWebSocketService();
-      const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-        'ImuvConstants'
-      ];
-      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.SAVE_SETTINGS, {
-        //SETTINGS MODEL IS DESCRIBE HERE
-        fogValue: _this.fogSlider.value,
-        zoomFactor: _this.zoomFactorSlider.value,
-        mouseSensitivitySlider: _this.mouseSensitivitySlider.value,
-        volumeValue: _this.volumeSlider.value,
-        sunValue: _this.sunCheckBox.checked,
-        shadowValue: _this.shadowChecBox.checked,
-        shadowMapSize: _this.shadowMapSelect.value,
-      });
+    saveButton.onclick = () => {
+      this.context.socketIOWrapper.emit(
+        Constant.WEBSOCKET.MSG_TYPE.SAVE_SETTINGS,
+        {
+          //SETTINGS MODEL IS DESCRIBE HERE
+          fogValue: this.fogSlider.value,
+          zoomFactor: this.zoomFactorSlider.value,
+          mouseSensitivitySlider: this.mouseSensitivitySlider.value,
+          volumeValue: this.volumeSlider.value,
+          sunValue: this.sunCheckBox.checked,
+          shadowValue: this.shadowChecBox.checked,
+          shadowMapSize: this.shadowMapSelect.value,
+        }
+      );
     };
 
     return saveButton;
   }
 
   //GRAPHICS SECTION
-  createGraphicsSection(localCtx, parentElement) {
+  createGraphicsSection(parentElement) {
     const graphicsSection = document.createElement('section');
     graphicsSection.classList.add('graphics-section');
 
@@ -559,11 +551,13 @@ class MenuSettings {
     graphicsSection.appendChild(graphicsTitle);
 
     /* Getting the directional light from the scene. */
-    const gameView = localCtx.getGameView();
-    const scene = gameView.getScene();
     let dirLight;
-    for (let index = 0; index < scene.children.length; index++) {
-      const element = scene.children[index];
+    for (
+      let index = 0;
+      index < this.context.frame3D.scene.children.length;
+      index++
+    ) {
+      const element = this.context.frame3D.scene.children[index];
       if (element.isDirectionalLight) {
         dirLight = element;
       }
@@ -574,27 +568,24 @@ class MenuSettings {
     }
     /* ---Directional Light Options---*/
     // Sun option
-    const sunOptionDiv = this.createSunOptionDiv(gameView, dirLight);
+    const sunOptionDiv = this.createSunOptionDiv(dirLight);
     graphicsSection.appendChild(sunOptionDiv);
     // Shadow option
-    const shadowOptionDiv = this.createShadowOptionDiv(gameView, dirLight);
+    const shadowOptionDiv = this.createShadowOptionDiv(dirLight);
     graphicsSection.appendChild(shadowOptionDiv);
     // Texture size option
-    const textureSizeOptionDiv = this.createTextureSizeOptionDiv(
-      gameView,
-      dirLight
-    );
+    const textureSizeOptionDiv = this.createTextureSizeOptionDiv(dirLight);
     graphicsSection.appendChild(textureSizeOptionDiv);
 
     /*---Other---*/
     // Fog option
-    const fogOptionDiv = this.createFogOptionDiv(localCtx);
+    const fogOptionDiv = this.createFogOptionDiv();
     graphicsSection.appendChild(fogOptionDiv);
 
     parentElement.appendChild(graphicsSection);
   }
 
-  createSunOptionDiv(gameView, dirLight) {
+  createSunOptionDiv(dirLight) {
     //parent
     const sunOptionDiv = document.createElement('div');
 
@@ -610,8 +601,8 @@ class MenuSettings {
     sunOptionDiv.appendChild(checkboxDirect);
 
     //check is settings has been saved
-    if (gameView.getUserData('settings').sunValue != undefined) {
-      dirLight.visible = gameView.getUserData('settings').sunValue;
+    if (this.context.userData.settings.sunValue != undefined) {
+      dirLight.visible = this.context.userData.settings.sunValue;
     }
     checkboxDirect.checked = dirLight.visible;
     checkboxDirect.onchange = function () {
@@ -623,7 +614,7 @@ class MenuSettings {
     return sunOptionDiv;
   }
 
-  createShadowOptionDiv(gameView, dirLight) {
+  createShadowOptionDiv(dirLight) {
     //parent
     const shadowOptionDiv = document.createElement('div');
 
@@ -639,8 +630,8 @@ class MenuSettings {
     shadowOptionDiv.appendChild(shadowCheckbox);
 
     //check is settings has been saved
-    if (gameView.getUserData('settings').shadowValue != undefined) {
-      dirLight.castShadow = gameView.getUserData('settings').shadowValue;
+    if (this.context.userData.settings.shadowValue != undefined) {
+      dirLight.castShadow = this.context.userData.settings.shadowValue;
     }
 
     shadowCheckbox.checked = dirLight.castShadow;
@@ -653,7 +644,7 @@ class MenuSettings {
     return shadowOptionDiv;
   }
 
-  createTextureSizeOptionDiv(gameView, dirLight) {
+  createTextureSizeOptionDiv(dirLight) {
     //size
     const textureSizeOptionDiv = document.createElement('div');
     this.rootHtml.appendChild(textureSizeOptionDiv);
@@ -675,11 +666,11 @@ class MenuSettings {
     });
 
     //check is settings has been saved
-    if (!isNaN(gameView.getUserData('settings').shadowMapSize)) {
+    if (!isNaN(this.context.userData.settings.shadowMapSize)) {
       dirLight.shadow.mapSize.width =
-        gameView.getUserData('settings').shadowMapSize;
+        this.context.userData.settings.shadowMapSize;
       dirLight.shadow.mapSize.height =
-        gameView.getUserData('settings').shadowMapSize;
+        this.context.userData.settings.shadowMapSize;
       dirLight.shadow.map = null;
     }
 
@@ -688,23 +679,26 @@ class MenuSettings {
     return textureSizeOptionDiv;
   }
 
-  createFogOptionDiv(localCtx) {
-    const gameView = localCtx.getGameView();
-    const scene = gameView.getScene();
-
+  createFogOptionDiv() {
     //init fog according extent
-    const max = gameView.config.game.radiusExtent * 2;
+
+    const max = Math.max(
+      this.context.userData.extent.north - this.context.userData.extent.south,
+      this.context.userData.extent.east - this.context.userData.extent.west
+    );
+
     const min = 50;
-    scene.fog = new udviz.THREE.Fog(
+    this.context.frame3D.scene.fog = new THREE.Fog(
       // new udviz.THREE.Color("red"),
-      new udviz.THREE.Color('#e1ebef'),
+      new THREE.Color('#e1ebef'),
       0,
       max
     );
 
     //check is settings has been saved
-    if (!isNaN(gameView.getUserData('settings').fogValue)) {
-      scene.fog.far = gameView.getUserData('settings').fogValue;
+    if (!isNaN(this.context.userData.settings.fogValue)) {
+      this.context.frame3D.scene.fog.far =
+        this.context.userData.settings.fogValue;
     }
 
     const fogOptionDiv = document.createElement('div');
@@ -719,21 +713,21 @@ class MenuSettings {
     slider.step = 1;
     slider.min = min;
     slider.max = max;
-    slider.value = scene.fog.far;
+    slider.value = this.context.frame3D.scene.fog.far;
     fogOptionDiv.appendChild(slider);
 
     this.fogSlider = slider;
 
     //callbakc
-    slider.onchange = function () {
-      scene.fog.far = this.value;
+    slider.onchange = () => {
+      this.context.frame3D.scene.fog.far = slider.value;
     };
 
     return fogOptionDiv;
   }
 
   // AUDIO SECTION
-  createAudioSection(localCtx, parentElement) {
+  createAudioSection(parentElement) {
     const audioSection = document.createElement('section');
     audioSection.classList.add('audio-section');
 
@@ -743,15 +737,13 @@ class MenuSettings {
     audioSection.appendChild(audioTitle);
 
     //audio slider
-    const audioSliderDiv = this.createVolumeSliderDiv(localCtx);
+    const audioSliderDiv = this.createVolumeSliderDiv();
     audioSection.appendChild(audioSliderDiv);
 
     parentElement.appendChild(audioSection);
   }
 
-  createVolumeSliderDiv(localCtx) {
-    const gameView = localCtx.getGameView();
-
+  createVolumeSliderDiv() {
     const audioSliderDiv = document.createElement('div');
 
     const labelGlobalSound = document.createElement('label');
@@ -760,8 +752,9 @@ class MenuSettings {
     audioSliderDiv.appendChild(labelGlobalSound);
 
     //check is settings has been saved
-    if (!isNaN(gameView.getUserData('settings').volumeValue)) {
-      Howler.volume(gameView.getUserData('settings').volumeValue);
+    if (!isNaN(this.context.userData.settings.volumeValue)) {
+      // eslint-disable-next-line no-undef
+      Howler.volume(this.context.userData.settings.volumeValue); // Howler is global
     }
 
     const globalVolumeSlider = document.createElement('input');
@@ -769,22 +762,23 @@ class MenuSettings {
     globalVolumeSlider.step = 0.05;
     globalVolumeSlider.min = 0;
     globalVolumeSlider.max = 1;
-    globalVolumeSlider.value = Howler.volume();
+    // eslint-disable-next-line no-undef
+    globalVolumeSlider.value = Howler.volume(); // Howler is global
     audioSliderDiv.appendChild(globalVolumeSlider);
 
     this.volumeSlider = globalVolumeSlider;
 
     //callbakc
     globalVolumeSlider.onchange = function () {
-      //Howler is global
-      Howler.volume(this.value);
+      // eslint-disable-next-line no-undef
+      Howler.volume(this.value); //Howler is global
     };
 
     return audioSliderDiv;
   }
 
   // CONTROLS SECTION
-  createControlsSection(localCtx, parentElement) {
+  createControlsSection(parentElement) {
     const controlsSection = document.createElement('section');
     controlsSection.classList.add('controls-section');
 
@@ -794,27 +788,25 @@ class MenuSettings {
     controlsSection.appendChild(controlsTitle);
 
     // Mouse sensitivity
-    const mouseSensitivityDiv = this.createMouseSensitivitysDiv(localCtx);
+    const mouseSensitivityDiv = this.createMouseSensitivitysDiv();
     controlsSection.appendChild(mouseSensitivityDiv);
 
     // Zoom factor
-    const zoomFactorDiv = this.createZoomFactorDiv(localCtx);
+    const zoomFactorDiv = this.createZoomFactorDiv();
     controlsSection.appendChild(zoomFactorDiv);
 
     parentElement.appendChild(controlsSection);
   }
 
-  createMouseSensitivitysDiv(localCtx) {
-    const gameView = localCtx.getGameView();
-
+  createMouseSensitivitysDiv() {
     //init fog according extent
     const max = 40;
     const min = 3;
 
     //check is settings has been saved
     let init = (min + max) / 2;
-    if (!isNaN(gameView.getUserData('settings').mouseSensitivitySlider)) {
-      init = gameView.getUserData('settings').mouseSensitivitySlider;
+    if (!isNaN(this.context.userData.settings.mouseSensitivitySlider)) {
+      init = this.context.userData.settings.mouseSensitivitySlider;
     }
 
     const mouseSensitivityDiv = document.createElement('div');
@@ -837,17 +829,15 @@ class MenuSettings {
     return mouseSensitivityDiv;
   }
 
-  createZoomFactorDiv(localCtx) {
-    const gameView = localCtx.getGameView();
-
+  createZoomFactorDiv() {
     //init fog according extent
     const max = 2.5;
     const min = 1.2;
 
     //check is settings has been saved
     let init = (min + max) / 2;
-    if (!isNaN(gameView.getUserData('settings').zoomFactor)) {
-      init = gameView.getUserData('settings').zoomFactor;
+    if (!isNaN(this.context.userData.settings.zoomFactor)) {
+      init = this.context.userData.settings.zoomFactor;
     }
 
     const zoomFactorDiv = document.createElement('div');
@@ -866,11 +856,11 @@ class MenuSettings {
 
     this.zoomFactorSlider = slider;
 
-    slider.onchange = function () {
-      const view = gameView.getItownsView();
-      if (view.controls) {
-        view.controls.zoomInFactor = this.value;
-        view.controls.zoomOutFactor = 1 / this.value;
+    slider.onchange = () => {
+      if (this.context.frame3D.itownsView.controls) {
+        this.context.frame3D.itownsView.controls.zoomInFactor = slider.value;
+        this.context.frame3D.itownsView.controls.zoomOutFactor =
+          1 / slider.value;
       }
     };
 
@@ -1000,7 +990,7 @@ class MapUI {
     }
   }
 
-  add(scriptMap, ImuvConstants) {
+  add(scriptMap, Constant) {
     this.currentMapScript = scriptMap;
 
     //Map interface
@@ -1028,10 +1018,9 @@ class MapUI {
     scaleButton.classList.add('map_button');
     buttonsDiv.appendChild(scaleButton);
 
-    const _this = this;
-    scaleButton.onclick = function () {
-      _this.setMinimized(!_this.minimized);
-      if (!_this.minimized) {
+    scaleButton.onclick = () => {
+      this.setMinimized(!this.minimized);
+      if (!this.minimized) {
         scaleButton.title = minimizeTitle;
         scaleButton.src = minimizeSrc;
       } else {
@@ -1047,7 +1036,7 @@ class MapUI {
     buttonsDiv.appendChild(teleportButton);
 
     teleportButton.onclick = function () {
-      scriptMap.setClickMode(ImuvConstants.MAP_CLICK_MODE.TELEPORT);
+      scriptMap.setClickMode(Constant.MAP_CLICK_MODE.TELEPORT);
     };
 
     const pingButton = document.createElement('img');
@@ -1057,7 +1046,7 @@ class MapUI {
     buttonsDiv.appendChild(pingButton);
 
     pingButton.onclick = function () {
-      scriptMap.setClickMode(ImuvConstants.MAP_CLICK_MODE.PING);
+      scriptMap.setClickMode(Constant.MAP_CLICK_MODE.PING);
     };
   }
 

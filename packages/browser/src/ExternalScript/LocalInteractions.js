@@ -36,7 +36,7 @@ export class LocalInteractions extends ExternalGame.ScriptBase {
       }
     }
 
-    const scriptUI = this.context.findExternalScriptWithID('Ui');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
     const labelInfo = scriptUI.getLabelInfo();
     if (canInteract) {
       labelInfo.writeLabel(

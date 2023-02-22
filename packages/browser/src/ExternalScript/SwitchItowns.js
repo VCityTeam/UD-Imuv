@@ -13,7 +13,7 @@ export class SwitchItowns extends ExternalGame.ScriptBase {
     const cameraScript = this.context.findExternalScriptWithID('Camera');
     const avatarController =
       this.context.findExternalScriptWithID('AvatarController');
-    const scriptUI = this.context.findExternalScriptWithID('Ui');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
 
     if (this.context.frame3D.itownsView) {
       const promiseFunction = (resolve, reject, onClose) => {
