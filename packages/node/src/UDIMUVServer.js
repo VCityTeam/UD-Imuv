@@ -566,7 +566,6 @@ const { ExpressAppWrapper, Game } = require('@ud-viz/node');
 const { Constant } = require('@ud-imuv/shared');
 const Parse = require('parse/node');
 const fs = require('fs');
-const path = require('path');
 const THREE = require('three');
 
 module.exports = class UDIMUVServer {
@@ -693,12 +692,6 @@ module.exports = class UDIMUVServer {
           }
         );
 
-        // import world config
-        const worldsFolderPath = path.resolve(
-          __dirname,
-          '../../../browser/assets/gameObject3D/'
-        );
-
         // const indexWorldsJSON = JSON.parse(
         //   fs.readFileSync(worldsFolderPath + '/index.json')
         // );
@@ -711,19 +704,20 @@ module.exports = class UDIMUVServer {
         const gameObjects3D = [];
         for (const uuid in indexWorldsJSON) {
           let json = JSON.parse(
-            fs.readFileSync(worldsFolderPath + '/' + indexWorldsJSON[uuid])
+            fs.readFileSync(
+              config.gameObjectsFolderPath + '/' + indexWorldsJSON[uuid]
+            )
           );
 
           if (json.version) {
             json = moulinetteWorldJSON(json);
-            console.log(json);
+            // console.log(json);
           }
 
           gameObjects3D.push(json);
         }
 
         this.gameSocketService.initializeGameThreads(
-          [],
           gameObjects3D,
           config.threadProcessPath
         );
@@ -760,18 +754,41 @@ const moulinetteWorldJSON = (oldJSON) => {
 
     newGOJSON.components = {};
 
+    function formatId(string) {
+      const s = string.split('_');
+
+      let result = '';
+      s.forEach((p) => {
+        result += p.charAt(0).toUpperCase() + p.slice(1);
+      });
+
+      // console.log(result);
+
+      return result;
+    }
+
     if (goJSON.components.LocalScript) {
+      const newIds = [];
+      goJSON.components.LocalScript.idScripts.forEach((id) => {
+        newIds.push(formatId(id));
+      });
+
       newGOJSON.components.ExternalScript = {
         type: 'ExternalScript',
-        idScripts: goJSON.components.LocalScript.idScripts,
+        idScripts: newIds,
         variables: goJSON.components.LocalScript.conf,
       };
     }
 
     if (goJSON.components.WorldScript) {
+      const newIds = [];
+      goJSON.components.WorldScript.idScripts.forEach((id) => {
+        newIds.push(formatId(id));
+      });
+
       newGOJSON.components.GameScript = {
         type: 'GameScript',
-        idScripts: goJSON.components.WorldScript.idScripts,
+        idScripts: newIds,
         variables: goJSON.components.WorldScript.conf,
       };
     }

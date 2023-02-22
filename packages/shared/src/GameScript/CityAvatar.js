@@ -1,8 +1,4 @@
-/** @format */
-
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
+const { Game } = require('@ud-viz/shared');
 
 const AVATAR_SPEED_MOVE = 0.03;
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
@@ -10,13 +6,7 @@ const AVATAR_SPEED_ROTATION_X = 0.00001;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
-module.exports = class CityAvatar {
-  constructor(conf, GameModule) {
-    this.conf = conf;
-
-    Game = GameModule;
-  }
-
+module.exports = class CityAvatar extends Game.ScriptBase {
   tick() {
     const go = arguments[0];
 

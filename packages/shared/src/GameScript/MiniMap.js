@@ -1,16 +1,6 @@
-/** @format */
+const { Game } = require('@ud-viz/shared');
 
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
-
-module.exports = class MiniMap {
-  constructor(conf, GameModule) {
-    this.conf = conf;
-
-    Game = GameModule;
-  }
-
+module.exports = class MiniMap extends Game.ScriptBase {
   tick() {
     const gameObject = arguments[0];
     const worldContext = arguments[1];

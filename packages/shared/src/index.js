@@ -83,4 +83,5 @@ module.exports = {
       PUBLIC_URL: WBO_PUBLIC_URL,
     },
   },
+  GameScript: require('./GameScript/GameScript'),
 };

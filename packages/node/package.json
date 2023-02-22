@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "build-debug": "cross-env NODE_ENV=development webpack"
+    "build-main-thread-debug": "cross-env TYPE=main_thread NODE_ENV=development webpack",
+    "build-thread-debug": "cross-env TYPE=thread NODE_ENV=development webpack"
   },
   "keywords": [
     "game"

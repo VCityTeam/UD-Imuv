@@ -1,14 +1,8 @@
-/** @format */
+const { Game } = require('@ud-viz/shared');
 
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
-
-module.exports = class Zeppelin {
-  constructor(conf, GameModule) {
-    this.conf = conf;
-
-    Game = GameModule;
+module.exports = class Zeppelin extends Game.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.currentTime = 0;
     this.radius = 82;

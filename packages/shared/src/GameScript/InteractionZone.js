@@ -1,15 +1,6 @@
-/**@format */
+const { Game } = require('@ud-viz/shared');
 
-const GameType = require('ud-viz/src/Game/Game');
-/** @type {GameType} */
-let Game = null;
-
-module.exports = class InteractionZone {
-  constructor(conf, GameModule) {
-    this.conf = conf;
-    Game = GameModule;
-  }
-
+module.exports = class InteractionZone extends Game.ScriptBase {
   init() {
     this.go = arguments[0];
     this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
