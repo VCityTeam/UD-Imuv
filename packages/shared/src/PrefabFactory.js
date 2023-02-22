@@ -19,4 +19,16 @@ module.exports = {
       matrix: [0.2, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 1],
     });
   },
+  box3D: () => {
+    return new Game.Object3D({
+      static: false,
+      components: {
+        Render: {
+          type: 'Render',
+          idRenderData: 'cube',
+          color: [1, 1, 1],
+        },
+      },
+    });
+  },
 };

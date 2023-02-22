@@ -1,30 +1,33 @@
-export class Box3DTool {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
+import {
+  ExternalGame,
+  THREE,
+  OrbitControls,
+  TransformControls,
+} from '@ud-viz/browser';
+import { Routine } from './Component/Routine';
+import { PrefabFactory } from '@ud-imuv/shared';
+import { Command, Game } from '@ud-viz/shared';
+
+export class Box3DTool extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
   }
 
   init() {
-    const localCtx = arguments[1];
-    const gameView = localCtx.getGameView();
+    const menu = new MenuBox3D(this.context);
 
-    const menu = new MenuBox3D(localCtx);
-    const Routine = Game.Components.Routine;
-    const scriptUI = localCtx.findLocalScriptWithID('ui');
-    const cameraScript = localCtx.findLocalScriptWithID('camera');
+    const scriptUI = this.context.findExternalScriptWithID('Ui');
+    const cameraScript = this.context.findExternalScriptWithID('Camera');
     const avatarController =
-      localCtx.findLocalScriptWithID('avatar_controller');
-    const camera = gameView.getCamera();
-    const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
-    const rootGO = localCtx.getRootGameObject();
-    const view = gameView.getItownsView();
-    const manager = gameView.getInputManager();
-    const avatarGO = rootGO.find(avatarUUID);
-    const refine = localCtx.findLocalScriptWithID('itowns_refine');
+      this.context.findExternalScriptWithID('AvatarController');
+    const avatarGO = this.context.getObjectByProperty(
+      'uuid',
+      this.context.userData.avatarUUID
+    );
+    const refine = this.context.findExternalScriptWithID('ItownsRefine');
 
     scriptUI.addTool(
       './assets/img/ui/icon_box.png',
@@ -36,7 +39,7 @@ export class Box3DTool {
         }
 
         //check if city avatar
-        if (avatarGO.findByName('city_avatar')) {
+        if (avatarGO.getObjectByProperty('name', 'city_avatar')) {
           resolve(false); //cant zeppelin while city avatar
           return;
         }
@@ -44,23 +47,19 @@ export class Box3DTool {
         const duration = 2000;
         let currentTime = 0;
 
-        const startPos = camera.position.clone();
-        const startQuat = camera.quaternion.clone();
+        const startPos = this.context.frame3D.camera.position.clone();
+        const startQuat = this.context.frame3D.camera.quaternion.clone();
 
         if (onClose) {
           //record
-          this.itownsCamPos.set(
-            camera.position.x,
-            camera.position.y,
-            camera.position.z
-          );
-          this.itownsCamQuat.setFromEuler(camera.rotation);
+          this.itownsCamPos.copy(this.context.frame3D.camera.position);
+          this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
 
-          gameView.setItownsRendering(false);
+          this.context.frame3D.enableItownsViewControls(false);
 
           cameraScript.addRoutine(
             new Routine(
-              function (dt) {
+              (dt) => {
                 const t = cameraScript
                   .getFocusCamera()
                   .computeTransformTarget(
@@ -75,38 +74,36 @@ export class Box3DTool {
                 const p = t.position.lerp(startPos, 1 - ratio);
                 const q = t.quaternion.slerp(startQuat, 1 - ratio);
 
-                camera.position.copy(p);
-                camera.quaternion.copy(q);
-
-                camera.updateProjectionMatrix();
+                this.context.frame3D.camera.position.copy(p);
+                this.context.frame3D.camera.quaternion.copy(q);
+                this.context.frame3D.camera.updateProjectionMatrix();
 
                 return ratio >= 1;
               },
-              function () {
-                avatarController.setAvatarControllerMode(true, localCtx);
-
+              () => {
+                avatarController.setAvatarControllerMode(true);
                 resolve(true);
               }
             )
           );
         } else {
           //remove avatar controls
-          avatarController.setAvatarControllerMode(false, localCtx);
+          avatarController.setAvatarControllerMode(false);
           if (!this.itownsCamPos && !this.itownsCamQuat) {
             //first time camera in sky
 
-            const currentPosition = new Game.THREE.Vector3().copy(
-              camera.position
+            const currentPosition = new THREE.Vector3().copy(
+              this.context.frame3D.camera.position
             );
 
             //200 meters up
-            const endPosition = new Game.THREE.Vector3(0, 0, 200).add(
+            const endPosition = new THREE.Vector3(0, 0, 200).add(
               currentPosition
             );
 
             //look down
-            const endQuaternion = new Game.THREE.Quaternion().setFromEuler(
-              new Game.THREE.Euler(0.01, 0, 0)
+            const endQuaternion = new THREE.Quaternion().setFromEuler(
+              new THREE.Euler(0.01, 0, 0)
             );
 
             this.itownsCamPos = endPosition;
@@ -125,26 +122,27 @@ export class Box3DTool {
                   .clone()
                   .slerp(startQuat, 1 - ratio);
 
-                camera.position.copy(p);
-                camera.quaternion.copy(q);
-
-                camera.updateProjectionMatrix();
+                this.context.frame3D.camera.position.copy(p);
+                this.context.frame3D.camera.quaternion.copy(q);
+                this.context.frame3D.camera.updateProjectionMatrix();
 
                 return ratio >= 1;
               },
               () => {
-                manager.setPointerLock(false);
+                this.context.inputManager.setPointerLock(false);
 
-                gameView.setItownsRendering(true);
+                this.context.frame3D.enableItownsViewControls(true);
 
                 //tweak zoom factor
-                view.controls.zoomInFactor = scriptUI
+                this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
                   .getMenuSettings()
                   .getZoomFactorValue();
-                view.controls.zoomOutFactor =
+                this.context.frame3D.itownsView.controls.zoomOutFactor =
                   1 / scriptUI.getMenuSettings().getZoomFactorValue();
 
-                gameView.getItownsView().notifyChange(gameView.getCamera());
+                this.context.frame3D.itownsView.notifyChange(
+                  this.context.frame3D.camera
+                );
 
                 if (refine) refine.itownsControls();
 
@@ -166,8 +164,12 @@ export class Box3DTool {
 }
 
 class MenuBox3D {
-  constructor(localCtx) {
-    this.context = localCtx;
+  /**
+   *
+   * @param {ExternalGame.Context} externalContext
+   */
+  constructor(externalContext) {
+    this.context = externalContext;
 
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('contextual_menu');
@@ -177,60 +179,57 @@ class MenuBox3D {
     addBox3DButton.innerHTML = 'Add Box3D';
     this.rootHtml.appendChild(addBox3DButton);
 
-    const gameView = localCtx.getGameView();
-    this.manager = gameView.getInputManager();
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-    const ws = localCtx.getWebSocketService();
-
     addBox3DButton.onclick = () => {
       // add a box3D at the center of the screen
-      const boxPosition = new Game.THREE.Vector3();
+      const boxPosition = new THREE.Vector3();
 
-      gameView
-        .getItownsView()
-        .getPickingPositionFromDepth(
-          new Game.THREE.Vector2(gameView.size.x / 2, gameView.size.y / 2),
-          boxPosition
-        );
+      this.context.frame3D.itownsView.getPickingPositionFromDepth(
+        new THREE.Vector2(
+          this.context.frame3D.size.x / 2,
+          this.context.frame3D.size.y / 2
+        ),
+        boxPosition
+      );
 
       // game referential
-      boxPosition.sub(gameView.getObject3D().position);
+      boxPosition.sub(this.context.object3D.position);
 
-      const newBox3D = gameView.getAssetsManager().createPrefab('box3D');
-      newBox3D.setPosition(boxPosition);
-      newBox3D.setScale(new Game.THREE.Vector3(50, 50, 50));
+      const newBox3D = PrefabFactory.box3D();
+      newBox3D.position.copy(boxPosition);
+      newBox3D.scale.copy(new THREE.Vector3(50, 50, 50));
 
-      ws.emit(
-        ImuvConstants.WEBSOCKET.MSG_TYPE.ADD_GAMEOBJECT,
-        newBox3D.toJSON()
-      );
+      this.context.sendCommandToGameContext([
+        new Command({
+          type: Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
+          data: {
+            object3D: newBox3D.toJSON(),
+          },
+        }),
+      ]);
     };
 
-    const raycaster = new Game.THREE.Raycaster();
+    const raycaster = new THREE.Raycaster();
     this.listener = (event) => {
       //else check if post it has been double click
-      const mouse = new Game.THREE.Vector2(
+      const mouse = new THREE.Vector2(
         -1 +
           (2 * event.offsetX) /
-            (gameView.getRootWebGL().clientWidth -
-              parseInt(gameView.getRootWebGL().offsetLeft)),
+            (this.context.frame3D.rootWebGL.clientWidth -
+              parseInt(this.context.frame3D.rootWebGL.offsetLeft)),
         1 -
           (2 * event.offsetY) /
-            (gameView.getRootWebGL().clientHeight -
-              parseInt(gameView.getRootWebGL().offsetTop))
+            (this.context.frame3D.rootWebGL.clientHeight -
+              parseInt(this.context.frame3D.rootWebGL.offsetTop))
       );
 
-      raycaster.setFromCamera(mouse, gameView.getCamera());
+      raycaster.setFromCamera(mouse, this.context.frame3D.camera);
 
       // check all box3D with name patch (in future just tag it with userData)
-      const rootGO = localCtx.getRootGameObject();
       let selection = null;
-      rootGO.traverse((child) => {
+      this.context.object3D.traverse((child) => {
         if (child.name != 'Box3D') return;
 
-        const i = raycaster.intersectObject(child.getObject3D(), true);
+        const i = raycaster.intersectObject(child, true);
         if (i.length) {
           selection = child;
         }
@@ -238,14 +237,13 @@ class MenuBox3D {
 
       if (!selection) {
         this.select(null);
-        console.log('unselect');
       } else {
         this.select(selection);
       }
     };
 
-    this.manager.addMouseInput(
-      gameView.getRootWebGL(),
+    this.context.inputManager.addMouseInput(
+      this.context.frame3D.rootWebGL,
       'dblclick',
       this.listener
     );
@@ -288,10 +286,14 @@ class MenuBox3D {
     removeButton.classList.add('button-imuv');
     removeButton.innerHTML = 'Remove';
     removeButton.onclick = () => {
-      ws.emit(
-        ImuvConstants.WEBSOCKET.MSG_TYPE.REMOVE_GAMEOBJECT,
-        this.selectedBox3D.uuid
-      );
+      this.context.sendCommandToGameContext([
+        new Command({
+          type: Game.ScriptTemplate.Constants.COMMAND.REMOVE_OBJECT3D,
+          data: {
+            object3DUUID: this.selectedBox3D.uuid,
+          },
+        }),
+      ]);
     };
     this.transformUI.appendChild(removeButton);
   }
@@ -300,96 +302,90 @@ class MenuBox3D {
     if (this.orbitCtrl) {
       this.orbitCtrl.update();
     }
-    this.context.gameView.itownsView.notifyChange();
+    this.context.frame3D.itownsView.notifyChange();
 
     // dirty but no event when a gameobject is removed
     if (this.selectedBox3D) {
-      const s = this.context.getRootGameObject().find(this.selectedBox3D.uuid);
+      const s = this.context.object3D.getObjectByProperty(
+        'uuid',
+        this.selectedBox3D.uuid
+      );
       if (!s) this.select(null);
     }
   }
 
   select(box3D) {
-    const gameView = this.context.getGameView();
-    const ws = this.context.getWebSocketService();
-    const ImuvConstants = this.context.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-
     if (this.selectedBox3D) {
       this.orbitCtrl.dispose();
       this.orbitCtrl = null;
-      gameView.scene.remove(this.transformCtrl);
+      this.context.frame3D.scene.remove(this.transformCtrl);
       this.transformCtrl.dispose();
       this.transformCtrl = null;
       this.transformUI.remove();
-      gameView.setItownsRendering(true);
-      gameView.scene.remove(this.ghostBox);
+      this.context.frame3D.enableItownsViewControls(true);
+      this.context.frame3D.scene.remove(this.ghostBox);
     }
 
     this.selectedBox3D = box3D;
 
     if (this.selectedBox3D) {
-      this.ghostBox = this.selectedBox3D.getObject3D().clone();
+      this.ghostBox = this.selectedBox3D.clone();
       this.ghostBox.visible = false;
-      this.selectedBox3D
-        .getObject3D()
-        .matrixWorld.decompose(
-          this.ghostBox.position,
-          this.ghostBox.quaternion,
-          this.ghostBox.scale
-        );
-      gameView.scene.add(this.ghostBox);
+      this.selectedBox3D.matrixWorld.decompose(
+        this.ghostBox.position,
+        this.ghostBox.quaternion,
+        this.ghostBox.scale
+      );
+      this.context.frame3D.scene.add(this.ghostBox);
 
-      gameView.setItownsRendering(false);
+      this.context.enableItownsViewControls(false);
 
       const elementToListen =
-        gameView.getItownsView().mainLoop.gfxEngine.label2dRenderer.domElement;
+        this.context.frame3D.itownsView.mainLoop.gfxEngine.label2dRenderer
+          .domElement;
 
       //new orbitctrl
-      this.orbitCtrl = new udviz.OrbitControls(
-        gameView.getCamera(),
+      this.orbitCtrl = new OrbitControls(
+        this.context.frame3D.camera,
         elementToListen
       );
 
       this.ghostBox.getWorldPosition(this.orbitCtrl.target);
 
       // new transform control
-      this.transformCtrl = new udviz.TransformControls(
-        gameView.getCamera(),
+      this.transformCtrl = new TransformControls(
+        this.context.frame3D.camera,
         elementToListen
       );
-      gameView.scene.add(this.transformCtrl);
+      this.context.frame3D.scene.add(this.transformCtrl);
       this.transformCtrl.attach(this.ghostBox);
       this.transformCtrl.updateMatrixWorld();
 
       //transformControls Listeners
-      const parentPosition = new Game.THREE.Vector3();
-      const parentQuaternion = new Game.THREE.Quaternion();
-      const parentScale = new Game.THREE.Vector3();
-      this.selectedBox3D
-        .getObject3D()
-        .parent.matrixWorld.decompose(
-          parentPosition,
-          parentQuaternion,
-          parentScale
-        );
+      const parentPosition = new THREE.Vector3();
+      const parentQuaternion = new THREE.Quaternion();
+      const parentScale = new THREE.Vector3();
+      this.selectedBox3D.parent.matrixWorld.decompose(
+        parentPosition,
+        parentQuaternion,
+        parentScale
+      );
 
       this.transformCtrl.addEventListener('dragging-changed', (event) => {
         this.orbitCtrl.enabled = !event.value;
       });
 
       this.transformCtrl.addEventListener('change', () => {
-        ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [
-          new Game.Command({
-            type: 'update_transform',
+        this.context.sendCommandToGameContext([
+          new Command({
+            type: Game.ScriptTemplate.Constants.COMMAND.UPDATE_TRANSFORM,
             data: {
+              object3DUUID: this.selectedBox3D.uuid,
               position: this.ghostBox.position.clone().sub(parentPosition),
               quaternion: this.ghostBox.quaternion.toArray(), //parent quaternion not handle
               scale: this.ghostBox.scale, // paretns scale not handle
             },
-            gameObjectUUID: this.selectedBox3D.uuid,
-          }).toJSON(),
+          }),
         ]);
       });
 
