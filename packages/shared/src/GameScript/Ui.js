@@ -2,12 +2,13 @@ const { Game } = require('@ud-viz/shared');
 
 module.exports = class Ui extends Game.ScriptBase {
   tick() {
-    const worldContext = arguments[1];
-    const dt = worldContext.getDt();
-    const go = arguments[0];
+    const externalScriptComp = this.object3D.getComponent(
+      Game.Component.ExternalScript.TYPE
+    );
 
-    const localScript = go.getComponent(Game.LocalScript.TYPE);
-    localScript.conf.world_computer_dt = dt;
-    go.setOutdated(true); //TODO should be only outdated in DEBUG
+    // change variables of an external script
+    externalScriptComp.getModel().getVariables().gameContextDt =
+      this.context.dt;
+    this.object3D.setOutdated(true); // notify external onOutdated event
   }
 };

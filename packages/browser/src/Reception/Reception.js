@@ -11,6 +11,7 @@
 import './Reception.css';
 import { getTextByID } from './Texts/ReceptionTexts';
 import { SignInView, SignUpView } from '../Sign/Sign';
+import * as ExternalScript from '../ExternalScript/ExternalScript';
 
 import {
   MultiPlayerGamePlanar,
@@ -398,8 +399,13 @@ export class ReceptionView {
               new InputManager(),
               {
                 sceneConfig: config.scene,
+                externalGameScriptClass: ExternalScript,
               }
             );
+
+            // record extent in userData should be in ud-viz ?
+            game.externalGameContext.userData.firstGameObject = true;
+            game.externalGameContext.userData.extent = extent;
 
             game.start();
 

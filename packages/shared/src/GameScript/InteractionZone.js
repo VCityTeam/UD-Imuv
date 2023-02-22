@@ -2,21 +2,26 @@ const { Game } = require('@ud-viz/shared');
 
 module.exports = class InteractionZone extends Game.ScriptBase {
   init() {
-    this.go = arguments[0];
-    this.localScript = this.go.getComponent(Game.LocalScript.TYPE);
+    const externalScriptComp = this.object3D.getComponent(
+      Game.Component.ExternalScript.TYPE
+    );
+
     if (
-      !this.localScript ||
-      !this.localScript.idScripts.includes('local_interactions')
+      !externalScriptComp
+        .getModel()
+        .getIdScripts()
+        .includes('LocalInteractions')
     ) {
       console.error(
-        this.go.name,
-        'Prefab needs *local_interactions* local Script'
+        this.object3D.name,
+        'Prefab needs *local_interactions* external Script'
       );
     }
-    // console.log('Init Interaction Zone', this.go.name);
-    this.localScript.conf.avatarsOnEnter = [];
-    this.localScript.conf.avatarsColliding = [];
-    this.localScript.conf.avatarsOnLeave = [];
+
+    const modelVariables = externalScriptComp.getModel().getVariables();
+    modelVariables.avatarsOnEnter = [];
+    modelVariables.avatarsColliding = [];
+    modelVariables.avatarsOnLeave = [];
   }
 
   onAvatarEnter(avatarGO) {
