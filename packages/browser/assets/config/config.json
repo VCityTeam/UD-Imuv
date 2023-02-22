@@ -1,4 +1,86 @@
 {
+  "assetManager": {
+    "sounds": {
+      "fontain": {
+        "path": "./assets/sounds/fontain.webm"
+      },
+      "zeppelin_engine": {
+        "path": "./assets/sounds/zeppelin_engine.webm"
+      },
+      "birds": {
+        "path": "./assets/sounds/birds.webm"
+      },
+      "city": {
+        "path": "./assets/sounds/city.webm"
+      },
+      "open_popup": {
+        "path": "./assets/sounds/open_popup.webm"
+      },
+      "video_happy_song": {
+        "path": "./assets/sounds/video_happy_song.webm"
+      },
+      "portal_in": {
+        "path": "./assets/sounds/sweep_transition.webm"
+      },
+      "step": {
+        "path": "./assets/sounds/step.webm"
+      }
+    },
+    "videos": {
+      "introduction_flying_campus": {
+        "path": "./assets/videos/POC_flying_campus_juin.webm"
+      },
+      "final_IMU": {
+        "path": "./assets/videos/final_IMU_sept2019.webm"
+      }
+    },
+    "renderData": {
+      "room_conf_modulable": {
+        "path": "./assets/models/Room_Conf_Modulable.glb"
+      },
+      "mouse": {
+        "path": "./assets/models/mouse.glb",
+        "scale": { "x": 0.05, "y": 0.05, "z": 0.05 }
+      },
+      "avatar_petit": {
+        "path": "./assets/models/Avatar_petit.glb",
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 3.14 }
+      },
+      "avatar_moyen": {
+        "path": "./assets/models/Avatar_moyen.glb",
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 3.14 }
+      },
+      "avatar_grand": {
+        "path": "./assets/models/Avatar_grand.glb",
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 3.14 }
+      },
+      "zeppelin": {
+        "path": "./assets/models/Zeppelin_Labex_IMU.glb",
+        "anchor": "center_min",
+        "rotation": { "x": 0, "y": 0, "z": 1.57 }
+      },
+      "flying_campus": {
+        "path": "./assets/models/flying_campus.glb"
+      },
+      "room_expo": {
+        "path": "./assets/models/Room_Expo.glb"
+      },
+      "spiral_spawn": {
+        "path": "./assets/models/Spirale_spawn.glb",
+        "scale": { "x": 0.8, "y": 0.8, "z": 0.8 },
+        "anchor": "center_min"
+      },
+      "studio_imu_A": {
+        "path": "./assets/models/Studio_IMU_A.glb"
+      },
+      "studio_imu_B": {
+        "path": "./assets/models/Studio_IMU_B.glb"
+      }
+    }
+  },
   "extent": {
     "crs": "EPSG:3946",
     "west": 1837860,

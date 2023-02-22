@@ -793,6 +793,15 @@ const moulinetteWorldJSON = (oldJSON) => {
       };
     }
 
+    if (goJSON.components.Collider) {
+      newGOJSON.components.Collider = goJSON.components.Collider;
+    }
+
+    if (goJSON.components.Render) {
+      newGOJSON.components.Render = goJSON.components.Render;
+      newGOJSON.components.Render.color.push(1); // add alpha
+    }
+
     return newGOJSON;
   };
 
