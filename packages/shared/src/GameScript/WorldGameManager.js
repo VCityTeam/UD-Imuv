@@ -8,15 +8,15 @@ module.exports = class WorldGameManager extends Game.ScriptBase {
     );
   }
 
-  getSpawnTransform() {
+  /**
+   *
+   * @param {Game.Object3D} object
+   */
+  initiazeSpawnTransform(object) {
     if (this.variables.spawnTransform) {
-      return this.variables.spawnTransform;
-    } else {
-      return {
-        position: [0, 0, 0],
-        rotation: [0, 0, 0],
-        scale: [1, 1, 1],
-      };
+      object.position.fromArray(this.variables.spawnTransform.position);
+      object.rotation.fromArray(this.variables.spawnTransform.rotation);
+      object.setOutdated(true);
     }
   }
 

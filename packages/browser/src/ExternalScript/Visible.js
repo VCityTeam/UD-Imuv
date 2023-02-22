@@ -1,21 +1,15 @@
-export class Visible {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
+import { ExternalGame } from '@ud-viz/browser';
 
-    udviz = udvizBundle;
-    Game = udviz.Game;
-  }
-
+export class Visible extends ExternalGame.ScriptBase {
   init() {
-    this.updateVisible(arguments[0]);
+    this.updateVisible();
   }
 
-  updateVisible(go) {
-    const renderComp = go.getComponent(Game.Render.TYPE);
-    renderComp.getObject3D().visible = this.conf.visible;
+  updateVisible() {
+    this.object3D.visible = this.variables.visible;
   }
 
   onOutdated() {
-    this.updateVisible(arguments[0]);
+    this.updateVisible();
   }
 }

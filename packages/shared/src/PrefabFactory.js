@@ -31,4 +31,40 @@ module.exports = {
       },
     });
   },
+  avatar: () => {
+    return new Game.Object3D({
+      name: 'avatar',
+      components: {
+        Collider: {
+          type: 'Collider',
+          shapes: [
+            {
+              type: 'Circle',
+              center: { x: 0, y: 0 },
+              radius: 0.3244298395697931,
+            },
+          ],
+          body: true,
+        },
+        Render: {
+          type: 'Render',
+          idRenderData: 'avatar_moyen',
+          name: 'avatar_name',
+        },
+        GameScript: {
+          idScripts: ['Avatar'],
+          type: 'GameScript',
+        },
+        ExternalScript: {
+          idScripts: ['Visible', 'SpriteName', 'TextureFace'],
+          variables: {
+            visible: true,
+            name: 'default_name',
+            path_face_texture: './assets/img/avatar/default.jpeg',
+          },
+          type: 'ExternalScript',
+        },
+      },
+    });
+  },
 };

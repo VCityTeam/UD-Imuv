@@ -1,28 +1,26 @@
-export class SpriteName {
-  constructor(config, udvizBundle) {
-    this.config = config;
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
 
-    udviz = udvizBundle;
-    Game = udviz.Game;
+export class SpriteName extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
-    //THREE.Object3D
     this.sprite = null;
 
     this.oldObject = null;
   }
 
   init() {
-    const go = arguments[0];
-    this.updateSprite(go);
+    this.updateSprite();
   }
 
   createSprite(label) {
     const texture = this.createLabelTexture(label, 'rgba(255, 255, 255, 0)');
-    const material = new Game.THREE.SpriteMaterial({
+    const material = new THREE.SpriteMaterial({
       map: texture,
     });
     material.alphaTest = 0.5;
-    const result = new Game.THREE.Sprite(material);
+    const result = new THREE.Sprite(material);
     result.scale.set(1, 0.3, 1);
     return result;
   }
@@ -48,7 +46,7 @@ export class SpriteName {
 
     ctx.fillText(text, (canvas.width - wT) * 0.5, canvas.height * 0.5);
 
-    const texture = new Game.THREE.TextureLoader().load(
+    const texture = new THREE.TextureLoader().load(
       canvas.toDataURL('image/png')
     );
     texture.flipY = true;
@@ -57,28 +55,30 @@ export class SpriteName {
     return texture;
   }
 
-  updateSprite(go) {
+  updateSprite() {
     if (this.sprite && this.sprite.parent) {
       this.sprite.parent.remove(this.sprite);
     }
 
-    const renderComp = go.getComponent(Game.Render.TYPE);
-    const bb = new Game.THREE.Box3().setFromObject(renderComp.getObject3D());
-    const sprite = this.createSprite(this.config.name);
-    const bbSprite = new Game.THREE.Box3().setFromObject(sprite);
+    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+    const bb = new THREE.Box3().setFromObject(
+      renderComp.getController().object3D
+    );
+    const sprite = this.createSprite(this.variables.name);
+    const bbSprite = new THREE.Box3().setFromObject(sprite);
     sprite.position.z = bb.max.z + 0.5 * (bbSprite.max.y - bbSprite.min.y);
     sprite.position.z -= bb.min.z;
-    renderComp.addObject3D(sprite);
+    renderComp.getController().object3D.add(sprite);
 
     this.sprite = sprite;
 
-    this.oldObject = renderComp.getObject3D();
+    this.oldObject = renderComp.getController().object3D;
   }
 
   onComponentUpdate() {
-    const go = arguments[0];
-    const renderComp = go.getComponent(Game.Render.TYPE);
+    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
 
-    if (renderComp.getObject3D() != this.oldObject) this.updateSprite(go);
+    if (renderComp.getController().object3D != this.oldObject)
+      this.updateSprite();
   }
 }

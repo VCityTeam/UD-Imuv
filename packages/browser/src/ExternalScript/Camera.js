@@ -1,5 +1,6 @@
 import { ExternalGame, THREE } from '@ud-viz/browser';
 import { Routine } from './Component/Routine';
+import { Game } from '@ud-viz/shared';
 
 const DISTANCE_CAMERA_AVATAR = 5;
 const DISTANCE_CAMERA_ZEPPELIN = 40;
@@ -229,8 +230,7 @@ class Focus {
     if (this.target) {
       //follow tps
       this.camera.fov = THIRD_PERSON_FOV;
-      const obj = this.target.getObject3D();
-      this.bbTarget = new THREE.Box3().setFromObject(obj); //compute here one time
+      this.bbTarget = new THREE.Box3().setFromObject(this.target); //compute here one time
       this.camera.updateProjectionMatrix();
     }
   }
@@ -252,7 +252,7 @@ class Focus {
     if (!this.target) return null;
 
     //world transform
-    const obj = this.target.getObject3D();
+    const obj = this.target;
     const position = new THREE.Vector3();
     const quaternion = new THREE.Quaternion();
     obj.matrixWorld.decompose(position, quaternion, new THREE.Vector3());
@@ -260,8 +260,7 @@ class Focus {
     const zDiff = this.bbTarget.max.z - this.bbTarget.min.z;
     position.z += zDiff;
 
-    const dir = this.target
-      .getDefaultForward()
+    const dir = Game.Object3D.DefaultForward()
       .applyQuaternion(this.quaternionAngle)
       .applyQuaternion(quaternion);
 
