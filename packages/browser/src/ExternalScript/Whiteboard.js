@@ -55,7 +55,7 @@ export class Whiteboard {
     const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
       'ImuvConstants'
     ];
-    const scriptUI = localCtx.findLocalScriptWithID('ui');
+    const scriptUI = localCtx.findExternalScriptWithID('ui');
     scriptUI.displayIframe(
       localCtx,
       ImuvConstants.WBO.PUBLIC_URL + '/' + this.go.getUUID()

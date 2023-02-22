@@ -9,7 +9,7 @@ export class PlacePostIt extends ExternalGame.ScriptBase {
       this.context.findExternalScriptWithID('AvatarController');
 
     //add tool
-    const scriptUI = this.context.findLocalScriptWithID('UI');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
 
     const menuPostIt = new MenuPostIt(this.context, this.fetchStaticObject());
 

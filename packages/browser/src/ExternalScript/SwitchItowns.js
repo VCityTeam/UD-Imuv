@@ -184,29 +184,31 @@ class MenuItowns {
     );
 
     //cityObjects
+    const configStyles = {
+      layerDefault: {
+        materialProps: {
+          color: '#ffa14f',
+        },
+      },
+      selection: {
+        materialProps: {
+          color: '#13ddef',
+        },
+      },
+      linkedWithDisplayedDocument: {
+        materialProps: {
+          color: '#4c5af7',
+        },
+      },
+    };
+    const cityObjectProvider = new Widget.CityObjectProvider(
+      externalContext.frame3D.layerManager,
+      configStyles
+    );
+
     this.addModuleView(
       'City Object',
-      new Widget.CityObjectModule(externalContext.frame3D.layerManager, {
-        cityObjects: {
-          styles: {
-            layerDefault: {
-              materialProps: {
-                color: '#ffa14f',
-              },
-            },
-            selection: {
-              materialProps: {
-                color: '#13ddef',
-              },
-            },
-            linkedWithDisplayedDocument: {
-              materialProps: {
-                color: '#4c5af7',
-              },
-            },
-          },
-        },
-      }).view
+      new Widget.CityObjectModule(cityObjectProvider, configStyles).view
     );
 
     //cameraPositionner
@@ -227,29 +229,27 @@ class MenuItowns {
       requestService,
       externalContext.userData.extent,
       {
-        geocoding: {
-          url: 'https://nominatim.openstreetmap.org/search',
-          credit:
-            '© OpenStreetMap contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a>',
-          requestTimeIntervalMs: 1000,
-          result: {
-            format: 'json',
-            basePath: '',
-            lng: 'lon',
-            lat: 'lat',
+        url: 'https://nominatim.openstreetmap.org/search',
+        credit:
+          '© OpenStreetMap contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a>',
+        requestTimeIntervalMs: 1000,
+        result: {
+          format: 'json',
+          basePath: '',
+          lng: 'lon',
+          lat: 'lat',
+        },
+        parameters: {
+          q: {
+            fill: 'query',
           },
-          parameters: {
-            q: {
-              fill: 'query',
-            },
-            format: {
-              fill: 'value',
-              value: 'json',
-            },
-            viewbox: {
-              fill: 'extent',
-              format: 'WEST,SOUTH,EAST,NORTH',
-            },
+          format: {
+            fill: 'value',
+            value: 'json',
+          },
+          viewbox: {
+            fill: 'extent',
+            format: 'WEST,SOUTH,EAST,NORTH',
           },
         },
       }

@@ -25,10 +25,10 @@ export class ZeppelinStart {
     const menuZeppelin = new MenuZeppelin();
     this.menuZeppelin = menuZeppelin;
 
-    const scriptUI = localCtx.findLocalScriptWithID('ui');
-    const cameraScript = localCtx.findLocalScriptWithID('camera');
+    const scriptUI = localCtx.findExternalScriptWithID('ui');
+    const cameraScript = localCtx.findExternalScriptWithID('camera');
     const avatarController =
-      localCtx.findLocalScriptWithID('avatar_controller');
+      localCtx.findExternalScriptWithID('avatar_controller');
     const gameView = localCtx.getGameView();
     const camera = gameView.getCamera();
     const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
@@ -43,7 +43,7 @@ export class ZeppelinStart {
     const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
       'ImuvConstants'
     ];
-    const refine = localCtx.findLocalScriptWithID('itowns_refine');
+    const refine = localCtx.findExternalScriptWithID('itowns_refine');
 
     scriptUI.addTool(
       './assets/img/ui/icon_zeppelin.png',
@@ -201,7 +201,7 @@ export class ZeppelinStart {
           this.claimPiloting(localCtx, go);
 
           //routine
-          const cameraScript = localCtx.findLocalScriptWithID('camera');
+          const cameraScript = localCtx.findExternalScriptWithID('camera');
           const camera = localCtx.getGameView().getCamera();
           const duration = 2000;
           let currentTime = 0;
@@ -247,7 +247,7 @@ export class ZeppelinStart {
     ];
     const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
     const ws = localCtx.getWebSocketService();
-    const zeppelinController = localCtx.findLocalScriptWithID(
+    const zeppelinController = localCtx.findExternalScriptWithID(
       'zeppelin_controller'
     );
 

@@ -34,3 +34,21 @@ export { Visible } from './Visible';
 export { Whiteboard } from './Whiteboard';
 export { ZeppelinController } from './ZeppelinController';
 export { ZeppelinStart } from './ZeppelinStart';
+
+// global css import todo each externalscript should import the css its needed
+// remove image link in css as wellr
+import './css/button_imuv.css';
+import './css/debug.css';
+import './css/display_media.css';
+import './css/display_post_it.css';
+import './css/gadget_ui.css';
+import './css/label_info.css';
+import './css/map_ui.css';
+import './css/menu_avatar.css';
+import './css/menu_settings.css';
+import './css/popup.css';
+import './css/social_ui.css';
+import './css/tools_menu_contextual.css';
+import './css/toolsbar.css';
+import './css/ui.css';
+import './css/whiteboard.css';

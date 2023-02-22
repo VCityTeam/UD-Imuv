@@ -21,7 +21,7 @@ export class CityAvatar {
 
     //avatar_controller
     const avatarController =
-      localCtx.findLocalScriptWithID('avatar_controller');
+      localCtx.findExternalScriptWithID('avatar_controller');
     if (!avatarController) throw new Error('no avatar controller script');
 
     //remove avatar controls
@@ -31,7 +31,7 @@ export class CityAvatar {
 
     //routine camera
     const camera = localCtx.getGameView().getCamera();
-    const cameraScript = localCtx.findLocalScriptWithID('camera');
+    const cameraScript = localCtx.findExternalScriptWithID('camera');
 
     //buffer
     const duration = 2000;
@@ -73,7 +73,7 @@ export class CityAvatar {
     const avatarUUID = localContext.getGameView().getUserData('avatarUUID');
     if (this.go.getParent().getUUID() != avatarUUID) return; //only controls its own city avatar
 
-    const scriptUI = localContext.findLocalScriptWithID('ui');
+    const scriptUI = localContext.findExternalScriptWithID('ui');
     const goUUID = this.go.getUUID();
     const parentGoUUID = this.go.getParentUUID();
 
@@ -92,7 +92,7 @@ export class CityAvatar {
     if (value) {
       console.warn('add city avatar control');
 
-      const cityMapScript = localContext.findLocalScriptWithID('city_map');
+      const cityMapScript = localContext.findExternalScriptWithID('city_map');
       if (!cityMapScript) console.error('no city map script');
       //add citymap
       scriptUI.addToMapUI(
@@ -229,7 +229,7 @@ export class CityAvatar {
 
     //routine camera
     const camera = localCtx.getGameView().getCamera();
-    const cameraScript = localCtx.findLocalScriptWithID('camera');
+    const cameraScript = localCtx.findExternalScriptWithID('camera');
 
     //buffer
     const duration = 2000;
@@ -263,7 +263,7 @@ export class CityAvatar {
         function () {
           //avatar_controller
           const avatarController =
-            localCtx.findLocalScriptWithID('avatar_controller');
+            localCtx.findExternalScriptWithID('avatar_controller');
           if (!avatarController) throw new Error('no avatar controller script');
           //restore avatar controls
           avatarController.setAvatarControllerMode(true, localCtx);

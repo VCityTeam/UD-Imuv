@@ -13,7 +13,7 @@ export class DisplayMedia {
     if (this.content) return;
 
     if (this.conf.iframe_src) {
-      const scriptUI = localCtx.findLocalScriptWithID('ui');
+      const scriptUI = localCtx.findExternalScriptWithID('ui');
       scriptUI.displayIframe(localCtx, this.conf.iframe_src);
     }
 
