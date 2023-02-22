@@ -84,4 +84,5 @@ module.exports = {
     },
   },
   GameScript: require('./GameScript/GameScript'),
+  PrefabFactory: require('./PrefabFactory'),
 };
