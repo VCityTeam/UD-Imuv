@@ -1,59 +1,58 @@
-export class LocalInteractions {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    Game = udvizBundle.Game;
+import { ExternalGame } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
+
+export class LocalInteractions extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     ///attr
     this.tickIsColliding = null;
     this.isCollidingLocalAvatar = false;
-    this.localScripts = null;
+    this.externalScripts = null;
   }
 
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-    this.localScripts = Object.values(go.fetchLocalScripts());
-    const indexThis = this.localScripts.indexOf(this);
-    this.localScripts.splice(indexThis, 1);
-    this.initInputs(localCtx);
+    const externalComp = this.object3D.getComponent(
+      Game.Component.ExternalScript.TYPE
+    );
+    this.externalScripts = Object.values(
+      externalComp.getController().getScripts()
+    );
+
+    this.initInputs();
   }
 
   tick() {
-    const go = arguments[0];
-
     if (this.tickIsColliding) {
       this.tickIsColliding();
     }
 
-    const localCtx = arguments[1];
     let canInteract = false;
-    for (let index = 0; index < this.localScripts.length; index++) {
-      const ls = this.localScripts[index];
+    for (let index = 0; index < this.externalScripts.length; index++) {
+      const ls = this.externalScripts[index];
       if (this.canInteract(ls)) {
         canInteract = true;
         break;
       }
     }
 
-    const scriptUI = localCtx.findLocalScriptWithID('ui');
+    const scriptUI = this.context.findExternalScriptWithID('Ui');
     const labelInfo = scriptUI.getLabelInfo();
     if (canInteract) {
-      labelInfo.writeLabel(go.getUUID(), this.conf.label_interaction || 'E');
+      labelInfo.writeLabel(
+        this.object3D.uuid,
+        this.variables.label_interaction || 'E'
+      );
     } else {
-      labelInfo.clear(go.getUUID());
+      labelInfo.clear(this.object3D.uuid);
     }
   }
 
-  initInputs(localCtx) {
-    const _this = this;
-    const localScripts = this.localScripts;
-    const gameView = localCtx.getGameView();
-    const manager = gameView.getInputManager();
-
-    manager.addKeyInput('e', 'keydown', function () {
-      localScripts.forEach((ls) => {
-        if (_this.canInteract(ls)) {
-          ls.interaction.call(ls, localCtx);
+  initInputs() {
+    this.context.inputManager.addKeyInput('e', 'keydown', () => {
+      this.externalScripts.forEach((ls) => {
+        if (this.canInteract(ls)) {
+          ls.interaction.call(ls);
         }
       });
     });
@@ -64,37 +63,36 @@ export class LocalInteractions {
   }
 
   onOutdated() {
-    const _this = this;
-    const conf = this.conf;
-
-    const localCtx = arguments[1];
-    const avatarUUIDLC = localCtx.getGameView().getUserData('avatarUUID');
-    this.localScripts.forEach((ls) => {
-      if (conf.avatarsOnEnter.includes(avatarUUIDLC)) {
+    this.externalScripts.forEach((ls) => {
+      if (
+        this.variables.avatarsOnEnter.includes(this.context.userData.avatarUUID)
+      ) {
         if (ls.onEnter) {
-          ls.onEnter.call(ls, arguments[0], arguments[1]);
+          ls.onEnter.call(ls);
         }
-        _this.tickIsColliding = null;
-        _this.isCollidingLocalAvatar = true;
+        this.tickIsColliding = null;
+        this.isCollidingLocalAvatar = true;
       }
 
-      if (conf.avatarsColliding.includes(avatarUUIDLC)) {
+      if (
+        this.variables.avatarsColliding.includes(
+          this.context.userData.avatarUUID
+        )
+      ) {
         if (ls.onColliding) {
-          _this.tickIsColliding = ls.onColliding.bind(
-            ls,
-            arguments[0],
-            arguments[1]
-          );
+          this.tickIsColliding = ls.onColliding.bind(ls);
         }
-        _this.isCollidingLocalAvatar = true;
+        this.isCollidingLocalAvatar = true;
       }
 
-      if (conf.avatarsOnLeave.includes(avatarUUIDLC)) {
+      if (
+        this.variables.avatarsOnLeave.includes(this.context.userData.avatarUUID)
+      ) {
         if (ls.onLeave) {
-          ls.onLeave.call(ls, arguments[0], arguments[1]);
+          ls.onLeave.call(ls);
         }
-        _this.tickIsColliding = null;
-        _this.isCollidingLocalAvatar = false;
+        this.tickIsColliding = null;
+        this.isCollidingLocalAvatar = false;
       }
     });
   }
