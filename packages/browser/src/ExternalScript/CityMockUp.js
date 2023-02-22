@@ -81,10 +81,10 @@ export class CityMockUp {
     });
 
     //add tool
-    const scriptUI = localCtx.findLocalScriptWithID('ui');
-    const cameraScript = localCtx.findLocalScriptWithID('camera');
+    const scriptUI = localCtx.findExternalScriptWithID('ui');
+    const cameraScript = localCtx.findExternalScriptWithID('camera');
     const avatarController =
-      localCtx.findLocalScriptWithID('avatar_controller');
+      localCtx.findExternalScriptWithID('avatar_controller');
     const camera = gameView.getCamera();
     const menu = new MenuCityMockUp(localCtx, go);
     scriptUI.addTool(
@@ -679,7 +679,7 @@ class MenuCityMockUp {
       gameView.setItownsRendering(true);
 
       //tweak zoom factor
-      const scriptUI = this.localCtx.findLocalScriptWithID('ui');
+      const scriptUI = this.localCtx.findExternalScriptWithID('ui');
       gameView.getItownsView().controls.zoomInFactor = scriptUI
         .getMenuSettings()
         .getZoomFactorValue();

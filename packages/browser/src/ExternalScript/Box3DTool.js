@@ -23,7 +23,7 @@ export class Box3DTool extends ExternalGame.ScriptBase {
     const cameraScript = this.context.findExternalScriptWithID('Camera');
     const avatarController =
       this.context.findExternalScriptWithID('AvatarController');
-    const avatarGO = this.context.getObjectByProperty(
+    const avatarGO = this.context.object3D.getObjectByProperty(
       'uuid',
       this.context.userData.avatarUUID
     );

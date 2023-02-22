@@ -104,7 +104,7 @@ export class JitsiArea {
     const url = new URL(ImuvConstants.JITSI.PUBLIC_URL);
     const api = new JitsiIframeAPI(url.host + url.pathname, options);
 
-    const scriptUI = localCtx.findLocalScriptWithID('ui');
+    const scriptUI = localCtx.findExternalScriptWithID('ui');
     scriptUI.displaySocialIframe(divJitsi);
 
     this.divJitsi = divJitsi;
@@ -126,7 +126,7 @@ export class JitsiArea {
   onLeave() {
     if (this.divJitsi) {
       const localCtx = arguments[1];
-      const scriptUI = localCtx.findLocalScriptWithID('ui');
+      const scriptUI = localCtx.findExternalScriptWithID('ui');
       scriptUI.removeSocialIframe();
       this.divJitsi = null;
     }

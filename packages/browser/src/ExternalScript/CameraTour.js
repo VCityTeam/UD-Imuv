@@ -13,14 +13,14 @@ export class CameraTour {
     const localContext = arguments[1];
 
     const avatarController =
-      localContext.findLocalScriptWithID('avatar_controller');
+      localContext.findExternalScriptWithID('avatar_controller');
     const camera = localContext.getGameView().getCamera();
-    const cameraScript = localContext.findLocalScriptWithID('camera');
+    const cameraScript = localContext.findExternalScriptWithID('camera');
     const Routine = Game.Components.Routine;
     const _this = this;
 
     //ui
-    const scriptUI = localContext.findLocalScriptWithID('ui');
+    const scriptUI = localContext.findExternalScriptWithID('ui');
     const menuTour = new MenuTour(localContext, this.conf, go);
 
     scriptUI.addTool(
@@ -179,7 +179,7 @@ class MenuTour {
       this.isTraveling = true;
 
       const camera = localContext.getGameView().getCamera();
-      const cameraScript = localContext.findLocalScriptWithID('camera');
+      const cameraScript = localContext.findExternalScriptWithID('camera');
       const Routine = Game.Components.Routine;
       const _this = this;
 

@@ -405,6 +405,7 @@ export class ReceptionView {
 
             // record extent in userData should be in ud-viz ?
             game.externalGameContext.userData.firstGameObject = true;
+            game.externalGameContext.userData.settings = {};
             game.externalGameContext.userData.extent = extent;
 
             game.start();

@@ -30,7 +30,7 @@ export class ZeppelinController {
     const Command = Game.Command;
 
     if (value) {
-      const refine = localCtx.findLocalScriptWithID('itowns_refine');
+      const refine = localCtx.findExternalScriptWithID('itowns_refine');
       if (refine) refine.zeppelin();
 
       const userID = gameView.getUserData('userID');
