@@ -400,11 +400,16 @@ export class ReceptionView {
               {
                 sceneConfig: config.scene,
                 externalGameScriptClass: ExternalScript,
+                gameOrigin: {
+                  x: extent.center().x,
+                  y: extent.center().y,
+                  z: 300,
+                },
               }
             );
 
             // record extent in userData should be in ud-viz ?
-            game.externalGameContext.userData.firstGameObject = true;
+            game.externalGameContext.userData.firstGameObject = false;
             game.externalGameContext.userData.settings = {};
             game.externalGameContext.userData.extent = extent;
 

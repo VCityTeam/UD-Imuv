@@ -12,8 +12,6 @@ module.exports = class Avatar extends Game.ScriptBase {
     //commands buffer
     this.commands = {};
 
-    this.go = null;
-
     //city avatar go
     this.cityAvatar = null;
 
@@ -21,24 +19,19 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   init() {
-    const go = arguments[0];
-
-    this.go = go;
-
     //spawn
     this.spawn();
 
     //init commands
-    for (const type in Game.Command.TYPE) {
-      this.commands[Game.Command.TYPE[type]] = [];
-    }
+    // for (const type in Game.Command.TYPE) {
+    //   this.commands[Game.Command.TYPE[type]] = [];
+    // }
   }
 
   spawn() {
     //spawn
-    const gm = this.go.computeRoot(); //root is gm
-    const script = gm.fetchWorldScripts()['worldGameManager'];
-    this.go.setFromTransformJSON(script.getSpawnTransform());
+    const gmScript = this.context.findGameScriptWithID('WorldGameManager');
+    gmScript.initiazeSpawnTransform(this.object3D);
   }
 
   fetchCommands(commands, gameObject) {
@@ -268,6 +261,7 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   tick() {
+    return; //WIP
     const gameObject = arguments[0];
     const worldContext = arguments[1];
     this.fetchCommands(worldContext.getCommands(), gameObject);
@@ -320,6 +314,7 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   isColliding() {
+    return;
     const go = arguments[0];
     const result = arguments[1];
     const colliderGO = result.b.getGameObject();

@@ -1,49 +1,47 @@
-export class TextureFace {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
 
-    udviz = udvizBundle;
-    Game = udviz.Game;
+export class TextureFace extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.lastPath = null;
     this.lastMaterial = null;
   }
 
   init() {
-    const go = arguments[0];
-    this.setFaceTexture(go);
+    this.setFaceTexture();
   }
 
-  setFaceTexture(go) {
-    this.lastPath = this.conf.path_face_texture;
+  setFaceTexture() {
+    this.lastPath = this.variables.path_face_texture;
 
-    const _this = this;
-    const renderComp = go.getComponent(Game.Render.TYPE);
-    const renderObject = renderComp.getObject3D();
+    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+    const renderObject = renderComp.getController().object3D;
 
-    renderObject.traverse(function (o) {
+    renderObject.traverse((o) => {
       if (o.name == 'Face') {
-        const texture = new Game.THREE.TextureLoader().load(
-          _this.conf.path_face_texture
+        const texture = new THREE.TextureLoader().load(
+          this.variables.path_face_texture
         );
         texture.flipY = false;
-        o.material = new Game.THREE.MeshBasicMaterial({ map: texture });
-        o.setRotationFromAxisAngle(new Game.THREE.Vector3(0, 0, 0), 10);
+        o.material = new THREE.MeshBasicMaterial({ map: texture });
+        o.setRotationFromAxisAngle(new THREE.Vector3(0, 0, 0), 10);
         return o;
       }
     });
   }
 
   onOutdated() {
-    if (this.lastPath != this.conf.path_face_texture)
-      this.setFaceTexture(arguments[0]);
+    if (this.lastPath != this.variables.path_face_texture)
+      this.setFaceTexture();
   }
 
   onComponentUpdate() {
     //retreve current material
     let currentMaterial;
-    const renderComp = arguments[0].getComponent(Game.Render.TYPE);
-    const renderObject = renderComp.getObject3D();
+    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+    const renderObject = renderComp.getController().object3D;
     renderObject.traverse(function (o) {
       if (o.name == 'Face') {
         currentMaterial = o.material;
@@ -52,7 +50,7 @@ export class TextureFace {
     });
 
     if (this.lastMaterial != currentMaterial) {
-      this.setFaceTexture(arguments[0]);
+      this.setFaceTexture();
     } else {
       console.log('nothing');
     }

@@ -562,8 +562,9 @@
 
 // module.exports = ApplicationModule;
 
+const SharedConstant = require('@ud-viz/shared').Constant;
 const { ExpressAppWrapper, Game } = require('@ud-viz/node');
-const { Constant } = require('@ud-imuv/shared');
+const { Constant, PrefabFactory } = require('@ud-imuv/shared');
 const Parse = require('parse/node');
 const fs = require('fs');
 const THREE = require('three');
@@ -689,6 +690,24 @@ module.exports = class UDIMUVServer {
                 });
               },
             ],
+            socketReadyForGameCallbacks: [
+              (socket, thread) => {
+                // add an avatar in game
+
+                const avatarJSON = PrefabFactory.avatar().toJSON();
+
+                thread.post(Game.Thread.EVENT.ADD_OBJECT3D, {
+                  object3D: avatarJSON,
+                });
+
+                socket.emit(
+                  SharedConstant.WEBSOCKET.MSG_TYPE.EXTERNAL_CONTEXT_USER_DATA,
+                  {
+                    avatarUUID: avatarJSON.uuid,
+                  }
+                );
+              },
+            ],
           }
         );
 
@@ -743,6 +762,7 @@ const moulinetteWorldJSON = (oldJSON) => {
     o.setRotationFromEuler(euler);
     o.position.copy(position);
     o.scale.copy(scale);
+    o.updateMatrix();
     newGOJSON.matrix = o.matrix.toArray();
 
     if (goJSON.children) {
