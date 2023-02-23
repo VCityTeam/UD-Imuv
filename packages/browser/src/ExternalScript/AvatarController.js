@@ -1,5 +1,4 @@
 import { ExternalGame, THREE } from '@ud-viz/browser';
-import { CameraManager } from '@ud-viz/browser/src/Component/ExternalGame/ScriptTemplate/CameraManager'; // just for doc
 import { Command, Game } from '@ud-viz/shared';
 
 export class AvatarController extends ExternalGame.ScriptBase {

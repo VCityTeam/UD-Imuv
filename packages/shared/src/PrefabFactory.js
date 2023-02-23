@@ -1,9 +1,17 @@
 const { Game } = require('@ud-viz/shared');
 
+// TODO
+const CONSTANT_TYPE_GO = {
+  postit: 'postit',
+};
+
 module.exports = {
   postIt: () => {
     return new Game.Object3D({
       name: 'Post_it',
+      userData: {
+        typePrefab: CONSTANT_TYPE_GO.postit, // think about that
+      },
       static: true,
       components: {
         Render: {
