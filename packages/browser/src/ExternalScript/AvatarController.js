@@ -1,4 +1,5 @@
 import { ExternalGame, THREE } from '@ud-viz/browser';
+import { CameraManager } from '@ud-viz/browser/src/Component/ExternalGame/ScriptTemplate/CameraManager'; // just for doc
 import { Command, Game } from '@ud-viz/shared';
 
 export class AvatarController extends ExternalGame.ScriptBase {
@@ -55,6 +56,21 @@ export class AvatarController extends ExternalGame.ScriptBase {
 
       const refine = this.context.findExternalScriptWithID('ItownsRefine');
       if (refine) refine.avatar();
+
+      /** @type {CameraManager} */
+      const cameraManager =
+        this.context.findExternalScriptWithID('CameraManager');
+      const avatarGO = this.context.object3D.getObjectByProperty(
+        'uuid',
+        this.context.userData.avatarUUID
+      );
+      const bbAvatar = new THREE.Box3().setFromObject(avatarGO);
+      cameraManager.followObject3D(
+        avatarGO,
+        5,
+        new THREE.Vector3(0, 0, bbAvatar.max.z - bbAvatar.min.z),
+        Math.PI / 20
+      );
 
       console.warn('add avatar control');
 

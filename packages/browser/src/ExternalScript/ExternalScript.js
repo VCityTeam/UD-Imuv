@@ -2,7 +2,6 @@ export { AvatarController } from './AvatarController';
 export { Bounce } from './Bounce';
 export { Box3DTool } from './Box3DTool';
 export { ButterflySpawner } from './ButterflySpawner';
-export { Camera } from './Camera';
 export { CameraTour } from './CameraTour';
 export { CityAvatar } from './CityAvatar';
 export { CityMap } from './CityMap';
@@ -34,6 +33,11 @@ export { Visible } from './Visible';
 export { Whiteboard } from './Whiteboard';
 export { ZeppelinController } from './ZeppelinController';
 export { ZeppelinStart } from './ZeppelinStart';
+
+// @ud-viz/browser
+import { ExternalScriptTemplate } from '@ud-viz/browser';
+const CameraManager = ExternalScriptTemplate.CameraManager;
+export { CameraManager };
 
 // global css import todo each externalscript should import the css its needed
 // remove image link in css as wellr
