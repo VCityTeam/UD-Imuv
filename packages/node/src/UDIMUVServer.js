@@ -782,6 +782,11 @@ const moulinetteWorldJSON = (oldJSON) => {
         result += p.charAt(0).toUpperCase() + p.slice(1);
       });
 
+      // replace olf camera script by camera manager
+      if (result === 'Camera') {
+        result = 'CameraManager';
+      }
+
       // console.log(result);
 
       return result;
