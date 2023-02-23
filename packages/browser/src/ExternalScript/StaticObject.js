@@ -5,16 +5,18 @@ export class StaticObject extends ExternalGame.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    this.object = new THREE.Object3D();
-    this.object.name = 'Static_Object';
+    this.staticObject = new THREE.Object3D();
+    this.staticObject.name = 'Static_Object';
   }
 
   init() {
-    this.object.position.add(this.context.object3D.position);
+    const cameraManager =
+      this.context.findExternalScriptWithID('CameraManager');
+    cameraManager.setObstacle(this.staticObject);
   }
 
-  getObject() {
-    return this.object;
+  getStaticObject() {
+    return this.staticObject;
   }
 
   onNewGameObject(newGO) {
@@ -23,15 +25,15 @@ export class StaticObject extends ExternalGame.ScriptBase {
       //register in object
       const r = newGO.getComponent(Game.Component.Render.TYPE);
       if (r) {
-        const clone = r.getController().object3D.clone();
+        const clone = r.getController().renderData.getObject3D().clone();
 
         r.getController().object3D.matrixWorld.decompose(
           clone.position,
           clone.quaternion,
           clone.scale
         );
-        this.object.add(clone);
-        this.object.updateMatrixWorld();
+        this.staticObject.add(clone);
+        this.staticObject.updateMatrixWorld();
       }
     }
   }
