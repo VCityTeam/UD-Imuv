@@ -269,6 +269,7 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   onEnterCollision() {
+    return
     const go = arguments[0];
     const result = arguments[1];
     // const worldContext = arguments[2];
@@ -337,6 +338,7 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   onLeaveCollision() {
+    return
     // console.log('on leave');
     const go = arguments[0];
     const uuidColliderGO = arguments[1];
