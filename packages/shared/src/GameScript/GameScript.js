@@ -12,4 +12,6 @@ module.exports = {
   UI: require('./UI'),
   WorldGameManager: require('./WorldGameManager'),
   Zeppelin: require('./Zeppelin'),
+  NativeCommandManager:
+    require('@ud-viz/shared').Game.ScriptTemplate.NativeCommandManager,
 };
