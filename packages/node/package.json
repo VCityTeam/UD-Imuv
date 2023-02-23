@@ -15,9 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@ud-viz/node": "file:../../../UD-Viz/packages/node",
-    "gm": "^1.23.1",
     "parse": "^3.4.1",
-    "pngjs": "^6.0.0",
     "three": "0.137.5"
   },
   "devDependencies": {

@@ -5,7 +5,6 @@ module.exports = {
   CityAvatarNotAllowArea: require('./CityAvatarNotAllowArea'),
   CityMap: require('./CityMap'),
   InteractionZone: require('./InteractionZone'),
-  AbstractMap: require('./AbstractMap'),
   MiniMap: require('./MiniMap'),
   Portal: require('./Portal'),
   Teleporter: require('./Teleporter'),

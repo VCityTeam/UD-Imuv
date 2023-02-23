@@ -1,8 +1,7 @@
 const { Data } = require('@ud-viz/shared');
 const { Game } = require('@ud-viz/node');
 const { GameScript } = require('@ud-imuv/shared');
-const NodeGameScript = require('./GameScript/GameScript');
 
-Data.objectOverWrite(GameScript, NodeGameScript); // add specific node script
+Data.objectOverWrite(GameScript, Game.ScriptTemplate); // add @ud-viz/node script template
 
 Game.ThreadProcessRoutine(GameScript);
