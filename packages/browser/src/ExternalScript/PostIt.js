@@ -1,26 +1,20 @@
-export class PostIt {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Command, Game } from '@ud-viz/shared';
+
+export class PostIt extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.listener = null;
     this.menu = null;
+    this.raycaster = new THREE.Raycaster();
   }
 
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-    const gameView = localCtx.getGameView();
-    const manager = gameView.getInputManager();
-
-    const raycaster = new Game.THREE.Raycaster();
-    const object = go.getObject3D();
-
-    const menu = new MenuPostIt(localCtx, go, this.conf.content);
+    const menu = new MenuPostIt(this.context, this.object3D, this.variables);
     this.menu = menu;
 
-    this.listener = function (event) {
+    this.listener = (event) => {
       //if menu is already in DOM remove it
       if (menu.html().parentNode) {
         menu.dispose();
@@ -28,45 +22,52 @@ export class PostIt {
       }
 
       //else check if post it has been double click
-      const mouse = new Game.THREE.Vector2(
+      const mouse = new THREE.Vector2(
         -1 +
           (2 * event.offsetX) /
-            (gameView.getRootWebGL().clientWidth -
-              parseInt(gameView.getRootWebGL().offsetLeft)),
+            (this.context.frame3D.rootWebGL.clientWidth -
+              parseInt(this.context.frame3D.rootWebGL.offsetLeft)),
         1 -
           (2 * event.offsetY) /
-            (gameView.getRootWebGL().clientHeight -
-              parseInt(gameView.getRootWebGL().offsetTop))
+            (this.context.frame3D.rootWebGL.clientHeight -
+              parseInt(this.context.frame3D.rootWebGL.offsetTop))
       );
 
-      raycaster.setFromCamera(mouse, gameView.getCamera());
+      this.raycaster.setFromCamera(mouse, this.context.frame3D.camera);
 
-      const i = raycaster.intersectObject(object, true);
+      const i = this.raycaster.intersectObject(this.object3D, true);
 
       if (i.length) {
-        gameView.appendToUI(menu.html());
+        this.context.frame3D.appendToUI(menu.html());
       }
     };
 
-    manager.addMouseInput(gameView.getRootWebGL(), 'dblclick', this.listener);
+    this.context.inputManager.addMouseInput(
+      this.context.frame3D.rootWebGL,
+      'dblclick',
+      this.listener
+    );
   }
 
   onRemove() {
-    const localCtx = arguments[1];
-    const gameView = localCtx.getGameView();
-    const manager = gameView.getInputManager();
-    manager.removeInputListener(this.listener);
+    this.context.inputManager.removeInputListener(this.listener);
     this.menu.dispose();
   }
 }
 
 class MenuPostIt {
-  constructor(localCtx, go, message) {
+  /**
+   *
+   * @param {ExternalGame.Context} externalGameContext
+   * @param {*} postItGameObject
+   * @param {*} postItVariables
+   */
+  constructor(externalGameContext, postItGameObject, postItVariables) {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_menu_display_post_it');
 
     const postIt = document.createElement('div');
-    postIt.innerHTML = message;
+    postIt.innerHTML = postItVariables.content;
     postIt.classList.add('display_post_it');
     this.rootHtml.appendChild(postIt);
 
@@ -76,13 +77,15 @@ class MenuPostIt {
     this.rootHtml.appendChild(deletePostIt);
 
     //callback
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
     deletePostIt.onclick = function () {
-      localCtx
-        .getWebSocketService()
-        .emit(ImuvConstants.WEBSOCKET.MSG_TYPE.REMOVE_GAMEOBJECT, go.getUUID());
+      externalGameContext.sendCommandToGameContext([
+        new Command({
+          type: Game.ScriptTemplate.Constants.COMMAND.REMOVE_OBJECT3D,
+          data: {
+            object3DUUID: postItGameObject.uuid,
+          },
+        }),
+      ]);
     };
   }
 
