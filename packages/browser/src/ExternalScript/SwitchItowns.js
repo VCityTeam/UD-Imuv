@@ -1,5 +1,5 @@
 import { ExternalGame, THREE, Widget, itownsWidgets } from '@ud-viz/browser';
-import { Routine } from './Component/Routine';
+import { CameraManager } from './CameraManager'; // just for doc
 
 export class SwitchItowns extends ExternalGame.ScriptBase {
   constructor(context, object3D, variables) {
@@ -10,15 +10,17 @@ export class SwitchItowns extends ExternalGame.ScriptBase {
   }
 
   init() {
-    const cameraScript = this.context.findExternalScriptWithID('Camera');
+    /** @type {CameraManager} */
+    const cameraManager =
+      this.context.findExternalScriptWithID('CameraManager');
     const avatarController =
       this.context.findExternalScriptWithID('AvatarController');
     const scriptUI = this.context.findExternalScriptWithID('UI');
 
     if (this.context.frame3D.itownsView) {
       const promiseFunction = (resolve, reject, onClose) => {
-        if (cameraScript.hasRoutine()) {
-          resolve(false); //already routine
+        if (cameraManager.currentMovement) {
+          resolve(false); //already movement
           return;
         }
 
@@ -32,49 +34,16 @@ export class SwitchItowns extends ExternalGame.ScriptBase {
           return;
         }
 
-        const duration = 2000;
-        let currentTime = 0;
-
-        const startPos = this.context.frame3D.camera.position.clone();
-        const startQuat = this.context.frame3D.camera.quaternion.clone();
-
         if (onClose) {
           //record
           this.itownsCamPos.copy(this.context.frame3D.camera.position);
           this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
 
           this.context.frame3D.enableItownsViewControls(false);
-
-          cameraScript.addRoutine(
-            new Routine(
-              (dt) => {
-                const t = cameraScript
-                  .getFocusCamera()
-                  .computeTransformTarget(
-                    null,
-                    cameraScript.getDistanceCameraAvatar()
-                  );
-
-                currentTime += dt;
-                let ratio = currentTime / duration;
-                ratio = Math.min(Math.max(0, ratio), 1);
-
-                const p = t.position.lerp(startPos, 1 - ratio);
-                const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-                this.context.frame3D.camera.position.copy(p);
-                this.context.frame3D.camera.quaternion.copy(q);
-
-                this.context.frame3D.camera.updateProjectionMatrix();
-
-                return ratio >= 1;
-              },
-              () => {
-                avatarController.setAvatarControllerMode(true);
-                resolve(true);
-              }
-            )
-          );
+          cameraManager.moveToAvatar().then(() => {
+            avatarController.setAvatarControllerMode(true);
+            resolve(true);
+          });
         } else {
           //remove avatar controls
           avatarController.setAvatarControllerMode(false);
@@ -100,49 +69,30 @@ export class SwitchItowns extends ExternalGame.ScriptBase {
             this.itownsCamQuat = endQuaternion;
           }
 
-          cameraScript.addRoutine(
-            new Routine(
-              (dt) => {
-                currentTime += dt;
-                let ratio = currentTime / duration;
-                ratio = Math.min(Math.max(0, ratio), 1);
+          cameraManager
+            .moveToTransform(this.itownsCamPos, this.itownsCamQuat, 2000)
+            .then(() => {
+              this.context.inputManager.setPointerLock(false);
 
-                const p = this.itownsCamPos.clone().lerp(startPos, 1 - ratio);
-                const q = this.itownsCamQuat
-                  .clone()
-                  .slerp(startQuat, 1 - ratio);
+              this.context.frame3D.enableItownsViewControls(true);
 
-                this.context.frame3D.camera.position.copy(p);
-                this.context.frame3D.camera.quaternion.copy(q);
+              //tweak zoom factor
+              this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
+                .getMenuSettings()
+                .getZoomFactorValue();
+              this.context.frame3D.itownsView.controls.zoomOutFactor =
+                1 / scriptUI.getMenuSettings().getZoomFactorValue();
 
-                this.context.frame3D.camera.updateProjectionMatrix();
+              this.context.frame3D.itownsView.notifyChange(
+                this.context.frame3D.camera
+              );
 
-                return ratio >= 1;
-              },
-              () => {
-                this.context.inputManager.setPointerLock(false);
+              const refine =
+                this.context.findExternalScriptWithID('ItownsRefine');
+              if (refine) refine.itownsControls();
 
-                this.context.frame3D.enableItownsViewControls(true);
-
-                //tweak zoom factor
-                this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
-                  .getMenuSettings()
-                  .getZoomFactorValue();
-                this.context.frame3D.itownsView.controls.zoomOutFactor =
-                  1 / scriptUI.getMenuSettings().getZoomFactorValue();
-
-                this.context.frame3D.itownsView.notifyChange(
-                  this.context.frame3D.camera
-                );
-
-                const refine =
-                  this.context.findExternalScriptWithID('ItownsRefine');
-                if (refine) refine.itownsControls();
-
-                resolve(true);
-              }
-            )
-          );
+              resolve(true);
+            });
         }
       };
 
