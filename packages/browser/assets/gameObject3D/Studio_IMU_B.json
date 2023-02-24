@@ -10,13 +10,12 @@
     "components": {
       "WorldScript": {
         "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
-        "idScripts": ["worldGameManager", "box3D_tool", "NativeCommandManager"],
+        "idScripts": ["Spawner", "box3D_tool", "NativeCommandManager"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
-          "mapUUID": "E74C4735-E7AA-4C7B-B7B8-98150C962B68",
           "spawnTransform": {
-            "position": [0, 0, 0],
+            "position": [-3, 0, 0],
             "rotation": [0, 0, 0],
             "scale": [1, 1, 1]
           }

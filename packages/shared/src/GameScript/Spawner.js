@@ -1,13 +1,6 @@
 const { Game } = require('@ud-viz/shared');
 
-module.exports = class WorldGameManager extends Game.ScriptBase {
-  init() {
-    this.map = this.context.object3D.getObjectByProperty(
-      'uuid',
-      this.variables.mapUUID
-    );
-  }
-
+module.exports = class Spawner extends Game.ScriptBase {
   /**
    *
    * @param {Game.Object3D} object
@@ -18,9 +11,5 @@ module.exports = class WorldGameManager extends Game.ScriptBase {
       object.rotation.fromArray(this.variables.spawnTransform.rotation);
       object.setOutdated(true);
     }
-  }
-
-  getMap() {
-    return this.map;
   }
 };

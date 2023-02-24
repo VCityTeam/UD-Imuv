@@ -9,7 +9,7 @@ module.exports = {
   Portal: require('./Portal'),
   Teleporter: require('./Teleporter'),
   UI: require('./UI'),
-  WorldGameManager: require('./WorldGameManager'),
+  Spawner: require('./Spawner'),
   Zeppelin: require('./Zeppelin'),
   NativeCommandManager:
     require('@ud-viz/shared').Game.ScriptTemplate.NativeCommandManager,
