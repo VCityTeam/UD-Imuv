@@ -1,6 +1,6 @@
 {
   "gameObject": {
-    "name": "GameManager",
+    "name": "Studio_IMU_B",
     "type": "GameObject",
     "static": true,
     "outdated": false,
