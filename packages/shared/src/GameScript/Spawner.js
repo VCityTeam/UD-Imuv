@@ -10,6 +10,7 @@ module.exports = class Spawner extends Game.ScriptBase {
       object.position.fromArray(this.variables.spawnTransform.position);
       object.rotation.fromArray(this.variables.spawnTransform.rotation);
       object.setOutdated(true);
+      this.context.updateCollisionBuffer();
     }
   }
 };

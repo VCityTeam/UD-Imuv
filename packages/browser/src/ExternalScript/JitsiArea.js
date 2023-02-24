@@ -1,20 +1,20 @@
-export class JitsiArea {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
-    THREE = Game.THREE;
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
+import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
+import { Constant } from '@ud-imuv/shared';
+
+export class JitsiArea extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.divJitsi = null;
   }
 
   init() {
-    const go = arguments[0];
-
-    this.buildShapes(go);
+    this.buildShapes();
   }
 
-  createJitsiIframe(localCtx) {
+  createJitsiIframe() {
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
@@ -29,13 +29,15 @@ export class JitsiArea {
     }
 
     let name = 'editor';
-    const avatarGO = localCtx
-      .getRootGameObject()
-      .find(localCtx.getGameView().getUserData('avatarUUID'));
-
+    const avatarGO = this.context.object3D.getObjectByProperty(
+      'uuid',
+      this.context.userData.avatarUUID
+    );
     if (avatarGO) {
-      const lsComp = avatarGO.getComponent(udviz.Game.LocalScript.TYPE);
-      name = lsComp.conf.name;
+      const externalComp = avatarGO.getComponent(
+        Game.Component.ExternalScript.TYPE
+      );
+      name = externalComp.getModel().getVariables().name;
     }
 
     //create iframe
@@ -44,7 +46,7 @@ export class JitsiArea {
     const size = 500;
 
     const options = {
-      roomName: this.conf.jitsi_room_name,
+      roomName: this.variables.jitsi_room_name,
       parentNode: divJitsi,
       width: size,
       height: size,
@@ -95,48 +97,41 @@ export class JitsiArea {
       },
     };
 
-    const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
-      'JitsiIframeAPI'
-    ];
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-    const url = new URL(ImuvConstants.JITSI.PUBLIC_URL);
-    const api = new JitsiIframeAPI(url.host + url.pathname, options);
+    const url = new URL(Constant.JITSI.PUBLIC_URL);
+    new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
-    const scriptUI = localCtx.findExternalScriptWithID('ui');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
     scriptUI.displaySocialIframe(divJitsi);
 
     this.divJitsi = divJitsi;
+    console.log('create jitsi');
   }
 
   onEnter() {
     if (this.divJitsi) return;
-    const localCtx = arguments[1];
-    this.createJitsiIframe(localCtx);
+    this.createJitsiIframe();
   }
 
   onColliding() {
     //check also the onColliding method, so when url parameter teleport in jitsi area the iframe is created
     if (this.divJitsi) return;
-    const localCtx = arguments[1];
-    this.createJitsiIframe(localCtx);
+    this.createJitsiIframe();
   }
 
   onLeave() {
     if (this.divJitsi) {
-      const localCtx = arguments[1];
-      const scriptUI = localCtx.findExternalScriptWithID('ui');
+      const scriptUI = this.context.findExternalScriptWithID('UI');
       scriptUI.removeSocialIframe();
       this.divJitsi = null;
     }
   }
 
-  buildShapes(go) {
-    const renderComp = go.getComponent(Game.Render.TYPE);
+  buildShapes() {
+    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
 
-    const shapesJSON = go
-      .getComponent(Game.ColliderModule.TYPE)
+    const shapesJSON = this.object3D
+      .getComponent(Game.Component.Collider.TYPE)
+      .getModel()
       .getShapesJSON();
 
     const material = new THREE.MeshBasicMaterial({
@@ -146,49 +141,44 @@ export class JitsiArea {
 
     const height = 1;
 
-    shapesJSON.forEach(function (shape) {
-      switch (shape.type) {
-        case 'Circle':
-          //cylinder
-          const geometryCylinder = new THREE.CylinderGeometry(
-            shape.radius,
-            shape.radius,
-            height,
-            32
-          );
-          const cylinder = new THREE.Mesh(geometryCylinder, material);
-          cylinder.rotateX(Math.PI * 0.5);
-          cylinder.position.set(shape.center.x, shape.center.y, shape.center.z);
-          renderComp.addObject3D(cylinder);
-          break;
-        case 'Polygon':
-          if (!shape.points.length) break;
+    shapesJSON.forEach((shape) => {
+      if (shape.type === 'Circle') {
+        //cylinder
+        const geometryCylinder = new THREE.CylinderGeometry(
+          shape.radius,
+          shape.radius,
+          height,
+          32
+        );
+        const cylinder = new THREE.Mesh(geometryCylinder, material);
+        cylinder.rotateX(Math.PI * 0.5);
+        cylinder.position.set(shape.center.x, shape.center.y, shape.center.z);
+        renderComp.getController().addObject3D(cylinder);
+      } else if (shape.type === 'Polygon' && shape.points.length) {
+        let altitude = 0;
 
-          let altitude = 0;
+        const shapeGeo = new THREE.Shape();
+        shapeGeo.moveTo(shape.points[0].x, shape.points[0].y);
+        altitude += shape.points[0].z;
 
-          const shapeGeo = new THREE.Shape();
-          shapeGeo.moveTo(shape.points[0].x, shape.points[0].y);
-          altitude += shape.points[0].z;
+        for (let index = 1; index < shape.points.length; index++) {
+          const point = shape.points[index];
+          shapeGeo.lineTo(point.x, point.y);
 
-          for (let index = 1; index < shape.points.length; index++) {
-            const point = shape.points[index];
-            shapeGeo.lineTo(point.x, point.y);
+          altitude += point.z;
+        }
+        shapeGeo.lineTo(shape.points[0].x, shape.points[0].y);
 
-            altitude += point.z;
-          }
-          shapeGeo.lineTo(shape.points[0].x, shape.points[0].y);
+        altitude /= shape.points.length;
 
-          altitude /= shape.points.length;
-
-          const geometryExtrude = new THREE.ExtrudeGeometry(shapeGeo, {
-            depth: height,
-          });
-          const mesh = new THREE.Mesh(geometryExtrude, material);
-          mesh.position.z = altitude - height * 0.5;
-          renderComp.addObject3D(mesh);
-          break;
-        default:
-          console.error('wrong type shape');
+        const geometryExtrude = new THREE.ExtrudeGeometry(shapeGeo, {
+          depth: height,
+        });
+        const mesh = new THREE.Mesh(geometryExtrude, material);
+        mesh.position.z = altitude - height * 0.5;
+        renderComp.getController().addObject3D(mesh);
+      } else {
+        console.error('unknow type');
       }
     });
   }

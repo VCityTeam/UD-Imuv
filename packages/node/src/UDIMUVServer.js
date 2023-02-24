@@ -704,6 +704,7 @@ module.exports = class UDIMUVServer {
                   SharedConstant.WEBSOCKET.MSG_TYPE.EXTERNAL_CONTEXT_USER_DATA,
                   {
                     avatarUUID: avatarJSON.uuid,
+                    settings: {},
                   }
                 );
               },
@@ -717,7 +718,7 @@ module.exports = class UDIMUVServer {
 
         //patch
         const indexWorldsJSON = {
-          '05F3BB45-538D-4B22-9EBA-2B08F6921A51': 'Studio_IMU_B.json',
+          'F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1': 'Studio_IMU_A.json',
         };
 
         const gameObjects3D = [];

@@ -1,6 +1,6 @@
 {
   "gameObject": {
-    "name": "GameManager",
+    "name": "Studio_IMU_A",
     "type": "GameObject",
     "static": true,
     "outdated": false,
@@ -10,11 +10,12 @@
     "components": {
       "WorldScript": {
         "uuid": "022805AE-633B-42F6-B3FF-EAE277AF4BA8",
-        "idScripts": ["worldGameManager", "box3D_tool"],
+        "idScripts": ["spawner", "NativeCommandManager"],
         "conf": {
-          "mapUUID": "E07B8772-1700-421F-A0BB-289DAFA98F31",
+          "speedTranslate": 0.006,
+          "cityAvatarAllow": false,
           "spawnTransform": {
-            "position": [0, 0, 0],
+            "position": [-4, 0, 0],
             "rotation": [0, 0, 0],
             "scale": [1, 1, 1]
           }
@@ -57,9 +58,7 @@
             "idScripts": ["map"],
             "conf": {
               "heightmap_path": "./assets/img/uploaded/E8A20418-D832-41CE-A39A-E9E4E4E9A4D8.jpeg",
-              "heightmap_geometry": { "max": 4, "min": -1, "size": 19 },
-              "cityAvatarAllow": false,
-              "avatarSpeedMove": 0.006
+              "heightmap_geometry": { "max": 4, "min": -1, "size": 19 }
             },
             "type": "WorldScript"
           },
@@ -381,7 +380,7 @@
                 "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
                 "idScripts": ["video"],
                 "conf": {
-                  "idVideo": "final_IMU",
+                  "video_path": "./assets/videos/final_IMU_sept2019.webm",
                   "width": 10,
                   "height": 6,
                   "size": { "width": 853, "height": 480 }

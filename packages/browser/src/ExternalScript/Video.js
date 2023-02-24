@@ -1,9 +1,9 @@
-export class Video {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
 
-    udviz = udvizBundle;
-    Game = udviz.Game;
+export class Video extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.video = null;
     this.videoImageContext = null;
@@ -11,13 +11,8 @@ export class Video {
   }
 
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
     const video = document.createElement('video');
-    video.src = localCtx
-      .getGameView()
-      .getAssetsManager()
-      .fetchVideoPath(this.conf.idVideo);
+    video.src = this.variables.video_path;
     video.autoplay = true;
     video.muted = true;
     video.load(); // must call after setting/changing source
@@ -25,29 +20,29 @@ export class Video {
 
     const videoImage = document.createElement('canvas');
 
-    videoImage.width = this.conf.size.width;
-    videoImage.height = this.conf.size.height;
+    videoImage.width = this.variables.size.width;
+    videoImage.height = this.variables.size.height;
 
     const videoImageContext = videoImage.getContext('2d');
     videoImageContext.fillStyle = '#000000';
     videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
 
-    const videoTexture = new Game.THREE.Texture(videoImage);
-    videoTexture.minFilter = Game.THREE.LinearFilter;
-    videoTexture.magFilter = Game.THREE.LinearFilter;
+    const videoTexture = new THREE.Texture(videoImage);
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
 
-    const movieMaterial = new Game.THREE.MeshBasicMaterial({
+    const movieMaterial = new THREE.MeshBasicMaterial({
       map: videoTexture,
-      side: Game.THREE.DoubleSide,
+      side: THREE.DoubleSide,
     });
-    const movieGeometry = new Game.THREE.PlaneGeometry(
-      this.conf.width,
-      this.conf.height
+    const movieGeometry = new THREE.PlaneGeometry(
+      this.variables.width,
+      this.variables.height
     );
-    const movieScreen = new Game.THREE.Mesh(movieGeometry, movieMaterial);
+    const movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
 
-    const r = go.getComponent(Game.Render.TYPE);
-    r.addObject3D(movieScreen);
+    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+    renderComp.getController().addObject3D(movieScreen);
 
     this.video = video;
     this.videoImageContext = videoImageContext;

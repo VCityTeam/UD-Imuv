@@ -1,50 +1,48 @@
-export class Clickable {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
-  }
+import { ExternalGame, THREE, checkParentChild } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
 
+export class Clickable extends ExternalGame.ScriptBase {
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-    const gameView = localCtx.getGameView();
-    const manager = gameView.getInputManager();
+    const raycaster = new THREE.Raycaster();
 
-    const raycaster = new Game.THREE.Raycaster();
+    this.context.inputManager.addMouseInput(
+      this.context.frame3D.rootWebGL,
+      'click',
+      (event) => {
+        if (this.context.userData.isEditorGameView) return; // TODO should be deprecated
 
-    manager.addMouseInput(gameView.getRootWebGL(), 'click', function (event) {
-      if (gameView.getUserData('isEditorGameView')) return;
+        if (checkParentChild(event.target, this.context.frame3D.ui)) return; //ui has been clicked
 
-      if (udviz.Components.checkParentChild(event.target, gameView.ui)) return; //ui has been clicked
+        const mouse = new THREE.Vector2(
+          -1 +
+            (2 * event.offsetX) /
+              (this.context.frame3D.rootWebGL.clientWidth -
+                parseInt(this.context.frame3D.rootWebGL.offsetLeft)),
+          1 -
+            (2 * event.offsetY) /
+              (this.context.frame3D.rootWebGL.clientHeight -
+                parseInt(this.context.frame3D.rootWebGL.offsetTop))
+        );
 
-      const mouse = new Game.THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) /
-            (gameView.getRootWebGL().clientWidth -
-              parseInt(gameView.getRootWebGL().offsetLeft)),
-        1 -
-          (2 * event.offsetY) /
-            (gameView.getRootWebGL().clientHeight -
-              parseInt(gameView.getRootWebGL().offsetTop))
-      );
+        raycaster.setFromCamera(mouse, this.context.frame3D.camera);
 
-      raycaster.setFromCamera(mouse, gameView.getCamera());
+        const i = raycaster.intersectObject(this.context.frame3D.scene, true);
 
-      const i = raycaster.intersectObject(gameView.getScene(), true);
-
-      if (i.length) {
-        const firstObjectClicked = i[0].object;
-        if (
-          udviz.Game.GameObject.findObject3D(go.getUUID(), firstObjectClicked)
-        ) {
-          const lss = go.fetchLocalScripts();
-          for (let id in lss) {
-            const script = lss[id];
-            if (script.onClick) script.onClick(go, localCtx);
+        if (i.length) {
+          const gameObjectClicked = Game.Object3D.fetchFirstGameObject3D(
+            i[0].object
+          );
+          if (
+            gameObjectClicked &&
+            gameObjectClicked.uuid == this.object3D.uuid
+          ) {
+            const externalScriptComp = this.object3D.getComponent(
+              Game.Component.ExternalScript.TYPE
+            );
+            externalScriptComp.getController().execute('onClick'); //custom external script event could be in ud-viz
           }
         }
       }
-    });
+    );
   }
-};
+}
