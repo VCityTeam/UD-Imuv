@@ -17,7 +17,7 @@ module.exports = {
         Render: {
           type: 'Render',
           idRenderData: 'quad',
-          color: [1, 1, 0],
+          color: [1, 1, 0, 1],
         },
         ExternalScript: {
           idScripts: ['PostIt'],

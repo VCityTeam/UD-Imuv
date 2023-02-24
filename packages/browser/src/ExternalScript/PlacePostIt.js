@@ -60,7 +60,7 @@ class MenuPostIt {
     const raycaster = new THREE.Raycaster();
 
     externalContext.inputManager.addMouseInput(
-      externalContext.frame3D.rootWebGL,
+      externalContext.frame3D.html(),
       'dragend',
       (event) => {
         if (event.target != placePostItImage) return;
