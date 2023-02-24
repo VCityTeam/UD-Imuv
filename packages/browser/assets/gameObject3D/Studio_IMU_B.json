@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
-        "idScripts": ["Spawner", "box3D_tool", "NativeCommandManager"],
+        "idScripts": ["Spawner", "NativeCommandManager"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
