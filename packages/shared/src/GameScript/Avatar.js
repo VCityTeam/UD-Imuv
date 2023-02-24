@@ -30,8 +30,8 @@ module.exports = class Avatar extends Game.ScriptBase {
 
   spawn() {
     //spawn
-    const gmScript = this.context.findGameScriptWithID('WorldGameManager');
-    gmScript.initiazeSpawnTransform(this.object3D);
+    const spawner = this.context.findGameScriptWithID('Spawner');
+    spawner.initiazeSpawnTransform(this.object3D);
   }
 
   fetchCommands(commands, gameObject) {
