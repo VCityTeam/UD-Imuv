@@ -4,7 +4,6 @@ import {
   OrbitControls,
   TransformControls,
 } from '@ud-viz/browser';
-import { Routine } from './Component/Routine';
 import { PrefabFactory } from '@ud-imuv/shared';
 import { Command, Game } from '@ud-viz/shared';
 
@@ -20,7 +19,8 @@ export class Box3DTool extends ExternalGame.ScriptBase {
     const menu = new MenuBox3D(this.context);
 
     const scriptUI = this.context.findExternalScriptWithID('UI');
-    const cameraScript = this.context.findExternalScriptWithID('Camera');
+    const cameraManager =
+      this.context.findExternalScriptWithID('CameraManager');
     const avatarController =
       this.context.findExternalScriptWithID('AvatarController');
     const avatarGO = this.context.object3D.getObjectByProperty(
@@ -33,7 +33,7 @@ export class Box3DTool extends ExternalGame.ScriptBase {
       './assets/img/ui/icon_box.png',
       'AddBox3D',
       (resolve, reject, onClose) => {
-        if (cameraScript.hasRoutine()) {
+        if (cameraManager.currentMovement) {
           resolve(false); //camera is moving
           return;
         }
@@ -44,12 +44,6 @@ export class Box3DTool extends ExternalGame.ScriptBase {
           return;
         }
 
-        const duration = 2000;
-        let currentTime = 0;
-
-        const startPos = this.context.frame3D.camera.position.clone();
-        const startQuat = this.context.frame3D.camera.quaternion.clone();
-
         if (onClose) {
           //record
           this.itownsCamPos.copy(this.context.frame3D.camera.position);
@@ -57,35 +51,10 @@ export class Box3DTool extends ExternalGame.ScriptBase {
 
           this.context.frame3D.enableItownsViewControls(false);
 
-          cameraScript.addRoutine(
-            new Routine(
-              (dt) => {
-                const t = cameraScript
-                  .getFocusCamera()
-                  .computeTransformTarget(
-                    null,
-                    cameraScript.getDistanceCameraAvatar()
-                  );
-
-                currentTime += dt;
-                let ratio = currentTime / duration;
-                ratio = Math.min(Math.max(0, ratio), 1);
-
-                const p = t.position.lerp(startPos, 1 - ratio);
-                const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-                this.context.frame3D.camera.position.copy(p);
-                this.context.frame3D.camera.quaternion.copy(q);
-                this.context.frame3D.camera.updateProjectionMatrix();
-
-                return ratio >= 1;
-              },
-              () => {
-                avatarController.setAvatarControllerMode(true);
-                resolve(true);
-              }
-            )
-          );
+          cameraManager.moveToAvatar().then(() => {
+            avatarController.setAvatarControllerMode(true);
+            resolve(true);
+          });
         } else {
           //remove avatar controls
           avatarController.setAvatarControllerMode(false);
@@ -110,46 +79,28 @@ export class Box3DTool extends ExternalGame.ScriptBase {
             this.itownsCamQuat = endQuaternion;
           }
 
-          cameraScript.addRoutine(
-            new Routine(
-              (dt) => {
-                currentTime += dt;
-                let ratio = currentTime / duration;
-                ratio = Math.min(Math.max(0, ratio), 1);
+          cameraManager
+            .moveToTransform(this.itownsCamPos, this.itownsCamQuat, 2000)
+            .then(() => {
+              this.context.inputManager.setPointerLock(false);
 
-                const p = this.itownsCamPos.clone().lerp(startPos, 1 - ratio);
-                const q = this.itownsCamQuat
-                  .clone()
-                  .slerp(startQuat, 1 - ratio);
+              this.context.frame3D.enableItownsViewControls(true);
 
-                this.context.frame3D.camera.position.copy(p);
-                this.context.frame3D.camera.quaternion.copy(q);
-                this.context.frame3D.camera.updateProjectionMatrix();
+              //tweak zoom factor
+              this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
+                .getMenuSettings()
+                .getZoomFactorValue();
+              this.context.frame3D.itownsView.controls.zoomOutFactor =
+                1 / scriptUI.getMenuSettings().getZoomFactorValue();
 
-                return ratio >= 1;
-              },
-              () => {
-                this.context.inputManager.setPointerLock(false);
+              this.context.frame3D.itownsView.notifyChange(
+                this.context.frame3D.camera
+              );
 
-                this.context.frame3D.enableItownsViewControls(true);
+              if (refine) refine.itownsControls();
 
-                //tweak zoom factor
-                this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
-                  .getMenuSettings()
-                  .getZoomFactorValue();
-                this.context.frame3D.itownsView.controls.zoomOutFactor =
-                  1 / scriptUI.getMenuSettings().getZoomFactorValue();
-
-                this.context.frame3D.itownsView.notifyChange(
-                  this.context.frame3D.camera
-                );
-
-                if (refine) refine.itownsControls();
-
-                resolve(true);
-              }
-            )
-          );
+              resolve(true);
+            });
         }
       },
       menu
@@ -227,7 +178,7 @@ class MenuBox3D {
       // check all box3D with name patch (in future just tag it with userData)
       let selection = null;
       this.context.object3D.traverse((child) => {
-        if (child.name != 'Box3D') return;
+        if (!child.userData.isBox3D) return;
 
         const i = raycaster.intersectObject(child, true);
         if (i.length) {
@@ -302,9 +253,8 @@ class MenuBox3D {
     if (this.orbitCtrl) {
       this.orbitCtrl.update();
     }
-    this.context.frame3D.itownsView.notifyChange();
 
-    // dirty but no event when a gameobject is removed
+    // TODO plug in the onRemoveGameObject event method to remove this.selectedBox if its remove
     if (this.selectedBox3D) {
       const s = this.context.object3D.getObjectByProperty(
         'uuid',
@@ -338,7 +288,7 @@ class MenuBox3D {
       );
       this.context.frame3D.scene.add(this.ghostBox);
 
-      this.context.enableItownsViewControls(false);
+      this.context.frame3D.enableItownsViewControls(false);
 
       const elementToListen =
         this.context.frame3D.itownsView.mainLoop.gfxEngine.label2dRenderer
@@ -376,6 +326,7 @@ class MenuBox3D {
       });
 
       this.transformCtrl.addEventListener('change', () => {
+        this.transformCtrl.updateMatrixWorld();
         this.context.sendCommandToGameContext([
           new Command({
             type: Game.ScriptTemplate.Constants.COMMAND.UPDATE_TRANSFORM,
@@ -398,8 +349,9 @@ class MenuBox3D {
   }
 
   dispose() {
+    // TODO unselect here conflict with camera manager movetoavatar
     this.select(null);
     this.rootHtml.remove();
-    // this.manager.removeInputListener(this.listener);
+    // this.manager.removeInputListener(this.listener); listener still enable when menu is dispose TODO
   }
 }

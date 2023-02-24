@@ -1,6 +1,5 @@
 module.exports = {
   Avatar: require('./Avatar'),
-  Box3DTool: require('./Box3DTool'),
   CityAvatar: require('./CityAvatar'),
   CityAvatarNotAllowArea: require('./CityAvatarNotAllowArea'),
   CityMap: require('./CityMap'),

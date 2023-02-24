@@ -29,19 +29,26 @@ module.exports = {
   },
   box3D: () => {
     return new Game.Object3D({
+      name: 'Box_3D',
       static: false,
+      userData: {
+        isBox3D: true,
+      },
       components: {
         Render: {
           type: 'Render',
           idRenderData: 'cube',
-          color: [1, 1, 1],
+          color: [1, 1, 1, 1],
         },
       },
     });
   },
   avatar: () => {
     return new Game.Object3D({
-      name: 'avatar',
+      name: 'Avatar',
+      userData: {
+        isAvatar: true,
+      },
       components: {
         Collider: {
           type: 'Collider',
