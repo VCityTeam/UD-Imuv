@@ -1,10 +1,12 @@
+import { ExternalGame, THREE, jquery } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
+import { Constant } from '@ud-imuv/shared';
+
 const RADIUS_MAP = 40;
 
-export class Image {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
+export class Image extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.imagePlane = null;
 
@@ -13,8 +15,8 @@ export class Image {
     this.popupUI = null;
     this.imgMapGPS = null;
 
-    if (!this.conf.gpsCoord) {
-      this.conf.gpsCoord = {};
+    if (!this.variables.gpsCoord) {
+      this.variables.gpsCoord = {};
     }
   }
 
@@ -24,31 +26,29 @@ export class Image {
       this.imagePlane.parent.remove(this.imagePlane);
     }
 
-    const onLoad = function (texture) {
+    const onLoad = (texture) => {
       const image = texture.image;
       const ratio = image.width / image.height;
-      const material = new Game.THREE.MeshBasicMaterial({ map: texture });
-      const geometry = new Game.THREE.PlaneGeometry(
-        ratio > 1 ? this.conf.factorWidth : this.conf.factorWidth * ratio,
-        ratio < 1 ? this.conf.factorHeight : this.conf.factorHeight / ratio,
+      const material = new THREE.MeshBasicMaterial({ map: texture });
+      const geometry = new THREE.PlaneGeometry(
+        ratio > 1
+          ? this.variables.factorWidth
+          : this.variables.factorWidth * ratio,
+        ratio < 1
+          ? this.variables.factorHeight
+          : this.variables.factorHeight / ratio,
         32
       );
-      this.imagePlane = new Game.THREE.Mesh(geometry, material);
-      const r = this.go.getComponent(Game.Render.TYPE);
-      r.addObject3D(this.imagePlane);
+      this.imagePlane = new THREE.Mesh(geometry, material);
+      const r = this.object3D.getComponent(Game.Component.Render.TYPE);
+      r.getController().addObject3D(this.imagePlane);
     };
 
-    const texture = new Game.THREE.TextureLoader().load(
-      this.conf.path,
-      onLoad.bind(this)
-    );
+    new THREE.TextureLoader().load(this.variables.path, onLoad);
   }
 
   init() {
-    this.go = arguments[0];
-    this.gV = arguments[1].getGameView();
     this.createImagePlane();
-
     this.initRaycaster();
   }
 
@@ -57,24 +57,22 @@ export class Image {
     if (this.imgMapGPS) {
       this.imgMapGPS.remove();
     }
-    if (!this.conf.gpsCoord.checked) return false;
+    if (!this.variables.gpsCoord.checked) return false;
     const mapImg = document.createElement('img');
-    const _this = this;
-    mapImg.addEventListener('load', function () {
+
+    mapImg.addEventListener('load', () => {
       const figureMap = document.createElement('figure');
       figureMap.classList.add('grid_item--map');
 
-      const canvas = _this.createCanvasDrawed(mapImg);
-      _this.imgMapGPS = document.createElement('img');
-      _this.imgMapGPS.src = canvas.toDataURL();
-      _this.imgMapGPS.classList.add('popup_gps');
-      figureMap.appendChild(_this.imgMapGPS);
-      _this.popupUI.appendChild(figureMap);
+      const canvas = this.createCanvasDrawed(mapImg);
+      this.imgMapGPS = document.createElement('img');
+      this.imgMapGPS.src = canvas.toDataURL();
+      this.imgMapGPS.classList.add('popup_gps');
+      figureMap.appendChild(this.imgMapGPS);
+      this.popupUI.appendChild(figureMap);
     });
 
-    const ImuvConstants = this.gV.getLocalScriptModules()['ImuvConstants'];
-
-    mapImg.src = ImuvConstants.CITY_MAP.PATH;
+    mapImg.src = Constant.CITY_MAP.PATH;
 
     return true;
   }
@@ -92,21 +90,21 @@ export class Image {
 
     const fullscreenImg = document.createElement('img');
     fullscreenImg.classList.add('popup_fullscreen');
-    fullscreenImg.src = this.conf.path;
+    fullscreenImg.src = this.variables.path;
     figureImage.appendChild(fullscreenImg);
 
     const figureDescr = document.createElement('figure');
     figureDescr.classList.add('grid_item--descr');
-    if (this.conf.descriptionText) {
+    if (this.variables.descriptionText) {
       const descriptionText = document.createElement('div');
       descriptionText.classList.add('popup_descr');
-      descriptionText.innerHTML = this.conf.descriptionText;
+      descriptionText.innerHTML = this.variables.descriptionText;
       figureDescr.appendChild(descriptionText);
-    } else if (this.conf.descriptionHtml) {
+    } else if (this.variables.descriptionHtml) {
       //load html from distant server
-      udviz.jquery.ajax({
+      jquery.ajax({
         type: 'GET',
-        url: this.conf.descriptionHtml,
+        url: this.variables.descriptionHtml,
         datatype: 'html',
         success: (data) => {
           const descriptionHtml = document.createElement('div');
@@ -140,7 +138,7 @@ export class Image {
     this.popupUI.appendChild(figureImage);
     this.popupUI.appendChild(figureDescr);
     this.popupUI.appendChild(figureClose);
-    this.gV.appendToUI(this.popupUI);
+    this.context.frame3D.appendToUI(this.popupUI);
   }
 
   displayPopup(value, playSound = true) {
@@ -149,76 +147,71 @@ export class Image {
     } else {
       if (this.popupUI) this.popupUI.remove();
     }
-    if (!playSound) return;
+    if (!playSound || !value) return;
 
-    const audioComp = this.go.getComponent(Game.Audio.TYPE);
-    if (!audioComp) return;
-
-    const sounds = audioComp.getSounds();
-
-    if (value) {
-      //play open sound
-      sounds['open_popup'].play();
-    }
+    const audioComp = this.object3D.getComponent(Game.Component.Audio.TYPE);
+    audioComp.getController().play('open_popup');
   }
 
   initRaycaster() {
-    const gV = this.gV;
-    const go = this.go;
-    const _this = this;
-    const manager = gV.getInputManager();
-    const raycaster = new udviz.THREE.Raycaster();
-    manager.addMouseInput(gV.getRootWebGL(), 'dblclick', function (event) {
-      if (event.button != 0) return;
-      const mouse = new udviz.THREE.Vector2(
-        -1 +
-          (2 * event.offsetX) /
-            (gV.getRootWebGL().clientWidth -
-              parseInt(gV.getRootWebGL().offsetLeft)),
-        1 -
-          (2 * event.offsetY) /
-            (gV.getRootWebGL().clientHeight -
-              parseInt(gV.getRootWebGL().offsetTop))
-      );
+    const raycaster = new THREE.Raycaster();
+    this.context.inputManager.addMouseInput(
+      this.context.frame3D.rootWebGL,
+      'dblclick',
+      (event) => {
+        if (event.button != 0) return;
+        const mouse = new THREE.Vector2(
+          -1 +
+            (2 * event.offsetX) /
+              (this.context.frame3D.rootWebGL.clientWidth -
+                parseInt(this.context.frame3D.rootWebGL.offsetLeft)),
+          1 -
+            (2 * event.offsetY) /
+              (this.context.frame3D.rootWebGL.clientHeight -
+                parseInt(this.context.frame3D.rootWebGL.offsetTop))
+        );
 
-      raycaster.setFromCamera(mouse, gV.getCamera());
+        raycaster.setFromCamera(mouse, this.context.frame3D.camera);
 
-      const i = raycaster.intersectObject(_this.imagePlane);
-      if (i.length) {
-        //image clicked
-        _this.displayPopup(true);
-        go.computeRoot().traverse(function (g) {
-          if (g == go) return false;
-          const ls = g.fetchLocalScripts();
-          if (ls && ls['image']) {
-            ls['image'].displayPopup(false, false); //do not play sound when close and another one is open
-          }
-        });
-      } else {
-        _this.displayPopup(false);
+        const i = raycaster.intersectObject(this.imagePlane);
+        if (i.length) {
+          //image clicked
+          this.displayPopup(true);
+
+          this.context.object3D.traverse((child) => {
+            if (!child.isImage) return;
+            const externalCompChild = child.getComponent(
+              Game.Component.ExternalScript.TYPE
+            );
+            externalCompChild
+              .getController()
+              .getScripts()
+              ['Image'].displayPopup(false, false); //do not play sound when close and another one is open
+          });
+        } else {
+          this.displayPopup(false);
+        }
       }
-    });
+    );
 
-    manager.addKeyInput('Escape', 'keyup', function () {
-      _this.displayPopup(false);
+    this.context.inputManager.addKeyInput('Escape', 'keyup', () => {
+      this.displayPopup(false);
     });
   }
 
   createCanvasDrawed(img, ratioX = null, ratioY = null) {
-    const lat = this.conf.gpsCoord.lat || 0;
-    const lng = this.conf.gpsCoord.lng || 0;
-
-    const ImuvConstants = this.gV.getLocalScriptModules()['ImuvConstants'];
+    const lat = this.variables.gpsCoord.lat || 0;
+    const lng = this.variables.gpsCoord.lng || 0;
 
     ratioX =
       ratioX ||
-      (lng - ImuvConstants.CITY_MAP.LEFT) /
-        (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT);
+      (lng - Constant.CITY_MAP.LEFT) /
+        (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
     ratioY =
       ratioY ||
       1 -
-        (lat - ImuvConstants.CITY_MAP.BOTTOM) /
-          (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM);
+        (lat - Constant.CITY_MAP.BOTTOM) /
+          (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM);
 
     const canvas = document.createElement('canvas');
     canvas.width = img.naturalWidth;
@@ -242,14 +235,12 @@ export class Image {
   }
 
   ratioToCoordinates(ratioX, ratioY) {
-    const ImuvConstants = this.gV.getLocalScriptModules()['ImuvConstants'];
-
     const lng =
-      ImuvConstants.CITY_MAP.LEFT +
-      ratioX * (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT);
+      Constant.CITY_MAP.LEFT +
+      ratioX * (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
     const lat =
-      ImuvConstants.CITY_MAP.BOTTOM +
-      ratioY * (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM);
+      Constant.CITY_MAP.BOTTOM +
+      ratioY * (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM);
     return {
       lng: lng,
       lat: lat,
@@ -257,10 +248,7 @@ export class Image {
   }
 
   onOutdated() {
-    const go = arguments[0];
-    console.log('update image', go);
     this.createImagePlane();
-
     this.displayPopup(this.imgMapGPS != null);
   }
 }

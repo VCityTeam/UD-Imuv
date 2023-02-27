@@ -1,6 +1,6 @@
 {
   "gameObject": {
-    "name": "GameManager",
+    "name": "Room_Expo",
     "type": "GameObject",
     "static": true,
     "outdated": false,
@@ -10,9 +10,10 @@
     "components": {
       "WorldScript": {
         "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
-        "idScripts": ["worldGameManager"],
+        "idScripts": ["Spawner", "NativeCommandManager"],
         "conf": {
-          "mapUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+          "speedTranslate": 0.006,
+          "cityAvatarAllow": false,
           "spawnTransform": {
             "position": [12, 0, 0],
             "rotation": [0.14, 0, 1.57],
@@ -49,9 +50,7 @@
             "idScripts": ["map"],
             "conf": {
               "heightmap_path": "./assets/img/uploaded/1696D689-C5BF-400E-904E-91AFF723155A.jpeg",
-              "heightmap_geometry": { "max": 10, "min": -2, "size": 63 },
-              "cityAvatarAllow": false,
-              "avatarSpeedMove": 0.006
+              "heightmap_geometry": { "max": 10, "min": -2, "size": 63 }
             },
             "type": "WorldScript"
           },
