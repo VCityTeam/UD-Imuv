@@ -24,6 +24,15 @@ export class LocalInteractions extends ExternalGame.ScriptBase {
   }
 
   tick() {
+    // console.log('enter', this.variables.avatarsOnEnter);
+    // console.log('colliding', this.variables.avatarsColliding);
+    // console.log('leave', this.variables.avatarsOnLeave);
+
+    // const model = this.object3D.getComponent('ExternalScript').getModel();
+    // console.log('m enter', model.variables.avatarsOnEnter);
+    // console.log('m colliding', model.variables.avatarsColliding);
+    // console.log('m leave', model.variables.avatarsOnLeave);
+
     if (this.tickIsColliding) {
       this.tickIsColliding();
     }
@@ -68,7 +77,6 @@ export class LocalInteractions extends ExternalGame.ScriptBase {
       if (
         this.variables.avatarsOnEnter.includes(this.context.userData.avatarUUID)
       ) {
-        console.log(this.object3D.name, 'on enter');
         if (ls.onEnter) {
           ls.onEnter.call(ls);
         }
@@ -81,7 +89,6 @@ export class LocalInteractions extends ExternalGame.ScriptBase {
           this.context.userData.avatarUUID
         )
       ) {
-        console.log(this.object3D.name, 'colliding');
         if (ls.onColliding) {
           this.tickIsColliding = ls.onColliding.bind(ls);
         }
@@ -91,7 +98,6 @@ export class LocalInteractions extends ExternalGame.ScriptBase {
       if (
         this.variables.avatarsOnLeave.includes(this.context.userData.avatarUUID)
       ) {
-        console.log(this.object3D.name, 'on leave');
         if (ls.onLeave) {
           ls.onLeave.call(ls);
         }
