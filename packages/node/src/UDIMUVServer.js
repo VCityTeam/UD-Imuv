@@ -707,6 +707,22 @@ module.exports = class UDIMUVServer {
                     settings: {},
                   }
                 );
+
+                //register in wrapper avatar uuid
+                const sW = this.gameSocketService.socketWrappers[socket.id];
+                sW.userData.avatarUUID = avatarJSON.uuid;
+              },
+            ],
+            socketDisconnectionCallbacks: [
+              (socket, thread) => {
+                const sW = this.gameSocketService.socketWrappers[socket.id];
+                console.log(sW.userData);
+
+                //remove avatar
+                thread.post(
+                  Game.Thread.EVENT.REMOVE_OBJECT3D,
+                  sW.userData.avatarUUID
+                );
               },
             ],
           }
