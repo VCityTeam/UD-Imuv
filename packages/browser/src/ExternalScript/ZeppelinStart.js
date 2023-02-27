@@ -1,9 +1,9 @@
-export class ZeppelinStart {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
+import { ExternalGame, OrbitControls, THREE } from '@ud-viz/browser';
+import { Command, Game } from '@ud-viz/shared';
 
-    udviz = udvizBundle;
-    Game = udviz.Game;
+export class ZeppelinStart extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.orbitCtrl = null;
 
@@ -18,127 +18,107 @@ export class ZeppelinStart {
   }
 
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-
     //ADD UI to toolbar
-    const menuZeppelin = new MenuZeppelin();
+    const menuZeppelin = new MenuZeppelin(this);
     this.menuZeppelin = menuZeppelin;
 
-    const scriptUI = localCtx.findExternalScriptWithID('ui');
-    const cameraScript = localCtx.findExternalScriptWithID('camera');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const cameraManager =
+      this.context.findExternalScriptWithID('CameraManager');
     const avatarController =
-      localCtx.findExternalScriptWithID('avatar_controller');
-    const gameView = localCtx.getGameView();
-    const camera = gameView.getCamera();
-    const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
-    const ws = localCtx.getWebSocketService();
-    const rootGO = localCtx.getRootGameObject();
-    this.zeppelinGO = rootGO.findByName('Zeppelin');
+      this.context.findExternalScriptWithID('AvatarController');
+    this.zeppelinGO = null;
+    this.context.object3D.traverse((child) => {
+      if (child.userData.isZeppelin) {
+        this.zeppelinGO = child;
+        return true; // stop propagation
+      }
+      return false; // continue to traverse
+    });
+    if (!this.zeppelinGO) throw new Error('no zeppelin go');
 
-    const avatarGO = rootGO.find(avatarUUID);
-    const localScriptAvatar = avatarGO.getComponent(
-      udviz.Game.LocalScript.TYPE
-    );
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-    const refine = localCtx.findExternalScriptWithID('itowns_refine');
+    const refine = this.context.findExternalScriptWithID('ItownsRefine');
 
     scriptUI.addTool(
       './assets/img/ui/icon_zeppelin.png',
       'Zeppelyon',
       (resolve, reject, onClose) => {
-        if (cameraScript.hasRoutine()) {
+        if (cameraManager.currentMovement) {
           resolve(false); //camera is moving
           return;
         }
 
         //check if city avatar
-        if (avatarGO.findByName('city_avatar')) {
-          resolve(false); //cant zeppelin while city avatar
+        const avatarGO = this.context.object3D.getObjectByProperty(
+          'uuid',
+          this.context.userData.avatarUUID
+        );
+        if (avatarGO.getObjectByProperty('name', 'city_avatar')) {
+          resolve(false); //cant itowns while city avatar
           return;
         }
 
-        const duration = 2000;
-        let currentTime = 0;
-
-        const startPos = camera.position.clone();
-        const startQuat = camera.quaternion.clone();
-
         if (onClose) {
-          cameraScript.addRoutine(
-            new udviz.Game.Components.Routine(
-              function (dt) {
-                cameraScript.focusCamera.setTarget(avatarGO);
-                const t = cameraScript
-                  .getFocusCamera()
-                  .computeTransformTarget(
-                    null,
-                    cameraScript.getDistanceCameraAvatar()
-                  );
+          cameraManager.moveToAvatar().then(() => {
+            this.onCloseCallbackMenu(); //should not ne null
 
-                currentTime += dt;
-                let ratio = currentTime / duration;
-                ratio = Math.min(Math.max(0, ratio), 1);
+            //reset avatar controls
+            avatarController.setAvatarControllerMode(true);
 
-                const p = t.position.lerp(startPos, 1 - ratio);
-                const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-                camera.position.copy(p);
-                camera.quaternion.copy(q);
-
-                camera.updateProjectionMatrix();
-
-                return ratio >= 1;
-              },
-              () => {
-                this.onCloseCallbackMenu(); //should not ne null
-
-                //reset avatar controls
-                avatarController.setAvatarControllerMode(true, localCtx);
-
-                ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
-                  goUUID: avatarGO.getUUID(),
-                  componentUUID: localScriptAvatar.getUUID(),
-                  key: 'visible',
-                  value: true,
-                });
-
-                resolve(true);
-              }
-            )
-          );
+            this.context.sendCommandToGameContext([
+              new Command({
+                type: Game.ScriptTemplate.Constants.COMMAND
+                  .UPDATE_EXTERNALSCRIPT_VARIABLES,
+                data: {
+                  object3DUUID: avatarGO.uuid,
+                  variableName: 'visible',
+                  variableValue: true,
+                },
+              }),
+            ]);
+            resolve(true);
+          });
         } else {
           //remove avatar controls
-          avatarController.setAvatarControllerMode(false, localCtx);
+          avatarController.setAvatarControllerMode(false);
 
           //avatar invisible
-          ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
-            goUUID: avatarGO.getUUID(),
-            componentUUID: localScriptAvatar.getUUID(),
-            key: 'visible',
-            value: false,
-          });
+          this.context.sendCommandToGameContext([
+            new Command({
+              type: Game.ScriptTemplate.Constants.COMMAND
+                .UPDATE_EXTERNALSCRIPT_VARIABLES,
+              data: {
+                object3DUUID: avatarGO.uuid,
+                variableName: 'visible',
+                variableValue: false,
+              },
+            }),
+          ]);
 
           //check locally if there is a different pilot still in game
-          const pilot = rootGO.find(this.conf.pilotUUID);
+          const pilot = this.context.object3D.getObjectByProperty(
+            'uuid',
+            this.variables.pilotUUID
+          );
 
           //update html
-          menuZeppelin.update(localCtx, this.conf);
+          menuZeppelin.update();
 
-          if (pilot && this.conf.pilotUUID != avatarUUID) {
+          if (
+            pilot &&
+            this.variables.pilotUUID != this.context.userData.avatarUUID
+          ) {
             //cant listen to canvas because zIndex is 0 and labelRenderer zIndex is 1
             //cant listen to rootWebGL because the icon cant be clicked cause of the orbit control
             //have to listen the labelRenderer domElement
 
             const elementToListen =
-              gameView.getItownsView().mainLoop.gfxEngine.label2dRenderer
+              this.context.frame3D.itownsView.mainLoop.gfxEngine.label2dRenderer
                 .domElement;
 
             //new orbitctrl
-            this.orbitCtrl = new udviz.OrbitControls(
-              localCtx.getGameView().getCamera(),
+            this.orbitCtrl = new OrbitControls(
+              this.context.frame3D.camera,
               elementToListen
             );
             this.oldPositionZeppelin = null; //reset
@@ -152,36 +132,12 @@ export class ZeppelinStart {
               this.orbitCtrl = null;
             };
           } else {
-            this.claimPiloting(localCtx, go);
+            this.claimPiloting();
           }
 
-          cameraScript.addRoutine(
-            new udviz.Game.Components.Routine(
-              (dt) => {
-                cameraScript.focusCamera.setTarget(this.zeppelinGO);
-                const t = cameraScript.focusCamera.computeTransformTarget(
-                  null,
-                  cameraScript.getDistanceCameraZeppelin()
-                );
-
-                currentTime += dt;
-                const ratio = Math.min(Math.max(0, currentTime / duration), 1);
-
-                const p = t.position.lerp(startPos, 1 - ratio);
-                const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-                camera.position.copy(p);
-                camera.quaternion.copy(q);
-
-                camera.updateProjectionMatrix();
-
-                return ratio >= 1;
-              },
-              () => {
-                resolve(true);
-              }
-            )
-          );
+          cameraManager.moveToZeppelin().then(() => {
+            resolve(true);
+          });
         }
       },
       menuZeppelin
@@ -191,49 +147,22 @@ export class ZeppelinStart {
     //update claimPilotingButton callback
     //should be only necessary here since when init the user cannot claim the piloting
     this.menuZeppelin.setClaimPilotingButtonCallback(() => {
-      const pilot = localCtx.getRootGameObject().find(this.conf.pilotUUID);
+      const pilot = this.context.object3D.getObjectByProperty(
+        'uuid',
+        this.variables.pilotUUID
+      );
       if (!pilot) {
         //no pilot meaning user was passenger and the piot leave
         if (this.orbitCtrl) {
           this.orbitCtrl.dispose();
           this.orbitCtrl = null;
 
-          this.claimPiloting(localCtx, go);
+          this.claimPiloting();
 
           //routine
-          const cameraScript = localCtx.findExternalScriptWithID('camera');
-          const camera = localCtx.getGameView().getCamera();
-          const duration = 2000;
-          let currentTime = 0;
-
-          const startPos = camera.position.clone();
-          const startQuat = camera.quaternion.clone();
-
-          cameraScript.addRoutine(
-            new udviz.Game.Components.Routine(
-              (dt) => {
-                cameraScript.focusCamera.setTarget(this.zeppelinGO);
-                const t = cameraScript.focusCamera.computeTransformTarget(
-                  null,
-                  cameraScript.getDistanceCameraZeppelin()
-                );
-
-                currentTime += dt;
-                const ratio = Math.min(Math.max(0, currentTime / duration), 1);
-
-                const p = t.position.lerp(startPos, 1 - ratio);
-                const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-                camera.position.copy(p);
-                camera.quaternion.copy(q);
-
-                camera.updateProjectionMatrix();
-
-                return ratio >= 1;
-              },
-              () => {}
-            )
-          );
+          const cameraManager =
+            this.context.findExternalScriptWithID('CameraManager');
+          cameraManager.moveToZeppelin();
         } else {
           console.warn('There was not orbit control ???');
         }
@@ -241,66 +170,60 @@ export class ZeppelinStart {
     });
   }
 
-  claimPiloting(localCtx, go) {
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-    const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
-    const ws = localCtx.getWebSocketService();
-    const zeppelinController = localCtx.findExternalScriptWithID(
-      'zeppelin_controller'
-    );
+  claimPiloting() {
+    const zeppelinController =
+      this.context.findExternalScriptWithID('ZeppelinController');
 
     if (!zeppelinController) throw new Error('no zeppelin controller script');
 
-    const zeppelinSetted = zeppelinController.setZeppelinControllerMode(
-      true,
-      localCtx
-    );
+    const zeppelinSetted = zeppelinController.setZeppelinControllerMode(true);
 
     if (!zeppelinSetted) throw 'zeppelin controller not set';
 
-    //scope variables need to edit conf server side
-    const goUUID = go.getUUID();
-    const ls = go.getComponent(udviz.Game.LocalScript.TYPE);
-
     //edit server side
-    ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
-      goUUID: goUUID,
-      componentUUID: ls.getUUID(),
-      key: 'pilotUUID',
-      value: avatarUUID,
-    });
+    this.context.sendCommandToGameContext([
+      new Command({
+        type: Game.ScriptTemplate.Constants.COMMAND
+          .UPDATE_EXTERNALSCRIPT_VARIABLES,
+        data: {
+          object3DUUID: this.object3D.uuid,
+          variableName: 'pilotUUID',
+          variableValue: this.context.userData.avatarUUID,
+        },
+      }),
+    ]);
 
     this.onCloseCallbackMenu = () => {
       //remove zeppelin controls
-      zeppelinController.setZeppelinControllerMode(false, localCtx);
+      zeppelinController.setZeppelinControllerMode(false);
 
       //edit server side to remove pilot
-      ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT, {
-        goUUID: goUUID,
-        componentUUID: ls.getUUID(),
-        key: 'pilotUUID',
-        value: null,
-      });
+      this.context.sendCommandToGameContext([
+        new Command({
+          type: Game.ScriptTemplate.Constants.COMMAND
+            .UPDATE_EXTERNALSCRIPT_VARIABLES,
+          data: {
+            object3DUUID: this.object3D.uuid,
+            variableName: 'pilotUUID',
+            variableValue: null,
+          },
+        }),
+      ]);
     };
   }
 
   onOutdated() {
     //update ui
-    this.menuZeppelin.update(arguments[1], this.conf);
+    this.menuZeppelin.update();
   }
 
   tick() {
-    const localCtx = arguments[1];
-
     if (this.orbitCtrl) {
-      const obj = this.zeppelinGO.getObject3D();
-      const position = new Game.THREE.Vector3();
-      obj.matrixWorld.decompose(
+      const position = new THREE.Vector3();
+      this.zeppelinGO.matrixWorld.decompose(
         position,
-        new Game.THREE.Quaternion(),
-        new Game.THREE.Vector3()
+        new THREE.Quaternion(),
+        new THREE.Vector3()
       );
 
       //add to target of orbit ctrl
@@ -309,9 +232,10 @@ export class ZeppelinStart {
 
       //move relatively camera
       if (this.oldPositionZeppelin) {
-        const camera = localCtx.getGameView().getCamera();
-        camera.position.add(position.clone().sub(this.oldPositionZeppelin));
-        camera.updateProjectionMatrix();
+        this.context.frame3D.camera.position.add(
+          position.clone().sub(this.oldPositionZeppelin)
+        );
+        this.context.frame3D.camera.updateProjectionMatrix();
       }
       this.oldPositionZeppelin = position;
     }
@@ -319,7 +243,10 @@ export class ZeppelinStart {
 }
 
 class MenuZeppelin {
-  constructor() {
+  constructor(zeppelinStart) {
+    /** @type {ZeppelinStart} */
+    this.zeppelinStart = zeppelinStart;
+
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('contextual_menu');
 
@@ -332,17 +259,25 @@ class MenuZeppelin {
     this.claimPilotingButton.onclick = f;
   }
 
-  update(localCtx, conf) {
+  update() {
     if (this.isClosing) return; //TODO WAIT REFACTO TO MAKE A GENERIC ISCLOSING FLAG ON CONTEXTUAL MENU
 
-    const pilot = localCtx.getRootGameObject().find(conf.pilotUUID);
+    const pilot = this.zeppelinStart.context.object3D.getObjectByProperty(
+      'uuid',
+      this.zeppelinStart.variables.pilotUUID
+    );
 
     if (pilot) {
-      const avatarUUID = localCtx.getGameView().getUserData('avatarUUID');
-      if (conf.pilotUUID == avatarUUID) {
+      if (
+        this.zeppelinStart.variables.pilotUUID ==
+        this.zeppelinStart.context.userData.avatarUUID
+      ) {
         this.rootHtml.innerHTML = 'Vous pilotez le Zeppelyon';
       } else {
-        const namePilot = pilot.getComponent(Game.LocalScript.TYPE).conf.name;
+        const namePilot = pilot
+          .getComponent(Game.Component.ExternalScript.TYPE)
+          .getModel()
+          .getVariables().name;
         this.rootHtml.innerHTML = namePilot + ' est le pilote';
       }
 

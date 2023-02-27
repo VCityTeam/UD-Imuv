@@ -1,18 +1,22 @@
+import { ExternalGame, THREE, THREEUtil } from '@ud-viz/browser';
+import { Constant } from '@ud-imuv/shared';
+import { Command, Game } from '@ud-viz/shared';
+import { AnimatedText } from './Component/AnimatedText/AnimatedText';
+
 const MINI_MAP_SIZE = 500;
 const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
 
-export class MiniMap {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
+export class MiniMap extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
-    if (!this.conf.mini_map_size) console.error('no mini map size in conf');
-
-    udviz = udvizBundle;
+    if (!this.variables.mini_map_size)
+      console.error('no mini map size in conf');
 
     this.backgroundImage = document.createElement('img');
 
-    this.renderer = new udviz.THREE.WebGLRenderer({
+    this.renderer = new THREE.WebGLRenderer({
       canvas: document.createElement('canvas'),
       antialias: true,
       alpha: true,
@@ -44,8 +48,6 @@ export class MiniMap {
     //ping
     this.pings = [];
 
-    this.mapClickMode = null;
-
     //info div
     this.infoDivs = [];
   }
@@ -73,11 +75,11 @@ export class MiniMap {
   setClickMode(mode) {
     this.clickMode = mode;
 
-    if (mode == this.mapClickMode.DEFAULT) {
+    if (mode == Constant.MAP_CLICK_MODE.DEFAULT) {
       this.setCursorPointer(false);
-    } else if (mode == this.mapClickMode.PING) {
+    } else if (mode == Constant.MAP_CLICK_MODE.PING) {
       this.setCursorPointer(true);
-    } else if (mode == this.mapClickMode.TELEPORT) {
+    } else if (mode == Constant.MAP_CLICK_MODE.TELEPORT) {
       this.setCursorPointer(true);
     }
   }
@@ -87,27 +89,13 @@ export class MiniMap {
    * mini map
    */
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-
-    const gameView = localCtx.getGameView();
-
-    //init constants
-    this.mapClickMode =
-      gameView.getLocalScriptModules()['ImuvConstants'].MAP_CLICK_MODE;
-    this.setClickMode(this.mapClickMode.DEFAULT);
+    this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
 
     this.createDivInfos();
 
-    this.createPortalIcons(localCtx, go);
+    this.createPortalIcons();
 
-    const _this = this;
-    const userID = gameView.getUserData('userID');
-    const conf = this.conf;
-    const Command = udviz.Game.Command;
-    const ImuvConstants = gameView.getLocalScriptModules()['ImuvConstants'];
-
-    this.canvasMiniMap.onclick = function (event) {
+    this.canvasMiniMap.onclick = (event) => {
       const x = event.pageX;
       const y = event.pageY;
 
@@ -115,129 +103,111 @@ export class MiniMap {
       const ratioX = (x - rect.left) / (rect.right - rect.left);
       const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
 
-      const teleportPosition = new udviz.THREE.Vector3(
-        (ratioX - 0.5) * conf.mini_map_size,
-        (ratioY - 0.5) * conf.mini_map_size,
-        0
-      );
-
       //check mode
-      if (_this.clickMode === _this.mapClickMode.TELEPORT) {
-        _this.setClickMode(_this.mapClickMode.DEFAULT);
-
-        const command = new Command({
-          type: Command.TYPE.TELEPORT,
-          data: {
-            mousePosition: { x: x, y: y },
-            position: teleportPosition,
-            avatarUUID: gameView.getUserData('avatarUUID'),
-          },
-          userID: userID,
-          gameObjectUUID: go.getUUID(),
-        });
-
-        localCtx
-          .getWebSocketService()
-          .emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [command.toJSON()]);
-      } else if (_this.clickMode === _this.mapClickMode.PING) {
-        _this.setClickMode(_this.mapClickMode.DEFAULT);
-
-        const avatarGO = localCtx
-          .getRootGameObject()
-          .find(gameView.getUserData('avatarUUID'));
-
-        const command = new Command({
-          type: Command.TYPE.PING_MINI_MAP,
-          data: {
-            mousePosition: {
-              x: ratioX * MINI_MAP_SIZE,
-              y: MINI_MAP_SIZE - ratioY * MINI_MAP_SIZE,
+      if (this.clickMode === Constant.MAP_CLICK_MODE.TELEPORT) {
+        const teleportPosition = new THREE.Vector3(
+          (ratioX - 0.5) * this.variables.mini_map_size,
+          (ratioY - 0.5) * this.variables.mini_map_size,
+          0
+        );
+        this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+        this.context.sendCommandToGameContext([
+          new Command({
+            type: Constant.COMMAND.TELEPORT,
+            data: {
+              object3DUUID: this.object3D.uuid,
+              mousePosition: { x: x, y: y },
+              position: teleportPosition,
+              avatarUUID: this.context.userData.avatarUUID,
             },
-            color: _this.fetchAvatarColor(avatarGO),
-          },
-          userID: userID,
-          gameObjectUUID: go.getUUID(),
-        });
-
-        localCtx
-          .getWebSocketService()
-          .emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [command.toJSON()]);
+          }),
+        ]);
+      } else if (this.clickMode === Constant.MAP_CLICK_MODE.PING) {
+        this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+        this.context.sendCommandToGameContext([
+          new Command({
+            type: Constant.COMMAND.PING,
+            data: {
+              object3DUUID: this.object3D.uuid,
+              mousePosition: {
+                x: ratioX * MINI_MAP_SIZE,
+                y: MINI_MAP_SIZE - ratioY * MINI_MAP_SIZE,
+              },
+              color: this.fetchAvatarColor(
+                this.context.object3D.getObjectByProperty(
+                  'uuid',
+                  this.context.userData.avatarUUID
+                )
+              ),
+            },
+          }),
+        ]);
       }
     };
   }
 
-  createPortalIcons(localCtx, go) {
+  createPortalIcons() {
     /* Finding the position of the portals and adding them to the array. */
 
-    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
+    const pixelSize = this.variables.mini_map_size / MINI_MAP_SIZE;
 
-    go.computeRoot().traverse((child) => {
-      const lS = child.fetchLocalScripts();
-      if (lS && lS['portal_sweep']) {
-        //check if intersecting a dropdown menu (portalIcons)
+    this.context.object3D.traverse((child) => {
+      if (!child.isPortal) return;
 
-        //position
-        const portalPosition = new udviz.THREE.Vector2(
-          100 * (0.5 + child.getPosition().x / (pixelSize * MINI_MAP_SIZE)),
-          100 * (0.5 - child.getPosition().y / (pixelSize * MINI_MAP_SIZE))
-        );
+      //check if intersecting a dropdown menu (portalIcons)
 
-        //callback
-        const callbackPortal = (event) => {
-          const x = event.pageX;
-          const y = event.pageY;
+      //position
+      const portalPosition = new THREE.Vector2(
+        100 * (0.5 + child.getPosition().x / (pixelSize * MINI_MAP_SIZE)),
+        100 * (0.5 - child.getPosition().y / (pixelSize * MINI_MAP_SIZE))
+      );
 
-          const command = new udviz.Game.Command({
-            type: udviz.Game.Command.TYPE.TELEPORT,
+      //callback
+      const callbackPortal = (event) => {
+        const x = event.pageX;
+        const y = event.pageY;
+
+        this.context.sendCommandToGameContext([
+          new Command({
+            type: Constant.COMMAND.TELEPORT,
             data: {
-              mousePosition: { x: x, y: y },
-              position: child.getPosition(),
-              avatarUUID: localCtx.getGameView().getUserData('avatarUUID'),
+              object3DUUID: this.object3D.uuid,
+              mousePosition: { x: x, y: y }, // should be useless since portal have to be in map
+              position: child.position,
+              avatarUUID: this.context.userData.avatarUUID,
             },
-            userID: localCtx.getGameView().getUserData('userID'),
-            gameObjectUUID: go.getUUID(),
-          });
+          }),
+        ]);
+      };
 
-          localCtx
-            .getWebSocketService()
-            .emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [
-              command.toJSON(),
-            ]);
-        };
+      let intersectPortalIcons = false;
+      const intersectionDist = (100 * 20) / MINI_MAP_SIZE; //TODO pick in css of map_UI could be compute procedurally
 
-        let intersectPortalIcons = false;
-        const intersectionDist = (100 * 20) / MINI_MAP_SIZE; //TODO pick in css of map_UI could be compute procedurally
+      for (let index = 0; index < this.portalIcons.length; index++) {
+        const portalIcon = this.portalIcons[index];
+        const menuPosition = portalIcon.fetchPosition();
 
-        for (let index = 0; index < this.portalIcons.length; index++) {
-          const portalIcon = this.portalIcons[index];
-          const menuPosition = portalIcon.fetchPosition();
+        if (menuPosition.distanceTo(portalPosition) < intersectionDist) {
+          intersectPortalIcons = true;
 
-          if (menuPosition.distanceTo(portalPosition) < intersectionDist) {
-            intersectPortalIcons = true;
+          //modify menu position TODO this is not the good way because only work well for two item in the list
+          const newPosition = menuPosition.lerp(portalPosition, 0.5);
+          portalIcon.setPosition(newPosition);
 
-            //modify menu position TODO this is not the good way because only work well for two item in the list
-            const newPosition = menuPosition.lerp(portalPosition, 0.5);
-            portalIcon.setPosition(newPosition);
+          //add item in the list
+          portalIcon.addItem(child.name, callbackPortal);
 
-            //add item in the list
-            portalIcon.addItem(child.getName(), callbackPortal);
-
-            break;
-          }
+          break;
         }
+      }
 
-        if (!intersectPortalIcons) {
-          //create a portal icon
-          const portalIcon = new DropDownMenu();
-          portalIcon.setPosition(portalPosition);
-          portalIcon.addItem(child.getName(), callbackPortal);
-
-          this.portalIcons.push(portalIcon);
-          this.rootHtml.appendChild(portalIcon.html());
-        }
+      if (!intersectPortalIcons) {
+        //create a portal icon
+        const portalIcon = new DropDownMenu();
+        portalIcon.setPosition(portalPosition);
+        portalIcon.addItem(child.name, callbackPortal);
+        this.portalIcons.push(portalIcon);
+        this.rootHtml.appendChild(portalIcon.html());
       }
     });
     this.orderPortalIconsZIndex();
@@ -330,33 +300,23 @@ export class MiniMap {
     }
   }
 
-  onNewGameObject() {
-    const newGO = arguments[2];
-
+  onNewGameObject(newGO) {
     if (newGO.isStatic()) {
-      const scene = new udviz.THREE.Scene();
-      const utils = udviz.Components.THREEUtils;
-      utils.addLights(scene);
+      const scene = new THREE.Scene();
 
-      newGO.computeRoot().traverse(function (g) {
-        if (g.isStatic()) {
-          const r = g.getComponent(udviz.Game.Render.TYPE);
+      THREEUtil.addLights(scene);
+
+      this.context.object3D.traverse((g) => {
+        if (g.isGameObject && g.isStatic()) {
+          const r = g.getComponent(Game.Component.Render.TYPE);
           if (r) {
-            const clone = r.getObject3D().clone();
+            const clone = r.getController().getObject3D().clone();
 
-            const wT = g.computeWorldTransform();
-
-            clone.position.x = wT.position.x;
-            clone.position.y = wT.position.y;
-            clone.position.z = wT.position.z;
-
-            clone.rotation.x = wT.rotation.x;
-            clone.rotation.y = wT.rotation.y;
-            clone.rotation.z = wT.rotation.z;
-
-            clone.scale.x = wT.scale.x;
-            clone.scale.y = wT.scale.y;
-            clone.scale.z = wT.scale.z;
+            r.getController().object3D.matrixWorld.decompose(
+              clone.position,
+              clone.quaternion,
+              clone.scale
+            );
 
             clone.updateMatrixWorld();
             scene.add(clone);
@@ -366,8 +326,8 @@ export class MiniMap {
 
       scene.updateMatrixWorld();
 
-      const halfSize = this.conf.mini_map_size * 0.5;
-      const camera = new udviz.THREE.OrthographicCamera(
+      const halfSize = this.variables.mini_map_size * 0.5;
+      const camera = new THREE.OrthographicCamera(
         -halfSize,
         halfSize,
         halfSize,
@@ -380,9 +340,8 @@ export class MiniMap {
 
       /* Rendering the scene to a background image. */
       this.renderer.render(scene, camera);
-      const _this = this;
-      this.backgroundImage.onload = function () {
-        _this.defaultCanvas = _this.createDefaultCanvas();
+      this.backgroundImage.onload = () => {
+        this.defaultCanvas = this.createDefaultCanvas();
       };
       this.backgroundImage.src = this.renderer.domElement.toDataURL();
     }
@@ -430,14 +389,17 @@ export class MiniMap {
   }
 
   fetchAvatarColor(avatarGO) {
-    const avatarColor = avatarGO.getComponent('Render').color;
+    const avatarColor = avatarGO
+      .getComponent(Game.Component.Render.TYPE)
+      .getModel()
+      .getColor();
     return (
       'rgb(' +
-      avatarColor.r * 255 +
+      avatarColor[0] * 255 +
       ',' +
-      avatarColor.g * 255 +
+      avatarColor[1] * 255 +
       ',' +
-      avatarColor.b * 255 +
+      avatarColor[2] * 255 +
       ')'
     );
   }
@@ -447,10 +409,6 @@ export class MiniMap {
    * @returns A function that takes in two arguments, go and localCtx.
    */
   tick() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-    const _this = this;
-
     if (!this.defaultCanvas || !this.displayMap) return;
     //write
     const destCtx = this.canvasMiniMap.getContext('2d');
@@ -462,25 +420,23 @@ export class MiniMap {
     );
     destCtx.drawImage(this.defaultCanvas, 0, 0);
 
-    this.currentDT += localCtx.getDt() * 0.002;
+    this.currentDT += this.context.dt * 0.002;
 
     const userAvatarSize =
       AVATAR_SIZE_MIN +
       (AVATAR_SIZE_MAX - AVATAR_SIZE_MIN) * Math.abs(Math.cos(this.currentDT));
 
     //draw avatars
-    const pixelSize = this.conf.mini_map_size / MINI_MAP_SIZE;
-    const drawAvatar = function (avatarGO, size) {
-      const avatarPos = avatarGO.getPosition();
-
+    const pixelSize = this.variables.mini_map_size / MINI_MAP_SIZE;
+    const drawAvatar = (avatarGO, size) => {
       const c = {
-        x: MINI_MAP_SIZE * 0.5 + avatarPos.x / pixelSize,
-        y: MINI_MAP_SIZE * 0.5 - avatarPos.y / pixelSize,
+        x: MINI_MAP_SIZE * 0.5 + avatarGO.position.x / pixelSize,
+        y: MINI_MAP_SIZE * 0.5 - avatarGO.position.y / pixelSize,
       };
       /* Drawing the avatar on the mini map. Set its color thanks to the render color */
-      destCtx.fillStyle = _this.fetchAvatarColor(avatarGO);
+      destCtx.fillStyle = this.fetchAvatarColor(avatarGO);
 
-      const rotation = -avatarGO.getRotation().z - Math.PI;
+      const rotation = -avatarGO.rotation.z - Math.PI;
       const cos = Math.cos(rotation);
       const sin = Math.sin(rotation);
 
@@ -511,12 +467,10 @@ export class MiniMap {
       destCtx.fill();
     };
 
-    go.computeRoot().traverse(function (child) {
+    this.context.object3D.traverse((child) => {
       //retrieve avatar base on their name maybe it should be another way
-      if (child.getName() === 'avatar') {
-        if (
-          child.getUUID() === localCtx.getGameView().getUserData('avatarUUID')
-        ) {
+      if (child.userData.isAvatar) {
+        if (child.uuid === this.context.userData.avatarUUID) {
           drawAvatar(child, userAvatarSize);
         } else {
           drawAvatar(child, AVATAR_SIZE_MIN);
@@ -527,7 +481,7 @@ export class MiniMap {
     //draw pings
     for (let i = this.pings.length - 1; i >= 0; i--) {
       const ping = this.pings[i];
-      if (ping.draw(destCtx, localCtx.getDt())) {
+      if (ping.draw(destCtx, this.context.dt)) {
         //end remove it
         this.pings.splice(i, 1);
       }
@@ -548,10 +502,8 @@ export class MiniMap {
    * teleport here" at the mouse position
    */
   onOutdated() {
-    const gameView = arguments[1].getGameView();
-    const AnimatedText = gameView.getLocalScriptModules()['AnimatedText'];
-    this.conf.mini_map_no_teleport.forEach(function (data) {
-      if (data.avatarUUID == gameView.getUserData('avatarUUID')) {
+    this.variables.mini_map_no_teleport.forEach((data) => {
+      if (data.avatarUUID == this.context.userData.avatarUUID) {
         const a = new AnimatedText({
           text: "You can't teleport here",
           color: 'red',
@@ -560,13 +512,12 @@ export class MiniMap {
       }
     });
 
-    const _this = this;
-    this.conf.mini_map_ping.forEach(function (data) {
+    this.variables.mini_map_ping.forEach((data) => {
       const ping = new Ping({
         position: data.mousePosition,
         color: data.color,
       });
-      _this.pings.push(ping);
+      this.pings.push(ping);
     });
   }
 }
@@ -623,7 +574,7 @@ class DropDownMenu {
   }
 
   fetchPosition() {
-    return new udviz.THREE.Vector2(
+    return new THREE.Vector2(
       parseFloat(this.rootHtml.style.left),
       parseFloat(this.rootHtml.style.top)
     );

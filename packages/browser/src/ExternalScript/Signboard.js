@@ -1,9 +1,10 @@
-export class Signboard {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
-    THREE = Game.THREE;
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
+
+export class Signboard extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
+
     this.defaultMaterial = new THREE.MeshLambertMaterial({
       color: 0x00ff00,
     });
@@ -17,13 +18,11 @@ export class Signboard {
   }
 
   init() {
-    const go = arguments[0];
-
-    this.renderPlane = go.getComponent(Game.Render.TYPE);
-    const renderFrame = go.children[0].getComponent(Game.Render.TYPE);
-    if (renderFrame) {
-      this.renderFrame = go.children[0].getComponent(Game.Render.TYPE);
-    } else {
+    this.renderPlane = this.object3D.getComponent(Game.Component.Render.TYPE);
+    this.renderFrame = this.object3D.children[0].getComponent(
+      Game.Component.Render.TYPE
+    );
+    if (!this.renderFrame) {
       console.error(
         'No render component found for the first child of the game object'
       );
@@ -49,23 +48,22 @@ export class Signboard {
 
     const imageURL = bDefaultUrl
       ? this.defaultImageURL
-      : this.conf.imageURL || this.defaultImageURL;
-    this.sizeFactor = this.conf.sizeFactor || 1;
+      : this.variables.imageURL || this.defaultImageURL;
+    this.sizeFactor = this.variables.sizeFactor || 1;
 
-    const _this = this;
     /* Loading the image from the url and then using the image to create the signboard. */
-    new THREE.TextureLoader().load(imageURL, function (texture) {
+    new THREE.TextureLoader().load(imageURL, (texture) => {
       const heightImage = texture.image.height;
       const widthImage = texture.image.width;
-      const sF = _this.sizeFactor;
+      const sF = this.sizeFactor;
 
       const h = heightImage > widthImage ? sF : (heightImage / widthImage) * sF;
       const w = widthImage > heightImage ? sF : (widthImage / heightImage) * sF;
 
-      _this.planeFrontBuilded = _this.buildPlaneFront(texture, h, w);
-      _this.renderPlane.addObject3D(_this.planeFrontBuilded);
-      _this.frameBuilded = _this.buildSignboardFrame(h, w);
-      _this.renderFrame.addObject3D(_this.frameBuilded);
+      this.planeFrontBuilded = this.buildPlaneFront(texture, h, w);
+      this.renderPlane.getController().addObject3D(this.planeFrontBuilded);
+      this.frameBuilded = this.buildSignboardFrame(h, w);
+      this.renderFrame.getController().addObject3D(this.frameBuilded);
     });
   }
 

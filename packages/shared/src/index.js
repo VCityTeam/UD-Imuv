@@ -1,5 +1,10 @@
 module.exports = {
   Constant: {
+    // specific imuv command
+    COMMAND: {
+      TELEPORT: 'teleport',
+      PING: 'ping',
+    },
     //imuv url event
     URL_PARAMETER: {
       ID_KEY: 'url_parameter_event_id_key',

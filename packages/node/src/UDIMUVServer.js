@@ -718,7 +718,7 @@ module.exports = class UDIMUVServer {
 
         //patch
         const indexWorldsJSON = {
-          '7027C0BF-BC84-48B6-BCFD-FA97DAE8874C': 'Room_Conf.json',
+          '6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF': 'Flying_Campus.json',
         };
 
         const gameObjects3D = [];
@@ -753,6 +753,7 @@ const moulinetteWorldJSON = (oldJSON) => {
     newGOJSON.name = goJSON.name;
     newGOJSON.uuid = goJSON.uuid;
     newGOJSON.static = goJSON.static;
+    newGOJSON.userData = goJSON.userData;
     newGOJSON.forceToJSONComponent = goJSON.forceSerializeComponents;
     newGOJSON.gameContextUpdate = !goJSON.noLocalUpdate;
 
@@ -808,6 +809,11 @@ const moulinetteWorldJSON = (oldJSON) => {
       if (newIds.includes('Image')) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isImage = true;
+      }
+
+      if (newIds.includes('Portal')) {
+        if (!newGOJSON.userData) newGOJSON.userData = {};
+        newGOJSON.userData.isPortal = true;
       }
     }
 

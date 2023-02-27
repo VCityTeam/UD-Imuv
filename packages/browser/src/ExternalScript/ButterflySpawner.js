@@ -1,23 +1,18 @@
-export class ButterflySpawner {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
-    THREE = Game.THREE;
-  }
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
 
+export class ButterflySpawner extends ExternalGame.ScriptBase {
   init() {
-    this.go = arguments[0];
-    if (!this.go) return;
     this.triggerAnimate = false;
     this.particleGroup = null;
+    this.clock = null;
 
     //TODO in UserData add attribute "editorMode" ?
-    const render = this.go.getComponent(Game.Render.TYPE);
-    const editorMode = arguments[1].getGameView().getUserData('editorMode');
+    const render = this.object3D.getComponent(Game.Component.Render.TYPE);
+    const editorMode = this.context.userData.editorMode;
 
     if (editorMode === false) {
-      const renderGO = render.getObject3D();
+      const renderGO = render.getController().getObject3D();
       renderGO.traverse(function (c) {
         if (c.material) {
           c.removeFromParent();
@@ -74,7 +69,7 @@ export class ButterflySpawner {
       material2: function () {
         return new THREE.SpriteMaterial({
           map: new THREE.TextureLoader().load(
-            './assets/img/butterflySprite2.png'
+            './assets/img/butterflySprite2.png' // should be in variables TODO
           ),
           color: 0xffffff,
         });
@@ -95,16 +90,17 @@ export class ButterflySpawner {
       attributes: butterflyAttributes,
     });
 
-    this.go
-      .getComponent(Game.Render.TYPE)
+    this.object3D
+      .getComponent(Game.Component.Render.TYPE)
+      .getController()
       .addObject3D(this.particleGroup.getObject3D());
     this.triggerAnimate = true;
   }
 
   onOutdated() {
-    if (this.conf.onEnter) {
+    if (this.variables.onEnter) {
+      // shoudl use local interaction pattern TODO
       this.createParticuleGroup();
-    } else {
     }
   }
 }

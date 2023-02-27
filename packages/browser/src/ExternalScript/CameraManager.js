@@ -1,7 +1,8 @@
 import { ExternalScriptTemplate, THREE } from '@ud-viz/browser';
 
 const DISTANCE_AVATAR = 5;
-const ANGLE_AVATAR = Math.PI / 20;
+const DISTANCE_ZEPPELIN = 40;
+const CAMERA_ANGLE = Math.PI / 20;
 
 export class CameraManager extends ExternalScriptTemplate.CameraManager {
   followAvatar() {
@@ -14,7 +15,26 @@ export class CameraManager extends ExternalScriptTemplate.CameraManager {
       avatarGO,
       DISTANCE_AVATAR,
       new THREE.Vector3(0, 0, bbAvatar.max.z - bbAvatar.min.z),
-      ANGLE_AVATAR
+      CAMERA_ANGLE
+    );
+  }
+
+  moveToZeppelin() {
+    let z = null;
+    this.context.object3D.traverse((child) => {
+      if (child.userData.isZeppelin) {
+        z = child;
+        return true; // stop propagation
+      }
+      return false; // continue to traverse
+    });
+    const bb = new THREE.Box3().setFromObject(z);
+    return this.moveToObject3D(
+      z,
+      2000,
+      DISTANCE_ZEPPELIN,
+      new THREE.Vector3(0, 0, bb.max.z - bb.min.z),
+      CAMERA_ANGLE
     );
   }
 
@@ -29,7 +49,7 @@ export class CameraManager extends ExternalScriptTemplate.CameraManager {
       2000,
       DISTANCE_AVATAR,
       new THREE.Vector3(0, 0, bbAvatar.max.z - bbAvatar.min.z),
-      ANGLE_AVATAR
+      CAMERA_ANGLE
     );
   }
 }

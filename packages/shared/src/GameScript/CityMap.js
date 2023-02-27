@@ -1,55 +1,69 @@
 const { Game } = require('@ud-viz/shared');
+const { Constant } = require('@ud-imuv/shared');
 
 module.exports = class CityMap extends Game.ScriptBase {
   tick() {
-    const gameObject = arguments[0];
-    const worldContext = arguments[1];
-    const cmds = worldContext.getCommands();
     const teleportCmds = [];
     const pingCmds = [];
-    const lsCityMap = gameObject.getComponent(Game.LocalScript.TYPE);
+    const externalScriptCompCityMap = this.object3D.getComponent(
+      Game.Component.ExternalScript.TYPE
+    );
 
     //clear array
-    lsCityMap.conf.city_map_ping.length = 0;
+    externalScriptCompCityMap
+      .getModel()
+      .getVariables().city_map_ping.length = 0;
 
     //teleport
-    for (let i = cmds.length - 1; i >= 0; i--) {
-      const cmd = cmds[i];
+    for (let i = this.context.commands.length - 1; i >= 0; i--) {
+      const cmd = this.context.commands[i];
       if (
-        cmd.getGameObjectUUID() == gameObject.getUUID() &&
-        cmd.getType() == Game.Command.TYPE.TELEPORT
+        cmd.type == Constant.COMMAND.TELEPORT &&
+        cmd.data.object3DUUID == this.object3D.uuid
       ) {
         teleportCmds.push(cmd);
-        cmds.splice(i, 1);
+        this.context.commands.splice(i, 1);
       }
     }
 
     //ping
-    for (let i = cmds.length - 1; i >= 0; i--) {
-      const cmd = cmds[i];
+    for (let i = this.context.commands.length - 1; i >= 0; i--) {
+      const cmd = this.context.commands[i];
       if (
-        cmd.getGameObjectUUID() == gameObject.getUUID() &&
-        cmd.getType() == Game.Command.TYPE.PING_MINI_MAP
+        cmd.type == Constant.COMMAND.PING &&
+        cmd.data.object3DUUID == this.object3D.uuid
       ) {
         pingCmds.push(cmd);
-        cmds.splice(i, 1);
+        this.context.commands.splice(i, 1);
       }
     }
 
     teleportCmds.forEach((tpCmd) => {
       const data = tpCmd.getData();
-      const cityAvatarGO = gameObject.computeRoot().find(data.cityAvatarUUID);
-      const oldPos = cityAvatarGO.getPosition();
-      cityAvatarGO.setPosition(
-        new Game.THREE.Vector3(data.position.x, data.position.y, oldPos.z)
+
+      const cityAvatarUUID = data.cityAvatarUUID;
+      const newPosition = data.position;
+
+      const cityAvatar = this.context.object3D.getObjectByProperty(
+        'uuid',
+        cityAvatarUUID
       );
-      cityAvatarGO.setOutdated(true);
+
+      if (!cityAvatar) {
+        console.warn('no cityAvatar with UUID', cityAvatarUUID);
+      }
+
+      cityAvatar.position.copy(newPosition);
+      cityAvatar.setOutdated(true);
     });
 
-    pingCmds.forEach(function (pingCmd) {
+    pingCmds.forEach((pingCmd) => {
       const data = pingCmd.getData();
-      lsCityMap.conf.city_map_ping.push(data);
-      gameObject.setOutdated(true);
+      externalScriptCompCityMap
+        .getModel()
+        .getVariables()
+        .city_map_ping.push(data);
+      this.object3D.setOutdated(true);
     });
   }
 };

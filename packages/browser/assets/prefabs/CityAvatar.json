@@ -1,6 +1,9 @@
 {
   "name": "city_avatar",
   "type": "GameObject",
+  "userData": {
+    "isCityAvatar": true
+  },
   "components": {
     "Render": {
       "type": "Render",
