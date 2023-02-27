@@ -18,7 +18,7 @@ export class LocalInteractions extends ExternalGame.ScriptBase {
     this.externalScripts = Object.values(
       externalComp.getController().getScripts()
     );
-    console.log(this.externalScripts);
+    // console.log(this.externalScripts);
 
     this.initInputs();
   }
