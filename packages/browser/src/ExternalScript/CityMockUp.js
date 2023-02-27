@@ -121,7 +121,7 @@ export class CityMockUp extends ExternalGame.ScriptBase {
             //first time camera in sky
 
             const currentPosition = new THREE.Vector3().copy(
-              this.context.frame3D.camera
+              this.context.frame3D.camera.position
             );
 
             //200 meters up
