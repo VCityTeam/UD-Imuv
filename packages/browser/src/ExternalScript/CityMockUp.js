@@ -541,6 +541,7 @@ export class CityMockUp extends ExternalGame.ScriptBase {
       this.selectedAreaObject.name = 'Selected Area MockUp';
       this.selectedAreaObject.position.lerpVectors(minArea, maxArea, 0.5);
       this.selectedAreaObject.renderOrder = 2; //render after preview of selected area
+      this.selectedAreaObject.updateMatrixWorld();
 
       this.context.frame3D.scene.add(this.selectedAreaObject);
     }
@@ -675,6 +676,7 @@ class MenuCityMockUp {
         //compute scale
         selectAreaObject.scale.x = worldCoordCurrent.x - worldCoordStart.x;
         selectAreaObject.scale.y = worldCoordCurrent.y - worldCoordStart.y;
+        selectAreaObject.updateMatrixWorld();
       };
 
       const dragStart = (event) => {
