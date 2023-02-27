@@ -10,9 +10,10 @@
     "components": {
       "WorldScript": {
         "uuid": "4EEA3596-90B5-48B5-94FC-6E49EA5E2689",
-        "idScripts": ["worldGameManager"],
+        "idScripts": ["Spawner", "NativeCommandManager"],
         "conf": {
-          "mapUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
+          "speedTranslate": 0.006,
+          "cityAvatarAllow": false,
           "spawnTransform": {
             "position": [0, 0, 0],
             "rotation": [0.14, 0, 1.57],
@@ -49,9 +50,7 @@
             "idScripts": ["map"],
             "conf": {
               "heightmap_path": "./assets/img/uploaded/2349A367-8505-47FE-9E88-7ED6242119BA.jpeg",
-              "heightmap_geometry": { "max": 5, "min": -6, "size": 31 },
-              "cityAvatarAllow": false,
-              "avatarSpeedMove": 0.006
+              "heightmap_geometry": { "max": 5, "min": -6, "size": 31 }
             },
             "type": "WorldScript"
           },
