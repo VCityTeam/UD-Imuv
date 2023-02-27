@@ -1,14 +1,10 @@
-export class JitsiScreen {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-  }
+import { ExternalGame, Billboard, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
+import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
+import { Constant } from '@ud-imuv/shared';
 
+export class JitsiScreen extends ExternalGame.ScriptBase {
   init() {
-    const go = arguments[0];
-    const localCtx = arguments[1];
-    const _this = this;
-
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
@@ -23,12 +19,15 @@ export class JitsiScreen {
     }
 
     let name = 'editor';
-    const avatarGO = localCtx
-      .getRootGameObject()
-      .find(localCtx.getGameView().getUserData('avatarUUID'));
+    const avatarGO = this.context.object3D.getObjectByProperty(
+      'uuid',
+      this.context.userData.avatarUUID
+    );
     if (avatarGO) {
-      const lsComp = avatarGO.getComponent(udviz.Game.LocalScript.TYPE);
-      name = lsComp.conf.name;
+      const externalComp = avatarGO.getComponent(
+        Game.Component.ExternalScript.TYPE
+      );
+      name = externalComp.getModel().getVariables().name;
     }
 
     //create iframe
@@ -37,10 +36,10 @@ export class JitsiScreen {
     const size = 200;
 
     const options = {
-      roomName: this.conf.jitsi_room_name,
+      roomName: this.variables.jitsi_room_name,
       parentNode: divJitsi,
-      width: size * go.getScale().x,
-      height: size * go.getScale().y,
+      width: size,
+      height: size,
       lang: 'fr',
       userInfo: {
         displayName: name,
@@ -88,19 +87,25 @@ export class JitsiScreen {
       },
     };
 
-    const JitsiIframeAPI = localCtx.getGameView().getLocalScriptModules()[
-      'JitsiIframeAPI'
-    ];
-    const ImuvConstants = localCtx.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-    const url = new URL(ImuvConstants.JITSI.PUBLIC_URL);
-    const api = new JitsiIframeAPI(url.host + url.pathname, options);
+    const url = new URL(Constant.JITSI.PUBLIC_URL);
+    new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
-    const ref = localCtx.getGameView().getObject3D().position;
-    const worldTransform = go.computeWorldTransform();
-    worldTransform.position.add(ref);
-    const billboard = new udviz.Views.Billboard(divJitsi, worldTransform, size);
-    localCtx.getGameView().appendBillboard(billboard);
+    const positionBillboard = new THREE.Vector3();
+    const quaternionBillboard = new THREE.Quaternion();
+    const scaleBillboard = new THREE.Vector3();
+    this.object3D.matrixWorld.decompose(
+      positionBillboard,
+      quaternionBillboard,
+      scaleBillboard
+    );
+
+    const billboard = new Billboard(
+      divJitsi,
+      positionBillboard,
+      new THREE.Euler().setFromQuaternion(quaternionBillboard),
+      scaleBillboard,
+      size
+    );
+    this.context.frame3D.appendBillboard(billboard);
   }
 }

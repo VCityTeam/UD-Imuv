@@ -718,7 +718,7 @@ module.exports = class UDIMUVServer {
 
         //patch
         const indexWorldsJSON = {
-          '9C632D7E-C466-426F-AC31-8FC74AB11D0D': 'Room_Expo.json',
+          '7027C0BF-BC84-48B6-BCFD-FA97DAE8874C': 'Room_Conf.json',
         };
 
         const gameObjects3D = [];
