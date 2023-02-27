@@ -9,7 +9,6 @@ module.exports = {
   Teleporter: require('./Teleporter'),
   UI: require('./UI'),
   Spawner: require('./Spawner'),
-  Zeppelin: require('./Zeppelin'),
   NativeCommandManager:
     require('@ud-viz/shared').Game.ScriptTemplate.NativeCommandManager,
 };

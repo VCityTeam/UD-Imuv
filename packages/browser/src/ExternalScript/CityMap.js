@@ -1,13 +1,15 @@
+import { ExternalGame, proj4 } from '@ud-viz/browser';
+import { Constant } from '@ud-imuv/shared';
+import { Command } from '@ud-viz/shared';
+
 const CITY_MAP_SIZE = 500;
 const CITY_AVATAR_SIZE_MIN = 15;
 const CITY_AVATAR_SIZE_MAX = 25;
 const CITY_MAP_CMD_ID = 'city_map_cmd_id';
 
-export class CityMap {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
+export class CityMap extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.rootHtml = document.createElement('div');
 
@@ -26,17 +28,14 @@ export class CityMap {
     this.clampX = 0;
     this.clampY = 0;
 
-    const _this = this;
-    this.canvas.onwheel = function (event) {
-      const newZoom = _this.currentZoom - event.wheelDelta * 0.0002;
-      _this.setCurrentZoom(newZoom);
+    this.canvas.onwheel = (event) => {
+      const newZoom = this.currentZoom - event.wheelDelta * 0.0002;
+      this.setCurrentZoom(newZoom);
     };
 
     this.displayMap = false;
 
     this.pings = [];
-
-    this.mapClickMode = null;
   }
 
   /**
@@ -46,11 +45,11 @@ export class CityMap {
   setClickMode(mode) {
     this.clickMode = mode;
 
-    if (mode == this.mapClickMode.DEFAULT) {
+    if (mode == Constant.MAP_CLICK_MODE.DEFAULT) {
       this.setCursorPointer(false);
-    } else if (mode == this.mapClickMode.PING) {
+    } else if (mode == Constant.MAP_CLICK_MODE.PING) {
       this.setCursorPointer(true);
-    } else if (mode == this.mapClickMode.TELEPORT) {
+    } else if (mode == Constant.MAP_CLICK_MODE.TELEPORT) {
       this.setCursorPointer(true);
     }
   }
@@ -64,96 +63,76 @@ export class CityMap {
   }
 
   /**
-   * Map interface
+   * Map interface TODO create an abstract class
    * @returns
    */
   getRootHtml() {
     return this.rootHtml;
   }
 
-  fetchUserCityAvatar(localContext) {
-    //init
-    const avatarGO = localContext
-      .getRootGameObject()
-      .find(localContext.getGameView().getUserData('avatarUUID'));
-    return avatarGO.findByName('city_avatar');
+  fetchUserCityAvatar() {
+    return this.context.object3D
+      .getObjectByProperty('uuid', this.context.userData.avatarUUID)
+      .getObjectByProperty('name', 'city_avatar'); // TODO use isCityAvatar flag in userData
   }
 
   init() {
-    const cityMapGO = arguments[0];
-
-    const localContext = arguments[1];
-    const _this = this;
-    const manager = localContext.getGameView().getInputManager();
-    const gameView = localContext.getGameView();
-    const userID = gameView.getUserData('userID');
-    const ImuvConstants = localContext.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
-
-    this.mapClickMode = ImuvConstants.MAP_CLICK_MODE;
-
     //init src
-    this.imageCityMap.src = ImuvConstants.CITY_MAP.PATH;
+    this.imageCityMap.src = Constant.CITY_MAP.PATH;
 
-    manager.addMouseCommand(CITY_MAP_CMD_ID, 'click', function () {
-      const event = this.event('click');
+    this.context.inputManager.addMouseCommand(
+      CITY_MAP_CMD_ID,
+      'click',
+      (event) => {
+        if (event.target != this.canvas) return null;
+        const x = event.pageX;
+        const y = event.pageY;
 
-      if (event.target != _this.canvas) return null;
-      const x = event.pageX;
-      const y = event.pageY;
+        const rect = event.target.getBoundingClientRect();
+        const ratioX = (x - rect.left) / (rect.right - rect.left);
+        const ratioY = (y - rect.top) / (rect.bottom - rect.top);
 
-      const rect = event.target.getBoundingClientRect();
-      const ratioX = (x - rect.left) / (rect.right - rect.left);
-      const ratioY = (y - rect.top) / (rect.bottom - rect.top);
+        const coord = this.pixelToCoord(ratioX, ratioY);
 
-      const coord = _this.pixelToCoord(ratioX, ratioY, ImuvConstants);
+        const userCityAvatar = this.fetchUserCityAvatar();
 
-      const userCityAvatar = _this.fetchUserCityAvatar(localContext);
+        if (this.clickMode === Constant.MAP_CLICK_MODE.DEFAULT) {
+          //nothing
+          this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+          return null;
+        } else if (this.clickMode === Constant.MAP_CLICK_MODE.TELEPORT) {
+          this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+          return new Command({
+            type: Constant.COMMAND.TELEPORT,
+            data: {
+              object3DUUID: this.object3D.uuid,
+              position: this.coordToLocalPosition(coord),
+              cityAvatarUUID: userCityAvatar.uuid,
+            },
+          });
+        } else if (this.clickMode === Constant.MAP_CLICK_MODE.PING) {
+          this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
 
-      if (_this.clickMode === _this.mapClickMode.DEFAULT) {
-        //nothing
-        _this.setClickMode(_this.mapClickMode.DEFAULT);
-
-        return null;
-      } else if (_this.clickMode === _this.mapClickMode.TELEPORT) {
-        _this.setClickMode(_this.mapClickMode.DEFAULT);
-
-        const position = _this.coordToLocalPosition(coord, localContext);
-
-        return new udviz.Game.Command({
-          type: udviz.Game.Command.TYPE.TELEPORT,
-          data: {
-            position: position,
-            cityAvatarUUID: userCityAvatar.getUUID(),
-          },
-          userID: userID,
-          gameObjectUUID: cityMapGO.getUUID(),
-        });
-      } else if (_this.clickMode === _this.mapClickMode.PING) {
-        _this.setClickMode(_this.mapClickMode.DEFAULT);
-
-        return new udviz.Game.Command({
-          type: udviz.Game.Command.TYPE.PING_MINI_MAP,
-          data: {
-            coord: coord,
-            color: _this.fetchCityAvatarColor(userCityAvatar),
-          },
-          userID: userID,
-          gameObjectUUID: cityMapGO.getUUID(),
-        });
+          return new Command({
+            type: Constant.COMMAND.PING,
+            data: {
+              object3DUUID: this.object3D.uuid,
+              coord: coord,
+              color: this.fetchCityAvatarColor(userCityAvatar),
+            },
+          });
+        }
       }
-    });
+    );
   }
 
   onOutdated() {
-    const _this = this;
-    this.conf.city_map_ping.forEach(function (data) {
+    this.variables.city_map_ping.forEach(function (data) {
       const ping = new Ping({
         coord: data.coord,
         color: data.color,
       });
-      _this.pings.push(ping);
+      this.pings.push(ping);
     });
   }
 
@@ -170,7 +149,7 @@ export class CityMap {
     this.currentZoom = Math.min(1, Math.max(0.02, value));
   }
 
-  pixelToCoord(ratioX, ratioY, ImuvConstants) {
+  pixelToCoord(ratioX, ratioY) {
     const sizeSrc =
       Math.min(this.imageCityMap.width, this.imageCityMap.height) *
       this.currentZoom;
@@ -179,31 +158,29 @@ export class CityMap {
     const pixelSrcY = sizeSrc * ratioY + this.clampY;
 
     const lng =
-      ImuvConstants.CITY_MAP.LEFT +
-      (pixelSrcX *
-        (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT)) /
+      Constant.CITY_MAP.LEFT +
+      (pixelSrcX * (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT)) /
         this.imageCityMap.width;
     const lat =
-      ImuvConstants.CITY_MAP.TOP -
-      (pixelSrcY *
-        (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM)) /
+      Constant.CITY_MAP.TOP -
+      (pixelSrcY * (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM)) /
         this.imageCityMap.height;
 
     return [lng, lat];
   }
 
-  coordToPixel(lng, lat, ImuvConstants) {
+  coordToPixel(lng, lat) {
     const sizeSrc =
       Math.min(this.imageCityMap.width, this.imageCityMap.height) *
       this.currentZoom;
 
     const pixelSrcX =
-      ((lng - ImuvConstants.CITY_MAP.LEFT) * this.imageCityMap.width) /
-      (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT);
+      ((lng - Constant.CITY_MAP.LEFT) * this.imageCityMap.width) /
+      (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
 
     const pixelSrcY =
-      (-(lat - ImuvConstants.CITY_MAP.TOP) * this.imageCityMap.height) /
-      (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM);
+      (-(lat - Constant.CITY_MAP.TOP) * this.imageCityMap.height) /
+      (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM);
 
     const ratioX = (pixelSrcX - this.clampX) / sizeSrc;
     const ratioY = (pixelSrcY - this.clampY) / sizeSrc;
@@ -211,86 +188,80 @@ export class CityMap {
     return [ratioX * CITY_MAP_SIZE, ratioY * CITY_MAP_SIZE];
   }
 
-  coordToLocalPosition(coord, localContext) {
+  coordToLocalPosition(coord) {
     //project
-    const [x, y] = udviz.Game.proj4
-      .default(localContext.getGameView().projection)
+    const [x, y] = proj4
+      .default(this.context.userData.extent.crs)
       .forward(coord);
 
     //compute local
-    const wTParent = this.fetchUserCityAvatar(localContext)
-      .getParent()
-      .computeWorldTransform();
-    const ref = localContext.getGameView().getObject3D().position;
+    const parent = this.fetchUserCityAvatar().parent;
+    const gamePositionParent = new THREE.Vector3();
+    parent.matrixWorld.decompose(gamePositionParent);
+    gamePositionParent.sub(this.context.object3D.position);
+
+    console.log('not sure if well reimplemented');
 
     return {
-      x: x - wTParent.position.x - ref.x,
-      y: y - wTParent.position.y - ref.y,
+      x: x - gamePositionParent.x,
+      y: y - gamePositionParent.y,
     };
   }
 
   tick() {
     if (this.displayMap) {
-      this.drawCityMap(arguments[1]);
+      this.drawCityMap();
     }
   }
 
-  fetchCityAvatarColor(cityAvatarGO) {
-    const avatarColor = cityAvatarGO.getComponent('Render').color;
+  fetchCityAvatarColor(cityAvatar) {
+    const avatarColor = cityAvatar
+      .getComponent(Game.Component.Render.TYPE)
+      .getModel()
+      .getColor();
     return (
       'rgb(' +
-      avatarColor.r * 255 +
+      avatarColor[0] * 255 +
       ',' +
-      avatarColor.g * 255 +
+      avatarColor[1] * 255 +
       ',' +
-      avatarColor.b * 255 +
+      avatarColor[2] * 255 +
       ')'
     );
   }
 
-  cityAvatarToGeoData(cityAvatarGO, gameView) {
-    const wT = cityAvatarGO.computeWorldTransform();
-    const ref = gameView.getObject3D().position;
-    const worldPos = new udviz.THREE.Vector3(
-      wT.position.x,
-      wT.position.y,
-      0
-    ).add(ref);
-    const [lng, lat] = udviz.Game.proj4
-      .default(gameView.projection)
-      .inverse([worldPos.x, worldPos.y]);
+  cityAvatarToGeoData(cityAvatarGO) {
+    const worldPosition = new THREE.Vector3();
+    const worldQuaternion = new THREE.Vector3();
+    cityAvatarGO.matrixWorld.decompose(worldPosition, worldQuaternion);
 
-    return [lng, lat, wT.rotation];
+    const [lng, lat] = proj4
+      .default(this.context.userData.extent.crs)
+      .inverse([worldPosition.x, worldPosition.y]);
+
+    return [lng, lat, new THREE.Euler().setFromQuaternion(worldQuaternion)];
   }
 
-  drawCityMap(localContext) {
+  drawCityMap() {
     const ctx = this.canvas.getContext('2d');
-
-    //draw citymap
-    const ImuvConstants = localContext.getGameView().getLocalScriptModules()[
-      'ImuvConstants'
-    ];
 
     const sizeSrc =
       Math.min(this.imageCityMap.width, this.imageCityMap.height) *
       this.currentZoom;
 
     //compute lng lat of user city avatar
-    const userCityAvatar = this.fetchUserCityAvatar(localContext);
-    const [lng, lat, rotation] = this.cityAvatarToGeoData(
-      userCityAvatar,
-      localContext.getGameView()
-    );
+    const userCityAvatar = this.fetchUserCityAvatar();
+    const [lng, lat, rotation] = this.cityAvatarToGeoData(userCityAvatar);
 
     const pixelSrcX =
-      (this.imageCityMap.width * (lng - ImuvConstants.CITY_MAP.LEFT)) /
-      (ImuvConstants.CITY_MAP.RIGHT - ImuvConstants.CITY_MAP.LEFT);
+      (this.imageCityMap.width * (lng - Constant.CITY_MAP.LEFT)) /
+      (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
 
     const pixelSrcY =
       this.imageCityMap.height *
       (1 -
-        (lat - ImuvConstants.CITY_MAP.BOTTOM) /
-          (ImuvConstants.CITY_MAP.TOP - ImuvConstants.CITY_MAP.BOTTOM));
+        (lat - Constant.CITY_MAP.BOTTOM) /
+          (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM));
 
     const clampX = Math.min(
       Math.max(0, pixelSrcX - sizeSrc * 0.5),
@@ -319,9 +290,8 @@ export class CityMap {
     );
 
     //draw city avatars
-    const _this = this;
 
-    this.currentDt += localContext.getDt() * 0.002;
+    this.currentDt += this.context.dt * 0.002;
     const userAvatarSize =
       CITY_AVATAR_SIZE_MIN +
       (CITY_AVATAR_SIZE_MAX - CITY_AVATAR_SIZE_MIN) *
@@ -329,7 +299,7 @@ export class CityMap {
 
     const drawCityAvatar = function (cityAvatarGO, size) {
       const [lngCityAvatar, latCityAvatar, rotationAvatar] =
-        _this.cityAvatarToGeoData(cityAvatarGO, localContext.getGameView());
+        this.cityAvatarToGeoData(cityAvatarGO);
 
       const rotationValue = -rotationAvatar.z - Math.PI;
       const cos = Math.cos(rotationValue);
@@ -343,10 +313,9 @@ export class CityMap {
         return y * cos + x * sin;
       };
 
-      const [cityAvatarPosX, cityAvatarPosY] = _this.coordToPixel(
+      const [cityAvatarPosX, cityAvatarPosY] = this.coordToPixel(
         lngCityAvatar,
-        latCityAvatar,
-        ImuvConstants
+        latCityAvatar
       );
 
       const ratioTriangle = 0.6;
@@ -364,23 +333,18 @@ export class CityMap {
         cityAvatarPosY + yRot(0, size * ratioTriangle)
       );
       ctx.closePath();
-      ctx.fillStyle = _this.fetchCityAvatarColor(cityAvatarGO);
+      ctx.fillStyle = this.fetchCityAvatarColor(cityAvatarGO);
       ctx.fill();
     };
 
     //draw all city avatar
-    localContext.getRootGameObject().traverse(function (child) {
-      const ls = child.fetchLocalScripts();
-      if (ls && ls['city_avatar']) {
-        if (child == userCityAvatar) {
-          drawCityAvatar(child, userAvatarSize);
-        } else {
-          drawCityAvatar(child, CITY_AVATAR_SIZE_MIN);
-        }
-        return false;
+    this.context.object3D.traverse((child) => {
+      if (!child.isCityAvatar) return;
+      if (child == userCityAvatar) {
+        drawCityAvatar(child, userAvatarSize);
+      } else {
+        drawCityAvatar(child, CITY_AVATAR_SIZE_MIN);
       }
-
-      return false;
     });
 
     //draw pings
@@ -389,9 +353,9 @@ export class CityMap {
 
       const [lngPing, latPing] = ping.getCoord();
 
-      const [x, y] = this.coordToPixel(lngPing, latPing, ImuvConstants);
+      const [x, y] = this.coordToPixel(lngPing, latPing);
 
-      if (ping.draw(ctx, localContext.getDt(), x, y)) {
+      if (ping.draw(ctx, this.context.dt, x, y)) {
         //end remove it
         this.pings.splice(i, 1);
       }
@@ -408,6 +372,7 @@ export class CityMap {
   }
 }
 
+// TODO could write in component since minimap is using it as well
 class Ping {
   constructor(params) {
     this.coord = params.coord;

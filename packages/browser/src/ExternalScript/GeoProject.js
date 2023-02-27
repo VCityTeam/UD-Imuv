@@ -1,50 +1,49 @@
-export class GeoProject {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
+import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game } from '@ud-viz/shared';
+
+export class GeoProject extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
 
     this.sprite = null;
   }
 
   init() {
-    const go = arguments[0];
-
-    this.updateSprite(go);
+    this.updateSprite();
   }
 
   /**
    * It creates a sprite from the image at `conf.image_icon_path` and adds it to the `Render` component
    * of the game object
-   * @param {udviz.Game.GameObject} go - the game object that this component is attached to
    */
-  updateSprite(go) {
+  updateSprite() {
     //image
     if (this.sprite && this.sprite.parent) {
       this.sprite.parent.remove(this.sprite);
     }
 
     //create image conf.image_icon_path on a quad above the pin
-    const onLoad = function (texture) {
-      const material = new udviz.THREE.SpriteMaterial({
+    const onLoad = (texture) => {
+      const material = new THREE.SpriteMaterial({
         map: texture,
       });
 
-      this.sprite = new udviz.THREE.Sprite(material);
-      this.sprite.scale.set(this.conf.image_width, this.conf.image_height, 1);
+      this.sprite = new THREE.Sprite(material);
+      this.sprite.scale.set(
+        this.variables.image_width,
+        this.variables.image_height,
+        1
+      );
 
-      const r = go.getComponent(udviz.Game.Render.TYPE);
-      r.addObject3D(this.sprite);
+      const r = this.object3D.getComponent(Game.Component.Render.TYPE);
+      r.getController().addObject3D(this.sprite);
     };
 
-    new udviz.THREE.TextureLoader().load(
-      this.conf.image_icon_path,
-      onLoad.bind(this)
-    );
+    new THREE.TextureLoader().load(this.variables.image_icon_path, onLoad);
   }
 
   onOutdated() {
-    const go = arguments[0];
-    this.updateSprite(go);
+    this.updateSprite();
   }
 
   /**
@@ -52,8 +51,8 @@ export class GeoProject {
    */
   onClick() {
     const a = document.createElement('a');
-    a.href = this.conf.href;
+    a.href = this.variables.href;
     a.target = '_blank';
     a.click();
   }
-};
+}

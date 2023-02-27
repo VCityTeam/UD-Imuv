@@ -1,18 +1,15 @@
-export class SignageDisplayer {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
-    THREE = Game.THREE;
-    if (!this.conf.projects) this.conf.projects = [];
+import { ExternalGame, THREE, Billboard } from '@ud-viz/browser';
+
+// TODO refacto this class
+
+export class SignageDisplayer extends ExternalGame.ScriptBase {
+  constructor(context, object3D, variables) {
+    super(context, object3D, variables);
+
+    if (!this.variables.projects) this.variables.projects = [];
 
     this.popup = null;
     this.project = null;
-  }
-
-  init() {
-    this.go = arguments[0];
-    this.localCtx = arguments[1];
   }
 
   interaction() {
@@ -46,15 +43,16 @@ export class SignageDisplayer {
       this.project = null;
     }
   }
-};
+}
 
 class Popup {
   constructor(signageDisplayer) {
+    /** @type {SignageDisplayer} */
     this.signageDisplayer = signageDisplayer;
-    this.projectsJSON = this.signageDisplayer.conf.projects;
+    this.projectsJSON = this.signageDisplayer.variables.projects;
 
     //html
-    this.ui = this.signageDisplayer.localCtx.getGameView().ui;
+    this.ui = this.signageDisplayer.context.frame3D.ui;
     this.popupHtml = null;
     this.titlePopUp = null;
     this.ulProjects = null;
@@ -91,7 +89,6 @@ class Popup {
   }
 
   fillUlProjects() {
-    const _this = this;
     if (this.ulProjects) {
       this.ulProjects.removeFromParent();
       this.ulProjects = null;
@@ -101,11 +98,11 @@ class Popup {
     this.popupHtml.appendChild(ulProjects);
     this.ulProjects = ulProjects;
 
-    this.projectsJSON.forEach(function (projectJSON) {
+    this.projectsJSON.forEach((projectJSON) => {
       const projectLi = document.createElement('li');
       projectLi.innerHTML = projectJSON.title;
-      projectLi.onclick = function () {
-        _this.signageDisplayer.createProject(projectJSON);
+      projectLi.onclick = () => {
+        this.signageDisplayer.createProject(projectJSON);
       };
 
       ulProjects.appendChild(projectLi);
@@ -120,13 +117,14 @@ class Popup {
 class Project {
   constructor(projectJson, signageDisplayer) {
     this.projectJson = projectJson;
+    /** @type {SignageDisplayer} */
     this.signageDisplayer = signageDisplayer;
-    this.localCtx = this.signageDisplayer.localCtx;
+    this.context = this.signageDisplayer.context;
 
     this.billboard = null;
 
     //html
-    this.ui = this.localCtx.getGameView().ui;
+    this.ui = this.signageDisplayer.context.frame3D.ui;
     this.backButton = null;
 
     this.initHtml();
@@ -156,8 +154,8 @@ class Project {
       this.projectJson.position[2]
     );
 
-    const go = this.signageDisplayer.go;
-    const object3D = go.computeObject3D();
+    const go = this.signageDisplayer.object3D;
+    const object3D = go;
     const worldDirectiondGO = object3D.getWorldDirection(new THREE.Vector3()); //forward vec
     const worldPositionGO = object3D.getWorldPosition(new THREE.Vector3());
 
@@ -173,20 +171,19 @@ class Project {
     euler.setFromQuaternion(quaternion);
     euler.z = 0;
 
-    const transform = new THREEUtils.Transform(
+    const billboard = new Billboard(
+      iframe,
       billboardPos,
-      euler.toVector3(),
-      new THREE.Vector3(5, 5, 5) /*Harcode*/
+      euler,
+      new THREE.Vector3(5, 5, 5) /*Harcode*/,
+      50
     );
-
-    const billboard = new udviz.Views.Billboard(iframe, transform, 50);
-    this.localCtx.getGameView().appendBillboard(billboard);
+    this.context.frame3D.appendBillboard(billboard);
     this.billboard = billboard;
   }
 
   dispose() {
     if (this.backButton) this.backButton.remove();
-    if (this.billboard)
-      this.localCtx.getGameView().removeBillboard(this.billboard);
+    if (this.billboard) this.context.frame3D.removeBillboard(this.billboard);
   }
 }
