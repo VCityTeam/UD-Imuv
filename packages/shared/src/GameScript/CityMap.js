@@ -1,5 +1,5 @@
 const { Game } = require('@ud-viz/shared');
-const { Constant } = require('@ud-imuv/shared');
+const Constant = require('../Constant');
 
 module.exports = class CityMap extends Game.ScriptBase {
   tick() {
