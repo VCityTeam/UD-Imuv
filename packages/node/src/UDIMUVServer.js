@@ -718,7 +718,7 @@ module.exports = class UDIMUVServer {
 
         //patch
         const indexWorldsJSON = {
-          'F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1': 'Studio_IMU_A.json',
+          '9C632D7E-C466-426F-AC31-8FC74AB11D0D': 'Room_Expo.json',
         };
 
         const gameObjects3D = [];
@@ -804,6 +804,11 @@ const moulinetteWorldJSON = (oldJSON) => {
         idScripts: newIds,
         variables: goJSON.components.LocalScript.conf,
       };
+
+      if (newIds.includes('Image')) {
+        if (!newGOJSON.userData) newGOJSON.userData = {};
+        newGOJSON.userData.isImage = true;
+      }
     }
 
     if (goJSON.components.WorldScript) {
@@ -821,6 +826,10 @@ const moulinetteWorldJSON = (oldJSON) => {
 
     if (goJSON.components.Collider) {
       newGOJSON.components.Collider = goJSON.components.Collider;
+    }
+
+    if (goJSON.components.Audio) {
+      newGOJSON.components.Audio = goJSON.components.Audio;
     }
 
     if (goJSON.components.Render) {

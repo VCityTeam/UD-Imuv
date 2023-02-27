@@ -1,80 +1,35 @@
+import { ExternalGame, THREE } from '@ud-viz/browser';
+
 const TRAVELING_DURATION = 1500;
 
-export class CameraTour {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-
-    udviz = udvizBundle;
-    Game = udviz.Game;
-  }
-
+export class CameraTour extends ExternalGame.ScriptBase {
   init() {
-    const go = arguments[0];
-    const localContext = arguments[1];
-
     const avatarController =
-      localContext.findExternalScriptWithID('avatar_controller');
-    const camera = localContext.getGameView().getCamera();
-    const cameraScript = localContext.findExternalScriptWithID('camera');
-    const Routine = Game.Components.Routine;
-    const _this = this;
-
-    //ui
-    const scriptUI = localContext.findExternalScriptWithID('ui');
-    const menuTour = new MenuTour(localContext, this.conf, go);
+      this.context.findExternalScriptWithID('AvatarController');
+    const cameraManager =
+      this.context.findExternalScriptWithID('CameraManager');
+    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const menuTour = new MenuTour(this.context, this.variables, this.object3D);
 
     scriptUI.addTool(
       './assets/img/ui/icon_tour_images.png',
       'Tour Images',
-      function (resolve, reject, onClose) {
-        if (cameraScript.hasRoutine()) {
-          resolve(false); //cant open/close menu while camera routine
+      (resolve, reject, onClose) => {
+        if (cameraManager.currentMovement) {
+          resolve(false); //cant open/close menu while camera is moving
           return;
         }
 
         if (onClose) {
-          //menu is open close it
-          let currentTime = 0;
-          const startPos = camera.position.clone();
-          const startQuat = camera.quaternion.clone();
-
-          cameraScript.addRoutine(
-            new Routine(
-              function (dt) {
-                const t = cameraScript
-                  .getFocusCamera()
-                  .computeTransformTarget(
-                    null,
-                    cameraScript.getDistanceCameraAvatar()
-                  );
-
-                currentTime += dt;
-                let ratio = currentTime / TRAVELING_DURATION;
-                ratio = Math.min(Math.max(0, ratio), 1);
-
-                const p = t.position.lerp(startPos, 1 - ratio);
-                const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-                camera.position.copy(p);
-                camera.quaternion.copy(q);
-
-                camera.updateProjectionMatrix();
-
-                return ratio >= 1;
-              },
-              function () {
-                avatarController.setAvatarControllerMode(true, localContext);
-                resolve(true); // success
-              }
-            )
-          );
+          cameraManager.moveToAvatar().then(() => {
+            avatarController.setAvatarControllerMode(true);
+            resolve(true); // success
+          });
         } else {
-          avatarController.setAvatarControllerMode(false, localContext);
-          menuTour
-            .travelToCurrentIndex(localContext, _this.conf)
-            .then(function (success) {
-              resolve(success);
-            });
+          avatarController.setAvatarControllerMode(false);
+          menuTour.travelToCurrentIndex().then(function (success) {
+            resolve(success);
+          });
         }
       },
       menuTour
@@ -83,16 +38,19 @@ export class CameraTour {
 }
 
 class MenuTour {
-  constructor(localContext, conf, go) {
+  constructor(context, variables, object3D) {
+    this.context = context;
+    this.variables = variables;
+
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('contextual_menu');
 
     const title = document.createElement('h1');
-    title.innerHTML = go.name;
+    title.innerHTML = object3D.name;
     this.rootHtml.appendChild(title);
 
     //init state camera
-    if (conf.camera_transforms.length <= 0) return;
+    if (this.variables.camera_transforms.length <= 0) return;
 
     this.currentIndex = 0;
     this.isTraveling = false;
@@ -101,7 +59,7 @@ class MenuTour {
     const slider = document.createElement('input');
     slider.type = 'range';
     slider.min = 0;
-    slider.max = conf.camera_transforms.length - 1;
+    slider.max = this.variables.camera_transforms.length - 1;
     slider.step = 1;
     slider.value = this.currentIndex;
     this.rootHtml.appendChild(slider);
@@ -121,44 +79,46 @@ class MenuTour {
     parentPreviousNext.appendChild(nextButton);
 
     //cb
-    const _this = this;
 
-    previousButton.onclick = function () {
-      const oldIndex = _this.currentIndex;
-      _this.setCurrentIndex(Math.max(_this.currentIndex - 1, 0));
+    previousButton.onclick = () => {
+      const oldIndex = this.currentIndex;
+      this.setCurrentIndex(Math.max(this.currentIndex - 1, 0));
 
-      _this.travelToCurrentIndex(localContext, conf).then(function (success) {
+      this.travelToCurrentIndex().then((success) => {
         if (success) {
-          slider.value = _this.currentIndex;
+          slider.value = this.currentIndex;
         } else {
-          _this.setCurrentIndex(oldIndex);
+          this.setCurrentIndex(oldIndex);
         }
       });
     };
 
-    nextButton.onclick = function () {
-      const oldIndex = _this.currentIndex;
+    nextButton.onclick = () => {
+      const oldIndex = this.currentIndex;
 
-      _this.setCurrentIndex(
-        Math.min(_this.currentIndex + 1, conf.camera_transforms.length - 1)
+      this.setCurrentIndex(
+        Math.min(
+          this.currentIndex + 1,
+          this.variables.camera_transforms.length - 1
+        )
       );
 
-      _this.travelToCurrentIndex(localContext, conf).then(function (success) {
+      this.travelToCurrentIndex().then((success) => {
         if (success) {
-          slider.value = _this.currentIndex;
+          slider.value = this.currentIndex;
         } else {
-          _this.setCurrentIndex(oldIndex);
+          this.setCurrentIndex(oldIndex);
         }
       });
     };
 
-    slider.onchange = function () {
-      const oldIndex = _this.currentIndex;
-      _this.setCurrentIndex(slider.value);
+    slider.onchange = () => {
+      const oldIndex = this.currentIndex;
+      this.setCurrentIndex(slider.value);
 
-      _this.travelToCurrentIndex(localContext, conf).then(function (success) {
+      this.travelToCurrentIndex().then((success) => {
         if (!success) {
-          _this.setCurrentIndex(oldIndex);
+          this.setCurrentIndex(oldIndex);
         }
       });
     };
@@ -168,7 +128,7 @@ class MenuTour {
     this.currentIndex = parseInt(value);
   }
 
-  travelToCurrentIndex(localContext, conf) {
+  travelToCurrentIndex() {
     return new Promise((resolve) => {
       if (this.isTraveling) {
         console.warn('already traveling');
@@ -178,44 +138,25 @@ class MenuTour {
 
       this.isTraveling = true;
 
-      const camera = localContext.getGameView().getCamera();
-      const cameraScript = localContext.findExternalScriptWithID('camera');
-      const Routine = Game.Components.Routine;
-      const _this = this;
+      const cameraManager =
+        this.context.findExternalScriptWithID('CameraManager');
 
-      let currentTime = 0;
-      const startPos = camera.position.clone();
-      const startQuat = camera.quaternion.clone();
-      const destPos = new Game.THREE.Vector3().fromArray(
-        conf.camera_transforms[this.currentIndex].position
+      const destPos = new THREE.Vector3().fromArray(
+        this.variables.camera_transforms[this.currentIndex].position
       );
-      const destQuat = new Game.THREE.Quaternion().fromArray(
-        conf.camera_transforms[this.currentIndex].quaternion
+      const destQuat = new THREE.Quaternion().fromArray(
+        this.variables.camera_transforms[this.currentIndex].quaternion
       );
 
-      cameraScript.addRoutine(
-        new Routine(
-          function (dt) {
-            currentTime += dt;
-            let ratio = currentTime / TRAVELING_DURATION;
-            ratio = Math.min(Math.max(0, ratio), 1);
+      // dest transform is in game referential
+      destPos.add(this.context.object3D.position);
 
-            const p = destPos.clone().lerp(startPos, 1 - ratio);
-            const q = destQuat.clone().slerp(startQuat, 1 - ratio);
-
-            camera.position.copy(p);
-            camera.quaternion.copy(q);
-
-            camera.updateProjectionMatrix();
-
-            return ratio >= 1;
-          },
-          function () {
-            _this.isTraveling = false;
-            resolve(true);
-          }
-        )
-      );
+      cameraManager
+        .moveToTransform(destPos, destQuat, TRAVELING_DURATION)
+        .then(() => {
+          this.isTraveling = false;
+          resolve(true);
+        });
     });
   }
 
