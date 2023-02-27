@@ -825,7 +825,9 @@ const moulinetteWorldJSON = (oldJSON) => {
 
     if (goJSON.components.Render) {
       newGOJSON.components.Render = goJSON.components.Render;
-      newGOJSON.components.Render.color.push(1); // add alpha
+      if (newGOJSON.components.Render.color.length === 3) {
+        newGOJSON.components.Render.color.push(1); // add alpha
+      }
     }
 
     return newGOJSON;

@@ -134,10 +134,7 @@ export class JitsiArea extends ExternalGame.ScriptBase {
       .getModel()
       .getShapesJSON();
 
-    const material = new THREE.MeshBasicMaterial({
-      opacity: 0.2,
-      transparent: true,
-    });
+    const material = new THREE.MeshBasicMaterial();
 
     const height = 1;
 

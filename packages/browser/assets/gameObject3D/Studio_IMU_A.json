@@ -519,7 +519,7 @@
                 "uuid": "70656757-B370-4BCA-AB56-DFEBAB770AF7",
                 "type": "Render",
                 "idRenderData": null,
-                "color": [0, 0.5, 1]
+                "color": [0, 0.5, 1, 0.2]
               },
               "LocalScript": {
                 "uuid": "89287858-DE69-4640-AD3A-C74EF3E7C3F4",
