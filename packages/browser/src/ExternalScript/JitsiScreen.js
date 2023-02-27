@@ -33,13 +33,9 @@ export class JitsiScreen extends ExternalGame.ScriptBase {
     //create iframe
     const divJitsi = document.createElement('div');
 
-    const size = 200;
-
     const options = {
       roomName: this.variables.jitsi_room_name,
       parentNode: divJitsi,
-      width: size,
-      height: size,
       lang: 'fr',
       userInfo: {
         displayName: name,
@@ -104,7 +100,7 @@ export class JitsiScreen extends ExternalGame.ScriptBase {
       positionBillboard,
       new THREE.Euler().setFromQuaternion(quaternionBillboard),
       scaleBillboard,
-      size
+      200
     );
     this.context.frame3D.appendBillboard(billboard);
   }
