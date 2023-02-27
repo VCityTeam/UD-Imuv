@@ -95,6 +95,8 @@ export class MiniMap extends ExternalGame.ScriptBase {
 
     this.createPortalIcons();
 
+    this.updateBackgroundImage();
+
     this.canvasMiniMap.onclick = (event) => {
       const x = event.pageX;
       const y = event.pageY;
@@ -300,52 +302,56 @@ export class MiniMap extends ExternalGame.ScriptBase {
     }
   }
 
+  updateBackgroundImage() {
+    const scene = new THREE.Scene();
+
+    THREEUtil.addLights(scene);
+
+    this.context.object3D.traverse((g) => {
+      if (g.isGameObject3D && g.isStatic()) {
+        const r = g.getComponent(Game.Component.Render.TYPE);
+        if (r) {
+          const clone = r.getController().getObject3D().clone();
+
+          r.getController().object3D.matrixWorld.decompose(
+            clone.position,
+            clone.quaternion,
+            clone.scale
+          );
+
+          clone.position.sub(this.context.object3D.position);
+
+          clone.updateMatrixWorld();
+          scene.add(clone);
+        }
+      }
+    });
+
+    scene.updateMatrixWorld();
+
+    const halfSize = this.variables.mini_map_size * 0.5;
+    const camera = new THREE.OrthographicCamera(
+      -halfSize,
+      halfSize,
+      halfSize,
+      -halfSize,
+      0.001,
+      1000
+    );
+    camera.position.z = 100; //to be sure to not cull something
+    camera.updateProjectionMatrix();
+
+    /* Rendering the scene to a background image. */
+    this.renderer.render(scene, camera);
+    this.backgroundImage.onload = () => {
+      this.defaultCanvas = this.createDefaultCanvas();
+    };
+    this.backgroundImage.src = this.renderer.domElement.toDataURL();
+  }
+
   onNewGameObject(newGO) {
     if (newGO.isStatic()) {
-      const scene = new THREE.Scene();
-
-      THREEUtil.addLights(scene);
-
-      this.context.object3D.traverse((g) => {
-        if (g.isGameObject && g.isStatic()) {
-          const r = g.getComponent(Game.Component.Render.TYPE);
-          if (r) {
-            const clone = r.getController().getObject3D().clone();
-
-            r.getController().object3D.matrixWorld.decompose(
-              clone.position,
-              clone.quaternion,
-              clone.scale
-            );
-
-            clone.position.sub(this.context.object3D.position);
-
-            clone.updateMatrixWorld();
-            scene.add(clone);
-          }
-        }
-      });
-
-      scene.updateMatrixWorld();
-
-      const halfSize = this.variables.mini_map_size * 0.5;
-      const camera = new THREE.OrthographicCamera(
-        -halfSize,
-        halfSize,
-        halfSize,
-        -halfSize,
-        0.001,
-        1000
-      );
-      camera.position.z = 100; //to be sure to not cull something
-      camera.updateProjectionMatrix();
-
-      /* Rendering the scene to a background image. */
-      this.renderer.render(scene, camera);
-      this.backgroundImage.onload = () => {
-        this.defaultCanvas = this.createDefaultCanvas();
-      };
-      this.backgroundImage.src = this.renderer.domElement.toDataURL();
+      this.updateBackgroundImage(); // new static object to draw on map
     }
   }
 
