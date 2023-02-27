@@ -56,7 +56,7 @@ module.exports = class InteractionZone extends Game.ScriptBase {
 
       if (confHasChanged) {
         this.object3D.setOutdated(true);
-        console.log('ON ENTER conf changed');
+        // console.log('ON ENTER conf changed');
       }
     }
   }
@@ -93,7 +93,7 @@ module.exports = class InteractionZone extends Game.ScriptBase {
 
       if (confHasChanged) {
         this.object3D.setOutdated(true);
-        console.log('ON COLLIDING conf changed');
+        // console.log('ON COLLIDING conf changed');
       }
     }
   }
@@ -130,7 +130,7 @@ module.exports = class InteractionZone extends Game.ScriptBase {
 
       if (confHasChanged) {
         this.object3D.setOutdated(true);
-        console.log('ON LEAVE conf changed');
+        // console.log('ON LEAVE conf changed');
       }
     }
   }
