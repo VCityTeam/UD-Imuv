@@ -16,7 +16,7 @@
           "cityAvatarAllow": false,
           "spawnTransform": {
             "position": [0, 0, 0],
-            "rotation": [0.14, 0, 1.57],
+            "rotation": [0.14, 0, -1.57],
             "scale": [1, 1, 1]
           }
         },
