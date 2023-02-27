@@ -380,7 +380,7 @@
                 "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
                 "idScripts": ["video"],
                 "conf": {
-                  "video_path": "./assets/videos/final_IMU_sept2019.webm",
+                  "videoPath": "./assets/videos/final_IMU_sept2019.webm",
                   "width": 10,
                   "height": 6,
                   "size": { "width": 853, "height": 480 }

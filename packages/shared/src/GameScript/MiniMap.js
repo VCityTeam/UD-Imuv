@@ -1,5 +1,5 @@
 const { Game } = require('@ud-viz/shared');
-const { Constant } = require('@ud-imuv/shared');
+const Constant = require('../Constant');
 
 module.exports = class MiniMap extends Game.ScriptBase {
   tick() {
@@ -15,7 +15,6 @@ module.exports = class MiniMap extends Game.ScriptBase {
     lsMiniMap.getModel().getVariables().mini_map_ping.length = 0;
 
     //teleport
-    console.log(Constant.COMMAND.TELEPORT);
     for (let i = this.context.commands.length - 1; i >= 0; i--) {
       const cmd = this.context.commands[i];
       if (

@@ -318,6 +318,8 @@ export class MiniMap extends ExternalGame.ScriptBase {
               clone.scale
             );
 
+            clone.position.sub(this.context.object3D.position);
+
             clone.updateMatrixWorld();
             scene.add(clone);
           }

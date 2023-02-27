@@ -12,7 +12,7 @@ export class Video extends ExternalGame.ScriptBase {
 
   init() {
     const video = document.createElement('video');
-    video.src = this.variables.video_path;
+    video.src = this.variables.videoPath;
     video.autoplay = true;
     video.muted = true;
     video.load(); // must call after setting/changing source
