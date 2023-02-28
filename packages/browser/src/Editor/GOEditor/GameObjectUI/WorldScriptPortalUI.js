@@ -120,7 +120,7 @@ export class WorldScriptPortalUI {
       const iSelect = selectPortal.selectedIndex;
       const optionSelected = options[iSelect];
 
-      wS['portal'].conf.worldDestUUID =
+      wS['portal'].conf.gameObjectDestUUID =
         iSelect !== 0 ? optionSelected.parentElement.title : null;
       wS['portal'].conf.portalUUID = selectPortal.value;
     };

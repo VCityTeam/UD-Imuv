@@ -10,6 +10,7 @@ export class CameraManager extends ExternalScriptTemplate.CameraManager {
       'uuid',
       this.context.userData.avatarUUID
     );
+    if (!avatarGO) console.error('no avatar');
     const bbAvatar = new THREE.Box3().setFromObject(avatarGO);
     this.followObject3D(
       avatarGO,
@@ -28,6 +29,7 @@ export class CameraManager extends ExternalScriptTemplate.CameraManager {
       }
       return false; // continue to traverse
     });
+    if (!z) throw new Error('no zeppelin');
     const bb = new THREE.Box3().setFromObject(z);
     return this.moveToObject3D(
       z,
@@ -43,6 +45,7 @@ export class CameraManager extends ExternalScriptTemplate.CameraManager {
       'uuid',
       this.context.userData.avatarUUID
     );
+    if (!avatarGO) throw new Error('no avatar');
     const bbAvatar = new THREE.Box3().setFromObject(avatarGO);
     return this.moveToObject3D(
       avatarGO,

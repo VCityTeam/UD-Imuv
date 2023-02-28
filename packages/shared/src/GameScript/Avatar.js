@@ -18,16 +18,6 @@ module.exports = class Avatar extends Game.ScriptBase {
     this.canJump = true;
   }
 
-  init() {
-    //spawn
-    this.spawn();
-
-    //init commands
-    // for (const type in Game.Command.TYPE) {
-    //   this.commands[Game.Command.TYPE[type]] = [];
-    // }
-  }
-
   spawn() {
     //spawn
     const spawner = this.context.findGameScriptWithID('Spawner');
@@ -269,7 +259,7 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   onEnterCollision() {
-    return
+    return;
     const go = arguments[0];
     const result = arguments[1];
     // const worldContext = arguments[2];
@@ -338,7 +328,7 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   onLeaveCollision() {
-    return
+    return;
     // console.log('on leave');
     const go = arguments[0];
     const uuidColliderGO = arguments[1];

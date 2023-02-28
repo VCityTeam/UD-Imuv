@@ -1,30 +1,31 @@
 const { Game } = require('@ud-viz/shared');
-const { Constant } = require('@ud-imuv/shared');
+const Constant = require('../Constant');
 
 module.exports = class Portal extends Game.ScriptBase {
-  notifyEnter(avatarGo) {
-    setTimeout(() => {
-      this.context.dispatch(Constant.CONTEXT.EVENT.PORTAL, [
-        avatarGo,
-        this.variables.worldDestUUID,
-        this.variables.portalUUID,
-      ]);
-    }, 1000);
-  }
-
-  setTransformOf(go) {
+  setTransformOf(object) {
     //portal position
-    go.setPosition(this.go.getPosition().clone());
+    object.position.copy(this.object3D.position);
 
-    //rotation in config
-    const newRotation = go.getRotation();
-
-    if (this.conf.spawnRotation) {
-      newRotation.x = this.conf.spawnRotation.x;
-      newRotation.y = this.conf.spawnRotation.y;
-      newRotation.z = this.conf.spawnRotation.z;
+    if (this.variables.spawnRotation) {
+      object.rotation.x = this.variables.spawnRotation.x;
+      object.rotation.y = this.variables.spawnRotation.y;
+      object.rotation.z = this.variables.spawnRotation.z;
     }
 
-    go.setRotation(newRotation);
+    object.setOutdated(true);
+    this.context.updateCollisionBuffer();
+  }
+
+  onEnterCollision(object3DCollided) {
+    if (object3DCollided.userData.isAvatar) {
+      // wait 1 sec to let the fade out on the client side
+      setTimeout(() => {
+        this.context.dispatch(Constant.CONTEXT.EVENT.PORTAL, {
+          avatarUUID: object3DCollided.uuid,
+          gameObjectDestUUID: this.variables.gameObjectDestUUID,
+          portalUUID: this.variables.portalUUID,
+        });
+      }, 1000);
+    }
   }
 };
