@@ -22,7 +22,7 @@
     "WorldScript": {
       "idScripts": ["portal", "interaction_zone"],
       "conf": {
-        "worldDestUUID": null,
+        "gameObjectDestUUID": null,
         "portalUUID": null,
         "spawnRotation": {
           "x": 0,

@@ -319,7 +319,7 @@
                 "uuid": "75D59547-7E33-4D13-90AE-D83C11461D27",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                  "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
                   "spawnRotation": { "x": 0, "y": 0, "z": 0 },
                   "delay": 1000

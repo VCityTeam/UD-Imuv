@@ -394,7 +394,7 @@ export class ReceptionView {
             const frame3DPlanar = new Frame3DPlanar(extent);
             const game = new MultiPlayerGamePlanar(
               this.socketIOWrapper,
-              frame3DPlanar,
+              extent,
               assetManager,
               new InputManager(),
               {

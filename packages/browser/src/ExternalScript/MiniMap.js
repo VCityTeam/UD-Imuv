@@ -154,14 +154,14 @@ export class MiniMap extends ExternalGame.ScriptBase {
     const pixelSize = this.variables.mini_map_size / MINI_MAP_SIZE;
 
     this.context.object3D.traverse((child) => {
-      if (!child.isPortal) return;
+      if (!child.userData.isPortal) return;
 
       //check if intersecting a dropdown menu (portalIcons)
 
       //position
       const portalPosition = new THREE.Vector2(
-        100 * (0.5 + child.getPosition().x / (pixelSize * MINI_MAP_SIZE)),
-        100 * (0.5 - child.getPosition().y / (pixelSize * MINI_MAP_SIZE))
+        100 * (0.5 + child.position.x / (pixelSize * MINI_MAP_SIZE)),
+        100 * (0.5 - child.position.y / (pixelSize * MINI_MAP_SIZE))
       );
 
       //callback

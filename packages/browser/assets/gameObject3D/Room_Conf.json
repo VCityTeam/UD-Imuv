@@ -1,6 +1,6 @@
 {
   "gameObject": {
-    "name": "GameManager",
+    "name": "Room Conf",
     "type": "GameObject",
     "static": true,
     "outdated": false,
@@ -244,7 +244,7 @@
                 "uuid": "C71626D8-7AEB-4B54-805E-E2AC62CE06C9",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                  "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
                   "spawnRotation": { "x": 0, "y": 0, "z": 1 },
                   "delay": 1000
@@ -311,7 +311,7 @@
                 "uuid": "3F8CB51D-6FF0-4512-9E70-E720A77C6861",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                  "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "7EE2EBC0-7323-4715-91B3-371D4118D428",
                   "spawnRotation": {
                     "x": -0.13232236328124714,
@@ -382,7 +382,7 @@
                 "uuid": "648290B5-4F95-48D8-8678-C30E16AA16DD",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+                  "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
                   "spawnRotation": { "x": 0, "y": 0, "z": -0.8 },
                   "delay": 1000

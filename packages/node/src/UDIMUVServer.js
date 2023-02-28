@@ -563,6 +563,7 @@
 // module.exports = ApplicationModule;
 
 const SharedConstant = require('@ud-viz/shared').Constant;
+const NodeConstant = require('./Constant');
 const { ExpressAppWrapper, Game } = require('@ud-viz/node');
 const { Constant, PrefabFactory } = require('@ud-imuv/shared');
 const Parse = require('parse/node');
@@ -696,9 +697,7 @@ module.exports = class UDIMUVServer {
 
                 const avatarJSON = PrefabFactory.avatar().toJSON();
 
-                thread.post(Game.Thread.EVENT.ADD_OBJECT3D, {
-                  object3D: avatarJSON,
-                });
+                thread.post(NodeConstant.Thread.EVENT.SPAWN, avatarJSON);
 
                 socket.emit(
                   SharedConstant.WEBSOCKET.MSG_TYPE.EXTERNAL_CONTEXT_USER_DATA,
@@ -728,14 +727,9 @@ module.exports = class UDIMUVServer {
           }
         );
 
-        // const indexWorldsJSON = JSON.parse(
-        //   fs.readFileSync(worldsFolderPath + '/index.json')
-        // );
-
-        //patch
-        const indexWorldsJSON = {
-          '6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF': 'Flying_Campus.json',
-        };
+        const indexWorldsJSON = JSON.parse(
+          fs.readFileSync(config.gameObjectsFolderPath + '/index.json')
+        );
 
         const gameObjects3D = [];
         for (const uuid in indexWorldsJSON) {
@@ -757,6 +751,49 @@ module.exports = class UDIMUVServer {
           gameObjects3D,
           config.threadProcessPath
         );
+
+        // customize thread with the portal event
+        for (const threadID in this.gameSocketService.threads) {
+          const thread = this.gameSocketService.threads[threadID];
+          thread.on(NodeConstant.Thread.EVENT.PORTAL, (data) => {
+            // find socket wrapper with avatarUUID
+            let socketWrapper = null;
+            for (let index = 0; index < thread.socketWrappers.length; index++) {
+              const sw = thread.socketWrappers[index];
+              if (sw.userData.avatarUUID == data.avatarUUID) {
+                socketWrapper = sw;
+                break;
+              }
+            }
+            if (!socketWrapper) throw new Error('cant find socket wrapper');
+
+            // remove it from current thread
+            thread.removeSocketWrapper(socketWrapper);
+            // remove avatar from current thread
+            thread.post(Game.Thread.EVENT.REMOVE_OBJECT3D, data.avatarUUID);
+            // add to the new thread
+            const destThread =
+              this.gameSocketService.threads[data.gameObjectDestUUID];
+            if (!destThread) {
+              console.log('uuid thread initialized');
+              for (const gameObjectThreadUUID in this.gameSocketService
+                .threads) {
+                console.log(gameObjectThreadUUID);
+              }
+              throw new Error(
+                'cant find dest thread' + data.gameObjectDestUUID
+              );
+            }
+            destThread.addSocketWrapper(socketWrapper);
+            // add avatar
+            const avatarJSON = PrefabFactory.avatar(); // dirty but do the job for now
+            avatarJSON.uuid = data.avatarUUID; // tweak uuid (in future should rebuild the socket avatar avatar color + name)
+            destThread.post(NodeConstant.Thread.EVENT.PORTAL, {
+              object3D: avatarJSON,
+              portalUUID: data.portalUUID,
+            });
+          });
+        }
       });
   }
 };
@@ -827,7 +864,7 @@ const moulinetteWorldJSON = (oldJSON) => {
         newGOJSON.userData.isImage = true;
       }
 
-      if (newIds.includes('Portal')) {
+      if (newIds.includes('PortalSweep')) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isPortal = true;
       }

@@ -1,6 +1,6 @@
 {
   "gameObject": {
-    "name": "GameManager",
+    "name": "Flying Campus",
     "type": "GameObject",
     "static": true,
     "outdated": false,
@@ -2254,7 +2254,7 @@
                 "uuid": "80ADD0AF-DB8E-443B-B751-BB68B57BFC88",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
                   "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
                   "spawnRotation": {
                     "x": -0.11522197265624445,
@@ -2325,7 +2325,7 @@
                 "uuid": "BED7C964-45AA-4E10-9489-64BED47D8844",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+                  "gameObjectDestUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
                   "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
                   "spawnRotation": {
                     "x": -0.11522197265624445,
@@ -2481,7 +2481,7 @@
                 "uuid": "65415C23-576E-4144-A035-D2B77FCA3ACC",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
                   "portalUUID": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
                   "spawnRotation": {
                     "x": -0.11522197265624445,
@@ -2550,7 +2550,7 @@
                 "uuid": "7CCAE93A-9254-48C9-BAD4-7CAE4937D5C3",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
+                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
                   "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
                   "spawnRotation": {
                     "x": -0.11522197265624445,
@@ -2621,7 +2621,7 @@
                 "uuid": "853ED33F-B457-4AFB-B048-C8DCC9A25042",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "F2EF3E3F-9B40-4FF1-A28E-C8DF5A325DF1",
+                  "gameObjectDestUUID": "57538540-D500-45DA-BE83-F645EAC480EA",
                   "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
                   "spawnRotation": { "x": 0, "y": 0, "z": 0 },
                   "delay": 1000
@@ -2693,7 +2693,7 @@
                 "uuid": "45DBEB4E-BF39-4163-958A-2307FCDE811A",
                 "idScripts": ["portal", "interaction_zone"],
                 "conf": {
-                  "worldDestUUID": "05F3BB45-538D-4B22-9EBA-2B08F6921A51",
+                  "gameObjectDestUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
                   "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
                   "spawnRotation": { "x": 0, "y": 0, "z": 3.14 },
                   "delay": 1000
