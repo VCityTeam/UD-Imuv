@@ -602,97 +602,111 @@ module.exports = class UDIMUVServer {
           this.expressAppWrapper.httpServer,
           {
             socketConnectionCallbacks: [
-              (socket) => {
-                const sW = this.gameSocketService.socketWrappers[socket.id];
-
+              (socketWrapper) => {
                 // add userData in socket wrapper
-                sW.userData.nameUser =
+                socketWrapper.userData.nameUser =
                   'Guest@' + parseInt(Math.random() * 10000);
-                sW.userData.role = Constant.USER.ROLE.GUEST;
+                socketWrapper.userData.role = Constant.USER.ROLE.GUEST;
 
-                socket.emit(Constant.WEBSOCKET.MSG_TYPE.SIGNED, {
-                  nameUser: sW.userData.nameUser,
-                  role: sW.userData.role,
+                socketWrapper.socket.emit(Constant.WEBSOCKET.MSG_TYPE.SIGNED, {
+                  nameUser: socketWrapper.userData.nameUser,
+                  role: socketWrapper.userData.role,
                 });
 
                 //SIGN UP
-                socket.on(Constant.WEBSOCKET.MSG_TYPE.SIGN_UP, function (data) {
-                  (async () => {
-                    const user = new Parse.User();
-                    user.set(Constant.DB.USER.NAME, data.nameUser);
-                    user.set(Constant.DB.USER.EMAIL, data.email);
-                    user.set(Constant.DB.USER.PASSWORD, data.password);
-                    user.set(Constant.DB.USER.ROLE, Constant.USER.ROLE.DEFAULT);
-
-                    try {
-                      await user.signUp();
-                      socket.emit(Constant.WEBSOCKET.MSG_TYPE.SIGN_UP_SUCCESS);
-                    } catch (error) {
-                      console.error(
-                        'Error while signing up user',
-                        error.code,
-                        error.message
+                socketWrapper.socket.on(
+                  Constant.WEBSOCKET.MSG_TYPE.SIGN_UP,
+                  function (data) {
+                    (async () => {
+                      const user = new Parse.User();
+                      user.set(Constant.DB.USER.NAME, data.nameUser);
+                      user.set(Constant.DB.USER.EMAIL, data.email);
+                      user.set(Constant.DB.USER.PASSWORD, data.password);
+                      user.set(
+                        Constant.DB.USER.ROLE,
+                        Constant.USER.ROLE.DEFAULT
                       );
 
-                      socket.emit(
-                        Constant.WEBSOCKET.MSG_TYPE.INFO,
-                        error.message
-                      );
-                    }
-                  })();
-                });
+                      try {
+                        await user.signUp();
+                        socketWrapper.socket.emit(
+                          Constant.WEBSOCKET.MSG_TYPE.SIGN_UP_SUCCESS
+                        );
+                      } catch (error) {
+                        console.error(
+                          'Error while signing up user',
+                          error.code,
+                          error.message
+                        );
+
+                        socketWrapper.socket.emit(
+                          Constant.WEBSOCKET.MSG_TYPE.INFO,
+                          error.message
+                        );
+                      }
+                    })();
+                  }
+                );
 
                 //SIGN IN
-                socket.on(Constant.WEBSOCKET.MSG_TYPE.SIGN_IN, (data) => {
-                  (async () => {
-                    try {
-                      // Pass the username and password to logIn function
-                      const parseUser = await Parse.User.logIn(
-                        data.nameUser,
-                        data.password
-                      );
+                socketWrapper.socket.on(
+                  Constant.WEBSOCKET.MSG_TYPE.SIGN_IN,
+                  (data) => {
+                    (async () => {
+                      try {
+                        // Pass the username and password to logIn function
+                        const parseUser = await Parse.User.logIn(
+                          data.nameUser,
+                          data.password
+                        );
 
-                      let alreadyLogged = false;
-                      for (const id in this.gameSocketService.socketWrappers) {
-                        const otherSW =
-                          this.gameSocketService.socketWrappers[id];
+                        let alreadyLogged = false;
+                        for (const id in this.gameSocketService
+                          .socketWrappers) {
+                          const otherSW =
+                            this.gameSocketService.socketWrappers[id];
 
-                        if (sW === otherSW) continue; // dont check himself
+                          if (socketWrapper === otherSW) continue; // dont check himself
 
-                        if (otherSW.userData.parseUser === parseUser) {
-                          alreadyLogged = true;
-                          break;
+                          if (otherSW.userData.parseUser === parseUser) {
+                            alreadyLogged = true;
+                            break;
+                          }
                         }
+
+                        if (alreadyLogged)
+                          throw new Error('already logged ' + parseUser.id);
+
+                        // ref parseUser in socketWrapper
+                        socketWrapper.userData.parseUser = parseUser;
+
+                        // update client of the new name and role
+                        socketWrapper.socket.emit(
+                          Constant.WEBSOCKET.MSG_TYPE.SIGNED,
+                          {
+                            nameUser:
+                              await socketWrapper.userData.parseUser.get(
+                                Constant.DB.USER.NAME
+                              ),
+                            role: await socketWrapper.userData.parseUser.get(
+                              Constant.DB.USER.ROLE
+                            ),
+                          }
+                        );
+                      } catch (error) {
+                        console.error('Error while logging in user', error);
+                        socketWrapper.socket.emit(
+                          Constant.WEBSOCKET.MSG_TYPE.INFO,
+                          error.message
+                        );
                       }
-
-                      if (alreadyLogged)
-                        throw new Error('already logged ' + parseUser.id);
-
-                      // ref parseUser in socketWrapper
-                      sW.userData.parseUser = parseUser;
-
-                      // update client of the new name and role
-                      socket.emit(Constant.WEBSOCKET.MSG_TYPE.SIGNED, {
-                        nameUser: await sW.userData.parseUser.get(
-                          Constant.DB.USER.NAME
-                        ),
-                        role: await sW.userData.parseUser.get(
-                          Constant.DB.USER.ROLE
-                        ),
-                      });
-                    } catch (error) {
-                      console.error('Error while logging in user', error);
-                      socket.emit(
-                        Constant.WEBSOCKET.MSG_TYPE.INFO,
-                        error.message
-                      );
-                    }
-                  })();
-                });
+                    })();
+                  }
+                );
               },
             ],
             socketReadyForGamePromises: [
-              (socket, thread) => {
+              (socketWrapper, thread) => {
                 return new Promise((resolve) => {
                   // add an avatar in game
 
@@ -702,10 +716,8 @@ module.exports = class UDIMUVServer {
                     .apply(NodeConstant.THREAD.EVENT.SPAWN, avatarJSON)
                     .then(() => {
                       //register in wrapper avatar uuid
-                      const sW =
-                        this.gameSocketService.socketWrappers[socket.id];
-                      sW.userData.avatarUUID = avatarJSON.uuid;
-                      sW.userData.settings = {};
+                      socketWrapper.userData.avatarUUID = avatarJSON.uuid;
+                      socketWrapper.userData.settings = {};
 
                       resolve();
                     });
@@ -713,14 +725,13 @@ module.exports = class UDIMUVServer {
               },
             ],
             socketDisconnectionCallbacks: [
-              (socket, thread) => {
-                const sW = this.gameSocketService.socketWrappers[socket.id];
-                console.log(sW.userData);
+              (socketWrapper, thread) => {
+                console.log(socketWrapper.userData);
 
                 //remove avatar
                 thread.post(
                   Game.Thread.EVENT.REMOVE_OBJECT3D,
-                  sW.userData.avatarUUID
+                  socketWrapper.userData.avatarUUID
                 );
               },
             ],
