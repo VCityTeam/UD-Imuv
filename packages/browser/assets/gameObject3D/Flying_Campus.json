@@ -31,7 +31,8 @@
           "camera",
           "zeppelin_controller",
           "box3D_tool",
-          "static_object"
+          "static_object",
+          "AddItownsLayer"
         ],
         "conf": { "traveling_time": 3000 },
         "type": "LocalScript"

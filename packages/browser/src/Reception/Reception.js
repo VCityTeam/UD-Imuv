@@ -391,7 +391,6 @@ export class ReceptionView {
               parseInt(config['extent'].north)
             );
 
-            const frame3DPlanar = new Frame3DPlanar(extent);
             const game = new MultiPlayerGamePlanar(
               this.socketIOWrapper,
               extent,
@@ -413,24 +412,6 @@ export class ReceptionView {
             game.externalGameContext.userData.extent = extent;
 
             game.start();
-
-            addBaseMapLayer(
-              config.baseMapLayer,
-              frame3DPlanar.itownsView,
-              extent
-            );
-
-            addElevationLayer(
-              config.elevationLayer,
-              frame3DPlanar.itownsView,
-              extent
-            );
-
-            add3DTilesLayers(
-              config['3DTilesLayer'],
-              frame3DPlanar.layerManager,
-              frame3DPlanar.itownsView
-            );
 
             // const distantGame = new DistantGame(
             //   _this.socketIOWrapper,
