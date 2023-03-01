@@ -22,7 +22,7 @@ keyEnvVariables.forEach(function (key) {
 plugins.push(new webpack.DefinePlugin(params));
 
 let entryPath;
-if (process.env.TYPE === 'main_thread') {
+if (process.env.TYPE === 'lib') {
   entryPath = path.resolve(__dirname, 'src/index.js');
 } else {
   entryPath = path.resolve(__dirname, 'src/thread.js');

@@ -23,7 +23,7 @@ exec(
   .then(() => {
     const {
       UDIMUVServer,
-    } = require('../packages/node/dist/main_thread/debug/bundle');
+    } = require('../packages/node/dist/lib/debug/bundle');
     const app = new UDIMUVServer();
     app.start({
       folder: './packages/browser',
