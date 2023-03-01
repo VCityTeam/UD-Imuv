@@ -20,6 +20,25 @@ export class CameraManager extends ExternalScriptTemplate.CameraManager {
     );
   }
 
+  followZeppelin() {
+    let z = null;
+    this.context.object3D.traverse((child) => {
+      if (child.userData.isZeppelin) {
+        z = child;
+        return true; // stop propagation
+      }
+      return false; // continue to traverse
+    });
+    if (!z) throw new Error('no zeppelin');
+    const bb = new THREE.Box3().setFromObject(z);
+    this.followObject3D(
+      z,
+      DISTANCE_ZEPPELIN,
+      new THREE.Vector3(0, 0, bb.max.z - bb.min.z),
+      CAMERA_ANGLE
+    );
+  }
+
   moveToZeppelin() {
     let z = null;
     this.context.object3D.traverse((child) => {

@@ -39,12 +39,18 @@ export class ZeppelinController extends ExternalGame.ScriptBase {
 
     this.zeppelinControllerMode = value;
 
+    /** @type {CameraManager} */
+    const cameraManager =
+      this.context.findExternalScriptWithID('CameraManager');
+
     if (value) {
+      cameraManager.followZeppelin();
       const refine = this.context.findExternalScriptWithID('ItownsRefine');
       if (refine) refine.zeppelin();
-      this.commandController.addNativeCommands(zeppelinGO.uuid);
+      this.commandController.addNativeCommands(zeppelinGO.uuid, false);
       this.context.inputManager.setPointerLock(false);
     } else {
+      cameraManager.stopFollowObject3D();
       this.commandController.removeNativeCommands();
     }
 

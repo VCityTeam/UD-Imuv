@@ -31,7 +31,7 @@
           "camera",
           "place_post_it",
           "static_object",
-          "box3D_tool"
+          "box3D_tool", "AddItownsLayer"
         ],
         "conf": {},
         "type": "LocalScript"
