@@ -691,25 +691,25 @@ module.exports = class UDIMUVServer {
                 });
               },
             ],
-            socketReadyForGameCallbacks: [
+            socketReadyForGamePromises: [
               (socket, thread) => {
-                // add an avatar in game
+                return new Promise((resolve) => {
+                  // add an avatar in game
 
-                const avatarJSON = PrefabFactory.avatar().toJSON();
+                  const avatarJSON = PrefabFactory.avatar().toJSON();
 
-                thread.post(NodeConstant.Thread.EVENT.SPAWN, avatarJSON);
+                  thread
+                    .apply(NodeConstant.THREAD.EVENT.SPAWN, avatarJSON)
+                    .then(() => {
+                      //register in wrapper avatar uuid
+                      const sW =
+                        this.gameSocketService.socketWrappers[socket.id];
+                      sW.userData.avatarUUID = avatarJSON.uuid;
+                      sW.userData.settings = {};
 
-                socket.emit(
-                  SharedConstant.WEBSOCKET.MSG_TYPE.EXTERNAL_CONTEXT_USER_DATA,
-                  {
-                    avatarUUID: avatarJSON.uuid,
-                    settings: {},
-                  }
-                );
-
-                //register in wrapper avatar uuid
-                const sW = this.gameSocketService.socketWrappers[socket.id];
-                sW.userData.avatarUUID = avatarJSON.uuid;
+                      resolve();
+                    });
+                });
               },
             ],
             socketDisconnectionCallbacks: [
@@ -755,7 +755,7 @@ module.exports = class UDIMUVServer {
         // customize thread with the portal event
         for (const threadID in this.gameSocketService.threads) {
           const thread = this.gameSocketService.threads[threadID];
-          thread.on(NodeConstant.Thread.EVENT.PORTAL, (data) => {
+          thread.on(NodeConstant.THREAD.EVENT.PORTAL, (data) => {
             // find socket wrapper with avatarUUID
             let socketWrapper = null;
             for (let index = 0; index < thread.socketWrappers.length; index++) {
@@ -765,7 +765,10 @@ module.exports = class UDIMUVServer {
                 break;
               }
             }
-            if (!socketWrapper) throw new Error('cant find socket wrapper');
+            if (!socketWrapper) {
+              console.warn('socket wrapper not in thread ', threadID);
+              return; // can happen when avatar trigger portal event twice
+            }
 
             // remove it from current thread
             thread.removeSocketWrapper(socketWrapper);
@@ -784,14 +787,18 @@ module.exports = class UDIMUVServer {
                 'cant find dest thread' + data.gameObjectDestUUID
               );
             }
-            destThread.addSocketWrapper(socketWrapper);
             // add avatar
             const avatarJSON = PrefabFactory.avatar(); // dirty but do the job for now
             avatarJSON.uuid = data.avatarUUID; // tweak uuid (in future should rebuild the socket avatar avatar color + name)
-            destThread.post(NodeConstant.Thread.EVENT.PORTAL, {
-              object3D: avatarJSON,
-              portalUUID: data.portalUUID,
-            });
+            destThread
+              .apply(NodeConstant.THREAD.EVENT.PORTAL, {
+                object3D: avatarJSON,
+                portalUUID: data.portalUUID,
+              })
+              .then(() => {
+                // add it after to be sure avatar is in thread
+                destThread.addSocketWrapper(socketWrapper);
+              });
           });
         }
       });
