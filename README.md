@@ -1,6 +1,6 @@
 # IMUV - Flying Campus
 
-![1](https://user-images.githubusercontent.com/34244904/175906788-96bad344-d4ac-4baa-b7b9-78451a9ba59b.png)
+![IMUV-Homepage](./Pictures/IMUV_Homepage.png)
 
 IMUV is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
