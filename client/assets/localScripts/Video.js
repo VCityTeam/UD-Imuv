@@ -22,7 +22,6 @@ module.exports = class Video {
   init() {
     const go = arguments[0];
     const localCtx = arguments[1];
-    debugger;
     const video = document.createElement('video');
     video.src = localCtx
       .getGameView()
