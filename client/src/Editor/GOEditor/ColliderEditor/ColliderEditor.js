@@ -65,7 +65,10 @@ export class ColliderEditorView {
   getColliderComponent() {
     const go = this.goSelected;
     if (!go) throw new Error('no map object in world');
-    const goInGv = this.gameView.getLastState().getGameObject().find(go.object3D.userData.gameObjectUUID);
+    const goInGv = this.gameView
+      .getLastState()
+      .getGameObject()
+      .find(go.object3D.userData.gameObjectUUID);
     let colliderComp = goInGv.getComponent(ColliderModule.TYPE);
     if (!colliderComp) {
       colliderComp = goInGv.addComponent(
