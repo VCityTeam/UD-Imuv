@@ -95,4 +95,8 @@ module.exports = class CityAvatar extends Game.ScriptBase {
       rotation.x = Math.min(angle1, rotation.x);
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'city_avatar_id_script';
+  }
 };

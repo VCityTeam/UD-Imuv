@@ -2,7 +2,7 @@
   "name": "@ud-imuv/shared",
   "version": "1.3.0",
   "description": "Extension of @ud-viz/node, in ud-imuv context",
-  "main": "src/index.js",
+  "main": "./src/index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config=./webpackConfig/webpack.config.js",
     "build-debug": "cross-env NODE_ENV=development webpack --config=./webpackConfig/webpack.config.js",
@@ -12,6 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ud-viz/shared": "file:../../../UD-Viz/packages/shared"
+    "@ud-viz/shared": "3.1.0"
   }
 }

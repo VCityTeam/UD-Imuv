@@ -1,5 +1,6 @@
 const { Game } = require('@ud-viz/shared');
 const Constant = require('../Constant');
+const Map = require('@ud-viz/node/src/Game/ScriptTemplate/Map');
 
 module.exports = class MiniMap extends Game.ScriptBase {
   tick() {
@@ -38,7 +39,7 @@ module.exports = class MiniMap extends Game.ScriptBase {
       }
     }
 
-    const scriptMap = this.context.findGameScriptWithID('Map');
+    const scriptMap = this.context.findGameScriptWithID(Map.ID_SCRIPT);
     if (!scriptMap) throw new Error('no map world script');
 
     teleportCmds.forEach((tpCmd) => {
@@ -70,5 +71,8 @@ module.exports = class MiniMap extends Game.ScriptBase {
       lsMiniMap.getModel().getVariables().mini_map_ping.push(data);
       this.object3D.setOutdated(true);
     });
+  }
+  static get ID_SCRIPT() {
+    return 'mini_map_id_script';
   }
 };

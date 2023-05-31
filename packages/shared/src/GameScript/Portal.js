@@ -28,4 +28,8 @@ module.exports = class Portal extends Game.ScriptBase {
       }, 1000);
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'portal_id_script';
+  }
 };

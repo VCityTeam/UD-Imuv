@@ -16,7 +16,7 @@
     "build-shared": "npm run build --prefix ./packages/shared",
     "build-browser": "npm run build --prefix ./packages/browser",
     "build-node": "npm run build --prefix ./packages/node",
-    "debug": "cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./packages/shared/src --watch ./packages/browser/src --watch ./packages/node/src --delay 2500ms ./bin/debug.js -e js,css,html"
+    "debug": "dotenv -e .env -- cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./packages/shared/src --watch ./packages/browser/src --watch ./packages/node/src --delay 2500ms ./bin/debug.js -e js,css,html"
   },
   "repository": {
     "type": "git",
@@ -32,12 +32,12 @@
   },
   "homepage": "https://github.com/VCityTeam/UD-Imuv#readme",
   "devDependencies": {
-    "@ud-imuv/shared": "^1.3.0",
-    "@ud-viz/node": "^3.0.0",
+    "@ud-viz/node": "file:../UD-Viz/packages/node",
     "child-process-promise": "^2.2.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "dotenv": "^16.0.1",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.2.1",

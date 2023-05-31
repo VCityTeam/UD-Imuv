@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
-        "idScripts": ["Spawner", "NativeCommandManager"],
+        "idScripts": ["spawner_id_script", "NativeCommandManager"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
@@ -24,7 +24,12 @@
       },
       "LocalScript": {
         "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-        "idScripts": ["avatar_controller", "camera", "static_object", "AddItownsLayer"],
+        "idScripts": [
+          "avatar_controller",
+          "camera",
+          "static_object",
+          "AddItownsLayer"
+        ],
         "conf": {},
         "type": "LocalScript"
       }

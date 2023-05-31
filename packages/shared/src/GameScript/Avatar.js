@@ -1,4 +1,5 @@
 const { Game } = require('@ud-viz/shared');
+const { Spawner } = require('./GameScript');
 
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
 const AVATAR_SPEED_ROTATION_X = 0.00001;
@@ -20,7 +21,7 @@ module.exports = class Avatar extends Game.ScriptBase {
 
   spawn() {
     //spawn
-    const spawner = this.context.findGameScriptWithID('Spawner');
+    const spawner = this.context.findGameScriptWithID(Spawner.ID_SCRIPT);
     spawner.initiazeSpawnTransform(this.object3D);
   }
 
@@ -351,5 +352,9 @@ module.exports = class Avatar extends Game.ScriptBase {
     if (cityAvatarNotAllowAreaScript) {
       this.canJump = true;
     }
+  }
+
+  static get ID_SCRIPT() {
+    return 'avatar_id_script';
   }
 };
