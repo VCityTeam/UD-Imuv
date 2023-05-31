@@ -134,4 +134,7 @@ module.exports = class InteractionZone extends Game.ScriptBase {
       }
     }
   }
+  static get ID_SCRIPT() {
+    return 'interaction_zone_id_script';
+  }
 };

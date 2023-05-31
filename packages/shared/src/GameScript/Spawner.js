@@ -13,4 +13,8 @@ module.exports = class Spawner extends Game.ScriptBase {
       this.context.updateCollisionBuffer();
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'spawner_id_script';
+  }
 };

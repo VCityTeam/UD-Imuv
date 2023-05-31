@@ -11,4 +11,8 @@ module.exports = class UI extends Game.ScriptBase {
       this.context.dt;
     this.object3D.setOutdated(true); // notify external onOutdated event
   }
+
+  static get ID_SCRIPT() {
+    return 'ui_id_script';
+  }
 };

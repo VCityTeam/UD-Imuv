@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
-        "idScripts": ["Spawner", "NativeCommandManager"],
+        "idScripts": ["spawner_id_script", "NativeCommandManager"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
@@ -31,7 +31,8 @@
           "camera",
           "place_post_it",
           "static_object",
-          "box3D_tool", "AddItownsLayer"
+          "box3D_tool",
+          "AddItownsLayer"
         ],
         "conf": {},
         "type": "LocalScript"

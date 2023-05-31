@@ -66,4 +66,8 @@ module.exports = class CityMap extends Game.ScriptBase {
       this.object3D.setOutdated(true);
     });
   }
+
+  static get ID_SCRIPT() {
+    return 'city_map_id_script';
+  }
 };
