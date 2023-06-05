@@ -9,7 +9,7 @@
       "body": false
     },
     "WorldScript": {
-      "idScripts": ["city_avatar_not_allow_area"],
+      "idScripts": ["avatar_not_allow_id_script"],
       "conf": {},
       "type": "WorldScript"
     }

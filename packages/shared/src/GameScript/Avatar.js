@@ -1,5 +1,5 @@
 const { Game } = require('@ud-viz/shared');
-const { Spawner } = require('./GameScript');
+const Spawner = require('./Spawner');
 
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
 const AVATAR_SPEED_ROTATION_X = 0.00001;

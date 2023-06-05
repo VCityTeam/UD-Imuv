@@ -826,6 +826,7 @@ const moulinetteWorldJSON = (oldJSON) => {
     newGOJSON.components = {};
 
     function formatId(string) {
+      return string;
       const s = string.split('_');
 
       let result = '';

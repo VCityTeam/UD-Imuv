@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "022805AE-633B-42F6-B3FF-EAE277AF4BA8",
-        "idScripts": ["spawner_id_script", "NativeCommandManager"],
+        "idScripts": ["spawner_id_script", "native_command_manager_id"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
@@ -56,7 +56,7 @@
           },
           "WorldScript": {
             "uuid": "AC701FB0-0610-484C-BDF6-52A3A5A5EA3D",
-            "idScripts": ["map"],
+            "idScripts": ["map_id"],
             "conf": {
               "heightmap_path": "./assets/img/uploaded/E8A20418-D832-41CE-A39A-E9E4E4E9A4D8.jpeg",
               "heightmap_geometry": { "max": 4, "min": -1, "size": 19 }
@@ -276,7 +276,7 @@
               },
               "WorldScript": {
                 "uuid": "AF81C7FD-1701-49A3-86A7-08FD16B2D855",
-                "idScripts": ["portal", "interaction_zone"],
+                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
                 "conf": {
                   "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "9A86811A-7AE7-4B1D-A3D7-44F51A9F4B65",
@@ -535,7 +535,7 @@
               },
               "WorldScript": {
                 "uuid": "37E10E26-E7C9-4C21-82E4-536616FBF3CC",
-                "idScripts": ["interaction_zone"],
+                "idScripts": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -651,13 +651,13 @@
         "components": {
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
-            "idScripts": ["UI"],
+            "idScripts": ["ui_id_script"],
             "conf": { "gameContextDt": 428 },
             "type": "LocalScript"
           },
           "WorldScript": {
             "uuid": "FD5FAD5B-AFBB-4511-B757-E1F6EB1D2512",
-            "idScripts": ["UI"],
+            "idScripts": ["ui_id_script"],
             "conf": {},
             "type": "WorldScript"
           }
