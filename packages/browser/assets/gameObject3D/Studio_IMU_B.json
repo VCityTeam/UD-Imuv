@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
-        "idScripts": ["spawner_id_script", "NativeCommandManager"],
+        "idScripts": ["spawner_id_script", "native_command_manager_id"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
@@ -56,7 +56,7 @@
           },
           "WorldScript": {
             "uuid": "9C4B4F22-EFF9-4BFE-B81E-E9A0AD5E7D08",
-            "idScripts": ["map"],
+            "idScripts": ["map_id"],
             "conf": {
               "heightmap_path": "./assets/img/uploaded/AAE1EBE9-3F80-4B11-971E-A29414DEB58F.jpeg",
               "heightmap_geometry": { "max": 4, "min": -1, "size": 20 }
@@ -226,7 +226,7 @@
               },
               "WorldScript": {
                 "uuid": "39A9CB98-B49B-4CD1-9C38-8407728268EF",
-                "idScripts": ["portal", "interaction_zone"],
+                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
                 "conf": {
                   "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "385DB463-DE88-485B-B6B3-05C3990D9654",
@@ -712,13 +712,13 @@
         "components": {
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
-            "idScripts": ["UI"],
+            "idScripts": ["ui_id_script"],
             "conf": { "gameContextDt": 427 },
             "type": "LocalScript"
           },
           "WorldScript": {
             "uuid": "20A3A96E-0D55-4465-A27E-823ACF6381B7",
-            "idScripts": ["UI"],
+            "idScripts": ["ui_id_script"],
             "conf": {},
             "type": "WorldScript"
           }

@@ -25,7 +25,7 @@
       "type": "LocalScript"
     },
     "WorldScript": {
-      "idScripts": ["interaction_zone"],
+      "idScripts": ["interaction_zone_id_script"],
       "conf": {},
       "type": "WorldScript"
     }

@@ -11,3 +11,4 @@ Test/**
 client/commit_info.json
 client/assets/img/avatar/*
 *.sh
+commit_info.json

@@ -14,7 +14,7 @@ const printExec = function (result) {
 };
 
 // run a build debug bundle browser
-exec('npm run build-debug --prefix ./packages/browser').then(printExec);
+// exec('npm run build-debug --prefix ./packages/browser').then(printExec);
 
 // run a build debug bundle node
 
