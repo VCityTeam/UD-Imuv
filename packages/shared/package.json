@@ -12,6 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ud-viz/shared": "file:../../../Ud-Viz/packages/shared"
+    "@ud-viz/shared": "file:../../../UD-Viz/packages/shared"
   }
 }
