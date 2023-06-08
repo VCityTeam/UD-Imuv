@@ -1,7 +1,6 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Command, Game } from '@ud-viz/shared';
+import { Game, Shared, THREE } from '@ud-viz/browser';
 
-export class PostIt extends ExternalGame.ScriptBase {
+export class PostIt extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -79,8 +78,8 @@ class MenuPostIt {
     //callback
     deletePostIt.onclick = function () {
       externalGameContext.sendCommandToGameContext([
-        new Command({
-          type: Game.ScriptTemplate.Constants.COMMAND.REMOVE_OBJECT3D,
+        new Shared.Command({
+          type: Shared.Game.ScriptTemplate.Constants.COMMAND.REMOVE_OBJECT3D,
           data: {
             object3DUUID: postItGameObject.uuid,
           },

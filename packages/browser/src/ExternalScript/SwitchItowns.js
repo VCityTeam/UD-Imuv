@@ -1,7 +1,12 @@
-import { ExternalGame, THREE, Widget, itownsWidgets } from '@ud-viz/browser';
-import { CameraManager } from './CameraManager'; // just for doc
+import {
+  Game,
+  RequestService,
+  THREE,
+  Widget,
+  itownsWidgets,
+} from '@ud-viz/browser';
 
-export class SwitchItowns extends ExternalGame.ScriptBase {
+export class SwitchItowns extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -133,48 +138,14 @@ class MenuItowns {
       new Widget.LayerChoice(externalContext.frame3D.layerManager)
     );
 
-    //cityObjects
-    const configStyles = {
-      layerDefault: {
-        materialProps: {
-          color: '#ffa14f',
-        },
-      },
-      selection: {
-        materialProps: {
-          color: '#13ddef',
-        },
-      },
-      linkedWithDisplayedDocument: {
-        materialProps: {
-          color: '#4c5af7',
-        },
-      },
-    };
-    const cityObjectProvider = new Widget.CityObjectProvider(
-      externalContext.frame3D.layerManager,
-      configStyles
-    );
-
-    this.addModuleView(
-      'City Object',
-      new Widget.CityObjectModule(cityObjectProvider, configStyles).view
-    );
-
     //cameraPositionner
     this.addModuleView(
       'Camera Positioner',
-      new Widget.CameraPositionerView(externalContext.frame3D.itownsView)
-    );
-
-    //debug3DTiles
-    this.addModuleView(
-      'Debug 3DTiles',
-      new Widget.Debug3DTilesWindow(externalContext.frame3D.layerManager)
+      new Widget.CameraPositioner(externalContext.frame3D.itownsView)
     );
 
     //geocoding
-    const requestService = new Widget.Server.Component.RequestService();
+    const requestService = new RequestService();
     const geocodingService = new Widget.Server.GeocodingService(
       requestService,
       externalContext.userData.extent,

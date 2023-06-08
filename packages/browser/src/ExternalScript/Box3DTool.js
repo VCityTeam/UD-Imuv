@@ -1,13 +1,13 @@
 import {
-  ExternalGame,
   THREE,
   OrbitControls,
   TransformControls,
+  Shared,
+  Game,
 } from '@ud-viz/browser';
 import { PrefabFactory } from '@ud-imuv/shared';
-import { Command, Game } from '@ud-viz/shared';
 
-export class Box3DTool extends ExternalGame.ScriptBase {
+export class Box3DTool extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -150,8 +150,8 @@ class MenuBox3D {
       newBox3D.scale.copy(new THREE.Vector3(50, 50, 50));
 
       this.context.sendCommandToGameContext([
-        new Command({
-          type: Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
+        new Shared.Command({
+          type: Shared.Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
           data: {
             object3D: newBox3D.toJSON(),
           },
@@ -238,8 +238,8 @@ class MenuBox3D {
     removeButton.innerHTML = 'Remove';
     removeButton.onclick = () => {
       this.context.sendCommandToGameContext([
-        new Command({
-          type: Game.ScriptTemplate.Constants.COMMAND.REMOVE_OBJECT3D,
+        new Shared.Command({
+          type: Shared.Game.ScriptTemplate.Constants.COMMAND.REMOVE_OBJECT3D,
           data: {
             object3DUUID: this.selectedBox3D.uuid,
           },
@@ -328,8 +328,8 @@ class MenuBox3D {
       this.transformCtrl.addEventListener('change', () => {
         this.transformCtrl.updateMatrixWorld();
         this.context.sendCommandToGameContext([
-          new Command({
-            type: Game.ScriptTemplate.Constants.COMMAND.UPDATE_TRANSFORM,
+          new Shared.Command({
+            type: Shared.Game.ScriptTemplate.Constants.COMMAND.UPDATE_TRANSFORM,
             data: {
               object3DUUID: this.selectedBox3D.uuid,
               position: this.ghostBox.position.clone().sub(parentPosition),

@@ -1,6 +1,6 @@
 import { CommitInfo } from './CommitInfo/CommitInfo';
 import { DocPage } from './Doc/DocPage';
-import { FileUtil } from '@ud-viz/browser';
+import { loadJSON } from '@ud-viz/browser';
 
 import './InfoUI.css';
 
@@ -17,7 +17,7 @@ export class InfoUI {
     const _this = this;
 
     return new Promise((resolve) => {
-      FileUtil.loadJSON(path).then((commitJson) => {
+      loadJSON(path).then((commitJson) => {
         _this.commitInfo = new CommitInfo(commitJson);
         _this.rootHtml.appendChild(_this.commitInfo.html());
         resolve();

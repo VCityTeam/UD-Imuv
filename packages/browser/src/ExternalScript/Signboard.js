@@ -1,7 +1,6 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, THREE, Shared } from '@ud-viz/browser';
 
-export class Signboard extends ExternalGame.ScriptBase {
+export class Signboard extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -18,7 +17,9 @@ export class Signboard extends ExternalGame.ScriptBase {
   }
 
   init() {
-    this.renderPlane = this.object3D.getComponent(Game.Component.Render.TYPE);
+    this.renderPlane = this.object3D.getComponent(
+      Shared.Game.Component.Render.TYPE
+    );
     this.renderFrame = this.object3D.children[0].getComponent(
       Game.Component.Render.TYPE
     );

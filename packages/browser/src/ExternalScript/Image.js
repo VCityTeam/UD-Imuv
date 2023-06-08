@@ -1,10 +1,9 @@
-import { ExternalGame, THREE, jquery } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, Shared, THREE, jquery } from '@ud-viz/browser';
 import { Constant } from '@ud-imuv/shared';
 
 const RADIUS_MAP = 40;
 
-export class Image extends ExternalGame.ScriptBase {
+export class Image extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -40,7 +39,7 @@ export class Image extends ExternalGame.ScriptBase {
         32
       );
       this.imagePlane = new THREE.Mesh(geometry, material);
-      const r = this.object3D.getComponent(Game.Component.Render.TYPE);
+      const r = this.object3D.getComponent(Shared.Game.Component.Render.TYPE);
       r.getController().addObject3D(this.imagePlane);
     };
 
@@ -149,7 +148,9 @@ export class Image extends ExternalGame.ScriptBase {
     }
     if (!playSound || !value) return;
 
-    const audioComp = this.object3D.getComponent(Game.Component.Audio.TYPE);
+    const audioComp = this.object3D.getComponent(
+      Shared.Game.Component.Audio.TYPE
+    );
     audioComp.getController().play('open_popup');
   }
 
@@ -181,7 +182,7 @@ export class Image extends ExternalGame.ScriptBase {
           this.context.object3D.traverse((child) => {
             if (!child.isImage) return;
             const externalCompChild = child.getComponent(
-              Game.Component.ExternalScript.TYPE
+              Shared.Game.Component.ExternalScript.TYPE
             );
             externalCompChild
               .getController()

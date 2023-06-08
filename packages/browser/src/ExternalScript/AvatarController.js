@@ -1,7 +1,6 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Command, Game } from '@ud-viz/shared';
+import { Game, Shared, THREE } from '@ud-viz/browser';
 
-export class AvatarController extends ExternalGame.ScriptBase {
+export class AvatarController extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -78,8 +77,9 @@ export class AvatarController extends ExternalGame.ScriptBase {
             if (forwardStart) {
               this.context.inputManager.setPointerLock(true);
 
-              return new Command({
-                type: Game.ScriptTemplate.Constants.COMMAND.MOVE_FORWARD_START,
+              return new Shared.Command({
+                type: Shared.Game.ScriptTemplate.Constants.COMMAND
+                  .MOVE_FORWARD_START,
                 data: { object3DUUID: this.context.userData.avatarUUID },
               });
             }
@@ -91,8 +91,9 @@ export class AvatarController extends ExternalGame.ScriptBase {
             this.context.inputManager.isKeyUp('s') ||
             this.context.inputManager.isKeyUp('ArrowDown');
           if (forwardEnd) {
-            return new Command({
-              type: Game.ScriptTemplate.Constants.COMMAND.MOVE_FORWARD_END,
+            return new Shared.Command({
+              type: Shared.Game.ScriptTemplate.Constants.COMMAND
+                .MOVE_FORWARD_END,
               data: { object3DUUID: this.context.userData.avatarUUID },
             });
           }
@@ -112,8 +113,9 @@ export class AvatarController extends ExternalGame.ScriptBase {
             backwardStart = backwardDown;
             if (backwardStart) {
               this.context.inputManager.setPointerLock(true);
-              return new Command({
-                type: Game.ScriptTemplate.Constants.COMMAND.MOVE_BACKWARD_START,
+              return new Shared.Command({
+                type: Shared.Game.ScriptTemplate.Constants.COMMAND
+                  .MOVE_BACKWARD_START,
                 data: { object3DUUID: this.context.userData.avatarUUID },
               });
             }
@@ -125,8 +127,9 @@ export class AvatarController extends ExternalGame.ScriptBase {
             this.context.inputManager.isKeyUp('s') ||
             this.context.inputManager.isKeyUp('ArrowDown');
           if (backwardEnd) {
-            return new Command({
-              type: Game.ScriptTemplate.Constants.COMMAND.MOVE_BACKWARD_END,
+            return new Shared.Command({
+              type: Shared.Game.ScriptTemplate.Constants.COMMAND
+                .MOVE_BACKWARD_END,
               data: { object3DUUID: this.context.userData.avatarUUID },
             });
           }
@@ -146,8 +149,9 @@ export class AvatarController extends ExternalGame.ScriptBase {
             leftStart = leftDown;
             if (leftStart) {
               this.context.inputManager.setPointerLock(true);
-              return new Command({
-                type: Game.ScriptTemplate.Constants.COMMAND.MOVE_LEFT_START,
+              return new Shared.Command({
+                type: Shared.Game.ScriptTemplate.Constants.COMMAND
+                  .MOVE_LEFT_START,
                 data: { object3DUUID: this.context.userData.avatarUUID },
               });
             }
@@ -159,8 +163,8 @@ export class AvatarController extends ExternalGame.ScriptBase {
             this.context.inputManager.isKeyUp('q') ||
             this.context.inputManager.isKeyUp('ArrowLeft');
           if (leftEnd) {
-            return new Command({
-              type: Game.ScriptTemplate.Constants.COMMAND.MOVE_LEFT_END,
+            return new Shared.Command({
+              type: Shared.Game.ScriptTemplate.Constants.COMMAND.MOVE_LEFT_END,
               data: { object3DUUID: this.context.userData.avatarUUID },
             });
           }
@@ -180,8 +184,9 @@ export class AvatarController extends ExternalGame.ScriptBase {
             rightStart = rightDown;
             if (rightStart) {
               this.context.inputManager.setPointerLock(true);
-              return new Command({
-                type: Game.ScriptTemplate.Constants.COMMAND.MOVE_RIGHT_START,
+              return new Shared.Command({
+                type: Shared.Game.ScriptTemplate.Constants.COMMAND
+                  .MOVE_RIGHT_START,
                 data: { object3DUUID: this.context.userData.avatarUUID },
               });
             }
@@ -193,8 +198,8 @@ export class AvatarController extends ExternalGame.ScriptBase {
             this.context.inputManager.isKeyUp('q') ||
             this.context.inputManager.isKeyUp('ArrowLeft');
           if (rightEnd) {
-            return new Command({
-              type: Game.ScriptTemplate.Constants.COMMAND.MOVE_RIGHT_END,
+            return new Shared.Command({
+              type: Shared.Game.ScriptTemplate.Constants.COMMAND.MOVE_RIGHT_END,
               data: { object3DUUID: this.context.userData.avatarUUID },
             });
           }
@@ -223,8 +228,8 @@ export class AvatarController extends ExternalGame.ScriptBase {
               pixelX *= dragRatio;
               pixelY *= dragRatio;
 
-              return new Command({
-                type: Game.ScriptTemplate.Constants.COMMAND.ROTATE,
+              return new Shared.Command({
+                type: Shared.Game.ScriptTemplate.Constants.COMMAND.ROTATE,
                 data: {
                   object3DUUID: this.context.userData.avatarUUID,
                   vector: new THREE.Vector3(pixelY, 0, pixelX),

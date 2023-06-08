@@ -1,8 +1,7 @@
-import { ExternalGame, FileUtil, THREE } from '@ud-viz/browser';
+import { Game, THREE, loadJSON, Shared } from '@ud-viz/browser';
 import { Constant } from '@ud-imuv/shared';
-import { Game } from '@ud-viz/shared';
 
-export class UI extends ExternalGame.ScriptBase {
+export class UI extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -156,7 +155,7 @@ export class UI extends ExternalGame.ScriptBase {
           this.context.frame3D.html().remove();
 
           //create world
-          const menuAvatar = new Game.Object3D({
+          const menuAvatar = new Shared.Game.Object3D({
             name: 'MenuAvatar',
             static: true,
             components: {
@@ -167,7 +166,7 @@ export class UI extends ExternalGame.ScriptBase {
           });
 
           //launch menu avatar
-          FileUtil.loadJSON('./assets/config/config.json').then((config) => {
+          loadJSON('./assets/config/config.json').then((config) => {
             console.error('no reimplemented yet');
             // const app = new udviz.Templates.LocalGame();
             // app

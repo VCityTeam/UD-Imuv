@@ -1,11 +1,10 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, THREE, Shared } from '@ud-viz/browser';
 import { Constant } from '@ud-imuv/shared';
 
 const DEFAULT_IMG_SRC =
   'https://upload.wikimedia.org/wikipedia/commons/3/31/White_paper.jpg';
 
-export class Whiteboard extends ExternalGame.ScriptBase {
+export class Whiteboard extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -37,7 +36,7 @@ export class Whiteboard extends ExternalGame.ScriptBase {
         32
       );
       this.imagePlane = new THREE.Mesh(geometry, material);
-      const r = this.object3D.getComponent(Game.Component.Render.TYPE);
+      const r = this.object3D.getComponent(Shared.Game.Component.Render.TYPE);
       r.getController().addObject3D(this.imagePlane);
     };
 

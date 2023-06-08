@@ -1,9 +1,8 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, Shared, THREE } from '@ud-viz/browser';
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { Constant } from '@ud-imuv/shared';
 
-export class JitsiArea extends ExternalGame.ScriptBase {
+export class JitsiArea extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -35,7 +34,7 @@ export class JitsiArea extends ExternalGame.ScriptBase {
     );
     if (avatarGO) {
       const externalComp = avatarGO.getComponent(
-        Game.Component.ExternalScript.TYPE
+        Shared.Game.Component.ExternalScript.TYPE
       );
       name = externalComp.getModel().getVariables().name;
     }
@@ -127,10 +126,12 @@ export class JitsiArea extends ExternalGame.ScriptBase {
   }
 
   buildShapes() {
-    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+    const renderComp = this.object3D.getComponent(
+      Shared.Game.Component.Render.TYPE
+    );
 
     const shapesJSON = this.object3D
-      .getComponent(Game.Component.Collider.TYPE)
+      .getComponent(Shared.Game.Component.Collider.TYPE)
       .getModel()
       .getShapesJSON();
 

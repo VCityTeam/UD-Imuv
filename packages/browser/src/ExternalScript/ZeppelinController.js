@@ -1,6 +1,6 @@
-import { ExternalGame, ExternalScriptTemplate } from '@ud-viz/browser';
+import { Game } from '@ud-viz/browser';
 
-export class ZeppelinController extends ExternalGame.ScriptBase {
+export class ZeppelinController extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -11,7 +11,7 @@ export class ZeppelinController extends ExternalGame.ScriptBase {
   }
 
   init() {
-    this.commandController = new ExternalScriptTemplate.CommandController(
+    this.commandController = new Game.External.ScriptTemplate.CommandController(
       this.context.inputManager
     );
   }

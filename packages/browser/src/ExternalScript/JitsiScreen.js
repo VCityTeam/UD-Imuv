@@ -1,9 +1,9 @@
-import { ExternalGame, Billboard, THREE } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, THREE, DomElement3D, Shared } from '@ud-viz/browser';
+
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { Constant } from '@ud-imuv/shared';
 
-export class JitsiScreen extends ExternalGame.ScriptBase {
+export class JitsiScreen extends Game.External.ScriptBase {
   init() {
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
@@ -25,7 +25,7 @@ export class JitsiScreen extends ExternalGame.ScriptBase {
     );
     if (avatarGO) {
       const externalComp = avatarGO.getComponent(
-        Game.Component.ExternalScript.TYPE
+        Shared.Game.Component.ExternalScript.TYPE
       );
       name = externalComp.getModel().getVariables().name;
     }
@@ -86,22 +86,22 @@ export class JitsiScreen extends ExternalGame.ScriptBase {
     const url = new URL(Constant.JITSI.PUBLIC_URL);
     new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
-    const positionBillboard = new THREE.Vector3();
-    const quaternionBillboard = new THREE.Quaternion();
-    const scaleBillboard = new THREE.Vector3();
+    const positionDomElement3D = new THREE.Vector3();
+    const quaternionDomElement3D = new THREE.Quaternion();
+    const scaleDomElement3D = new THREE.Vector3();
     this.object3D.matrixWorld.decompose(
-      positionBillboard,
-      quaternionBillboard,
-      scaleBillboard
+      positionDomElement3D,
+      quaternionDomElement3D,
+      scaleDomElement3D
     );
 
-    const billboard = new Billboard(
+    const domElement3D = new DomElement3D(
       divJitsi,
-      positionBillboard,
-      new THREE.Euler().setFromQuaternion(quaternionBillboard),
-      scaleBillboard,
+      positionDomElement3D,
+      new THREE.Euler().setFromQuaternion(quaternionDomElement3D),
+      scaleDomElement3D,
       200
     );
-    this.context.frame3D.appendBillboard(billboard);
+    this.context.frame3D.appendBillboard(domElement3D);
   }
 }

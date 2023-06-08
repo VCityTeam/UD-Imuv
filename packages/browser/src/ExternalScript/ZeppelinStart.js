@@ -1,7 +1,6 @@
-import { ExternalGame, OrbitControls, THREE } from '@ud-viz/browser';
-import { Command, Game } from '@ud-viz/shared';
+import { OrbitControls, THREE, Game, Shared } from '@ud-viz/browser';
 
-export class ZeppelinStart extends ExternalGame.ScriptBase {
+export class ZeppelinStart extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -66,8 +65,8 @@ export class ZeppelinStart extends ExternalGame.ScriptBase {
             avatarController.setAvatarControllerMode(true);
 
             this.context.sendCommandToGameContext([
-              new Command({
-                type: Game.ScriptTemplate.Constants.COMMAND
+              new Shared.Command({
+                type: Shared.Game.ScriptTemplate.Constants.COMMAND
                   .UPDATE_EXTERNALSCRIPT_VARIABLES,
                 data: {
                   object3DUUID: avatarGO.uuid,
@@ -84,7 +83,7 @@ export class ZeppelinStart extends ExternalGame.ScriptBase {
 
           //avatar invisible
           this.context.sendCommandToGameContext([
-            new Command({
+            new Shared.Command({
               type: Game.ScriptTemplate.Constants.COMMAND
                 .UPDATE_EXTERNALSCRIPT_VARIABLES,
               data: {
@@ -182,8 +181,8 @@ export class ZeppelinStart extends ExternalGame.ScriptBase {
 
     //edit server side
     this.context.sendCommandToGameContext([
-      new Command({
-        type: Game.ScriptTemplate.Constants.COMMAND
+      new Shared.Command({
+        type: Shared.Game.ScriptTemplate.Constants.COMMAND
           .UPDATE_EXTERNALSCRIPT_VARIABLES,
         data: {
           object3DUUID: this.object3D.uuid,
@@ -199,8 +198,8 @@ export class ZeppelinStart extends ExternalGame.ScriptBase {
 
       //edit server side to remove pilot
       this.context.sendCommandToGameContext([
-        new Command({
-          type: Game.ScriptTemplate.Constants.COMMAND
+        new Shared.Command({
+          type: Shared.Game.ScriptTemplate.Constants.COMMAND
             .UPDATE_EXTERNALSCRIPT_VARIABLES,
           data: {
             object3DUUID: this.object3D.uuid,
@@ -275,7 +274,7 @@ class MenuZeppelin {
         this.rootHtml.innerHTML = 'Vous pilotez le Zeppelyon';
       } else {
         const namePilot = pilot
-          .getComponent(Game.Component.ExternalScript.TYPE)
+          .getComponent(Shared.Game.Component.ExternalScript.TYPE)
           .getModel()
           .getVariables().name;
         this.rootHtml.innerHTML = namePilot + ' est le pilote';
