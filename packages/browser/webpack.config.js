@@ -1,18 +1,32 @@
-/** @format */
 const path = require('path');
 const mode = process.env.NODE_ENV;
-const debugBuild = mode === 'development';
 const webpack = require('webpack');
-require('dotenv').config({ path: '../../.env' });
+const { merge } = require('webpack-merge');
 
-let outputPath;
-let devTool;
-if (debugBuild) {
-  devTool = 'source-map';
-  outputPath = path.resolve(__dirname, 'dist/debug');
-} else {
-  outputPath = path.resolve(__dirname, 'dist/release');
-}
+const debugBuild = mode === 'development';
+
+const rules = [
+  {
+    // We also want to (web)pack the style files:
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader'],
+  },
+  {
+    test: /\.json$/,
+    include: [path.resolve(__dirname, 'src')],
+    loader: 'raw-loader',
+  },
+  {
+    test: /\.html$/,
+    use: [
+      {
+        loader: 'html-loader',
+        options: { minimize: !debugBuild },
+      },
+    ],
+  },
+  { test: /\.md$/, use: ['json-loader', 'front-matter-loader'] },
+];
 
 //Inject environnement variables (they have to be declare in your .env !!!)
 const keyEnvVariables = ['JITSI_PUBLIC_URL', 'WBO_PUBLIC_URL'];
@@ -30,44 +44,40 @@ plugins.push(
   })
 );
 
-module.exports = (env) => {
-  const rules = [
-    {
-      // We also want to (web)pack the style files:
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader'],
-    },
-    {
-      test: /\.json$/,
-      include: [path.resolve(__dirname, 'src')],
-      loader: 'raw-loader',
-    },
-    {
-      test: /\.html$/,
-      use: [
-        {
-          loader: 'html-loader',
-          options: { minimize: !debugBuild },
-        },
-      ],
-    },
-    { test: /\.md$/, use: ['json-loader', 'front-matter-loader'] },
-  ];
+const commonConfig = {
+  entry: path.resolve(__dirname, './src/bootstrap.js'),
+  output: {
+    filename: 'bundle.js',
+    library: 'myAppNameBrowser',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
+  },
+  module: {
+    rules: rules,
+  },
 
-  return {
-    mode,
-    entry: path.resolve(__dirname, './src/bootstrap.js'),
-    devtool: devTool,
-    output: {
-      path: outputPath,
-      filename: 'bundle.js',
-      library: 'udImuvBrowser',
-      libraryTarget: 'umd',
-      umdNamedDefine: true,
-    },
-    module: {
-      rules: rules,
-    },
-    plugins: plugins,
-  };
+  resolve: {
+    modules: [
+      'node_modules', // The default
+      'src',
+    ],
+  },
+  plugins: plugins,
 };
+
+const devConfig = {
+  mode: 'development',
+  devtool: 'source-map',
+  output: {
+    path: path.resolve(__dirname, 'dist/debug'),
+  },
+};
+
+const prodConfig = {
+  mode: 'production',
+  output: {
+    path: path.resolve(__dirname, 'dist/release'),
+  },
+};
+
+module.exports = merge(commonConfig, debugBuild ? devConfig : prodConfig);
