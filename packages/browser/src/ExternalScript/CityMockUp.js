@@ -1,15 +1,15 @@
 import {
-  ExternalGame,
+  Game,
   THREE,
   itowns,
   TilesManager,
   getTileFromMesh,
   CityObjectID,
   checkParentChild,
+  Shared,
 } from '@ud-viz/browser';
-import { Game, Command } from '@ud-viz/shared';
 
-export class CityMockUp extends ExternalGame.ScriptBase {
+export class CityMockUp extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -32,7 +32,9 @@ export class CityMockUp extends ExternalGame.ScriptBase {
       });
       const plane = new THREE.Mesh(geometry, material);
 
-      const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+      const renderComp = this.object3D.getComponent(
+        Shared.Game.Component.Render.TYPE
+      );
       renderComp.getController().addObject3D(plane);
     }
 
@@ -499,7 +501,9 @@ export class CityMockUp extends ExternalGame.ScriptBase {
       //create mesh
       this.mockUpObject = new THREE.Mesh(geometryMockUp, materialsMockup);
       this.mockUpObject.name = 'MockUp Object';
-      const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+      const renderComp = this.object3D.getComponent(
+        Shared.Game.Component.Render.TYPE
+      );
       renderComp.getController().addObject3D(this.mockUpObject);
 
       //adapt scale to fit the table
@@ -725,8 +729,8 @@ class MenuCityMockUp {
 
         //edit conf go
         this.context.sendCommandToGameContext([
-          new Command({
-            type: Game.ScriptTemplate.Constants.COMMAND
+          new Shared.Command({
+            type: Shared.Game.ScriptTemplate.Constants.COMMAND
               .UPDATE_EXTERNALSCRIPT_VARIABLES,
             data: {
               object3DUUID: this.object3D.uuid,

@@ -1,7 +1,6 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, THREE, Shared } from '@ud-viz/browser';
 
-export class Video extends ExternalGame.ScriptBase {
+export class Video extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -41,7 +40,9 @@ export class Video extends ExternalGame.ScriptBase {
     );
     const movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
 
-    const renderComp = this.object3D.getComponent(Game.Component.Render.TYPE);
+    const renderComp = this.object3D.getComponent(
+      Shared.Game.Component.Render.TYPE
+    );
     renderComp.getController().addObject3D(movieScreen);
 
     this.video = video;

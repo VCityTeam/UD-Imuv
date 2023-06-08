@@ -1,13 +1,12 @@
-import { ExternalGame, THREE, THREEUtil } from '@ud-viz/browser';
+import { Game, Shared, THREE, THREEUtil } from '@ud-viz/browser';
 import { Constant } from '@ud-imuv/shared';
-import { Command, Game } from '@ud-viz/shared';
 import { AnimatedText } from './Component/AnimatedText/AnimatedText';
 
 const MINI_MAP_SIZE = 500;
 const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
 
-export class MiniMap extends ExternalGame.ScriptBase {
+export class MiniMap extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -114,7 +113,7 @@ export class MiniMap extends ExternalGame.ScriptBase {
         );
         this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
         this.context.sendCommandToGameContext([
-          new Command({
+          new Shared.Command({
             type: Constant.COMMAND.TELEPORT,
             data: {
               object3DUUID: this.object3D.uuid,
@@ -127,7 +126,7 @@ export class MiniMap extends ExternalGame.ScriptBase {
       } else if (this.clickMode === Constant.MAP_CLICK_MODE.PING) {
         this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
         this.context.sendCommandToGameContext([
-          new Command({
+          new Shared.Command({
             type: Constant.COMMAND.PING,
             data: {
               object3DUUID: this.object3D.uuid,
@@ -170,7 +169,7 @@ export class MiniMap extends ExternalGame.ScriptBase {
         const y = event.pageY;
 
         this.context.sendCommandToGameContext([
-          new Command({
+          new Shared.Command({
             type: Constant.COMMAND.TELEPORT,
             data: {
               object3DUUID: this.object3D.uuid,
@@ -309,7 +308,7 @@ export class MiniMap extends ExternalGame.ScriptBase {
 
     this.context.object3D.traverse((g) => {
       if (g.isGameObject3D && g.isStatic()) {
-        const r = g.getComponent(Game.Component.Render.TYPE);
+        const r = g.getComponent(Shared.Game.Component.Render.TYPE);
         if (r) {
           const clone = r.getController().getObject3D().clone();
 
@@ -398,7 +397,7 @@ export class MiniMap extends ExternalGame.ScriptBase {
 
   fetchAvatarColor(avatarGO) {
     const avatarColor = avatarGO
-      .getComponent(Game.Component.Render.TYPE)
+      .getComponent(Shared.Game.Component.Render.TYPE)
       .getModel()
       .getColor();
     return (

@@ -1,14 +1,15 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, Shared, THREE } from '@ud-viz/browser';
 
-export class ButterflySpawner extends ExternalGame.ScriptBase {
+export class ButterflySpawner extends Game.External.ScriptBase {
   init() {
     this.triggerAnimate = false;
     this.particleGroup = null;
     this.clock = null;
 
     //TODO in UserData add attribute "editorMode" ?
-    const render = this.object3D.getComponent(Game.Component.Render.TYPE);
+    const render = this.object3D.getComponent(
+      Shared.Game.Component.Render.TYPE
+    );
     const editorMode = this.context.userData.editorMode;
 
     if (editorMode === false) {

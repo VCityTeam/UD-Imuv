@@ -1,8 +1,7 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
+import { Game, Shared, THREE } from '@ud-viz/browser';
 import { PrefabFactory } from '@ud-imuv/shared';
-import { Game, Command } from '@ud-viz/shared';
 
-export class PlacePostIt extends ExternalGame.ScriptBase {
+export class PlacePostIt extends Game.External.ScriptBase {
   init() {
     //controller
     const avatarController =
@@ -112,13 +111,13 @@ class MenuPostIt {
           //write message
           const message = textAreaMessage.value;
           const externalScriptComp = postitGo.getComponent(
-            Game.Component.ExternalScript.TYPE
+            Shared.Game.Component.ExternalScript.TYPE
           );
           externalScriptComp.getModel().getVariables().content = message;
 
           externalContext.sendCommandToGameContext([
-            new Command({
-              type: Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
+            new Shared.Command({
+              type: Shared.Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
               data: { object3D: postitGo.toJSON() },
             }),
           ]);

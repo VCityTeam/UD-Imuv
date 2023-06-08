@@ -1,5 +1,5 @@
 import { Data } from '@ud-viz/shared';
-import { SocketIOWrapper, FileUtil, AssetManager } from '@ud-viz/browser';
+import { SocketIOWrapper, AssetManager } from '@ud-viz/browser';
 import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
 import { InfoUI } from './InfoUI/InfoUI';
 import { ReceptionView } from './Reception/Reception';

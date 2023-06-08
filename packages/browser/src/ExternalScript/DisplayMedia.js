@@ -1,7 +1,6 @@
-import { ExternalGame } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, Shared } from '@ud-viz/browser';
 
-export class DisplayMedia extends ExternalGame.ScriptBase {
+export class DisplayMedia extends Game.External.ScriptBase {
   onClick() {
     if (this.variables.iframe_src) {
       const scriptUI = this.context.findExternalScriptWithID('UI');
@@ -9,7 +8,9 @@ export class DisplayMedia extends ExternalGame.ScriptBase {
     }
 
     if (this.variables.sound_id) {
-      const audioComp = this.object3D.getComponent(Game.Component.Audio.TYPE);
+      const audioComp = this.object3D.getComponent(
+        Shared.Game.Component.Audio.TYPE
+      );
       const sound = audioComp.getController().getSounds()[
         this.variables.sound_id
       ];

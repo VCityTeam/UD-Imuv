@@ -1,8 +1,8 @@
-import { ExternalGame, THREE, Billboard } from '@ud-viz/browser';
+import { Game, THREE, DomElement3D } from '@ud-viz/browser';
 
 // TODO refacto this class
 
-export class SignageDisplayer extends ExternalGame.ScriptBase {
+export class SignageDisplayer extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -171,7 +171,7 @@ class Project {
     euler.setFromQuaternion(quaternion);
     euler.z = 0;
 
-    const billboard = new Billboard(
+    const billboard = new DomElement3D(
       iframe,
       billboardPos,
       euler,

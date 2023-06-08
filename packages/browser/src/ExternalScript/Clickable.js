@@ -1,7 +1,6 @@
-import { ExternalGame, THREE, checkParentChild } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, THREE, checkParentChild, Shared } from '@ud-viz/browser';
 
-export class Clickable extends ExternalGame.ScriptBase {
+export class Clickable extends Game.External.ScriptBase {
   init() {
     const raycaster = new THREE.Raycaster();
 
@@ -29,7 +28,7 @@ export class Clickable extends ExternalGame.ScriptBase {
         const i = raycaster.intersectObject(this.context.frame3D.scene, true);
 
         if (i.length) {
-          const gameObjectClicked = Game.Object3D.fetchFirstGameObject3D(
+          const gameObjectClicked = Shared.Game.Object3D.fetchFirstGameObject3D(
             i[0].object
           );
           if (
@@ -37,7 +36,7 @@ export class Clickable extends ExternalGame.ScriptBase {
             gameObjectClicked.uuid == this.object3D.uuid
           ) {
             const externalScriptComp = this.object3D.getComponent(
-              Game.Component.ExternalScript.TYPE
+              Shared.Game.Component.ExternalScript.TYPE
             );
             externalScriptComp.getController().execute('onClick'); //custom external script event could be in ud-viz
           }

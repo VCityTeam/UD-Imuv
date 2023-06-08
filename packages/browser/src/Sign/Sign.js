@@ -1,7 +1,4 @@
-/** @format */
-
 import './Sign.css';
-
 import { Constant } from '@ud-imuv/shared';
 
 //Helper

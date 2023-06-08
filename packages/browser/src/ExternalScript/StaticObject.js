@@ -1,7 +1,6 @@
-import { ExternalGame, THREE } from '@ud-viz/browser';
-import { Game } from '@ud-viz/shared';
+import { Game, Shared, THREE } from '@ud-viz/browser';
 
-export class StaticObject extends ExternalGame.ScriptBase {
+export class StaticObject extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -23,7 +22,7 @@ export class StaticObject extends ExternalGame.ScriptBase {
     //add static object to object
     if (newGO.isStatic()) {
       //register in object
-      const r = newGO.getComponent(Game.Component.Render.TYPE);
+      const r = newGO.getComponent(Shared.Game.Component.Render.TYPE);
       if (r) {
         const clone = r.getController().renderData.getObject3D().clone();
 

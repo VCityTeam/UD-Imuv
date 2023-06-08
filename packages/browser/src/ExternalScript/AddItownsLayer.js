@@ -1,15 +1,15 @@
 import {
-  ExternalGame,
-  FileUtil,
+  Game,
   add3DTilesLayers,
   addElevationLayer,
   addBaseMapLayer,
+  loadMultipleJSON,
 } from '@ud-viz/browser';
 
-export class AddItownsLayer extends ExternalGame.ScriptBase {
+export class AddItownsLayer extends Game.External.ScriptBase {
   init() {
     // TODO path should be in variables
-    FileUtil.loadMultipleJSON([
+    loadMultipleJSON([
       './assets/config/3DTilesLayer.json',
       './assets/config/elevationLayer.json',
       './assets/config/baseMapLayer.json',

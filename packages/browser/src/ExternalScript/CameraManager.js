@@ -1,10 +1,10 @@
-import { ExternalScriptTemplate, THREE } from '@ud-viz/browser';
+import { Game, THREE } from '@ud-viz/browser';
 
 const DISTANCE_AVATAR = 5;
 const DISTANCE_ZEPPELIN = 40;
 const CAMERA_ANGLE = Math.PI / 20;
 
-export class CameraManager extends ExternalScriptTemplate.CameraManager {
+export class CameraManager extends Game.External.ScriptTemplate.CameraManager {
   followAvatar() {
     const avatarGO = this.context.object3D.getObjectByProperty(
       'uuid',

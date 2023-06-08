@@ -7,7 +7,11 @@ const Constant = require('./Constant');
 const app = express();
 
 // run an express server
-const port = process.argv[2] || Constant.DEFAULT_PORT;
+
+if (process.argv[2] && isNaN(process.argv[2])) {
+  throw new Error('INVALID PORT');
+}
+const port = process.argv[2];
 
 console.log(process.env.NODE_ENV);
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -28,10 +32,15 @@ app.use(
 
 app.use(express.static('./packages/browser'));
 
-reload(app, { port: Constant.RELOAD_PORT }).then(() => {
-  app.listen(port);
-  console.log('HTTP SERVER IS RUNNING OF PORT', port);
+app.listen(port, (err) => {
+  if (err) {
+    console.error('Server does not start');
+    return;
+  }
+  console.log('Http server listening on port', port);
 });
+
+reload(app, { port: Constant.RELOAD_PORT }).then(() => {});
 
 // try {
 //   // start applicaction server

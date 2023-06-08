@@ -1,13 +1,12 @@
-import { ExternalGame, proj4 } from '@ud-viz/browser';
+import { Game, proj4, Shared, THREE } from '@ud-viz/browser';
 import { Constant } from '@ud-imuv/shared';
-import { Command } from '@ud-viz/shared';
 
 const CITY_MAP_SIZE = 500;
 const CITY_AVATAR_SIZE_MIN = 15;
 const CITY_AVATAR_SIZE_MAX = 25;
 const CITY_MAP_CMD_ID = 'city_map_cmd_id';
 
-export class CityMap extends ExternalGame.ScriptBase {
+export class CityMap extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -102,7 +101,7 @@ export class CityMap extends ExternalGame.ScriptBase {
           return null;
         } else if (this.clickMode === Constant.MAP_CLICK_MODE.TELEPORT) {
           this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
-          return new Command({
+          return new Shared.Command({
             type: Constant.COMMAND.TELEPORT,
             data: {
               object3DUUID: this.object3D.uuid,
@@ -113,7 +112,7 @@ export class CityMap extends ExternalGame.ScriptBase {
         } else if (this.clickMode === Constant.MAP_CLICK_MODE.PING) {
           this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
 
-          return new Command({
+          return new Shared.Command({
             type: Constant.COMMAND.PING,
             data: {
               object3DUUID: this.object3D.uuid,
@@ -216,7 +215,7 @@ export class CityMap extends ExternalGame.ScriptBase {
 
   fetchCityAvatarColor(cityAvatar) {
     const avatarColor = cityAvatar
-      .getComponent(Game.Component.Render.TYPE)
+      .getComponent(Shared.Game.Component.Render.TYPE)
       .getModel()
       .getColor();
     return (

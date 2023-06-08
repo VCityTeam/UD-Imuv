@@ -14,8 +14,6 @@ import { SignInView, SignUpView } from '../Sign/Sign';
 import * as ExternalScript from '../ExternalScript/ExternalScript';
 
 import {
-  MultiPlayerGamePlanar,
-  FileUtil,
   AssetManager,
   Frame3DPlanar,
   itowns,
@@ -24,8 +22,10 @@ import {
   addElevationLayer,
   add3DTilesLayers,
   InputManager,
+  loadJSON,
 } from '@ud-viz/browser';
 import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
+import { MultiPlanarProcess } from '@ud-viz/browser/src/Game/External/MultiPlanarProcess';
 
 export class ReceptionView {
   constructor(socketIOWrapper) {
@@ -368,7 +368,7 @@ export class ReceptionView {
       _this.dispose();
 
       //load config
-      FileUtil.loadJSON('./assets/config/config.json').then((config) => {
+      loadJSON('./assets/config/config.json').then((config) => {
         //load assets
         const assetManager = new AssetManager();
         assetManager
@@ -391,7 +391,7 @@ export class ReceptionView {
               parseInt(config['extent'].north)
             );
 
-            const game = new MultiPlayerGamePlanar(
+            const game = new MultiPlanarProcess(
               this.socketIOWrapper,
               extent,
               assetManager,
@@ -526,9 +526,7 @@ export class ReceptionView {
     this.editorButton.onclick = function () {
       _this.dispose();
 
-      FileUtil.loadJSON('./assets/config/config_editor.json').then(function (
-        config
-      ) {
+      loadJSON('./assets/config/config_editor.json').then(function (config) {
         _this.editor = new EditorView(_this.socketIOWrapper, config);
         _this.editor.load().then(function () {
           document.body.appendChild(_this.editor.html());
