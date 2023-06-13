@@ -180,4 +180,8 @@ export class JitsiArea extends Game.External.ScriptBase {
       }
     });
   }
+
+  static get ID_SCRIPT() {
+    return 'jitsi_area_id_ext_script';
+  }
 }

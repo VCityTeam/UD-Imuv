@@ -545,6 +545,10 @@ export class CityMockUp extends Game.External.ScriptBase {
   onOutdated() {
     this.updateMockUpObject();
   }
+
+  static get ID_SCRIPT() {
+    return 'city_mock_up_id_ext_script';
+  }
 }
 
 //TODO make the city visible only when menu is active since no need to view the city in conf room

@@ -84,4 +84,8 @@ export class SpriteName extends Game.External.ScriptBase {
     if (renderComp.getController().object3D != this.oldObject)
       this.updateSprite();
   }
+
+  static get ID_SCRIPT() {
+    return 'sprite_name_id_ext_script';
+  }
 }

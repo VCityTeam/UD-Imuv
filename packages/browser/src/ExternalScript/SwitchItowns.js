@@ -111,6 +111,10 @@ export class SwitchItowns extends Game.External.ScriptBase {
       );
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'switch_itowns_id_ext_script';
+  }
 }
 
 class MenuItowns {

@@ -106,7 +106,7 @@ export class ReceptionView {
     );
     buttonsTopNav.appendChild(creditsButton);
     this.languageButton = createButton(
-      getTextByID('button_FRUK', this.language)
+      getTextByID('button_FREN', this.language)
     );
     buttonsTopNav.appendChild(this.languageButton);
 
@@ -408,6 +408,7 @@ export class ReceptionView {
             game.externalGameContext.userData.extent = extent;
 
             game.start();
+            console.info(game, 'is started');
 
             // const distantGame = new DistantGame(
             //   _this.socketIOWrapper,

@@ -7,4 +7,8 @@ export class Rotate extends Game.External.ScriptBase {
     this.object3D.rotation.z -= speed * this.context.dt;
     this.object3D.updateMatrix(true);
   }
+
+  static get ID_SCRIPT() {
+    return 'rotate_id_ext_script';
+  }
 }

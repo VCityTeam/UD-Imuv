@@ -56,4 +56,8 @@ export class ZeppelinController extends Game.External.ScriptBase {
 
     return true;
   }
+
+  static get ID_SCRIPT() {
+    return 'zeppelin_controller_id_ext_script';
+  }
 }

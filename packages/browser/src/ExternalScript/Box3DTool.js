@@ -112,6 +112,10 @@ export class Box3DTool extends Game.External.ScriptBase {
   tick() {
     this.menu.tick();
   }
+
+  static get ID_SCRIPT() {
+    return 'box3D_tool_id_ext_script';
+  }
 }
 
 class MenuBox3D {

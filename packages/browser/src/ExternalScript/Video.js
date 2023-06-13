@@ -57,4 +57,8 @@ export class Video extends Game.External.ScriptBase {
       if (this.videoTexture) this.videoTexture.needsUpdate = true;
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'video_id_ext_script';
+  }
 }

@@ -58,4 +58,8 @@ export class TextureFace extends Game.External.ScriptBase {
       console.log('nothing');
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'texture_face_id_ext_script';
+  }
 }

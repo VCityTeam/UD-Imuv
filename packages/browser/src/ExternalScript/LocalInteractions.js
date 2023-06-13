@@ -105,4 +105,8 @@ export class LocalInteractions extends Game.External.ScriptBase {
       }
     });
   }
+
+  static get ID_SCRIPT() {
+    return 'local_interactions_id_ext_script';
+  }
 }

@@ -21,4 +21,8 @@ export class DisplayMedia extends Game.External.ScriptBase {
       }
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'display_media_id_ext_script';
+  }
 }

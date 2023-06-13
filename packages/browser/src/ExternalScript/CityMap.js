@@ -369,6 +369,10 @@ export class CityMap extends Game.External.ScriptBase {
       ctx.filter = 'brightness(100%)';
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'city_map_id_ext_script';
+  }
 }
 
 // TODO could write in component since minimap is using it as well

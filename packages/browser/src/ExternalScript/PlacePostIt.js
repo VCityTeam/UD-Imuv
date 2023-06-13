@@ -28,6 +28,10 @@ export class PlacePostIt extends Game.External.ScriptBase {
       this.context.findExternalScriptWithID('StaticObject');
     return scriptStaticObject.object3D;
   }
+
+  static get ID_SCRIPT() {
+    return 'place_post_it_id_ext_script';
+  }
 }
 
 class MenuPostIt {

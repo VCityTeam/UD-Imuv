@@ -366,6 +366,10 @@ export class UI extends Game.External.ScriptBase {
   tick() {
     if (this.debugInfo) this.debugInfo.update(this.context, this.variables);
   }
+
+  static get ID_SCRIPT() {
+    return 'ui_id_ext_script';
+  }
 }
 
 class DebugInfo {

@@ -43,6 +43,10 @@ export class SignageDisplayer extends Game.External.ScriptBase {
       this.project = null;
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'signage_displayer_id_ext_script';
+  }
 }
 
 class Popup {

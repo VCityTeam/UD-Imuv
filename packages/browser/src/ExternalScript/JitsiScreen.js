@@ -104,4 +104,8 @@ export class JitsiScreen extends Game.External.ScriptBase {
     );
     this.context.frame3D.appendBillboard(domElement3D);
   }
+
+  static get ID_SCRIPT() {
+    return 'jitsi_screen_id_ext_script';
+  }
 }

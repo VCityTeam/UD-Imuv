@@ -1,15 +1,15 @@
 export { AddItownsLayer } from './AddItownsLayer';
 export { AvatarController } from './AvatarController';
-export { Bounce } from './Bounce';
+export { Bounce } from './Bounce'; // skip
 export { Box3DTool } from './Box3DTool';
 export { ButterflySpawner } from './ButterflySpawner';
-export { CameraManager } from './CameraManager';
+export { CameraManager } from './CameraManager'; // skip
 export { CameraTour } from './CameraTour';
 export { CityAvatar } from './CityAvatar';
 export { CityMap } from './CityMap';
 export { CityMockUp } from './CityMockUp';
 export { Clickable } from './Clickable';
-export { DefaultInteractions } from './DefaultInteractions';
+export { DefaultInteractions } from './DefaultInteractions'; // skip
 export { DisplayMedia } from './DisplayMedia';
 export { GeoProject } from './GeoProject';
 export { Image } from './Image';
@@ -17,7 +17,7 @@ export { ItownsRefine } from './ItownsRefine';
 export { JitsiArea } from './JitsiArea';
 export { JitsiScreen } from './JitsiScreen';
 export { LocalInteractions } from './LocalInteractions';
-export { MenuAvatar } from './MenuAvatar';
+export { MenuAvatar } from './MenuAvatar'; // skip
 export { MiniMap } from './MiniMap';
 export { PlacePostIt } from './PlacePostIt';
 export { PortalSweep } from './PortalSweep';

@@ -40,7 +40,6 @@ const httpServer = app.listen(port, (err) => {
 });
 
 reload(app, { port: Constant.RELOAD_PORT });
-
 try {
   // start applicaction server
   const { UDIMUVServer } = require('@ud-imuv/node');

@@ -206,4 +206,8 @@ export class Signboard extends Game.External.ScriptBase {
 
     return canvas.toDataURL();
   }
+
+  static get ID_SCRIPT() {
+    return 'signboard_id_ext_script';
+  }
 }

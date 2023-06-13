@@ -19,4 +19,8 @@ export class PortalSweep extends Game.External.ScriptBase {
 
     //TODO fade out when avatar arrived in world
   }
+
+  static get ID_SCRIPT() {
+    return 'portal_sweep_id_ext_script';
+  }
 }

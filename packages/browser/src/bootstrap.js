@@ -14,6 +14,10 @@ if (DEBUG) {
   domBody.appendChild(scriptReload);
 }
 
+const infoUI = new InfoUI();
+infoUI.load('./commit_info.json').then(function () {
+  document.body.appendChild(infoUI.html());
+});
 // connect to gamesocketservice
 const socketIOWrapper = new SocketIOWrapper();
 socketIOWrapper.connectToServer();
@@ -24,12 +28,8 @@ socketIOWrapper.on(UDIMUVConstant.WEBSOCKET.MSG_TYPE.INFO, (message) => {
 const addReceptionView = () => {
   const reception = new ReceptionView(socketIOWrapper);
   document.body.appendChild(reception.html());
+  reception.joinButton.dispatchEvent(new Event('click'));
 };
-
-const infoUI = new InfoUI();
-infoUI.load('./commit_info.json').then(function () {
-  document.body.appendChild(infoUI.html());
-});
 
 addReceptionView();
 
