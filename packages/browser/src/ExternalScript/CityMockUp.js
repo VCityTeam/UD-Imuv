@@ -1,13 +1,4 @@
-import {
-  Game,
-  THREE,
-  itowns,
-  TilesManager,
-  getTileFromMesh,
-  CityObjectID,
-  checkParentChild,
-  Shared,
-} from '@ud-viz/browser';
+import { Game, THREE, itowns, checkParentChild, Shared } from '@ud-viz/browser';
 
 export class CityMockUp extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {

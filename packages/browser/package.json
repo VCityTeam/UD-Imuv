@@ -19,6 +19,7 @@
     "@ud-imuv/shared": "file:../shared",
     "@ud-viz/browser": "file:../../../UD-Viz/packages/browser",
     "jitsi-iframe-api": "^1.0.0",
+    "jquery": "^3.7.0",
     "keycharm": "^0.4.0",
     "quickhull": "^1.0.3",
     "showdown": "^2.1.0",

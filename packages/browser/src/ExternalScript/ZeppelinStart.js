@@ -84,7 +84,7 @@ export class ZeppelinStart extends Game.External.ScriptBase {
           //avatar invisible
           this.context.sendCommandToGameContext([
             new Shared.Command({
-              type: Game.ScriptTemplate.Constants.COMMAND
+              type: Shared.Game.ScriptTemplate.Constants.COMMAND
                 .UPDATE_EXTERNALSCRIPT_VARIABLES,
               data: {
                 object3DUUID: avatarGO.uuid,
