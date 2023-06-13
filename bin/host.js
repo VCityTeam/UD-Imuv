@@ -1,7 +1,6 @@
 const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
 const reload = require('reload');
-const { UDIMUVServer } = require('@ud-imuv/node');
 const Constant = require('./Constant');
 
 const app = express();
@@ -32,7 +31,7 @@ app.use(
 
 app.use(express.static('./packages/browser'));
 
-app.listen(port, (err) => {
+const httpServer = app.listen(port, (err) => {
   if (err) {
     console.error('Server does not start');
     return;
@@ -40,13 +39,14 @@ app.listen(port, (err) => {
   console.log('Http server listening on port', port);
 });
 
-reload(app, { port: Constant.RELOAD_PORT }).then(() => {});
+reload(app, { port: Constant.RELOAD_PORT });
 
-// try {
-//   // start applicaction server
+try {
+  // start applicaction server
+  const { UDIMUVServer } = require('@ud-imuv/node');
 
-//   const myAppNameServer = new UDIMUVServer();
-//   myAppNameServer.start();
-// } catch (e) {
-//   console.error(e);
-// }
+  const myAppNameServer = new UDIMUVServer();
+  myAppNameServer.start(httpServer);
+} catch (e) {
+  console.error(e);
+}

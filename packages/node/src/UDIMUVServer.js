@@ -21,7 +21,15 @@ module.exports = class UDIMUVServer {
     );
   }
 
-  start(config) {
+  /**
+   * The function starts a game socket service using the provided app.
+   * @param {Express} app
+   */
+  start(httpServer) {
+    this.gameSocketService = new Game.SocketService(httpServer);
+  }
+
+  oldstart(config) {
     const app = express();
     app.use(express.static('./packages/browser'));
     // launch a customize gamesocketservice
