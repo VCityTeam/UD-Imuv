@@ -92,7 +92,7 @@ export class ButterflySpawner extends Game.External.ScriptBase {
     });
 
     this.object3D
-      .getComponent(Game.Component.Render.TYPE)
+      .getComponent(Shared.Game.Component.Render.TYPE)
       .getController()
       .addObject3D(this.particleGroup.getObject3D());
     this.triggerAnimate = true;

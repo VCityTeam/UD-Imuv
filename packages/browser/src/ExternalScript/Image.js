@@ -1,4 +1,5 @@
-import { Game, Shared, THREE, jquery } from '@ud-viz/browser';
+import { Game, Shared, THREE } from '@ud-viz/browser';
+import jquery from 'jquery';
 import { Constant } from '@ud-imuv/shared';
 
 const RADIUS_MAP = 40;

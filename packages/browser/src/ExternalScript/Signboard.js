@@ -21,7 +21,7 @@ export class Signboard extends Game.External.ScriptBase {
       Shared.Game.Component.Render.TYPE
     );
     this.renderFrame = this.object3D.children[0].getComponent(
-      Game.Component.Render.TYPE
+      Shared.Game.Component.Render.TYPE
     );
     if (!this.renderFrame) {
       console.error(
