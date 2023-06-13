@@ -15,17 +15,13 @@ import * as ExternalScript from '../ExternalScript/ExternalScript';
 
 import {
   AssetManager,
-  Frame3DPlanar,
   itowns,
   proj4,
-  addBaseMapLayer,
-  addElevationLayer,
-  add3DTilesLayers,
   InputManager,
   loadJSON,
+  Game,
 } from '@ud-viz/browser';
 import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
-import { MultiPlanarProcess } from '@ud-viz/browser/src/Game/External/MultiPlanarProcess';
 
 export class ReceptionView {
   constructor(socketIOWrapper) {
@@ -391,7 +387,7 @@ export class ReceptionView {
               parseInt(config['extent'].north)
             );
 
-            const game = new MultiPlanarProcess(
+            const game = new Game.External.MultiPlanarProcess(
               this.socketIOWrapper,
               extent,
               assetManager,

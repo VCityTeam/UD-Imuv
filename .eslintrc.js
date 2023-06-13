@@ -11,6 +11,9 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
+  globals: {
+    DEBUG: true,
+  },
   rules: {
     'prettier/prettier': ['error'],
     'linebreak-style': ['error', 'unix'],
