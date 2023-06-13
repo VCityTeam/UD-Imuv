@@ -104,6 +104,10 @@ export class ButterflySpawner extends Game.External.ScriptBase {
       this.createParticuleGroup();
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'butterfly_spawner_id_ext_script';
+  }
 }
 
 class ParticleGroup {

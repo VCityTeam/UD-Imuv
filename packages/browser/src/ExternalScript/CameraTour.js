@@ -35,6 +35,9 @@ export class CameraTour extends Game.External.ScriptBase {
       menuTour
     );
   }
+  static get ID_SCRIPT() {
+    return 'camera_tour_id_ext_script';
+  }
 }
 
 class MenuTour {

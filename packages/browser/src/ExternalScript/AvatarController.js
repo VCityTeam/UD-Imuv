@@ -276,4 +276,8 @@ export class AvatarController extends Game.External.ScriptBase {
   getAvatarControllerMode() {
     return this.avatarControllerMode;
   }
+
+  static get ID_SCRIPT() {
+    return 'avatar_controller_id_ext_script';
+  }
 }

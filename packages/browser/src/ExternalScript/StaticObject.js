@@ -36,4 +36,8 @@ export class StaticObject extends Game.External.ScriptBase {
       }
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'static_object_id_ext_script';
+  }
 }

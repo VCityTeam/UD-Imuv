@@ -253,4 +253,8 @@ export class Image extends Game.External.ScriptBase {
     this.createImagePlane();
     this.displayPopup(this.imgMapGPS != null);
   }
+
+  static get ID_SCRIPT() {
+    return 'image_id_ext_script';
+  }
 }

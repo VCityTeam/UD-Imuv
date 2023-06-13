@@ -12,4 +12,8 @@ export class Visible extends Game.External.ScriptBase {
   onOutdated() {
     this.updateVisible();
   }
+
+  static get ID_SCRIPT() {
+    return 'visible_id_ext_script';
+  }
 }

@@ -54,4 +54,8 @@ export class GeoProject extends Game.External.ScriptBase {
     a.target = '_blank';
     a.click();
   }
+
+  static get ID_SCRIPT() {
+    return 'geo_project_id_ext_script';
+  }
 }

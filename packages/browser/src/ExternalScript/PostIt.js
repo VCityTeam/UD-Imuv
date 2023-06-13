@@ -52,6 +52,10 @@ export class PostIt extends Game.External.ScriptBase {
     this.context.inputManager.removeInputListener(this.listener);
     this.menu.dispose();
   }
+
+  static get ID_SCRIPT() {
+    return 'post_it_id_ext_script';
+  }
 }
 
 class MenuPostIt {

@@ -35,4 +35,8 @@ export class AddItownsLayer extends Game.External.ScriptBase {
       );
     });
   }
+
+  static get ID_SCRIPT() {
+    return 'add_itowns_layer_id_ext_script';
+  }
 }

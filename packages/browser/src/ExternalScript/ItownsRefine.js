@@ -62,4 +62,8 @@ export class ItownsRefine extends Game.External.ScriptBase {
       );
     });
   }
+
+  static get ID_SCRIPT() {
+    return 'itowns_refine_id_ext_script';
+  }
 }

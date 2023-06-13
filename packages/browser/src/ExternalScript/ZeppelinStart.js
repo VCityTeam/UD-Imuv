@@ -239,6 +239,10 @@ export class ZeppelinStart extends Game.External.ScriptBase {
       this.oldPositionZeppelin = position;
     }
   }
+
+  static get ID_SCRIPT() {
+    return 'zeppelin_start_id_ext_script';
+  }
 }
 
 class MenuZeppelin {

@@ -13,15 +13,17 @@ childExecBuildDebug.childProcess.stderr.on('data', (data) => {
   console.error('\x1b[31m', 'host' + ` ERROR :\n${data}`);
 });
 
-const childSpawnHost = spawn('node', ['./bin/host.js', process.env.PORT], {
-  shell: true,
-});
+childExecBuildDebug.finally(() => {
+  const childSpawnHost = spawn('node', ['./bin/host.js', process.env.PORT], {
+    shell: true,
+  });
 
-childSpawnHost.childProcess.stdout.on('data', (data) => {
-  console.log(`${data}`);
-});
-childSpawnHost.childProcess.stderr.on('data', (data) => {
-  console.error('\x1b[31m', ` ERROR :\n${data}`);
+  childSpawnHost.childProcess.stdout.on('data', (data) => {
+    console.log(`${data}`);
+  });
+  childSpawnHost.childProcess.stderr.on('data', (data) => {
+    console.error('\x1b[31m', ` ERROR :\n${data}`);
+  });
 });
 
 // app.start({

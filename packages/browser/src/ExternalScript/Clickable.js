@@ -44,4 +44,8 @@ export class Clickable extends Game.External.ScriptBase {
       }
     );
   }
+
+  static get ID_SCRIPT() {
+    return 'clickable_id_ext_script';
+  }
 }

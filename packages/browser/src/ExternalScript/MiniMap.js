@@ -527,6 +527,10 @@ export class MiniMap extends Game.External.ScriptBase {
       this.pings.push(ping);
     });
   }
+
+  static get ID_SCRIPT() {
+    return 'mini_map_id_ext_script';
+  }
 }
 
 class Ping {
