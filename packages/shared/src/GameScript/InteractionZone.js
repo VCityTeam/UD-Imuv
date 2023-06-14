@@ -1,20 +1,17 @@
 const { Game } = require('@ud-viz/shared');
+const ExternalScriptComponent = Game.Component.ExternalScript.prototype;
 
 module.exports = class InteractionZone extends Game.ScriptBase {
   init() {
+    /** @type {ExternalScriptComponent} */
     const externalScriptComp = this.object3D.getComponent(
       Game.Component.ExternalScript.TYPE
     );
 
-    if (
-      !externalScriptComp
-        .getModel()
-        .getIdScripts()
-        .includes('LocalInteractions')
-    ) {
+    if (!externalScriptComp.has('local_interactions_id_ext_script')) {
       console.error(
         this.object3D.name,
-        'Prefab needs *local_interactions* external Script'
+        'Prefab needs *local_interactions_id_ext_script* external Script'
       );
     }
 

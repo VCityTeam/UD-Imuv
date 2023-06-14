@@ -9,7 +9,7 @@
       "color": [1, 1, 1]
     },
     "LocalScript": {
-      "idScripts": ["geo_project", "clickable"],
+      "idScripts": ["geo_project_id_ext_script", "clickable_id_ext_script"],
       "conf": {
         "image_width": 50,
         "image_height": 30,

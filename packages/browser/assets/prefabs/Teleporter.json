@@ -31,7 +31,7 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["rotate"],
+      "idScripts": ["rotate_id_ext_script"],
       "conf": { "speed": 0.001 },
       "type": "LocalScript"
     }

@@ -4,6 +4,7 @@ const { Constant, PrefabFactory } = require('@ud-imuv/shared');
 const Parse = require('parse/node');
 const fs = require('fs');
 const THREE = require('three');
+const path = require('path');
 
 module.exports = class UDIMUVServer {
   constructor() {
@@ -25,8 +26,30 @@ module.exports = class UDIMUVServer {
    * The function starts a game socket service using the provided app.
    * @param {Express} app
    */
-  start(httpServer) {
+  start(httpServer, gameObjectsFolderPath) {
     this.gameSocketService = new Game.SocketService(httpServer);
+
+    const indexWorldsJSON = JSON.parse(
+      fs.readFileSync(gameObjectsFolderPath + '/index.json')
+    );
+
+    const gameObjects3D = [];
+    for (const uuid in indexWorldsJSON) {
+      let json = JSON.parse(
+        fs.readFileSync(gameObjectsFolderPath + '/' + indexWorldsJSON[uuid])
+      );
+
+      if (json.version) {
+        json = moulinetteWorldJSON(json);
+        // console.log(json);
+      }
+      gameObjects3D.push(json);
+    }
+
+    this.gameSocketService.loadGameThreads(
+      gameObjects3D,
+      path.join(__dirname, 'thread.js')
+    );
   }
 
   oldstart(config) {

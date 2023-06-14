@@ -9,7 +9,11 @@
       "color": [1, 1, 1]
     },
     "LocalScript": {
-      "idScripts": ["clickable", "signboard", "display_media"],
+      "idScripts": [
+        "clickable_id_ext_script",
+        "signboard_id_ext_script",
+        "display_media_id_ext_script"
+      ],
       "conf": {
         "iframe_src": null,
         "sound_id": null,

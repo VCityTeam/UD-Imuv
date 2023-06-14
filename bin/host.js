@@ -2,6 +2,7 @@ const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
 const reload = require('reload');
 const Constant = require('./Constant');
+const path = require('path');
 
 const app = express();
 
@@ -45,7 +46,10 @@ try {
   const { UDIMUVServer } = require('@ud-imuv/node');
 
   const myAppNameServer = new UDIMUVServer();
-  myAppNameServer.start(httpServer);
+  myAppNameServer.start(
+    httpServer,
+    path.resolve('./packages/browser/assets/gameObject3D')
+  );
 } catch (e) {
   console.error(e);
 }

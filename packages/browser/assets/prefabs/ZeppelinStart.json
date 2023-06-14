@@ -4,7 +4,7 @@
   "static": true,
   "components": {
     "LocalScript": {
-      "idScripts": ["zeppelin_start"],
+      "idScripts": ["zeppelin_start_id_ext_script"],
       "conf": { "pilotUUID": null },
       "type": "LocalScript"
     }
