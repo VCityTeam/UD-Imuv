@@ -9,7 +9,12 @@
       "color": [1, 1, 1]
     },
     "LocalScript": {
-      "idScripts": ["clickable", "rotate", "display_media", "bounce"],
+      "idScripts": [
+        "clickable_id_ext_script",
+        "rotate_id_ext_script",
+        "display_media_id_ext_script",
+        "bounce"
+      ],
       "conf": { "speed": 0.0005, "iframe_src": null, "sound_id": null },
       "type": "LocalScript"
     },

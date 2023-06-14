@@ -4,7 +4,7 @@
   "static": true,
   "components": {
     "LocalScript": {
-      "idScripts": ["mini_map_id_script"],
+      "idScripts": ["mini_map_id_ext_script"],
       "conf": {
         "mini_map_no_teleport": [],
         "mini_map_ping": [],

@@ -25,14 +25,14 @@
       "LocalScript": {
         "uuid": "1CFCDC44-341D-4A76-955F-E599F5EF5D15",
         "idScripts": [
-          "itowns_refine",
-          "switch_itowns",
-          "avatar_controller",
+          "itowns_refine_id_ext_script",
+          "switch_itowns_id_ext_script",
+          "avatar_controller_id_ext_script",
           "camera",
           "place_post_it",
-          "static_object",
-          "box3D_tool",
-          "AddItownsLayer"
+          "static_object_id_ext_script",
+          "box3D_tool_id_ext_script",
+          "add_itowns_layer_id_ext_script"
         ],
         "conf": {},
         "type": "LocalScript"
@@ -287,7 +287,11 @@
               },
               "LocalScript": {
                 "uuid": "E1EFCD59-F789-4CF0-8320-C4EB47861338",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -337,9 +341,9 @@
               "LocalScript": {
                 "uuid": "91D51C92-35E4-4CBF-B8AA-D4714EA1D269",
                 "idScripts": [
-                  "clickable",
-                  "rotate",
-                  "display_media",
+                  "clickable_id_ext_script",
+                  "rotate_id_ext_script",
+                  "display_media_id_ext_script",
                   "sprite_name"
                 ],
                 "conf": {
@@ -379,7 +383,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
-                "idScripts": ["video"],
+                "idScripts": ["video_id_ext_script"],
                 "conf": {
                   "videoPath": "./assets/videos/final_IMU_sept2019.webm",
                   "width": 10,
@@ -424,9 +428,9 @@
               "LocalScript": {
                 "uuid": "28B9A877-DAEF-4491-8BC0-ED839DFD1CDD",
                 "idScripts": [
-                  "clickable",
-                  "rotate",
-                  "display_media",
+                  "clickable_id_ext_script",
+                  "rotate_id_ext_script",
+                  "display_media_id_ext_script",
                   "sprite_name"
                 ],
                 "conf": {
@@ -524,7 +528,10 @@
               },
               "LocalScript": {
                 "uuid": "89287858-DE69-4640-AD3A-C74EF3E7C3F4",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "Table Studio A",
                   "avatarsOnEnter": [],
@@ -566,7 +573,7 @@
               },
               "LocalScript": {
                 "uuid": "275931C1-AB1F-4C9E-B783-448353A4DA34",
-                "idScripts": ["whiteboard", "clickable"],
+                "idScripts": ["whiteboard", "clickable_id_ext_script"],
                 "conf": {
                   "name": "default_name",
                   "factorWidth": "3.3",
@@ -607,7 +614,7 @@
               },
               "LocalScript": {
                 "uuid": "66F1A28B-FC10-49AB-93D4-8C291EAEA58D",
-                "idScripts": ["whiteboard", "clickable"],
+                "idScripts": ["whiteboard", "clickable_id_ext_script"],
                 "conf": {
                   "name": "default_name",
                   "factorWidth": "5.2",
@@ -651,7 +658,7 @@
         "components": {
           "LocalScript": {
             "uuid": "A90702DD-C821-4532-829B-0A4EE572800E",
-            "idScripts": ["ui_id_script"],
+            "idScripts": ["ui_id_ext_script"],
             "conf": { "gameContextDt": 428 },
             "type": "LocalScript"
           },

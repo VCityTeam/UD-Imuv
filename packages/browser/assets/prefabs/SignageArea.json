@@ -20,7 +20,10 @@
       "color": [0, 1, 0]
     },
     "LocalScript": {
-      "idScripts": ["local_interactions", "signage_displayer"],
+      "idScripts": [
+        "local_interactions_id_ext_script",
+        "signage_displayer_id_ext_script"
+      ],
       "conf": {},
       "type": "LocalScript"
     },

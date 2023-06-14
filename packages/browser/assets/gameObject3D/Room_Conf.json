@@ -25,10 +25,10 @@
       "LocalScript": {
         "uuid": "1DD931A5-618B-473A-AC54-1989E781A240",
         "idScripts": [
-          "avatar_controller",
-          "camera",
-          "static_object",
-          "AddItownsLayer"
+          "avatar_controller_id_ext_script",
+          "camera_id_ext_script",
+          "static_object_id_ext_script",
+          "add_itowns_layer_id_ext_script"
         ],
         "conf": {},
         "type": "LocalScript"
@@ -258,7 +258,11 @@
               },
               "LocalScript": {
                 "uuid": "4D210DC3-544C-4020-AB93-1D7598521019",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -329,7 +333,11 @@
               },
               "LocalScript": {
                 "uuid": "12C4C448-5065-4D81-A66D-AE3AB6E7CB60",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -396,7 +404,11 @@
               },
               "LocalScript": {
                 "uuid": "D8FF3327-5695-497F-AC35-B1CE4D546696",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -501,7 +513,7 @@
         "components": {
           "LocalScript": {
             "uuid": "C274D67D-C583-41A8-B258-528CA9347171",
-            "idScripts": ["ui_id_script"],
+            "idScripts": ["ui_id_ext_script"],
             "conf": { "gameContextDt": 15 },
             "type": "LocalScript"
           },

@@ -20,7 +20,7 @@
       "color": [0, 1, 0]
     },
     "LocalScript": {
-      "idScripts": ["local_interactions", "default_interactions"],
+      "idScripts": ["local_interactions_id_ext_script", "default_interactions"],
       "conf": {},
       "type": "LocalScript"
     },

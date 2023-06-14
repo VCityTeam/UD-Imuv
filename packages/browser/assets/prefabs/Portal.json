@@ -34,7 +34,11 @@
       "type": "WorldScript"
     },
     "LocalScript": {
-      "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+      "idScripts": [
+        "rotate_id_ext_script",
+        "local_interactions_id_ext_script",
+        "portal_sweep_id_ext_script"
+      ],
       "conf": { "speed": 0.001 },
       "type": "LocalScript"
     },

@@ -189,6 +189,10 @@ export class Camera extends Game.External.ScriptBase {
     this.focusCamera.setTarget(target);
     this.focusCamera.focusTarget(this.fetchStaticObject(), distance);
   }
+
+  static get ID_SCRIPT() {
+    return 'camera_id_ext_script';
+  }
 }
 
 //focus

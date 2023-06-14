@@ -25,14 +25,14 @@
       "LocalScript": {
         "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
         "idScripts": [
-          "itowns_refine",
-          "switch_itowns",
-          "avatar_controller",
+          "itowns_refine_id_ext_script",
+          "switch_itowns_id_ext_script",
+          "avatar_controller_id_ext_script",
           "camera",
           "place_post_it",
-          "static_object",
-          "box3D_tool",
-          "AddItownsLayer"
+          "static_object_id_ext_script",
+          "box3D_tool_id_ext_script",
+          "add_itowns_layer_id_ext_script"
         ],
         "conf": {},
         "type": "LocalScript"
@@ -237,7 +237,11 @@
               },
               "LocalScript": {
                 "uuid": "89D210AC-4766-4D67-986D-364747A1AB5D",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -712,7 +716,7 @@
         "components": {
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
-            "idScripts": ["ui_id_script"],
+            "idScripts": ["ui_id_ext_script"],
             "conf": { "gameContextDt": 427 },
             "type": "LocalScript"
           },

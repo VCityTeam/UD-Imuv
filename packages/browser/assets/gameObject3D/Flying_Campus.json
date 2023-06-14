@@ -25,14 +25,14 @@
       "LocalScript": {
         "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
         "idScripts": [
-          "itowns_refine",
-          "switch_itowns",
-          "avatar_controller",
-          "camera",
-          "zeppelin_controller",
-          "box3D_tool",
-          "static_object",
-          "AddItownsLayer"
+          "itowns_refine_id_ext_script",
+          "switch_itowns_id_ext_script",
+          "avatar_controller_id_ext_script",
+          "camera_id_ext_script",
+          "zeppelin_controller_id_ext_script",
+          "box3D_tool_id_ext_script",
+          "static_object_id_ext_script",
+          "add_itowns_layer_id_ext_script"
         ],
         "conf": { "traveling_time": 3000 },
         "type": "LocalScript"
@@ -2268,7 +2268,11 @@
               },
               "LocalScript": {
                 "uuid": "5DF3924E-1822-42CA-9CEE-5DAA347322FA",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -2339,7 +2343,11 @@
               },
               "LocalScript": {
                 "uuid": "7148E1C3-819F-4247-A7D2-06909149171F",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -2413,7 +2421,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "C6BD0C6B-3026-47E7-9967-0E6017FA278C",
-                "idScripts": ["video"],
+                "idScripts": ["video_id_ext_script"],
                 "conf": {
                   "videoPath": "./assets/videos/POC_flying_campus_juin.webm",
                   "width": 8.5,
@@ -2495,7 +2503,11 @@
               },
               "LocalScript": {
                 "uuid": "83241504-AE1E-46EC-B493-997283417F5C",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -2564,7 +2576,11 @@
               },
               "LocalScript": {
                 "uuid": "008101ED-9DC7-44E1-8855-78E8414DF6A8",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -2631,7 +2647,11 @@
               },
               "LocalScript": {
                 "uuid": "C6B5C77D-C3B6-4F5E-90FF-12CBD7AC2AF9",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -2703,7 +2723,11 @@
               },
               "LocalScript": {
                 "uuid": "329F3D84-3F0B-4B01-AE54-D0F20B2D1276",
-                "idScripts": ["rotate", "local_interactions", "portal_sweep"],
+                "idScripts": [
+                  "rotate_id_ext_script",
+                  "local_interactions_id_ext_script",
+                  "portal_sweep_id_ext_script"
+                ],
                 "conf": {
                   "speed": 0.001,
                   "avatarsOnEnter": [],
@@ -2830,7 +2854,10 @@
               },
               "LocalScript": {
                 "uuid": "3E81DF23-E872-4855-A237-E7A75C64EEDC",
-                "idScripts": ["local_interactions", "butterfly_spawner"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "butterfly_spawner_id_ext_script"
+                ],
                 "conf": {
                   "avatarsOnEnter": [],
                   "avatarsColliding": [],
@@ -2885,7 +2912,10 @@
               },
               "LocalScript": {
                 "uuid": "02AA64CF-0B65-4EE4-BF5C-B6AB7BCC4E71",
-                "idScripts": ["local_interactions", "butterfly_spawner"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "butterfly_spawner_id_ext_script"
+                ],
                 "conf": {
                   "avatarsOnEnter": [],
                   "avatarsColliding": [],
@@ -2940,7 +2970,10 @@
               },
               "LocalScript": {
                 "uuid": "33E4FE6B-3866-41A1-8EDE-49CD11A922E5",
-                "idScripts": ["local_interactions", "butterfly_spawner"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "butterfly_spawner_id_ext_script"
+                ],
                 "conf": {
                   "avatarsOnEnter": [],
                   "avatarsColliding": [],
@@ -2995,7 +3028,10 @@
               },
               "LocalScript": {
                 "uuid": "EAA88684-FFA5-44FB-9966-3E73472EA7AB",
-                "idScripts": ["local_interactions", "signage_displayer"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "signage_displayer_id_ext_script"
+                ],
                 "conf": {
                   "avatarsOnEnter": [],
                   "avatarsColliding": [],
@@ -3058,7 +3094,10 @@
               },
               "LocalScript": {
                 "uuid": "3B93E446-29AB-4197-96A2-7E9A3E7F2192",
-                "idScripts": ["geo_project", "clickable"],
+                "idScripts": [
+                  "geo_project_id_ext_script",
+                  "clickable_id_ext_script"
+                ],
                 "conf": {
                   "image_width": 200,
                   "image_height": 150,
@@ -3117,7 +3156,10 @@
               },
               "LocalScript": {
                 "uuid": "5482348B-DCFF-4E00-9402-12E1E9779315",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "Parasol Jaune",
                   "avatarsOnEnter": [],
@@ -3175,7 +3217,10 @@
               },
               "LocalScript": {
                 "uuid": "D6722B6D-E80B-433F-8CD0-FE144173568A",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "Parasol orange",
                   "avatarsOnEnter": [],
@@ -3235,7 +3280,10 @@
               },
               "LocalScript": {
                 "uuid": "38AB6728-3414-4E06-968C-45453C639DDD",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "Parasol rouge",
                   "avatarsOnEnter": [],
@@ -3293,7 +3341,10 @@
               },
               "LocalScript": {
                 "uuid": "C900CBFF-95FE-4105-8AF1-511FB74E2241",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "Parasol violet",
                   "avatarsOnEnter": [],
@@ -3407,7 +3458,10 @@
               },
               "LocalScript": {
                 "uuid": "74545F8B-759E-496C-BB42-F4BA1C8634D8",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "Amphithéâtre IMUV",
                   "avatarsOnEnter": [],
@@ -3577,7 +3631,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "2F691F24-B764-4916-B64E-F6290C1E7F39",
-                "idScripts": ["mini_map_id_script"],
+                "idScripts": ["mini_map_id_ext_script"],
                 "conf": {
                   "mini_map_no_teleport": [],
                   "mini_map_ping": [],
@@ -3618,7 +3672,11 @@
               },
               "LocalScript": {
                 "uuid": "79768261-7B74-4166-888D-42C364BA7C97",
-                "idScripts": ["clickable", "signboard", "display_media"],
+                "idScripts": [
+                  "clickable_id_ext_script",
+                  "signboard_id_ext_script",
+                  "display_media_id_ext_script"
+                ],
                 "conf": {
                   "heightFrame": 5.0625,
                   "widthFrame": 9,
@@ -3689,7 +3747,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "6DCEF14A-40DC-40EC-A109-E1370A21B05E",
-                "idScripts": ["city_map_id_script"],
+                "idScripts": ["city_map_id_ext_script"],
                 "conf": { "city_map_ping": [] },
                 "type": "LocalScript"
               },
@@ -3726,7 +3784,11 @@
               },
               "LocalScript": {
                 "uuid": "C974BCE7-2EB7-4769-930F-5707020BC9EF",
-                "idScripts": ["clickable", "signboard", "display_media"],
+                "idScripts": [
+                  "clickable_id_ext_script",
+                  "signboard_id_ext_script",
+                  "display_media_id_ext_script"
+                ],
                 "conf": {
                   "iframe_src": null,
                   "sound_id": "step",
@@ -3798,7 +3860,11 @@
               },
               "LocalScript": {
                 "uuid": "7DE2784E-9AEB-4DA5-BD0D-9D55788D344C",
-                "idScripts": ["clickable", "signboard", "display_media"],
+                "idScripts": [
+                  "clickable_id_ext_script",
+                  "signboard_id_ext_script",
+                  "display_media_id_ext_script"
+                ],
                 "conf": {
                   "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-baignades-urbaines-vf_1668639850940-pdf?ID_FICHE=118648",
                   "sound_id": null,
@@ -3868,7 +3934,11 @@
               },
               "LocalScript": {
                 "uuid": "CCB2CDB8-36C3-4CA3-BB47-8FE53986FE5B",
-                "idScripts": ["clickable", "signboard", "display_media"],
+                "idScripts": [
+                  "clickable_id_ext_script",
+                  "signboard_id_ext_script",
+                  "display_media_id_ext_script"
+                ],
                 "conf": {
                   "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-galeri3-vf_1668641194661-pdf?ID_FICHE=119648",
                   "sound_id": null,
@@ -3938,7 +4008,11 @@
               },
               "LocalScript": {
                 "uuid": "41DA6516-645C-4B5B-9B63-70A000DE03FB",
-                "idScripts": ["clickable", "signboard", "display_media"],
+                "idScripts": [
+                  "clickable_id_ext_script",
+                  "signboard_id_ext_script",
+                  "display_media_id_ext_script"
+                ],
                 "conf": {
                   "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-ports-romains-vf_1668639588861-pdf?ID_FICHE=119916",
                   "sound_id": null,
@@ -4008,7 +4082,11 @@
               },
               "LocalScript": {
                 "uuid": "503DEBE2-F639-4936-935B-CF1DA890AB7F",
-                "idScripts": ["clickable", "signboard", "display_media"],
+                "idScripts": [
+                  "clickable_id_ext_script",
+                  "signboard_id_ext_script",
+                  "display_media_id_ext_script"
+                ],
                 "conf": {
                   "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-saint-germain-en-transition-vf_1668640587812-pdf?ID_FICHE=119589",
                   "sound_id": null,
@@ -4078,7 +4156,11 @@
               },
               "LocalScript": {
                 "uuid": "FBF1B5EC-EE72-4AFA-BB3C-ED28ABD2AF84",
-                "idScripts": ["clickable", "signboard", "display_media"],
+                "idScripts": [
+                  "clickable_id_ext_script",
+                  "signboard_id_ext_script",
+                  "display_media_id_ext_script"
+                ],
                 "conf": {
                   "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-surchauffes-vf_1668640847118-pdf?ID_FICHE=120154",
                   "sound_id": null,
@@ -4142,7 +4224,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "99BA8C7D-52B8-4E83-A5A2-66AC7DE17490",
-                "idScripts": ["zeppelin_start"],
+                "idScripts": ["zeppelin_start_id_ext_script"],
                 "conf": { "pilotUUID": null },
                 "type": "LocalScript"
               }
@@ -4176,7 +4258,7 @@
         "components": {
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
-            "idScripts": ["ui_id_script"],
+            "idScripts": ["ui_id_ext_script"],
             "conf": { "gameContextDt": 17 },
             "type": "LocalScript"
           },

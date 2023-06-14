@@ -15,7 +15,10 @@
       "color": [0, 0.5, 1]
     },
     "LocalScript": {
-      "idScripts": ["local_interactions", "jitsi_area"],
+      "idScripts": [
+        "local_interactions_id_ext_script",
+        "jitsi_area_id_ext_script"
+      ],
       "conf": {
         "jitsi_room_name": "default"
       },
