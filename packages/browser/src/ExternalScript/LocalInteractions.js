@@ -1,4 +1,5 @@
 import { Game, Shared } from '@ud-viz/browser';
+import { UI } from './UI';
 
 export class LocalInteractions extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -45,7 +46,7 @@ export class LocalInteractions extends Game.External.ScriptBase {
       }
     }
 
-    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
     const labelInfo = scriptUI.getLabelInfo();
     if (canInteract) {
       labelInfo.writeLabel(
