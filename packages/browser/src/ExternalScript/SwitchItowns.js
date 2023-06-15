@@ -6,6 +6,10 @@ import {
   itownsWidgets,
 } from '@ud-viz/browser';
 
+import { UI } from './UI';
+import { AvatarController } from './AvatarController';
+import { CameraManager } from './CameraManager';
+
 export class SwitchItowns extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
@@ -16,11 +20,13 @@ export class SwitchItowns extends Game.External.ScriptBase {
 
   init() {
     /** @type {CameraManager} */
-    const cameraManager =
-      this.context.findExternalScriptWithID('CameraManager');
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
-    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
 
     if (this.context.frame3D.itownsView) {
       const promiseFunction = (resolve, reject, onClose) => {
@@ -120,7 +126,7 @@ export class SwitchItowns extends Game.External.ScriptBase {
 class MenuItowns {
   /**
    *
-   * @param {ExternalGame.Context} externalContext
+   * @param {Game.External.Context} externalContext
    */
   constructor(externalContext) {
     this.rootHtml = document.createElement('div');
@@ -139,7 +145,7 @@ class MenuItowns {
     //layerchoice
     this.addModuleView(
       'Layer Choice',
-      new Widget.LayerChoice(externalContext.frame3D.layerManager)
+      new Widget.LayerChoice(externalContext.frame3D.itownsView)
     );
 
     //cameraPositionner

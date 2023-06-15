@@ -53,10 +53,12 @@ export class ItownsRefine extends Game.External.ScriptBase {
       return sse > _this.customSSE;
     }
 
-    this.context.frame3D.layerManager.tilesManagers.forEach(function (
-      tileManager
-    ) {
-      tileManager.layer.update = itowns.process3dTilesNode(
+    const layers = this.context.frame3D.itownsView
+      .getLayers()
+      .filter((el) => el.isC3DTilesLayer);
+
+    layers.forEach((layer) => {
+      layer.update = itowns.process3dTilesNode(
         itowns.$3dTilesCulling,
         $3dTilesSubdivisionControl
       );

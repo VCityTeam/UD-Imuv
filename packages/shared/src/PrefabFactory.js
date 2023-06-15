@@ -1,4 +1,5 @@
 const { Game } = require('@ud-viz/shared');
+const Avatar = require('./GameScript/Avatar');
 
 // TODO
 const CONSTANT_TYPE_GO = {
@@ -20,7 +21,7 @@ module.exports = {
           color: [1, 1, 0, 1],
         },
         ExternalScript: {
-          idScripts: ['PostIt'],
+          idScripts: ['post_it_id_ext_script'],
           type: 'ExternalScript',
         },
       },
@@ -67,11 +68,15 @@ module.exports = {
           name: 'avatar_name',
         },
         GameScript: {
-          idScripts: ['Avatar'],
+          idScripts: [Avatar.ID_SCRIPT],
           type: 'GameScript',
         },
         ExternalScript: {
-          idScripts: ['Visible', 'SpriteName', 'TextureFace'],
+          idScripts: [
+            'visible_id_ext_script',
+            'sprite_name_id_ext_script',
+            'texture_face_id_ext_script',
+          ],
           variables: {
             visible: true,
             name: 'default_name',
