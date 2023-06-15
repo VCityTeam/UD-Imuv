@@ -28,7 +28,7 @@
           "itowns_refine_id_ext_script",
           "switch_itowns_id_ext_script",
           "avatar_controller_id_ext_script",
-          "camera",
+          "camera_id_ext_script",
           "place_post_it",
           "static_object_id_ext_script",
           "box3D_tool_id_ext_script",
