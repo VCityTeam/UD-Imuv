@@ -1,5 +1,6 @@
 import { Game, THREE, loadJSON, Shared } from '@ud-viz/browser';
 import { Constant } from '@ud-imuv/shared';
+import { AvatarController } from './AvatarController';
 
 export class UI extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -38,27 +39,29 @@ export class UI extends Game.External.ScriptBase {
     //FILL UI WITH CONTAINER
 
     //Toolsbar
-    this.context.frame3D.appendToUI(this.toolsBar.html());
+    this.context.frame3D.domElement.appendChild(this.toolsBar.html());
 
     //contextual
-    this.context.frame3D.appendToUI(this.toolsContextualMenu.html());
+    this.context.frame3D.domElement.appendChild(
+      this.toolsContextualMenu.html()
+    );
 
     //mapUI
-    this.context.frame3D.appendToUI(this.mapUI.html());
+    this.context.frame3D.domElement.appendChild(this.mapUI.html());
 
     //gadget ui
-    this.context.frame3D.appendToUI(this.gadgetUI.html());
+    this.context.frame3D.domElement.appendChild(this.gadgetUI.html());
 
     //social ui
-    this.context.frame3D.appendToUI(this.socialUI.html());
+    this.context.frame3D.domElement.appendChild(this.socialUI.html());
 
     //label info
-    this.context.frame3D.appendToUI(this.labelInfo.html());
+    this.context.frame3D.domElement.appendChild(this.labelInfo.html());
 
     //DEBUG variable is going to be replace by webpack
     // eslint-disable-next-line no-undef
     if (DEBUG) {
-      this.context.frame3D.appendToUI(this.debugInfo.html());
+      this.context.frame3D.domElement.appendChild(this.debugInfo.html());
     }
 
     //Gadget Menu Settings
@@ -269,8 +272,9 @@ export class UI extends Game.External.ScriptBase {
 
     //pause avatar command stop rendering
     this.context.frame3D.setIsRendering(false);
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
     avatarController.setAvatarControllerMode(false);
 
     closebutton.onclick = (event) => {

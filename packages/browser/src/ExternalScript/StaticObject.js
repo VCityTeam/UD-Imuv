@@ -1,4 +1,5 @@
 import { Game, Shared, THREE } from '@ud-viz/browser';
+import { CameraManager } from './CameraManager';
 
 export class StaticObject extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -9,8 +10,9 @@ export class StaticObject extends Game.External.ScriptBase {
   }
 
   init() {
-    const cameraManager =
-      this.context.findExternalScriptWithID('CameraManager');
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
     cameraManager.setObstacle(this.staticObject);
   }
 

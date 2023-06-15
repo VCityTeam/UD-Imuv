@@ -1,4 +1,9 @@
 import { OrbitControls, THREE, Game, Shared } from '@ud-viz/browser';
+import { UI } from './UI';
+import { CameraManager } from './CameraManager';
+import { AvatarController } from './AvatarController';
+import { ItownsRefine } from './ItownsRefine';
+import { ZeppelinController } from './ZeppelinController';
 
 export class ZeppelinStart extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -21,11 +26,13 @@ export class ZeppelinStart extends Game.External.ScriptBase {
     const menuZeppelin = new MenuZeppelin(this);
     this.menuZeppelin = menuZeppelin;
 
-    const scriptUI = this.context.findExternalScriptWithID('UI');
-    const cameraManager =
-      this.context.findExternalScriptWithID('CameraManager');
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
     this.zeppelinGO = null;
     this.context.object3D.traverse((child) => {
       if (child.userData.isZeppelin) {
@@ -36,7 +43,9 @@ export class ZeppelinStart extends Game.External.ScriptBase {
     });
     if (!this.zeppelinGO) throw new Error('no zeppelin go');
 
-    const refine = this.context.findExternalScriptWithID('ItownsRefine');
+    const refine = this.context.findExternalScriptWithID(
+      ItownsRefine.ID_SCRIPT
+    );
 
     scriptUI.addTool(
       './assets/img/ui/icon_zeppelin.png',
@@ -159,8 +168,9 @@ export class ZeppelinStart extends Game.External.ScriptBase {
           this.claimPiloting();
 
           //routine
-          const cameraManager =
-            this.context.findExternalScriptWithID('CameraManager');
+          const cameraManager = this.context.findExternalScriptWithID(
+            CameraManager.ID_SCRIPT
+          );
           cameraManager.moveToZeppelin();
         } else {
           console.warn('There was not orbit control ???');
@@ -170,8 +180,9 @@ export class ZeppelinStart extends Game.External.ScriptBase {
   }
 
   claimPiloting() {
-    const zeppelinController =
-      this.context.findExternalScriptWithID('ZeppelinController');
+    const zeppelinController = this.context.findExternalScriptWithID(
+      ZeppelinController.ID_SCRIPT
+    );
 
     if (!zeppelinController) throw new Error('no zeppelin controller script');
 
@@ -250,8 +261,8 @@ class MenuZeppelin {
     /** @type {ZeppelinStart} */
     this.zeppelinStart = zeppelinStart;
 
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('contextual_menu');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('contextual_menu');
 
     this.claimPilotingButton = document.createElement('div');
     this.claimPilotingButton.classList.add('button-imuv');
@@ -275,27 +286,27 @@ class MenuZeppelin {
         this.zeppelinStart.variables.pilotUUID ==
         this.zeppelinStart.context.userData.avatarUUID
       ) {
-        this.rootHtml.innerHTML = 'Vous pilotez le Zeppelyon';
+        this.domElement.innerHTML = 'Vous pilotez le Zeppelyon';
       } else {
         const namePilot = pilot
           .getComponent(Shared.Game.Component.ExternalScript.TYPE)
           .getModel()
           .getVariables().name;
-        this.rootHtml.innerHTML = namePilot + ' est le pilote';
+        this.domElement.innerHTML = namePilot + ' est le pilote';
       }
 
       this.claimPilotingButton.remove();
     } else {
-      this.rootHtml.innerHTML = 'Personne ne pilote le Zeppelyon';
-      this.rootHtml.appendChild(this.claimPilotingButton);
+      this.domElement.innerHTML = 'Personne ne pilote le Zeppelyon';
+      this.domElement.appendChild(this.claimPilotingButton);
     }
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }

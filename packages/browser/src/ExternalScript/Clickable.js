@@ -5,7 +5,7 @@ export class Clickable extends Game.External.ScriptBase {
     const raycaster = new THREE.Raycaster();
 
     this.context.inputManager.addMouseInput(
-      this.context.frame3D.rootWebGL,
+      this.context.frame3D.domElement,
       'click',
       (event) => {
         if (this.context.userData.isEditorGameView) return; // TODO should be deprecated

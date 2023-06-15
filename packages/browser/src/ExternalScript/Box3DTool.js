@@ -6,6 +6,10 @@ import {
   Game,
 } from '@ud-viz/browser';
 import { PrefabFactory } from '@ud-imuv/shared';
+import { UI } from './UI';
+import { CameraManager } from './CameraManager';
+import { AvatarController } from './AvatarController';
+import { ItownsRefine } from './ItownsRefine';
 
 export class Box3DTool extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -18,16 +22,20 @@ export class Box3DTool extends Game.External.ScriptBase {
   init() {
     const menu = new MenuBox3D(this.context);
 
-    const scriptUI = this.context.findExternalScriptWithID('UI');
-    const cameraManager =
-      this.context.findExternalScriptWithID('CameraManager');
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
     const avatarGO = this.context.object3D.getObjectByProperty(
       'uuid',
       this.context.userData.avatarUUID
     );
-    const refine = this.context.findExternalScriptWithID('ItownsRefine');
+    const refine = this.context.findExternalScriptWithID(
+      ItownsRefine.ID_SCRIPT
+    );
 
     scriptUI.addTool(
       './assets/img/ui/icon_box.png',
@@ -126,13 +134,13 @@ class MenuBox3D {
   constructor(externalContext) {
     this.context = externalContext;
 
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('contextual_menu');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('contextual_menu');
 
     const addBox3DButton = document.createElement('button');
     addBox3DButton.classList.add('button-imuv');
     addBox3DButton.innerHTML = 'Add Box3D';
-    this.rootHtml.appendChild(addBox3DButton);
+    this.domElement.appendChild(addBox3DButton);
 
     addBox3DButton.onclick = () => {
       // add a box3D at the center of the screen
@@ -198,7 +206,7 @@ class MenuBox3D {
     };
 
     this.context.inputManager.addMouseInput(
-      this.context.frame3D.rootWebGL,
+      this.context.frame3D.domElement,
       'dblclick',
       this.listener
     );
@@ -344,18 +352,18 @@ class MenuBox3D {
         ]);
       });
 
-      this.rootHtml.appendChild(this.transformUI);
+      this.domElement.appendChild(this.transformUI);
     }
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   dispose() {
     // TODO unselect here conflict with camera manager movetoavatar
     this.select(null);
-    this.rootHtml.remove();
+    this.domElement.remove();
     // this.manager.removeInputListener(this.listener); listener still enable when menu is dispose TODO
   }
 }

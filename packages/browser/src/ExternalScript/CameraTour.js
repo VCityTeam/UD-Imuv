@@ -1,14 +1,19 @@
 import { Game, THREE } from '@ud-viz/browser';
+import { AvatarController } from './AvatarController';
+import { CameraManager } from './CameraManager';
+import { UI } from './UI';
 
 const TRAVELING_DURATION = 1500;
 
 export class CameraTour extends Game.External.ScriptBase {
   init() {
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
-    const cameraManager =
-      this.context.findExternalScriptWithID('CameraManager');
-    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
     const menuTour = new MenuTour(this.context, this.variables, this.object3D);
 
     scriptUI.addTool(
@@ -141,8 +146,9 @@ class MenuTour {
 
       this.isTraveling = true;
 
-      const cameraManager =
-        this.context.findExternalScriptWithID('CameraManager');
+      const cameraManager = this.context.findExternalScriptWithID(
+        CameraManager.ID_SCRIPT
+      );
 
       const destPos = new THREE.Vector3().fromArray(
         this.variables.camera_transforms[this.currentIndex].position

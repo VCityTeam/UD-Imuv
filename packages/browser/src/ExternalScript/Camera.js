@@ -1,5 +1,8 @@
 import { Game, Shared, THREE } from '@ud-viz/browser';
 import { Routine } from './Component/Routine';
+import { AvatarController } from './AvatarController';
+import { ZeppelinController } from './ZeppelinController';
+import { StaticObject } from './StaticObject';
 
 const DISTANCE_CAMERA_AVATAR = 5;
 const DISTANCE_CAMERA_ZEPPELIN = 40;
@@ -49,8 +52,9 @@ export class Camera extends Game.External.ScriptBase {
   }
 
   fetchStaticObject() {
-    const scriptStaticObject =
-      this.context.findExternalScriptWithID('StaticObject');
+    const scriptStaticObject = this.context.findExternalScriptWithID(
+      StaticObject.ID_SCRIPT
+    );
     return scriptStaticObject.object3D;
   }
 
@@ -133,8 +137,9 @@ export class Camera extends Game.External.ScriptBase {
         () => {
           splash.remove();
 
-          const avatarController =
-            this.context.findExternalScriptWithID('AvatarController');
+          const avatarController = this.context.findExternalScriptWithID(
+            AvatarController.ID_SCRIPT
+          );
           avatarController.setAvatarControllerMode(true);
         }
       )
@@ -160,10 +165,12 @@ export class Camera extends Game.External.ScriptBase {
       );
     }
 
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
-    const zeppelinController =
-      this.context.findExternalScriptWithID('ZeppelinController');
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
+    const zeppelinController = this.context.findExternalScriptWithID(
+      ZeppelinController.ID_SCRIPT
+    );
 
     //routines are prior
     if (this.hasRoutine()) {
