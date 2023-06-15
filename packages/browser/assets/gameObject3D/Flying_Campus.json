@@ -29,6 +29,7 @@
           "switch_itowns_id_ext_script",
           "avatar_controller_id_ext_script",
           "camera_id_ext_script",
+          "camera_manager_id",
           "zeppelin_controller_id_ext_script",
           "box3D_tool_id_ext_script",
           "static_object_id_ext_script",

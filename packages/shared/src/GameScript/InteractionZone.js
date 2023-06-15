@@ -3,7 +3,7 @@ const ExternalScriptComponent = Game.Component.ExternalScript.prototype;
 
 module.exports = class InteractionZone extends Game.ScriptBase {
   init() {
-    /** @type {ExternalScriptComponent} */
+    /** @type {Game.Component.ExternalScript} */
     const externalScriptComp = this.object3D.getComponent(
       Game.Component.ExternalScript.TYPE
     );

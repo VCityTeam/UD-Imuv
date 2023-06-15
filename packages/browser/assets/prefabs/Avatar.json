@@ -24,7 +24,7 @@
       "color": null
     },
     "WorldScript": {
-      "idScripts": ["avatar"],
+      "idScripts": ["avatar_id_script"],
       "conf": {},
       "type": "WorldScript"
     },

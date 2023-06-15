@@ -45,7 +45,8 @@ child.on(Game.Thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
       const gameScriptController = avatar
         .getComponent(Shared.Game.Component.GameScript.TYPE)
         .getController();
-      gameScriptController.getScripts()['Avatar'].spawn();
+
+      gameScriptController.getScripts()[GameScript.Avatar.ID_SCRIPT].spawn();
 
       console.log('spawn avatar in thread');
     });

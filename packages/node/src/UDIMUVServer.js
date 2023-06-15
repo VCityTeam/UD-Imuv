@@ -27,7 +27,27 @@ module.exports = class UDIMUVServer {
    * @param {Express} app
    */
   start(httpServer, gameObjectsFolderPath) {
-    this.gameSocketService = new Game.SocketService(httpServer);
+    this.gameSocketService = new Game.SocketService(httpServer, {
+      socketReadyForGamePromises: [
+        (socketWrapper, thread) => {
+          return new Promise((resolve) => {
+            // add an avatar in game
+
+            const avatarJSON = PrefabFactory.avatar().toJSON();
+
+            thread
+              .apply(NodeConstant.THREAD.EVENT.SPAWN, avatarJSON)
+              .then(() => {
+                //register in wrapper avatar uuid
+                socketWrapper.userData.avatarUUID = avatarJSON.uuid;
+                socketWrapper.userData.settings = {};
+
+                resolve();
+              });
+          });
+        },
+      ],
+    });
 
     const indexWorldsJSON = JSON.parse(
       fs.readFileSync(gameObjectsFolderPath + '/index.json')

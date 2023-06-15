@@ -27,6 +27,7 @@
         "idScripts": [
           "avatar_controller_id_ext_script",
           "camera_id_ext_script",
+          "camera_manager_id",
           "static_object_id_ext_script",
           "add_itowns_layer_id_ext_script"
         ],
