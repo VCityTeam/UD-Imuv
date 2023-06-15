@@ -50,4 +50,18 @@ child.on(Game.Thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
       console.log('spawn avatar in thread');
     });
   });
+
+  child.gameContext.on(
+    Game.Thread.MESSAGE_EVENT.ON_NEW_SOCKET_WRAPPER,
+    (socketID) => {
+      console.log('on new socket wrapper', socketID);
+    }
+  );
+
+  child.gameContext.on(
+    Game.Thread.MESSAGE_EVENT.ON_SOCKET_WRAPPER_REMOVE,
+    (socketID) => {
+      console.log('on socket wrapper remove', socketID);
+    }
+  );
 });
