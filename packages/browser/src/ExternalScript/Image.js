@@ -138,7 +138,7 @@ export class Image extends Game.External.ScriptBase {
     this.popupUI.appendChild(figureImage);
     this.popupUI.appendChild(figureDescr);
     this.popupUI.appendChild(figureClose);
-    this.context.frame3D.appendToUI(this.popupUI);
+    this.context.frame3D.domElement.appendChild(this.popupUI);
   }
 
   displayPopup(value, playSound = true) {

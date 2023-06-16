@@ -75,7 +75,7 @@ export class UI extends Game.External.ScriptBase {
         //pause gameview
         this.context.frame3D.setIsRendering(false);
         this.context.inputManager.setPause(true);
-        this.context.frame3D.appendToUI(menuSettings.html());
+        this.context.frame3D.domElement.appendChild(menuSettings.html());
 
         menuSettings.setOnClose(() => {
           this.context.frame3D.setIsRendering(true);
@@ -261,14 +261,14 @@ export class UI extends Game.External.ScriptBase {
     const closeCross = document.createElement('div');
     closeCross.classList.add('close_cross', 'mask_icon');
     closebutton.appendChild(closeCross);
-    this.context.frame3D.appendToUI(closebutton);
+    this.context.frame3D.domElement.appendChild(closebutton);
 
     const content = document.createElement('iframe');
     content.classList.add('ui-iframe');
     content.style.left = this.context.frame3D.domElementWebGL.style.left;
     content.src = iframeSrc;
 
-    this.context.frame3D.appendToUI(content);
+    this.context.frame3D.domElement.appendChild(content);
 
     //pause avatar command stop rendering
     this.context.frame3D.setIsRendering(false);
