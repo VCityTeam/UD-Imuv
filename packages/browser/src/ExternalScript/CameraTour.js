@@ -50,12 +50,12 @@ class MenuTour {
     this.context = context;
     this.variables = variables;
 
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('contextual_menu');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('contextual_menu');
 
     const title = document.createElement('h1');
     title.innerHTML = object3D.name;
-    this.rootHtml.appendChild(title);
+    this.domElement.appendChild(title);
 
     //init state camera
     if (this.variables.camera_transforms.length <= 0) return;
@@ -70,11 +70,11 @@ class MenuTour {
     slider.max = this.variables.camera_transforms.length - 1;
     slider.step = 1;
     slider.value = this.currentIndex;
-    this.rootHtml.appendChild(slider);
+    this.domElement.appendChild(slider);
 
     //next previous
     const parentPreviousNext = document.createElement('div');
-    this.rootHtml.appendChild(parentPreviousNext);
+    this.domElement.appendChild(parentPreviousNext);
 
     const previousButton = document.createElement('button');
     previousButton.classList.add('button-imuv');
@@ -170,10 +170,10 @@ class MenuTour {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 }

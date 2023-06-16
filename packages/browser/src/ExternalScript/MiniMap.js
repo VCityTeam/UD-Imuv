@@ -24,14 +24,14 @@ export class MiniMap extends Game.External.ScriptBase {
     this.renderer.setClearColor(0xffffff, 0);
 
     //what is display
-    this.rootHtml = document.createElement('div');
+    this.domElement = document.createElement('div');
 
     this.canvasMiniMap = document.createElement('canvas');
     this.canvasMiniMap.width = MINI_MAP_SIZE;
     this.canvasMiniMap.height = MINI_MAP_SIZE;
     this.canvasMiniMap.style.width = MINI_MAP_SIZE + 'px';
     this.canvasMiniMap.style.height = MINI_MAP_SIZE + 'px';
-    this.rootHtml.appendChild(this.canvasMiniMap);
+    this.domElement.appendChild(this.canvasMiniMap);
 
     this.currentDT = 0;
 
@@ -63,8 +63,8 @@ export class MiniMap extends Game.External.ScriptBase {
    * Map interface
    * @returns
    */
-  getRootHtml() {
-    return this.rootHtml;
+  getDomElement() {
+    return this.domElement;
   }
 
   /**
@@ -208,7 +208,7 @@ export class MiniMap extends Game.External.ScriptBase {
         portalIcon.setPosition(portalPosition);
         portalIcon.addItem(child.name, callbackPortal);
         this.portalIcons.push(portalIcon);
-        this.rootHtml.appendChild(portalIcon.html());
+        this.domElement.appendChild(portalIcon.html());
       }
     });
     this.orderPortalIconsZIndex();
@@ -248,7 +248,7 @@ export class MiniMap extends Game.External.ScriptBase {
 
     this.infoDivs.push(div);
 
-    this.rootHtml.appendChild(div);
+    this.domElement.appendChild(div);
   }
 
   createDivInfos() {
@@ -564,17 +564,17 @@ class Ping {
 
 class DropDownMenu {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('dropdown');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('dropdown');
 
     const icon = document.createElement('img');
     icon.src = './assets/img/ui/arobase.png';
     icon.classList.add('map_icon');
-    this.rootHtml.appendChild(icon);
+    this.domElement.appendChild(icon);
 
     this.content = document.createElement('div');
     this.content.classList.add('dropdown-content');
-    this.rootHtml.appendChild(this.content);
+    this.domElement.appendChild(this.content);
   }
 
   addItem(label, callback) {
@@ -586,17 +586,17 @@ class DropDownMenu {
 
   fetchPosition() {
     return new THREE.Vector2(
-      parseFloat(this.rootHtml.style.left),
-      parseFloat(this.rootHtml.style.top)
+      parseFloat(this.domElement.style.left),
+      parseFloat(this.domElement.style.top)
     );
   }
 
   setPosition(position) {
-    this.rootHtml.style.left = position.x + '%';
-    this.rootHtml.style.top = position.y + '%';
+    this.domElement.style.left = position.x + '%';
+    this.domElement.style.top = position.y + '%';
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }

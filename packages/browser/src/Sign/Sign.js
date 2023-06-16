@@ -20,8 +20,8 @@ const createInput = function (name, root, type = 'text') {
 
 export class SignUpView {
   constructor(socketIOWrapper) {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_Sign');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_Sign');
 
     //html
     this.closeButton = null;
@@ -48,7 +48,7 @@ export class SignUpView {
   initUI() {
     const parentInputs = document.createElement('div');
     parentInputs.classList.add('parentCentered_Sign');
-    this.rootHtml.appendChild(parentInputs);
+    this.domElement.appendChild(parentInputs);
 
     this.inputNameUser = createInput('Nom d utilisateur', parentInputs);
     this.inputMail = createInput('Mail', parentInputs);
@@ -89,18 +89,18 @@ export class SignUpView {
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }
 
 export class SignInView {
   constructor(socketIOWrapper) {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_Sign');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_Sign');
 
     //html
     this.inputIdUser = null;
@@ -122,7 +122,7 @@ export class SignInView {
     const parentCentered = document.createElement('div');
     parentCentered.classList.add('parentCentered_Sign');
     this.parentCentered = parentCentered;
-    this.rootHtml.appendChild(parentCentered);
+    this.domElement.appendChild(parentCentered);
 
     this.inputIdUser = createInput('Nom d utilisateur / email', parentCentered);
     this.inputPassword = createInput(
@@ -161,10 +161,10 @@ export class SignInView {
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }

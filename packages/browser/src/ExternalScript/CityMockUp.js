@@ -561,23 +561,23 @@ class MenuCityMockUp {
     this.object3D = object3D;
 
     //html
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('contextual_menu');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('contextual_menu');
 
     const buttonSelect = document.createElement('button');
     buttonSelect.classList.add('button-imuv');
     buttonSelect.innerHTML = 'Changer de mode';
-    this.rootHtml.appendChild(buttonSelect);
+    this.domElement.appendChild(buttonSelect);
 
     //icon Mode
     this.iconMode = document.createElement('img');
     this.iconMode.classList.add('mock_up_icon_mode', 'mask_icon');
-    this.rootHtml.appendChild(this.iconMode);
+    this.domElement.appendChild(this.iconMode);
 
     //label mode
     this.labelMode = document.createElement('div');
     this.labelMode.classList.add('mock_up_label_mode');
-    this.rootHtml.appendChild(this.labelMode);
+    this.domElement.appendChild(this.labelMode);
 
     //attr
     this.itownsController = true; //default is itowns controller
@@ -693,7 +693,7 @@ class MenuCityMockUp {
         this.context.frame3D.scene.add(selectAreaObject);
       };
       this.context.inputManager.addMouseInput(
-        this.context.frame3D.rootWebGL,
+        this.context.frame3D.domElementWebGL,
         'mousedown',
         dragStart
       );
@@ -709,7 +709,7 @@ class MenuCityMockUp {
         updateSelectAreaObject();
       };
       this.context.inputManager.addMouseInput(
-        this.context.frame3D.rootWebGL,
+        this.context.frame3D.domElementWebGL,
         'mousemove',
         dragging
       );
@@ -739,7 +739,7 @@ class MenuCityMockUp {
         ]);
       };
       this.context.inputManager.addMouseInput(
-        this.context.frame3D.rootWebGL,
+        this.context.frame3D.domElementWebGL,
         'mouseup',
         dragEnd
       );
@@ -752,11 +752,11 @@ class MenuCityMockUp {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
 
     //reset inputs
     this.removeListeners();

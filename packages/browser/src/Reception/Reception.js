@@ -26,8 +26,8 @@ import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
 export class ReceptionView {
   constructor(socketIOWrapper) {
     //root
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_Reception');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_Reception');
 
     //html
     this.hamburgerButton = null;
@@ -62,7 +62,7 @@ export class ReceptionView {
   initUI() {
     const topNav = document.createElement('div');
     topNav.classList.add('topNav_Reception');
-    this.rootHtml.appendChild(topNav);
+    this.domElement.appendChild(topNav);
 
     const containerBtnTopNav = document.createElement('div');
     topNav.appendChild(containerBtnTopNav);
@@ -166,11 +166,11 @@ export class ReceptionView {
     const path = loc.substring(0, loc.lastIndexOf('/'));
     header.style.backgroundImage =
       "url('" + path + "/assets/img/reception/top_image.jpg')";
-    this.rootHtml.appendChild(header);
+    this.domElement.appendChild(header);
 
     this.joinButton = document.createElement('div');
     this.joinButton.classList.add('joinButton_Reception');
-    this.rootHtml.appendChild(this.joinButton);
+    this.domElement.appendChild(this.joinButton);
 
     const labelJoin = document.createElement('div');
     labelJoin.innerHTML = getTextByID('button_Join', this.language);
@@ -178,7 +178,7 @@ export class ReceptionView {
 
     const feedbacksDiv = document.createElement('div');
     feedbacksDiv.classList.add('feedbacksDiv_Reception');
-    this.rootHtml.appendChild(feedbacksDiv);
+    this.domElement.appendChild(feedbacksDiv);
 
     const feedbacksLabel = document.createElement('h2');
     feedbacksLabel.innerHTML = getTextByID('feedbacksLabel', this.language);
@@ -198,7 +198,7 @@ export class ReceptionView {
     //content
     const contentDiv = document.createElement('div');
     contentDiv.classList.add('content_Reception');
-    this.rootHtml.appendChild(contentDiv);
+    this.domElement.appendChild(contentDiv);
 
     const titleContent = document.createElement('h1');
     titleContent.innerHTML = getTextByID('titleContent', this.language);
@@ -348,7 +348,7 @@ export class ReceptionView {
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 
   initCallbacks() {
@@ -447,8 +447,8 @@ export class ReceptionView {
       }
 
       //rebuild
-      while (_this.rootHtml.firstChild) {
-        _this.rootHtml.firstChild.remove();
+      while (_this.domElement.firstChild) {
+        _this.domElement.firstChild.remove();
       }
       _this.init();
     };
@@ -538,6 +538,6 @@ export class ReceptionView {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }

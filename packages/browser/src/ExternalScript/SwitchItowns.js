@@ -129,13 +129,13 @@ class MenuItowns {
    * @param {Game.External.Context} externalContext
    */
   constructor(externalContext) {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_menu_itowns');
-    this.rootHtml.classList.add('contextual_menu');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_menu_itowns');
+    this.domElement.classList.add('contextual_menu');
 
     const title = document.createElement('h1');
     title.innerHTML = 'Widgets';
-    this.rootHtml.appendChild(title);
+    this.domElement.appendChild(title);
 
     //buffer
     this.widgets = {};
@@ -198,7 +198,7 @@ class MenuItowns {
     const itownsScale = new itownsWidgets.Scale(
       externalContext.frame3D.itownsView,
       {
-        parentElement: this.rootHtml,
+        parentElement: this.domElement,
       }
     );
 
@@ -207,7 +207,7 @@ class MenuItowns {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   addModuleView(moduleId, moduleClass) {
@@ -215,7 +215,7 @@ class MenuItowns {
     button.classList.add('button-imuv');
 
     button.innerHTML = moduleId;
-    this.rootHtml.appendChild(button);
+    this.domElement.appendChild(button);
 
     //ref for dispose
     this.widgets[moduleId] = moduleClass;
@@ -233,7 +233,7 @@ class MenuItowns {
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
 
     //remove active widgets
     for (const id in this.widgets) {

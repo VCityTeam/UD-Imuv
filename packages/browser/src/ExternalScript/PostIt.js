@@ -24,12 +24,12 @@ export class PostIt extends Game.External.ScriptBase {
       const mouse = new THREE.Vector2(
         -1 +
           (2 * event.offsetX) /
-            (this.context.frame3D.rootWebGL.clientWidth -
-              parseInt(this.context.frame3D.rootWebGL.offsetLeft)),
+            (this.context.frame3D.domElementWebGL.clientWidth -
+              parseInt(this.context.frame3D.domElementWebGL.offsetLeft)),
         1 -
           (2 * event.offsetY) /
-            (this.context.frame3D.rootWebGL.clientHeight -
-              parseInt(this.context.frame3D.rootWebGL.offsetTop))
+            (this.context.frame3D.domElementWebGL.clientHeight -
+              parseInt(this.context.frame3D.domElementWebGL.offsetTop))
       );
 
       this.raycaster.setFromCamera(mouse, this.context.frame3D.camera);
@@ -42,7 +42,7 @@ export class PostIt extends Game.External.ScriptBase {
     };
 
     this.context.inputManager.addMouseInput(
-      this.context.frame3D.rootWebGL,
+      this.context.frame3D.domElementWebGL,
       'dblclick',
       this.listener
     );
@@ -66,18 +66,18 @@ class MenuPostIt {
    * @param {*} postItVariables
    */
   constructor(externalGameContext, postItGameObject, postItVariables) {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_menu_display_post_it');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_menu_display_post_it');
 
     const postIt = document.createElement('div');
     postIt.innerHTML = postItVariables.content;
     postIt.classList.add('display_post_it');
-    this.rootHtml.appendChild(postIt);
+    this.domElement.appendChild(postIt);
 
     const deletePostIt = document.createElement('div');
     deletePostIt.innerHTML = 'Supprimer';
     deletePostIt.classList.add('button-imuv');
-    this.rootHtml.appendChild(deletePostIt);
+    this.domElement.appendChild(deletePostIt);
 
     //callback
     deletePostIt.onclick = function () {
@@ -93,10 +93,10 @@ class MenuPostIt {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 }
