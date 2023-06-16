@@ -1,6 +1,7 @@
 import { Game, Shared, THREE } from '@ud-viz/browser';
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { Constant } from '@ud-imuv/shared';
+import { UI } from './UI';
 
 export class JitsiArea extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -99,7 +100,7 @@ export class JitsiArea extends Game.External.ScriptBase {
     const url = new URL(Constant.JITSI.PUBLIC_URL);
     new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
-    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
     scriptUI.displaySocialIframe(divJitsi);
 
     this.divJitsi = divJitsi;
@@ -119,7 +120,7 @@ export class JitsiArea extends Game.External.ScriptBase {
 
   onLeave() {
     if (this.divJitsi) {
-      const scriptUI = this.context.findExternalScriptWithID('UI');
+      const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
       scriptUI.removeSocialIframe();
       this.divJitsi = null;
     }

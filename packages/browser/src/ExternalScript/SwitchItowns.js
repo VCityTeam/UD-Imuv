@@ -9,6 +9,7 @@ import {
 import { UI } from './UI';
 import { AvatarController } from './AvatarController';
 import { CameraManager } from './CameraManager';
+import { ItownsRefine } from './ItownsRefine';
 
 export class SwitchItowns extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -98,8 +99,9 @@ export class SwitchItowns extends Game.External.ScriptBase {
                 this.context.frame3D.camera
               );
 
-              const refine =
-                this.context.findExternalScriptWithID('ItownsRefine');
+              const refine = this.context.findExternalScriptWithID(
+                ItownsRefine.ID_SCRIPT
+              );
               if (refine) refine.itownsControls();
 
               resolve(true);

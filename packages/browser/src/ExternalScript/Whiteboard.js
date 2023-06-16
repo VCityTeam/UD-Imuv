@@ -1,5 +1,6 @@
 import { Game, THREE, Shared } from '@ud-viz/browser';
 import { Constant } from '@ud-imuv/shared';
+import { UI } from './UI';
 
 const DEFAULT_IMG_SRC =
   'https://upload.wikimedia.org/wikipedia/commons/3/31/White_paper.jpg';
@@ -44,7 +45,7 @@ export class Whiteboard extends Game.External.ScriptBase {
   }
 
   onClick() {
-    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
     scriptUI.displayIframe(Constant.WBO.PUBLIC_URL + '/' + this.object3D.uuid);
   }
 
