@@ -1,4 +1,7 @@
 import { Game, THREE, itowns, checkParentChild, Shared } from '@ud-viz/browser';
+import { UI } from './UI';
+import { CameraManager } from './CameraManager';
+import { AvatarController } from './AvatarController';
 
 export class CityMockUp extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -75,11 +78,13 @@ export class CityMockUp extends Game.External.ScriptBase {
     });
 
     //add tool
-    const scriptUI = this.context.findExternalScriptWithID('UI');
-    const cameraManager =
-      this.context.findExternalScriptWithID('CameraManager');
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
     const menu = new MenuCityMockUp(this.context, this.object3D);
 
     scriptUI.addTool(
@@ -616,7 +621,7 @@ class MenuCityMockUp {
       this.context.frame3D.enableItownsViewControls(true);
 
       //tweak zoom factor
-      const scriptUI = this.context.findExternalScriptWithID('UI');
+      const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
       this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
         .getMenuSettings()
         .getZoomFactorValue();

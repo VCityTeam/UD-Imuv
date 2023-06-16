@@ -1,14 +1,18 @@
 import { Game, Shared, THREE } from '@ud-viz/browser';
 import { PrefabFactory } from '@ud-imuv/shared';
+import { AvatarController } from './AvatarController';
+import { StaticObject } from './StaticObject';
+import { UI } from './UI';
 
 export class PlacePostIt extends Game.External.ScriptBase {
   init() {
     //controller
-    const avatarController =
-      this.context.findExternalScriptWithID('AvatarController');
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
 
     //add tool
-    const scriptUI = this.context.findExternalScriptWithID('UI');
+    const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
 
     const menuPostIt = new MenuPostIt(this.context, this.fetchStaticObject());
 
@@ -24,8 +28,9 @@ export class PlacePostIt extends Game.External.ScriptBase {
   }
 
   fetchStaticObject() {
-    const scriptStaticObject =
-      this.context.findExternalScriptWithID('StaticObject');
+    const scriptStaticObject = this.context.findExternalScriptWithID(
+      StaticObject.ID_SCRIPT
+    );
     return scriptStaticObject.object3D;
   }
 

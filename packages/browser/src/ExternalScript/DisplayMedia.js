@@ -1,9 +1,9 @@
 import { Game, Shared } from '@ud-viz/browser';
-
+import { UI } from './UI';
 export class DisplayMedia extends Game.External.ScriptBase {
   onClick() {
     if (this.variables.iframe_src) {
-      const scriptUI = this.context.findExternalScriptWithID('UI');
+      const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
       scriptUI.displayIframe(this.variables.iframe_src);
     }
 

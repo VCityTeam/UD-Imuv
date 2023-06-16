@@ -1,4 +1,6 @@
 import { Game } from '@ud-viz/browser';
+import { CameraManager } from './CameraManager';
+import { ItownsRefine } from './ItownsRefine';
 
 export class ZeppelinController extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
@@ -40,12 +42,15 @@ export class ZeppelinController extends Game.External.ScriptBase {
     this.zeppelinControllerMode = value;
 
     /** @type {CameraManager} */
-    const cameraManager =
-      this.context.findExternalScriptWithID('CameraManager');
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
 
     if (value) {
       cameraManager.followZeppelin();
-      const refine = this.context.findExternalScriptWithID('ItownsRefine');
+      const refine = this.context.findExternalScriptWithID(
+        ItownsRefine.ID_SCRIPT
+      );
       if (refine) refine.zeppelin();
       this.commandController.addNativeCommands(zeppelinGO.uuid, false);
       this.context.inputManager.setPointerLock(false);
