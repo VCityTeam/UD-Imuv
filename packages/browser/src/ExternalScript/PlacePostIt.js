@@ -41,12 +41,12 @@ class MenuPostIt {
    * @param {object} objectStatic
    */
   constructor(externalContext, objectStatic) {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('contextual_menu');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('contextual_menu');
 
     const postitHtml = document.createElement('div');
     postitHtml.classList.add('post-it');
-    this.rootHtml.appendChild(postitHtml);
+    this.domElement.appendChild(postitHtml);
 
     //input
     const textAreaMessage = document.createElement('textarea');
@@ -57,7 +57,7 @@ class MenuPostIt {
     const placePostItImage = document.createElement('img');
     placePostItImage.src = './assets/img/ui/icon_drag_post_it.png';
     placePostItImage.classList.add('draggable');
-    this.rootHtml.appendChild(placePostItImage);
+    this.domElement.appendChild(placePostItImage);
 
     //callbacks
     const raycaster = new THREE.Raycaster();
@@ -72,12 +72,12 @@ class MenuPostIt {
         const mouse = new THREE.Vector2(
           -1 +
             (2 * event.clientX) /
-              (externalContext.frame3D.rootWebGL.clientWidth -
-                parseInt(externalContext.frame3D.rootWebGL.offsetLeft)),
+              (externalContext.frame3D.domElementWebGL.clientWidth -
+                parseInt(externalContext.frame3D.domElementWebGL.offsetLeft)),
           1 -
             (2 * event.clientY) /
-              (externalContext.frame3D.rootWebGL.clientHeight -
-                parseInt(externalContext.frame3D.rootWebGL.offsetTop))
+              (externalContext.frame3D.domElementWebGL.clientHeight -
+                parseInt(externalContext.frame3D.domElementWebGL.offsetTop))
         );
 
         raycaster.setFromCamera(mouse, externalContext.frame3D.camera);
@@ -131,10 +131,10 @@ class MenuPostIt {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 }

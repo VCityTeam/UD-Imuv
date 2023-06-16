@@ -16,13 +16,13 @@ const folderImages = '/assets/img/doc/';
 
 export class DocPage {
   constructor() {
-    this.rootHtml = document.createElement('div');
+    this.domElement = document.createElement('div');
 
     this.toggleShowButton = document.createElement('a');
     this.toggleShowButton.title = 'Help';
     this.toggleShowButton.style.backgroundImage =
       'url(./assets/img/ui/help_icon_white.png)';
-    this.rootHtml.appendChild(this.toggleShowButton);
+    this.domElement.appendChild(this.toggleShowButton);
 
     this.parentElementDoc = document.createElement('div');
     this.parentElementDoc.id = 'parentElementDoc_Doc';
@@ -104,6 +104,6 @@ export class DocPage {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }

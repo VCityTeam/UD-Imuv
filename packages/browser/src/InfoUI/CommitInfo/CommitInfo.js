@@ -3,7 +3,7 @@ export class CommitInfo {
     this.commitHash = json.commitHash;
     this.commitUrl = json.commitUrl;
     this.commitAbbrevHash = json.commitAbbrevHash;
-    this.rootHtml = document.createElement('div');
+    this.domElement = document.createElement('div');
 
     this.iniUI();
   }
@@ -15,10 +15,10 @@ export class CommitInfo {
     commitInfo.title = '< ' + this.commitAbbrevHash + ' >';
     commitInfo.href = this.commitUrl;
     commitInfo.target = '_blank';
-    this.rootHtml.appendChild(commitInfo);
+    this.domElement.appendChild(commitInfo);
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }

@@ -10,12 +10,12 @@ export class CityMap extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    this.rootHtml = document.createElement('div');
+    this.domElement = document.createElement('div');
 
     this.canvas = document.createElement('canvas');
     this.canvas.width = CITY_MAP_SIZE;
     this.canvas.height = CITY_MAP_SIZE;
-    this.rootHtml.appendChild(this.canvas);
+    this.domElement.appendChild(this.canvas);
 
     this.imageCityMap = document.createElement('img');
 
@@ -65,8 +65,8 @@ export class CityMap extends Game.External.ScriptBase {
    * Map interface TODO create an abstract class
    * @returns
    */
-  getRootHtml() {
-    return this.rootHtml;
+  getDomElement() {
+    return this.domElement;
   }
 
   fetchUserCityAvatar() {

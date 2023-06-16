@@ -117,7 +117,7 @@ export class ZeppelinStart extends Game.External.ScriptBase {
             this.variables.pilotUUID != this.context.userData.avatarUUID
           ) {
             //cant listen to canvas because zIndex is 0 and labelRenderer zIndex is 1
-            //cant listen to rootWebGL because the icon cant be clicked cause of the orbit control
+            //cant listen to domElementWebGL because the icon cant be clicked cause of the orbit control
             //have to listen the labelRenderer domElement
 
             const elementToListen =

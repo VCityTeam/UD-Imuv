@@ -265,7 +265,7 @@ export class UI extends Game.External.ScriptBase {
 
     const content = document.createElement('iframe');
     content.classList.add('ui-iframe');
-    content.style.left = this.context.frame3D.rootWebGL.style.left;
+    content.style.left = this.context.frame3D.domElementWebGL.style.left;
     content.src = iframeSrc;
 
     this.context.frame3D.appendToUI(content);
@@ -378,28 +378,28 @@ export class UI extends Game.External.ScriptBase {
 
 class DebugInfo {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_debug');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_debug');
 
     this.gameViewFps = document.createElement('div');
     this.gameViewFps.classList.add('debug_label');
-    this.rootHtml.appendChild(this.gameViewFps);
+    this.domElement.appendChild(this.gameViewFps);
 
     this.worldComputerFps = document.createElement('div');
     this.worldComputerFps.classList.add('debug_label');
-    this.rootHtml.appendChild(this.worldComputerFps);
+    this.domElement.appendChild(this.worldComputerFps);
 
     this.pingUI = document.createElement('div');
     this.pingUI.classList.add('debug_label');
-    this.rootHtml.appendChild(this.pingUI);
+    this.domElement.appendChild(this.pingUI);
 
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('debug_label');
-    this.rootHtml.appendChild(this.avatarCount);
+    this.domElement.appendChild(this.avatarCount);
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   /**
@@ -435,8 +435,8 @@ class MenuSettings {
   constructor(externalContext) {
     this.context = externalContext;
 
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root-menu-settings');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root-menu-settings');
 
     // html elements will be set
     this.closeButton = null;
@@ -470,16 +470,16 @@ class MenuSettings {
 
   initHtml() {
     // sections
-    this.createTitleSection(this.rootHtml);
+    this.createTitleSection(this.domElement);
 
     const panelsSection = document.createElement('section');
     panelsSection.classList.add('panels-section');
     this.createGraphicsSection(panelsSection);
     this.createAudioSection(panelsSection);
     this.createControlsSection(panelsSection);
-    this.rootHtml.appendChild(panelsSection);
+    this.domElement.appendChild(panelsSection);
 
-    this.createSaveAndCloseSection(this.rootHtml);
+    this.createSaveAndCloseSection(this.domElement);
   }
 
   // TITLE SECTION
@@ -654,7 +654,7 @@ class MenuSettings {
   createTextureSizeOptionDiv(dirLight) {
     //size
     const textureSizeOptionDiv = document.createElement('div');
-    this.rootHtml.appendChild(textureSizeOptionDiv);
+    this.domElement.appendChild(textureSizeOptionDiv);
     const labelSize = document.createElement('div');
     labelSize.innerHTML = "Taille Texture d'Ombre";
     labelSize.classList.add('label-menu-settings');
@@ -875,33 +875,33 @@ class MenuSettings {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   dispose() {
-    this.rootHtml.remove();
+    this.domElement.remove();
   }
 }
 
 class ToolsBar {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_toolsbar');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_toolsbar');
   }
 
   addIcon(icon) {
-    this.rootHtml.appendChild(icon);
+    this.domElement.appendChild(icon);
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }
 
 class ToolsContextualMenu {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('tools_contextual_menu');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('tools_contextual_menu');
 
     this.closeFunction = null;
     this.currentMenu = null;
@@ -913,7 +913,7 @@ class ToolsContextualMenu {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   isAvailable() {
@@ -921,12 +921,12 @@ class ToolsContextualMenu {
   }
 
   add(menu, closeFunction) {
-    const duration = this.getCSSTransitionDuration(this.rootHtml);
+    const duration = this.getCSSTransitionDuration(this.domElement);
     this.closeFunction = closeFunction;
     this.available = false;
     return new Promise((resolve) => {
-      this.rootHtml.appendChild(menu.html());
-      this.rootHtml.style.transform = 'translate(0%,-50%)';
+      this.domElement.appendChild(menu.html());
+      this.domElement.style.transform = 'translate(0%,-50%)';
       this.currentMenu = menu;
 
       setTimeout(() => {
@@ -947,14 +947,14 @@ class ToolsContextualMenu {
   }
 
   remove(menu) {
-    const duration = this.getCSSTransitionDuration(this.rootHtml);
+    const duration = this.getCSSTransitionDuration(this.domElement);
     this.closeFunction = null;
     this.available = false;
 
     menu.isClosing = true; //TODO LIKE DISPOSE HTML CREATE A ISCLOSING FLAG IN CONTEXTUAL MENU GENERIC WAIT FOR REFACTO (is coming ...)
 
     return new Promise((resolve) => {
-      this.rootHtml.style.transform = 'translate(-100%,-50%)';
+      this.domElement.style.transform = 'translate(-100%,-50%)';
       this.currentMenu = null;
 
       setTimeout(() => {
@@ -971,8 +971,8 @@ const MAP_MINIZE_SCALE = 0.5;
 
 class MapUI {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('mapUI');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('mapUI');
 
     this.minimized = null;
     this.setMinimized(true);
@@ -984,7 +984,7 @@ class MapUI {
     this.minimized = value;
 
     if (value) {
-      this.rootHtml.style.transform =
+      this.domElement.style.transform =
         'scale(' +
         MAP_MINIZE_SCALE +
         ') translate(' +
@@ -993,7 +993,7 @@ class MapUI {
         -MAP_MINIZE_SCALE * 100 +
         '%)';
     } else {
-      this.rootHtml.style.transform = 'initial';
+      this.domElement.style.transform = 'initial';
     }
   }
 
@@ -1001,12 +1001,12 @@ class MapUI {
     this.currentMapScript = scriptMap;
 
     //Map interface
-    this.rootHtml.appendChild(scriptMap.getRootHtml());
+    this.domElement.appendChild(scriptMap.getDomElement());
     scriptMap.setDisplayMap(true);
 
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('map_buttons');
-    this.rootHtml.appendChild(buttonsDiv);
+    this.domElement.appendChild(buttonsDiv);
 
     //add button
     const minimizeTitle = 'Réduire';
@@ -1058,8 +1058,8 @@ class MapUI {
   }
 
   clear() {
-    while (this.rootHtml.firstChild) {
-      this.rootHtml.firstChild.remove();
+    while (this.domElement.firstChild) {
+      this.domElement.firstChild.remove();
     }
 
     //no display for old script map
@@ -1070,14 +1070,14 @@ class MapUI {
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }
 
 class GadgetUI {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_gadget');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_gadget');
   }
 
   addGadget(path, title, cb) {
@@ -1086,11 +1086,11 @@ class GadgetUI {
     icon.title = title;
     icon.onclick = cb;
 
-    this.rootHtml.appendChild(icon);
+    this.domElement.appendChild(icon);
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }
 
@@ -1098,22 +1098,22 @@ const SOCIAL_MINIZE_SCALE = 0.5;
 
 class SocialUI {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_social_ui');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_social_ui');
 
     this.minimized = null;
     this.setMinimized(true);
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 
   setMinimized(value) {
     this.minimized = value;
 
     if (value) {
-      this.rootHtml.style.transform =
+      this.domElement.style.transform =
         'scale(' +
         SOCIAL_MINIZE_SCALE +
         ') translate(' +
@@ -1122,7 +1122,7 @@ class SocialUI {
         SOCIAL_MINIZE_SCALE * 100 +
         '%)';
     } else {
-      this.rootHtml.style.transform = 'initial';
+      this.domElement.style.transform = 'initial';
     }
   }
 
@@ -1141,7 +1141,7 @@ class SocialUI {
       scaleButton.src = maximizeSrc;
     }
     scaleButton.classList.add('map_button');
-    this.rootHtml.appendChild(scaleButton);
+    this.domElement.appendChild(scaleButton);
 
     const _this = this;
     scaleButton.onclick = function () {
@@ -1155,41 +1155,41 @@ class SocialUI {
       }
     };
 
-    this.rootHtml.appendChild(iframe);
+    this.domElement.appendChild(iframe);
   }
 
   clear() {
-    while (this.rootHtml.firstChild) {
-      this.rootHtml.firstChild.remove();
+    while (this.domElement.firstChild) {
+      this.domElement.firstChild.remove();
     }
   }
 }
 
 class LabelInfo {
   constructor() {
-    this.rootHtml = document.createElement('div');
-    this.rootHtml.classList.add('root_label_info');
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('root_label_info');
 
     this.currentID = null;
-    this.rootHtml.classList.add('hidden');
+    this.domElement.classList.add('hidden');
   }
 
   writeLabel(id, label) {
     this.currentID = id;
 
-    this.rootHtml.innerHTML = label;
-    this.rootHtml.classList.remove('hidden');
+    this.domElement.innerHTML = label;
+    this.domElement.classList.remove('hidden');
   }
 
   clear(id) {
     if (id == this.currentID) {
       this.currentID = null;
-      this.rootHtml.innerHTML = '';
-      this.rootHtml.classList.add('hidden');
+      this.domElement.innerHTML = '';
+      this.domElement.classList.add('hidden');
     }
   }
 
   html() {
-    return this.rootHtml;
+    return this.domElement;
   }
 }

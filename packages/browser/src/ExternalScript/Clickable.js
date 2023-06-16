@@ -15,12 +15,12 @@ export class Clickable extends Game.External.ScriptBase {
         const mouse = new THREE.Vector2(
           -1 +
             (2 * event.offsetX) /
-              (this.context.frame3D.rootWebGL.clientWidth -
-                parseInt(this.context.frame3D.rootWebGL.offsetLeft)),
+              (this.context.frame3D.domElementWebGL.clientWidth -
+                parseInt(this.context.frame3D.domElementWebGL.offsetLeft)),
           1 -
             (2 * event.offsetY) /
-              (this.context.frame3D.rootWebGL.clientHeight -
-                parseInt(this.context.frame3D.rootWebGL.offsetTop))
+              (this.context.frame3D.domElementWebGL.clientHeight -
+                parseInt(this.context.frame3D.domElementWebGL.offsetTop))
         );
 
         raycaster.setFromCamera(mouse, this.context.frame3D.camera);
