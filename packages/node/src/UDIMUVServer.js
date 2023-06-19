@@ -70,6 +70,53 @@ module.exports = class UDIMUVServer {
       gameObjects3D,
       path.join(__dirname, 'thread.js')
     );
+
+    // customize thread with the portal event
+    for (const threadID in this.gameSocketService.threads) {
+      const thread = this.gameSocketService.threads[threadID];
+      thread.on(NodeConstant.THREAD.EVENT.PORTAL, (data) => {
+        // find socket wrapper with avatarUUID
+        let socketWrapper = null;
+        for (let index = 0; index < thread.socketWrappers.length; index++) {
+          const sw = thread.socketWrappers[index];
+          if (sw.userData.avatarUUID == data.avatarUUID) {
+            socketWrapper = sw;
+            break;
+          }
+        }
+        if (!socketWrapper) {
+          console.warn('socket wrapper not in thread ', threadID);
+          return; // can happen when avatar trigger portal event twice
+        }
+
+        // remove it from current thread
+        thread.removeSocketWrapper(socketWrapper);
+        // remove avatar from current thread
+        thread.post(Game.Thread.MESSAGE_EVENT.REMOVE_OBJECT3D, data.avatarUUID);
+        // add to the new thread
+        const destThread =
+          this.gameSocketService.threads[data.gameObjectDestUUID];
+        if (!destThread) {
+          console.log('uuid thread initialized');
+          for (const gameObjectThreadUUID in this.gameSocketService.threads) {
+            console.log(gameObjectThreadUUID);
+          }
+          throw new Error('cant find dest thread' + data.gameObjectDestUUID);
+        }
+        // add avatar
+        const avatarJSON = PrefabFactory.avatar(); // dirty but do the job for now
+        avatarJSON.uuid = data.avatarUUID; // tweak uuid (in future should rebuild the socket avatar avatar color + name)
+        destThread
+          .apply(NodeConstant.THREAD.EVENT.PORTAL, {
+            object3D: avatarJSON,
+            portalUUID: data.portalUUID,
+          })
+          .then(() => {
+            // add it after to be sure avatar is in thread
+            destThread.addSocketWrapper(socketWrapper);
+          });
+      });
+    }
   }
 
   oldstart(config) {

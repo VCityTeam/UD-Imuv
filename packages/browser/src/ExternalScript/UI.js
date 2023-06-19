@@ -997,7 +997,7 @@ class MapUI {
     }
   }
 
-  add(scriptMap, Constant) {
+  add(scriptMap) {
     this.currentMapScript = scriptMap;
 
     //Map interface
