@@ -37,7 +37,7 @@ export class PostIt extends Game.External.ScriptBase {
       const i = this.raycaster.intersectObject(this.object3D, true);
 
       if (i.length) {
-        this.context.frame3D.appendToUI(menu.html());
+        this.context.frame3D.domElement.appendChild(menu.html());
       }
     };
 

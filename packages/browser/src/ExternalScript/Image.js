@@ -188,7 +188,7 @@ export class Image extends Game.External.ScriptBase {
             externalCompChild
               .getController()
               .getScripts()
-              ['Image'].displayPopup(false, false); //do not play sound when close and another one is open
+              [Image.ID_SCRIPT].displayPopup(false, false); //do not play sound when close and another one is open
           });
         } else {
           this.displayPopup(false);

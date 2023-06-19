@@ -10,8 +10,8 @@ child.on(Game.Thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
   child.gameContext.on(Constant.CONTEXT.EVENT.PORTAL, (data) => {
     // post portal event to main thread
     const message = {};
-    message[Game.Thread.KEY.TYPE] = NodeConstant.THREAD.EVENT.PORTAL;
-    message[Game.Thread.KEY.DATA] = data;
+    message[Game.Thread.MESSAGE_KEY.TYPE] = NodeConstant.THREAD.EVENT.PORTAL;
+    message[Game.Thread.MESSAGE_KEY.DATA] = data;
     worker_threads.parentPort.postMessage(
       Shared.Data.objectToInt32Array(message)
     );
@@ -34,7 +34,7 @@ child.on(Game.Thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
     gameScriptCompPortal
       .getController()
       .getScripts()
-      ['Portal'].setTransformOf(objectToAdd);
+      [GameScript.Portal.ID_SCRIPT].setTransformOf(objectToAdd);
 
     return child.gameContext.addObject3D(objectToAdd);
   });
