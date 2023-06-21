@@ -447,7 +447,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "690A9688-1A2E-4FF0-9280-93116DD682D6",
-                "idScripts": ["jitsi_screen"],
+                "idScripts": ["jitsi_screen_id_ext_script"],
                 "conf": { "jitsi_room_name": "Salle de conférence IMUV" },
                 "type": "LocalScript"
               }
@@ -478,8 +478,13 @@
               },
               "LocalScript": {
                 "uuid": "DA04F566-1D8C-4FDA-82AA-9FBDFD86D319",
-                "idScripts": ["city_mock_up"],
-                "conf": { "area": { "start": null, "end": null } },
+                "idScripts": ["city_mock_up_id_ext_script"],
+                "conf": {
+                  "area": {
+                    "start": null,
+                    "end": null
+                  }
+                },
                 "type": "LocalScript"
               }
             },

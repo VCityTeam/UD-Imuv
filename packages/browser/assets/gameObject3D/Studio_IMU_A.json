@@ -30,7 +30,7 @@
           "avatar_controller_id_ext_script",
           "camera_id_ext_script",
           "camera_manager_id",
-          "place_post_it",
+          "place_post_it_id_ext_script",
           "static_object_id_ext_script",
           "box3D_tool_id_ext_script",
           "add_itowns_layer_id_ext_script"
@@ -345,7 +345,7 @@
                   "clickable_id_ext_script",
                   "rotate_id_ext_script",
                   "display_media_id_ext_script",
-                  "sprite_name"
+                  "sprite_name_id_ext_script"
                 ],
                 "conf": {
                   "name": "Projet VCity",
@@ -432,7 +432,7 @@
                   "clickable_id_ext_script",
                   "rotate_id_ext_script",
                   "display_media_id_ext_script",
-                  "sprite_name"
+                  "sprite_name_id_ext_script"
                 ],
                 "conf": {
                   "name": "JOUT'Urbaines",
