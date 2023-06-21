@@ -83,7 +83,7 @@ export class JitsiScreen extends Game.External.ScriptBase {
       },
     };
 
-    const url = new URL(Constant.JITSI.PUBLIC_URL);
+    const url = new URL(JITSI_PUBLIC_URL);
     new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
     const positionDomElement3D = new THREE.Vector3();
@@ -102,7 +102,7 @@ export class JitsiScreen extends Game.External.ScriptBase {
       scaleDomElement3D,
       200
     );
-    this.context.frame3D.appendBillboard(domElement3D);
+    this.context.frame3D.appendDomElement3D(domElement3D);
   }
 
   static get ID_SCRIPT() {

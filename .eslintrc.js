@@ -13,6 +13,7 @@ module.exports = {
   },
   globals: {
     DEBUG: true,
+    JITSI_PUBLIC_URL: true,
   },
   rules: {
     'prettier/prettier': ['error'],
