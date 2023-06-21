@@ -10,7 +10,8 @@ export class Clickable extends Game.External.ScriptBase {
       (event) => {
         if (this.context.userData.isEditorGameView) return; // TODO should be deprecated
 
-        if (checkParentChild(event.target, this.context.frame3D.ui)) return; //ui has been clicked
+        if (checkParentChild(event.target, this.context.frame3D.domElementUI))
+          return; //ui has been clicked
 
         const mouse = new THREE.Vector2(
           -1 +
