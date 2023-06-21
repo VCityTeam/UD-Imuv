@@ -39,29 +39,29 @@ export class UI extends Game.External.ScriptBase {
     //FILL UI WITH CONTAINER
 
     //Toolsbar
-    this.context.frame3D.domElement.appendChild(this.toolsBar.html());
+    this.context.frame3D.domElementUI.appendChild(this.toolsBar.html());
 
     //contextual
-    this.context.frame3D.domElement.appendChild(
+    this.context.frame3D.domElementUI.appendChild(
       this.toolsContextualMenu.html()
     );
 
     //mapUI
-    this.context.frame3D.domElement.appendChild(this.mapUI.html());
+    this.context.frame3D.domElementUI.appendChild(this.mapUI.html());
 
     //gadget ui
-    this.context.frame3D.domElement.appendChild(this.gadgetUI.html());
+    this.context.frame3D.domElementUI.appendChild(this.gadgetUI.html());
 
     //social ui
-    this.context.frame3D.domElement.appendChild(this.socialUI.html());
+    this.context.frame3D.domElementUI.appendChild(this.socialUI.html());
 
     //label info
-    this.context.frame3D.domElement.appendChild(this.labelInfo.html());
+    this.context.frame3D.domElementUI.appendChild(this.labelInfo.html());
 
     //DEBUG variable is going to be replace by webpack
     // eslint-disable-next-line no-undef
     if (DEBUG) {
-      this.context.frame3D.domElement.appendChild(this.debugInfo.html());
+      this.context.frame3D.domElementUI.appendChild(this.debugInfo.html());
     }
 
     //Gadget Menu Settings
@@ -75,7 +75,7 @@ export class UI extends Game.External.ScriptBase {
         //pause gameview
         this.context.frame3D.setIsRendering(false);
         this.context.inputManager.setPause(true);
-        this.context.frame3D.domElement.appendChild(menuSettings.html());
+        this.context.frame3D.domElementUI.appendChild(menuSettings.html());
 
         menuSettings.setOnClose(() => {
           this.context.frame3D.setIsRendering(true);
@@ -261,14 +261,14 @@ export class UI extends Game.External.ScriptBase {
     const closeCross = document.createElement('div');
     closeCross.classList.add('close_cross', 'mask_icon');
     closebutton.appendChild(closeCross);
-    this.context.frame3D.domElement.appendChild(closebutton);
+    this.context.frame3D.domElementUI.appendChild(closebutton);
 
     const content = document.createElement('iframe');
     content.classList.add('ui-iframe');
     content.style.left = this.context.frame3D.domElementWebGL.style.left;
     content.src = iframeSrc;
 
-    this.context.frame3D.domElement.appendChild(content);
+    this.context.frame3D.domElementUI.appendChild(content);
 
     //pause avatar command stop rendering
     this.context.frame3D.setIsRendering(false);
@@ -1001,7 +1001,7 @@ class MapUI {
     this.currentMapScript = scriptMap;
 
     //Map interface
-    this.domElement.appendChild(scriptMap.getDomElement());
+    this.domElement.appendChild(scriptMap.html());
     scriptMap.setDisplayMap(true);
 
     const buttonsDiv = document.createElement('div');
