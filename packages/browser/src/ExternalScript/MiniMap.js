@@ -25,6 +25,7 @@ export class MiniMap extends Game.External.ScriptBase {
 
     //what is display
     this.domElement = document.createElement('div');
+    this.domElement.style.position = 'relative';
 
     this.canvasMiniMap = document.createElement('canvas');
     this.canvasMiniMap.width = MINI_MAP_SIZE;
