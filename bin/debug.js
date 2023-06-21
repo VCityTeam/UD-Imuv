@@ -10,7 +10,7 @@ childExecBuildDebug.childProcess.stdout.on('data', (data) => {
   console.log(`${data}`);
 });
 childExecBuildDebug.childProcess.stderr.on('data', (data) => {
-  console.error('\x1b[31m', 'host' + ` ERROR :\n${data}`);
+  console.error('build-debug Process | ' + ` ERROR :\n${data}`);
 });
 
 childExecBuildDebug.finally(() => {
@@ -22,7 +22,7 @@ childExecBuildDebug.finally(() => {
     console.log(`${data}`);
   });
   childSpawnHost.childProcess.stderr.on('data', (data) => {
-    console.error('\x1b[31m', ` ERROR :\n${data}`);
+    console.error('host Process | ', ` ERROR :\n${data}`);
   });
 });
 
