@@ -47,6 +47,17 @@ module.exports = class UDIMUVServer {
           });
         },
       ],
+      socketDisconnectionCallbacks: [
+        (socketWrapper, thread) => {
+          console.log(socketWrapper.userData);
+
+          //remove avatar
+          thread.post(
+            Game.Thread.MESSAGE_EVENT.REMOVE_OBJECT3D,
+            socketWrapper.userData.avatarUUID
+          );
+        },
+      ],
     });
 
     const indexWorldsJSON = JSON.parse(
@@ -371,12 +382,12 @@ const moulinetteWorldJSON = (oldJSON) => {
         variables: goJSON.components.LocalScript.conf,
       };
 
-      if (newIds.includes('Image')) {
+      if (newIds.includes('image_id_ext_script')) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isImage = true;
       }
 
-      if (newIds.includes('PortalSweep')) {
+      if (newIds.includes('portal_sweep_id_ext_script')) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isPortal = true;
       }
