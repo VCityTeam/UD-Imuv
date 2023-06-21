@@ -35,9 +35,11 @@ export class CityMockUp extends Game.External.ScriptBase {
     //Custom refine the conf area
 
     const boundingVolumeBox = new THREE.Box3();
-
-    this.context.frame3D.layerManager.tilesManagers.forEach((tileManager) => {
-      tileManager.layer.update = itowns.process3dTilesNode(
+    const layers = this.context.frame3D.itownsView
+      .getLayers()
+      .filter((el) => el.isC3DTilesLayer);
+    layers.forEach((layer) => {
+      layer.update = itowns.process3dTilesNode(
         (layer, camera, node, tileMatrixWorld) => {
           if (!node.boundingVolume || !node.boundingVolume.box) return true; //do not requet (culling it)
 
@@ -66,15 +68,17 @@ export class CityMockUp extends Game.External.ScriptBase {
           ); //refine if it's intersecting area
         }
       );
+      layer.addEventListnerer(
+        itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
+        (tile) => {
+          const boundingBox = new THREE.Box3().setFromObject(tile);
 
-      tileManager.addEventListener(TilesManager.EVENT_TILE_LOADED, (tile) => {
-        const boundingBox = new THREE.Box3().setFromObject(tile);
-
-        //only update if tile intersect the area
-        if (this.intersectArea(boundingBox.min, boundingBox.max)) {
-          this.updateMockUpObject();
+          //only update if tile intersect the area
+          if (this.intersectArea(boundingBox.min, boundingBox.max)) {
+            this.updateMockUpObject();
+          }
         }
-      });
+      );
     });
 
     //add tool
