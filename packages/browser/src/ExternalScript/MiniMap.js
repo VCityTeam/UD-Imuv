@@ -63,7 +63,7 @@ export class MiniMap extends Game.External.ScriptBase {
    * Map interface
    * @returns
    */
-  getDomElement() {
+  html() {
     return this.domElement;
   }
 
