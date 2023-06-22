@@ -1,6 +1,5 @@
 import { Game, Shared, THREE } from '@ud-viz/browser';
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
-import { Constant } from '@ud-imuv/shared';
 import { UI } from './UI';
 
 export class JitsiArea extends Game.External.ScriptBase {
@@ -97,7 +96,7 @@ export class JitsiArea extends Game.External.ScriptBase {
       },
     };
 
-    const url = new URL(Constant.JITSI.PUBLIC_URL);
+    const url = new URL(JITSI_PUBLIC_URL);
     new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
     const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);

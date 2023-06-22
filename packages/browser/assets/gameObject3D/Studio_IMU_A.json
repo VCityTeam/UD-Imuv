@@ -574,7 +574,10 @@
               },
               "LocalScript": {
                 "uuid": "275931C1-AB1F-4C9E-B783-448353A4DA34",
-                "idScripts": ["whiteboard", "clickable_id_ext_script"],
+                "idScripts": [
+                  "whiteboard_id_ext_script",
+                  "clickable_id_ext_script"
+                ],
                 "conf": {
                   "name": "default_name",
                   "factorWidth": "3.3",
@@ -615,7 +618,10 @@
               },
               "LocalScript": {
                 "uuid": "66F1A28B-FC10-49AB-93D4-8C291EAEA58D",
-                "idScripts": ["whiteboard", "clickable_id_ext_script"],
+                "idScripts": [
+                  "whiteboard_id_ext_script",
+                  "clickable_id_ext_script"
+                ],
                 "conf": {
                   "name": "default_name",
                   "factorWidth": "5.2",
