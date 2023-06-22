@@ -57,7 +57,7 @@ export class Box3DTool extends Game.External.ScriptBase {
           this.itownsCamPos.copy(this.context.frame3D.camera.position);
           this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
 
-          this.context.frame3D.enableItownsViewControls(false);
+          this.context.frame3D.itownsView.controls.enabled = false;
 
           cameraManager.moveToAvatar().then(() => {
             avatarController.setAvatarControllerMode(true);
@@ -92,7 +92,7 @@ export class Box3DTool extends Game.External.ScriptBase {
             .then(() => {
               this.context.inputManager.setPointerLock(false);
 
-              this.context.frame3D.enableItownsViewControls(true);
+              this.context.frame3D.itownsView.controls.enabled = true;
 
               //tweak zoom factor
               this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
@@ -284,7 +284,7 @@ class MenuBox3D {
       this.transformCtrl.dispose();
       this.transformCtrl = null;
       this.transformUI.remove();
-      this.context.frame3D.enableItownsViewControls(true);
+      this.context.frame3D.itownsView.controls.enabled = true;
       this.context.frame3D.scene.remove(this.ghostBox);
     }
 
@@ -300,7 +300,7 @@ class MenuBox3D {
       );
       this.context.frame3D.scene.add(this.ghostBox);
 
-      this.context.frame3D.enableItownsViewControls(false);
+      this.context.frame3D.itownsView.controls.enabled = false;
 
       const elementToListen =
         this.context.frame3D.itownsView.mainLoop.gfxEngine.label2dRenderer

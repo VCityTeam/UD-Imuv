@@ -51,7 +51,7 @@ export class SwitchItowns extends Game.External.ScriptBase {
           this.itownsCamPos.copy(this.context.frame3D.camera.position);
           this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
 
-          this.context.frame3D.enableItownsViewControls(false);
+          this.context.frame3D.itownsView.controls.enabled = false;
           cameraManager.moveToAvatar().then(() => {
             avatarController.setAvatarControllerMode(true);
             resolve(true);
@@ -86,7 +86,7 @@ export class SwitchItowns extends Game.External.ScriptBase {
             .then(() => {
               this.context.inputManager.setPointerLock(false);
 
-              this.context.frame3D.enableItownsViewControls(true);
+              this.context.frame3D.itownsView.controls.enabled = true;
 
               //tweak zoom factor
               this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI

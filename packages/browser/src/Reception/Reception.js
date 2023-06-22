@@ -400,6 +400,7 @@ export class ReceptionView {
                   y: extent.center().y,
                   z: 300,
                 },
+                frame3DPlanarOptions: { hasItownsControls: true },
               }
             );
 
