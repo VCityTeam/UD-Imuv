@@ -46,7 +46,7 @@ export class Whiteboard extends Game.External.ScriptBase {
 
   onClick() {
     const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
-    scriptUI.displayIframe(Constant.WBO.PUBLIC_URL + '/' + this.object3D.uuid);
+    scriptUI.displayIframe(WBO_PUBLIC_URL + '/' + this.object3D.uuid);
   }
 
   static get ID_SCRIPT() {
