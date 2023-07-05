@@ -109,7 +109,7 @@ export class CityMockUp extends Game.External.ScriptBase {
           );
           this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
 
-          this.context.frame3D.itownsView.controls = false;
+          this.context.frame3D.itownsView.controls.enabled = false;
 
           cameraManager.moveToAvatar().then(() => {
             avatarController.setAvatarControllerMode(true);
@@ -622,7 +622,7 @@ class MenuCityMockUp {
       this.context.inputManager.setPointerLock(false);
 
       //enable itowns rendering
-      this.context.frame3D.itownsView.controls = true;
+      this.context.frame3D.itownsView.controls.enabled = true;
 
       //tweak zoom factor
       const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
@@ -640,7 +640,7 @@ class MenuCityMockUp {
       this.iconMode.classList.add('select_area_icon');
 
       //disbale itowns rendering
-      this.context.frame3D.itownsView.controls = false;
+      this.context.frame3D.itownsView.controls.enabled = false;
 
       //add listeners
       let isDragging = false;
