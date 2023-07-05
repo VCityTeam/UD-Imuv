@@ -221,7 +221,155 @@ export class CityMockUp extends Game.External.ScriptBase {
         normalsMockUp.push(...normals);
       };
 
-      this.context.frame3D.layerManager.tilesManagers.forEach((tileManager) => {
+      const layers = this.context.frame3D.itownsView
+        .getLayers()
+        .filter((el) => el.isC3DTilesLayer);
+
+      layers.forEach((l) => {
+        const object = l.root;
+        if (!object) return;
+
+        const gmlIDs = [];
+
+        object.traverse((child) => {
+          if (child.geometry && !child.userData.metadata.children) {
+            const tileId = child.userData.metadata.tileId;
+
+            const bb = child.geometry.boundingBox;
+
+            const minChild = bb.min.clone().applyMatrix4(child.matrixWorld);
+            const maxChild = bb.max.clone().applyMatrix4(child.matrixWorld);
+
+            if (this.intersectArea(minChild, maxChild)) {
+              //check more precisely what batchID intersect
+              const positions = child.geometry.attributes.position.array;
+              const normals = child.geometry.attributes.normal.array;
+              const batchIds = child.geometry.attributes._BATCHID.array;
+
+              if (
+                positions.length != normals.length ||
+                positions.length != 3 * batchIds.length
+              ) {
+                throw 'wrong count geometry';
+              }
+
+              //buffer attr
+              let minBB, maxBB;
+
+              const currentPositions = [];
+              const currentNormals = [];
+              const position = new THREE.Vector3();
+              const normal = new THREE.Vector3();
+              const normalMatrixWorld = new THREE.Matrix3().getNormalMatrix(
+                child.matrixWorld
+              );
+
+              //check if the current positions normals should be add to mockup geometry
+              const checkCurrentBatch = () => {
+                //find material
+                const currentMaterial = child.material;
+                if (!currentMaterial) throw 'do not find material';
+
+                //compute bb
+                minBB = new THREE.Vector2(Infinity, Infinity); //reset
+                maxBB = new THREE.Vector2(-Infinity, -Infinity); //reset
+
+                for (
+                  let index = 0;
+                  index < currentPositions.length;
+                  index += 3
+                ) {
+                  const x = currentPositions[index];
+                  const y = currentPositions[index + 1];
+
+                  minBB.x = Math.min(x, minBB.x);
+                  minBB.y = Math.min(y, minBB.y);
+                  maxBB.x = Math.max(x, maxBB.x);
+                  maxBB.y = Math.max(y, maxBB.y);
+                }
+
+                if (this.intersectArea(minBB, maxBB)) {
+                  //intersect area should be add
+                  addToFinalMockUp(
+                    currentPositions,
+                    currentNormals,
+                    currentMaterial
+                  );
+
+                  for (const [
+                    ,
+                    c3dTfeature,
+                  ] of child.layer.tilesC3DTileFeatures.get(
+                    child.userData.metadata.tileId
+                  )) {
+                    // if (
+                    //   c3dTfeature.getInfo().batchTable['id'] == currentBatchID
+                    // ) {
+                    //   console.log('YOUPI');
+                    // }
+                    // if (c3dTfeature.batchID == currentBatchID) {
+                    //   console.log('PARFAIT');
+                    // }
+                    // console.log(c3dTfeature);
+                    // if (c3dTfeature.getInfo().batchTable['gml_id']) {
+                    //   console.log(c3dTfeature.getInfo().batchTable['gml_id']);
+                    // }
+                  }
+
+                  // const gmlID =
+                  //   tileManager.tiles[tileId].cityObjects[currentBatchID].props
+                  //     .gml_id;
+                  // //record cityobject id and gml id for further pass
+                  // cityObjectIDs.push(new CityObjectID(tileId, currentBatchID));
+
+                  // if (!gmlIds.includes(gmlID)) gmlIds.push(gmlID);
+                }
+
+                //reset
+                currentPositions.length = 0;
+                currentNormals.length = 0;
+              };
+
+              let currentBatchID = batchIds[0];
+              for (let i = 0; i < positions.length; i += 3) {
+                const batchID = batchIds[i / 3];
+
+                if (currentBatchID != batchID) {
+                  //new batch id check if previous one should be add to geometry
+                  checkCurrentBatch(currentBatchID);
+                  currentBatchID = batchID;
+                }
+
+                //position
+                position.x = positions[i];
+                position.y = positions[i + 1];
+                position.z = positions[i + 2];
+
+                //add world position
+                position.applyMatrix4(child.matrixWorld);
+                currentPositions.push(position.x);
+                currentPositions.push(position.y);
+                currentPositions.push(position.z);
+
+                //normal
+                normal.x = normals[i];
+                normal.y = normals[i + 1];
+                normal.z = normals[i + 2];
+
+                //add world normal
+                normal.applyMatrix3(normalMatrixWorld);
+                currentNormals.push(normal.x);
+                currentNormals.push(normal.y);
+                currentNormals.push(normal.z);
+              }
+              //the last batchID has not been checked
+              checkCurrentBatch();
+            }
+          }
+        });
+      });
+
+      [].forEach((tileManager) => {
         const object = tileManager.layer.root;
 
         if (!object) return;
