@@ -53,7 +53,7 @@ Self-hosting :
 
 - You can clone the repo of the docker-compose [UD-Demo-IMU-Imuv
   ](https://github.com/VCityTeam/UD-Demo-IMU-Imuv) and follow the instructions to install the parse-server and the mongoDB database:
-  - Set-up environment variables in **UD-Demo-IMU-Imuv** : `cp env-default .env` and edit the `.env` file. (_Put default proposed values in PARSE_SERVER_URL and MONGO_HOST).
+  - Set-up environment variables in **UD-Demo-IMU-Imuv** : `cp env-default .env` and edit the `.env` file. (Put default proposed values in PARSE_SERVER_URL and MONGO_HOST).
   - Run `docker-compose up -d parse-server mongodb` to start the parse-server and the mongoDB database.
 
 OR
