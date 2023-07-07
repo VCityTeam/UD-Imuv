@@ -109,14 +109,17 @@ export class SwitchItowns extends Game.External.ScriptBase {
         }
       };
 
-      const menuItowns = new MenuItowns(this.context);
+      /* Waiting Layers are added to the view dispatch from AddItownsLayer script*/
+      window.addEventListener('ADD_ITOWNS_LAYER', () => {
+        const menuItowns = new MenuItowns(this.context);
 
-      scriptUI.addTool(
-        './assets/img/ui/icon_town_white.png',
-        'Vue itowns',
-        promiseFunction,
-        menuItowns
-      );
+        scriptUI.addTool(
+          './assets/img/ui/icon_town_white.png',
+          'Vue itowns',
+          promiseFunction,
+          menuItowns
+        );
+      });
     }
   }
 
@@ -138,9 +141,6 @@ class MenuItowns {
     const title = document.createElement('h1');
     title.innerHTML = 'Widgets';
     this.domElement.appendChild(title);
-
-    //buffer
-    this.widgets = {};
 
     ////ADD UD-VIZ WIDGETS
 
@@ -219,27 +219,21 @@ class MenuItowns {
     button.innerHTML = moduleId;
     this.domElement.appendChild(button);
 
-    //ref for dispose
-    this.widgets[moduleId] = moduleClass;
-
     //parent
     moduleClass.parentElement = document.body;
 
-    button.onclick = function () {
-      if (moduleClass.isVisible) {
-        moduleClass.disable();
+    button.onclick = () => {
+      if (
+        Array.from(this.domElement.children).includes(moduleClass.domElement)
+      ) {
+        this.domElement.removeChild(moduleClass.domElement);
       } else {
-        moduleClass.enable();
+        this.domElement.appendChild(moduleClass.domElement);
       }
     };
   }
 
   dispose() {
     this.domElement.remove();
-
-    //remove active widgets
-    for (const id in this.widgets) {
-      this.widgets[id].disable();
-    }
   }
 }

@@ -32,6 +32,8 @@ export class AddItownsLayer extends Game.External.ScriptBase {
         configs['3DTilesLayer'],
         this.context.frame3D.itownsView
       );
+
+      window.dispatchEvent(new Event('ADD_ITOWNS_LAYER'));
     });
   }
 
