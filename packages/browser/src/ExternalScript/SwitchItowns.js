@@ -234,7 +234,11 @@ class MenuItowns {
       if (
         Array.from(this.domElement.children).includes(moduleClass.domElement)
       ) {
-        this.domElement.removeChild(moduleClass.domElement);
+        if (moduleClass.dispose) {
+          moduleClass.dispose();
+        } else {
+          this.domElement.removeChild(moduleClass.domElement);
+        }
       } else {
         this.domElement.appendChild(moduleClass.domElement);
       }
