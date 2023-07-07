@@ -109,17 +109,14 @@ export class SwitchItowns extends Game.External.ScriptBase {
         }
       };
 
-      /* Waiting Layers are added to the view dispatch from AddItownsLayer script*/
-      window.addEventListener('ADD_ITOWNS_LAYER', () => {
-        const menuItowns = new MenuItowns(this.context);
+      const menuItowns = new MenuItowns(this.context);
 
-        scriptUI.addTool(
-          './assets/img/ui/icon_town_white.png',
-          'Vue itowns',
-          promiseFunction,
-          menuItowns
-        );
-      });
+      scriptUI.addTool(
+        './assets/img/ui/icon_town_white.png',
+        'Vue itowns',
+        promiseFunction,
+        menuItowns
+      );
     }
   }
 
@@ -144,11 +141,20 @@ class MenuItowns {
 
     ////ADD UD-VIZ WIDGETS
 
+    //buffer
+    this.widgets = {};
+
     //layerchoice
     this.addModuleView(
       'Layer Choice',
       new Widget.LayerChoice(externalContext.frame3D.itownsView)
     );
+
+    /* If the ADD_ITOWNS_LAYER event is triggered, we refresh the LayerChoice widget. See AddItownsLayer.js*/
+    window.addEventListener('ADD_ITOWNS_LAYER', () => {
+      this.widgets['Layer Choice'].domElement.remove();
+      this.widgets['Layer Choice'].initHtml();
+    });
 
     //cameraPositionner
     this.addModuleView(
@@ -218,6 +224,8 @@ class MenuItowns {
 
     button.innerHTML = moduleId;
     this.domElement.appendChild(button);
+
+    this.widgets[moduleId] = moduleClass;
 
     //parent
     moduleClass.parentElement = document.body;
