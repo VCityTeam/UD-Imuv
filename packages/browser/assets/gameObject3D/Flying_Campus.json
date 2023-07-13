@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
-        "idScripts": ["spawner_id_script", "native_command_manager_id"],
+        "idScripts": ["spawner_id_script", "my_command_manager_id"],
         "conf": {
           "speedTranslate": 0.008,
           "cityAvatarAllow": false,

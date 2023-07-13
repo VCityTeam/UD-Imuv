@@ -11,6 +11,7 @@ module.exports = {
     Spawner: require('./GameScript/Spawner'),
     Teleporter: require('./GameScript/Teleporter'),
     UI: require('./GameScript/UI'),
+    MyCommandManager: require('./GameScript/MyCommandManager'),
     NativeCommandManager:
       require('@ud-viz/shared').Game.ScriptTemplate.NativeCommandManager,
   },
