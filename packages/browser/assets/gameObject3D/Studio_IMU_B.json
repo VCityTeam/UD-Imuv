@@ -424,7 +424,10 @@
               },
               "LocalScript": {
                 "uuid": "6891B8AC-29E4-4F0C-A009-9270913BE6B5",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "default",
                   "avatarsOnEnter": [],
@@ -435,7 +438,7 @@
               },
               "WorldScript": {
                 "uuid": "5C7AB7EB-6C74-4A68-9A52-D0AE194A70CB",
-                "idScripts": ["interaction_zone"],
+                "idScripts": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -500,7 +503,10 @@
               },
               "LocalScript": {
                 "uuid": "5269EA5C-6998-4038-B5F0-163E00699D86",
-                "idScripts": ["local_interactions", "jitsi_area"],
+                "idScripts": [
+                  "local_interactions_id_ext_script",
+                  "jitsi_area_id_ext_script"
+                ],
                 "conf": {
                   "jitsi_room_name": "default",
                   "avatarsOnEnter": [],
@@ -511,7 +517,7 @@
               },
               "WorldScript": {
                 "uuid": "F7AD7943-47BC-44E1-B595-1E18013BE678",
-                "idScripts": ["interaction_zone"],
+                "idScripts": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
