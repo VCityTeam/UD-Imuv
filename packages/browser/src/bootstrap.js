@@ -28,7 +28,6 @@ socketIOWrapper.on(UDIMUVConstant.WEBSOCKET.MSG_TYPE.INFO, (message) => {
 const addReceptionView = () => {
   const reception = new ReceptionView(socketIOWrapper);
   document.body.appendChild(reception.html());
-  reception.joinButton.dispatchEvent(new Event('click'));
 };
 
 addReceptionView();
