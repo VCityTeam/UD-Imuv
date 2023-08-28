@@ -9,7 +9,10 @@ Game.Components.JSONUtils.parse(worldsJSON, function (json, key) {
       'local_interactions',
       'portal_sweep',
     ];
-    json.components.WorldScript.idScripts = ['portal', 'interaction_zone'];
+    json.components.WorldScript.idScripts = [
+      'portal',
+      'interaction_zone_id_script',
+    ];
     json.components.LocalScript.conf = { speed: 0.001 };
     // console.log(
     //   json.components.LocalScript,
