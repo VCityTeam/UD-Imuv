@@ -1,3 +1,4 @@
+/* eslint-disable */
 // import * as JitsiIframeAPI from 'jitsi-iframe-api';
 // import { Constant } from '@ud-imuv/shared';
 // import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
@@ -25,11 +26,11 @@ import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
 
 export class ReceptionView {
   constructor(socketIOWrapper) {
-    //root
+    // root
     this.domElement = document.createElement('div');
     this.domElement.classList.add('root_Reception');
 
-    //html
+    // html
     this.hamburgerButton = null;
     this.signInButton = null;
     this.signUpButton = null;
@@ -38,19 +39,19 @@ export class ReceptionView {
     this.languageButton = null;
     this.joinButton = null;
 
-    //user data
+    // user data
     this.userData = {
       nameUser: 'default_name_user',
       role: 'default_role_user',
     };
 
-    //socket service
+    // socket service
     this.socketIOWrapper = socketIOWrapper;
 
-    //default lang is FR
+    // default lang is FR
     this.language = 'FR';
 
-    //init view + callback button
+    // init view + callback button
     this.init();
   }
 
@@ -84,7 +85,7 @@ export class ReceptionView {
       return result;
     };
 
-    //buttons Nav
+    // buttons Nav
     const receptionButton = createButton(
       getTextByID('button_Home', this.language),
       '#top'
@@ -110,7 +111,7 @@ export class ReceptionView {
     );
     buttonsTopNav.appendChild(this.languageButton);
 
-    //title Nav
+    // title Nav
     const titleDiv = document.createElement('div');
     titleDiv.classList.add('titleNav_Reception');
     topNav.appendChild(titleDiv);
@@ -119,7 +120,7 @@ export class ReceptionView {
     imageTitle.src = './assets/img/labex_imu.jpeg';
     topNav.appendChild(imageTitle);
 
-    //user
+    // user
     const parentUser = document.createElement('div');
     topNav.appendChild(parentUser);
 
@@ -139,7 +140,7 @@ export class ReceptionView {
     this.editorButton.classList.add('hidden');
     parentUser.appendChild(this.editorButton);
 
-    //authentification
+    // authentification
     const parentSign = document.createElement('div');
     topNav.appendChild(parentSign);
 
@@ -153,12 +154,12 @@ export class ReceptionView {
     this.signInButton.classList.add('sign_button_MenuAuth');
     parentSign.appendChild(this.signInButton);
 
-    //title page
+    // title page
     const titlePage = document.createElement('h1');
     titlePage.innerHTML = getTextByID('titleNav', this.language);
     titleDiv.appendChild(titlePage);
 
-    //header
+    // header
     const header = document.createElement('header');
     header.id = 'top';
     header.classList.add('header_Reception');
@@ -195,7 +196,7 @@ export class ReceptionView {
       'https://upload.wikimedia.org/wikipedia/commons/5/5b/Google_Forms_2020_Logo.svg';
     feedbacksLink.appendChild(feedbacksImage);
 
-    //content
+    // content
     const contentDiv = document.createElement('div');
     contentDiv.classList.add('content_Reception');
     this.domElement.appendChild(contentDiv);
@@ -205,7 +206,7 @@ export class ReceptionView {
     titleContent.classList.add('titleContent_Reception');
     contentDiv.appendChild(titleContent);
 
-    //about
+    // about
     const aboutSection = document.createElement('section');
     aboutSection.id = 'about';
     contentDiv.appendChild(aboutSection);
@@ -215,7 +216,7 @@ export class ReceptionView {
     aboutBoxTitle.innerHTML = getTextByID('aboutBoxTitle', this.language);
     aboutSection.appendChild(aboutBoxTitle);
 
-    //About->Description
+    // About->Description
     const aboutTitleDescription = document.createElement('h2');
     aboutTitleDescription.innerHTML = getTextByID(
       'aboutTitleDescription',
@@ -227,7 +228,7 @@ export class ReceptionView {
     aboutDescription.innerHTML = getTextByID('aboutDescription', this.language);
     aboutSection.appendChild(aboutDescription);
 
-    //About->Team
+    // About->Team
     const aboutTitleTeam = document.createElement('h2');
     aboutTitleTeam.innerHTML = getTextByID('aboutTitleTeam', this.language);
     aboutSection.appendChild(aboutTitleTeam);
@@ -240,7 +241,7 @@ export class ReceptionView {
     });
     aboutSection.appendChild(aboutTeamList);
 
-    //About->Overview
+    // About->Overview
     const aboutTitleOverview = document.createElement('h2');
     aboutTitleOverview.innerHTML = getTextByID(
       'aboutTitleOverview',
@@ -262,7 +263,7 @@ export class ReceptionView {
     );
     aboutSection.appendChild(aboutGraphicDescription);
 
-    //About->Overview->Graphic Description->Islet Figure
+    // About->Overview->Graphic Description->Islet Figure
     const aboutIsletFigure = document.createElement('figure');
     aboutSection.appendChild(aboutIsletFigure);
 
@@ -284,7 +285,7 @@ export class ReceptionView {
     );
     aboutSection.appendChild(aboutGraphicDescriptionIslet);
 
-    //About->Overview->Graphic Description->Avatar Figure
+    // About->Overview->Graphic Description->Avatar Figure
     const aboutAvatarFigure = document.createElement('figure');
     aboutSection.appendChild(aboutAvatarFigure);
 
@@ -306,7 +307,7 @@ export class ReceptionView {
     );
     aboutSection.appendChild(aboutGraphicDescriptionAvatar);
 
-    //news
+    // news
     const newsSection = document.createElement('section');
     newsSection.id = 'news';
     contentDiv.appendChild(newsSection);
@@ -328,7 +329,7 @@ export class ReceptionView {
     const backline = document.createElement('p');
     newsSection.appendChild(backline);
 
-    //credits
+    // credits
     const creditsSection = document.createElement('section');
     creditsSection.id = 'credits';
     contentDiv.appendChild(creditsSection);
@@ -359,13 +360,13 @@ export class ReceptionView {
       x.style.display = x.style.display == 'block' ? 'none' : 'block';
     };
 
-    //join flying campus
+    // join flying campus
     this.joinButton.onclick = () => {
       _this.dispose();
 
-      //load config
+      // load config
       loadJSON('./assets/config/config.json').then((config) => {
-        //load assets
+        // load assets
         const assetManager = new AssetManager();
         assetManager
           .loadFromConfig(config.assetManager, document.body)
@@ -430,7 +431,7 @@ export class ReceptionView {
             //   }
             // );
 
-            //app is loaded and ready to receive worldstate
+            // app is loaded and ready to receive worldstate
             // _this.socketIOWrapper.emit(
             //   Constant.WEBSOCKET.MSG_TYPE.READY_TO_RECEIVE_STATE
             // );
@@ -438,23 +439,23 @@ export class ReceptionView {
       });
     };
 
-    //toggle language
+    // toggle language
     this.languageButton.onclick = function () {
-      //toggle language
+      // toggle language
       if (_this.language == 'FR') {
         _this.language = 'EN';
       } else {
         _this.language = 'FR';
       }
 
-      //rebuild
+      // rebuild
       while (_this.domElement.firstChild) {
         _this.domElement.firstChild.remove();
       }
       _this.init();
     };
 
-    //sign up
+    // sign up
     let signUpView = null;
     this.signUpButton.onclick = function () {
       if (signUpView) return;
@@ -481,7 +482,7 @@ export class ReceptionView {
       }
     );
 
-    //sign in
+    // sign in
     let signInView = null;
     this.signInButton.onclick = function () {
       if (signInView) return;
@@ -506,10 +507,10 @@ export class ReceptionView {
           signInView = null;
         }
 
-        //update ui
+        // update ui
         _this.nameUserLabel.innerHTML = data.nameUser;
         _this.roleUserLabel.innerHTML = data.role;
-        //register values
+        // register values
         _this.userData = data;
 
         if (data.role == UDIMUVConstant.USER.ROLE.ADMIN) {
@@ -520,7 +521,7 @@ export class ReceptionView {
       }
     );
 
-    //editor
+    // editor
     this.editorButton.onclick = function () {
       _this.dispose();
 

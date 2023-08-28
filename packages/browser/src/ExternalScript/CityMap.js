@@ -23,7 +23,7 @@ export class CityMap extends Game.External.ScriptBase {
 
     this.currentZoom = 1;
 
-    //buffer
+    // buffer
     this.clampX = 0;
     this.clampY = 0;
 
@@ -76,7 +76,7 @@ export class CityMap extends Game.External.ScriptBase {
   }
 
   init() {
-    //init src
+    // init src
     this.imageCityMap.src = Constant.CITY_MAP.PATH;
 
     this.context.inputManager.addMouseCommand(
@@ -96,7 +96,7 @@ export class CityMap extends Game.External.ScriptBase {
         const userCityAvatar = this.fetchUserCityAvatar();
 
         if (this.clickMode === Constant.MAP_CLICK_MODE.DEFAULT) {
-          //nothing
+          // nothing
           this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
           return null;
         } else if (this.clickMode === Constant.MAP_CLICK_MODE.TELEPORT) {
@@ -143,7 +143,7 @@ export class CityMap extends Game.External.ScriptBase {
     }
   }
 
-  //zoom is clamp between 0->1
+  // zoom is clamp between 0->1
   setCurrentZoom(value) {
     this.currentZoom = Math.min(1, Math.max(0.02, value));
   }
@@ -188,12 +188,12 @@ export class CityMap extends Game.External.ScriptBase {
   }
 
   coordToLocalPosition(coord) {
-    //project
+    // project
     const [x, y] = proj4
       .default(this.context.userData.extent.crs)
       .forward(coord);
 
-    //compute local
+    // compute local
     const parent = this.fetchUserCityAvatar().parent;
     const gamePositionParent = new THREE.Vector3();
     parent.matrixWorld.decompose(gamePositionParent);
@@ -248,9 +248,9 @@ export class CityMap extends Game.External.ScriptBase {
       Math.min(this.imageCityMap.width, this.imageCityMap.height) *
       this.currentZoom;
 
-    //compute lng lat of user city avatar
+    // compute lng lat of user city avatar
     const userCityAvatar = this.fetchUserCityAvatar();
-    const [lng, lat, rotation] = this.cityAvatarToGeoData(userCityAvatar);
+    const [lng, lat] = this.cityAvatarToGeoData(userCityAvatar);
 
     const pixelSrcX =
       (this.imageCityMap.width * (lng - Constant.CITY_MAP.LEFT)) /
@@ -272,7 +272,7 @@ export class CityMap extends Game.External.ScriptBase {
       this.imageCityMap.height - sizeSrc
     );
 
-    //bufferize
+    // bufferize
     this.clampX = clampX;
     this.clampY = clampY;
 
@@ -288,7 +288,7 @@ export class CityMap extends Game.External.ScriptBase {
       CITY_MAP_SIZE
     );
 
-    //draw city avatars
+    // draw city avatars
 
     this.currentDt += this.context.dt * 0.002;
     const userAvatarSize =
@@ -336,7 +336,7 @@ export class CityMap extends Game.External.ScriptBase {
       ctx.fill();
     };
 
-    //draw all city avatar
+    // draw all city avatar
     this.context.object3D.traverse((child) => {
       if (!child.isCityAvatar) return;
       if (child == userCityAvatar) {
@@ -346,7 +346,7 @@ export class CityMap extends Game.External.ScriptBase {
       }
     });
 
-    //draw pings
+    // draw pings
     for (let i = this.pings.length - 1; i >= 0; i--) {
       const ping = this.pings[i];
 
@@ -355,12 +355,12 @@ export class CityMap extends Game.External.ScriptBase {
       const [x, y] = this.coordToPixel(lngPing, latPing);
 
       if (ping.draw(ctx, this.context.dt, x, y)) {
-        //end remove it
+        // end remove it
         this.pings.splice(i, 1);
       }
     }
 
-    //feedbacks clickable
+    // feedbacks clickable
     if (this.canvas.style.cursor == 'pointer') {
       const brightnessValue =
         100 + (105 - 100) * Math.abs(Math.cos(this.currentDt));
@@ -393,7 +393,7 @@ class Ping {
   draw(context2D, dt, x, y) {
     this.currentTime += dt;
 
-    //draw context2D
+    // draw context2D
     const radius = (this.maxSize * this.currentTime) / this.duration;
     context2D.beginPath();
     context2D.lineWidth = 3;
@@ -403,8 +403,7 @@ class Ping {
 
     if (this.currentTime >= this.duration) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 }

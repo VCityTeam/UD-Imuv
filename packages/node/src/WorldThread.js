@@ -20,16 +20,16 @@ const AssetsManagerServer = require('./AssetsManagerServer');
 
 const WorldThreadModule = class WorldThread {
   constructor(path) {
-    //thread js
+    // thread js
     this.worker = new workerThreads.Worker(path);
 
-    //callbacks
+    // callbacks
     this.callbacks = {};
 
-    //users register inside this thread
+    // users register inside this thread
     this.users = {};
 
-    //listen
+    // listen
     this.worker.on(
       'message',
       function (msgPacked) {
@@ -48,7 +48,7 @@ const WorldThreadModule = class WorldThread {
   stop() {
     this.post(WorldThreadModule.MSG_TYPE.STOP, {});
 
-    //disconnect users
+    // disconnect users
     for (const key in this.users) {
       this.users[key].getSocket().disconnect();
     }
@@ -64,7 +64,7 @@ const WorldThreadModule = class WorldThread {
     delete this.users[user.getUUID()];
   }
 
-  //parent thread => child thread
+  // parent thread => child thread
   post(msgType, data) {
     this.worker.postMessage(
       Pack.pack({
@@ -74,13 +74,13 @@ const WorldThreadModule = class WorldThread {
     );
   }
 
-  //register callback from child thread => parent thread
+  // register callback from child thread => parent thread
   on(msgType, callback) {
     this.callbacks[msgType] = callback;
   }
 };
 
-//dont know how to create static var other way
+// dont know how to create static var other way
 WorldThreadModule.MSG_TYPE = {
   INIT: 'init',
   COMMANDS: 'cmds',
@@ -103,7 +103,7 @@ WorldThreadModule.routine = function (serverConfig) {
   const parentPort = workerThreads.parentPort;
   const assetsManager = new AssetsManagerServer();
 
-  //load scripts
+  // load scripts
   assetsManager.loadFromConfig(serverConfig.assetsManager).then(function () {
     const worldStateComputer = new Game.WorldStateComputer(
       assetsManager,
@@ -111,12 +111,12 @@ WorldThreadModule.routine = function (serverConfig) {
       { Game: Game }
     );
 
-    //listening parentPort
+    // listening parentPort
     parentPort.on('message', (msgPacked) => {
       const msg = Pack.unpack(msgPacked);
       switch (msg.msgType) {
         case WorldThreadModule.MSG_TYPE.INIT: {
-          //create a server world
+          // create a server world
           const world = new World(msg.data, {
             isServerSide: true,
             modules: { gm: gm, PNG: PNG, Constant: Constant },
@@ -126,7 +126,7 @@ WorldThreadModule.routine = function (serverConfig) {
 
           worldStateComputer.addAfterTickRequester(function () {
             const currentState = worldStateComputer.computeCurrentState(false);
-            //post worldstate to main thread
+            // post worldstate to main thread
             const message = {
               msgType: WorldThreadModule.MSG_TYPE.WORLDSTATE,
               data: currentState.toJSON(),
@@ -134,7 +134,7 @@ WorldThreadModule.routine = function (serverConfig) {
             parentPort.postMessage(Pack.pack(message));
           });
 
-          //world events
+          // world events
           worldStateComputer
             .getWorldContext()
             .getWorld()
@@ -158,13 +158,13 @@ WorldThreadModule.routine = function (serverConfig) {
           break;
         }
         case WorldThreadModule.MSG_TYPE.COMMANDS: {
-          //create js object from json
+          // create js object from json
           const cmds = [];
           msg.data.forEach(function (c) {
             cmds.push(new Command(c));
           });
 
-          //pass to the computer
+          // pass to the computer
           worldStateComputer.onCommands(cmds);
           break;
         }
@@ -181,15 +181,15 @@ WorldThreadModule.routine = function (serverConfig) {
 
           const editAvatarGO = function (go) {
             const renderComp = go.getComponent(Game.Render.TYPE);
-            //color
+            // color
             renderComp.setColor(
               new Game.THREE.Color().fromArray(msg.data.color)
             );
-            //model id
+            // model id
             renderComp.setIdRenderData(msg.data.idRenderData);
 
             const localComp = go.getComponent(Game.LocalScript.TYPE);
-            //texture face
+            // texture face
             localComp.conf.path_face_texture = msg.data.path_face_texture;
 
             go.setOutdated(true);
@@ -197,7 +197,7 @@ WorldThreadModule.routine = function (serverConfig) {
 
           editAvatarGO(avatarGO);
 
-          //check if city avatar
+          // check if city avatar
           const cityAvatar = avatarGO
             .fetchWorldScripts()
             ['avatar'].getCityAvatar();
@@ -223,7 +223,7 @@ WorldThreadModule.routine = function (serverConfig) {
                 .find(portalUUID);
               if (portal) {
                 portal.fetchWorldScripts()['portal'].setTransformOf(newGO);
-                //fade out could be handle there
+                // fade out could be handle there
                 worldStateComputer
                   .getWorldContext()
                   .getWorld()
@@ -231,7 +231,7 @@ WorldThreadModule.routine = function (serverConfig) {
               }
             } else if (transformJSON) {
               if (isInsideMap) {
-                //TODO this ref worldscript asset not sure if it should be called here
+                // TODO this ref worldscript asset not sure if it should be called here
                 const computePositionInsideMap = (position) => {
                   const world = worldStateComputer.getWorldContext().getWorld();
                   const gameManagerScript = world
@@ -240,17 +240,16 @@ WorldThreadModule.routine = function (serverConfig) {
                   const mapGO = gameManagerScript.getMap();
                   const mapScript = mapGO.fetchWorldScripts()['map'];
 
-                  //check if position is inside map
+                  // check if position is inside map
                   const elevation = mapScript.getHeightValue(
                     parseFloat(position[0]),
                     parseFloat(position[1])
                   );
                   if (isNaN(elevation)) {
-                    //not inside return the spawn transform
+                    // not inside return the spawn transform
                     return gameManagerScript.getSpawnTransform().position;
-                  } else {
-                    return position;
                   }
+                  return position;
                 };
                 transformJSON.position = computePositionInsideMap(
                   transformJSON.position
@@ -309,7 +308,7 @@ WorldThreadModule.routine = function (serverConfig) {
           const component = go.getComponentByUUID(componentUUID);
           component.getConf()[key] = value;
 
-          go.setOutdated(true); //force to send new go state
+          go.setOutdated(true); // force to send new go state
 
           break;
         }
@@ -319,7 +318,7 @@ WorldThreadModule.routine = function (serverConfig) {
             ' stop'
           );
           process.exit(0);
-          break; //mandatory to respect the rules of the linter
+          break; // mandatory to respect the rules of the linter
         }
 
         default:

@@ -21,7 +21,7 @@ export class Image extends Game.External.ScriptBase {
   }
 
   createImagePlane() {
-    //image
+    // image
     if (this.imagePlane && this.imagePlane.parent) {
       this.imagePlane.parent.remove(this.imagePlane);
     }
@@ -52,7 +52,7 @@ export class Image extends Game.External.ScriptBase {
     this.initRaycaster();
   }
 
-  //CreateOrUpdate
+  // CreateOrUpdate
   createImgElementMapGPS() {
     if (this.imgMapGPS) {
       this.imgMapGPS.remove();
@@ -101,7 +101,7 @@ export class Image extends Game.External.ScriptBase {
       descriptionText.innerHTML = this.variables.descriptionText;
       figureDescr.appendChild(descriptionText);
     } else if (this.variables.descriptionHtml) {
-      //load html from distant server
+      // load html from distant server
       jquery.ajax({
         type: 'GET',
         url: this.variables.descriptionHtml,
@@ -109,7 +109,7 @@ export class Image extends Game.External.ScriptBase {
         success: (data) => {
           const descriptionHtml = document.createElement('div');
           descriptionHtml.classList.add('popup_descr');
-          descriptionHtml.innerHTML = data; //add content here
+          descriptionHtml.innerHTML = data; // add content here
           figureDescr.appendChild(descriptionHtml);
         },
         error: (e) => {
@@ -177,7 +177,7 @@ export class Image extends Game.External.ScriptBase {
 
         const i = raycaster.intersectObject(this.imagePlane);
         if (i.length) {
-          //image clicked
+          // image clicked
           this.displayPopup(true);
 
           this.context.object3D.traverse((child) => {
@@ -188,7 +188,7 @@ export class Image extends Game.External.ScriptBase {
             externalCompChild
               .getController()
               .getScripts()
-              [Image.ID_SCRIPT].displayPopup(false, false); //do not play sound when close and another one is open
+              [Image.ID_SCRIPT].displayPopup(false, false); // do not play sound when close and another one is open
           });
         } else {
           this.displayPopup(false);

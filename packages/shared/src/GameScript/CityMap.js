@@ -9,12 +9,12 @@ module.exports = class CityMap extends Game.ScriptBase {
       Game.Component.ExternalScript.TYPE
     );
 
-    //clear array
+    // clear array
     externalScriptCompCityMap
       .getModel()
       .getVariables().city_map_ping.length = 0;
 
-    //teleport
+    // teleport
     for (let i = this.context.commands.length - 1; i >= 0; i--) {
       const cmd = this.context.commands[i];
       if (
@@ -26,7 +26,7 @@ module.exports = class CityMap extends Game.ScriptBase {
       }
     }
 
-    //ping
+    // ping
     for (let i = this.context.commands.length - 1; i >= 0; i--) {
       const cmd = this.context.commands[i];
       if (

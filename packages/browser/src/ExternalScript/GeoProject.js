@@ -16,12 +16,12 @@ export class GeoProject extends Game.External.ScriptBase {
    * of the game object
    */
   updateSprite() {
-    //image
+    // image
     if (this.sprite && this.sprite.parent) {
       this.sprite.parent.remove(this.sprite);
     }
 
-    //create image conf.image_icon_path on a quad above the pin
+    // create image conf.image_icon_path on a quad above the pin
     const onLoad = (texture) => {
       const material = new THREE.SpriteMaterial({
         map: texture,

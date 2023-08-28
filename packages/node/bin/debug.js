@@ -13,7 +13,7 @@ exec('npm run build-debug')
   .then(printExec)
   .then(function () {
     console.log('Start IMUV server\n');
-    let child = spawn('node', ['--trace-warnings', './index.js']);
+    const child = spawn('node', ['--trace-warnings', './index.js']);
     child.stdout.on('data', (data) => {
       console.log(`child stdout:\n${data}`);
     });

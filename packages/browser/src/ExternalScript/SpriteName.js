@@ -25,7 +25,7 @@ export class SpriteName extends Game.External.ScriptBase {
   }
 
   createLabelTexture(text, clearColor) {
-    //create texture with name on it
+    // create texture with name on it
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
@@ -39,7 +39,7 @@ export class SpriteName extends Game.External.ScriptBase {
 
     canvas.width = Math.ceil(wT);
 
-    //force to bind it after changing the canvas.width
+    // force to bind it after changing the canvas.width
     ctx.fillStyle = 'black';
     ctx.font = '50px Arial';
 

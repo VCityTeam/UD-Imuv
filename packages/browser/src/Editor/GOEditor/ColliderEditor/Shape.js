@@ -126,7 +126,7 @@ export class PolygonShape extends AbstractShape {
       new THREE.BufferAttribute(positions, 3)
     );
 
-    //If you want the ray intersect the mesh you have to remove this boudingbox
+    // If you want the ray intersect the mesh you have to remove this boudingbox
     meshGeometry.boundingBox = null;
 
     this.mesh = new THREE.Mesh(meshGeometry, this.matMesh);

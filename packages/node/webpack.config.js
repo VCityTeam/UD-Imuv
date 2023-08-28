@@ -5,7 +5,7 @@ require('dotenv').config({ path: '../../.env' });
 
 const mode = process.env.NODE_ENV;
 
-//Inject environnement variables (they have to be declare in your .env !!!)
+// Inject environnement variables (they have to be declare in your .env !!!)
 const keyEnvVariables = [
   'JITSI_PUBLIC_URL',
   'PARSE_SERVER_URL',

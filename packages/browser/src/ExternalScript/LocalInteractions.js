@@ -5,7 +5,7 @@ export class LocalInteractions extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    ///attr
+    // /attr
     this.tickIsColliding = null;
     this.isCollidingLocalAvatar = false;
     this.externalScripts = null;

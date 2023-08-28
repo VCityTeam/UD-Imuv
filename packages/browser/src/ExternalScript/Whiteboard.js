@@ -1,5 +1,4 @@
 import { Game, THREE, Shared } from '@ud-viz/browser';
-import { Constant } from '@ud-imuv/shared';
 import { UI } from './UI';
 
 const DEFAULT_IMG_SRC =
@@ -20,7 +19,7 @@ export class Whiteboard extends Game.External.ScriptBase {
   }
 
   createWhiteboardPlane(url = DEFAULT_IMG_SRC) {
-    //image
+    // image
     if (this.imagePlane && this.imagePlane.parent) {
       this.imagePlane.parent.remove(this.imagePlane);
     }

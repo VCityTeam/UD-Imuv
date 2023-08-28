@@ -4,7 +4,7 @@ import './AddPrefabEditor.css';
 
 export class AddPrefabEditorView {
   constructor(params) {
-    //where html goes
+    // where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_AddPrefabEditor');
     params.parentUIHtml.appendChild(this.ui);
@@ -15,7 +15,7 @@ export class AddPrefabEditorView {
 
     this.parentView = params.parentView;
 
-    //html
+    // html
     this.prefabList = null;
 
     this.initUI();

@@ -23,14 +23,14 @@ module.exports = class CityAvatar extends Game.ScriptBase {
             go.move(
               go.computeForwardVector().setLength(dt * AVATAR_SPEED_MOVE)
             );
-            go.getPosition().z = oldZ; //freeze z
+            go.getPosition().z = oldZ; // freeze z
             go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_BACKWARD:
             go.move(
               go.computeBackwardVector().setLength(dt * AVATAR_SPEED_MOVE * 0.3)
             );
-            go.getPosition().z = oldZ; //freeze z
+            go.getPosition().z = oldZ; // freeze z
             go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_LEFT:
@@ -40,7 +40,7 @@ module.exports = class CityAvatar extends Game.ScriptBase {
                 .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), Math.PI * 0.5)
                 .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
-            go.getPosition().z = oldZ; //freeze z
+            go.getPosition().z = oldZ; // freeze z
             go.setOutdated(true);
             break;
           case Game.Command.TYPE.MOVE_RIGHT:
@@ -50,27 +50,29 @@ module.exports = class CityAvatar extends Game.ScriptBase {
                 .applyAxisAngle(new Game.THREE.Vector3(0, 0, 1), -Math.PI * 0.5)
                 .setLength(dt * AVATAR_SPEED_MOVE * 0.5)
             );
-            go.getPosition().z = oldZ; //freeze z
+            go.getPosition().z = oldZ; // freeze z
             go.setOutdated(true);
             break;
           case Game.Command.TYPE.ROTATE:
-            const vectorJSON = cmd.getData().vector;
-            const vector = new Game.THREE.Vector3(
-              vectorJSON.x * AVATAR_SPEED_ROTATION_X,
-              vectorJSON.y,
-              vectorJSON.z * AVATAR_SPEED_ROTATION_Z
+            go.rotate(
+              new Game.THREE.Vector3(
+                cmd.getData().vector.x * AVATAR_SPEED_ROTATION_X,
+                cmd.getData().vector.y,
+                cmd.getData().vector.z * AVATAR_SPEED_ROTATION_Z
+              ).multiplyScalar(dt)
             );
-            go.rotate(vector.multiplyScalar(dt));
             this.clampRotation(go);
             go.setOutdated(true);
-            commands.unshift(); //remove one by one
+            commands.unshift(); // remove one by one
             break;
           case Game.Command.TYPE.Z_UPDATE:
-            const z = cmd.getData();
-            if (!z) break;
-            const currentPos = go.getPosition();
+            if (!cmd.getData()) break;
             go.setPosition(
-              new Game.THREE.Vector3(currentPos.x, currentPos.y, z)
+              new Game.THREE.Vector3(
+                go.getPosition().x,
+                go.getPosition().y,
+                cmd.getData()
+              )
             );
             go.setOutdated(true);
             break;
@@ -83,10 +85,10 @@ module.exports = class CityAvatar extends Game.ScriptBase {
   }
 
   clampRotation(gameObject) {
-    //clamp
+    // clamp
     const rotation = gameObject.getRotation();
     rotation.y = 0;
-    //borne between 0 => 2pi
+    // borne between 0 => 2pi
     const angle1 = AVATAR_ANGLE_MIN;
     const angle2 = AVATAR_ANGLE_MAX;
     if (rotation.x > Math.PI) {

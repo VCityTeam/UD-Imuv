@@ -6,7 +6,7 @@ export class ZeppelinController extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    //Zeppelin controller
+    // Zeppelin controller
     this.zeppelinControllerMode = false;
 
     this.commandController = null;

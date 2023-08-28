@@ -1,14 +1,13 @@
 import { Game, THREE, DomElement3D, Shared } from '@ud-viz/browser';
 
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
-import { Constant } from '@ud-imuv/shared';
 
 export class JitsiScreen extends Game.External.ScriptBase {
   init() {
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
-        .then((stream) => {
+        .then(() => {
           console.log('Video + audio allowed');
         })
         .catch((e) => {
@@ -30,7 +29,7 @@ export class JitsiScreen extends Game.External.ScriptBase {
       name = externalComp.getModel().getVariables().name;
     }
 
-    //create iframe
+    // create iframe
     const divJitsi = document.createElement('div');
 
     const options = {
@@ -41,8 +40,8 @@ export class JitsiScreen extends Game.External.ScriptBase {
         displayName: name,
       },
       interfaceConfigOverwrite: {
-        //https://github.com/jitsi/jitsi-meet/blob/a7c653bc30156ec6ae7e3f67b28fffb07f3e79de/config.js#L699 DOC
-        //this is link is not synchronized with our server version /!\
+        // https://github.com/jitsi/jitsi-meet/blob/a7c653bc30156ec6ae7e3f67b28fffb07f3e79de/config.js#L699 DOC
+        // this is link is not synchronized with our server version /!\
         TOOLBAR_BUTTONS: [
           'camera',
           'chat',
@@ -84,6 +83,7 @@ export class JitsiScreen extends Game.External.ScriptBase {
     };
 
     const url = new URL(JITSI_PUBLIC_URL);
+    // eslint-disable-next-line no-new
     new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
     const positionDomElement3D = new THREE.Vector3();

@@ -7,7 +7,7 @@ export class WorldScriptPortalUI {
     const portalContent = document.createElement('div');
 
     const spawnRot = wS['portal'].conf.spawnRotation;
-    //spawn rot input
+    // spawn rot input
     if (!spawnRot) throw new Error('no spawn rotation');
 
     const labelSpawnRot = document.createElement('div');
@@ -53,7 +53,7 @@ export class WorldScriptPortalUI {
         goui.createInputFromVector3(spawnRot, cbOnChange)
       );
 
-      //TODO : reselect the portal ocjet in order to reactivate the selection by clicking
+      // TODO : reselect the portal ocjet in order to reactivate the selection by clicking
       const validateButton = document.createElement('button');
       validateButton.innerHTML = 'VALIDATE';
       validateButton.classList = 'validate_button';
@@ -66,15 +66,15 @@ export class WorldScriptPortalUI {
       transformObject3D.updateMatrixWorld();
     };
 
-    //world uuid
+    // world uuid
     const worldsJSON = gV.getAssetsManager().getWorldsJSON();
     const wCxt = gV.getInterpolator().getWorldContext();
     const currentWorld = wCxt.getWorld();
-    //replace current world json because it can be modified
+    // replace current world json because it can be modified
     for (let index = 0; index < worldsJSON.length; index++) {
       const json = worldsJSON[index];
       if (json.uuid == currentWorld.getUUID()) {
-        //found
+        // found
         const newContent = currentWorld.toJSON();
         worldsJSON[index] = newContent;
         break;
@@ -106,7 +106,7 @@ export class WorldScriptPortalUI {
     unsetOptionPortal.innerHTML = 'None';
     selectPortal.appendChild(unsetOptionPortal);
 
-    //Fill selectPortal Htmlelements
+    // Fill selectPortal Htmlelements
     worldsJSON.forEach(function (wjson) {
       const optGroup = document.createElement('optgroup');
       optGroup.title = wjson.uuid;
@@ -125,7 +125,7 @@ export class WorldScriptPortalUI {
       wS['portal'].conf.portalUUID = selectPortal.value;
     };
 
-    //select right value
+    // select right value
     const currentPortalValue = wS['portal'].conf.portalUUID;
     const options = selectPortal.getElementsByTagName('option');
 

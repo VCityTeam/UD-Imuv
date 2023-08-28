@@ -4,6 +4,11 @@ module.exports = {
     es2021: true,
     node: true,
   },
+  globals: {
+    DEBUG: true,
+    WBO_PUBLIC_URL: true,
+    JITSI_PUBLIC_URL: true,
+  },
   extends: ['eslint:recommended', 'prettier'],
   plugins: ['prettier'],
   parserOptions: {

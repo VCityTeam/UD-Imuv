@@ -21,9 +21,9 @@ export class StaticObject extends Game.External.ScriptBase {
   }
 
   onNewGameObject(newGO) {
-    //add static object to object
+    // add static object to object
     if (newGO.isStatic()) {
-      //register in object
+      // register in object
       const r = newGO.getComponent(Shared.Game.Component.Render.TYPE);
       if (r) {
         const clone = r.getController().renderData.getObject3D().clone();

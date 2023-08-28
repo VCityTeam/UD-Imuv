@@ -21,7 +21,7 @@ const UserModule = class User {
     this.nameUser = nameUser;
     this.parseUser = parseUser;
 
-    //to know if just joined or not
+    // to know if just joined or not
     this.lastState = null;
 
     this.avatarJSON = avatarJSON;
@@ -60,10 +60,10 @@ const UserModule = class User {
   sendWorldState(stateJSON) {
     const state = new WorldState(stateJSON);
 
-    if (!state.includes(this.getAvatarUUID())) return; //notify client only when avatar has been added
+    if (!state.includes(this.getAvatarUUID())) return; // notify client only when avatar has been added
 
     if (!this.lastState) {
-      //there is no last state meaning it's the first time the user is notify for this world
+      // there is no last state meaning it's the first time the user is notify for this world
       this.socket.emit(Constant.WEBSOCKET.MSG_TYPE.JOIN_WORLD, {
         state: stateJSON,
         avatarUUID: this.getAvatarUUID(),
@@ -83,7 +83,7 @@ const UserModule = class User {
   }
 
   setThread(thread) {
-    //assign
+    // assign
     this.thread = thread;
     this.lastState = null;
   }

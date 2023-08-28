@@ -14,10 +14,10 @@ export class Camera extends Game.External.ScriptBase {
     this.avatarGO = null;
     this.zeppelinGO = null;
 
-    //method to focus a go
+    // method to focus a go
     this.focusCamera = null;
 
-    //routines camera
+    // routines camera
     this.routines = [];
   }
 
@@ -34,7 +34,7 @@ export class Camera extends Game.External.ScriptBase {
   }
 
   init() {
-    //cameraman
+    // cameraman
     this.focusCamera = new Focus(this.context.frame3D.camera);
 
     this.context.inputManager.addKeyInput('f', 'keydown', () => {
@@ -42,7 +42,7 @@ export class Camera extends Game.External.ScriptBase {
     });
 
     if (this.context.userData.firstGameObject) {
-      //work with avatar_controller localscript
+      // work with avatar_controller localscript
       this.addTravelingRoutine();
     }
   }
@@ -67,7 +67,7 @@ export class Camera extends Game.External.ScriptBase {
   }
 
   addTravelingRoutine() {
-    //anonymous function
+    // anonymous function
     const createSplashScreen = function () {
       const result = document.createElement('div');
       result.classList.add('splash');
@@ -86,16 +86,16 @@ export class Camera extends Game.External.ScriptBase {
 
     const splash = createSplashScreen();
     const duration = this.variables.traveling_time;
-    if (!duration) return; //if no traveling time return
+    if (!duration) return; // if no traveling time return
 
     document.body.appendChild(splash);
 
-    //buffer
+    // buffer
     let startPos = null;
     let startQuat = null;
     let currentTime = 0;
 
-    //first travelling
+    // first travelling
     this.addRoutine(
       new Routine(
         (dt) => {
@@ -103,11 +103,10 @@ export class Camera extends Game.External.ScriptBase {
 
           this.focusCamera.setTarget(this.avatarGO);
           const t = this.focusCamera.computeTransformTarget(
-            null,
             DISTANCE_CAMERA_AVATAR
           );
 
-          //init relatively
+          // init relatively
           if (!startPos && !startQuat) {
             startPos = t.position
               .clone()
@@ -147,7 +146,7 @@ export class Camera extends Game.External.ScriptBase {
   }
 
   tick() {
-    //if not initialized look for avatar go
+    // if not initialized look for avatar go
     let cityAvatar = null;
     if (!this.avatarGO) {
       this.avatarGO = this.context.object3D.getObjectByProperty(
@@ -172,13 +171,13 @@ export class Camera extends Game.External.ScriptBase {
       ZeppelinController.ID_SCRIPT
     );
 
-    //routines are prior
+    // routines are prior
     if (this.hasRoutine()) {
       const currentRoutine = this.routines[0];
       const finished = currentRoutine.tick(this.context.dt);
       if (finished) {
         currentRoutine.onEnd();
-        this.routines.shift(); //remove
+        this.routines.shift(); // remove
       }
     } else if (cityAvatar) {
       this.focusTarget(cityAvatar, DISTANCE_CAMERA_AVATAR);
@@ -202,13 +201,13 @@ export class Camera extends Game.External.ScriptBase {
   }
 }
 
-//focus
+// focus
 const CAMERA_ANGLE = Math.PI / 20;
 const THIRD_PERSON_FOV = 60;
 
 class Focus {
   constructor(camera) {
-    //quaternion
+    // quaternion
     this.quaternionCam = new THREE.Quaternion().setFromEuler(
       new THREE.Euler(Math.PI * 0.5, 0, 0)
     );
@@ -216,31 +215,31 @@ class Focus {
       new THREE.Euler(-CAMERA_ANGLE, 0, 0)
     );
 
-    //three js camera
+    // three js camera
     this.camera = camera;
     camera.fov = THIRD_PERSON_FOV;
 
-    //target
+    // target
     this.target = null;
     this.bbTarget = null;
 
-    //raycaster
+    // raycaster
     this.raycaster = new THREE.Raycaster();
     this.raycaster.camera = camera;
 
-    //mode
+    // mode
     this.isTPV = true;
   }
 
   setTarget(gameObject) {
-    if (this.target == gameObject) return; //only when its changed
+    if (this.target == gameObject) return; // only when its changed
 
     this.target = gameObject;
 
     if (this.target) {
-      //follow tps
+      // follow tps
       this.camera.fov = THIRD_PERSON_FOV;
-      this.bbTarget = new THREE.Box3().setFromObject(this.target); //compute here one time
+      this.bbTarget = new THREE.Box3().setFromObject(this.target); // compute here one time
       this.camera.updateProjectionMatrix();
     }
   }
@@ -250,7 +249,7 @@ class Focus {
       // console.warn('no target');
       return;
     }
-    const transform = this.computeTransformTarget(obstacle, distance);
+    const transform = this.computeTransformTarget(distance, obstacle);
 
     this.camera.position.copy(transform.position);
     this.camera.quaternion.copy(transform.quaternion);
@@ -258,10 +257,10 @@ class Focus {
     this.camera.updateProjectionMatrix();
   }
 
-  computeTransformTarget(obstacle = null, distance) {
+  computeTransformTarget(distance, obstacle = null) {
     if (!this.target) return null;
 
-    //world transform
+    // world transform
     const obj = this.target;
     const position = new THREE.Vector3();
     const quaternion = new THREE.Quaternion();
@@ -275,7 +274,7 @@ class Focus {
       .applyQuaternion(quaternion);
 
     if (this.isTPV && obstacle) {
-      //compute intersection
+      // compute intersection
       this.raycaster.set(position, dir.clone().negate());
       const intersects = this.raycaster.intersectObject(obstacle, true);
       if (intersects.length) {
@@ -290,7 +289,7 @@ class Focus {
     quaternion.multiply(this.quaternionCam);
     quaternion.multiply(this.quaternionAngle);
 
-    //this is not a transform of THREEUtils.Transform
+    // this is not a transform of THREEUtils.Transform
     return { position: position, quaternion: quaternion };
   }
 

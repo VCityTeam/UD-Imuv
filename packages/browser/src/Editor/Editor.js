@@ -16,22 +16,22 @@ export class EditorView {
     this.rootHtml = document.createElement('div');
     this.rootHtml.classList.add('root_Editor');
 
-    //where html goes
+    // where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_Editor');
     this.rootHtml.appendChild(this.ui);
 
-    //html
+    // html
     this.closeButton = null;
     this.worldsList = null;
     this.saveWorldsButton = null;
     this.playCurrentWorldButton = null;
     this.refreshButton = null;
 
-    //assets
+    // assets
     this.assetsManager = new Views.AssetsManager();
 
-    //gameview
+    // gameview
     this.currentWorldView = null;
     this.currentPlayWorldView = null;
 
@@ -133,7 +133,7 @@ export class EditorView {
 
       _this.closeCurrentView();
 
-      //create new view
+      // create new view
       _this.currentPlayWorldView = new PlayWorldEditorView({
         parentUIHtml: _this.ui,
         parentView: _this,
@@ -158,7 +158,7 @@ export class EditorView {
   saveCurrentWorld() {
     if (!this.currentWorldView) return;
 
-    //world loaded
+    // world loaded
     const world = this.currentWorldView
       .getGameView()
       .getInterpolator()
@@ -177,7 +177,7 @@ export class EditorView {
     for (let index = 0; index < worldsJSON.length; index++) {
       const json = worldsJSON[index];
       if (json.uuid == cloneWorld.getUUID()) {
-        //found
+        // found
         const newContent = cloneWorld.toJSON();
         worldsJSON[index] = newContent;
         break;
@@ -187,7 +187,7 @@ export class EditorView {
 
   updateUI() {
     const worldsJSON = this.assetsManager.getWorldsJSON();
-    //clean worlds list and rebuild it
+    // clean worlds list and rebuild it
     const list = this.worldsList;
     while (list.firstChild) {
       list.removeChild(list.firstChild);
@@ -208,7 +208,6 @@ export class EditorView {
     this.assetsManager.getWorldsJSON().forEach(function (w) {
       if (w.uuid == uuid) {
         worldJSON = w;
-        return;
       }
     });
 

@@ -1,7 +1,7 @@
 import './Sign.css';
 import { Constant } from '@ud-imuv/shared';
 
-//Helper
+// Helper
 const createInput = function (name, root, type = 'text') {
   const parent = document.createElement('div');
   parent.classList.add('parentInput_Sign');
@@ -23,7 +23,7 @@ export class SignUpView {
     this.domElement = document.createElement('div');
     this.domElement.classList.add('root_Sign');
 
-    //html
+    // html
     this.closeButton = null;
     this.inputNameUser = null;
     this.inputMail = null;
@@ -82,7 +82,7 @@ export class SignUpView {
 
       _this.socketIOWrapper.emit(Constant.WEBSOCKET.MSG_TYPE.SIGN_UP, {
         email: email,
-        password: password, //TODO Iam sure this is safe (if send with protocol wss ok apparently)
+        password: password, // TODO Iam sure this is safe (if send with protocol wss ok apparently)
         nameUser: nameUser,
       });
     };
@@ -102,7 +102,7 @@ export class SignInView {
     this.domElement = document.createElement('div');
     this.domElement.classList.add('root_Sign');
 
-    //html
+    // html
     this.inputIdUser = null;
     this.inputPassword = null;
     this.signInButton = null;

@@ -17,7 +17,7 @@ const texts = {
     titleNav: 'IMUV - Flying Campus',
     button_Join: 'Rejoindre',
     titleContent: 'Flying Campus',
-    //About
+    // About
     aboutBoxTitle: 'A propos',
     aboutTitleTeam: 'Equipe',
     aboutLabelsTeamList: [
@@ -42,7 +42,7 @@ const texts = {
     aboutGraphicDescriptionAvatar:
       'Chaque utilisateur contrôle un avatar. C’est un humanoïde capuchonné neutre, grâce à un éditeur d’avatar, nous pouvons choisir sa couleur, le nom qui s’affichera au-dessus de sa tête et une photo à la place de son visage.',
 
-    //News
+    // News
     newsBoxTitle: 'Actualités',
     newsLinkGithubReleases: 'Github Releases',
     feedbacksLabel: "Retour d'expérience",
@@ -68,7 +68,7 @@ const texts = {
       '<a href="https://www.flaticon.com/free-icons/art-and-design" title="art and design icons">Art and design icons created by Mayor Icons - Flaticon</a>',
     ],
 
-    //Sign
+    // Sign
     signIn: 'Identification',
     signUp: 'Créer compte',
   },
@@ -83,7 +83,7 @@ const texts = {
     titleNav: 'IMUV - Flying Campus',
     button_Join: 'Join',
     titleContent: 'Flying Campus',
-    //About
+    // About
     aboutBoxTitle: 'About',
     aboutTitleTeam: 'Team',
     aboutLabelsTeamList: [
@@ -108,7 +108,7 @@ const texts = {
     aboutGraphicDescriptionAvatar:
       "Each users control an avatar. It's a neutral hooded humanoid, thanks to an avatar editor, we can chose its color, the name that will be displayed above his head and a picture instead of his face.", // eslint-disable-line
 
-    //News
+    // News
     newsBoxTitle: 'News',
     newsLinkGithubReleases: 'Github Releases',
     feedbacksLabel: 'Feedbacks',
@@ -134,7 +134,7 @@ const texts = {
       '<a href="https://www.flaticon.com/free-icons/art-and-design" title="art and design icons">Art and design icons created by Mayor Icons - Flaticon</a>',
     ],
 
-    //Sign
+    // Sign
     signIn: 'Sign In',
     signUp: 'Sign Up',
   },

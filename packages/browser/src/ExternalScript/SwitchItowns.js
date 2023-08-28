@@ -32,22 +32,22 @@ export class SwitchItowns extends Game.External.ScriptBase {
     if (this.context.frame3D.itownsView) {
       const promiseFunction = (resolve, reject, onClose) => {
         if (cameraManager.currentMovement) {
-          resolve(false); //already movement
+          resolve(false); // already movement
           return;
         }
 
-        //check if city avatar
+        // check if city avatar
         const avatarGO = this.context.object3D.getObjectByProperty(
           'uuid',
           this.context.userData.avatarUUID
         );
         if (avatarGO.getObjectByProperty('name', 'city_avatar')) {
-          resolve(false); //cant itowns while city avatar
+          resolve(false); // cant itowns while city avatar
           return;
         }
 
         if (onClose) {
-          //record
+          // record
           this.itownsCamPos.copy(this.context.frame3D.camera.position);
           this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
 
@@ -57,22 +57,22 @@ export class SwitchItowns extends Game.External.ScriptBase {
             resolve(true);
           });
         } else {
-          //remove avatar controls
+          // remove avatar controls
           avatarController.setAvatarControllerMode(false);
 
           if (!this.itownsCamPos && !this.itownsCamQuat) {
-            //first time camera in sky
+            // first time camera in sky
 
             const currentPosition = new THREE.Vector3().copy(
               this.context.frame3D.camera.position
             );
 
-            //200 meters up
+            // 200 meters up
             const endPosition = new THREE.Vector3(0, 0, 200).add(
               currentPosition
             );
 
-            //look down
+            // look down
             const endQuaternion = new THREE.Quaternion().setFromEuler(
               new THREE.Euler(0.01, 0, 0)
             );
@@ -88,7 +88,7 @@ export class SwitchItowns extends Game.External.ScriptBase {
 
               this.context.frame3D.itownsView.controls.enabled = true;
 
-              //tweak zoom factor
+              // tweak zoom factor
               this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
                 .getMenuSettings()
                 .getZoomFactorValue();
@@ -139,12 +139,12 @@ class MenuItowns {
     title.innerHTML = 'Widgets';
     this.domElement.appendChild(title);
 
-    ////ADD UD-VIZ WIDGETS
+    // //ADD UD-VIZ WIDGETS
 
-    //buffer
+    // buffer
     this.widgets = {};
 
-    //layerchoice
+    // layerchoice
     this.addModuleView(
       'Layer Choice',
       new Widget.LayerChoice(externalContext.frame3D.itownsView)
@@ -156,13 +156,13 @@ class MenuItowns {
       this.widgets['Layer Choice'].initHtml();
     });
 
-    //cameraPositionner
+    // cameraPositionner
     this.addModuleView(
       'Camera Positioner',
       new Widget.CameraPositioner(externalContext.frame3D.itownsView)
     );
 
-    //geocoding
+    // geocoding
     const requestService = new RequestService();
     const geocodingService = new Widget.Server.GeocodingService(
       requestService,
@@ -202,7 +202,7 @@ class MenuItowns {
       )
     );
 
-    ////ADD ITOWNS WIDGETS
+    // //ADD ITOWNS WIDGETS
     const itownsScale = new itownsWidgets.Scale(
       externalContext.frame3D.itownsView,
       {
@@ -227,7 +227,7 @@ class MenuItowns {
 
     this.widgets[moduleId] = moduleClass;
 
-    //parent
+    // parent
     moduleClass.parentElement = document.body;
 
     button.onclick = () => {

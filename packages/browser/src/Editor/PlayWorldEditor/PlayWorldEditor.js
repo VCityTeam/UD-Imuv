@@ -18,7 +18,7 @@ export class PlayWorldEditorView {
     this.parentUIHtml = params.parentUIHtml;
     this.parentView = params.parentView;
 
-    //where html goes
+    // where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_PlayWorldEditor');
     this.parentUIHtml.appendChild(this.ui);
@@ -32,13 +32,13 @@ export class PlayWorldEditorView {
 
     this.avatarGO = null;
 
-    //interval canvas debug
+    // interval canvas debug
     this.interval = null;
 
     this.initUI();
     this.initCallbacks();
 
-    //start app
+    // start app
     this.startLocalGame(params.worldJSON);
   }
 
@@ -75,7 +75,7 @@ export class PlayWorldEditorView {
           computeMapGO(gV)
         );
 
-        //resize
+        // resize
         gV.setDisplaySize(new THREE.Vector2(_this.parentUIHtml.clientWidth, 0));
 
         gV.getInterpolator().addAfterTickRequester(function () {
@@ -85,7 +85,7 @@ export class PlayWorldEditorView {
           worldComputer.onCommands(cmds);
         });
 
-        //start rendering canvas debug
+        // start rendering canvas debug
         _this.interval = setInterval(_this.renderCanvasDebug.bind(_this), 100);
       });
   }
@@ -126,7 +126,7 @@ export class PlayWorldEditorView {
     ctx.arc(avatarPosCanvas.x, avatarPosCanvas.y, 10, 0, Math.PI * 2);
     ctx.fill();
 
-    //draw collison body
+    // draw collison body
     const world = this.localGameApp
       .getGameView()
       .getInterpolator()
@@ -141,7 +141,7 @@ export class PlayWorldEditorView {
     ctx.fill();
     ctx.restore();
 
-    //draw axis
+    // draw axis
   }
 
   initUI() {

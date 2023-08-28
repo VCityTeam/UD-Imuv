@@ -17,7 +17,7 @@ export class ColliderEditorView {
     this.colliderObject3D.name = 'ColliderObject';
     this.gameView.getScene().add(this.colliderObject3D);
 
-    //where html goes
+    // where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_ColliderEditor');
     this.rootHtml.appendChild(this.ui);
@@ -38,10 +38,10 @@ export class ColliderEditorView {
     this.goSelected = this.goEditor.getSelectedGO();
     this.colliderComp = this.getColliderComponent();
 
-    //controls
+    // controls
     this.orbitControls = this.gameView.getOrbitControls();
     this.transformControls = this.gameView.getTransformControls();
-    this.tcChanged = false; //TODO : Find how to use transformControls.dragging correctly
+    this.tcChanged = false; // TODO : Find how to use transformControls.dragging correctly
 
     this.addPointMode = false;
 
@@ -212,7 +212,7 @@ export class ColliderEditorView {
     this.uiShapes.innerHTML =
       'Shapes length : ' + this.model.getShapes().length;
 
-    //List of shapes
+    // List of shapes
     const sList = this.shapesList;
     while (sList.firstChild) {
       sList.removeChild(sList.firstChild);
@@ -435,7 +435,7 @@ export class ColliderEditorModel {
     return this.selectedObject;
   }
 
-  /**Create sphere as new point of shape at a position */
+  /** Create sphere as new point of shape at a position */
   placeSphereAtPoint(point, shape) {
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });

@@ -11,7 +11,7 @@ export class ZeppelinStart extends Game.External.ScriptBase {
 
     this.orbitCtrl = null;
 
-    //buffer
+    // buffer
     this.oldPositionZeppelin = null;
 
     this.zeppelinGO = null;
@@ -22,7 +22,7 @@ export class ZeppelinStart extends Game.External.ScriptBase {
   }
 
   init() {
-    //ADD UI to toolbar
+    // ADD UI to toolbar
     const menuZeppelin = new MenuZeppelin(this);
     this.menuZeppelin = menuZeppelin;
 
@@ -52,25 +52,25 @@ export class ZeppelinStart extends Game.External.ScriptBase {
       'Zeppelyon',
       (resolve, reject, onClose) => {
         if (cameraManager.currentMovement) {
-          resolve(false); //camera is moving
+          resolve(false); // camera is moving
           return;
         }
 
-        //check if city avatar
+        // check if city avatar
         const avatarGO = this.context.object3D.getObjectByProperty(
           'uuid',
           this.context.userData.avatarUUID
         );
         if (avatarGO.getObjectByProperty('name', 'city_avatar')) {
-          resolve(false); //cant itowns while city avatar
+          resolve(false); // cant itowns while city avatar
           return;
         }
 
         if (onClose) {
           cameraManager.moveToAvatar().then(() => {
-            this.onCloseCallbackMenu(); //should not ne null
+            this.onCloseCallbackMenu(); // should not ne null
 
-            //reset avatar controls
+            // reset avatar controls
             avatarController.setAvatarControllerMode(true);
 
             this.context.sendCommandToGameContext([
@@ -87,10 +87,10 @@ export class ZeppelinStart extends Game.External.ScriptBase {
             resolve(true);
           });
         } else {
-          //remove avatar controls
+          // remove avatar controls
           avatarController.setAvatarControllerMode(false);
 
-          //avatar invisible
+          // avatar invisible
           this.context.sendCommandToGameContext([
             new Shared.Command({
               type: Shared.Game.ScriptTemplate.Constants.COMMAND
@@ -103,39 +103,39 @@ export class ZeppelinStart extends Game.External.ScriptBase {
             }),
           ]);
 
-          //check locally if there is a different pilot still in game
+          // check locally if there is a different pilot still in game
           const pilot = this.context.object3D.getObjectByProperty(
             'uuid',
             this.variables.pilotUUID
           );
 
-          //update html
+          // update html
           menuZeppelin.update();
 
           if (
             pilot &&
             this.variables.pilotUUID != this.context.userData.avatarUUID
           ) {
-            //cant listen to canvas because zIndex is 0 and labelRenderer zIndex is 1
-            //cant listen to domElementWebGL because the icon cant be clicked cause of the orbit control
-            //have to listen the labelRenderer domElement
+            // cant listen to canvas because zIndex is 0 and labelRenderer zIndex is 1
+            // cant listen to domElementWebGL because the icon cant be clicked cause of the orbit control
+            // have to listen the labelRenderer domElement
 
             const elementToListen =
               this.context.frame3D.itownsView.mainLoop.gfxEngine.label2dRenderer
                 .domElement;
 
-            //new orbitctrl
+            // new orbitctrl
             this.orbitCtrl = new OrbitControls(
               this.context.frame3D.camera,
               elementToListen
             );
-            this.oldPositionZeppelin = null; //reset
+            this.oldPositionZeppelin = null; // reset
 
             if (refine) refine.itownsControls();
 
-            //on leave zeppelin cb
+            // on leave zeppelin cb
             this.onCloseCallbackMenu = () => {
-              //dispose orbit ctrl
+              // dispose orbit ctrl
               this.orbitCtrl.dispose();
               this.orbitCtrl = null;
             };
@@ -151,23 +151,23 @@ export class ZeppelinStart extends Game.External.ScriptBase {
       menuZeppelin
     );
 
-    //callback to become the pilot
-    //update claimPilotingButton callback
-    //should be only necessary here since when init the user cannot claim the piloting
+    // callback to become the pilot
+    // update claimPilotingButton callback
+    // should be only necessary here since when init the user cannot claim the piloting
     this.menuZeppelin.setClaimPilotingButtonCallback(() => {
       const pilot = this.context.object3D.getObjectByProperty(
         'uuid',
         this.variables.pilotUUID
       );
       if (!pilot) {
-        //no pilot meaning user was passenger and the piot leave
+        // no pilot meaning user was passenger and the piot leave
         if (this.orbitCtrl) {
           this.orbitCtrl.dispose();
           this.orbitCtrl = null;
 
           this.claimPiloting();
 
-          //routine
+          // routine
           const cameraManager = this.context.findExternalScriptWithID(
             CameraManager.ID_SCRIPT
           );
@@ -190,7 +190,7 @@ export class ZeppelinStart extends Game.External.ScriptBase {
 
     if (!zeppelinSetted) throw 'zeppelin controller not set';
 
-    //edit server side
+    // edit server side
     this.context.sendCommandToGameContext([
       new Shared.Command({
         type: Shared.Game.ScriptTemplate.Constants.COMMAND
@@ -204,10 +204,10 @@ export class ZeppelinStart extends Game.External.ScriptBase {
     ]);
 
     this.onCloseCallbackMenu = () => {
-      //remove zeppelin controls
+      // remove zeppelin controls
       zeppelinController.setZeppelinControllerMode(false);
 
-      //edit server side to remove pilot
+      // edit server side to remove pilot
       this.context.sendCommandToGameContext([
         new Shared.Command({
           type: Shared.Game.ScriptTemplate.Constants.COMMAND
@@ -223,7 +223,7 @@ export class ZeppelinStart extends Game.External.ScriptBase {
   }
 
   onOutdated() {
-    //update ui
+    // update ui
     this.menuZeppelin.update();
   }
 
@@ -236,11 +236,11 @@ export class ZeppelinStart extends Game.External.ScriptBase {
         new THREE.Vector3()
       );
 
-      //add to target of orbit ctrl
+      // add to target of orbit ctrl
       this.orbitCtrl.target.copy(position);
       this.orbitCtrl.update();
 
-      //move relatively camera
+      // move relatively camera
       if (this.oldPositionZeppelin) {
         this.context.frame3D.camera.position.add(
           position.clone().sub(this.oldPositionZeppelin)
@@ -274,7 +274,7 @@ class MenuZeppelin {
   }
 
   update() {
-    if (this.isClosing) return; //TODO WAIT REFACTO TO MAKE A GENERIC ISCLOSING FLAG ON CONTEXTUAL MENU
+    if (this.isClosing) return; // TODO WAIT REFACTO TO MAKE A GENERIC ISCLOSING FLAG ON CONTEXTUAL MENU
 
     const pilot = this.zeppelinStart.context.object3D.getObjectByProperty(
       'uuid',

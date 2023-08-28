@@ -22,7 +22,7 @@ export class SignageDisplayer extends Game.External.ScriptBase {
     this.dispose();
   }
 
-  //TODO : Top view ?
+  // TODO : Top view ?
   createPopup() {
     this.dispose();
     this.popup = new Popup(this);
@@ -55,7 +55,7 @@ class Popup {
     this.signageDisplayer = signageDisplayer;
     this.projectsJSON = this.signageDisplayer.variables.projects;
 
-    //html
+    // html
     this.ui = this.signageDisplayer.context.frame3D.ui;
     this.popupHtml = null;
     this.titlePopUp = null;
@@ -127,7 +127,7 @@ class Project {
 
     this.billboard = null;
 
-    //html
+    // html
     this.ui = this.signageDisplayer.context.frame3D.ui;
     this.backButton = null;
 
@@ -160,7 +160,7 @@ class Project {
 
     const go = this.signageDisplayer.object3D;
     const object3D = go;
-    const worldDirectiondGO = object3D.getWorldDirection(new THREE.Vector3()); //forward vec
+    const worldDirectiondGO = object3D.getWorldDirection(new THREE.Vector3()); // forward vec
     const worldPositionGO = object3D.getWorldPosition(new THREE.Vector3());
 
     const vecDir = worldPositionGO.clone().sub(billboardPos);
@@ -179,7 +179,7 @@ class Project {
       iframe,
       billboardPos,
       euler,
-      new THREE.Vector3(5, 5, 5) /*Harcode*/,
+      new THREE.Vector3(5, 5, 5) /* Harcode*/,
       50
     );
     this.context.frame3D.appendBillboard(billboard);

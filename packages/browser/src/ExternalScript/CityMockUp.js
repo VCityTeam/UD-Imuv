@@ -7,18 +7,18 @@ export class CityMockUp extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    //buffer
+    // buffer
     this.itownsCamPos = null;
     this.itownsCamQuat = null;
 
-    //3D object
+    // 3D object
     this.mockUpObject = null;
     this.selectedAreaObject = null;
   }
 
   init() {
     if (this.context.userData.isEditorGameView) {
-      //add a plane 1,1 to well adjust the go transform
+      // add a plane 1,1 to well adjust the go transform
       const geometry = new THREE.PlaneGeometry(1, 1);
       const material = new THREE.MeshBasicMaterial({
         color: 0xffff00,
@@ -32,7 +32,7 @@ export class CityMockUp extends Game.External.ScriptBase {
       renderComp.getController().addObject3D(plane);
     }
 
-    //Custom refine the conf area
+    // Custom refine the conf area
 
     const boundingVolumeBox = new THREE.Box3();
     const layers = this.context.frame3D.itownsView
@@ -41,7 +41,7 @@ export class CityMockUp extends Game.External.ScriptBase {
     layers.forEach((layer) => {
       layer.update = itowns.process3dTilesNode(
         (layer, camera, node, tileMatrixWorld) => {
-          if (!node.boundingVolume || !node.boundingVolume.box) return true; //do not requet (culling it)
+          if (!node.boundingVolume || !node.boundingVolume.box) return true; // do not requet (culling it)
 
           boundingVolumeBox.copy(node.boundingVolume.box);
           boundingVolumeBox.applyMatrix4(tileMatrixWorld);
@@ -49,14 +49,14 @@ export class CityMockUp extends Game.External.ScriptBase {
           return !this.intersectArea(
             boundingVolumeBox.min,
             boundingVolumeBox.max
-          ); //request if it is intersected area
+          ); // request if it is intersected area
         },
         (context, layer, node) => {
           if (layer.tileset.tiles[node.tileId].children === undefined) {
             return false; // I guess no object so no refine
           }
           if (layer.tileset.tiles[node.tileId].isTileset) {
-            return true; //refine if it's tileset
+            return true; // refine if it's tileset
           }
 
           boundingVolumeBox.copy(node.boundingVolume.box);
@@ -65,7 +65,7 @@ export class CityMockUp extends Game.External.ScriptBase {
           return this.intersectArea(
             boundingVolumeBox.min,
             boundingVolumeBox.max
-          ); //refine if it's intersecting area
+          ); // refine if it's intersecting area
         }
       );
       layer.addEventListnerer(
@@ -73,7 +73,7 @@ export class CityMockUp extends Game.External.ScriptBase {
         (tile) => {
           const boundingBox = new THREE.Box3().setFromObject(tile);
 
-          //only update if tile intersect the area
+          // only update if tile intersect the area
           if (this.intersectArea(boundingBox.min, boundingBox.max)) {
             this.updateMockUpObject();
           }
@@ -81,7 +81,7 @@ export class CityMockUp extends Game.External.ScriptBase {
       );
     });
 
-    //add tool
+    // add tool
     const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
     const cameraManager = this.context.findExternalScriptWithID(
       CameraManager.ID_SCRIPT
@@ -96,12 +96,12 @@ export class CityMockUp extends Game.External.ScriptBase {
       'Maquette',
       (resolve, reject, onClose) => {
         if (cameraManager.currentMovement) {
-          resolve(false); //already moving
+          resolve(false); // already moving
           return;
         }
 
         if (onClose) {
-          //record
+          // record
           this.itownsCamPos.set(
             this.context.frame3D.camera.position.x,
             this.context.frame3D.camera.position.y,
@@ -116,22 +116,22 @@ export class CityMockUp extends Game.External.ScriptBase {
             resolve(true);
           });
         } else {
-          //remove avatar controls
+          // remove avatar controls
           avatarController.setAvatarControllerMode(false);
 
           if (!this.itownsCamPos && !this.itownsCamQuat) {
-            //first time camera in sky
+            // first time camera in sky
 
             const currentPosition = new THREE.Vector3().copy(
               this.context.frame3D.camera.position
             );
 
-            //200 meters up
+            // 200 meters up
             const endPosition = new THREE.Vector3(0, 0, 200).add(
               currentPosition
             );
 
-            //look down
+            // look down
             const endQuaternion = new THREE.Quaternion().setFromEuler(
               new THREE.Euler(0.01, 0, 0)
             );
@@ -151,7 +151,7 @@ export class CityMockUp extends Game.External.ScriptBase {
       menu
     );
 
-    //DEBUG
+    // DEBUG
     this.context.inputManager.addKeyInput('a', 'keyup', () => {
       this.updateMockUpObject();
     });
@@ -162,7 +162,7 @@ export class CityMockUp extends Game.External.ScriptBase {
 
     if (!area.start || !area.end) return false;
 
-    //TODO could be optimize if not compute at each intersect
+    // TODO could be optimize if not compute at each intersect
     const minArea = new THREE.Vector3(
       Math.min(area.start[0], area.end[0]),
       Math.min(area.start[1], area.end[1])
@@ -185,12 +185,12 @@ export class CityMockUp extends Game.External.ScriptBase {
     console.log('UPDATE MOCK UP => ', area);
 
     if (area.start && area.end) {
-      //update 3DTiles mock up object
+      // update 3DTiles mock up object
       if (this.mockUpObject && this.mockUpObject.parent) {
         this.mockUpObject.parent.remove(this.mockUpObject);
       }
 
-      //parse geometry intersected
+      // parse geometry intersected
       const materialsMockup = [];
       const geometryMockUp = new THREE.BufferGeometry();
       const positionsMockUp = [];
@@ -210,7 +210,7 @@ export class CityMockUp extends Game.External.ScriptBase {
           materialIndex = materialsMockup.length - 1;
         }
 
-        //TODO could mix group between them
+        // TODO could mix group between them
         geometryMockUp.addGroup(
           positionsMockUp.length / 3,
           positions.length / 3,
@@ -225,6 +225,7 @@ export class CityMockUp extends Game.External.ScriptBase {
         .getLayers()
         .filter((el) => el.isC3DTilesLayer);
 
+      /* eslint-disable */
       layers.forEach((l) => {
         const object = l.root;
         if (!object) return;
@@ -241,7 +242,7 @@ export class CityMockUp extends Game.External.ScriptBase {
             const maxChild = bb.max.clone().applyMatrix4(child.matrixWorld);
 
             if (this.intersectArea(minChild, maxChild)) {
-              //check more precisely what batchID intersect
+              // check more precisely what batchID intersect
               const positions = child.geometry.attributes.position.array;
               const normals = child.geometry.attributes.normal.array;
               const batchIds = child.geometry.attributes._BATCHID.array;
@@ -253,7 +254,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                 throw 'wrong count geometry';
               }
 
-              //buffer attr
+              // buffer attr
               let minBB, maxBB;
 
               const currentPositions = [];
@@ -264,15 +265,15 @@ export class CityMockUp extends Game.External.ScriptBase {
                 child.matrixWorld
               );
 
-              //check if the current positions normals should be add to mockup geometry
+              // check if the current positions normals should be add to mockup geometry
               const checkCurrentBatch = () => {
-                //find material
+                // find material
                 const currentMaterial = child.material;
                 if (!currentMaterial) throw 'do not find material';
 
-                //compute bb
-                minBB = new THREE.Vector2(Infinity, Infinity); //reset
-                maxBB = new THREE.Vector2(-Infinity, -Infinity); //reset
+                // compute bb
+                minBB = new THREE.Vector2(Infinity, Infinity); // reset
+                maxBB = new THREE.Vector2(-Infinity, -Infinity); // reset
 
                 for (
                   let index = 0;
@@ -289,7 +290,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                 }
 
                 if (this.intersectArea(minBB, maxBB)) {
-                  //intersect area should be add
+                  // intersect area should be add
                   addToFinalMockUp(
                     currentPositions,
                     currentNormals,
@@ -325,7 +326,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                   // if (!gmlIds.includes(gmlID)) gmlIds.push(gmlID);
                 }
 
-                //reset
+                // reset
                 currentPositions.length = 0;
                 currentNormals.length = 0;
               };
@@ -335,34 +336,34 @@ export class CityMockUp extends Game.External.ScriptBase {
                 const batchID = batchIds[i / 3];
 
                 if (currentBatchID != batchID) {
-                  //new batch id check if previous one should be add to geometry
+                  // new batch id check if previous one should be add to geometry
                   checkCurrentBatch(currentBatchID);
                   currentBatchID = batchID;
                 }
 
-                //position
+                // position
                 position.x = positions[i];
                 position.y = positions[i + 1];
                 position.z = positions[i + 2];
 
-                //add world position
+                // add world position
                 position.applyMatrix4(child.matrixWorld);
                 currentPositions.push(position.x);
                 currentPositions.push(position.y);
                 currentPositions.push(position.z);
 
-                //normal
+                // normal
                 normal.x = normals[i];
                 normal.y = normals[i + 1];
                 normal.z = normals[i + 2];
 
-                //add world normal
+                // add world normal
                 normal.applyMatrix3(normalMatrixWorld);
                 currentNormals.push(normal.x);
                 currentNormals.push(normal.y);
                 currentNormals.push(normal.z);
               }
-              //the last batchID has not been checked
+              // the last batchID has not been checked
               checkCurrentBatch();
             }
           }
@@ -374,23 +375,23 @@ export class CityMockUp extends Game.External.ScriptBase {
 
         if (!object) return;
 
-        //gml and cityobjectid intersecting area
+        // gml and cityobjectid intersecting area
         const cityObjectIDs = [];
         const gmlIds = [];
 
-        //add cityobject intersecting area
+        // add cityobject intersecting area
         object.traverse((child) => {
           if (child.geometry && !child.userData.metadata.children) {
             const tileId = getTileFromMesh(child).tileId;
 
-            //check if its belong to the area
+            // check if its belong to the area
             const bb = child.geometry.boundingBox;
 
             const minChild = bb.min.clone().applyMatrix4(child.matrixWorld);
             const maxChild = bb.max.clone().applyMatrix4(child.matrixWorld);
 
             if (this.intersectArea(minChild, maxChild)) {
-              //check more precisely what batchID intersect
+              // check more precisely what batchID intersect
               const positions = child.geometry.attributes.position.array;
               const normals = child.geometry.attributes.normal.array;
               const batchIds = child.geometry.attributes._BATCHID.array;
@@ -402,7 +403,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                 throw 'wrong count geometry';
               }
 
-              //buffer attr
+              // buffer attr
               let minBB, maxBB;
 
               const currentPositions = [];
@@ -414,9 +415,9 @@ export class CityMockUp extends Game.External.ScriptBase {
                 child.matrixWorld
               );
 
-              //check if the current positions normals should be add to mockup geometry
+              // check if the current positions normals should be add to mockup geometry
               const checkCurrentBatch = () => {
-                //find material
+                // find material
                 const groups = child.geometry.groups;
                 let currentMaterial;
                 for (let j = 0; j < groups.length; j++) {
@@ -425,7 +426,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                     currentCount >= group.start &&
                     currentCount <= group.start + group.count
                   ) {
-                    //include
+                    // include
                     currentMaterial = child.material[group.materialIndex];
                     break;
                   }
@@ -433,9 +434,9 @@ export class CityMockUp extends Game.External.ScriptBase {
 
                 if (!currentMaterial) throw 'do not find material';
 
-                //compute bb
-                minBB = new THREE.Vector2(Infinity, Infinity); //reset
-                maxBB = new THREE.Vector2(-Infinity, -Infinity); //reset
+                // compute bb
+                minBB = new THREE.Vector2(Infinity, Infinity); // reset
+                maxBB = new THREE.Vector2(-Infinity, -Infinity); // reset
 
                 for (
                   let index = 0;
@@ -452,14 +453,14 @@ export class CityMockUp extends Game.External.ScriptBase {
                 }
 
                 if (this.intersectArea(minBB, maxBB)) {
-                  //intersect area should be add
+                  // intersect area should be add
                   addToFinalMockUp(
                     currentPositions,
                     currentNormals,
                     currentMaterial
                   );
 
-                  //record cityobject id and gml id for further pass
+                  // record cityobject id and gml id for further pass
                   cityObjectIDs.push(new CityObjectID(tileId, currentBatchID));
 
                   const gmlID =
@@ -469,7 +470,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                   if (!gmlIds.includes(gmlID)) gmlIds.push(gmlID);
                 }
 
-                //reset
+                // reset
                 currentPositions.length = 0;
                 currentNormals.length = 0;
               };
@@ -481,45 +482,45 @@ export class CityMockUp extends Game.External.ScriptBase {
                 const batchID = batchIds[count];
 
                 if (currentBatchID != batchID) {
-                  //new batch id check if previous one should be add to geometry
+                  // new batch id check if previous one should be add to geometry
                   checkCurrentBatch();
                   currentBatchID = batchID;
                 }
 
-                //position
+                // position
                 position.x = positions[i];
                 position.y = positions[i + 1];
                 position.z = positions[i + 2];
 
-                //add world position
+                // add world position
                 position.applyMatrix4(child.matrixWorld);
                 currentPositions.push(position.x);
                 currentPositions.push(position.y);
                 currentPositions.push(position.z);
 
-                //normal
+                // normal
                 normal.x = normals[i];
                 normal.y = normals[i + 1];
                 normal.z = normals[i + 2];
 
-                //add world normal
+                // add world normal
                 normal.applyMatrix3(normalMatrixWorld);
                 currentNormals.push(normal.x);
                 currentNormals.push(normal.y);
                 currentNormals.push(normal.z);
               }
-              //the last batchID has not been checked
+              // the last batchID has not been checked
               checkCurrentBatch();
             }
           }
         });
 
-        //add missing batch if not intersected
+        // add missing batch if not intersected
         object.traverse((child) => {
           if (child.geometry && !child.userData.metadata.children) {
             const tileId = getTileFromMesh(child).tileId;
 
-            //atributes
+            // atributes
             const positions = child.geometry.attributes.position.array;
             const normals = child.geometry.attributes.normal.array;
             const batchIds = child.geometry.attributes._BATCHID.array;
@@ -544,7 +545,7 @@ export class CityMockUp extends Game.External.ScriptBase {
               const gmlID = cityObject.props.gml_id;
 
               if (gmlIds.includes(gmlID)) {
-                //cityobject having a gmlid intersecting
+                // cityobject having a gmlid intersecting
                 let alreadyAdded = false;
                 for (let j = 0; j < cityObjectIDs.length; j++) {
                   const alreadyAddCityObjectID = cityObjectIDs[j];
@@ -555,11 +556,11 @@ export class CityMockUp extends Game.External.ScriptBase {
                 }
 
                 if (!alreadyAdded) {
-                  //cityobject not intersecting but having a gml id intersecting
+                  // cityobject not intersecting but having a gml id intersecting
                   const chunkPositions = positions.slice(
                     cityObject.indexStart * 3,
                     (cityObject.indexEnd + 1) * 3
-                  ); //+1 because slice does not include last index
+                  ); // +1 because slice does not include last index
 
                   const chunkNormals = normals.slice(
                     cityObject.indexStart * 3,
@@ -570,36 +571,36 @@ export class CityMockUp extends Game.External.ScriptBase {
                     throw 'wrong indexCount';
                   }
 
-                  //apply world transform
+                  // apply world transform
                   const position = new THREE.Vector3();
                   const normal = new THREE.Vector3();
                   for (let j = 0; j < chunkPositions.length; j += 3) {
-                    //position
+                    // position
                     position.x = chunkPositions[j];
                     position.y = chunkPositions[j + 1];
                     position.z = chunkPositions[j + 2];
 
-                    //add world position
+                    // add world position
                     position.applyMatrix4(child.matrixWorld);
                     chunkPositions[j] = position.x;
                     chunkPositions[j + 1] = position.y;
                     chunkPositions[j + 2] = position.z;
 
-                    //normal
+                    // normal
                     normal.x = chunkNormals[j];
                     normal.y = chunkNormals[j + 1];
                     normal.z = chunkNormals[j + 2];
 
-                    //add world normal
+                    // add world normal
                     normal.applyMatrix3(normalMatrixWorld);
                     chunkNormals[j] = normal.x;
                     chunkNormals[j + 1] = normal.y;
                     chunkNormals[j + 2] = normal.z;
                   }
 
-                  //one cityobject get one material index dynamic search
+                  // one cityobject get one material index dynamic search
                   const count = cityObject.indexStart;
-                  let added = false; //just for debug
+                  let added = false; // just for debug
                   for (let j = 0; j < child.geometry.groups.length; j++) {
                     const group = child.geometry.groups[j];
 
@@ -607,7 +608,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                       count >= group.start &&
                       count <= group.start + group.count
                     ) {
-                      //found material add to mock up and break
+                      // found material add to mock up and break
                       addToFinalMockUp(
                         chunkPositions,
                         chunkNormals,
@@ -617,7 +618,7 @@ export class CityMockUp extends Game.External.ScriptBase {
                       break;
                     }
                   }
-                  if (!added) throw 'do not find material'; //just for debug
+                  if (!added) throw 'do not find material'; // just for debug
                 }
               }
             }
@@ -625,7 +626,7 @@ export class CityMockUp extends Game.External.ScriptBase {
         });
       });
 
-      //create mock up from geometry
+      // create mock up from geometry
       geometryMockUp.setAttribute(
         'position',
         new THREE.BufferAttribute(new Float32Array(positionsMockUp), 3)
@@ -635,7 +636,7 @@ export class CityMockUp extends Game.External.ScriptBase {
         new THREE.BufferAttribute(new Float32Array(normalsMockUp), 3)
       );
 
-      //center geometryockUp on xy and put it at zero on z
+      // center geometryockUp on xy and put it at zero on z
       geometryMockUp.computeBoundingBox();
       const bbMockUp = geometryMockUp.boundingBox;
       const centerMockUp = bbMockUp.min.clone().lerp(bbMockUp.max, 0.5);
@@ -643,10 +644,10 @@ export class CityMockUp extends Game.External.ScriptBase {
       for (let index = 0; index < geoPositionsMockUp.length; index += 3) {
         geoPositionsMockUp[index] -= centerMockUp.x;
         geoPositionsMockUp[index + 1] -= centerMockUp.y;
-        geoPositionsMockUp[index + 2] -= bbMockUp.min.z; //so it's on the table
+        geoPositionsMockUp[index + 2] -= bbMockUp.min.z; // so it's on the table
       }
 
-      //create mesh
+      // create mesh
       this.mockUpObject = new THREE.Mesh(geometryMockUp, materialsMockup);
       this.mockUpObject.name = 'MockUp Object';
       const renderComp = this.object3D.getComponent(
@@ -654,21 +655,21 @@ export class CityMockUp extends Game.External.ScriptBase {
       );
       renderComp.getController().addObject3D(this.mockUpObject);
 
-      //adapt scale to fit the table
+      // adapt scale to fit the table
       const widthMockUp = bbMockUp.max.x - bbMockUp.min.x;
       const depthMockUp = bbMockUp.max.y - bbMockUp.min.y;
-      const widthTable = this.object3D.scale.x; //edited via editor
-      const depthTable = this.object3D.scale.y; //edited via editor
+      const widthTable = this.object3D.scale.x; // edited via editor
+      const depthTable = this.object3D.scale.y; // edited via editor
       const minMockUpScale = Math.min(1 / widthMockUp, 1 / depthMockUp);
       const minTableScale = Math.min(widthTable, depthTable);
-      //scale = constant / this.object3D.scale => remain mockup proportion
+      // scale = constant / this.object3D.scale => remain mockup proportion
       this.mockUpObject.scale.set(
         (minTableScale * minMockUpScale) / widthTable,
         (minTableScale * minMockUpScale) / depthTable,
         (minTableScale * minMockUpScale) / 1
       );
 
-      //update selectedAreaObject
+      // update selectedAreaObject
       if (this.selectedAreaObject && this.selectedAreaObject.parent) {
         this.selectedAreaObject.parent.remove(this.selectedAreaObject);
       }
@@ -681,7 +682,7 @@ export class CityMockUp extends Game.External.ScriptBase {
         Math.max(area.start[1], area.end[1])
       );
       const dim = maxArea.clone().sub(minArea);
-      const geometrySelectedArea = new THREE.BoxGeometry(dim.x, dim.y, 500); //500 HARD CODED TODO compute minZ and maxZ
+      const geometrySelectedArea = new THREE.BoxGeometry(dim.x, dim.y, 500); // 500 HARD CODED TODO compute minZ and maxZ
       this.selectedAreaObject = new THREE.Mesh(
         geometrySelectedArea,
         new THREE.MeshBasicMaterial({
@@ -692,7 +693,7 @@ export class CityMockUp extends Game.External.ScriptBase {
       );
       this.selectedAreaObject.name = 'Selected Area MockUp';
       this.selectedAreaObject.position.lerpVectors(minArea, maxArea, 0.5);
-      this.selectedAreaObject.renderOrder = 2; //render after preview of selected area
+      this.selectedAreaObject.renderOrder = 2; // render after preview of selected area
       this.selectedAreaObject.updateMatrixWorld();
 
       this.context.frame3D.scene.add(this.selectedAreaObject);
@@ -708,8 +709,8 @@ export class CityMockUp extends Game.External.ScriptBase {
   }
 }
 
-//TODO make the city visible only when menu is active since no need to view the city in conf room
-//TODO make the select area an object with a transform control
+// TODO make the city visible only when menu is active since no need to view the city in conf room
+// TODO make the select area an object with a transform control
 class MenuCityMockUp {
   constructor(context, object3D) {
     /** @type {ExternalGame.Context} */
@@ -717,7 +718,7 @@ class MenuCityMockUp {
 
     this.object3D = object3D;
 
-    //html
+    // html
     this.domElement = document.createElement('div');
     this.domElement.classList.add('contextual_menu');
 
@@ -726,36 +727,36 @@ class MenuCityMockUp {
     buttonSelect.innerHTML = 'Changer de mode';
     this.domElement.appendChild(buttonSelect);
 
-    //icon Mode
+    // icon Mode
     this.iconMode = document.createElement('img');
     this.iconMode.classList.add('mock_up_icon_mode', 'mask_icon');
     this.domElement.appendChild(this.iconMode);
 
-    //label mode
+    // label mode
     this.labelMode = document.createElement('div');
     this.labelMode.classList.add('mock_up_label_mode');
     this.domElement.appendChild(this.labelMode);
 
-    //attr
-    this.itownsController = true; //default is itowns controller
+    // attr
+    this.itownsController = true; // default is itowns controller
     this.listeners = [];
 
-    //callbacks
+    // callbacks
     buttonSelect.onclick = () => {
-      this.setItownsController(!this.itownsController); //toggle
+      this.setItownsController(!this.itownsController); // toggle
     };
   }
 
   removeListeners() {
-    //remove listeners
+    // remove listeners
     this.listeners.forEach((listener) => {
       this.context.inputManager.removeInputListener(listener);
     });
-    this.listeners.length = 0; //clear array
+    this.listeners.length = 0; // clear array
   }
 
   enable() {
-    this.setItownsController(this.itownsController); //update attributes of the inner class
+    this.setItownsController(this.itownsController); // update attributes of the inner class
   }
 
   setItownsController(value) {
@@ -766,13 +767,13 @@ class MenuCityMockUp {
       this.iconMode.classList.remove('select_area_icon');
       this.iconMode.classList.add('town_icon');
 
-      //remove pointer lock
+      // remove pointer lock
       this.context.inputManager.setPointerLock(false);
 
-      //enable itowns rendering
+      // enable itowns rendering
       this.context.frame3D.itownsView.controls.enabled = true;
 
-      //tweak zoom factor
+      // tweak zoom factor
       const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
       this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
         .getMenuSettings()
@@ -780,17 +781,17 @@ class MenuCityMockUp {
       this.context.frame3D.itownsView.controls.zoomOutFactor =
         1 / scriptUI.getMenuSettings().getZoomFactorValue();
 
-      //remove listeners
+      // remove listeners
       this.removeListeners();
     } else {
       this.labelMode.innerHTML = 'Selectionez une région';
       this.iconMode.classList.remove('town_icon');
       this.iconMode.classList.add('select_area_icon');
 
-      //disbale itowns rendering
+      // disbale itowns rendering
       this.context.frame3D.itownsView.controls.enabled = false;
 
-      //add listeners
+      // add listeners
       let isDragging = false;
 
       const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -802,7 +803,7 @@ class MenuCityMockUp {
       const selectAreaObject = new THREE.Mesh(geometry, material);
       selectAreaObject.name = 'Select Area Menu Object';
 
-      //compute z + height of the box
+      // compute z + height of the box
       let minZ, maxZ;
 
       const mouseCoordToWorldCoord = (event, result) => {
@@ -815,7 +816,7 @@ class MenuCityMockUp {
         minZ = Math.min(minZ, result.z);
         maxZ = Math.max(maxZ, result.z);
         selectAreaObject.position.z = (minZ + maxZ) * 0.5;
-        selectAreaObject.scale.z = 50 + maxZ - minZ; //50 higher to see it
+        selectAreaObject.scale.z = 50 + maxZ - minZ; // 50 higher to see it
       };
 
       const worldCoordStart = new THREE.Vector3();
@@ -825,22 +826,22 @@ class MenuCityMockUp {
       const updateSelectAreaObject = () => {
         center.lerpVectors(worldCoordStart, worldCoordCurrent, 0.5);
 
-        //place on the xy plane
+        // place on the xy plane
         selectAreaObject.position.x = center.x;
         selectAreaObject.position.y = center.y;
 
-        //compute scale
+        // compute scale
         selectAreaObject.scale.x = worldCoordCurrent.x - worldCoordStart.x;
         selectAreaObject.scale.y = worldCoordCurrent.y - worldCoordStart.y;
         selectAreaObject.updateMatrixWorld();
       };
 
       const dragStart = (event) => {
-        if (checkParentChild(event.target, this.context.frame3D.ui)) return; //ui has been clicked
+        if (checkParentChild(event.target, this.context.frame3D.ui)) return; // ui has been clicked
 
-        isDragging = true; //reset
-        minZ = Infinity; //reset
-        maxZ = -Infinity; //reset
+        isDragging = true; // reset
+        minZ = Infinity; // reset
+        maxZ = -Infinity; // reset
 
         mouseCoordToWorldCoord(event, worldCoordStart);
         mouseCoordToWorldCoord(event, worldCoordCurrent);
@@ -860,7 +861,7 @@ class MenuCityMockUp {
           checkParentChild(event.target, this.context.frame3D.ui) ||
           !isDragging
         )
-          return; //ui
+          return; // ui
 
         mouseCoordToWorldCoord(event, worldCoordCurrent);
         updateSelectAreaObject();
@@ -872,14 +873,14 @@ class MenuCityMockUp {
       );
 
       const dragEnd = () => {
-        if (!isDragging) return; //was not dragging
+        if (!isDragging) return; // was not dragging
 
         this.context.frame3D.scene.remove(selectAreaObject);
         isDragging = false;
 
-        if (worldCoordStart.equals(worldCoordCurrent)) return; //it is not an area
+        if (worldCoordStart.equals(worldCoordCurrent)) return; // it is not an area
 
-        //edit conf go
+        // edit conf go
         this.context.sendCommandToGameContext([
           new Shared.Command({
             type: Shared.Game.ScriptTemplate.Constants.COMMAND
@@ -901,7 +902,7 @@ class MenuCityMockUp {
         dragEnd
       );
 
-      //record for further dispose
+      // record for further dispose
       this.listeners.push(dragStart);
       this.listeners.push(dragging);
       this.listeners.push(dragEnd);
@@ -915,7 +916,7 @@ class MenuCityMockUp {
   dispose() {
     this.domElement.remove();
 
-    //reset inputs
+    // reset inputs
     this.removeListeners();
   }
 }
