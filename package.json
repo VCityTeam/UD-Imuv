@@ -9,6 +9,11 @@
     "packages/*"
   ],
   "scripts": {
+    "assert-code": "cross-env NODE_ENV=production node ./bin/assertCode.js",
+    "validate-links": "",
+    "eslint": "eslint --ignore-path .gitignore \"packages/**/*.js\"",
+    "eslint-quiet": "eslint --quiet --ignore-path .gitignore \"packages/**/*.js\" ",
+    "eslint-fix": "eslint --fix --ignore-path .gitignore \"packages/**/*.js\" ",
     "clean": "rm -f -r node_modules && rm -f package-lock.json && rm -f  -r ./packages/**/dist && rm -f  -r ./packages/**/node_modules",
     "clear-node": "sudo killall -9 node",
     "reset": "npm run clean && npm i",
