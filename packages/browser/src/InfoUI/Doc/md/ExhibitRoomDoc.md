@@ -4,7 +4,7 @@ _La salle d’exposition est un lieu d’échange sur une exposition virtuelle d
 
 ### La salle d'exposition se trouve ici sur la carte :
 
-![](../../img/doc/SalleExpoMap.png)
+![](../../../../assets/img/doc/SalleExpoMap.png)
 
 ## Pour rentrer dans la salle d'exposition, il faut se déplacer sur l'**arobase rouge** (Image 3) qui se trouve devant la salle.
 
