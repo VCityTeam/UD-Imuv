@@ -7,7 +7,7 @@ will require the `plantuml` cli utility for their rendering.
 
 ### The docker way
 
-If you have [docker](<https://en.wikipedia.org/wiki/Docker_(software)>) installed on your host,
+If you have [docker](https://en.wikipedia.org/wiki/Docker_(software)) installed on your host,
 then you can use `plantuml` through e.g. the
 [dockerhub's dstockhammer/plantuml image](https://github.com/dstockhammer/docker-plantuml).
 For example you might run (refer to the [makefile](./makefile))
@@ -40,8 +40,8 @@ You might consider installing e.g. [jebbs PlantUML](https://marketplace.visualst
 
 Once a plantuml source is edited, you will need to generate/update the associated
 [svg](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) file.
-If you have both [docker](<https://en.wikipedia.org/wiki/Docker_(software)>) and
-[make](<https://en.wikipedia.org/wiki/Make_(software)>) installed on your host then launching
+If you have both [docker](https://en.wikipedia.org/wiki/Docker_(software)) and
+[make](https://en.wikipedia.org/wiki/Make_(software)) installed on your host then launching
 the `make` command should suffice to do the trick.
 
 ## Resulting images

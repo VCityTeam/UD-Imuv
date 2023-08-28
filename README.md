@@ -90,7 +90,7 @@ npm run debug
 Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
 
 - launches a watcher (surveying changes in sources)
-- in case of change runs this [node.js routine](./Imuv/client/bin/debug.js) that will repack an updated bundle
+- in case of change runs this [node.js routine](./bin/debug.js) that will repack an updated bundle
 
 Then install the server:
 
@@ -103,7 +103,7 @@ npm run debug
 Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
 
 - launches a watcher (surveying changes in sources)
-- in case of change runs this [node.js routine](./Imuv/server/bin/debug.js) that will repack an updated bundle then launches the node.js server application on your desktop
+- in case of change runs this [node.js routine](./bin/debug.js) that will repack an updated bundle then launches the node.js server application on your desktop
 
 and then use your favorite (web) browser to open
 `http://localhost:8000/`.
@@ -133,7 +133,7 @@ Note that when you make a change in UD-Viz library watchers of UD-Viz-demo will 
 In VS Code you can open terminal here is the possible layout:
 
 Imuv:
-![layout_demo_full](./Doc/Devel/Pictures/imuv_layout.png)
+![layout_demo_full](./docs/Devel/Pictures/imuv_layout.png)
 
 Before to push your modifications, check check if your code respect eslint rules and if your application build correctly. For that you can use the following command:
 

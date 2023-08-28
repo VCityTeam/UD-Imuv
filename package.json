@@ -10,10 +10,11 @@
   ],
   "scripts": {
     "assert-code": "cross-env NODE_ENV=production node ./bin/assertCode.js",
-    "validate-links": "",
+    "validate-links": "node ./bin/validateLinks.js",
     "eslint": "eslint --ignore-path .gitignore \"packages/**/*.js\"",
     "eslint-quiet": "eslint --quiet --ignore-path .gitignore \"packages/**/*.js\" ",
     "eslint-fix": "eslint --fix --ignore-path .gitignore \"packages/**/*.js\" ",
+    "local-ci": "npm run eslint && npm run assert-code && npm audit --audit-level=low && npm run validate-links",
     "clean": "rm -f -r node_modules && rm -f package-lock.json && rm -f  -r ./packages/**/dist && rm -f  -r ./packages/**/node_modules",
     "clear-node": "sudo killall -9 node",
     "reset": "npm run clean && npm i",
@@ -62,5 +63,9 @@
     "url-loader": "4.1.1",
     "webpack": "^5.88.2",
     "webpack-cli": "4.5.0"
+  },
+  "dependencies": {
+    "remark-cli": "^11.0.0",
+    "remark-validate-links": "^12.1.1"
   }
 }
