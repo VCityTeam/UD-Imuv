@@ -4,9 +4,6 @@
   "description": "udv game client",
   "main": "./src/bootstrap.js",
   "scripts": {
-    "travis": " npm run eslint && npm run build",
-    "eslint": "eslint ./src",
-    "eslint-fix": "eslint ./src --fix",
     "parseWorlds": "node ./bin/parseWorlds.js",
     "parseGitLog": "node ./bin/parseGitLog.js",
     "build": "npm run parseGitLog && cross-env NODE_ENV=production webpack",
