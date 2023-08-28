@@ -1,10 +1,4 @@
-import {
-  Game,
-  add3DTilesLayers,
-  addElevationLayer,
-  addBaseMapLayer,
-  loadMultipleJSON,
-} from '@ud-viz/browser';
+import { Game, loadMultipleJSON, itowns } from '@ud-viz/browser';
 
 export class AddItownsLayer extends Game.External.ScriptBase {
   init() {
@@ -16,22 +10,73 @@ export class AddItownsLayer extends Game.External.ScriptBase {
     ]).then((configs) => {
       console.log(configs);
 
-      addBaseMapLayer(
-        configs['baseMapLayer'],
-        this.context.frame3D.itownsView,
-        this.context.userData.extent
+      this.context.frame3D.itownsView.addLayer(
+        new itowns.ColorLayer(configs.baseMapLayer, {
+          updateStrategy: {
+            type: itowns.STRATEGY_DICHOTOMY,
+            options: {},
+          },
+          source: new itowns.WMSSource({
+            extent: this.context.userData.extent,
+            name: configs.baseMapLayer.name,
+            url: configs.baseMapLayer.url,
+            version: configs.baseMapLayer.version,
+            crs: this.context.userData.extent.crs,
+            format: configs.baseMapLayer.format,
+          }),
+          transparent: true,
+        })
       );
 
-      addElevationLayer(
-        configs['elevationLayer'],
-        this.context.frame3D.itownsView,
-        this.context.userData.extent
+      const isTextureFormat =
+        configs.elevationLayer.format == 'image/jpeg' ||
+        configs.elevationLayer.format == 'image/png';
+      this.context.frame3D.itownsView.addLayer(
+        new itowns.ElevationLayer(configs.elevationLayer.layer_name, {
+          useColorTextureElevation: isTextureFormat,
+          colorTextureElevationMinZ: isTextureFormat
+            ? configs.elevationLayer.colorTextureElevationMinZ
+            : null,
+          colorTextureElevationMaxZ: isTextureFormat
+            ? configs.elevationLayer.colorTextureElevationMaxZ
+            : null,
+          source: new itowns.WMSSource({
+            extent: this.context.userData.extent,
+            url: configs.elevationLayer.url,
+            name: configs.elevationLayer.name,
+            crs: this.context.userData.extent.crs,
+            heightMapWidth: 256,
+            format: configs.elevationLayer.format,
+          }),
+        })
       );
 
-      add3DTilesLayers(
-        configs['3DTilesLayer'],
-        this.context.frame3D.itownsView
-      );
+      this.c3DTilesStyle = new itowns.Style({
+        fill: {
+          color: (feature) => {
+            return feature.userData.selectedColor
+              ? feature.userData.selectedColor
+              : 'white';
+          },
+        },
+      });
+
+      configs['3DTilesLayer'].forEach((layerConfig) => {
+        itowns.View.prototype.addLayer.call(
+          this.context.frame3D.itownsView,
+          new itowns.C3DTilesLayer(
+            layerConfig['id'],
+            {
+              style: this.c3DTilesStyle,
+              name: layerConfig['id'],
+              source: new itowns.C3DTilesSource({
+                url: layerConfig['url'],
+              }),
+            },
+            this.context.frame3D.itownsView
+          )
+        );
+      });
 
       window.dispatchEvent(new Event('ADD_ITOWNS_LAYER'));
     });
