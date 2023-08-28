@@ -28,7 +28,7 @@ const rules = [
   { test: /\.md$/, use: ['json-loader', 'front-matter-loader'] },
 ];
 
-//Inject environnement variables (they have to be declare in your .env !!!)
+// Inject environnement variables (they have to be declare in your .env !!!)
 const keyEnvVariables = ['JITSI_PUBLIC_URL', 'WBO_PUBLIC_URL'];
 const plugins = [];
 const params = {};

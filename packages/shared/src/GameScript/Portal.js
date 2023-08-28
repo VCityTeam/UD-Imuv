@@ -3,7 +3,7 @@ const Constant = require('../Constant');
 
 module.exports = class Portal extends Game.ScriptBase {
   setTransformOf(object) {
-    //portal position
+    // portal position
     object.position.copy(this.object3D.position);
 
     if (this.variables.spawnRotation) {

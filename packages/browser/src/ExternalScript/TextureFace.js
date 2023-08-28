@@ -39,7 +39,7 @@ export class TextureFace extends Game.External.ScriptBase {
   }
 
   onComponentUpdate() {
-    //retreve current material
+    // retreve current material
     let currentMaterial;
     const renderComp = this.object3D.getComponent(
       Shared.Game.Component.Render.TYPE

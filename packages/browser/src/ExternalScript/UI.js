@@ -6,28 +6,28 @@ export class UI extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    //menu settings
+    // menu settings
     this.menuSettings = null;
 
-    //display debug info
+    // display debug info
     this.debugInfo = new DebugInfo();
 
-    //toolsbar ui
+    // toolsbar ui
     this.toolsBar = new ToolsBar();
 
-    //contextual menu
+    // contextual menu
     this.toolsContextualMenu = new ToolsContextualMenu();
 
-    //map ui
+    // map ui
     this.mapUI = new MapUI();
 
-    //gadget
+    // gadget
     this.gadgetUI = new GadgetUI();
 
-    //social ui
+    // social ui
     this.socialUI = new SocialUI();
 
-    //label info
+    // label info
     this.labelInfo = new LabelInfo();
   }
 
@@ -36,43 +36,43 @@ export class UI extends Game.External.ScriptBase {
   }
 
   init() {
-    //FILL UI WITH CONTAINER
+    // FILL UI WITH CONTAINER
 
-    //Toolsbar
+    // Toolsbar
     this.context.frame3D.domElementUI.appendChild(this.toolsBar.html());
 
-    //contextual
+    // contextual
     this.context.frame3D.domElementUI.appendChild(
       this.toolsContextualMenu.html()
     );
 
-    //mapUI
+    // mapUI
     this.context.frame3D.domElementUI.appendChild(this.mapUI.html());
 
-    //gadget ui
+    // gadget ui
     this.context.frame3D.domElementUI.appendChild(this.gadgetUI.html());
 
-    //social ui
+    // social ui
     this.context.frame3D.domElementUI.appendChild(this.socialUI.html());
 
-    //label info
+    // label info
     this.context.frame3D.domElementUI.appendChild(this.labelInfo.html());
 
-    //DEBUG variable is going to be replace by webpack
+    // DEBUG variable is going to be replace by webpack
     // eslint-disable-next-line no-undef
     if (DEBUG) {
       this.context.frame3D.domElementUI.appendChild(this.debugInfo.html());
     }
 
-    //Gadget Menu Settings
+    // Gadget Menu Settings
     const menuSettings = new MenuSettings(this.context);
-    this.menuSettings = menuSettings; //ref to be access from other scripts
+    this.menuSettings = menuSettings; // ref to be access from other scripts
 
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_settings.png',
       'Paramètres',
       () => {
-        //pause gameview
+        // pause gameview
         this.context.frame3D.setIsRendering(false);
         this.context.inputManager.setPause(true);
         this.context.frame3D.domElementUI.appendChild(menuSettings.html());
@@ -85,7 +85,7 @@ export class UI extends Game.External.ScriptBase {
       }
     );
 
-    //Gadget Link URL
+    // Gadget Link URL
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_link.png',
       'Copier Lien',
@@ -103,7 +103,7 @@ export class UI extends Game.External.ScriptBase {
           iconImg.disable = cloneImg.disable;
         }, 1000);
 
-        //get params event
+        // get params event
         const avatarGO = this.context.object3D.getObjectByProperty(
           'uuid',
           this.context.userData.avatarUUID
@@ -133,12 +133,12 @@ export class UI extends Game.External.ScriptBase {
           encodeURIComponent(worldUUID)
         );
 
-        //put it in clipboard
+        // put it in clipboard
         navigator.clipboard.writeText(url);
       }
     );
 
-    //Gadget menu avatar
+    // Gadget menu avatar
     if (
       this.context.userData.role == Constant.USER.ROLE.ADMIN ||
       this.context.userData.role == Constant.USER.ROLE.DEFAULT
@@ -147,17 +147,19 @@ export class UI extends Game.External.ScriptBase {
         './assets/img/ui/icon_menu_avatar.png',
         'Menu Avatar',
         () => {
-          //pause gameview
+          // pause gameview
           this.context.frame3D.setIsRendering(false);
           this.context.inputManager.setPause(true);
 
-          //register
+          // register
+          // eslint-disable-next-line no-unused-vars
           const parentHtml = this.context.frame3D.html().parentNode;
 
-          //remove html
+          // remove html
           this.context.frame3D.html().remove();
 
-          //create world
+          // create world
+          // eslint-disable-next-line no-unused-vars
           const menuAvatar = new Shared.Game.Object3D({
             name: 'MenuAvatar',
             static: true,
@@ -168,7 +170,8 @@ export class UI extends Game.External.ScriptBase {
             },
           });
 
-          //launch menu avatar
+          // launch menu avatar
+          // eslint-disable-next-line no-unused-vars
           loadJSON('./assets/config/config.json').then((config) => {
             console.error('no reimplemented yet');
             // const app = new udviz.Templates.LocalGame();
@@ -215,9 +218,9 @@ export class UI extends Game.External.ScriptBase {
       );
     }
 
-    //Gadget fullscreen
+    // Gadget fullscreen
     this.gadgetUI.addGadget('./assets/img/ui/icon_fullscreen.png', '', () => {
-      //toggle fullscreen
+      // toggle fullscreen
 
       const elem = document.documentElement;
       function openFullscreen() {
@@ -270,7 +273,7 @@ export class UI extends Game.External.ScriptBase {
 
     this.context.frame3D.domElementUI.appendChild(content);
 
-    //pause avatar command stop rendering
+    // pause avatar command stop rendering
     this.context.frame3D.setIsRendering(false);
     const avatarController = this.context.findExternalScriptWithID(
       AvatarController.ID_SCRIPT
@@ -282,7 +285,7 @@ export class UI extends Game.External.ScriptBase {
       content.remove();
       closebutton.remove();
 
-      //restore rendering + avatar command
+      // restore rendering + avatar command
       this.context.frame3D.setIsRendering(true);
       avatarController.setAvatarControllerMode(true);
     };
@@ -309,7 +312,7 @@ export class UI extends Game.External.ScriptBase {
 
     const closeMenu = function () {
       return new Promise(function (resolve) {
-        const promise = new Promise(bind_trailing_args(promiseFunction, true)); //true onClose
+        const promise = new Promise(bind_trailing_args(promiseFunction, true)); // true onClose
         promise.then(function (success) {
           if (success) {
             toolsContextualMenu.remove(menuContextual).then(function () {
@@ -322,7 +325,7 @@ export class UI extends Game.External.ScriptBase {
 
     const openMenu = function () {
       return new Promise(function (resolve) {
-        const promise = new Promise(bind_trailing_args(promiseFunction, false)); //false onClose
+        const promise = new Promise(bind_trailing_args(promiseFunction, false)); // false onClose
         promise.then(function (success) {
           if (success) {
             toolsContextualMenu.add(menuContextual, closeMenu);
@@ -408,7 +411,7 @@ class DebugInfo {
    * @param {*} variables
    */
   update(context, variables) {
-    //update ui
+    // update ui
     this.gameViewFps.innerHTML =
       'Client FPS = ' + Math.round(1000 / context.dt);
 
@@ -533,7 +536,7 @@ class MenuSettings {
       this.context.socketIOWrapper.emit(
         Constant.WEBSOCKET.MSG_TYPE.SAVE_SETTINGS,
         {
-          //SETTINGS MODEL IS DESCRIBE HERE
+          // SETTINGS MODEL IS DESCRIBE HERE
           fogValue: this.fogSlider.value,
           zoomFactor: this.zoomFactorSlider.value,
           mouseSensitivitySlider: this.mouseSensitivitySlider.value,
@@ -548,7 +551,7 @@ class MenuSettings {
     return saveButton;
   }
 
-  //GRAPHICS SECTION
+  // GRAPHICS SECTION
   createGraphicsSection(parentElement) {
     const graphicsSection = document.createElement('section');
     graphicsSection.classList.add('graphics-section');
@@ -584,7 +587,7 @@ class MenuSettings {
     const textureSizeOptionDiv = this.createTextureSizeOptionDiv(dirLight);
     graphicsSection.appendChild(textureSizeOptionDiv);
 
-    /*---Other---*/
+    /* ---Other---*/
     // Fog option
     const fogOptionDiv = this.createFogOptionDiv();
     graphicsSection.appendChild(fogOptionDiv);
@@ -593,21 +596,21 @@ class MenuSettings {
   }
 
   createSunOptionDiv(dirLight) {
-    //parent
+    // parent
     const sunOptionDiv = document.createElement('div');
 
-    //label
+    // label
     const labelEnableDirect = document.createElement('div');
     labelEnableDirect.innerHTML = 'Soleil';
     labelEnableDirect.classList.add('label-menu-settings');
     sunOptionDiv.appendChild(labelEnableDirect);
 
-    //checkbox
+    // checkbox
     const checkboxDirect = document.createElement('input');
     checkboxDirect.type = 'checkbox';
     sunOptionDiv.appendChild(checkboxDirect);
 
-    //check is settings has been saved
+    // check is settings has been saved
     if (this.context.userData.settings.sunValue != undefined) {
       dirLight.visible = this.context.userData.settings.sunValue;
     }
@@ -622,21 +625,21 @@ class MenuSettings {
   }
 
   createShadowOptionDiv(dirLight) {
-    //parent
+    // parent
     const shadowOptionDiv = document.createElement('div');
 
-    //label
+    // label
     const labelEnable = document.createElement('div');
     labelEnable.innerHTML = 'Ombres';
     labelEnable.classList.add('label-menu-settings');
     shadowOptionDiv.appendChild(labelEnable);
 
-    //checkbox
+    // checkbox
     const shadowCheckbox = document.createElement('input');
     shadowCheckbox.type = 'checkbox';
     shadowOptionDiv.appendChild(shadowCheckbox);
 
-    //check is settings has been saved
+    // check is settings has been saved
     if (this.context.userData.settings.shadowValue != undefined) {
       dirLight.castShadow = this.context.userData.settings.shadowValue;
     }
@@ -652,7 +655,7 @@ class MenuSettings {
   }
 
   createTextureSizeOptionDiv(dirLight) {
-    //size
+    // size
     const textureSizeOptionDiv = document.createElement('div');
     this.domElement.appendChild(textureSizeOptionDiv);
     const labelSize = document.createElement('div');
@@ -660,7 +663,7 @@ class MenuSettings {
     labelSize.classList.add('label-menu-settings');
     textureSizeOptionDiv.appendChild(labelSize);
 
-    //select
+    // select
     const selectSize = document.createElement('select');
     textureSizeOptionDiv.appendChild(selectSize);
 
@@ -672,7 +675,7 @@ class MenuSettings {
       selectSize.appendChild(option);
     });
 
-    //check is settings has been saved
+    // check is settings has been saved
     if (!isNaN(this.context.userData.settings.shadowMapSize)) {
       dirLight.shadow.mapSize.width =
         this.context.userData.settings.shadowMapSize;
@@ -687,7 +690,7 @@ class MenuSettings {
   }
 
   createFogOptionDiv() {
-    //init fog according extent
+    // init fog according extent
 
     const max = Math.max(
       this.context.userData.extent.north - this.context.userData.extent.south,
@@ -702,7 +705,7 @@ class MenuSettings {
       max
     );
 
-    //check is settings has been saved
+    // check is settings has been saved
     if (!isNaN(this.context.userData.settings.fogValue)) {
       this.context.frame3D.scene.fog.far =
         this.context.userData.settings.fogValue;
@@ -725,7 +728,7 @@ class MenuSettings {
 
     this.fogSlider = slider;
 
-    //callbakc
+    // callbakc
     slider.onchange = () => {
       this.context.frame3D.scene.fog.far = slider.value;
     };
@@ -738,12 +741,12 @@ class MenuSettings {
     const audioSection = document.createElement('section');
     audioSection.classList.add('audio-section');
 
-    //title
+    // title
     const audioTitle = document.createElement('h2');
     audioTitle.innerHTML = 'Audio';
     audioSection.appendChild(audioTitle);
 
-    //audio slider
+    // audio slider
     const audioSliderDiv = this.createVolumeSliderDiv();
     audioSection.appendChild(audioSliderDiv);
 
@@ -758,7 +761,7 @@ class MenuSettings {
     labelGlobalSound.classList.add('label-menu-settings');
     audioSliderDiv.appendChild(labelGlobalSound);
 
-    //check is settings has been saved
+    // check is settings has been saved
     if (!isNaN(this.context.userData.settings.volumeValue)) {
       // eslint-disable-next-line no-undef
       Howler.volume(this.context.userData.settings.volumeValue); // Howler is global
@@ -775,10 +778,10 @@ class MenuSettings {
 
     this.volumeSlider = globalVolumeSlider;
 
-    //callbakc
+    // callbakc
     globalVolumeSlider.onchange = function () {
       // eslint-disable-next-line no-undef
-      Howler.volume(this.value); //Howler is global
+      Howler.volume(this.value); // Howler is global
     };
 
     return audioSliderDiv;
@@ -789,7 +792,7 @@ class MenuSettings {
     const controlsSection = document.createElement('section');
     controlsSection.classList.add('controls-section');
 
-    //title
+    // title
     const controlsTitle = document.createElement('h2');
     controlsTitle.innerHTML = 'Contrôles';
     controlsSection.appendChild(controlsTitle);
@@ -806,11 +809,11 @@ class MenuSettings {
   }
 
   createMouseSensitivitysDiv() {
-    //init fog according extent
+    // init fog according extent
     const max = 40;
     const min = 3;
 
-    //check is settings has been saved
+    // check is settings has been saved
     let init = (min + max) / 2;
     if (!isNaN(this.context.userData.settings.mouseSensitivitySlider)) {
       init = this.context.userData.settings.mouseSensitivitySlider;
@@ -837,11 +840,11 @@ class MenuSettings {
   }
 
   createZoomFactorDiv() {
-    //init fog according extent
+    // init fog according extent
     const max = 2.5;
     const min = 1.2;
 
-    //check is settings has been saved
+    // check is settings has been saved
     let init = (min + max) / 2;
     if (!isNaN(this.context.userData.settings.zoomFactor)) {
       init = this.context.userData.settings.zoomFactor;
@@ -951,7 +954,7 @@ class ToolsContextualMenu {
     this.closeFunction = null;
     this.available = false;
 
-    menu.isClosing = true; //TODO LIKE DISPOSE HTML CREATE A ISCLOSING FLAG IN CONTEXTUAL MENU GENERIC WAIT FOR REFACTO (is coming ...)
+    menu.isClosing = true; // TODO LIKE DISPOSE HTML CREATE A ISCLOSING FLAG IN CONTEXTUAL MENU GENERIC WAIT FOR REFACTO (is coming ...)
 
     return new Promise((resolve) => {
       this.domElement.style.transform = 'translate(-100%,-50%)';
@@ -959,7 +962,7 @@ class ToolsContextualMenu {
 
       setTimeout(() => {
         menu.dispose();
-        menu.isClosing = false; //TODO LIKE DISPOSE HTML CREATE A ISCLOSING FLAG IN CONTEXTUAL MENU GENERIC WAIT FOR REFACTO (is coming ...)
+        menu.isClosing = false; // TODO LIKE DISPOSE HTML CREATE A ISCLOSING FLAG IN CONTEXTUAL MENU GENERIC WAIT FOR REFACTO (is coming ...)
         this.available = true;
         resolve();
       }, duration);
@@ -1000,7 +1003,7 @@ class MapUI {
   add(scriptMap) {
     this.currentMapScript = scriptMap;
 
-    //Map interface
+    // Map interface
     this.domElement.appendChild(scriptMap.html());
     scriptMap.setDisplayMap(true);
 
@@ -1008,7 +1011,7 @@ class MapUI {
     buttonsDiv.classList.add('map_buttons');
     this.domElement.appendChild(buttonsDiv);
 
-    //add button
+    // add button
     const minimizeTitle = 'Réduire';
     const minimizeSrc = './assets/img/ui/icon_minimize.png';
     const maximizeTitle = 'Agrandir';
@@ -1062,7 +1065,7 @@ class MapUI {
       this.domElement.firstChild.remove();
     }
 
-    //no display for old script map
+    // no display for old script map
     if (this.currentMapScript) {
       this.currentMapScript.setDisplayMap(false);
       this.currentMapScript = null;

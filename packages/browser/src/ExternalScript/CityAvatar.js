@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export class CityAvatar {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -15,37 +17,36 @@ export class CityAvatar {
       localCtx.getGameView().getUserData('avatarUUID') !=
       this.go.getParentUUID()
     ) {
-      //ignore city avatar other
+      // ignore city avatar other
       return;
     }
 
-    //avatar_controller
+    // avatar_controller
     const avatarController =
       localCtx.findExternalScriptWithID('avatar_controller');
     if (!avatarController) throw new Error('no avatar controller script');
 
-    //remove avatar controls
+    // remove avatar controls
     avatarController.setAvatarControllerMode(false, localCtx);
 
     const _this = this;
 
-    //routine camera
+    // routine camera
     const camera = localCtx.getGameView().getCamera();
     const cameraScript = localCtx.findExternalScriptWithID('camera');
 
-    //buffer
+    // buffer
     const duration = 2000;
     const startPos = camera.position.clone();
     const startQuat = camera.quaternion.clone();
     let currentTime = 0;
 
-    //first travelling
+    // first travelling
     cameraScript.addRoutine(
       new Game.Components.Routine(
         function (dt) {
           cameraScript.focusCamera.setTarget(_this.go);
           const t = cameraScript.focusCamera.computeTransformTarget(
-            null,
             cameraScript.getDistanceCameraAvatar()
           );
 
@@ -71,7 +72,7 @@ export class CityAvatar {
 
   setCityAvatarController(value, localContext) {
     const avatarUUID = localContext.getGameView().getUserData('avatarUUID');
-    if (this.go.getParent().getUUID() != avatarUUID) return; //only controls its own city avatar
+    if (this.go.getParent().getUUID() != avatarUUID) return; // only controls its own city avatar
 
     const scriptUI = localContext.findExternalScriptWithID('ui');
     const goUUID = this.go.getUUID();
@@ -79,7 +80,7 @@ export class CityAvatar {
 
     const userID = localContext.getGameView().getUserData('userID');
 
-    //Input manager of the game
+    // Input manager of the game
     const inputManager = localContext.getGameView().getInputManager();
 
     const commandIdForward = 'cmd_forward';
@@ -94,7 +95,7 @@ export class CityAvatar {
 
       const cityMapScript = localContext.findExternalScriptWithID('city_map');
       if (!cityMapScript) console.error('no city map script');
-      //add citymap
+      // add citymap
       scriptUI.addToMapUI(
         cityMapScript,
         localContext.getGameView().getLocalScriptModules()['ImuvConstants']
@@ -102,7 +103,7 @@ export class CityAvatar {
 
       scriptUI.getLabelInfo().writeLabel(goUUID, 'E');
 
-      //FORWARD
+      // FORWARD
       inputManager.addKeyCommand(
         commandIdForward,
         ['z', 'ArrowUp'],
@@ -116,7 +117,7 @@ export class CityAvatar {
         }
       );
 
-      //BACKWARD
+      // BACKWARD
       inputManager.addKeyCommand(
         commandIdBackward,
         ['s', 'ArrowDown'],
@@ -130,7 +131,7 @@ export class CityAvatar {
         }
       );
 
-      //LEFT
+      // LEFT
       inputManager.addKeyCommand(
         commandIdLeft,
         ['q', 'ArrowLeft'],
@@ -144,7 +145,7 @@ export class CityAvatar {
         }
       );
 
-      //RIGHT
+      // RIGHT
       inputManager.addKeyCommand(
         commandIdRight,
         ['d', 'ArrowRight'],
@@ -158,7 +159,7 @@ export class CityAvatar {
         }
       );
 
-      //ROTATE
+      // ROTATE
 
       inputManager.addMouseCommand(commandIdRotate, 'mousemove', function () {
         if (
@@ -190,7 +191,7 @@ export class CityAvatar {
         return null;
       });
 
-      //Esc city avatar mode
+      // Esc city avatar mode
       inputManager.addKeyCommand(commandIdEscape, ['e'], function () {
         return new Game.Command({
           gameObjectUUID: parentGoUUID,
@@ -221,29 +222,28 @@ export class CityAvatar {
       localCtx.getGameView().getUserData('avatarUUID') !=
       this.go.getParentUUID()
     ) {
-      //ignore city avatar other
+      // ignore city avatar other
       return;
     }
 
     this.setCityAvatarController(false, localCtx);
 
-    //routine camera
+    // routine camera
     const camera = localCtx.getGameView().getCamera();
     const cameraScript = localCtx.findExternalScriptWithID('camera');
 
-    //buffer
+    // buffer
     const duration = 2000;
     const startPos = camera.position.clone();
     const startQuat = camera.quaternion.clone();
     let currentTime = 0;
 
-    //first travelling
+    // first travelling
     cameraScript.addRoutine(
       new Game.Components.Routine(
         function (dt) {
           cameraScript.focusCamera.setTarget(cameraScript.getAvatarGO());
           const t = cameraScript.focusCamera.computeTransformTarget(
-            null,
             cameraScript.getDistanceCameraAvatar()
           );
 
@@ -261,11 +261,11 @@ export class CityAvatar {
           return ratio >= 1;
         },
         function () {
-          //avatar_controller
+          // avatar_controller
           const avatarController =
             localCtx.findExternalScriptWithID('avatar_controller');
           if (!avatarController) throw new Error('no avatar controller script');
-          //restore avatar controls
+          // restore avatar controls
           avatarController.setAvatarControllerMode(true, localCtx);
         }
       )
@@ -273,10 +273,10 @@ export class CityAvatar {
   }
 
   tick() {
-    //the gameobject parent of this script
+    // the gameobject parent of this script
     const go = arguments[0];
 
-    //a context containing all data to script clientside script
+    // a context containing all data to script clientside script
     const localContext = arguments[1];
 
     const wT = go.computeWorldTransform();
@@ -294,11 +294,11 @@ export class CityAvatar {
       udviz.itowns.DEMUtils.getElevationValueAt(
         gameView.getItownsView().tileLayer,
         new udviz.itowns.Coordinates(gameView.projection, worldPos),
-        1 //PRECISE_READ_Z
+        1 // PRECISE_READ_Z
       ) - zParent;
 
     if (editorMode) {
-      //add commands to the computer directly because not produce by the inputmanager
+      // add commands to the computer directly because not produce by the inputmanager
       const computer = localContext
         .getGameView()
         .getInterpolator()

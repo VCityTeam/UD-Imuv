@@ -37,12 +37,12 @@ export class GameObjectUI {
    * @returns Nothing.
    */
   initBaseUI(go, obj, goEditor) {
-    //UUID
+    // UUID
     const uuidLabel = document.createElement('div');
     uuidLabel.innerHTML = go.getUUID();
     this.rootElementUI.appendChild(uuidLabel);
 
-    //Name
+    // Name
     const inputName = document.createElement('input');
     inputName.type = 'text';
     inputName.style.display = 'block';
@@ -54,7 +54,7 @@ export class GameObjectUI {
       goEditor.updateUI();
     };
 
-    //Transfom UI
+    // Transfom UI
     const cbOnChange = function () {
       go.setTransformFromObject3D(obj);
     };
@@ -103,7 +103,7 @@ export class GameObjectUI {
 
     this.rootElementUI.appendChild(vec3InputScale);
 
-    //clone
+    // clone
     const cloneButton = document.createElement('div');
     cloneButton.classList.add('button_Editor');
     cloneButton.innerHTML = 'Clone';
@@ -202,6 +202,8 @@ export class GameObjectUI {
   getRootElementUI() {
     return this.rootElementUI;
   }
+
+  /* eslint-disable */
 
   appendLSImageUI(gV) {
     new LocalScriptImageUI(this.go, this.content, gV);

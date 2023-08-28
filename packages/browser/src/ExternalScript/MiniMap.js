@@ -23,7 +23,7 @@ export class MiniMap extends Game.External.ScriptBase {
     this.renderer.setSize(MINI_MAP_SIZE, MINI_MAP_SIZE);
     this.renderer.setClearColor(0xffffff, 0);
 
-    //what is display
+    // what is display
     this.domElement = document.createElement('div');
     this.domElement.style.position = 'relative';
 
@@ -39,16 +39,16 @@ export class MiniMap extends Game.External.ScriptBase {
     this.portalIcons = [];
     this.defaultCanvas = null;
 
-    //map is displayed or not
+    // map is displayed or not
     this.displayMap = false;
 
-    //mode
+    // mode
     this.clickMode = null;
 
-    //ping
+    // ping
     this.pings = [];
 
-    //info div
+    // info div
     this.infoDivs = [];
   }
 
@@ -105,7 +105,7 @@ export class MiniMap extends Game.External.ScriptBase {
       const ratioX = (x - rect.left) / (rect.right - rect.left);
       const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
 
-      //check mode
+      // check mode
       if (this.clickMode === Constant.MAP_CLICK_MODE.TELEPORT) {
         const teleportPosition = new THREE.Vector3(
           (ratioX - 0.5) * this.variables.mini_map_size,
@@ -156,15 +156,15 @@ export class MiniMap extends Game.External.ScriptBase {
     this.context.object3D.traverse((child) => {
       if (!child.userData.isPortal) return;
 
-      //check if intersecting a dropdown menu (portalIcons)
+      // check if intersecting a dropdown menu (portalIcons)
 
-      //position
+      // position
       const portalPosition = new THREE.Vector2(
         100 * (0.5 + child.position.x / (pixelSize * MINI_MAP_SIZE)),
         100 * (0.5 - child.position.y / (pixelSize * MINI_MAP_SIZE))
       );
 
-      //callback
+      // callback
       const callbackPortal = (event) => {
         const x = event.pageX;
         const y = event.pageY;
@@ -183,7 +183,7 @@ export class MiniMap extends Game.External.ScriptBase {
       };
 
       let intersectPortalIcons = false;
-      const intersectionDist = (100 * 20) / MINI_MAP_SIZE; //TODO pick in css of map_UI could be compute procedurally
+      const intersectionDist = (100 * 20) / MINI_MAP_SIZE; // TODO pick in css of map_UI could be compute procedurally
 
       for (let index = 0; index < this.portalIcons.length; index++) {
         const portalIcon = this.portalIcons[index];
@@ -192,11 +192,11 @@ export class MiniMap extends Game.External.ScriptBase {
         if (menuPosition.distanceTo(portalPosition) < intersectionDist) {
           intersectPortalIcons = true;
 
-          //modify menu position TODO this is not the good way because only work well for two item in the list
+          // modify menu position TODO this is not the good way because only work well for two item in the list
           const newPosition = menuPosition.lerp(portalPosition, 0.5);
           portalIcon.setPosition(newPosition);
 
-          //add item in the list
+          // add item in the list
           portalIcon.addItem(child.name, callbackPortal);
 
           break;
@@ -204,7 +204,7 @@ export class MiniMap extends Game.External.ScriptBase {
       }
 
       if (!intersectPortalIcons) {
-        //create a portal icon
+        // create a portal icon
         const portalIcon = new DropDownMenu();
         portalIcon.setPosition(portalPosition);
         portalIcon.addItem(child.name, callbackPortal);
@@ -232,7 +232,7 @@ export class MiniMap extends Game.External.ScriptBase {
   }
 
   createDivInfo(ratioXStart, ratioYStart, ratioXEnd, ratioYEnd, text) {
-    //create a html div
+    // create a html div
     const div = document.createElement('div');
     div.classList.add('map_info');
 
@@ -253,8 +253,8 @@ export class MiniMap extends Game.External.ScriptBase {
   }
 
   createDivInfos() {
-    //Point interest HARD CODED
-    //TODO : Compute ratio from positions in the world. Store a list of points of interest with their positions in the world.
+    // Point interest HARD CODED
+    // TODO : Compute ratio from positions in the world. Store a list of points of interest with their positions in the world.
     this.createDivInfo(
       390 / 700,
       445 / 700,
@@ -338,7 +338,7 @@ export class MiniMap extends Game.External.ScriptBase {
       0.001,
       1000
     );
-    camera.position.z = 100; //to be sure to not cull something
+    camera.position.z = 100; // to be sure to not cull something
     camera.updateProjectionMatrix();
 
     /* Rendering the scene to a background image. */
@@ -418,7 +418,7 @@ export class MiniMap extends Game.External.ScriptBase {
    */
   tick() {
     if (!this.defaultCanvas || !this.displayMap) return;
-    //write
+    // write
     const destCtx = this.canvasMiniMap.getContext('2d');
     destCtx.clearRect(
       0,
@@ -434,7 +434,7 @@ export class MiniMap extends Game.External.ScriptBase {
       AVATAR_SIZE_MIN +
       (AVATAR_SIZE_MAX - AVATAR_SIZE_MIN) * Math.abs(Math.cos(this.currentDT));
 
-    //draw avatars
+    // draw avatars
     const pixelSize = this.variables.mini_map_size / MINI_MAP_SIZE;
     const drawAvatar = (avatarGO, size) => {
       const c = {
@@ -456,7 +456,7 @@ export class MiniMap extends Game.External.ScriptBase {
         return y * cos + x * sin;
       };
 
-      //draw triangle
+      // draw triangle
       const ratioTriangle = 0.6;
       destCtx.beginPath();
       destCtx.moveTo(
@@ -476,7 +476,7 @@ export class MiniMap extends Game.External.ScriptBase {
     };
 
     this.context.object3D.traverse((child) => {
-      //retrieve avatar base on their name maybe it should be another way
+      // retrieve avatar base on their name maybe it should be another way
       if (child.userData.isAvatar) {
         if (child.uuid === this.context.userData.avatarUUID) {
           drawAvatar(child, userAvatarSize);
@@ -486,16 +486,16 @@ export class MiniMap extends Game.External.ScriptBase {
       }
     });
 
-    //draw pings
+    // draw pings
     for (let i = this.pings.length - 1; i >= 0; i--) {
       const ping = this.pings[i];
       if (ping.draw(destCtx, this.context.dt)) {
-        //end remove it
+        // end remove it
         this.pings.splice(i, 1);
       }
     }
 
-    //feedbacks clickable
+    // feedbacks clickable
     if (this.canvasMiniMap.style.cursor == 'pointer') {
       const brightnessValue =
         120 + (150 - 120) * Math.abs(Math.cos(this.currentDT));
@@ -547,7 +547,7 @@ class Ping {
   draw(context2D, dt) {
     this.currentTime += dt;
 
-    //draw context2D
+    // draw context2D
     const radius = (this.maxSize * this.currentTime) / this.duration;
     context2D.beginPath();
     context2D.lineWidth = 3;
@@ -557,9 +557,8 @@ class Ping {
 
     if (this.currentTime >= this.duration) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 }
 

@@ -20,7 +20,7 @@ export class LocalScriptWhiteboardUI {
 
   initHtml(conf) {
     const content = this.content;
-    //title
+    // title
     const titleWhiteboard = document.createElement('h3');
     titleWhiteboard.innerHTML = 'Whiteboard:';
     content.appendChild(titleWhiteboard);

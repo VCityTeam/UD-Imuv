@@ -21,7 +21,7 @@ export class CameraTour extends Game.External.ScriptBase {
       'Tour Images',
       (resolve, reject, onClose) => {
         if (cameraManager.currentMovement) {
-          resolve(false); //cant open/close menu while camera is moving
+          resolve(false); // cant open/close menu while camera is moving
           return;
         }
 
@@ -57,13 +57,13 @@ class MenuTour {
     title.innerHTML = object3D.name;
     this.domElement.appendChild(title);
 
-    //init state camera
+    // init state camera
     if (this.variables.camera_transforms.length <= 0) return;
 
     this.currentIndex = 0;
     this.isTraveling = false;
 
-    //slider
+    // slider
     const slider = document.createElement('input');
     slider.type = 'range';
     slider.min = 0;
@@ -72,7 +72,7 @@ class MenuTour {
     slider.value = this.currentIndex;
     this.domElement.appendChild(slider);
 
-    //next previous
+    // next previous
     const parentPreviousNext = document.createElement('div');
     this.domElement.appendChild(parentPreviousNext);
 
@@ -86,7 +86,7 @@ class MenuTour {
     nextButton.innerHTML = '>';
     parentPreviousNext.appendChild(nextButton);
 
-    //cb
+    // cb
 
     previousButton.onclick = () => {
       const oldIndex = this.currentIndex;

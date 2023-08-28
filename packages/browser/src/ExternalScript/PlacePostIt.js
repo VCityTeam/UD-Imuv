@@ -6,12 +6,12 @@ import { UI } from './UI';
 
 export class PlacePostIt extends Game.External.ScriptBase {
   init() {
-    //controller
+    // controller
     const avatarController = this.context.findExternalScriptWithID(
       AvatarController.ID_SCRIPT
     );
 
-    //add tool
+    // add tool
     const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
 
     const menuPostIt = new MenuPostIt(this.context, this.fetchStaticObject());
@@ -53,18 +53,18 @@ class MenuPostIt {
     postitHtml.classList.add('post-it');
     this.domElement.appendChild(postitHtml);
 
-    //input
+    // input
     const textAreaMessage = document.createElement('textarea');
     textAreaMessage.placeholder = 'Post-it message...';
     postitHtml.appendChild(textAreaMessage);
 
-    //create button
+    // create button
     const placePostItImage = document.createElement('img');
     placePostItImage.src = './assets/img/ui/icon_drag_post_it.png';
     placePostItImage.classList.add('draggable');
     this.domElement.appendChild(placePostItImage);
 
-    //callbacks
+    // callbacks
     const raycaster = new THREE.Raycaster();
 
     externalContext.inputManager.addMouseInput(
@@ -73,7 +73,7 @@ class MenuPostIt {
       (event) => {
         if (event.target != placePostItImage) return;
 
-        //TODO maybe this is not working in editor cause of the left bar ui but for some reason offsetY is not working in that case
+        // TODO maybe this is not working in editor cause of the left bar ui but for some reason offsetY is not working in that case
         const mouse = new THREE.Vector2(
           -1 +
             (2 * event.clientX) /
@@ -103,21 +103,21 @@ class MenuPostIt {
 
           const postitGo = PrefabFactory.postIt();
 
-          //rotate
+          // rotate
           const quaternion = new THREE.Quaternion().setFromUnitVectors(
             new THREE.Vector3(0, 0, 1),
             normal
           );
           postitGo.quaternion.multiply(quaternion);
 
-          //avoid z fighting
+          // avoid z fighting
           postitGo.position.copy(
             point
               .sub(externalContext.object3D.position)
               .add(normal.clone().setLength(0.08))
           );
 
-          //write message
+          // write message
           const message = textAreaMessage.value;
           const externalScriptComp = postitGo.getComponent(
             Shared.Game.Component.ExternalScript.TYPE

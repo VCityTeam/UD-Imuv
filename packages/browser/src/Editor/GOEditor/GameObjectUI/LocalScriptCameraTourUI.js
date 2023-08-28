@@ -2,11 +2,11 @@ import { LocalScript } from 'ud-viz/src/Game/Game';
 
 export class LocalScriptCameraTourUI {
   constructor(goUI, gV) {
-    //variables
+    // variables
     const content = goUI.content;
     const go = goUI.go;
 
-    //get ls component
+    // get ls component
     const lsComp = go.getComponent(LocalScript.TYPE);
     if (!lsComp) throw new Error('no localscript');
 
@@ -27,22 +27,22 @@ export class LocalScriptCameraTourUI {
     if (!lsComp) throw new Error('no localscript');
 
     lsComp.conf.camera_transforms.forEach(function (ct, index) {
-      //focus
+      // focus
       const focusButton = document.createElement('button');
       focusButton.innerHTML = 'Focus ' + index;
       _this.rootHtml.appendChild(focusButton);
 
-      //delete
+      // delete
       const deleteButton = document.createElement('button');
       deleteButton.innerHTML = 'Delete ' + index;
       _this.rootHtml.appendChild(deleteButton);
 
-      //backspace
+      // backspace
       const br = document.createElement('div');
       br.innerHTML = '<br>';
       _this.rootHtml.appendChild(br);
 
-      //callback
+      // callback
       deleteButton.onclick = function () {
         lsComp.conf.camera_transforms.splice(index, 1);
         _this.buildUI(go, gV);
@@ -61,7 +61,7 @@ export class LocalScriptCameraTourUI {
     this.rootHtml.appendChild(addCameraTransform);
 
     addCameraTransform.onclick = function () {
-      //add camera transform in conf
+      // add camera transform in conf
       const camera = gV.getCamera();
       const position = camera.position.toArray();
       const quaternion = camera.quaternion.toArray();

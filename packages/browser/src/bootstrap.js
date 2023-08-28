@@ -1,9 +1,7 @@
-import { Data } from '@ud-viz/shared';
-import { SocketIOWrapper, AssetManager } from '@ud-viz/browser';
+import { SocketIOWrapper } from '@ud-viz/browser';
 import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
 import { InfoUI } from './InfoUI/InfoUI';
 import { ReceptionView } from './Reception/Reception';
-import { SignInView } from './Sign/Sign';
 
 const domBody = document.body;
 
@@ -32,7 +30,7 @@ const addReceptionView = () => {
 
 addReceptionView();
 
-//Check URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD to decide what to do
+// Check URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD to decide what to do
 // const paramsUrl = new URLSearchParams(window.location.search);
 
 // if (paramsUrl.has(UDIMUVConstant.URL_PARAMETER.ID_KEY)) {

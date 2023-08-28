@@ -17,7 +17,7 @@ export class PortalSweep extends Game.External.ScriptBase {
     fadeInHtmlEl.classList.add('fadeIn_GameView');
     document.body.appendChild(fadeInHtmlEl);
 
-    //TODO fade out when avatar arrived in world
+    // TODO fade out when avatar arrived in world
   }
 
   static get ID_SCRIPT() {

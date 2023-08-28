@@ -10,36 +10,36 @@ module.exports = class Avatar extends Game.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    //commands buffer
+    // commands buffer
     this.commands = {};
 
-    //city avatar go
+    // city avatar go
     this.cityAvatar = null;
 
     this.canJump = true;
   }
 
   spawn() {
-    //spawn
+    // spawn
     const spawner = this.context.findGameScriptWithID(Spawner.ID_SCRIPT);
     spawner.initializeSpawnTransform(this.object3D);
   }
 
   fetchCommands(commands, gameObject) {
-    //get commands sign by its user
+    // get commands sign by its user
     for (let i = commands.length - 1; i >= 0; i--) {
       const cmd = commands[i];
       if (cmd.getGameObjectUUID() == gameObject.getUUID()) {
         const type = cmd.getType();
         this.commands[type].push(cmd);
-        //can do this because on decremente
+        // can do this because on decremente
         commands.splice(i, 1);
       }
     }
 
     const cmds = this.commands;
 
-    //no more that one
+    // no more that one
     if (cmds[Game.Command.TYPE.ESCAPE].length)
       cmds[Game.Command.TYPE.ESCAPE].splice(
         1,
@@ -88,7 +88,7 @@ module.exports = class Avatar extends Game.ScriptBase {
     const scriptGM = gmGo.fetchWorldScripts()['worldGameManager'];
     if (!scriptGM) throw new Error('no gm script');
     const mapGo = scriptGM.getMap();
-    if (!mapGo) return; //no map => no commands
+    if (!mapGo) return; // no map => no commands
     const scriptMap = mapGo.fetchWorldScripts()['map'];
     if (!scriptMap) throw new Error('no map world script');
 
@@ -147,16 +147,16 @@ module.exports = class Avatar extends Game.ScriptBase {
             );
             this.clampRotation(gameObject);
             gameObject.setOutdated(true);
-            cmds.shift(); //remove one by one
+            cmds.shift(); // remove one by one
             break;
           case Command.TYPE.ESCAPE:
             this.removeCityAvatar(worldContext);
             cmds.shift();
-            return; //no more command apply for this frame
+            return; // no more command apply for this frame
           default:
         }
 
-        //update elevation
+        // update elevation
         const isOut = !scriptMap.updateElevation(gameObject);
         elevationComputed = true;
 
@@ -177,35 +177,35 @@ module.exports = class Avatar extends Game.ScriptBase {
   createCityAvatar(worldContext) {
     if (this.cityAvatar) return;
 
-    //reset rotation
+    // reset rotation
     this.go.setRotation(new Game.THREE.Vector3(0, 0, 0));
 
-    //freeze
-    this.go.setFreeze(true); //freeze
+    // freeze
+    this.go.setFreeze(true); // freeze
 
-    //invisible
+    // invisible
     this.go.getComponent(Game.LocalScript.TYPE).conf.visible = false;
 
-    //notify change
+    // notify change
     this.go.setOutdated(true);
 
-    //add a city avatar
+    // add a city avatar
     this.cityAvatar = worldContext
       .getAssetsManager()
       .createPrefab('city_avatar');
 
-    //copy render comp
+    // copy render comp
     const renderCompJSON = this.go.getComponent(Game.Render.TYPE).toJSON();
     this.cityAvatar.setComponent(
       Game.Render.TYPE,
       new Game.Render(this.cityAvatar, renderCompJSON)
     );
 
-    //copy name
+    // copy name
     this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.name =
       this.go.getComponent(Game.LocalScript.TYPE).conf.name;
 
-    //index texture
+    // index texture
     this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.path_face_texture =
       this.go.getComponent(Game.LocalScript.TYPE).conf.path_face_texture;
 
@@ -213,21 +213,21 @@ module.exports = class Avatar extends Game.ScriptBase {
       .getWorld()
       .addGameObject(this.cityAvatar, worldContext, this.go);
 
-    //clear cmds
+    // clear cmds
     for (const id in this.commands) {
       this.commands[id].length = 0;
     }
   }
 
   removeCityAvatar(worldContext) {
-    if (!this.cityAvatar) return; //already remove
+    if (!this.cityAvatar) return; // already remove
 
     worldContext.getWorld().removeGameObject(this.cityAvatar.getUUID());
     this.cityAvatar = null;
     this.go.setFreeze(false);
     this.spawn();
 
-    //invisible
+    // invisible
     this.go.getComponent(Game.LocalScript.TYPE).conf.visible = true;
 
     this.go.setOutdated(true);
@@ -238,10 +238,10 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   clampRotation(gameObject) {
-    //clamp
+    // clamp
     const rotation = gameObject.getRotation();
     rotation.y = 0;
-    //borne between 0 => 2pi
+    // borne between 0 => 2pi
     const angle1 = AVATAR_ANGLE_MIN;
     const angle2 = AVATAR_ANGLE_MAX;
     if (rotation.x > Math.PI) {
@@ -252,7 +252,8 @@ module.exports = class Avatar extends Game.ScriptBase {
   }
 
   tick() {
-    return; //WIP
+    return; // WIP
+    // eslint-disable-next-line no-unreachable
     const gameObject = arguments[0];
     const worldContext = arguments[1];
     this.fetchCommands(worldContext.getCommands(), gameObject);
@@ -261,6 +262,7 @@ module.exports = class Avatar extends Game.ScriptBase {
 
   onEnterCollision() {
     return;
+    // eslint-disable-next-line no-unreachable
     const go = arguments[0];
     const result = arguments[1];
     // const worldContext = arguments[2];
@@ -268,25 +270,25 @@ module.exports = class Avatar extends Game.ScriptBase {
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
 
-    //check if is interaction_zone
+    // check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
       interactionZone.onAvatarEnter(go);
     }
 
-    //check if is interaction_zone
+    // check if is interaction_zone
     const portal = colliderGO.fetchWorldScripts()['portal'];
     if (portal) {
       portal.notifyEnter(go, this);
     }
 
-    //check if is teleporter
+    // check if is teleporter
     const teleporterScript = colliderGO.fetchWorldScripts()['teleporter'];
     if (teleporterScript) {
       teleporterScript.onAvatar(go);
     }
 
-    //check if is city_avatar_not_allow_area
+    // check if is city_avatar_not_allow_area
     const cityAvatarNotAllowAreaScript =
       colliderGO.fetchWorldScripts()['city_avatar_not_allow_area'];
     if (cityAvatarNotAllowAreaScript) {
@@ -307,18 +309,19 @@ module.exports = class Avatar extends Game.ScriptBase {
 
   isColliding() {
     return;
+    // eslint-disable-next-line no-unreachable
     const go = arguments[0];
     const result = arguments[1];
     const colliderGO = result.b.getGameObject();
     const collider = colliderGO.getComponent('Collider');
 
-    //check if is interaction_zone
+    // check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
       interactionZone.onAvatarColliding(go);
     }
 
-    //check if is city_avatar_not_allow_area
+    // check if is city_avatar_not_allow_area
     const cityAvatarNotAllowAreaScript =
       colliderGO.fetchWorldScripts()['city_avatar_not_allow_area'];
     if (cityAvatarNotAllowAreaScript) {
@@ -331,6 +334,7 @@ module.exports = class Avatar extends Game.ScriptBase {
   onLeaveCollision() {
     return;
     // console.log('on leave');
+    // eslint-disable-next-line no-unreachable
     const go = arguments[0];
     const uuidColliderGO = arguments[1];
     const wCtxt = arguments[2];
@@ -340,13 +344,13 @@ module.exports = class Avatar extends Game.ScriptBase {
       .computeRoot()
       .find(uuidColliderGO);
 
-    //check if is interaction_zone
+    // check if is interaction_zone
     const interactionZone = colliderGO.fetchWorldScripts()['interaction_zone'];
     if (interactionZone) {
       interactionZone.onAvatarLeave(go);
     }
 
-    //check if is city_avatar_not_allow_area
+    // check if is city_avatar_not_allow_area
     const cityAvatarNotAllowAreaScript =
       colliderGO.fetchWorldScripts()['city_avatar_not_allow_area'];
     if (cityAvatarNotAllowAreaScript) {

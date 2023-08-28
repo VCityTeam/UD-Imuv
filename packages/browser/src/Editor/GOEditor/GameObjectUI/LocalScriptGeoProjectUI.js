@@ -3,26 +3,26 @@ import File from 'ud-viz/src/Components/SystemUtils/File';
 
 export class LocalScriptGeoProjectUI {
   constructor(goUI, gV) {
-    //variables
+    // variables
     const content = goUI.content;
     const go = goUI.go;
 
-    //get ls component
+    // get ls component
     const lsComp = go.getComponent(LocalScript.TYPE);
     if (!lsComp) throw new Error('no localscript');
 
-    //create link input
+    // create link input
     const inputLink = document.createElement('input');
     inputLink.type = 'text';
-    inputLink.value = lsComp.conf.href; //init
+    inputLink.value = lsComp.conf.href; // init
     content.appendChild(inputLink);
 
-    //init callback
+    // init callback
     inputLink.onchange = function () {
       lsComp.conf.href = this.value;
     };
 
-    //create width input
+    // create width input
     const inputWidth = document.createElement('input');
     inputWidth.type = 'number';
     inputWidth.value = lsComp.conf.image_width;
@@ -34,7 +34,7 @@ export class LocalScriptGeoProjectUI {
       gV.forceUpdate();
     };
 
-    //create height input
+    // create height input
     const inputHeight = document.createElement('input');
     inputHeight.type = 'number';
     inputHeight.value = lsComp.conf.image_height;
@@ -46,7 +46,7 @@ export class LocalScriptGeoProjectUI {
       gV.forceUpdate();
     };
 
-    //image icon
+    // image icon
     const imageInput = document.createElement('input');
     imageInput.type = 'file';
     imageInput.accept = 'image/*';

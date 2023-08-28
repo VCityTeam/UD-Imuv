@@ -4,7 +4,7 @@ const fs = require('fs');
 const JSONUtils = require('ud-viz/src/Game/Components/JSONUtils');
 const Game = require('ud-viz/src/Game/Game');
 
-//server manager load script
+// server manager load script
 module.exports = class AssetsManagerServer {
   constructor() {
     this.worldScripts = {};
@@ -81,7 +81,7 @@ module.exports = class AssetsManagerServer {
     return JSON.parse(JSON.stringify(this.prefabs[idprefab]));
   }
 
-  //TODO waiting the avatar full customization to remove !
+  // TODO waiting the avatar full customization to remove !
   createAvatarJSON() {
     const json = this.fetchPrefabJSON('avatar');
     JSONUtils.parse(json, function (j, k) {

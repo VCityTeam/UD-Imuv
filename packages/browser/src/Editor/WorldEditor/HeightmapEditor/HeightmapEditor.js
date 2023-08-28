@@ -8,7 +8,7 @@ const HEIGHTMAP_SIZE = 1024;
 
 export class HeightmapEditorView {
   constructor(params) {
-    //where html goes
+    // where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_HeightmapEditor');
     params.parentUIHtml.appendChild(this.ui);
@@ -26,22 +26,22 @@ export class HeightmapEditorView {
 
     this.parentView = params.parentView;
 
-    //params to set heightmap screenshot (model)
+    // params to set heightmap screenshot (model)
     this.topPlaneAlt = 10;
     this.bottomPlaneAlt = 0;
     this.planeSize = 100;
 
-    //three object
+    // three object
     this.planeTop = null;
     this.planeBottom = null;
     this.parentPlanes = new THREE.Object3D();
     this.parentPlanes.name = 'Parent Heightmap Object3D';
 
-    //renderer heightmap
+    // renderer heightmap
     this.rendererHeightmap = new THREE.WebGLRenderer({
       canvas: this.canvasPreview,
     });
-    //camera heightmap
+    // camera heightmap
     this.cameraHeightmap = new THREE.OrthographicCamera(
       1,
       1,
@@ -50,7 +50,7 @@ export class HeightmapEditorView {
       0.001,
       1000
     );
-    //shader
+    // shader
     this.heightmapMaterial = new THREE.ShaderMaterial({
       uniforms: {
         min: { value: null },
@@ -90,7 +90,7 @@ export class HeightmapEditorView {
   }
 
   updateModel() {
-    //remove old ones
+    // remove old ones
     if (this.planeTop && this.planeTop.parent) {
       this.planeTop.parent.remove(this.planeTop);
     }
@@ -118,13 +118,13 @@ export class HeightmapEditorView {
       false
     );
 
-    const center = mapGO.computeWorldTransform().position; //in game world ref
+    const center = mapGO.computeWorldTransform().position; // in game world ref
 
-    //position
+    // position
     this.planeBottom.position.set(center.x, center.y, this.bottomPlaneAlt);
     this.planeTop.position.set(center.x, center.y, this.topPlaneAlt);
 
-    //create a parent clone
+    // create a parent clone
     mapObject3D.getWorldPosition(this.parentPlanes.position);
 
     this.parentPlanes.add(this.planeTop);
@@ -134,7 +134,7 @@ export class HeightmapEditorView {
   }
 
   update3DView(visible) {
-    //if visible = true on  init visible = false on dispose
+    // if visible = true on  init visible = false on dispose
     this.applyHeightmapVisibility(visible);
 
     const scene = this.gameView.getScene();
@@ -143,7 +143,7 @@ export class HeightmapEditorView {
       const obj = this.gameView.getObject3D();
       const bb = new THREE.Box3().setFromObject(obj);
 
-      //init bottom and top alt and size
+      // init bottom and top alt and size
       const delta = 10;
       this.topPlaneAlt = delta;
       this.bottomPlaneAlt = -delta;
@@ -159,7 +159,7 @@ export class HeightmapEditorView {
   }
 
   applyHeightmapVisibility(value) {
-    //remove visibility with tag
+    // remove visibility with tag
     const obj = this.gameView.getObject3D();
     obj.traverse(function (child) {
       if (!value) {
@@ -178,7 +178,7 @@ export class HeightmapEditorView {
   renderHeightmap() {
     this.rendererHeightmap.setSize(HEIGHTMAP_SIZE, HEIGHTMAP_SIZE);
 
-    //detech transform so its not appearing on the heightmap image
+    // detech transform so its not appearing on the heightmap image
     this.parentView.getGOEditorView().transformControls.detach();
 
     this.planeTop.getWorldPosition(this.cameraHeightmap.position);
@@ -246,14 +246,14 @@ export class HeightmapEditorView {
     const _this = this;
 
     this.bindButton.onclick = function () {
-      _this.renderHeightmap(); //useless since model update launch render but robust
+      _this.renderHeightmap(); // useless since model update launch render but robust
       const url = _this.canvasPreview.toDataURL('image/png');
 
-      //get mapgo
+      // get mapgo
       const mapGO = computeMapGO(_this.gameView);
       const mapScript = mapGO.fetchWorldScripts()['map'];
 
-      //bind
+      // bind
       mapScript.conf.heightmap_path = url;
       mapScript.conf.heightmap_geometry = {
         max: parseInt(_this.topPlaneAlt),

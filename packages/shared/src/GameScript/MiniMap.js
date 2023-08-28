@@ -10,7 +10,7 @@ module.exports = class MiniMap extends Game.ScriptBase {
 
     /* Clearing the array of text that is displayed when a teleport command is rejected. */
     extScriptComp.getModel().getVariables().mini_map_no_teleport.length = 0;
-    //clear array
+    // clear array
     extScriptComp.getModel().getVariables().mini_map_ping.length = 0;
 
     const scriptMap = this.context.findGameScriptWithID(AbstractMap.ID_SCRIPT);

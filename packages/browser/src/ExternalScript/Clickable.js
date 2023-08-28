@@ -11,7 +11,7 @@ export class Clickable extends Game.External.ScriptBase {
         if (this.context.userData.isEditorGameView) return; // TODO should be deprecated
 
         if (checkParentChild(event.target, this.context.frame3D.domElementUI))
-          return; //ui has been clicked
+          return; // ui has been clicked
 
         const mouse = new THREE.Vector2(
           -1 +
@@ -39,7 +39,7 @@ export class Clickable extends Game.External.ScriptBase {
             const externalScriptComp = this.object3D.getComponent(
               Shared.Game.Component.ExternalScript.TYPE
             );
-            externalScriptComp.getController().execute('onClick'); //custom external script event could be in ud-viz
+            externalScriptComp.getController().execute('onClick'); // custom external script event could be in ud-viz
           }
         }
       }

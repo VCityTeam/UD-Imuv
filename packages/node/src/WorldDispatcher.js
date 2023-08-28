@@ -9,10 +9,10 @@ const WorldDispatcherModule = class WorldDispatcher {
   constructor(config) {
     this.config = config;
 
-    //worlds json
+    // worlds json
     this.worldsJSON = null;
 
-    //map world to thread
+    // map world to thread
     this.worldToThread = {};
   }
 
@@ -56,7 +56,7 @@ const WorldDispatcherModule = class WorldDispatcher {
     console.log(this.constructor.name, 'init worlds');
     const _this = this;
 
-    //clean
+    // clean
     for (const key in _this.worldToThread) {
       const thread = _this.worldToThread[key];
       thread.stop();
@@ -77,18 +77,18 @@ const WorldDispatcherModule = class WorldDispatcher {
     _this.worldsJSON = worldsJSON;
 
     worldsJSON.forEach(function (worldJSON) {
-      //create a worldThread
+      // create a worldThread
       const thread = new WorldThread(_this.config.worldThread.script);
 
-      //post data to create world
-      thread.post(WorldThread.MSG_TYPE.INIT, worldJSON); //thread post function will pack data
+      // post data to create world
+      thread.post(WorldThread.MSG_TYPE.INIT, worldJSON); // thread post function will pack data
 
-      //mapping between world and thread
+      // mapping between world and thread
       _this.worldToThread[worldJSON.uuid] = thread;
 
-      //callbacks
+      // callbacks
 
-      //worldstate notification
+      // worldstate notification
       thread.on(WorldThread.MSG_TYPE.WORLDSTATE, function (worldstateJSON) {
         const users = thread.getUsers();
         for (const key in users) {
@@ -96,7 +96,7 @@ const WorldDispatcherModule = class WorldDispatcher {
         }
       });
 
-      //avatar portal
+      // avatar portal
       thread.on(WorldThread.MSG_TYPE.AVATAR_PORTAL, function (data) {
         const user = _this.fetchUserWithAvatarUUID(data.avatarUUID);
         _this.placeAvatarInWorld(user, data.worldUUID, data.portalUUID, null);
@@ -147,7 +147,7 @@ const WorldDispatcherModule = class WorldDispatcher {
       return;
     }
 
-    //remove from last world if one
+    // remove from last world if one
     const oldThread = user.getThread();
     if (oldThread) {
       oldThread.removeUser(user);
@@ -167,14 +167,14 @@ const WorldDispatcherModule = class WorldDispatcher {
 
     const socket = user.getSocket();
 
-    //remove old listener
+    // remove old listener
     socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT);
     socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPE.COMMANDS);
     socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPE.SAVE_SETTINGS);
     socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPE.ADD_GAMEOBJECT);
     socket.removeAllListeners(Constant.WEBSOCKET.MSG_TYPE.REMOVE_GAMEOBJECT);
 
-    //client can edit conf component
+    // client can edit conf component
     socket.on(
       Constant.WEBSOCKET.MSG_TYPE.EDIT_CONF_COMPONENT,
       function (params) {
@@ -182,11 +182,11 @@ const WorldDispatcherModule = class WorldDispatcher {
       }
     );
 
-    //cmds are now sent to the new thread
+    // cmds are now sent to the new thread
     socket.on(Constant.WEBSOCKET.MSG_TYPE.COMMANDS, function (cmdsJSON) {
       const commands = [];
 
-      //parse
+      // parse
       cmdsJSON.forEach(function (cmdJSON) {
         const command = new Game.Command(cmdJSON);
 
@@ -198,22 +198,22 @@ const WorldDispatcherModule = class WorldDispatcher {
       thread.post(WorldThread.MSG_TYPE.COMMANDS, commands);
     });
 
-    //save settings
+    // save settings
     socket.on(
       Constant.WEBSOCKET.MSG_TYPE.SAVE_SETTINGS,
       function (settingsJSON) {
-        //write user
+        // write user
         user.setSettingsJSON(settingsJSON);
 
-        //if role is not guest save in database
+        // if role is not guest save in database
         const parseUser = user.getParseUser();
-        if (!parseUser) return; //not a user registered
+        if (!parseUser) return; // not a user registered
         parseUser.set(Constant.DB.USER.SETTINGS, JSON.stringify(settingsJSON));
         parseUser.save(null, { useMasterKey: true });
       }
     );
 
-    //add go (TODO security check if its a go that can be add)
+    // add go (TODO security check if its a go that can be add)
     socket.on(Constant.WEBSOCKET.MSG_TYPE.ADD_GAMEOBJECT, function (goJSON) {
       thread.post(WorldThread.MSG_TYPE.ADD_GAMEOBJECT, {
         gameObject: goJSON,
@@ -221,7 +221,7 @@ const WorldDispatcherModule = class WorldDispatcher {
       });
     });
 
-    //remove go (TODO security check if its go that can be deleted)
+    // remove go (TODO security check if its go that can be deleted)
     socket.on(Constant.WEBSOCKET.MSG_TYPE.REMOVE_GAMEOBJECT, function (uuid) {
       thread.post(WorldThread.MSG_TYPE.REMOVE_GAMEOBJECT, uuid);
     });

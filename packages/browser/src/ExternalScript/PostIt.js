@@ -14,13 +14,13 @@ export class PostIt extends Game.External.ScriptBase {
     this.menu = menu;
 
     this.listener = (event) => {
-      //if menu is already in DOM remove it
+      // if menu is already in DOM remove it
       if (menu.html().parentNode) {
         menu.dispose();
         return;
       }
 
-      //else check if post it has been double click
+      // else check if post it has been double click
       const mouse = new THREE.Vector2(
         -1 +
           (2 * event.offsetX) /
@@ -79,7 +79,7 @@ class MenuPostIt {
     deletePostIt.classList.add('button-imuv');
     this.domElement.appendChild(deletePostIt);
 
-    //callback
+    // callback
     deletePostIt.onclick = function () {
       externalGameContext.sendCommandToGameContext([
         new Shared.Command({

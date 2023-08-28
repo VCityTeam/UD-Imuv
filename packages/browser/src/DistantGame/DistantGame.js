@@ -29,7 +29,7 @@ export class DistantGame {
    */
   dispose() {
     if (this.gameView) this.gameView.dispose();
-    //reset websocketservices
+    // reset websocketservices
     this.webSocketService.reset([
       Constant.WEBSOCKET.MSG_TYPE.JOIN_WORLD,
       Constant.WEBSOCKET.MSG_TYPE.WORLDSTATE_DIFF,
@@ -50,7 +50,7 @@ export class DistantGame {
     const ctxGameView = gV.getLocalContext();
     ctxGameView.setWebSocketService(this.webSocketService);
 
-    //register in tick of the gameview
+    // register in tick of the gameview
     const _this = this;
     gV.addTickRequester(function () {
       const cmds = gV.getInputManager().computeCommands();
@@ -67,7 +67,7 @@ export class DistantGame {
     this.gameView = gV;
   }
 
-  start(userData = {}, localScriptModules) {
+  start(localScriptModules, userData = {}) {
     return new Promise((resolve) => {
       this.reset(userData, localScriptModules);
 

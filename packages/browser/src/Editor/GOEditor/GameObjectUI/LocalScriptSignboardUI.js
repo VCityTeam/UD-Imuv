@@ -3,7 +3,7 @@ import File from 'ud-viz/src/Components/SystemUtils/File';
 
 export class LocalScriptSignboardUI {
   constructor(goUI, gV) {
-    //variables
+    // variables
     this.content = goUI.content;
     const go = goUI.go;
 
@@ -16,11 +16,11 @@ export class LocalScriptSignboardUI {
     }
     this.renderFrame = this.goInGame.children[0].getComponent('Render');
 
-    //get ls component
+    // get ls component
     const lsComp = this.goInGame.getComponent(LocalScript.TYPE);
     if (!lsComp) throw new Error('no localscript');
 
-    //init html
+    // init html
     this.inputColor = null;
     this.inputImageURL = null;
     this.inputImageFile = null;
@@ -33,18 +33,18 @@ export class LocalScriptSignboardUI {
   initHtml(lsComp) {
     const content = this.content;
 
-    //title
+    // title
     const titleSignboard = document.createElement('h3');
     titleSignboard.innerHTML = 'Signboard:';
     content.appendChild(titleSignboard);
 
-    //create Color Label
+    // create Color Label
     const divColor = document.createElement('div');
     const labelColor = document.createElement('label');
     labelColor.innerHTML = 'Color Frame';
     divColor.appendChild(labelColor);
 
-    //create Color input
+    // create Color input
     const inputColor = document.createElement('input');
     inputColor.type = 'color';
     inputColor.value = '#' + this.renderFrame.color.getHexString();
@@ -52,13 +52,13 @@ export class LocalScriptSignboardUI {
     this.inputColor = inputColor;
     content.appendChild(divColor);
 
-    //create Image URL Label
+    // create Image URL Label
     const divImageUrl = document.createElement('div');
     const labelImageUrl = document.createElement('label');
     labelImageUrl.innerHTML = 'Image URL';
     divImageUrl.appendChild(labelImageUrl);
 
-    //create Input Image URL
+    // create Input Image URL
     const inputImageURL = document.createElement('input');
     inputImageURL.type = 'text';
     inputImageURL.placeholder = 'https://example.com/image.png';
@@ -69,13 +69,13 @@ export class LocalScriptSignboardUI {
     this.inputImageURL = inputImageURL;
     content.appendChild(divImageUrl);
 
-    //create Image File Label
+    // create Image File Label
     const divImageFile = document.createElement('div');
     const labelImageFile = document.createElement('label');
     labelImageFile.innerHTML = 'Image File';
     divImageFile.appendChild(labelImageFile);
 
-    //create Input Image File
+    // create Input Image File
     const inputImageFile = document.createElement('input');
     inputImageFile.type = 'file';
     inputImageFile.accept = 'image/*';
@@ -83,13 +83,13 @@ export class LocalScriptSignboardUI {
     this.inputImageFile = inputImageFile;
     content.appendChild(divImageFile);
 
-    //create Size Factor Label
+    // create Size Factor Label
     const divSizeFactor = document.createElement('div');
     const labelSizeFactor = document.createElement('label');
     labelSizeFactor.innerHTML = 'Size Factor';
     divSizeFactor.appendChild(labelSizeFactor);
 
-    //create Input Size Factor
+    // create Input Size Factor
     const inputSizeFactor = document.createElement('input');
     inputSizeFactor.type = 'number';
     inputSizeFactor.value = lsComp.conf.sizeFactor;

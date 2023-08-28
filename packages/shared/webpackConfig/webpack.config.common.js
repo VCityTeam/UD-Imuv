@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 require('dotenv').config({ path: '../../.env' });
 
-//Inject environnement variables (they have to be declare in your .env !!!)
+// Inject environnement variables (they have to be declare in your .env !!!)
 const keyEnvVariables = [
   'JITSI_PUBLIC_URL',
   'PARSE_SERVER_URL',

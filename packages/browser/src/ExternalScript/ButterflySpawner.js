@@ -6,7 +6,7 @@ export class ButterflySpawner extends Game.External.ScriptBase {
     this.particleGroup = null;
     this.clock = null;
 
-    //TODO in UserData add attribute "editorMode" ?
+    // TODO in UserData add attribute "editorMode" ?
     const render = this.object3D.getComponent(
       Shared.Game.Component.Render.TYPE
     );

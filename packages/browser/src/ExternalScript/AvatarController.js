@@ -8,7 +8,7 @@ export class AvatarController extends Game.External.ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    //Avatar controller
+    // Avatar controller
     this.avatarControllerMode = false;
   }
 
@@ -17,7 +17,7 @@ export class AvatarController extends Game.External.ScriptBase {
       console.log(this.context);
     });
 
-    //exit pointer lock method
+    // exit pointer lock method
     this.context.inputManager.addMouseInput(
       this.context.frame3D.domElement,
       'click',
@@ -27,7 +27,7 @@ export class AvatarController extends Game.External.ScriptBase {
     );
 
     if (!this.context.userData.firstGameObject) {
-      //work with camera localscript
+      // work with camera localscript
       this.setAvatarControllerMode(true);
     }
   }
@@ -40,7 +40,7 @@ export class AvatarController extends Game.External.ScriptBase {
 
     this.avatarControllerMode = value;
 
-    //FORWARD
+    // FORWARD
     const commandIdForward = 'cmd_forward';
     const commandIdBackward = 'cmd_backward';
     const commandIdLeft = 'cmd_left';
@@ -59,7 +59,7 @@ export class AvatarController extends Game.External.ScriptBase {
         MiniMap.ID_SCRIPT
       );
       if (miniMapScript) {
-        //add mini map
+        // add mini map
         scriptUI.addToMapUI(miniMapScript);
       }
 
@@ -72,7 +72,7 @@ export class AvatarController extends Game.External.ScriptBase {
 
       console.warn('add avatar control');
 
-      //forward
+      // forward
       let forwardStart = false;
       this.context.inputManager.addKeyCommand(
         commandIdForward,
@@ -109,7 +109,7 @@ export class AvatarController extends Game.External.ScriptBase {
         }
       );
 
-      //backward
+      // backward
       let backwardStart = false;
       this.context.inputManager.addKeyCommand(
         commandIdBackward,
@@ -145,7 +145,7 @@ export class AvatarController extends Game.External.ScriptBase {
         }
       );
 
-      //left
+      // left
       let leftStart = false;
       this.context.inputManager.addKeyCommand(
         commandIdLeft,
@@ -180,7 +180,7 @@ export class AvatarController extends Game.External.ScriptBase {
         }
       );
 
-      //right
+      // right
       let rightStart = false;
       this.context.inputManager.addKeyCommand(
         commandIdRight,
@@ -215,7 +215,7 @@ export class AvatarController extends Game.External.ScriptBase {
         }
       );
 
-      //ROTATE
+      // ROTATE
 
       this.context.inputManager.addMouseCommand(
         commandIdRotate,

@@ -6,19 +6,19 @@ const Parse = require('parse/node');
 const gm = require('gm');
 const PNG = require('pngjs').PNG;
 
-//http server
+// http server
 const express = require('express');
 
-//io system
+// io system
 const fs = require('fs');
 
-//websocket
+// websocket
 const socketio = require('socket.io');
 
-//user in game
+// user in game
 const User = require('./User');
 
-//Game require
+// Game require
 const Game = require('ud-viz/src/Game/Game');
 const AssetsManagerServer = require('./AssetsManagerServer');
 const Pack = require('ud-viz/src/Game/Components/Pack');
@@ -35,10 +35,10 @@ const ApplicationModule = class Application {
   constructor(config) {
     this.config = config;
 
-    //express app
+    // express app
     this.expressApp = express();
 
-    //parse
+    // parse
     // eslint-disable-next-line no-undef
     Parse.serverURL = PARSE_SERVER_URL; // This is your Server URL
     Parse.initialize(
@@ -49,16 +49,16 @@ const ApplicationModule = class Application {
       PARSE_MASTER_KEY // This is your Master key (never use it in the frontend)
     );
 
-    //world handling
+    // world handling
     this.worldDispatcher = new WorldDispatcher(this.config.worldDispatcher);
 
-    //assets worlds
+    // assets worlds
     this.assetsManager = new AssetsManagerServer();
 
-    //websocket
+    // websocket
     this.io = null;
 
-    //users in app id socket id
+    // users in app id socket id
     this.users = {};
   }
 
@@ -86,10 +86,10 @@ const ApplicationModule = class Application {
 
     const clientFolder = '../client';
 
-    //serve the folder pass in config
+    // serve the folder pass in config
     this.expressApp.use(express.static(clientFolder));
 
-    //http server
+    // http server
     const port = this.config.port || 8000;
     const httpServer = this.expressApp.listen(port, function (err) {
       if (err) console.log('Error in server setup');
@@ -104,7 +104,7 @@ const ApplicationModule = class Application {
    * @param {HttpServer} httpServer the http server to use
    */
   initWebSocket(httpServer) {
-    //websocket
+    // websocket
     this.io = socketio(httpServer, {
       pingInterval: this.config.websocket.pingInterval,
       pingTimeout: this.config.websocket.pingTimeout,
@@ -118,19 +118,20 @@ const ApplicationModule = class Application {
 
     const MSG_TYPE = Constant.WEBSOCKET.MSG_TYPE;
 
-    //REGISTER in app
-    const u = (this.users[socket.id] = this.createUser(
+    // REGISTER in app
+    const u = this.createUser(
       socket,
       'Guest@' + parseInt(Math.random() * 10000),
       Game.THREE.MathUtils.generateUUID(),
       Constant.USER.ROLE.GUEST
-    ));
+    );
+    this.users[socket.id] = u;
     socket.emit(MSG_TYPE.SIGNED, {
       nameUser: u.getNameUser(),
       role: u.getRole(),
     });
 
-    //SIGN UP
+    // SIGN UP
     socket.on(MSG_TYPE.SIGN_UP, function (data) {
       (async () => {
         const user = new Parse.User();
@@ -154,7 +155,7 @@ const ApplicationModule = class Application {
       })();
     });
 
-    //SIGN IN
+    // SIGN IN
     socket.on(MSG_TYPE.SIGN_IN, function (data) {
       (async () => {
         try {
@@ -196,15 +197,15 @@ const ApplicationModule = class Application {
           if (avatarString) {
             const jsonDB = JSON.parse(avatarString);
             const avatarJSON = _this.assetsManager.fetchPrefabJSON('avatar');
-            //color
+            // color
             avatarJSON.components.Render.color = jsonDB.components.Render.color;
-            //avatar id
+            // avatar id
             avatarJSON.components.Render.idRenderData =
               jsonDB.components.Render.idRenderData;
-            //path texture face
+            // path texture face
             avatarJSON.components.LocalScript.conf.path_face_texture =
               jsonDB.components.LocalScript.conf.path_face_texture;
-            //name
+            // name
             avatarJSON.components.LocalScript.conf.name =
               jsonDB.components.LocalScript.conf.name;
             u.setAvatarJSON(new Game.GameObject(avatarJSON).toJSON(true));
@@ -212,7 +213,7 @@ const ApplicationModule = class Application {
 
           u.setUUID(dbUUID);
 
-          //inform client of role + nameuser (security on role is handle server side)
+          // inform client of role + nameuser (security on role is handle server side)
           socket.emit(MSG_TYPE.SIGNED, { nameUser: nameUser, role: role });
         } catch (error) {
           console.error('Error while logging in user', error);
@@ -221,41 +222,41 @@ const ApplicationModule = class Application {
       })();
     });
 
-    //URL PARAMETER
+    // URL PARAMETER
 
-    //READY TO RECEIVE STATE
+    // READY TO RECEIVE STATE
     socket.on(MSG_TYPE.READY_TO_RECEIVE_STATE, function (data) {
-      //check if not already in world
+      // check if not already in world
       const user = _this.users[socket.id];
 
-      //check if data are valid
+      // check if data are valid
       if (
         data &&
         data.position instanceof Array &&
         data.rotation instanceof Array &&
         data.worldUUID
       ) {
-        //data have all fields require
+        // data have all fields require
         if (
           !Pack.checkIfSubStringIsVector3(data.position) ||
           !Pack.checkIfSubStringIsEuler(data.rotation) ||
           !_this.worldDispatcher.hasWorld(data.worldUUID)
         ) {
-          //data are not valid
+          // data are not valid
           data = null;
         }
       } else {
-        //not well formated
+        // not well formated
         data = null;
       }
 
       _this.worldDispatcher.addUser(user, data);
     });
 
-    //SAVE WORLDS
+    // SAVE WORLDS
     socket.on(MSG_TYPE.SAVE_WORLDS, function (partialMessage) {
       const user = _this.users[socket.id];
-      if (user.getRole() != Constant.USER.ROLE.ADMIN) return; //security
+      if (user.getRole() != Constant.USER.ROLE.ADMIN) return; // security
 
       const fullMessage = Pack.recomposeMessage(partialMessage);
       if (fullMessage) {
@@ -263,10 +264,10 @@ const ApplicationModule = class Application {
       }
     });
 
-    //Avatar json
+    // Avatar json
     socket.on(MSG_TYPE.QUERY_AVATAR, function () {
       const user = _this.users[socket.id];
-      if (user.getRole() == Constant.USER.ROLE.GUEST) return; //security
+      if (user.getRole() == Constant.USER.ROLE.GUEST) return; // security
 
       try {
         const response = user.getAvatarJSON();
@@ -277,7 +278,7 @@ const ApplicationModule = class Application {
       }
     });
 
-    //save avatar
+    // save avatar
     socket.on(MSG_TYPE.SAVE_AVATAR, function (partialMessage) {
       try {
         const fullMessage = Pack.recomposeMessage(partialMessage);
@@ -293,13 +294,13 @@ const ApplicationModule = class Application {
     socket.on('disconnect', () => {
       console.log('socket', socket.id, 'disconnected');
       const user = _this.users[socket.id];
-      delete _this.users[socket.id]; //remove
-      _this.worldDispatcher.removeUser(user); //remove user with the socket uuid
+      delete _this.users[socket.id]; // remove
+      _this.worldDispatcher.removeUser(user); // remove user with the socket uuid
     });
   }
 
   saveAvatar(user, avatarJSON) {
-    //write image on disk
+    // write image on disk
     new Promise((resolve, reject) => {
       try {
         const bitmap = Pack.dataUriToBuffer(
@@ -307,7 +308,7 @@ const ApplicationModule = class Application {
         );
 
         if (bitmap) {
-          //there is an image
+          // there is an image
           const commonPath =
             'assets/img/avatar/' +
             Game.THREE.MathUtils.generateUUID() +
@@ -321,7 +322,7 @@ const ApplicationModule = class Application {
             resolve();
           });
 
-          //ref path
+          // ref path
           avatarJSON.components.LocalScript.conf.path_face_texture =
             './' + commonPath;
         }
@@ -332,7 +333,7 @@ const ApplicationModule = class Application {
     })
       .then(
         (async () => {
-          //avatarJSON is ready to be write to db
+          // avatarJSON is ready to be write to db
           const parseUser = user.getParseUser();
           parseUser.set(Constant.DB.USER.AVATAR, JSON.stringify(avatarJSON));
           try {
@@ -340,10 +341,10 @@ const ApplicationModule = class Application {
             const response = await parseUser.save(null, { useMasterKey: true });
             console.log('Updated user', response);
 
-            //write in user json
+            // write in user json
             user.setAvatarJSON(avatarJSON);
 
-            //replace avatar in game
+            // replace avatar in game
             user
               .getThread()
               .post(WorldThreadModule.MSG_TYPE.EDIT_AVATAR_RENDER, {
@@ -354,7 +355,7 @@ const ApplicationModule = class Application {
                   avatarJSON.components.LocalScript.conf.path_face_texture,
               });
 
-            //clear unused images
+            // clear unused images
             const User = new Parse.User();
             const query = new Parse.Query(User);
             try {
@@ -367,7 +368,7 @@ const ApplicationModule = class Application {
               });
 
               const checkRef = function (fileName) {
-                //do not delete the default image
+                // do not delete the default image
                 if (fileName.includes('default.jpeg')) return true;
 
                 for (let index = 0; index < paths.length; index++) {
@@ -378,15 +379,15 @@ const ApplicationModule = class Application {
                 return false;
               };
 
-              //all path in use are stored in paths
+              // all path in use are stored in paths
               const folderPath = '../client/assets/img/avatar/';
               fs.readdir(folderPath, (err, files) => {
                 if (!files) return;
 
                 files.forEach((file) => {
-                  //check if ref by something in paths
+                  // check if ref by something in paths
                   if (!checkRef(file)) {
-                    //delete it
+                    // delete it
                     fs.unlink(folderPath + file, (err) => {
                       if (err) {
                         throw err;
@@ -430,7 +431,7 @@ const ApplicationModule = class Application {
               '.jpeg';
             const serverPath = '../client/' + commonPath;
 
-            //ref path
+            // ref path
             json[key] = './' + commonPath;
 
             fs.writeFile(serverPath, bitmap, function (err) {
@@ -474,7 +475,7 @@ const ApplicationModule = class Application {
         Promise.all(loadPromises).then(function () {
           console.log('ALL WORLD HAVE LOADED');
 
-          //write on disks new worlds
+          // write on disks new worlds
           const indexWorldsJSON = JSON.parse(
             fs.readFileSync(
               _this.config.worldDispatcher.worldsFolder + 'index.json'
@@ -496,9 +497,9 @@ const ApplicationModule = class Application {
             fs.writeFileSync(path, fetchWorldContent(uuid));
           }
 
-          //prettier
+          // prettier
           exec('npm run format-worlds').then(function () {
-            //reload worlds
+            // reload worlds
             _this.worldDispatcher.initWorlds();
             socket.emit(MSG_TYPE.INFO, 'Worlds saved and reloaded !');
             _this.cleanUnusedImages();
@@ -527,9 +528,9 @@ const ApplicationModule = class Application {
 
     fs.readdir(folderPath, (err, files) => {
       files.forEach((file) => {
-        //check if ref by something in worlds
+        // check if ref by something in worlds
         if (!data.includes(file)) {
-          //delete it
+          // delete it
           // delete a file
           fs.unlink(folderPath + file, (err) => {
             if (err) {
@@ -545,7 +546,7 @@ const ApplicationModule = class Application {
 
   createUser(socket, nameUser, uuid, role, avatarJSON) {
     if (!avatarJSON) {
-      //create avatar json
+      // create avatar json
       avatarJSON = this.assetsManager.createAvatarJSON();
       avatarJSON.components.LocalScript.conf.name = nameUser;
       Game.Render.bindColor(avatarJSON, [
@@ -554,7 +555,7 @@ const ApplicationModule = class Application {
         Math.random(),
       ]);
     }
-    avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); //fill missing fields
+    avatarJSON = new Game.GameObject(avatarJSON).toJSON(true); // fill missing fields
 
     return new User(uuid, socket, avatarJSON, role, nameUser);
   }

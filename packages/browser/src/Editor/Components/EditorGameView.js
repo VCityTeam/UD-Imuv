@@ -9,11 +9,11 @@ export class EditorGameView extends GameView {
     this.transformControls = null;
     this.orbitControls = null;
 
-    //variables for the selection of object with raycaster
+    // variables for the selection of object with raycaster
     this.angleOrbitControls = null;
     this.tcDragged = false;
 
-    //raycaster
+    // raycaster
     this.raycaster = new THREE.Raycaster();
 
     this.object3DToRaycast = this.object3D;
@@ -32,7 +32,7 @@ export class EditorGameView extends GameView {
     if (this.transformControls) this.transformControls.dispose();
 
     const canvas = this.getRenderer().domElement;
-    canvas.style.zIndex = 1; //patch
+    canvas.style.zIndex = 1; // patch
 
     this.transformControls = new TransformControls(this.getCamera(), canvas);
 
@@ -40,7 +40,7 @@ export class EditorGameView extends GameView {
   }
 
   initOrbitControls() {
-    //new controls
+    // new controls
     if (this.orbitControls) this.orbitControls.dispose();
 
     this.orbitControls = new OrbitControls(
@@ -55,9 +55,9 @@ export class EditorGameView extends GameView {
   initListeners() {
     const _this = this;
 
-    //cant handle this callback with our input manager
+    // cant handle this callback with our input manager
 
-    //transformControls Listeners
+    // transformControls Listeners
     this.transformControls.addEventListener(
       'dragging-changed',
       function (event) {
@@ -68,7 +68,7 @@ export class EditorGameView extends GameView {
       }
     );
 
-    //Listeners in InputManager
+    // Listeners in InputManager
     const manager = this.getInputManager();
     const viewerDiv = this.getRootWebGL();
     manager.addMouseInput(
@@ -87,7 +87,7 @@ export class EditorGameView extends GameView {
   }
 
   onPointerDownListener() {
-    //setAngleOrbitControls
+    // setAngleOrbitControls
     this.angleOrbitControls = this.computeAngle();
   }
 
@@ -108,7 +108,7 @@ export class EditorGameView extends GameView {
       'CB Pointer UP Type : ' + (type || '');
   }
 
-  /**Attach TransformControls to the result of intersect of a THREE.Raycast(). Return the object attached.*/
+  /** Attach TransformControls to the result of intersect of a THREE.Raycast(). Return the object attached.*/
   attachTCToObject(object) {
     this.transformControls.detach();
     if (!object) return null;
@@ -139,16 +139,16 @@ export class EditorGameView extends GameView {
   throwRay(event, object3D) {
     const canvas = this.getRenderer().domElement;
 
-    //1. sets the mouse position with a coordinate system where the center of the screen is the origin
+    // 1. sets the mouse position with a coordinate system where the center of the screen is the origin
     const mouse = new THREE.Vector2(
       -1 + (2 * event.offsetX) / canvas.clientWidth,
       1 - (2 * event.offsetY) / canvas.clientHeight
     );
 
-    //2. set the picking ray from the camera position and mouse coordinates
+    // 2. set the picking ray from the camera position and mouse coordinates
     this.raycaster.setFromCamera(mouse, this.getCamera());
 
-    //3. compute intersections
+    // 3. compute intersections
     const intersects = this.raycaster.intersectObject(object3D, true);
 
     for (let i = 0; i < intersects.length; i++) {
@@ -189,7 +189,7 @@ export class EditorGameView extends GameView {
     this.transformControls.detach();
     this.transformControls.dispose();
 
-    //remove listeners of InputManager
+    // remove listeners of InputManager
     const manager = this.getInputManager();
     manager.removeInputListener(this.onPointerDownListener);
     manager.removeInputListener(this.onPointerUpListener);

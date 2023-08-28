@@ -38,7 +38,7 @@ module.exports = class UDIMUVServer {
             thread
               .apply(NodeConstant.THREAD.EVENT.SPAWN, avatarJSON)
               .then(() => {
-                //register in wrapper avatar uuid
+                // register in wrapper avatar uuid
                 socketWrapper.userData.avatarUUID = avatarJSON.uuid;
                 socketWrapper.userData.settings = {};
 
@@ -51,7 +51,7 @@ module.exports = class UDIMUVServer {
         (socketWrapper, thread) => {
           console.log(socketWrapper.userData);
 
-          //remove avatar
+          // remove avatar
           thread.post(
             Game.Thread.MESSAGE_EVENT.REMOVE_OBJECT3D,
             socketWrapper.userData.avatarUUID
@@ -147,7 +147,7 @@ module.exports = class UDIMUVServer {
             role: socketWrapper.userData.role,
           });
 
-          //SIGN UP
+          // SIGN UP
           socketWrapper.socket.on(
             Constant.WEBSOCKET.MSG_TYPE.SIGN_UP,
             function (data) {
@@ -179,7 +179,7 @@ module.exports = class UDIMUVServer {
             }
           );
 
-          //SIGN IN
+          // SIGN IN
           socketWrapper.socket.on(
             Constant.WEBSOCKET.MSG_TYPE.SIGN_IN,
             (data) => {
@@ -243,7 +243,7 @@ module.exports = class UDIMUVServer {
             thread
               .apply(NodeConstant.THREAD.EVENT.SPAWN, avatarJSON)
               .then(() => {
-                //register in wrapper avatar uuid
+                // register in wrapper avatar uuid
                 socketWrapper.userData.avatarUUID = avatarJSON.uuid;
                 socketWrapper.userData.settings = {};
 
@@ -256,7 +256,7 @@ module.exports = class UDIMUVServer {
         (socketWrapper, thread) => {
           console.log(socketWrapper.userData);
 
-          //remove avatar
+          // remove avatar
           thread.post(
             Game.Thread.EVENT.REMOVE_OBJECT3D,
             socketWrapper.userData.avatarUUID

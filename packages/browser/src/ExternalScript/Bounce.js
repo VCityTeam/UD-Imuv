@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export class Bounce {
   constructor(conf, udvizBundle) {
     this.conf = conf;

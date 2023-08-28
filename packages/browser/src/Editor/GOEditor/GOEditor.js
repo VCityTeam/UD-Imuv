@@ -6,31 +6,31 @@ import { GameObjectUI } from './GameObjectUI/GameObjectUI';
 
 export class GOEditorView {
   constructor(params) {
-    //html
+    // html
     this.ui = document.createElement('div');
     this.ui.classList.add('root_GOEditor');
     params.parentUIHtml.appendChild(this.ui);
 
-    //html
+    // html
     this.goList = null;
     this.goSelectedUI = null;
     this.labelCurrentWorld = null;
     this.typeCbPU = null;
 
-    //parentView
+    // parentView
     this.parentView = params.parentView;
 
-    //gameview
+    // gameview
     this.gameView = params.gameView;
 
-    //assetsManagers
+    // assetsManagers
     this.assetsManager = params.assetsManager;
 
-    //controls
+    // controls
     this.transformControls = this.gameView.getTransformControls();
     this.orbitControls = this.gameView.getOrbitControls();
 
-    //go selected
+    // go selected
     this.goSelected = null;
 
     this.initUI();
@@ -49,7 +49,7 @@ export class GOEditorView {
         const intersect = gV.throwRay(event, gV.getObject3D());
         o = intersect ? gV.tryFindGOParent(intersect.object) : null;
       }
-      //update UI
+      // update UI
       this.setSelectedGOWithObject3D(o);
     };
 
@@ -62,7 +62,7 @@ export class GOEditorView {
 
   setSelectedGOWithObject3D(object) {
     this.gameView.attachTCToObject(object);
-    //clean
+    // clean
     if (this.goSelectedUI) this.goSelectedUI.dispose();
 
     if (!object) return;
@@ -73,7 +73,7 @@ export class GOEditorView {
     this.goSelected = worldGo.find(uuid);
     this.initPointerUpCallback();
     if (this.goSelected) {
-      //attach transform ctrl
+      // attach transform ctrl
       this.goSelectedUI = this.createGOUI(object);
       this.ui.appendChild(this.goSelectedUI.getRootElementUI());
     }
@@ -129,7 +129,7 @@ export class GOEditorView {
   }
 
   updateUI() {
-    //clean worlds list and rebuild it
+    // clean worlds list and rebuild it
     const list = this.goList;
     while (list.firstChild) {
       list.removeChild(list.firstChild);
@@ -145,15 +145,14 @@ export class GOEditorView {
       li.innerHTML = child.getName();
       li.title = child.getUUID();
 
-      //indent
+      // indent
       let degree = 0;
       const computeChildDegree = function (gameobject) {
         if (!gameobject.getParent()) {
           return null;
-        } else {
-          degree++;
-          return computeChildDegree(gameobject.getParent());
         }
+        degree++;
+        return computeChildDegree(gameobject.getParent());
       };
       computeChildDegree(child);
       const stepMargin = 10;
@@ -163,7 +162,7 @@ export class GOEditorView {
     });
 
     let selectedGO = null;
-    //goeditor view
+    // goeditor view
     if (this.goSelected) {
       selectedGO = this.computeObject3D(this.goSelected.getUUID());
     }

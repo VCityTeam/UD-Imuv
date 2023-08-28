@@ -9,18 +9,18 @@ const printExec = function (result) {
 };
 
 console.log('Deploy IMUV\n');
-exec('npm run build') //build server
+exec('npm run build') // build server
   .then(printExec)
   .then(function () {
     console.log('server builded');
-    exec('cd ../client && npm run build') //build client
+    exec('cd ../client && npm run build') // build client
       .then(printExec)
       .then(function () {
         console.log('client builded');
         console.log('start IMUV server');
 
-        //launch server
-        let child = spawn('node', ['./index.js']);
+        // launch server
+        const child = spawn('node', ['./index.js']);
         child.stdout.on('data', (data) => {
           console.log(`child stdout:\n${data}`);
         });

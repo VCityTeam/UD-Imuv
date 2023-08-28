@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export class MenuAvatar {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -24,7 +26,7 @@ export class MenuAvatar {
 
     ws.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.QUERY_AVATAR, null);
     ws.on(ImuvConstants.WEBSOCKET.MSG_TYPE.ON_AVATAR, function (avatarJSON) {
-      //remove serverside component
+      // remove serverside component
       _this.bufferCollider = avatarJSON.components.Collider;
       delete avatarJSON.components.Collider;
       _this.bufferWS = avatarJSON.components.WorldScript;
@@ -33,10 +35,10 @@ export class MenuAvatar {
       const go = new udviz.Game.GameObject(avatarJSON);
       _this.worldAvatarGO = go;
 
-      //local get world and add it
+      // local get world and add it
       const computer = gameView.getInterpolator().getLocalComputer();
       computer.onAddGameObject(go, function () {
-        //add orbit controls
+        // add orbit controls
         _this.orbitCtrl = new udviz.OrbitControls(
           gameView.getCamera(),
           gameView.getRenderer().domElement
@@ -75,7 +77,7 @@ export class MenuAvatar {
 
     const _this = this;
 
-    //select model
+    // select model
     const flexParentModelId = document.createElement('div');
     this.rootHtml.appendChild(flexParentModelId);
 
@@ -86,7 +88,7 @@ export class MenuAvatar {
 
     const selectModelId = document.createElement('select');
     flexParentModelId.appendChild(selectModelId);
-    const values = ['avatar_petit', 'avatar_moyen', 'avatar_grand']; //HARD CODE
+    const values = ['avatar_petit', 'avatar_moyen', 'avatar_grand']; // HARD CODE
     values.forEach(function (value) {
       const option = document.createElement('option');
       option.innerHTML = value;
@@ -94,10 +96,10 @@ export class MenuAvatar {
       selectModelId.appendChild(option);
     });
 
-    //init
+    // init
     selectModelId.value = _this.worldAvatarGO.components.Render.idRenderData;
 
-    //update shadow map
+    // update shadow map
     selectModelId.onchange = function () {
       const valueSelected = this.selectedOptions[0].value;
       const renderComp = _this.worldAvatarGO.getComponent(
@@ -107,7 +109,7 @@ export class MenuAvatar {
       _this.worldAvatarGO.setOutdated(true);
     };
 
-    //select color
+    // select color
     const flexParentColor = document.createElement('div');
     this.rootHtml.appendChild(flexParentColor);
 
@@ -120,7 +122,7 @@ export class MenuAvatar {
     inputColor.type = 'color';
     flexParentColor.appendChild(inputColor);
 
-    //init
+    // init
     inputColor.value =
       '#' + _this.worldAvatarGO.components.Render.color.getHexString();
 
@@ -135,12 +137,12 @@ export class MenuAvatar {
 
     const flexParentImage = document.createElement('div');
 
-    //label select image
+    // label select image
     const labelImageInput = document.createElement('label');
     labelImageInput.innerHTML = "Photo tête de l'avatar ";
     flexParentImage.appendChild(labelImageInput);
 
-    //wrap input file
+    // wrap input file
     const wrapInputFile = document.createElement('div');
     wrapInputFile.classList.add('wrap-input-file');
     flexParentImage.appendChild(wrapInputFile);
@@ -163,7 +165,7 @@ export class MenuAvatar {
 
     wrapInputFile.appendChild(imgSelected);
 
-    //select input image
+    // select input image
     const imageInput = document.createElement('input');
     imageInput.id = 'image-input-file';
     imageInput.type = 'file';
@@ -202,7 +204,7 @@ export class MenuAvatar {
     saveAndCloseSection.id = 'menu-avatar-save-and-close-section';
     this.rootHtml.appendChild(saveAndCloseSection);
 
-    //SAVE
+    // SAVE
     const saveButton = document.createElement('button');
     saveButton.title = 'Sauvegarder';
     saveButton.classList.add('button-imuv');
@@ -229,7 +231,7 @@ export class MenuAvatar {
       });
     };
 
-    //CLOSE button
+    // CLOSE button
     saveAndCloseSection.appendChild(
       localCtx.getGameView().getUserData('close_button')
     );

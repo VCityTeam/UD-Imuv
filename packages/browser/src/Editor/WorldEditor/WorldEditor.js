@@ -21,7 +21,7 @@ export class WorldEditorView {
     this.parentUIHtml = params.parentUIHtml;
     this.parentGameViewHtml = params.parentGameViewHtml;
 
-    //where html goes
+    // where html goes
     this.ui = document.createElement('div');
     this.ui.classList.add('ui_WorldEditor');
     this.parentUIHtml.appendChild(this.ui);
@@ -43,20 +43,20 @@ export class WorldEditorView {
       },
     });
 
-    //offset the gameview
+    // offset the gameview
     this.gameView.setDisplaySize(
       new THREE.Vector2(this.parentUIHtml.clientWidth, 0)
     );
     const _this = this;
-    //focus gameview go when new go
+    // focus gameview go when new go
     this.gameView.addOnNewGORequester(function () {
       _this.focusObject(_this.gameView.getObject3D());
     });
 
-    //controls
+    // controls
     this.orbitControls = this.gameView.getOrbitControls();
 
-    //view to edit go
+    // view to edit go
     this.goEditorView = new GOEditorView({
       parentUIHtml: this.ui,
       gameView: this.gameView,
@@ -64,7 +64,7 @@ export class WorldEditorView {
       assetsManager: this.assetsManager,
     });
 
-    //view to add prefab
+    // view to add prefab
     this.addPrefabView = new AddPrefabEditorView({
       parentUIHtml: this.ui.parentElement,
       assetsManager: this.assetsManager,
@@ -72,7 +72,7 @@ export class WorldEditorView {
       parentView: this,
     });
 
-    //html
+    // html
     this.closeButton = null;
     this.heightmapButton = null;
     this.playWorldButton = null;
@@ -81,7 +81,7 @@ export class WorldEditorView {
     this.hideButton = null;
     this.showButton = null;
 
-    //camera controller button
+    // camera controller button
     this.topButton = null;
     this.bottomButton = null;
     this.rightButton = null;
@@ -89,15 +89,15 @@ export class WorldEditorView {
     this.frontButton = null;
     this.backButton = null;
 
-    //ref children views to dispose them easily
-    this.childrenViews = [this.goEditorView, this.addPrefabView]; //view always active
+    // ref children views to dispose them easily
+    this.childrenViews = [this.goEditorView, this.addPrefabView]; // view always active
 
     this.initUI();
     this.initCallbacks();
   }
 
   addGameObject(newGo, onLoad) {
-    //find the map
+    // find the map
     const wCxt = this.gameView.getInterpolator().getWorldContext();
     const world = wCxt.getWorld();
     const mapGo = computeMapGO(this.gameView);
@@ -106,10 +106,10 @@ export class WorldEditorView {
 
     const _this = this;
     world.addGameObject(newGo, wCxt, mapGo, function () {
-      //force update gameview
+      // force update gameview
       _this.gameView.forceUpdate();
 
-      //force ui update
+      // force ui update
       _this.goEditorView.updateUI();
 
       if (onLoad) onLoad();
@@ -214,7 +214,7 @@ export class WorldEditorView {
 
     let center, radius;
 
-    //avoid bug if no renderdata on this gameobject
+    // avoid bug if no renderdata on this gameobject
     const checkIfCoordInfinite = function (value) {
       return value === Infinity || value === -Infinity;
     };
@@ -258,7 +258,7 @@ export class WorldEditorView {
     const _this = this;
 
     this.heightmapButton.onclick = function () {
-      //check if one already exist
+      // check if one already exist
       for (let index = 0; index < _this.childrenViews.length; index++) {
         const element = _this.childrenViews[index];
         if (element instanceof HeightmapEditorView) return;
@@ -281,7 +281,7 @@ export class WorldEditorView {
       _this.childrenViews.push(hV);
     };
 
-    //TODO Maybe not the good way
+    // TODO Maybe not the good way
     const setTransparencyChild = function (GO, ratio) {
       GO.children.forEach((child) => {
         if (child.material) {
@@ -416,7 +416,7 @@ class WorldEditorModel {
     });
 
     worldStateComputer.start(new Game.World(json));
-    //smooth rendering with delay
+    // smooth rendering with delay
     this.interpolator = new WorldStateInterpolator(0, worldStateComputer);
   }
 

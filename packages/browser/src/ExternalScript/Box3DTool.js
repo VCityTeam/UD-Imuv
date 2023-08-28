@@ -42,18 +42,18 @@ export class Box3DTool extends Game.External.ScriptBase {
       'AddBox3D',
       (resolve, reject, onClose) => {
         if (cameraManager.currentMovement) {
-          resolve(false); //camera is moving
+          resolve(false); // camera is moving
           return;
         }
 
-        //check if city avatar
+        // check if city avatar
         if (avatarGO.getObjectByProperty('name', 'city_avatar')) {
-          resolve(false); //cant zeppelin while city avatar
+          resolve(false); // cant zeppelin while city avatar
           return;
         }
 
         if (onClose) {
-          //record
+          // record
           this.itownsCamPos.copy(this.context.frame3D.camera.position);
           this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
 
@@ -64,21 +64,21 @@ export class Box3DTool extends Game.External.ScriptBase {
             resolve(true);
           });
         } else {
-          //remove avatar controls
+          // remove avatar controls
           avatarController.setAvatarControllerMode(false);
           if (!this.itownsCamPos && !this.itownsCamQuat) {
-            //first time camera in sky
+            // first time camera in sky
 
             const currentPosition = new THREE.Vector3().copy(
               this.context.frame3D.camera.position
             );
 
-            //200 meters up
+            // 200 meters up
             const endPosition = new THREE.Vector3(0, 0, 200).add(
               currentPosition
             );
 
-            //look down
+            // look down
             const endQuaternion = new THREE.Quaternion().setFromEuler(
               new THREE.Euler(0.01, 0, 0)
             );
@@ -94,7 +94,7 @@ export class Box3DTool extends Game.External.ScriptBase {
 
               this.context.frame3D.itownsView.controls.enabled = true;
 
-              //tweak zoom factor
+              // tweak zoom factor
               this.context.frame3D.itownsView.controls.zoomInFactor = scriptUI
                 .getMenuSettings()
                 .getZoomFactorValue();
@@ -173,7 +173,7 @@ class MenuBox3D {
 
     const raycaster = new THREE.Raycaster();
     this.listener = (event) => {
-      //else check if post it has been double click
+      // else check if post it has been double click
       const mouse = new THREE.Vector2(
         -1 +
           (2 * event.offsetX) /
@@ -217,7 +217,7 @@ class MenuBox3D {
     this.transformUI = document.createElement('div');
     this.ghostBox = null;
 
-    //rotate
+    // rotate
     const rotButton = document.createElement('button');
     rotButton.classList.add('button-imuv');
     rotButton.innerHTML = 'Rotation';
@@ -306,7 +306,7 @@ class MenuBox3D {
         this.context.frame3D.itownsView.mainLoop.gfxEngine.label2dRenderer
           .domElement;
 
-      //new orbitctrl
+      // new orbitctrl
       this.orbitCtrl = new OrbitControls(
         this.context.frame3D.camera,
         elementToListen
@@ -323,7 +323,7 @@ class MenuBox3D {
       this.transformCtrl.attach(this.ghostBox);
       this.transformCtrl.updateMatrixWorld();
 
-      //transformControls Listeners
+      // transformControls Listeners
       const parentPosition = new THREE.Vector3();
       const parentQuaternion = new THREE.Quaternion();
       const parentScale = new THREE.Vector3();
@@ -345,7 +345,7 @@ class MenuBox3D {
             data: {
               object3DUUID: this.selectedBox3D.uuid,
               position: this.ghostBox.position.clone().sub(parentPosition),
-              quaternion: this.ghostBox.quaternion.toArray(), //parent quaternion not handle
+              quaternion: this.ghostBox.quaternion.toArray(), // parent quaternion not handle
               scale: this.ghostBox.scale, // paretns scale not handle
             },
           }),

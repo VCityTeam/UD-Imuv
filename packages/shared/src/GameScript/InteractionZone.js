@@ -1,5 +1,4 @@
 const { Game } = require('@ud-viz/shared');
-const ExternalScriptComponent = Game.Component.ExternalScript.prototype;
 
 module.exports = class InteractionZone extends Game.ScriptBase {
   init() {

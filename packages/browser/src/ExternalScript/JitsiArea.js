@@ -17,7 +17,7 @@ export class JitsiArea extends Game.External.ScriptBase {
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
-        .then((stream) => {
+        .then(() => {
           console.log('Video + audio allowed');
         })
         .catch((e) => {
@@ -39,7 +39,7 @@ export class JitsiArea extends Game.External.ScriptBase {
       name = externalComp.getModel().getVariables().name;
     }
 
-    //create iframe
+    // create iframe
     const divJitsi = document.createElement('div');
 
     const size = 500;
@@ -54,8 +54,8 @@ export class JitsiArea extends Game.External.ScriptBase {
         displayName: name,
       },
       interfaceConfigOverwrite: {
-        //https://github.com/jitsi/jitsi-meet/blob/a7c653bc30156ec6ae7e3f67b28fffb07f3e79de/config.js#L699 DOC
-        //this is link is not synchronized with our server version /!\
+        // https://github.com/jitsi/jitsi-meet/blob/a7c653bc30156ec6ae7e3f67b28fffb07f3e79de/config.js#L699 DOC
+        // this is link is not synchronized with our server version /!\
         TOOLBAR_BUTTONS: [
           'camera',
           'chat',
@@ -97,6 +97,7 @@ export class JitsiArea extends Game.External.ScriptBase {
     };
 
     const url = new URL(JITSI_PUBLIC_URL);
+    // eslint-disable-next-line no-new
     new JitsiMeetExternalAPI(url.host + url.pathname, options);
 
     const scriptUI = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
@@ -112,7 +113,7 @@ export class JitsiArea extends Game.External.ScriptBase {
   }
 
   onColliding() {
-    //check also the onColliding method, so when url parameter teleport in jitsi area the iframe is created
+    // check also the onColliding method, so when url parameter teleport in jitsi area the iframe is created
     if (this.divJitsi) return;
     this.createJitsiIframe();
   }
@@ -141,7 +142,7 @@ export class JitsiArea extends Game.External.ScriptBase {
 
     shapesJSON.forEach((shape) => {
       if (shape.type === 'Circle') {
-        //cylinder
+        // cylinder
         const geometryCylinder = new THREE.CylinderGeometry(
           shape.radius,
           shape.radius,
