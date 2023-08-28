@@ -14,11 +14,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ud-viz/node": "../../../UD-Viz/packages/node",
-    "parse": "^3.4.1",
+    "@ud-viz/node": "3.1.1",
+    "parse": "3.4.1",
     "three": "0.137.5"
   },
   "devDependencies": {
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "2.5.2"
   }
 }
