@@ -29,3 +29,7 @@ body {
   width: 100%;
   height: 100%;
 }
+
+.ui_View3D * {
+  z-index: 2;
+}

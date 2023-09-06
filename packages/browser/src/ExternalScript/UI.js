@@ -73,12 +73,12 @@ export class UI extends Game.External.ScriptBase {
       'Paramètres',
       () => {
         // pause gameview
-        this.context.frame3D.setIsRendering(false);
+        this.context.frame3D.isRendering = false;
         this.context.inputManager.setPause(true);
         this.context.frame3D.domElementUI.appendChild(menuSettings.html());
 
         menuSettings.setOnClose(() => {
-          this.context.frame3D.setIsRendering(true);
+          this.context.frame3D.isRendering = true;
           this.context.inputManager.setPause(false);
           menuSettings.html().remove();
         });
@@ -148,7 +148,7 @@ export class UI extends Game.External.ScriptBase {
         'Menu Avatar',
         () => {
           // pause gameview
-          this.context.frame3D.setIsRendering(false);
+          this.context.frame3D.isRendering = false;
           this.context.inputManager.setPause(true);
 
           // register
@@ -203,7 +203,7 @@ export class UI extends Game.External.ScriptBase {
             //       menuAvatarGameView.dispose(); //remove menu avatar
 
             //       //unpause gameview
-            //       gameView.setIsRendering(true);
+            //       gameView.isRendering = (true);
             //       gameView.getInputManager().setPause(false);
 
             //       //add html
@@ -274,7 +274,7 @@ export class UI extends Game.External.ScriptBase {
     this.context.frame3D.domElementUI.appendChild(content);
 
     // pause avatar command stop rendering
-    this.context.frame3D.setIsRendering(false);
+    this.context.frame3D.isRendering = false;
     const avatarController = this.context.findExternalScriptWithID(
       AvatarController.ID_SCRIPT
     );
@@ -286,7 +286,7 @@ export class UI extends Game.External.ScriptBase {
       closebutton.remove();
 
       // restore rendering + avatar command
-      this.context.frame3D.setIsRendering(true);
+      this.context.frame3D.isRendering = true;
       avatarController.setAvatarControllerMode(true);
     };
   }

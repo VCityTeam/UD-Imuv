@@ -1,5 +1,7 @@
 /** @format */
 
+// OLD CLASS UNUSED
+
 import WorldStateInterpolator from 'ud-viz/src/Game/WorldStateInterpolator';
 import { WorldState, WorldStateDiff } from 'ud-viz/src/Game/Game';
 import { GameView } from 'ud-viz/src/Views/Views';
