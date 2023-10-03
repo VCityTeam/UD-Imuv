@@ -1,7 +1,6 @@
 const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
 const reload = require('reload');
-const Constant = require('./Constant');
 const path = require('path');
 
 const app = express();
@@ -40,7 +39,7 @@ const httpServer = app.listen(port, (err) => {
   console.log('Http server listening on port', port);
 });
 
-reload(app, { port: Constant.RELOAD_PORT });
+reload(app, { port: 8082 });
 try {
   // start applicaction server
   const { UDIMUVServer } = require('@ud-imuv/node');
