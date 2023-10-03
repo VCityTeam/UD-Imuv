@@ -10,7 +10,7 @@ module.exports = {
     JITSI_PUBLIC_URL: true,
   },
   extends: ['eslint:recommended', 'prettier'],
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jsdoc'],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
@@ -23,7 +23,6 @@ module.exports = {
       mode: 'typescript',
     },
   },
-  overrides: [{ files: ['*.html'], rules: { 'prettier/prettier': ['off'] } }],
   rules: {
     'prettier/prettier': ['error'],
     'linebreak-style': ['error', 'unix'],

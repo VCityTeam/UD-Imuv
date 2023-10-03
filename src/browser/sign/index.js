@@ -1,5 +1,7 @@
-import './Sign.css';
-import { Constant } from '@ud-imuv/shared';
+import './style.css';
+
+import { request } from '../component/utils';
+import { API } from '../../shared/constant';
 
 // Helper
 const createInput = function (name, root, type = 'text') {
@@ -19,7 +21,7 @@ const createInput = function (name, root, type = 'text') {
 };
 
 export class SignUpView {
-  constructor(socketIOWrapper) {
+  constructor() {
     this.domElement = document.createElement('div');
     this.domElement.classList.add('root_Sign');
 
@@ -31,18 +33,12 @@ export class SignUpView {
     this.inputPassword = null;
     this.signUpButton = null;
 
-    this.socketIOWrapper = socketIOWrapper;
-
-    this.init();
+    this.initUI();
+    this.initCallbacks();
   }
 
   setOnClose(f) {
     this.closeButton.onclick = f;
-  }
-
-  init() {
-    this.initUI();
-    this.initCallbacks();
   }
 
   initUI() {
@@ -67,33 +63,23 @@ export class SignUpView {
   }
 
   initCallbacks() {
-    const _this = this;
-
-    this.signUpButton.onclick = function () {
-      const email = _this.inputMail.value;
-      const confirmEmail = _this.inputMailConfirm.value;
-      const password = _this.inputPassword.value;
-      const nameUser = _this.inputNameUser.value;
+    this.signUpButton.onclick = () => {
+      const email = this.inputMail.value;
+      const confirmEmail = this.inputMailConfirm.value;
+      const password = this.inputPassword.value;
+      const nameUser = this.inputNameUser.value;
 
       if (email != confirmEmail) {
         alert('email are not the same');
         return;
       }
 
-      _this.socketIOWrapper.emit(Constant.WEBSOCKET.MSG_TYPE.SIGN_UP, {
+      request(API.SIGN_IN, {
         email: email,
         password: password, // TODO Iam sure this is safe (if send with protocol wss ok apparently)
         nameUser: nameUser,
       });
     };
-  }
-
-  dispose() {
-    this.domElement.remove();
-  }
-
-  html() {
-    return this.domElement;
   }
 }
 
@@ -168,3 +154,8 @@ export class SignInView {
     return this.domElement;
   }
 }
+
+const signUpView = new SignUpView();
+const signInView = new SignInView();
+
+document.body.appendChild(signUpView.domElement);

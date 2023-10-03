@@ -1,40 +1,51 @@
-/** @file Running the build-debug script */
-const exec = require('child-process-promise').exec;
-const { spawn } = require('child-process-promise');
+/** @file Running dev routine */
+const { spawn, exec } = require('child-process-promise');
 
-// run a build debug bundle browser
-const childExecBuildDebug = exec(
-  'npm run build-debug --prefix ./packages/browser'
-);
-childExecBuildDebug.childProcess.stdout.on('data', (data) => {
-  console.log(`${data}`);
-});
-childExecBuildDebug.childProcess.stderr.on('data', (data) => {
-  console.error('build-debug Process | ' + ` ERROR :\n${data}`);
-});
+const print = function (result) {
+  if (result.stdout) console.log('stdout: \n', result.stdout);
 
-childExecBuildDebug.finally(() => {
-  const childSpawnHost = spawn('node', ['./bin/host.js', process.env.PORT], {
-    shell: true,
-  });
+  if (result.stderr) console.error('stderr: \n', result.stderr);
+};
 
-  childSpawnHost.childProcess.stdout.on('data', (data) => {
+// TODO build bundle procedurally + opti nodemon 1 watcher par build et js
+
+// const buildGameBundle = exec(
+//   'npm exec cross-env ENTRY=./src/browser/game/index.js npm run build-dev'
+// );
+
+// const buildEditorBundle = exec(
+//   'npm exec cross-env ENTRY=./src/browser/editor/index.js npm run build-dev'
+// );
+
+const routine = async () => {
+  // build bundles
+
+  let result = await exec(
+    'npm exec cross-env NAME=sign ENTRY=./src/browser/sign/index.js npm run build-dev'
+  );
+
+  print(result);
+
+  result = await exec(
+    'npm exec cross-env NAME=reception ENTRY=./src/browser/reception/index.js npm run build-dev'
+  );
+  print(result);
+
+  // spawn backend
+  const childSpawnBackend = spawn(
+    'node',
+    ['./bin/backend/index.js', process.env.PORT, '--trace-warnings'],
+    {
+      shell: true,
+    }
+  );
+
+  childSpawnBackend.childProcess.stdout.on('data', (data) => {
     console.log(`${data}`);
   });
-  childSpawnHost.childProcess.stderr.on('data', (data) => {
-    console.error('host Process | ', ` ERROR :\n${data}`);
+  childSpawnBackend.childProcess.stderr.on('data', (data) => {
+    console.error('\x1b[31m', 'backend process | ', ` ERROR :\n${data}`);
   });
-});
+};
 
-// app.start({
-//   folder: './packages/browser',
-//   port: 8000,
-//   gameObjectsFolderPath: path.resolve(
-//     process.cwd(),
-//     './packages/browser/assets/gameObject3D'
-//   ),
-//   threadProcessPath: path.resolve(
-//     process.cwd(),
-//     './packages/node/dist/thread/debug/bundle.js'
-//   ),
-// });
+routine();

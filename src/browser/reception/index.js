@@ -1,20 +1,8 @@
-import './Reception.css';
-import { getTextByID } from './Texts/ReceptionTexts';
-import { SignInView, SignUpView } from '../Sign/Sign';
-import * as ExternalScript from '../ExternalScript/ExternalScript';
+import './style.css'; // specific reception css
+import { getTextByID } from './texts';
 
-import {
-  AssetManager,
-  itowns,
-  proj4,
-  InputManager,
-  loadJSON,
-  Game,
-} from '@ud-viz/browser';
-import { Constant as UDIMUVConstant } from '@ud-imuv/shared';
-
-export class ReceptionView {
-  constructor(socketIOWrapper) {
+class ReceptionView {
+  constructor() {
     // root
     this.domElement = document.createElement('div');
     this.domElement.classList.add('root_Reception');
@@ -33,9 +21,6 @@ export class ReceptionView {
       nameUser: 'default_name_user',
       role: 'default_role_user',
     };
-
-    // socket service
-    this.socketIOWrapper = socketIOWrapper;
 
     // default lang is FR
     this.language = 'FR';
@@ -337,10 +322,6 @@ export class ReceptionView {
     creditsSection.appendChild(creditsContentList);
   }
 
-  dispose() {
-    this.domElement.remove();
-  }
-
   initCallbacks() {
     const _this = this;
 
@@ -445,31 +426,31 @@ export class ReceptionView {
     };
 
     // sign up
-    let signUpView = null;
-    this.signUpButton.onclick = function () {
-      if (signUpView) return;
-      if (signInView) {
-        signInView.dispose();
-        signInView = null;
-      }
-      signUpView = new SignUpView(_this.socketIOWrapper);
-      document.body.appendChild(signUpView.html());
+    // let signUpView = null;
+    // this.signUpButton.onclick = function () {
+    //   if (signUpView) return;
+    //   if (signInView) {
+    //     signInView.dispose();
+    //     signInView = null;
+    //   }
+    //   signUpView = new SignUpView(_this.socketIOWrapper);
+    //   document.body.appendChild(signUpView.html());
 
-      signUpView.setOnClose(function () {
-        signUpView.dispose();
-        signUpView = null;
-      });
-    };
-    this.socketIOWrapper.on(
-      UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGN_UP_SUCCESS,
-      function () {
-        console.log('sign up success ');
-        if (signUpView) {
-          signUpView.dispose();
-          signUpView = null;
-        }
-      }
-    );
+    //   signUpView.setOnClose(function () {
+    //     signUpView.dispose();
+    //     signUpView = null;
+    //   });
+    // };
+    // this.socketIOWrapper.on(
+    //   UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGN_UP_SUCCESS,
+    //   function () {
+    //     console.log('sign up success ');
+    //     if (signUpView) {
+    //       signUpView.dispose();
+    //       signUpView = null;
+    //     }
+    //   }
+    // );
 
     // sign in
     let signInView = null;
@@ -488,27 +469,27 @@ export class ReceptionView {
       });
     };
 
-    this.socketIOWrapper.on(
-      UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGNED,
-      function (data) {
-        if (signInView) {
-          signInView.dispose();
-          signInView = null;
-        }
+    // this.socketIOWrapper.on(
+    //   UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGNED,
+    //   function (data) {
+    //     if (signInView) {
+    //       signInView.dispose();
+    //       signInView = null;
+    //     }
 
-        // update ui
-        _this.nameUserLabel.innerHTML = data.nameUser;
-        _this.roleUserLabel.innerHTML = data.role;
-        // register values
-        _this.userData = data;
+    //     // update ui
+    //     _this.nameUserLabel.innerHTML = data.nameUser;
+    //     _this.roleUserLabel.innerHTML = data.role;
+    //     // register values
+    //     _this.userData = data;
 
-        if (data.role == UDIMUVConstant.USER.ROLE.ADMIN) {
-          _this.editorButton.classList.remove('hidden');
-        } else {
-          _this.editorButton.classList.add('hidden');
-        }
-      }
-    );
+    //     if (data.role == UDIMUVConstant.USER.ROLE.ADMIN) {
+    //       _this.editorButton.classList.remove('hidden');
+    //     } else {
+    //       _this.editorButton.classList.add('hidden');
+    //     }
+    //   }
+    // );
 
     // editor
     this.editorButton.onclick = function () {
@@ -527,8 +508,8 @@ export class ReceptionView {
       });
     };
   }
-
-  html() {
-    return this.domElement;
-  }
 }
+
+// TODO : this class is useless
+const r = new ReceptionView();
+document.body.appendChild(r.domElement);

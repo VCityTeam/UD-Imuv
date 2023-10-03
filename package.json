@@ -6,20 +6,17 @@
     "doc": "docs"
   },
   "scripts": {
+    "clean": "rm -f -r node_modules && rm -f package-lock.json && rm -f  -r ./public/dist/",
+    "clear-node": "sudo killall -9 node",
+    "reset": "npm run clean && npm i",
     "assert-code": "cross-env NODE_ENV=production node ./bin/assertCode.js",
     "validate-links": "node ./bin/validateLinks.js",
     "eslint": "eslint --ignore-path .gitignore \"packages/**/*.js\"",
     "eslint-quiet": "eslint --quiet --ignore-path .gitignore \"packages/**/*.js\" ",
     "eslint-fix": "eslint --fix --ignore-path .gitignore \"packages/**/*.js\" ",
     "local-ci": "npm run eslint && npm run assert-code && npm audit --audit-level=low && npm run validate-links",
-    "clean": "rm -f -r node_modules && rm -f package-lock.json && rm -f  -r ./packages/**/dist && rm -f  -r ./packages/**/node_modules",
-    "clear-node": "sudo killall -9 node",
-    "reset": "npm run clean && npm i",
-    "link-local": "npm link ./packages/shared ; npm link ./packages/browser ; npm link ./packages/node",
-    "build-shared": "npm run build --prefix ./packages/shared",
-    "build-browser": "npm run build --prefix ./packages/browser",
-    "build-node": "npm run build --prefix ./packages/node",
-    "debug": "dotenv -e .env -- cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./packages/shared/src --watch ./packages/browser/src --watch ./packages/node/src --delay 2500ms ./bin/debug.js -e js,css,html",
+    "build-dev": "dotenv -e .env -- cross-env NODE_ENV=development webpack --config ./webpack.config.js",
+    "dev": "dotenv -e .env -- cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./src --watch ./bin/backend --delay 2500ms ./bin/dev.js -e js,css,html",
     "host": "dotenv -e .env -- node ./bin/host.js"
   },
   "repository": {
@@ -36,7 +33,6 @@
   },
   "homepage": "https://github.com/VCityTeam/UD-Imuv#readme",
   "devDependencies": {
-    "@ud-viz/node": "3.1.1",
     "child-process-promise": "2.2.1",
     "cross-env": "7.0.3",
     "css-loader": "6.7.1",
@@ -45,13 +41,14 @@
     "eslint": "7.28.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-html": "7.1.0",
+    "eslint-plugin-jsdoc": "39.6.4",
     "express": "^4.18.2",
     "front-matter-loader": "2.0.0",
     "gitlog": "4.0.4",
     "html-loader": "2.1.2",
     "json-loader": "0.5.7",
-    "nodemon": "^2.0.22",
-    "path": "0.12.7",
+    "nodemon": "^3.0.1",
     "prettier": "2.7.1",
     "raw-loader": "4.0.2",
     "reload": "3.2.1",
@@ -59,9 +56,10 @@
     "style-loader": "3.3.1",
     "url-loader": "4.1.1",
     "webpack": "^5.88.2",
-    "webpack-cli": "4.5.0"
+    "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "parse": "^4.2.0",
     "remark-cli": "^11.0.0",
     "remark-validate-links": "^12.1.1"
   }
