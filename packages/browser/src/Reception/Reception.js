@@ -1,14 +1,3 @@
-/* eslint-disable */
-// import * as JitsiIframeAPI from 'jitsi-iframe-api';
-// import { Constant } from '@ud-imuv/shared';
-// import { AnimatedText } from '../LocalScriptsModule/AnimatedText/AnimatedText';
-
-// import { EditorView } from '../Editor/Editor';
-// import { SystemUtils } from 'ud-viz/src/Components/Components';
-
-// import { AssetsManager } from 'ud-viz/src/Views/Views';
-// import { DistantGame } from '../DistantGame/DistantGame';
-
 import './Reception.css';
 import { getTextByID } from './Texts/ReceptionTexts';
 import { SignInView, SignUpView } from '../Sign/Sign';
