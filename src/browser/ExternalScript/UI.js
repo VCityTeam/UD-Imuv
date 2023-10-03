@@ -761,6 +761,9 @@ class MenuSettings {
     labelGlobalSound.classList.add('label-menu-settings');
     audioSliderDiv.appendChild(labelGlobalSound);
 
+    // Remove me
+    Howler.volume(0);
+
     // check is settings has been saved
     if (!isNaN(this.context.userData.settings.volumeValue)) {
       // eslint-disable-next-line no-undef

@@ -10,31 +10,11 @@ const defaultVariables = {
   zeppelinSpeedRotate: 0.0001,
 };
 
-module.exports = class MyCommandManager extends NativeCommandManager {
+module.exports = class ImuvCommandManager extends NativeCommandManager {
   constructor(context, object3D, variables) {
     const overWriteVariables = JSON.parse(JSON.stringify(defaultVariables));
     Data.objectOverWrite(overWriteVariables, variables);
     super(context, object3D, overWriteVariables);
-  }
-
-  onCommand(type, data) {
-    if (!data) return;
-    /** @type {Object3D} */
-    const updatedObject3D = this.context.object3D.getObjectByProperty(
-      'uuid',
-      data.object3DUUID
-    );
-
-    if (updatedObject3D.userData.isAvatar) {
-      this.variables.speedTranslate = this.variables.avatarSpeedTranslate;
-      this.variables.speedRotate = this.variables.avatarSpeedRotate;
-    }
-    if (updatedObject3D.userData.isZeppelin) {
-      this.variables.speedTranslate = this.variables.zeppelinSpeedTranslate;
-      this.variables.speedRotate = this.variables.zeppelinSpeedRotate;
-    }
-
-    super.onCommand(type, data);
   }
 
   computeObjectSpeedTranslate(object) {

@@ -5,9 +5,6 @@
   "directories": {
     "doc": "docs"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "assert-code": "cross-env NODE_ENV=production node ./bin/assertCode.js",
     "validate-links": "node ./bin/validateLinks.js",
@@ -48,7 +45,7 @@
     "eslint": "7.28.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.2.1",
-    "express": "4.18.2",
+    "express": "^4.18.2",
     "front-matter-loader": "2.0.0",
     "gitlog": "4.0.4",
     "html-loader": "2.1.2",
