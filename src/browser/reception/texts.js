@@ -1,5 +1,5 @@
 /* A function that takes an id and returns the text associated with that id. */
-const getTextByID = function (id, lang) {
+const getTextByID = (id, lang) => {
   return texts[lang][id] || 'TEXT NOT DEFINED';
 };
 

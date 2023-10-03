@@ -1,37 +1,36 @@
 const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
+const runParse = require('./parse');
 const reload = require('reload');
-const path = require('path');
 
+// launch an express app
 const app = express();
-
-// run an express server
 
 if (process.argv[2] && isNaN(process.argv[2])) {
   throw new Error('INVALID PORT');
 }
 const port = process.argv[2];
 
-console.log(process.env.NODE_ENV);
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const runMode = NODE_ENV === 'production' ? 'release' : 'debug';
+console.log('backend running in mode ', NODE_ENV);
 
 const options = {
   contentTypeFilterRegexp: /text\/html/,
 };
 
+// TODO see how to modify html title + bundle import procedurally
 app.use(
   stringReplace(
     {
-      RUN_MODE: runMode,
+      RUN_MODE: NODE_ENV,
     },
     options
   )
 );
 
-app.use(express.static('./packages/browser'));
+app.use(express.static('./public'));
 
-const httpServer = app.listen(port, (err) => {
+app.listen(port, (err) => {
   if (err) {
     console.error('Server does not start');
     return;
@@ -39,16 +38,6 @@ const httpServer = app.listen(port, (err) => {
   console.log('Http server listening on port', port);
 });
 
-reload(app, { port: 8082 });
-try {
-  // start applicaction server
-  const { UDIMUVServer } = require('@ud-imuv/node');
+runParse(app);
 
-  const myAppNameServer = new UDIMUVServer();
-  myAppNameServer.start(
-    httpServer,
-    path.resolve('./packages/browser/assets/gameObject3D')
-  );
-} catch (e) {
-  console.error(e);
-}
+reload(app, { port: 8082 }); // TODO: pass reload port as the http server port
