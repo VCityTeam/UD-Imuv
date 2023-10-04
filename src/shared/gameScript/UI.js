@@ -1,9 +1,9 @@
-const { Game } = require('@ud-viz/shared');
+const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
 
-module.exports = class UI extends Game.ScriptBase {
+module.exports = class UI extends ScriptBase {
   tick() {
     const externalScriptComp = this.object3D.getComponent(
-      Game.Component.ExternalScript.TYPE
+      ExternalScriptComponent.TYPE
     );
 
     // change variables of an external script

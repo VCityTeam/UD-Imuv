@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 if (!process.env.ENTRY) {
   throw new Error(
@@ -12,10 +13,29 @@ if (!process.env.NAME) {
   );
 }
 
+// Inject environnement variables (they have to be declare in your .env !!!)
+const keyEnvVariables = ['JITSI_PUBLIC_URL', 'WBO_PUBLIC_URL'];
+const plugins = [];
+const params = {};
+keyEnvVariables.forEach(function (key) {
+  console.log(key, ' = ', JSON.stringify(process.env[key]));
+  params[key] = JSON.stringify(process.env[key]);
+});
+plugins.push(new webpack.DefinePlugin(params));
+// possible de write in sources DEBUG flag that is going to be replace by a boolean during webpack
+plugins.push(
+  new webpack.DefinePlugin({
+    DEBUG: process.env.NODE_ENV == 'development',
+  })
+);
+
 const result = {
   entry: process.env.ENTRY,
   output: {
     filename: 'bundle.js',
+    library: process.env.NAME,
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
   },
   module: {
     rules: [],
@@ -25,7 +45,16 @@ const result = {
       'node_modules', // The default
       'src',
     ],
+    fallback: {
+      buffer: false,
+    },
   },
+  plugins: [
+    ...plugins,
+    new webpack.ProvidePlugin({
+      Buffer: [require.resolve('buffer/'), 'Buffer'],
+    }),
+  ],
 };
 
 // inject css in bundle

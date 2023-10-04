@@ -1,6 +1,6 @@
-const { Game } = require('@ud-viz/shared');
+const { ScriptBase } = require('@ud-viz/game_shared');
 
-module.exports = class Teleporter extends Game.ScriptBase {
+module.exports = class Teleporter extends ScriptBase {
   onAvatar(avatarGO) {
     avatarGO.setFromTransformJSON(this.conf.destinationTransform);
   }

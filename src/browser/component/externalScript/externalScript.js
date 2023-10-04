@@ -38,7 +38,7 @@ export { ZeppelinController } from './ZeppelinController';
 export { ZeppelinStart } from './ZeppelinStart';
 
 // global css import todo each externalscript should import the css its needed
-// remove image link in css as wellr
+// remove image link in css as well
 import './css/button_imuv.css';
 import './css/debug.css';
 import './css/display_media.css';

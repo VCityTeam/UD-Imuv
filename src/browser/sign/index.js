@@ -1,6 +1,6 @@
 import './style.css';
 
-import { request } from '../component/utils';
+import { request } from '../utils';
 import { API } from '../../shared/constant';
 
 // Helper

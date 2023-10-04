@@ -1,5 +1,8 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
-import { Routine } from './Component/Routine';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { Object3D } from '@ud-viz/game_shared';
+
+import { Routine } from './component/Routine'; // TODO remove me
 import { AvatarController } from './AvatarController';
 import { ZeppelinController } from './ZeppelinController';
 import { StaticObject } from './StaticObject';
@@ -7,7 +10,7 @@ import { StaticObject } from './StaticObject';
 const DISTANCE_CAMERA_AVATAR = 5;
 const DISTANCE_CAMERA_ZEPPELIN = 40;
 
-export class Camera extends Game.External.ScriptBase {
+export class Camera extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -269,7 +272,7 @@ class Focus {
     const zDiff = this.bbTarget.max.z - this.bbTarget.min.z;
     position.z += zDiff;
 
-    const dir = Shared.Game.Object3D.DefaultForward()
+    const dir = Object3D.DefaultForward()
       .applyQuaternion(this.quaternionAngle)
       .applyQuaternion(quaternion);
 

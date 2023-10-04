@@ -1,15 +1,14 @@
-import { Game, Shared } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { AudioComponent } from '@ud-viz/game_shared';
 
-export class PortalSweep extends Game.External.ScriptBase {
+export class PortalSweep extends ScriptBase {
   onEnter() {
     if (this.context.userData.editorMode) {
       console.warn('no portal sweep in editor mode');
       return;
     }
 
-    const audioComp = this.object3D.getComponent(
-      Shared.Game.Component.Audio.TYPE
-    );
+    const audioComp = this.object3D.getComponent(AudioComponent.TYPE);
 
     audioComp.getController().play('portal_in');
 

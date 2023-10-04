@@ -8,25 +8,29 @@
 </head>
 
 <body>
+  <script src="./dist/utils/RUN_MODE/bundle.js"></script>
+
   <div class="centered">
     <label>name</label>
     <input id="input_name" type="text"></input>
     <label>password</label>
     <input id="input_password" type="password"></input>
-    <button onclick="signIn()" id="sign_in_button">Connexion</button>
+    <button onclick="signIn()">Connexion</button>
+    <button onclick="goToSignUp()">Sign up</button>
   </div>
   <script>
     function signIn() {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", window.origin + "/sign_in");
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send({
+      utils.request(window.origin + "/sign_in", {
         name: document.getElementById("input_name").value,
         password: document.getElementById("input_password").value
-      });
-      xhr.onloadend = () => {
+      }, "text").then((token) => {
+        utils.writeTokenInCookie(token)
+        window.location.href = "./index.html"
+      }).catch((response) => alert(response.error.message))
+    }
 
-      }
+    function goToSignUp() {
+      window.location.href = "./sign_up.html"
     }
   </script>
 </body>

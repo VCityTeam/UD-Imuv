@@ -1,12 +1,12 @@
-const { Game } = require('@ud-viz/shared');
-const Constant = require('../Constant');
+const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
+const { COMMAND } = require('../constant');
 
-module.exports = class CityMap extends Game.ScriptBase {
+module.exports = class CityMap extends ScriptBase {
   tick() {
     const teleportCmds = [];
     const pingCmds = [];
     const externalScriptCompCityMap = this.object3D.getComponent(
-      Game.Component.ExternalScript.TYPE
+      ExternalScriptComponent.TYPE
     );
 
     // clear array
@@ -18,7 +18,7 @@ module.exports = class CityMap extends Game.ScriptBase {
     for (let i = this.context.commands.length - 1; i >= 0; i--) {
       const cmd = this.context.commands[i];
       if (
-        cmd.type == Constant.COMMAND.TELEPORT &&
+        cmd.type == COMMAND.TELEPORT &&
         cmd.data.object3DUUID == this.object3D.uuid
       ) {
         teleportCmds.push(cmd);
@@ -30,7 +30,7 @@ module.exports = class CityMap extends Game.ScriptBase {
     for (let i = this.context.commands.length - 1; i >= 0; i--) {
       const cmd = this.context.commands[i];
       if (
-        cmd.type == Constant.COMMAND.PING &&
+        cmd.type == COMMAND.PING &&
         cmd.data.object3DUUID == this.object3D.uuid
       ) {
         pingCmds.push(cmd);

@@ -1,17 +1,18 @@
-import {
-  THREE,
-  OrbitControls,
-  TransformControls,
-  Shared,
-  Game,
-} from '@ud-viz/browser';
-import { PrefabFactory } from '@ud-imuv/shared';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+
+import { ScriptBase } from '@ud-viz/game_browser';
+import { Command } from '@ud-viz/game_shared';
+import { constant } from '@ud-viz/game_shared_template';
+
+import { box3D } from '../../../shared/prefabFactory';
 import { UI } from './UI';
 import { CameraManager } from './CameraManager';
 import { AvatarController } from './AvatarController';
 import { ItownsRefine } from './ItownsRefine';
 
-export class Box3DTool extends Game.External.ScriptBase {
+export class Box3DTool extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -157,13 +158,13 @@ class MenuBox3D {
       // game referential
       boxPosition.sub(this.context.object3D.position);
 
-      const newBox3D = PrefabFactory.box3D();
+      const newBox3D = box3D();
       newBox3D.position.copy(boxPosition);
       newBox3D.scale.copy(new THREE.Vector3(50, 50, 50));
 
       this.context.sendCommandToGameContext([
-        new Shared.Command({
-          type: Shared.Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
+        new Command({
+          type: constant.COMMAND.ADD_OBJECT3D,
           data: {
             object3D: newBox3D.toJSON(),
           },
@@ -250,8 +251,8 @@ class MenuBox3D {
     removeButton.innerHTML = 'Remove';
     removeButton.onclick = () => {
       this.context.sendCommandToGameContext([
-        new Shared.Command({
-          type: Shared.Game.ScriptTemplate.Constants.COMMAND.REMOVE_OBJECT3D,
+        new Command({
+          type: constant.COMMAND.REMOVE_OBJECT3D,
           data: {
             object3DUUID: this.selectedBox3D.uuid,
           },
@@ -340,8 +341,8 @@ class MenuBox3D {
       this.transformCtrl.addEventListener('change', () => {
         this.transformCtrl.updateMatrixWorld();
         this.context.sendCommandToGameContext([
-          new Shared.Command({
-            type: Shared.Game.ScriptTemplate.Constants.COMMAND.UPDATE_TRANSFORM,
+          new Command({
+            type: constant.COMMAND.UPDATE_TRANSFORM,
             data: {
               object3DUUID: this.selectedBox3D.uuid,
               position: this.ghostBox.position.clone().sub(parentPosition),

@@ -1,12 +1,16 @@
-import { Game, Shared, THREE, THREEUtil } from '@ud-viz/browser';
-import { Constant } from '@ud-imuv/shared';
-import { AnimatedText } from './Component/AnimatedText/AnimatedText';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { addLights } from '@ud-viz/utils_browser';
+import { Command, RenderComponent } from '@ud-viz/game_shared';
+import * as THREE from 'three';
+import { MAP_CLICK_MODE, COMMAND } from '.././../../shared/constant';
+
+import { AnimatedText } from './component/animatedText/AnimatedText';
 
 const MINI_MAP_SIZE = 500;
 const AVATAR_SIZE_MIN = 15;
 const AVATAR_SIZE_MAX = 25;
 
-export class MiniMap extends Game.External.ScriptBase {
+export class MiniMap extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -75,11 +79,11 @@ export class MiniMap extends Game.External.ScriptBase {
   setClickMode(mode) {
     this.clickMode = mode;
 
-    if (mode == Constant.MAP_CLICK_MODE.DEFAULT) {
+    if (mode == MAP_CLICK_MODE.DEFAULT) {
       this.setCursorPointer(false);
-    } else if (mode == Constant.MAP_CLICK_MODE.PING) {
+    } else if (mode == MAP_CLICK_MODE.PING) {
       this.setCursorPointer(true);
-    } else if (mode == Constant.MAP_CLICK_MODE.TELEPORT) {
+    } else if (mode == MAP_CLICK_MODE.TELEPORT) {
       this.setCursorPointer(true);
     }
   }
@@ -89,7 +93,7 @@ export class MiniMap extends Game.External.ScriptBase {
    * mini map
    */
   init() {
-    this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+    this.setClickMode(MAP_CLICK_MODE.DEFAULT);
 
     this.createDivInfos();
 
@@ -106,16 +110,16 @@ export class MiniMap extends Game.External.ScriptBase {
       const ratioY = 1 - (y - rect.top) / (rect.bottom - rect.top);
 
       // check mode
-      if (this.clickMode === Constant.MAP_CLICK_MODE.TELEPORT) {
+      if (this.clickMode === MAP_CLICK_MODE.TELEPORT) {
         const teleportPosition = new THREE.Vector3(
           (ratioX - 0.5) * this.variables.mini_map_size,
           (ratioY - 0.5) * this.variables.mini_map_size,
           0
         );
-        this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+        this.setClickMode(MAP_CLICK_MODE.DEFAULT);
         this.context.sendCommandToGameContext([
-          new Shared.Command({
-            type: Constant.COMMAND.TELEPORT,
+          new Command({
+            type: COMMAND.TELEPORT,
             data: {
               object3DUUID: this.object3D.uuid,
               mousePosition: { x: x, y: y },
@@ -124,11 +128,11 @@ export class MiniMap extends Game.External.ScriptBase {
             },
           }),
         ]);
-      } else if (this.clickMode === Constant.MAP_CLICK_MODE.PING) {
-        this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+      } else if (this.clickMode === MAP_CLICK_MODE.PING) {
+        this.setClickMode(MAP_CLICK_MODE.DEFAULT);
         this.context.sendCommandToGameContext([
-          new Shared.Command({
-            type: Constant.COMMAND.PING,
+          new Command({
+            type: COMMAND.PING,
             data: {
               object3DUUID: this.object3D.uuid,
               mousePosition: {
@@ -170,8 +174,8 @@ export class MiniMap extends Game.External.ScriptBase {
         const y = event.pageY;
 
         this.context.sendCommandToGameContext([
-          new Shared.Command({
-            type: Constant.COMMAND.TELEPORT,
+          new Command({
+            type: COMMAND.TELEPORT,
             data: {
               object3DUUID: this.object3D.uuid,
               mousePosition: { x: x, y: y }, // should be useless since portal have to be in map
@@ -305,11 +309,11 @@ export class MiniMap extends Game.External.ScriptBase {
   updateBackgroundImage() {
     const scene = new THREE.Scene();
 
-    THREEUtil.addLights(scene);
+    addLights(scene);
 
     this.context.object3D.traverse((g) => {
       if (g.isGameObject3D && g.isStatic()) {
-        const r = g.getComponent(Shared.Game.Component.Render.TYPE);
+        const r = g.getComponent(RenderComponent.TYPE);
         if (r) {
           const clone = r.getController().getObject3D().clone();
 
@@ -398,7 +402,7 @@ export class MiniMap extends Game.External.ScriptBase {
 
   fetchAvatarColor(avatarGO) {
     const avatarColor = avatarGO
-      .getComponent(Shared.Game.Component.Render.TYPE)
+      .getComponent(RenderComponent.TYPE)
       .getModel()
       .getColor();
     return (

@@ -1,6 +1,6 @@
-import { Game } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
 
-export class Rotate extends Game.External.ScriptBase {
+export class Rotate extends ScriptBase {
   tick() {
     let speed = this.variables.speed;
     if (!speed) speed = 0.01;

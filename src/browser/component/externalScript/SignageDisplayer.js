@@ -1,8 +1,10 @@
-import { Game, THREE, DomElement3D } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import * as THREE from 'three';
+import { DomElement3D } from '@ud-viz/frame3d';
 
 // TODO refacto this class
 
-export class SignageDisplayer extends Game.External.ScriptBase {
+export class SignageDisplayer extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 

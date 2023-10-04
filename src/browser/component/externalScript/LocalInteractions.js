@@ -1,7 +1,9 @@
-import { Game, Shared } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { ExternalScriptComponent } from '@ud-viz/game_shared';
+
 import { UI } from './UI';
 
-export class LocalInteractions extends Game.External.ScriptBase {
+export class LocalInteractions extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -13,7 +15,7 @@ export class LocalInteractions extends Game.External.ScriptBase {
 
   init() {
     const externalComp = this.object3D.getComponent(
-      Shared.Game.Component.ExternalScript.TYPE
+      ExternalScriptComponent.TYPE
     );
     this.externalScripts = Object.values(
       externalComp.getController().getScripts()

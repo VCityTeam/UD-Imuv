@@ -17,7 +17,8 @@
     "local-ci": "npm run eslint && npm run assert-code && npm audit --audit-level=low && npm run validate-links",
     "build-dev": "dotenv -e .env -- cross-env NODE_ENV=development webpack --config ./webpack.config.js",
     "dev": "dotenv -e .env -- cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./src --watch ./bin/backend --delay 2500ms ./bin/dev.js -e js,css,html",
-    "host": "dotenv -e .env -- node ./bin/host.js"
+    "host": "dotenv -e .env -- node ./bin/host.js",
+    "create-admin": "dotenv -e .env node ./bin/backend/createAdmin.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,10 @@
   },
   "homepage": "https://github.com/VCityTeam/UD-Imuv#readme",
   "devDependencies": {
+    "@ud-viz/game_node": "^4.0.0",
+    "@ud-viz/game_node_template": "^4.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "child-process-promise": "2.2.1",
     "cross-env": "7.0.3",
     "css-loader": "6.7.1",
@@ -40,18 +45,22 @@
     "dotenv-cli": "7.2.1",
     "eslint": "7.28.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-html": "7.1.0",
     "eslint-plugin-jsdoc": "39.6.4",
+    "eslint-plugin-prettier": "4.2.1",
     "express": "^4.18.2",
     "front-matter-loader": "2.0.0",
     "gitlog": "4.0.4",
     "html-loader": "2.1.2",
     "json-loader": "0.5.7",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.0.1",
+    "parse": "^4.2.0",
     "prettier": "2.7.1",
     "raw-loader": "4.0.2",
     "reload": "3.2.1",
+    "remark-cli": "^11.0.0",
+    "remark-validate-links": "^12.1.1",
     "string-replace-middleware": "1.0.2",
     "style-loader": "3.3.1",
     "url-loader": "4.1.1",
@@ -59,8 +68,19 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "parse": "^4.2.0",
-    "remark-cli": "^11.0.0",
-    "remark-validate-links": "^12.1.1"
+    "@ud-viz/game_browser": "^4.0.0",
+    "@ud-viz/game_browser_template": "^4.0.0",
+    "@ud-viz/game_shared": "^4.0.0",
+    "@ud-viz/game_shared_template": "^4.0.0",
+    "@ud-viz/utils_browser": "^4.0.0",
+    "@ud-viz/widget_camera_positioner": "^4.0.0",
+    "@ud-viz/widget_geocoding": "^4.0.0",
+    "@ud-viz/widget_layer_choice": "^4.0.0",
+    "buffer": "^6.0.3",
+    "itowns": "^2.40.0",
+    "jitsi-iframe-api": "^1.0.0",
+    "jquery": "^3.7.1",
+    "proj4": "^2.8.0",
+    "three": "^0.154.0"
   }
 }

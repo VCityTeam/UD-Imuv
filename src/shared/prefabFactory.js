@@ -1,6 +1,6 @@
-const { Game } = require('@ud-viz/shared');
-const Avatar = require('./GameScript/Avatar');
-const InteractionZone = require('./GameScript/InteractionZone');
+const Avatar = require('./gameScript/Avatar');
+const InteractionZone = require('./gameScript/InteractionZone');
+const { Object3D } = require('@ud-viz/game_shared');
 
 // TODO
 const CONSTANT_TYPE_GO = {
@@ -9,7 +9,7 @@ const CONSTANT_TYPE_GO = {
 
 module.exports = {
   postIt: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'Post_it',
       userData: {
         typePrefab: CONSTANT_TYPE_GO.postit, // think about that
@@ -30,7 +30,7 @@ module.exports = {
     });
   },
   box3D: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'Box_3D',
       static: false,
       userData: {
@@ -46,7 +46,7 @@ module.exports = {
     });
   },
   avatar: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'Avatar',
       userData: {
         isAvatar: true,
@@ -89,7 +89,7 @@ module.exports = {
     });
   },
   butterflyArea: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'ButterflyArea',
       type: 'GameObject',
       static: true,
@@ -131,7 +131,7 @@ module.exports = {
     });
   },
   cameraTour: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'CameraTour',
       type: 'GameObject',
       static: true,
@@ -147,7 +147,7 @@ module.exports = {
     });
   },
   whiteboardPlane: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'WhiteboardPlane',
       type: 'GameObject',
       static: true,
@@ -175,7 +175,7 @@ module.exports = {
     });
   },
   miniMap: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'MiniMap',
       type: 'GameObject',
       static: true,
@@ -197,7 +197,7 @@ module.exports = {
     });
   },
   image: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'Image',
       type: 'GameObject',
       static: true,
@@ -231,7 +231,7 @@ module.exports = {
     });
   },
   portal: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'Portal',
       type: 'GameObject',
       static: true,
@@ -289,7 +289,7 @@ module.exports = {
     });
   },
   jitsiArea: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'JitsiArea',
       type: 'GameObject',
       static: true,
@@ -328,7 +328,7 @@ module.exports = {
     });
   },
   mouseIcon: () => {
-    return new Game.Object3D({
+    return new Object3D({
       name: 'MouseIcon',
       type: 'GameObject',
       static: true,

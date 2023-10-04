@@ -1,6 +1,8 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { RenderComponent } from '@ud-viz/game_shared';
 
-export class TextureFace extends Game.External.ScriptBase {
+export class TextureFace extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -15,9 +17,7 @@ export class TextureFace extends Game.External.ScriptBase {
   setFaceTexture() {
     this.lastPath = this.variables.path_face_texture;
 
-    const renderComp = this.object3D.getComponent(
-      Shared.Game.Component.Render.TYPE
-    );
+    const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
     const renderObject = renderComp.getController().object3D;
 
     renderObject.traverse((o) => {
@@ -41,9 +41,7 @@ export class TextureFace extends Game.External.ScriptBase {
   onComponentUpdate() {
     // retreve current material
     let currentMaterial;
-    const renderComp = this.object3D.getComponent(
-      Shared.Game.Component.Render.TYPE
-    );
+    const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
     const renderObject = renderComp.getController().object3D;
     renderObject.traverse(function (o) {
       if (o.name == 'Face') {

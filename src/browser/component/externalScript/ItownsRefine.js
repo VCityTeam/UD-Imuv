@@ -1,10 +1,12 @@
-import { itowns, Game, THREE } from '@ud-viz/browser';
+import * as itowns from 'itowns';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
 
 const AVATAR_SSE = 400;
 const ZEPPELIN_SSE = 100;
 const ITOWNS_CONTROLS_SSE = 16;
 
-export class ItownsRefine extends Game.External.ScriptBase {
+export class ItownsRefine extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 

@@ -1,11 +1,16 @@
-import { OrbitControls, THREE, Game, Shared } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { Command, ExternalScriptComponent } from '@ud-viz/game_shared';
+import { constant } from '@ud-viz/game_shared_template';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import * as THREE from 'three';
+
 import { UI } from './UI';
 import { CameraManager } from './CameraManager';
 import { AvatarController } from './AvatarController';
 import { ItownsRefine } from './ItownsRefine';
 import { ZeppelinController } from './ZeppelinController';
 
-export class ZeppelinStart extends Game.External.ScriptBase {
+export class ZeppelinStart extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -74,9 +79,8 @@ export class ZeppelinStart extends Game.External.ScriptBase {
             avatarController.setAvatarControllerMode(true);
 
             this.context.sendCommandToGameContext([
-              new Shared.Command({
-                type: Shared.Game.ScriptTemplate.Constants.COMMAND
-                  .UPDATE_EXTERNALSCRIPT_VARIABLES,
+              new Command({
+                type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
                 data: {
                   object3DUUID: avatarGO.uuid,
                   variableName: 'visible',
@@ -92,9 +96,8 @@ export class ZeppelinStart extends Game.External.ScriptBase {
 
           // avatar invisible
           this.context.sendCommandToGameContext([
-            new Shared.Command({
-              type: Shared.Game.ScriptTemplate.Constants.COMMAND
-                .UPDATE_EXTERNALSCRIPT_VARIABLES,
+            new Command({
+              type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
               data: {
                 object3DUUID: avatarGO.uuid,
                 variableName: 'visible',
@@ -192,9 +195,8 @@ export class ZeppelinStart extends Game.External.ScriptBase {
 
     // edit server side
     this.context.sendCommandToGameContext([
-      new Shared.Command({
-        type: Shared.Game.ScriptTemplate.Constants.COMMAND
-          .UPDATE_EXTERNALSCRIPT_VARIABLES,
+      new Command({
+        type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
         data: {
           object3DUUID: this.object3D.uuid,
           variableName: 'pilotUUID',
@@ -209,9 +211,8 @@ export class ZeppelinStart extends Game.External.ScriptBase {
 
       // edit server side to remove pilot
       this.context.sendCommandToGameContext([
-        new Shared.Command({
-          type: Shared.Game.ScriptTemplate.Constants.COMMAND
-            .UPDATE_EXTERNALSCRIPT_VARIABLES,
+        new Command({
+          type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
           data: {
             object3DUUID: this.object3D.uuid,
             variableName: 'pilotUUID',
@@ -289,7 +290,7 @@ class MenuZeppelin {
         this.domElement.innerHTML = 'Vous pilotez le Zeppelyon';
       } else {
         const namePilot = pilot
-          .getComponent(Shared.Game.Component.ExternalScript.TYPE)
+          .getComponent(ExternalScriptComponent.TYPE)
           .getModel()
           .getVariables().name;
         this.domElement.innerHTML = namePilot + ' est le pilote';

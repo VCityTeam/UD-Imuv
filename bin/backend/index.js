@@ -1,7 +1,9 @@
 const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
-const runParse = require('./parse');
+const { useParseEndPoint } = require('./parse');
 const reload = require('reload');
+const { json } = require('body-parser');
+const { runGameWebsocketService } = require('./gameWebSocketService');
 
 // launch an express app
 const app = express();
@@ -18,7 +20,10 @@ const options = {
   contentTypeFilterRegexp: /text\/html/,
 };
 
-// TODO see how to modify html title + bundle import procedurally
+// TODO: the limit should be in config
+app.use(json({ limit: '100mb' }));
+
+// TODO: see how to modify html title + bundle import procedurally
 app.use(
   stringReplace(
     {
@@ -28,9 +33,11 @@ app.use(
   )
 );
 
+// public folder is expose
 app.use(express.static('./public'));
 
-app.listen(port, (err) => {
+// create an http server
+const httpServer = app.listen(port, (err) => {
   if (err) {
     console.error('Server does not start');
     return;
@@ -38,6 +45,8 @@ app.listen(port, (err) => {
   console.log('Http server listening on port', port);
 });
 
-runParse(app);
+useParseEndPoint(app);
+
+runGameWebsocketService(httpServer, './public/assets/gameObject3D');
 
 reload(app, { port: 8082 }); // TODO: pass reload port as the http server port

@@ -71,23 +71,23 @@
 }
 
 .save_icon {
-  -webkit-mask-image: url(../../../assets/img/ui/icon_save.png);
-  mask-image: url(../../../assets/img/ui/icon_save.png);
+  -webkit-mask-image: url(../../../../../public/assets/img/ui/icon_save.png);
+  mask-image: url(../../../../../public/assets/img/ui/icon_save.png);
 }
 
 .close_cross {
-  -webkit-mask-image: url(../../../assets/img/ui/icon_close.png);
-  mask-image: url(../../../assets/img/ui/icon_close.png);
+  -webkit-mask-image: url(../../../../../public/assets/img/ui/icon_close.png);
+  mask-image: url(../../../../../public/assets/img/ui/icon_close.png);
 }
 
 .town_icon {
-  -webkit-mask-image: url(../../../assets/img/ui/icon_town_white.png);
-  mask-image: url(../../../assets/img/ui/icon_town_white.png);
+  -webkit-mask-image: url(../../../../../public/assets/img/ui/icon_town_white.png);
+  mask-image: url(../../../../../public/assets/img/ui/icon_town_white.png);
 }
 
 .select_area_icon {
-  -webkit-mask-image: url(../../../assets/img/ui/icon_select_area.png);
-  mask-image: url(../../../assets/img/ui/icon_select_area.png);
+  -webkit-mask-image: url(../../../../../public/assets/img/ui/icon_select_area.png);
+  mask-image: url(../../../../../public/assets/img/ui/icon_select_area.png);
 }
 
 .button-imuv:hover .mask_icon {

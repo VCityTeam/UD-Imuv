@@ -1,6 +1,8 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { RenderComponent } from '@ud-viz/game_shared';
 
-export class SpriteName extends Game.External.ScriptBase {
+export class SpriteName extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -59,9 +61,7 @@ export class SpriteName extends Game.External.ScriptBase {
       this.sprite.parent.remove(this.sprite);
     }
 
-    const renderComp = this.object3D.getComponent(
-      Shared.Game.Component.Render.TYPE
-    );
+    const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
     const bb = new THREE.Box3().setFromObject(
       renderComp.getController().object3D
     );
@@ -77,9 +77,7 @@ export class SpriteName extends Game.External.ScriptBase {
   }
 
   onComponentUpdate() {
-    const renderComp = this.object3D.getComponent(
-      Shared.Game.Component.Render.TYPE
-    );
+    const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
 
     if (renderComp.getController().object3D != this.oldObject)
       this.updateSprite();

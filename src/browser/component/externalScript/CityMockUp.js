@@ -1,9 +1,14 @@
-import { Game, THREE, itowns, checkParentChild, Shared } from '@ud-viz/browser';
+import * as THREE from 'three';
+import * as itowns from 'itowns';
+import { checkParentChild } from '@ud-viz/utils_browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { RenderComponent } from '@ud-viz/game_shared';
+
 import { UI } from './UI';
 import { CameraManager } from './CameraManager';
 import { AvatarController } from './AvatarController';
 
-export class CityMockUp extends Game.External.ScriptBase {
+export class CityMockUp extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -26,9 +31,7 @@ export class CityMockUp extends Game.External.ScriptBase {
       });
       const plane = new THREE.Mesh(geometry, material);
 
-      const renderComp = this.object3D.getComponent(
-        Shared.Game.Component.Render.TYPE
-      );
+      const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
       renderComp.getController().addObject3D(plane);
     }
 
@@ -92,7 +95,7 @@ export class CityMockUp extends Game.External.ScriptBase {
     const menu = new MenuCityMockUp(this.context, this.object3D);
 
     scriptUI.addTool(
-      './assets/img/ui/icon_mock_up.png',
+      './assets/img/ui/icon_mock_up.png', // TODO: all hardcoded value should in this.variables
       'Maquette',
       (resolve, reject, onClose) => {
         if (cameraManager.currentMovement) {
@@ -299,7 +302,7 @@ export class CityMockUp extends Game.External.ScriptBase {
 
                   for (const [
                     ,
-                    c3dTfeature,
+                    c3dTfeature
                   ] of child.layer.tilesC3DTileFeatures.get(
                     child.userData.metadata.tileId
                   )) {
@@ -688,7 +691,7 @@ export class CityMockUp extends Game.External.ScriptBase {
         new THREE.MeshBasicMaterial({
           color: new THREE.Color().fromArray([0, 1, 0]),
           opacity: 0.5,
-          transparent: true,
+          transparent: true
         })
       );
       this.selectedAreaObject.name = 'Selected Area MockUp';
@@ -798,7 +801,7 @@ class MenuCityMockUp {
       const material = new THREE.MeshBasicMaterial({
         color: 0x0000ff,
         opacity: 0.3,
-        transparent: true,
+        transparent: true
       });
       const selectAreaObject = new THREE.Mesh(geometry, material);
       selectAreaObject.name = 'Select Area Menu Object';
@@ -890,10 +893,10 @@ class MenuCityMockUp {
               variableName: 'area',
               variableValue: {
                 start: worldCoordStart.toArray(),
-                end: worldCoordCurrent.toArray(),
-              },
-            },
-          }),
+                end: worldCoordCurrent.toArray()
+              }
+            }
+          })
         ]);
       };
       this.context.inputManager.addMouseInput(

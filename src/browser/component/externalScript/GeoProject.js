@@ -1,6 +1,8 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { RenderComponent } from '@ud-viz/game_shared';
 
-export class GeoProject extends Game.External.ScriptBase {
+export class GeoProject extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -34,7 +36,7 @@ export class GeoProject extends Game.External.ScriptBase {
         1
       );
 
-      const r = this.object3D.getComponent(Shared.Game.Component.Render.TYPE);
+      const r = this.object3D.getComponent(RenderComponent.TYPE);
       r.getController().addObject3D(this.sprite);
     };
 
