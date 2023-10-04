@@ -1,17 +1,17 @@
-import {
-  Game,
-  RequestService,
-  THREE,
-  Widget,
-  itownsWidgets,
-} from '@ud-viz/browser';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { LayerChoice } from '@ud-viz/widget_layer_choice';
+import { CameraPositioner } from '@ud-viz/widget_camera_positioner';
+import { GeocodingView, GeocodingService } from '@ud-viz/widget_geocoding';
+import { RequestService } from '@ud-viz/utils_browser';
+import { Scale } from 'itowns/widgets';
 
 import { UI } from './UI';
 import { AvatarController } from './AvatarController';
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
 
-export class SwitchItowns extends Game.External.ScriptBase {
+export class SwitchItowns extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -147,10 +147,13 @@ class MenuItowns {
     // layerchoice
     this.addModuleView(
       'Layer Choice',
-      new Widget.LayerChoice(externalContext.frame3D.itownsView)
+      new LayerChoice(externalContext.frame3D.itownsView)
     );
 
     /* If the ADD_ITOWNS_LAYER event is triggered, we refresh the LayerChoice widget. See AddItownsLayer.js*/
+    // TODO: instead of create a new event we could use itowns one
+    // see https://github.com/iTowns/itowns/blob/b88de8347fdf998e95b691d3e0830d354e858d8e/src/Core/View.js#L30C5-L30C16
+    // could be part of the LayerChoice widget
     window.addEventListener('ADD_ITOWNS_LAYER', () => {
       this.widgets['Layer Choice'].domElement.remove();
       this.widgets['Layer Choice'].initHtml();
@@ -159,12 +162,12 @@ class MenuItowns {
     // cameraPositionner
     this.addModuleView(
       'Camera Positioner',
-      new Widget.CameraPositioner(externalContext.frame3D.itownsView)
+      new CameraPositioner(externalContext.frame3D.itownsView)
     );
 
     // geocoding
     const requestService = new RequestService();
-    const geocodingService = new Widget.Server.GeocodingService(
+    const geocodingService = new GeocodingService(
       requestService,
       externalContext.userData.extent,
       {
@@ -196,19 +199,13 @@ class MenuItowns {
 
     this.addModuleView(
       'Geocoding',
-      new Widget.Server.GeocodingView(
-        geocodingService,
-        externalContext.frame3D.itownsView
-      )
+      new GeocodingView(geocodingService, externalContext.frame3D.itownsView)
     );
 
     // //ADD ITOWNS WIDGETS
-    const itownsScale = new itownsWidgets.Scale(
-      externalContext.frame3D.itownsView,
-      {
-        parentElement: this.domElement,
-      }
-    );
+    const itownsScale = new Scale(externalContext.frame3D.itownsView, {
+      parentElement: this.domElement,
+    });
 
     itownsScale.domElement.id = 'itowns-scale';
     itownsScale.update();

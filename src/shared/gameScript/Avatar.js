@@ -1,12 +1,18 @@
-const { Game } = require('@ud-viz/shared');
+const {
+  ScriptBase,
+  Command,
+  ExternalScriptComponent,
+  RenderComponent,
+} = require('@ud-viz/game_shared');
 const Spawner = require('./Spawner');
+const THREE = require('three');
 
 const AVATAR_SPEED_ROTATION_Z = 0.00001;
 const AVATAR_SPEED_ROTATION_X = 0.00001;
 const AVATAR_ANGLE_MIN = Math.PI / 5;
 const AVATAR_ANGLE_MAX = 2 * Math.PI - Math.PI / 10;
 
-module.exports = class Avatar extends Game.ScriptBase {
+module.exports = class Avatar extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -40,11 +46,8 @@ module.exports = class Avatar extends Game.ScriptBase {
     const cmds = this.commands;
 
     // no more that one
-    if (cmds[Game.Command.TYPE.ESCAPE].length)
-      cmds[Game.Command.TYPE.ESCAPE].splice(
-        1,
-        cmds[Game.Command.TYPE.ESCAPE].length - 1
-      );
+    if (cmds[Command.TYPE.ESCAPE].length)
+      cmds[Command.TYPE.ESCAPE].splice(1, cmds[Command.TYPE.ESCAPE].length - 1);
 
     const filterCommands = function (idStart, idEnd) {
       const moveStart = cmds[idStart];
@@ -57,21 +60,15 @@ module.exports = class Avatar extends Game.ScriptBase {
     };
 
     filterCommands(
-      Game.Command.TYPE.MOVE_FORWARD_START,
-      Game.Command.TYPE.MOVE_FORWARD_END
+      Command.TYPE.MOVE_FORWARD_START,
+      Command.TYPE.MOVE_FORWARD_END
     );
     filterCommands(
-      Game.Command.TYPE.MOVE_BACKWARD_START,
-      Game.Command.TYPE.MOVE_BACKWARD_END
+      Command.TYPE.MOVE_BACKWARD_START,
+      Command.TYPE.MOVE_BACKWARD_END
     );
-    filterCommands(
-      Game.Command.TYPE.MOVE_LEFT_START,
-      Game.Command.TYPE.MOVE_LEFT_END
-    );
-    filterCommands(
-      Game.Command.TYPE.MOVE_RIGHT_START,
-      Game.Command.TYPE.MOVE_RIGHT_END
-    );
+    filterCommands(Command.TYPE.MOVE_LEFT_START, Command.TYPE.MOVE_LEFT_END);
+    filterCommands(Command.TYPE.MOVE_RIGHT_START, Command.TYPE.MOVE_RIGHT_END);
   }
 
   /**
@@ -81,8 +78,7 @@ module.exports = class Avatar extends Game.ScriptBase {
    */
   applyCommands(gameObject, worldContext) {
     const dt = worldContext.getDt();
-    const Command = Game.Command;
-    const THREE = Game.THREE;
+    const Command = Command;
 
     const gmGo = gameObject.computeRoot();
     const scriptGM = gmGo.fetchWorldScripts()['worldGameManager'];
@@ -178,13 +174,13 @@ module.exports = class Avatar extends Game.ScriptBase {
     if (this.cityAvatar) return;
 
     // reset rotation
-    this.go.setRotation(new Game.THREE.Vector3(0, 0, 0));
+    this.go.setRotation(new THREE.Vector3(0, 0, 0));
 
     // freeze
     this.go.setFreeze(true); // freeze
 
     // invisible
-    this.go.getComponent(Game.LocalScript.TYPE).conf.visible = false;
+    this.go.getComponent(ExternalScriptComponent.TYPE).conf.visible = false;
 
     // notify change
     this.go.setOutdated(true);
@@ -195,19 +191,22 @@ module.exports = class Avatar extends Game.ScriptBase {
       .createPrefab('city_avatar');
 
     // copy render comp
-    const renderCompJSON = this.go.getComponent(Game.Render.TYPE).toJSON();
+    const renderCompJSON = this.go.getComponent(RenderComponent.TYPE).toJSON();
     this.cityAvatar.setComponent(
-      Game.Render.TYPE,
-      new Game.Render(this.cityAvatar, renderCompJSON)
+      RenderComponent.TYPE,
+      new RenderComponent(this.cityAvatar, renderCompJSON)
     );
 
     // copy name
-    this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.name =
-      this.go.getComponent(Game.LocalScript.TYPE).conf.name;
+    this.cityAvatar.getComponent(ExternalScriptComponent.TYPE).conf.name =
+      this.go.getComponent(ExternalScriptComponent.TYPE).conf.name;
 
     // index texture
-    this.cityAvatar.getComponent(Game.LocalScript.TYPE).conf.path_face_texture =
-      this.go.getComponent(Game.LocalScript.TYPE).conf.path_face_texture;
+    this.cityAvatar.getComponent(
+      ExternalScriptComponent.TYPE
+    ).conf.path_face_texture = this.go.getComponent(
+      ExternalScriptComponent.TYPE
+    ).conf.path_face_texture;
 
     worldContext
       .getWorld()
@@ -228,7 +227,7 @@ module.exports = class Avatar extends Game.ScriptBase {
     this.spawn();
 
     // invisible
-    this.go.getComponent(Game.LocalScript.TYPE).conf.visible = true;
+    this.go.getComponent(ExternalScriptComponent.TYPE).conf.visible = true;
 
     this.go.setOutdated(true);
   }

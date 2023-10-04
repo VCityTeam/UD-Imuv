@@ -1,8 +1,11 @@
-import { Game, THREE, DomElement3D, Shared } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { ExternalScriptComponent } from '@ud-viz/game_shared';
+import * as THREE from 'three';
+import { DomElement3D } from '@ud-viz/frame3d';
 
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 
-export class JitsiScreen extends Game.External.ScriptBase {
+export class JitsiScreen extends ScriptBase {
   init() {
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
@@ -23,9 +26,7 @@ export class JitsiScreen extends Game.External.ScriptBase {
       this.context.userData.avatarUUID
     );
     if (avatarGO) {
-      const externalComp = avatarGO.getComponent(
-        Shared.Game.Component.ExternalScript.TYPE
-      );
+      const externalComp = avatarGO.getComponent(ExternalScriptComponent.TYPE);
       name = externalComp.getModel().getVariables().name;
     }
 

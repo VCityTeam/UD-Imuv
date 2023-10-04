@@ -1,7 +1,7 @@
-const { Game } = require('@ud-viz/shared');
-const Constant = require('../Constant');
+const { ScriptBase } = require('@ud-viz/game_shared');
+const { CONTEXT } = require('../constant');
 
-module.exports = class Portal extends Game.ScriptBase {
+module.exports = class Portal extends ScriptBase {
   setTransformOf(object) {
     // portal position
     object.position.copy(this.object3D.position);
@@ -20,7 +20,7 @@ module.exports = class Portal extends Game.ScriptBase {
     if (object3DCollided.userData.isAvatar) {
       // wait 1 sec to let the fade out on the client side
       setTimeout(() => {
-        this.context.dispatch(Constant.CONTEXT.EVENT.PORTAL, {
+        this.context.dispatch(CONTEXT.EVENT.PORTAL, {
           avatarUUID: object3DCollided.uuid,
           gameObjectDestUUID: this.variables.gameObjectDestUUID,
           portalUUID: this.variables.portalUUID,

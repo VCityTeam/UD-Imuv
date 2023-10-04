@@ -1,10 +1,10 @@
-const { Game } = require('@ud-viz/shared');
+const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
 
-module.exports = class InteractionZone extends Game.ScriptBase {
+module.exports = class InteractionZone extends ScriptBase {
   init() {
-    /** @type {Game.Component.ExternalScript} */
+    /** @type {ExternalScriptComponent} */
     const externalScriptComp = this.object3D.getComponent(
-      Game.Component.ExternalScript.TYPE
+      ExternalScriptComponent.TYPE
     );
 
     if (!externalScriptComp.has('local_interactions_id_ext_script')) {
@@ -24,7 +24,7 @@ module.exports = class InteractionZone extends Game.ScriptBase {
     if (gameObjectCollided.userData.isAvatar) {
       let confHasChanged = false;
       const externalScriptComp = this.object3D.getComponent(
-        Game.Component.ExternalScript.TYPE
+        ExternalScriptComponent.TYPE
       );
       const modelVariables = externalScriptComp.getModel().getVariables();
 
@@ -61,7 +61,7 @@ module.exports = class InteractionZone extends Game.ScriptBase {
     if (gameObjectCollided.userData.isAvatar) {
       let confHasChanged = false;
       const externalScriptComp = this.object3D.getComponent(
-        Game.Component.ExternalScript.TYPE
+        ExternalScriptComponent.TYPE
       );
       const modelVariables = externalScriptComp.getModel().getVariables();
 
@@ -98,7 +98,7 @@ module.exports = class InteractionZone extends Game.ScriptBase {
     if (gameObjectCollided.userData.isAvatar) {
       let confHasChanged = false;
       const externalScriptComp = this.object3D.getComponent(
-        Game.Component.ExternalScript.TYPE
+        ExternalScriptComponent.TYPE
       );
       const modelVariables = externalScriptComp.getModel().getVariables();
 

@@ -1,10 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>IMUV - Sign up</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-  </head>
-  <body>
-    <script></script>
-  </body>
+
+<head>
+  <title>IMUV - Sign up</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <script src="./dist/utils/RUN_MODE/bundle.js"></script>
+
+  <div class="centered">
+    <label>name</label>
+    <input id="input_name" type="text"></input>
+    <label>password</label>
+    <input id="input_password" type="password"></input>
+    <button onclick="signUp()">Créer compte</button>
+  </div>
+  <script>
+    function signUp() {
+      utils.request(window.origin + "/sign_up", {
+        name: document.getElementById("input_name").value,
+        password: document.getElementById("input_password").value
+      }, "text").then((token) => {
+        utils.writeTokenInCookie(token)
+        window.location.href = "./index.html"
+      }).catch((response) => alert(response.error.message))
+    }
+  </script>
+</body>
+
 </html>

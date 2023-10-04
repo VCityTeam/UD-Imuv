@@ -1,11 +1,13 @@
-import { Game, THREE } from '@ud-viz/browser';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+
 import { AvatarController } from './AvatarController';
 import { CameraManager } from './CameraManager';
 import { UI } from './UI';
 
 const TRAVELING_DURATION = 1500;
 
-export class CameraTour extends Game.External.ScriptBase {
+export class CameraTour extends ScriptBase {
   init() {
     const avatarController = this.context.findExternalScriptWithID(
       AvatarController.ID_SCRIPT

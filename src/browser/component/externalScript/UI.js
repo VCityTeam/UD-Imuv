@@ -1,8 +1,17 @@
-import { Game, THREE, loadJSON, Shared } from '@ud-viz/browser';
-import { Constant } from '@ud-imuv/shared';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { Object3D } from '@ud-viz/game_shared';
+import { loadJSON } from '@ud-viz/utils_browser';
+import * as THREE from 'three';
+import {
+  URL_PARAMETER,
+  USER,
+  WEBSOCKET,
+  MAP_CLICK_MODE,
+} from '../../../shared/constant';
+
 import { AvatarController } from './AvatarController';
 
-export class UI extends Game.External.ScriptBase {
+export class UI extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -113,11 +122,11 @@ export class UI extends Game.External.ScriptBase {
         const rotation = avatarGO.rotation.toArray();
         const worldUUID = this.context.userData.worldUUID;
 
-        const urlEvent = Constant.URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
+        const urlEvent = URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
         const url = new URL(window.location.origin + window.location.pathname);
 
         url.searchParams.append(
-          encodeURI(Constant.URL_PARAMETER.ID_KEY),
+          encodeURI(URL_PARAMETER.ID_KEY),
           encodeURIComponent(urlEvent.ID_VALUE)
         );
         url.searchParams.append(
@@ -140,8 +149,8 @@ export class UI extends Game.External.ScriptBase {
 
     // Gadget menu avatar
     if (
-      this.context.userData.role == Constant.USER.ROLE.ADMIN ||
-      this.context.userData.role == Constant.USER.ROLE.DEFAULT
+      this.context.userData.role == USER.ROLE.ADMIN ||
+      this.context.userData.role == USER.ROLE.DEFAULT
     ) {
       this.gadgetUI.addGadget(
         './assets/img/ui/icon_menu_avatar.png',
@@ -160,7 +169,7 @@ export class UI extends Game.External.ScriptBase {
 
           // create world
           // eslint-disable-next-line no-unused-vars
-          const menuAvatar = new Shared.Game.Object3D({
+          const menuAvatar = new Object3D({
             name: 'MenuAvatar',
             static: true,
             components: {
@@ -533,19 +542,16 @@ class MenuSettings {
     saveButton.appendChild(saveIcon);
 
     saveButton.onclick = () => {
-      this.context.socketIOWrapper.emit(
-        Constant.WEBSOCKET.MSG_TYPE.SAVE_SETTINGS,
-        {
-          // SETTINGS MODEL IS DESCRIBE HERE
-          fogValue: this.fogSlider.value,
-          zoomFactor: this.zoomFactorSlider.value,
-          mouseSensitivitySlider: this.mouseSensitivitySlider.value,
-          volumeValue: this.volumeSlider.value,
-          sunValue: this.sunCheckBox.checked,
-          shadowValue: this.shadowChecBox.checked,
-          shadowMapSize: this.shadowMapSelect.value,
-        }
-      );
+      this.context.socketIOWrapper.emit(WEBSOCKET.MSG_TYPE.SAVE_SETTINGS, {
+        // SETTINGS MODEL IS DESCRIBE HERE
+        fogValue: this.fogSlider.value,
+        zoomFactor: this.zoomFactorSlider.value,
+        mouseSensitivitySlider: this.mouseSensitivitySlider.value,
+        volumeValue: this.volumeSlider.value,
+        sunValue: this.sunCheckBox.checked,
+        shadowValue: this.shadowChecBox.checked,
+        shadowMapSize: this.shadowMapSelect.value,
+      });
     };
 
     return saveButton;
@@ -762,6 +768,7 @@ class MenuSettings {
     audioSliderDiv.appendChild(labelGlobalSound);
 
     // Remove me
+    // eslint-disable-next-line no-undef
     Howler.volume(0);
 
     // check is settings has been saved
@@ -1049,7 +1056,7 @@ class MapUI {
     buttonsDiv.appendChild(teleportButton);
 
     teleportButton.onclick = function () {
-      scriptMap.setClickMode(Constant.MAP_CLICK_MODE.TELEPORT);
+      scriptMap.setClickMode(MAP_CLICK_MODE.TELEPORT);
     };
 
     const pingButton = document.createElement('img');
@@ -1059,7 +1066,7 @@ class MapUI {
     buttonsDiv.appendChild(pingButton);
 
     pingButton.onclick = function () {
-      scriptMap.setClickMode(Constant.MAP_CLICK_MODE.PING);
+      scriptMap.setClickMode(MAP_CLICK_MODE.PING);
     };
   }
 

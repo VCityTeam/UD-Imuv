@@ -7,27 +7,23 @@ const print = function (result) {
   if (result.stderr) console.error('stderr: \n', result.stderr);
 };
 
-// TODO build bundle procedurally + opti nodemon 1 watcher par build et js
-
-// const buildGameBundle = exec(
-//   'npm exec cross-env ENTRY=./src/browser/game/index.js npm run build-dev'
-// );
-
-// const buildEditorBundle = exec(
-//   'npm exec cross-env ENTRY=./src/browser/editor/index.js npm run build-dev'
-// );
-
 const routine = async () => {
+  // TODO build bundle procedurally + opti nodemon 1 watcher par build et js or something better i don't know
+
   // build bundles
 
   let result = await exec(
-    'npm exec cross-env NAME=sign ENTRY=./src/browser/sign/index.js npm run build-dev'
+    'npm exec cross-env NAME=reception ENTRY=./src/browser/reception/index.js npm run build-dev'
   );
-
   print(result);
 
   result = await exec(
-    'npm exec cross-env NAME=reception ENTRY=./src/browser/reception/index.js npm run build-dev'
+    'npm exec cross-env NAME=utils ENTRY=./src/browser/utils.js npm run build-dev'
+  );
+  print(result);
+
+  result = await exec(
+    'npm exec cross-env NAME=game ENTRY=./src/browser/game/index.js npm run build-dev'
   );
   print(result);
 

@@ -1,7 +1,5 @@
-const { Data } = require('@ud-viz/shared');
-const {
-  NativeCommandManager,
-} = require('@ud-viz/shared/src/Game/ScriptTemplate/ScriptTemplate');
+const { NativeCommandManager } = require('@ud-viz/game_shared_template');
+const { objectOverWrite } = require('@ud-viz/utils_shared');
 
 const defaultVariables = {
   avatarSpeedTranslate: 0.008,
@@ -13,7 +11,7 @@ const defaultVariables = {
 module.exports = class ImuvCommandManager extends NativeCommandManager {
   constructor(context, object3D, variables) {
     const overWriteVariables = JSON.parse(JSON.stringify(defaultVariables));
-    Data.objectOverWrite(overWriteVariables, variables);
+    objectOverWrite(overWriteVariables, variables);
     super(context, object3D, overWriteVariables);
   }
 

@@ -1,6 +1,8 @@
-import { Game, loadMultipleJSON, itowns } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { loadMultipleJSON } from '@ud-viz/utils_browser';
+import * as itowns from 'itowns';
 
-export class AddItownsLayer extends Game.External.ScriptBase {
+export class AddItownsLayer extends ScriptBase {
   init() {
     // TODO path should be in variables
     loadMultipleJSON([

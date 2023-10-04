@@ -1,21 +1,18 @@
-import { Game } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import {
+  addNativeCommands,
+  removeNativeCommands,
+} from '@ud-viz/game_browser_template';
+
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
 
-export class ZeppelinController extends Game.External.ScriptBase {
+export class ZeppelinController extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
     // Zeppelin controller
     this.zeppelinControllerMode = false;
-
-    this.commandController = null;
-  }
-
-  init() {
-    this.commandController = new Game.External.ScriptTemplate.CommandController(
-      this.context.inputManager
-    );
   }
 
   getZeppelinControllerMode() {
@@ -52,11 +49,11 @@ export class ZeppelinController extends Game.External.ScriptBase {
         ItownsRefine.ID_SCRIPT
       );
       if (refine) refine.zeppelin();
-      this.commandController.addNativeCommands(zeppelinGO.uuid, false);
+      addNativeCommands(this.context.inputManager, zeppelinGO.uuid, false);
       this.context.inputManager.setPointerLock(false);
     } else {
       cameraManager.stopFollowObject3D();
-      this.commandController.removeNativeCommands();
+      removeNativeCommands(this.context.inputManager);
     }
 
     return true;

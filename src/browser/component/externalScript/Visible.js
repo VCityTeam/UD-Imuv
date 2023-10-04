@@ -1,6 +1,6 @@
-import { Game } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
 
-export class Visible extends Game.External.ScriptBase {
+export class Visible extends ScriptBase {
   init() {
     this.updateVisible();
   }

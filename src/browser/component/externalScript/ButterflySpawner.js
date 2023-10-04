@@ -1,15 +1,15 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { RenderComponent } from '@ud-viz/game_shared';
+import * as THREE from 'three';
 
-export class ButterflySpawner extends Game.External.ScriptBase {
+export class ButterflySpawner extends ScriptBase {
   init() {
     this.triggerAnimate = false;
     this.particleGroup = null;
     this.clock = null;
 
     // TODO in UserData add attribute "editorMode" ?
-    const render = this.object3D.getComponent(
-      Shared.Game.Component.Render.TYPE
-    );
+    const render = this.object3D.getComponent(RenderComponent.TYPE);
     const editorMode = this.context.userData.editorMode;
 
     if (editorMode === false) {
@@ -92,7 +92,7 @@ export class ButterflySpawner extends Game.External.ScriptBase {
     });
 
     this.object3D
-      .getComponent(Shared.Game.Component.Render.TYPE)
+      .getComponent(RenderComponent.TYPE)
       .getController()
       .addObject3D(this.particleGroup.getObject3D());
     this.triggerAnimate = true;

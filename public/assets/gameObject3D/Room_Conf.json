@@ -55,6 +55,7 @@
             "uuid": "B7AD0A8B-6D3A-41AE-B260-583C25D46180",
             "idScripts": ["map_id"],
             "conf": {
+              "clientFolder": "./public",
               "heightmap_path": "./assets/img/uploaded/2349A367-8505-47FE-9E88-7ED6242119BA.jpeg",
               "heightmap_geometry": { "max": 5, "min": -6, "size": 31 }
             },

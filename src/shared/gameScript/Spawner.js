@@ -1,10 +1,6 @@
-const { Game } = require('@ud-viz/shared');
+const { ScriptBase } = require('@ud-viz/game_shared');
 
-module.exports = class Spawner extends Game.ScriptBase {
-  /**
-   *
-   * @param {Game.Object3D} object
-   */
+module.exports = class Spawner extends ScriptBase {
   initializeSpawnTransform(object) {
     if (this.variables.spawnTransform) {
       object.position.fromArray(this.variables.spawnTransform.position);

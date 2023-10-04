@@ -1,10 +1,14 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
-import { PrefabFactory } from '@ud-imuv/shared';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { ExternalScriptComponent, Command } from '@ud-viz/game_shared';
+import { constant } from '@ud-viz/game_shared_template';
+import * as THREE from 'three';
+import { postIt } from '../../../shared/prefabFactory';
+
 import { AvatarController } from './AvatarController';
 import { StaticObject } from './StaticObject';
 import { UI } from './UI';
 
-export class PlacePostIt extends Game.External.ScriptBase {
+export class PlacePostIt extends ScriptBase {
   init() {
     // controller
     const avatarController = this.context.findExternalScriptWithID(
@@ -101,7 +105,7 @@ class MenuPostIt {
           );
           const normal = closestI.face.normal.applyQuaternion(quaternionObj);
 
-          const postitGo = PrefabFactory.postIt();
+          const postitGo = postIt();
 
           // rotate
           const quaternion = new THREE.Quaternion().setFromUnitVectors(
@@ -120,13 +124,13 @@ class MenuPostIt {
           // write message
           const message = textAreaMessage.value;
           const externalScriptComp = postitGo.getComponent(
-            Shared.Game.Component.ExternalScript.TYPE
+            ExternalScriptComponent.TYPE
           );
           externalScriptComp.getModel().getVariables().content = message;
 
           externalContext.sendCommandToGameContext([
-            new Shared.Command({
-              type: Shared.Game.ScriptTemplate.Constants.COMMAND.ADD_OBJECT3D,
+            new Command({
+              type: constant.COMMAND.ADD_OBJECT3D,
               data: { object3D: postitGo.toJSON() },
             }),
           ]);

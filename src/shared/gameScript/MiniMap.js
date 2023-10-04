@@ -1,11 +1,11 @@
-const { Game } = require('@ud-viz/shared');
-const Constant = require('../Constant');
-const AbstractMap = require('@ud-viz/shared/src/Game/ScriptTemplate/AbstractMap');
+const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
+const { COMMAND } = require('../constant');
+const { AbstractMap } = require('@ud-viz/game_shared_template');
 
-module.exports = class MiniMap extends Game.ScriptBase {
+module.exports = class MiniMap extends ScriptBase {
   onCommand(type, data) {
     const extScriptComp = this.object3D.getComponent(
-      Game.Component.ExternalScript.TYPE
+      ExternalScriptComponent.TYPE
     );
 
     /* Clearing the array of text that is displayed when a teleport command is rejected. */
@@ -17,7 +17,7 @@ module.exports = class MiniMap extends Game.ScriptBase {
     if (!scriptMap) throw new Error('no map world script');
 
     switch (type) {
-      case Constant.COMMAND.TELEPORT:
+      case COMMAND.TELEPORT:
         if (isNaN(scriptMap.getHeightValue(data.position.x, data.position.y))) {
           extScriptComp
             .getModel()
@@ -41,7 +41,7 @@ module.exports = class MiniMap extends Game.ScriptBase {
           avatar.setOutdated(true);
         }
         break;
-      case Constant.COMMAND.PING:
+      case COMMAND.PING:
         extScriptComp.getModel().getVariables().mini_map_ping.push(data);
         this.object3D.setOutdated(true);
         break;

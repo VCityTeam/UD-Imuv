@@ -1,12 +1,16 @@
-import { Game, proj4, Shared, THREE } from '@ud-viz/browser';
-import { Constant } from '@ud-imuv/shared';
+import * as proj4 from 'proj4';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { Command, RenderComponent } from '@ud-viz/game_shared';
+
+import { MAP_CLICK_MODE, CITY_MAP, COMMAND } from '../../../shared/constant';
 
 const CITY_MAP_SIZE = 500;
 const CITY_AVATAR_SIZE_MIN = 15;
 const CITY_AVATAR_SIZE_MAX = 25;
 const CITY_MAP_CMD_ID = 'city_map_cmd_id';
 
-export class CityMap extends Game.External.ScriptBase {
+export class CityMap extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -44,11 +48,11 @@ export class CityMap extends Game.External.ScriptBase {
   setClickMode(mode) {
     this.clickMode = mode;
 
-    if (mode == Constant.MAP_CLICK_MODE.DEFAULT) {
+    if (mode == MAP_CLICK_MODE.DEFAULT) {
       this.setCursorPointer(false);
-    } else if (mode == Constant.MAP_CLICK_MODE.PING) {
+    } else if (mode == MAP_CLICK_MODE.PING) {
       this.setCursorPointer(true);
-    } else if (mode == Constant.MAP_CLICK_MODE.TELEPORT) {
+    } else if (mode == MAP_CLICK_MODE.TELEPORT) {
       this.setCursorPointer(true);
     }
   }
@@ -77,7 +81,7 @@ export class CityMap extends Game.External.ScriptBase {
 
   init() {
     // init src
-    this.imageCityMap.src = Constant.CITY_MAP.PATH;
+    this.imageCityMap.src = CITY_MAP.PATH;
 
     this.context.inputManager.addMouseCommand(
       CITY_MAP_CMD_ID,
@@ -95,25 +99,25 @@ export class CityMap extends Game.External.ScriptBase {
 
         const userCityAvatar = this.fetchUserCityAvatar();
 
-        if (this.clickMode === Constant.MAP_CLICK_MODE.DEFAULT) {
+        if (this.clickMode === MAP_CLICK_MODE.DEFAULT) {
           // nothing
-          this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+          this.setClickMode(MAP_CLICK_MODE.DEFAULT);
           return null;
-        } else if (this.clickMode === Constant.MAP_CLICK_MODE.TELEPORT) {
-          this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
-          return new Shared.Command({
-            type: Constant.COMMAND.TELEPORT,
+        } else if (this.clickMode === MAP_CLICK_MODE.TELEPORT) {
+          this.setClickMode(MAP_CLICK_MODE.DEFAULT);
+          return new Command({
+            type: COMMAND.TELEPORT,
             data: {
               object3DUUID: this.object3D.uuid,
               position: this.coordToLocalPosition(coord),
               cityAvatarUUID: userCityAvatar.uuid,
             },
           });
-        } else if (this.clickMode === Constant.MAP_CLICK_MODE.PING) {
-          this.setClickMode(Constant.MAP_CLICK_MODE.DEFAULT);
+        } else if (this.clickMode === MAP_CLICK_MODE.PING) {
+          this.setClickMode(MAP_CLICK_MODE.DEFAULT);
 
-          return new Shared.Command({
-            type: Constant.COMMAND.PING,
+          return new Command({
+            type: COMMAND.PING,
             data: {
               object3DUUID: this.object3D.uuid,
               coord: coord,
@@ -157,13 +161,11 @@ export class CityMap extends Game.External.ScriptBase {
     const pixelSrcY = sizeSrc * ratioY + this.clampY;
 
     const lng =
-      Constant.CITY_MAP.LEFT +
-      (pixelSrcX * (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT)) /
-        this.imageCityMap.width;
+      CITY_MAP.LEFT +
+      (pixelSrcX * (CITY_MAP.RIGHT - CITY_MAP.LEFT)) / this.imageCityMap.width;
     const lat =
-      Constant.CITY_MAP.TOP -
-      (pixelSrcY * (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM)) /
-        this.imageCityMap.height;
+      CITY_MAP.TOP -
+      (pixelSrcY * (CITY_MAP.TOP - CITY_MAP.BOTTOM)) / this.imageCityMap.height;
 
     return [lng, lat];
   }
@@ -174,12 +176,12 @@ export class CityMap extends Game.External.ScriptBase {
       this.currentZoom;
 
     const pixelSrcX =
-      ((lng - Constant.CITY_MAP.LEFT) * this.imageCityMap.width) /
-      (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
+      ((lng - CITY_MAP.LEFT) * this.imageCityMap.width) /
+      (CITY_MAP.RIGHT - CITY_MAP.LEFT);
 
     const pixelSrcY =
-      (-(lat - Constant.CITY_MAP.TOP) * this.imageCityMap.height) /
-      (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM);
+      (-(lat - CITY_MAP.TOP) * this.imageCityMap.height) /
+      (CITY_MAP.TOP - CITY_MAP.BOTTOM);
 
     const ratioX = (pixelSrcX - this.clampX) / sizeSrc;
     const ratioY = (pixelSrcY - this.clampY) / sizeSrc;
@@ -215,7 +217,7 @@ export class CityMap extends Game.External.ScriptBase {
 
   fetchCityAvatarColor(cityAvatar) {
     const avatarColor = cityAvatar
-      .getComponent(Shared.Game.Component.Render.TYPE)
+      .getComponent(RenderComponent.TYPE)
       .getModel()
       .getColor();
     return (
@@ -253,14 +255,12 @@ export class CityMap extends Game.External.ScriptBase {
     const [lng, lat] = this.cityAvatarToGeoData(userCityAvatar);
 
     const pixelSrcX =
-      (this.imageCityMap.width * (lng - Constant.CITY_MAP.LEFT)) /
-      (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
+      (this.imageCityMap.width * (lng - CITY_MAP.LEFT)) /
+      (CITY_MAP.RIGHT - CITY_MAP.LEFT);
 
     const pixelSrcY =
       this.imageCityMap.height *
-      (1 -
-        (lat - Constant.CITY_MAP.BOTTOM) /
-          (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM));
+      (1 - (lat - CITY_MAP.BOTTOM) / (CITY_MAP.TOP - CITY_MAP.BOTTOM));
 
     const clampX = Math.min(
       Math.max(0, pixelSrcX - sizeSrc * 0.5),

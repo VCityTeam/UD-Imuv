@@ -1,7 +1,10 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
+import * as THREE from 'three';
+import { ScriptBase } from '@ud-viz/game_browser';
+import { RenderComponent } from '@ud-viz/game_shared';
+
 import { CameraManager } from './CameraManager';
 
-export class StaticObject extends Game.External.ScriptBase {
+export class StaticObject extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -24,9 +27,9 @@ export class StaticObject extends Game.External.ScriptBase {
     // add static object to object
     if (newGO.isStatic()) {
       // register in object
-      const r = newGO.getComponent(Shared.Game.Component.Render.TYPE);
+      const r = newGO.getComponent(RenderComponent.TYPE);
       if (r) {
-        const clone = r.getController().renderData.getObject3D().clone();
+        const clone = r.getController().renderData.object3D.clone();
 
         r.getController().object3D.matrixWorld.decompose(
           clone.position,

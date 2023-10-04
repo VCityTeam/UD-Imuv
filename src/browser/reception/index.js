@@ -1,5 +1,6 @@
 import './style.css'; // specific reception css
 import { getTextByID } from './texts';
+import { request } from '../utils';
 
 class ReceptionView {
   constructor() {
@@ -332,81 +333,7 @@ class ReceptionView {
 
     // join flying campus
     this.joinButton.onclick = () => {
-      _this.dispose();
-
-      // load config
-      loadJSON('./assets/config/config.json').then((config) => {
-        // load assets
-        const assetManager = new AssetManager();
-        assetManager
-          .loadFromConfig(config.assetManager, document.body)
-          .then(() => {
-            // http://proj4js.org/
-            // define a projection as a string and reference it that way
-            // the definition of the projection should be in config TODO_ISSUE
-            proj4.default.defs(
-              config['extent'].crs,
-              '+proj=lcc +lat_1=45.25 +lat_2=46.75' +
-                ' +lat_0=46 +lon_0=3 +x_0=1700000 +y_0=5200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
-            );
-
-            const extent = new itowns.Extent(
-              config['extent'].crs,
-              parseInt(config['extent'].west),
-              parseInt(config['extent'].east),
-              parseInt(config['extent'].south),
-              parseInt(config['extent'].north)
-            );
-
-            const game = new Game.External.MultiPlanarProcess(
-              this.socketIOWrapper,
-              extent,
-              assetManager,
-              new InputManager(),
-              {
-                sceneConfig: config.scene,
-                externalGameScriptClass: ExternalScript,
-                gameOrigin: {
-                  x: extent.center().x,
-                  y: extent.center().y,
-                  z: 300,
-                },
-                frame3DPlanarOptions: { hasItownsControls: false },
-              }
-            );
-
-            // record extent in userData should be in ud-viz ?
-            game.externalGameContext.userData.firstGameObject = false;
-            game.externalGameContext.userData.extent = extent;
-
-            game.start();
-            console.info(game, 'is started');
-
-            // const distantGame = new DistantGame(
-            //   _this.socketIOWrapper,
-            //   assetManager,
-            //   config
-            // );
-
-            // distantGame.start(
-            //   {
-            //     firstGameView: true,
-            //     editorMode: false,
-            //     role: _this.userData.role,
-            //   },
-            //   {
-            //     Constant: Constant,
-            //     AnimatedText: AnimatedText,
-            //     JitsiIframeAPI: JitsiIframeAPI,
-            //   }
-            // );
-
-            // app is loaded and ready to receive worldstate
-            // _this.socketIOWrapper.emit(
-            //   Constant.WEBSOCKET.MSG_TYPE.READY_TO_RECEIVE_STATE
-            // );
-          });
-      });
+      window.location.href = './game.html';
     };
 
     // toggle language
@@ -426,70 +353,14 @@ class ReceptionView {
     };
 
     // sign up
-    // let signUpView = null;
-    // this.signUpButton.onclick = function () {
-    //   if (signUpView) return;
-    //   if (signInView) {
-    //     signInView.dispose();
-    //     signInView = null;
-    //   }
-    //   signUpView = new SignUpView(_this.socketIOWrapper);
-    //   document.body.appendChild(signUpView.html());
-
-    //   signUpView.setOnClose(function () {
-    //     signUpView.dispose();
-    //     signUpView = null;
-    //   });
-    // };
-    // this.socketIOWrapper.on(
-    //   UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGN_UP_SUCCESS,
-    //   function () {
-    //     console.log('sign up success ');
-    //     if (signUpView) {
-    //       signUpView.dispose();
-    //       signUpView = null;
-    //     }
-    //   }
-    // );
-
-    // sign in
-    let signInView = null;
-    this.signInButton.onclick = function () {
-      if (signInView) return;
-      if (signUpView) {
-        signUpView.dispose();
-        signUpView = null;
-      }
-      signInView = new SignInView(_this.socketIOWrapper);
-      document.body.appendChild(signInView.html());
-
-      signInView.addButton('Retour', function () {
-        signInView.dispose();
-        signInView = null;
-      });
+    this.signUpButton.onclick = function () {
+      window.location.href = './sign_up.html';
     };
 
-    // this.socketIOWrapper.on(
-    //   UDIMUVConstant.WEBSOCKET.MSG_TYPE.SIGNED,
-    //   function (data) {
-    //     if (signInView) {
-    //       signInView.dispose();
-    //       signInView = null;
-    //     }
-
-    //     // update ui
-    //     _this.nameUserLabel.innerHTML = data.nameUser;
-    //     _this.roleUserLabel.innerHTML = data.role;
-    //     // register values
-    //     _this.userData = data;
-
-    //     if (data.role == UDIMUVConstant.USER.ROLE.ADMIN) {
-    //       _this.editorButton.classList.remove('hidden');
-    //     } else {
-    //       _this.editorButton.classList.add('hidden');
-    //     }
-    //   }
-    // );
+    // sign in
+    this.signInButton.onclick = function () {
+      window.location.href = './sign_in.html';
+    };
 
     // editor
     this.editorButton.onclick = function () {
@@ -510,6 +381,13 @@ class ReceptionView {
   }
 }
 
-// TODO : this class is useless
+// TODO : how to manage dynamic texts (fr/en) within .html to get rid of this bundle and to write html in .html
 const r = new ReceptionView();
 document.body.appendChild(r.domElement);
+
+request(window.origin + '/verify_token').then((user) => {
+  if (user) {
+    r.nameUserLabel.innerText = user.name;
+    r.roleUserLabel.innerText = user.role;
+  }
+});

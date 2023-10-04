@@ -1,10 +1,16 @@
-import { Game, Shared, THREE } from '@ud-viz/browser';
+import { ScriptBase } from '@ud-viz/game_browser';
+import {
+  RenderComponent,
+  AudioComponent,
+  ExternalScriptComponent,
+} from '@ud-viz/game_shared';
 import jquery from 'jquery';
-import { Constant } from '@ud-imuv/shared';
+import * as THREE from 'three';
+import { CITY_MAP } from '../../../shared/constant';
 
 const RADIUS_MAP = 40;
 
-export class Image extends Game.External.ScriptBase {
+export class Image extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
@@ -40,7 +46,7 @@ export class Image extends Game.External.ScriptBase {
         32
       );
       this.imagePlane = new THREE.Mesh(geometry, material);
-      const r = this.object3D.getComponent(Shared.Game.Component.Render.TYPE);
+      const r = this.object3D.getComponent(RenderComponent.TYPE);
       r.getController().addObject3D(this.imagePlane);
     };
 
@@ -72,7 +78,7 @@ export class Image extends Game.External.ScriptBase {
       this.popupUI.appendChild(figureMap);
     });
 
-    mapImg.src = Constant.CITY_MAP.PATH;
+    mapImg.src = CITY_MAP.PATH;
 
     return true;
   }
@@ -101,7 +107,7 @@ export class Image extends Game.External.ScriptBase {
       descriptionText.innerHTML = this.variables.descriptionText;
       figureDescr.appendChild(descriptionText);
     } else if (this.variables.descriptionHtml) {
-      // load html from distant server
+      // TODO: use web api instead of jquery
       jquery.ajax({
         type: 'GET',
         url: this.variables.descriptionHtml,
@@ -149,9 +155,7 @@ export class Image extends Game.External.ScriptBase {
     }
     if (!playSound || !value) return;
 
-    const audioComp = this.object3D.getComponent(
-      Shared.Game.Component.Audio.TYPE
-    );
+    const audioComp = this.object3D.getComponent(AudioComponent.TYPE);
     audioComp.getController().play('open_popup');
   }
 
@@ -183,7 +187,7 @@ export class Image extends Game.External.ScriptBase {
           this.context.object3D.traverse((child) => {
             if (!child.isImage) return;
             const externalCompChild = child.getComponent(
-              Shared.Game.Component.ExternalScript.TYPE
+              ExternalScriptComponent.TYPE
             );
             externalCompChild
               .getController()
@@ -205,15 +209,9 @@ export class Image extends Game.External.ScriptBase {
     const lat = this.variables.gpsCoord.lat || 0;
     const lng = this.variables.gpsCoord.lng || 0;
 
-    ratioX =
-      ratioX ||
-      (lng - Constant.CITY_MAP.LEFT) /
-        (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
+    ratioX = ratioX || (lng - CITY_MAP.LEFT) / (CITY_MAP.RIGHT - CITY_MAP.LEFT);
     ratioY =
-      ratioY ||
-      1 -
-        (lat - Constant.CITY_MAP.BOTTOM) /
-          (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM);
+      ratioY || 1 - (lat - CITY_MAP.BOTTOM) / (CITY_MAP.TOP - CITY_MAP.BOTTOM);
 
     const canvas = document.createElement('canvas');
     canvas.width = img.naturalWidth;
@@ -237,12 +235,8 @@ export class Image extends Game.External.ScriptBase {
   }
 
   ratioToCoordinates(ratioX, ratioY) {
-    const lng =
-      Constant.CITY_MAP.LEFT +
-      ratioX * (Constant.CITY_MAP.RIGHT - Constant.CITY_MAP.LEFT);
-    const lat =
-      Constant.CITY_MAP.BOTTOM +
-      ratioY * (Constant.CITY_MAP.TOP - Constant.CITY_MAP.BOTTOM);
+    const lng = CITY_MAP.LEFT + ratioX * (CITY_MAP.RIGHT - CITY_MAP.LEFT);
+    const lat = CITY_MAP.BOTTOM + ratioY * (CITY_MAP.TOP - CITY_MAP.BOTTOM);
     return {
       lng: lng,
       lat: lat,
