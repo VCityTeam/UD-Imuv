@@ -128,7 +128,7 @@ class MenuPostIt {
           );
           externalScriptComp.getModel().getVariables().content = message;
 
-          externalContext.sendCommandToGameContext([
+          externalContext.sendCommandsToGameContext([
             new Command({
               type: constant.COMMAND.ADD_OBJECT3D,
               data: { object3D: postitGo.toJSON() },

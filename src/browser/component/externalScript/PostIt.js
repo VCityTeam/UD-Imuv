@@ -84,7 +84,7 @@ class MenuPostIt {
 
     // callback
     deletePostIt.onclick = function () {
-      externalGameContext.sendCommandToGameContext([
+      externalGameContext.sendCommandsToGameContext([
         new Command({
           type: constant.COMMAND.REMOVE_OBJECT3D,
           data: {

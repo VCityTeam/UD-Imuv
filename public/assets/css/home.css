@@ -1,6 +1,4 @@
-/** @format */
-
-.root_Reception {
+.root_Home {
   width: 100%;
   height: 100%;
   background-color: white;
@@ -9,7 +7,7 @@
   position: absolute;
 }
 
-.topNav_Reception {
+.topNav_Home {
   position: fixed;
   width: 100%;
   background-color: #2a2d2f;
@@ -21,11 +19,11 @@
   z-index: 42;
 }
 
-.hamburgerMenu_Reception {
+.hamburgerMenu_Home {
   display: none;
 }
 
-.buttonTopNav_Reception {
+.buttonTopNav_Home {
   float: left;
   text-align: center;
   text-decoration: none;
@@ -36,25 +34,25 @@
   font-weight: bold;
 }
 
-.buttonTopNav_Reception:hover {
+.buttonTopNav_Home:hover {
   color: #e6007c;
   cursor: pointer;
 }
 
 @media screen and (min-width: 1100px) {
-  #buttonsTopNav_Reception {
+  #buttonsTopNav_Home {
     display: block !important;
   }
 }
 @media screen and (max-width: 1100px) {
-  #buttonsTopNav_Reception {
+  #buttonsTopNav_Home {
     position: absolute;
     margin-top: 50px;
     background: #2a2d2f;
     display: none;
   }
 
-  .hamburgerMenu_Reception {
+  .hamburgerMenu_Home {
     float: left;
     display: block;
     color: whitesmoke;
@@ -62,36 +60,36 @@
     font-size: 30px;
   }
 
-  .hamburgerMenu_Reception:hover {
+  .hamburgerMenu_Home:hover {
     color: #e6007c;
     cursor: pointer;
   }
 
-  .buttonTopNav_Reception {
+  .buttonTopNav_Home {
     float: none;
     display: block;
     text-align: left;
   }
 }
 
-.topNav_Reception img {
+.topNav_Home img {
   float: right;
   height: inherit;
 }
 
-.topNav_Reception h1 {
+.topNav_Home h1 {
   font-family: sans-serif;
   font-weight: bold;
   color: whitesmoke;
 }
 
-.titleNav_Reception {
+.titleNav_Home {
   border-left: solid #e6007c;
   height: 100%;
   padding-inline: 10px;
 }
 
-.header_Reception {
+.header_Home {
   padding-top: 40%;
   text-align: center;
   background-repeat: no-repeat;
@@ -101,12 +99,12 @@
   display: block;
 }
 
-.button_Reception:hover {
+.button_Home:hover {
   background-color: lightgrey;
   cursor: pointer;
 }
 
-.joinButton_Reception {
+.joinButton_Home {
   width: 180px;
   height: 170px;
   border-radius: 50%;
@@ -130,7 +128,7 @@
   text-transform: uppercase;
 }
 
-.joinButton_Reception:hover {
+.joinButton_Home:hover {
   border-radius: 40%;
   cursor: pointer;
   background: #e5007aec;
@@ -138,7 +136,7 @@
   color: var(--imuv-color-two);
 }
 
-.feedbacksDiv_Reception {
+.feedbacksDiv_Home {
   color: #000000;
   font-family: sans-serif;
   margin-top: 1rem;
@@ -147,32 +145,32 @@
   flex-direction: column;
 }
 
-.feedbacksDiv_Reception img {
+.feedbacksDiv_Home img {
   height: 100px;
 }
 
-.feedbacksDiv_Reception h2 {
+.feedbacksDiv_Home h2 {
   padding: 1rem;
 }
 
-.content_Reception {
+.content_Home {
   background-color: white;
   padding: 40px;
 }
 
-.content_Reception a {
+.content_Home a {
   text-decoration: none;
   color: #000000;
   border-bottom: 1px solid #2a2d2f;
   transition: 0.3s;
 }
 
-.content_Reception a:hover {
+.content_Home a:hover {
   cursor: pointer;
   border-bottom: 1px solid #e5007aec;
 }
 
-.titleContent_Reception {
+.titleContent_Home {
   font-size: x-large;
   display: flex;
   margin: 60px;
@@ -180,7 +178,7 @@
   align-items: center; /* center flex items vertically, in this case */
 }
 
-.box_Reception {
+.box_Home {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -219,7 +217,7 @@ figure:hover figcaption {
   transition: 0.3s;
 }
 
-.content_Reception section {
+.content_Home section {
   padding-top: 100px;
 }
 

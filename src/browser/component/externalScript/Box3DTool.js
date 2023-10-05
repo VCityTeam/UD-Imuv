@@ -162,7 +162,7 @@ class MenuBox3D {
       newBox3D.position.copy(boxPosition);
       newBox3D.scale.copy(new THREE.Vector3(50, 50, 50));
 
-      this.context.sendCommandToGameContext([
+      this.context.sendCommandsToGameContext([
         new Command({
           type: constant.COMMAND.ADD_OBJECT3D,
           data: {
@@ -250,7 +250,7 @@ class MenuBox3D {
     removeButton.classList.add('button-imuv');
     removeButton.innerHTML = 'Remove';
     removeButton.onclick = () => {
-      this.context.sendCommandToGameContext([
+      this.context.sendCommandsToGameContext([
         new Command({
           type: constant.COMMAND.REMOVE_OBJECT3D,
           data: {
@@ -340,7 +340,7 @@ class MenuBox3D {
 
       this.transformCtrl.addEventListener('change', () => {
         this.transformCtrl.updateMatrixWorld();
-        this.context.sendCommandToGameContext([
+        this.context.sendCommandsToGameContext([
           new Command({
             type: constant.COMMAND.UPDATE_TRANSFORM,
             data: {
