@@ -48,6 +48,7 @@ const run = async () => {
         domElementClass: 'full_screen',
         hasItownsControls: false,
       },
+      computeBandWidth: true,
     }
   );
 

@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/VCityTeam/UD-Imuv#readme",
   "devDependencies": {
-    "@ud-viz/game_node": "^4.0.0",
+    "@ud-viz/game_node": "file:../UD-Viz/packages/game_node",
     "@ud-viz/game_node_template": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -68,10 +68,10 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "@ud-viz/game_browser": "^4.0.0",
+    "@ud-viz/game_browser": "file:../UD-Viz/packages/game_browser",
     "@ud-viz/game_browser_template": "^4.0.0",
-    "@ud-viz/game_shared": "^4.0.0",
-    "@ud-viz/game_shared_template": "^4.0.0",
+    "@ud-viz/game_shared": "file:../UD-Viz/packages/game_shared",
+    "@ud-viz/game_shared_template": "file:../UD-Viz/packages/game_shared_template",
     "@ud-viz/utils_browser": "^4.0.0",
     "@ud-viz/widget_camera_positioner": "^4.0.0",
     "@ud-viz/widget_geocoding": "^4.0.0",

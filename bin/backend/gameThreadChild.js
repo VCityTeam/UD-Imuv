@@ -6,9 +6,8 @@ const { Map } = require('@ud-viz/game_node_template');
 const { THREAD } = require('./constant');
 const worker_threads = require('worker_threads');
 
-gameScript.Map = Map; // add @ud-viz/node script template
 const child = new thread.Child();
-child.start(gameScript);
+child.start({ ...gameScript, Map: Map });
 child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
   child.gameContext.on(constant.CONTEXT.EVENT.PORTAL, (data) => {
     // post portal event to main thread
