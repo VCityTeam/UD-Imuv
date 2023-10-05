@@ -884,7 +884,7 @@ class MenuCityMockUp {
         if (worldCoordStart.equals(worldCoordCurrent)) return; // it is not an area
 
         // edit conf go
-        this.context.sendCommandToGameContext([
+        this.context.sendCommandsToGameContext([
           new Shared.Command({
             type: Shared.Game.ScriptTemplate.Constants.COMMAND
               .UPDATE_EXTERNALSCRIPT_VARIABLES,

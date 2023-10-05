@@ -4,6 +4,7 @@ const { SocketService, thread } = require('@ud-viz/game_node');
 const { avatar } = require('../../src/shared/prefabFactory');
 const { THREAD } = require('./constant');
 const THREE = require('three');
+const jwt = require('jsonwebtoken');
 
 const moulinetteWorldJSON = (oldJSON) => {
   const newJSON = oldJSON.gameObject;
@@ -98,16 +99,25 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
     socketReadyForGamePromises: [
       (socketWrapper, threadParent) => {
         return new Promise((resolve) => {
-          // add an avatar in game
+          const token = JSON.parse(
+            socketWrapper.socket.handshake.headers.cookie
+          ).token;
 
-          const avatarJSON = avatar().toJSON();
+          jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
+            if (err) {
+              socketWrapper.socket.disconnect(true);
+            } else {
+              // add an avatar in game
+              const avatarJSON = avatar().toJSON();
 
-          threadParent.apply(THREAD.EVENT.SPAWN, avatarJSON).then(() => {
-            // register in wrapper avatar uuid
-            socketWrapper.userData.avatarUUID = avatarJSON.uuid;
-            socketWrapper.userData.settings = {};
+              threadParent.apply(THREAD.EVENT.SPAWN, avatarJSON).then(() => {
+                // register in wrapper avatar uuid
+                socketWrapper.userData.avatarUUID = avatarJSON.uuid;
+                socketWrapper.userData.settings = {};
 
-            resolve();
+                resolve();
+              });
+            }
           });
         });
       },

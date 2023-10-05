@@ -78,7 +78,7 @@ export class ZeppelinStart extends ScriptBase {
             // reset avatar controls
             avatarController.setAvatarControllerMode(true);
 
-            this.context.sendCommandToGameContext([
+            this.context.sendCommandsToGameContext([
               new Command({
                 type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
                 data: {
@@ -95,7 +95,7 @@ export class ZeppelinStart extends ScriptBase {
           avatarController.setAvatarControllerMode(false);
 
           // avatar invisible
-          this.context.sendCommandToGameContext([
+          this.context.sendCommandsToGameContext([
             new Command({
               type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
               data: {
@@ -194,7 +194,7 @@ export class ZeppelinStart extends ScriptBase {
     if (!zeppelinSetted) throw 'zeppelin controller not set';
 
     // edit server side
-    this.context.sendCommandToGameContext([
+    this.context.sendCommandsToGameContext([
       new Command({
         type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
         data: {
@@ -210,7 +210,7 @@ export class ZeppelinStart extends ScriptBase {
       zeppelinController.setZeppelinControllerMode(false);
 
       // edit server side to remove pilot
-      this.context.sendCommandToGameContext([
+      this.context.sendCommandsToGameContext([
         new Command({
           type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
           data: {

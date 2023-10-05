@@ -117,7 +117,7 @@ export class MiniMap extends ScriptBase {
           0
         );
         this.setClickMode(MAP_CLICK_MODE.DEFAULT);
-        this.context.sendCommandToGameContext([
+        this.context.sendCommandsToGameContext([
           new Command({
             type: COMMAND.TELEPORT,
             data: {
@@ -130,7 +130,7 @@ export class MiniMap extends ScriptBase {
         ]);
       } else if (this.clickMode === MAP_CLICK_MODE.PING) {
         this.setClickMode(MAP_CLICK_MODE.DEFAULT);
-        this.context.sendCommandToGameContext([
+        this.context.sendCommandsToGameContext([
           new Command({
             type: COMMAND.PING,
             data: {
@@ -173,7 +173,7 @@ export class MiniMap extends ScriptBase {
         const x = event.pageX;
         const y = event.pageY;
 
-        this.context.sendCommandToGameContext([
+        this.context.sendCommandsToGameContext([
           new Command({
             type: COMMAND.TELEPORT,
             data: {

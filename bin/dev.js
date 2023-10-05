@@ -8,16 +8,8 @@ const print = function (result) {
 };
 
 const routine = async () => {
-  // TODO build bundle procedurally + opti nodemon 1 watcher par build et js or something better i don't know
-
   // build bundles
-
   let result = await exec(
-    'npm exec cross-env NAME=reception ENTRY=./src/browser/reception/index.js npm run build-dev'
-  );
-  print(result);
-
-  result = await exec(
     'npm exec cross-env NAME=utils ENTRY=./src/browser/utils.js npm run build-dev'
   );
   print(result);
