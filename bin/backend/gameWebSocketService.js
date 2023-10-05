@@ -147,7 +147,6 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
 
     if (json.version) {
       json = moulinetteWorldJSON(json);
-      // console.log(json);
     }
     gameObjects3D.push(json);
   }
@@ -158,8 +157,8 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
   );
 
   // customize threadParent with the portal event
-  for (const threadParentID in gameSocketService.threadParents) {
-    const threadParent = gameSocketService.threadParents[threadParentID];
+  for (const threadParentID in gameSocketService.threads) {
+    const threadParent = gameSocketService.threads[threadParentID];
     threadParent.on(THREAD.EVENT.PORTAL, (data) => {
       // find socket wrapper with avatarUUID
       let socketWrapper = null;
@@ -180,11 +179,10 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
       // remove avatar from current threadParent
       threadParent.post(thread.MESSAGE_EVENT.REMOVE_OBJECT3D, data.avatarUUID);
       // add to the new threadParent
-      const destThread =
-        gameSocketService.threadParents[data.gameObjectDestUUID];
+      const destThread = gameSocketService.threads[data.gameObjectDestUUID];
       if (!destThread) {
         console.log('uuid threadParent initialized');
-        for (const gameObjectThreadUUID in gameSocketService.threadParents) {
+        for (const gameObjectThreadUUID in gameSocketService.threads) {
           console.log(gameObjectThreadUUID);
         }
         throw new Error(

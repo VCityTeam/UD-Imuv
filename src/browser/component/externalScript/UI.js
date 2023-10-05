@@ -408,6 +408,14 @@ class DebugInfo {
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('debug_label');
     this.domElement.appendChild(this.avatarCount);
+
+    this.bandWidthDomElement = document.createElement('div');
+    this.bandWidthDomElement.classList.add('debug_label');
+    this.domElement.appendChild(this.bandWidthDomElement);
+
+    // compute bandwidth
+    this.lastMinuteState = 0;
+    this.bandWidthState = 0;
   }
 
   html() {
@@ -436,6 +444,9 @@ class DebugInfo {
       if (g.name == 'avatar') avatarCount++;
     });
     this.avatarCount.innerHTML = 'Player: ' + avatarCount;
+
+    this.bandWidthDomElement.innerText =
+      context.interpolator.bandWidthState + ' KBs';
   }
 }
 
