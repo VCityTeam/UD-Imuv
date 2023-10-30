@@ -45,7 +45,7 @@ module.exports = {
       },
     });
   },
-  avatar: () => {
+  avatar: (name = 'default_name') => {
     return new Object3D({
       name: 'Avatar',
       userData: {
@@ -66,7 +66,6 @@ module.exports = {
         Render: {
           type: 'Render',
           idRenderData: 'avatar_moyen',
-          name: 'avatar_name',
         },
         GameScript: {
           idScripts: [Avatar.ID_SCRIPT],
@@ -80,7 +79,7 @@ module.exports = {
           ],
           variables: {
             visible: true,
-            name: 'default_name',
+            name: name,
             path_face_texture: './assets/img/avatar/default.jpeg',
           },
           type: 'ExternalScript',

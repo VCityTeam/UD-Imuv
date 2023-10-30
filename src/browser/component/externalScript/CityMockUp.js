@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import * as itowns from 'itowns';
 import { checkParentChild } from '@ud-viz/utils_browser';
 import { ScriptBase } from '@ud-viz/game_browser';
-import { RenderComponent } from '@ud-viz/game_shared';
+import { RenderComponent, Command } from '@ud-viz/game_shared';
+import { constant } from '@ud-viz/game_shared_template';
 
 import { UI } from './UI';
 import { CameraManager } from './CameraManager';
@@ -653,9 +654,7 @@ export class CityMockUp extends ScriptBase {
       // create mesh
       this.mockUpObject = new THREE.Mesh(geometryMockUp, materialsMockup);
       this.mockUpObject.name = 'MockUp Object';
-      const renderComp = this.object3D.getComponent(
-        Shared.Game.Component.Render.TYPE
-      );
+      const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
       renderComp.getController().addObject3D(this.mockUpObject);
 
       // adapt scale to fit the table
@@ -885,9 +884,8 @@ class MenuCityMockUp {
 
         // edit conf go
         this.context.sendCommandsToGameContext([
-          new Shared.Command({
-            type: Shared.Game.ScriptTemplate.Constants.COMMAND
-              .UPDATE_EXTERNALSCRIPT_VARIABLES,
+          new Command({
+            type: constant.COMMAND.UPDATE_EXTERNALSCRIPT_VARIABLES,
             data: {
               object3DUUID: this.object3D.uuid,
               variableName: 'area',

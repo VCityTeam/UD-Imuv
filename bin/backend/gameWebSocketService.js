@@ -108,7 +108,7 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
               socketWrapper.socket.disconnect(true);
             } else {
               // add an avatar in game
-              const avatarJSON = avatar().toJSON();
+              const avatarJSON = avatar(user.name).toJSON();
 
               threadParent.apply(THREAD.EVENT.SPAWN, avatarJSON).then(() => {
                 // register in wrapper avatar uuid

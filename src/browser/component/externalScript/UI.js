@@ -530,6 +530,19 @@ class DebugInfo {
     this.domElement.setAttribute('id', 'debug_info');
     this.domElement.classList.add('root_debug');
 
+    const foldButton = document.createElement('button');
+    foldButton.innerText = 'fold/unfold';
+    this.domElement.appendChild(foldButton);
+
+    let fold = false;
+    foldButton.onclick = () => {
+      fold = !fold;
+      for (const child of this.domElement.children) {
+        if (child == foldButton) continue;
+        child.hidden = fold;
+      }
+    };
+
     this.gameViewFpsChart = new Chart('client fps', {
       labelMaxNumber: ' ms',
     });
@@ -540,12 +553,12 @@ class DebugInfo {
     });
     this.domElement.appendChild(this.worldComputerFpsChart.domElement);
 
-    this.pingChart = new Chart('ping', {
+    this.pingChart = new Chart('interpolator ping', {
       labelMaxNumber: ' ms',
     });
     this.domElement.appendChild(this.pingChart.domElement);
 
-    this.bandWidthChart = new Chart('bandwidth', {
+    this.bandWidthChart = new Chart('down', {
       labelMaxNumber: ' KB',
     });
     this.domElement.appendChild(this.bandWidthChart.domElement);

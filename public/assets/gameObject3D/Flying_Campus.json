@@ -3158,7 +3158,7 @@
                 "uuid": "E5AF555A-4D73-4038-A12D-85B2F46F6365",
                 "type": "Render",
                 "idRenderData": null,
-                "color": [0, 0.5, 1]
+                "color": [0, 0.5, 1, 0.2]
               },
               "LocalScript": {
                 "uuid": "5482348B-DCFF-4E00-9402-12E1E9779315",
@@ -3219,7 +3219,7 @@
                 "uuid": "35567E5F-66C1-41FE-A955-0BA05B0C85A6",
                 "type": "Render",
                 "idRenderData": null,
-                "color": [0, 0.5, 1]
+                "color": [0, 0.5, 1, 0.2]
               },
               "LocalScript": {
                 "uuid": "D6722B6D-E80B-433F-8CD0-FE144173568A",
@@ -3282,7 +3282,7 @@
                 "uuid": "0B2911FC-808D-4561-B96A-6B80AA695934",
                 "type": "Render",
                 "idRenderData": null,
-                "color": [0, 0.5, 1]
+                "color": [0, 0.5, 1, 0.2]
               },
               "LocalScript": {
                 "uuid": "38AB6728-3414-4E06-968C-45453C639DDD",
@@ -3343,7 +3343,7 @@
                 "uuid": "4D411ABE-08A3-4A71-89C3-0C2AD691D6B0",
                 "type": "Render",
                 "idRenderData": null,
-                "color": [0, 0.5, 1]
+                "color": [0, 0.5, 1, 0.2]
               },
               "LocalScript": {
                 "uuid": "C900CBFF-95FE-4105-8AF1-511FB74E2241",
@@ -3460,7 +3460,7 @@
                 "uuid": "7AEE124B-CEDA-4CA8-9C41-306D318C0ADC",
                 "type": "Render",
                 "idRenderData": null,
-                "color": [0, 0.5, 1]
+                "color": [0, 0.5, 1, 0.2]
               },
               "LocalScript": {
                 "uuid": "74545F8B-759E-496C-BB42-F4BA1C8634D8",
