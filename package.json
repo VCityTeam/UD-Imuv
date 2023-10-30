@@ -72,9 +72,9 @@
   "dependencies": {
     "@ud-viz/frame3d": "4.0.0",
     "@ud-viz/game_browser": "file:../UD-Viz/packages/game_browser",
-    "@ud-viz/game_browser_template": "4.0.0",
+    "@ud-viz/game_browser_template": "file:../UD-Viz/packages/game_browser_template",
     "@ud-viz/game_shared": "file:../UD-Viz/packages/game_shared",
-    "@ud-viz/game_shared_template": "4.0.0",
+    "@ud-viz/game_shared_template": "file:../UD-Viz/packages/game_shared_template",
     "@ud-viz/utils_browser": "4.0.0",
     "@ud-viz/widget_camera_positioner": "4.0.0",
     "@ud-viz/widget_geocoding": "4.0.0",

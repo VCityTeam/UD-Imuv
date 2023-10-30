@@ -1,6 +1,7 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import { loadMultipleJSON } from '@ud-viz/utils_browser';
 import * as itowns from 'itowns';
+import { CONSTANT } from './component/constant';
 
 export class AddItownsLayer extends ScriptBase {
   init() {
@@ -80,7 +81,7 @@ export class AddItownsLayer extends ScriptBase {
         );
       });
 
-      window.dispatchEvent(new Event('ADD_ITOWNS_LAYER'));
+      window.dispatchEvent(new Event(CONSTANT.EVENT.ITOWNS_LAYER_ADDED));
     });
   }
 

@@ -406,6 +406,8 @@ class Chart {
 
     this.maxNumber = -Infinity;
 
+    this.averageNumber = 0;
+
     this.offsetY = options.offsetY || 10;
 
     const ctx = this.canvas.getContext('2d');
@@ -429,7 +431,10 @@ class Chart {
 
     this.values.forEach((v) => {
       this.maxNumber = Math.max(this.maxNumber, v.number);
+      this.averageNumber += v.number;
     });
+
+    this.averageNumber /= this.values.length;
 
     this.values = this.values.filter((a) => {
       return now - a.timestamp < this.timeInterval;
@@ -475,15 +480,31 @@ class Chart {
 
     ctx.restore();
 
-    // draw max number
     const sizeLine = 10;
-    const y = (this.offsetY * this.canvas.height) / worldHeight;
+
+    // draw max number
+    // const y = (this.offsetY * this.canvas.height) / worldHeight;
+    // ctx.beginPath();
+    // ctx.moveTo(0, y);
+    // ctx.lineTo(sizeLine, y);
+    // ctx.closePath();
+    // ctx.stroke();
+    // ctx.strokeText(this.maxNumber + this.labelMaxNumber, 2 * sizeLine, y);
+
+    // draw average number
+    const yAverage =
+      this.canvas.height -
+      (this.averageNumber * this.canvas.height) / worldHeight;
     ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(sizeLine, y);
+    ctx.moveTo(0, yAverage);
+    ctx.lineTo(sizeLine, yAverage);
     ctx.closePath();
     ctx.stroke();
-    ctx.strokeText(this.maxNumber + this.labelMaxNumber, 2 * sizeLine, y);
+    ctx.strokeText(
+      this.averageNumber + this.labelMaxNumber,
+      2 * sizeLine,
+      yAverage
+    );
 
     // draw time (x)
     ctx.beginPath();
@@ -532,6 +553,10 @@ class DebugInfo {
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('debug_label');
     this.domElement.appendChild(this.avatarCount);
+
+    this.vertexCount = document.createElement('div');
+    this.vertexCount.classList.add('debug_label');
+    this.domElement.appendChild(this.vertexCount);
   }
 
   html() {
@@ -561,15 +586,20 @@ class DebugInfo {
     this.pingChart.add(context.interpolator.ping);
     this.pingChart.draw();
 
-    let avatarCount = 0;
-    context.object3D.traverse(function (g) {
-      if (g.name == 'avatar') avatarCount++;
-    });
-    this.avatarCount.innerHTML = 'Player: ' + avatarCount;
-
     // bandwidth
     this.bandWidthChart.add(context.interpolator.bandWidthStateValue);
     this.bandWidthChart.draw();
+
+    let avatarCount = 0;
+    let vertexCount = 0;
+    context.object3D.traverse(function (child) {
+      if (child.userData.isAvatar) avatarCount++;
+      if (child.geometry) {
+        vertexCount += child.geometry.attributes.position.count;
+      }
+    });
+    this.avatarCount.innerText = 'Player: ' + avatarCount;
+    this.vertexCount.innerText = vertexCount + ' points';
   }
 }
 
