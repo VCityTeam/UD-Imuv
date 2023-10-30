@@ -12,11 +12,6 @@
   background-color: antiquewhite;
 }
 
-.root_debug canvas {
-  width: 200px;
-  height: 100px;
-}
-
 .debug_div {
   width: 500px;
   height: 500px;

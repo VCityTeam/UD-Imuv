@@ -28,14 +28,15 @@
           "itowns_refine_id_ext_script",
           "switch_itowns_id_ext_script",
           "avatar_controller_id_ext_script",
-          "camera_id_ext_script",
           "camera_manager_id",
           "zeppelin_controller_id_ext_script",
           "box3D_tool_id_ext_script",
           "static_object_id_ext_script",
           "add_itowns_layer_id_ext_script"
         ],
-        "conf": { "traveling_time": 3000 },
+        "conf": {
+          "traveling_time": 3000
+        },
         "type": "LocalScript"
       }
     },
@@ -2428,7 +2429,10 @@
                   "videoPath": "./assets/videos/POC_flying_campus_juin.webm",
                   "width": 8.5,
                   "height": 5.3,
-                  "size": { "width": 1280, "height": 720 }
+                  "size": { "width": 1280, "height": 720 },
+                  "map_tick_rate_ms": {
+                    "video_id_ext_script": 60
+                  }
                 },
                 "type": "LocalScript"
               },
