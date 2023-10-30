@@ -388,34 +388,150 @@ export class UI extends ScriptBase {
   }
 }
 
+class Chart {
+  constructor(name, options = {}) {
+    this.domElement = document.createElement('div');
+
+    // label
+    const labelName = document.createElement('div');
+    labelName.innerText = name;
+    this.domElement.appendChild(labelName);
+
+    this.canvas = document.createElement('canvas');
+    this.domElement.appendChild(this.canvas);
+
+    this.values = [];
+
+    this.timeInterval = options.timeInterval || 5000;
+
+    this.maxNumber = -Infinity;
+
+    this.offsetY = options.offsetY || 10;
+
+    const ctx = this.canvas.getContext('2d');
+    ctx.fillStyle = options.fillStyle || 'red';
+    ctx.strokeStyle = options.strokeStyle || 'black';
+
+    this.labelMaxNumber = options.labelMaxNumber || '';
+  }
+
+  /**
+   *
+   * @param {object} value
+   */
+  add(value) {
+    this.values.push(value);
+
+    // clear old values
+    const now = Date.now();
+
+    this.maxNumber = -Infinity;
+
+    this.values.forEach((v) => {
+      this.maxNumber = Math.max(this.maxNumber, v.number);
+    });
+
+    this.values = this.values.filter((a) => {
+      return now - a.timestamp < this.timeInterval;
+    });
+  }
+
+  draw() {
+    if (this.values.length < 2) return;
+
+    const ctx = this.canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    ctx.save();
+
+    const worldHeight = this.maxNumber + this.offsetY;
+
+    ctx.scale(
+      this.canvas.width / this.timeInterval,
+      this.canvas.height / worldHeight
+    );
+
+    const now = Date.now();
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      now - this.values[0].timestamp,
+      worldHeight - this.values[0].number
+    );
+    for (let index = 1; index < this.values.length; index++) {
+      const value = this.values[index];
+      ctx.lineTo(now - value.timestamp, worldHeight - value.number);
+    }
+
+    const lastValue = this.values[this.values.length - 1];
+    ctx.lineTo(now - lastValue.timestamp, worldHeight);
+    ctx.lineTo(now - this.values[0].timestamp, worldHeight);
+
+    ctx.closePath();
+
+    ctx.fill();
+
+    ctx.restore();
+
+    // draw max number
+    const sizeLine = 10;
+    const y = (this.offsetY * this.canvas.height) / worldHeight;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(sizeLine, y);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.strokeText(this.maxNumber + this.labelMaxNumber, 2 * sizeLine, y);
+
+    // draw time (x)
+    ctx.beginPath();
+    ctx.moveTo(0, this.canvas.height);
+    ctx.lineTo(this.canvas.width, this.canvas.height);
+    ctx.lineTo(this.canvas.width, this.canvas.height - sizeLine);
+    ctx.lineTo(this.canvas.width, this.canvas.height);
+    ctx.closePath();
+    ctx.stroke();
+    const textValue = this.timeInterval + ' ms';
+    const widthText = ctx.measureText(textValue).width;
+    ctx.strokeText(
+      textValue,
+      this.canvas.width - sizeLine - widthText,
+      this.canvas.height - sizeLine
+    );
+  }
+}
+
 class DebugInfo {
   constructor() {
     this.domElement = document.createElement('div');
+    this.domElement.setAttribute('id', 'debug_info');
     this.domElement.classList.add('root_debug');
 
-    this.gameViewFps = document.createElement('div');
-    this.gameViewFps.classList.add('debug_label');
-    this.domElement.appendChild(this.gameViewFps);
+    this.gameViewFpsChart = new Chart('client fps', {
+      labelMaxNumber: ' ms',
+    });
+    this.domElement.appendChild(this.gameViewFpsChart.domElement);
 
-    this.worldComputerFps = document.createElement('div');
-    this.worldComputerFps.classList.add('debug_label');
-    this.domElement.appendChild(this.worldComputerFps);
+    this.worldComputerFpsChart = new Chart('backend fps', {
+      labelMaxNumber: ' ms',
+    });
+    this.domElement.appendChild(this.worldComputerFpsChart.domElement);
 
-    this.pingUI = document.createElement('div');
-    this.pingUI.classList.add('debug_label');
-    this.domElement.appendChild(this.pingUI);
+    this.pingChart = new Chart('ping', {
+      labelMaxNumber: ' ms',
+    });
+    this.domElement.appendChild(this.pingChart.domElement);
+
+    this.bandWidthChart = new Chart('bandwidth', {
+      labelMaxNumber: ' KB',
+    });
+    this.domElement.appendChild(this.bandWidthChart.domElement);
 
     this.avatarCount = document.createElement('div');
     this.avatarCount.classList.add('debug_label');
     this.domElement.appendChild(this.avatarCount);
-
-    this.bandWidthDomElement = document.createElement('div');
-    this.bandWidthDomElement.classList.add('debug_label');
-    this.domElement.appendChild(this.bandWidthDomElement);
-
-    // compute bandwidth
-    this.lastMinuteState = 0;
-    this.bandWidthState = 0;
   }
 
   html() {
@@ -429,15 +545,21 @@ class DebugInfo {
    */
   update(context, variables) {
     // update ui
-    this.gameViewFps.innerHTML =
-      'Client FPS = ' + Math.round(1000 / context.dt);
+    this.gameViewFpsChart.add({
+      timestamp: Date.now(),
+      number: context.dt,
+    });
+    this.gameViewFpsChart.draw();
 
-    let worldFps = -1;
     if (variables.gameContextDt)
-      worldFps = Math.round(1000 / variables.gameContextDt);
-    this.worldComputerFps.innerHTML = 'World FPS = ' + worldFps;
+      this.worldComputerFpsChart.add({
+        timestamp: Date.now(),
+        number: variables.gameContextDt,
+      });
+    this.worldComputerFpsChart.draw();
 
-    this.pingUI.innerHTML = 'Ping = ' + context.interpolator.ping;
+    this.pingChart.add(context.interpolator.ping);
+    this.pingChart.draw();
 
     let avatarCount = 0;
     context.object3D.traverse(function (g) {
@@ -445,8 +567,9 @@ class DebugInfo {
     });
     this.avatarCount.innerHTML = 'Player: ' + avatarCount;
 
-    this.bandWidthDomElement.innerText =
-      context.interpolator.bandWidthState + ' KBs';
+    // bandwidth
+    this.bandWidthChart.add(context.interpolator.bandWidthStateValue);
+    this.bandWidthChart.draw();
   }
 }
 
