@@ -148,10 +148,7 @@ class MenuBox3D {
       const boxPosition = new THREE.Vector3();
 
       this.context.frame3D.itownsView.getPickingPositionFromDepth(
-        new THREE.Vector2(
-          this.context.frame3D.size.x / 2,
-          this.context.frame3D.size.y / 2
-        ),
+        null, // default is the center
         boxPosition
       );
 
@@ -161,6 +158,8 @@ class MenuBox3D {
       const newBox3D = box3D();
       newBox3D.position.copy(boxPosition);
       newBox3D.scale.copy(new THREE.Vector3(50, 50, 50));
+
+      console.log(newBox3D.toJSON());
 
       this.context.sendCommandsToGameContext([
         new Command({
