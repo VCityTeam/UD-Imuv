@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 if (!process.env.ENTRY) {
   throw new Error(
@@ -17,7 +19,7 @@ if (!process.env.NAME) {
 const keyEnvVariables = ['JITSI_PUBLIC_URL', 'WBO_PUBLIC_URL'];
 const plugins = [];
 const params = {};
-keyEnvVariables.forEach(function (key) {
+keyEnvVariables.forEach((key) => {
   console.log(key, ' = ', JSON.stringify(process.env[key]));
   params[key] = JSON.stringify(process.env[key]);
 });
@@ -28,6 +30,10 @@ plugins.push(
     DEBUG: process.env.NODE_ENV == 'development',
   })
 );
+
+if (process.env.ANALYZE) {
+  plugins.push(new BundleAnalyzerPlugin());
+}
 
 const result = {
   entry: process.env.ENTRY,
@@ -41,10 +47,7 @@ const result = {
     rules: [],
   },
   resolve: {
-    modules: [
-      'node_modules', // The default
-      'src',
-    ],
+    modules: ['../UD-Viz/node_modules', './node_modules'],
     fallback: {
       buffer: false,
     },

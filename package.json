@@ -18,6 +18,7 @@
     "build-dev": "dotenv -e .env -- cross-env NODE_ENV=development webpack --config ./webpack.config.js",
     "dev": "dotenv -e .env -- cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./src --watch ./bin/backend --delay 2500ms ./bin/dev.js -e js,css,html",
     "host": "dotenv -e .env -- node ./bin/host.js",
+    "analyze-bundle-game": "cross-env ANALYZE=analyze NAME=game ENTRY=./src/browser/game/index.js npm run build-dev",
     "create-admin": "dotenv -e .env node ./bin/backend/createAdmin.js"
   },
   "repository": {
@@ -65,17 +66,19 @@
     "style-loader": "3.3.1",
     "url-loader": "4.1.1",
     "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "@ud-viz/frame3d": "4.0.0",
     "@ud-viz/game_browser": "file:../UD-Viz/packages/game_browser",
-    "@ud-viz/game_browser_template": "^4.0.0",
+    "@ud-viz/game_browser_template": "4.0.0",
     "@ud-viz/game_shared": "file:../UD-Viz/packages/game_shared",
-    "@ud-viz/game_shared_template": "file:../UD-Viz/packages/game_shared_template",
-    "@ud-viz/utils_browser": "^4.0.0",
-    "@ud-viz/widget_camera_positioner": "^4.0.0",
-    "@ud-viz/widget_geocoding": "^4.0.0",
-    "@ud-viz/widget_layer_choice": "^4.0.0",
+    "@ud-viz/game_shared_template": "4.0.0",
+    "@ud-viz/utils_browser": "4.0.0",
+    "@ud-viz/widget_camera_positioner": "4.0.0",
+    "@ud-viz/widget_geocoding": "4.0.0",
+    "@ud-viz/widget_layer_choice": "4.0.0",
     "buffer": "^6.0.3",
     "itowns": "^2.40.0",
     "jitsi-iframe-api": "^1.0.0",
