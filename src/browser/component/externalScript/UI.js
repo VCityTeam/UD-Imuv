@@ -103,8 +103,8 @@ export class UI extends ScriptBase {
         if (iconImg.disable) return;
         iconImg.disable = true;
         const cloneImg = event.target.cloneNode(true);
-        iconImg.src = './assets/img/ui/icon_copy.png';
-        iconImg.style.backgroundColor = 'var(--imuv-color-four)';
+        iconImg.src = './assets/img/ui/icon_copy.png'; // TODO hardcoded value should be in this.variables
+        iconImg.style.backgroundColor = 'var(--imuv-color-four)'; // idem
 
         setTimeout(function () {
           iconImg.src = cloneImg.src;
@@ -120,9 +120,8 @@ export class UI extends ScriptBase {
 
         const position = avatarGO.position.toArray();
         const rotation = avatarGO.rotation.toArray();
-        const worldUUID = this.context.userData.worldUUID;
 
-        const urlEvent = URL_PARAMETER.EVENT.TELEPORT_AVATAR_WORLD;
+        const urlEvent = URL_PARAMETER.EVENT.TELEPORT_AVATAR_GAMEOBJECT3D;
         const url = new URL(window.location.origin + window.location.pathname);
 
         url.searchParams.append(
@@ -138,8 +137,8 @@ export class UI extends ScriptBase {
           encodeURIComponent(rotation)
         );
         url.searchParams.append(
-          encodeURI(urlEvent.PARAMS_KEY.WORLDUUID),
-          encodeURIComponent(worldUUID)
+          encodeURI(urlEvent.PARAMS_KEY.GAMEOBJECT3DUUID),
+          encodeURIComponent(this.context.userData.gameObject3DUUID)
         );
 
         // put it in clipboard

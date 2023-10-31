@@ -8,18 +8,18 @@ module.exports = {
   URL_PARAMETER: {
     ID_KEY: 'url_parameter_event_id_key',
     EVENT: {
-      TELEPORT_AVATAR_WORLD: {
+      TELEPORT_AVATAR_GAMEOBJECT3D: {
         // data structure of this event
-        ID_VALUE: 'teleport_avatar_world_ID', // ID is mandatory
+        ID_VALUE: 'teleport_avatar_gameObject3DUUID', // ID is mandatory
         PARAMS_KEY: {
           POSITION: 'position',
           ROTATION: 'rotation',
-          WORLDUUID: 'worldUUID',
+          GAMEOBJECT3DUUID: 'gameObject3DUUID',
         },
       },
     },
   },
-  // different imuv role
+  // different imuv role (doublon ?)
   USER: {
     ROLE: {
       ADMIN: 'admin',

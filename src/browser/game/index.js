@@ -1,5 +1,9 @@
 import { loadJSON } from '@ud-viz/utils_browser';
 import {
+  eulerArrayFromURIComponent,
+  vector3ArrayFromURIComponent,
+} from '@ud-viz/utils_shared';
+import {
   AssetManager,
   MultiPlanarProcess,
   SocketIOWrapper,
@@ -7,7 +11,7 @@ import {
 } from '@ud-viz/game_browser';
 import * as proj4 from 'proj4';
 import * as itowns from 'itowns';
-
+import { URL_PARAMETER } from '../../shared/constant';
 import * as externalScript from '../component/externalScript/externalScript';
 
 const run = async () => {
@@ -48,7 +52,7 @@ const run = async () => {
         domElementClass: 'full_screen',
         hasItownsControls: false,
       },
-      computeBandWidth: true,
+      computeBandWidth: DEBUG,
     }
   );
 
@@ -57,7 +61,57 @@ const run = async () => {
   game.externalGameContext.userData.firstGameObject = false;
   game.externalGameContext.userData.extent = extent;
 
-  game.start();
+  // Compute readyForGameSocketServiceParams
+  const readyForGameSocketServiceParams = {};
+
+  const paramsUrl = new URLSearchParams(window.location.search);
+  if (paramsUrl.has(URL_PARAMETER.ID_KEY)) {
+    const id = paramsUrl.get(URL_PARAMETER.ID_KEY);
+    let event = null;
+    let wrongParams = false;
+    const params = {};
+
+    switch (id) {
+      case URL_PARAMETER.EVENT.TELEPORT_AVATAR_GAMEOBJECT3D.ID_VALUE:
+        event = URL_PARAMETER.EVENT.TELEPORT_AVATAR_GAMEOBJECT3D;
+        //get params
+        for (const key in event.PARAMS_KEY) {
+          const paramsKey = encodeURI(event.PARAMS_KEY[key]);
+          if (!paramsUrl.has(paramsKey)) {
+            wrongParams = true;
+          } else {
+            params[paramsKey] = decodeURIComponent(paramsUrl.get(paramsKey));
+          }
+        }
+
+        if (!wrongParams) {
+          params[event.PARAMS_KEY.POSITION] = vector3ArrayFromURIComponent(
+            params[event.PARAMS_KEY.POSITION]
+          );
+          params[event.PARAMS_KEY.ROTATION] = eulerArrayFromURIComponent(
+            params[event.PARAMS_KEY.ROTATION]
+          );
+          readyForGameSocketServiceParams.entryGameObject3DUUID =
+            params[event.PARAMS_KEY.GAMEOBJECT3DUUID];
+          readyForGameSocketServiceParams.userData = {
+            position: params[event.PARAMS_KEY.POSITION],
+            rotation: params[event.PARAMS_KEY.ROTATION],
+          };
+        }
+
+        break;
+      default:
+        console.warn('URL_PARAMETER ID not handle ', id);
+    }
+  }
+
+  game.start(readyForGameSocketServiceParams);
+
+  if (DEBUG) {
+    window.addEventListener('keydown', (event) => {
+      if (event.key == 'p') console.log(game);
+    });
+  }
 };
 
 run();
