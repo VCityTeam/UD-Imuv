@@ -14,6 +14,7 @@ module.exports = {
     VALUE: {
       ROLE_ADMIN: 'admin',
       ROLE_DEFAULT: 'default',
+      ROLE_GUEST: 'guest',
     },
   },
 };

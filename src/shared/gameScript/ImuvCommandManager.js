@@ -6,8 +6,8 @@ const defaultVariables = {
   avatarSpeedRotate: 0.00001,
   zeppelinSpeedTranslate: 0.1,
   zeppelinSpeedRotate: 0.001,
-  angleMin: Math.PI / 5,
-  angleMax: 2 * Math.PI - Math.PI / 10,
+  angleMin: -Math.PI / 5,
+  angleMax: Math.PI / 5,
 };
 
 module.exports = class ImuvCommandManager extends NativeCommandManager {

@@ -5,6 +5,7 @@ const { avatar } = require('../../src/shared/prefabFactory');
 const { THREAD } = require('./constant');
 const THREE = require('three');
 const jwt = require('jsonwebtoken');
+const { PARSE } = require('./constant');
 
 const moulinetteWorldJSON = (oldJSON) => {
   const newJSON = oldJSON.gameObject;
@@ -98,27 +99,45 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
   const gameSocketService = new SocketService(httpServer, {
     socketReadyForGamePromises: [
       (socketWrapper, threadParent) => {
-        return new Promise((resolve) => {
-          const token = JSON.parse(
-            socketWrapper.socket.handshake.headers.cookie
-          ).token;
+        return new Promise((resolve, reject) => {
+          const token = socketWrapper.socket.handshake.headers.cookie
+            ? JSON.parse(socketWrapper.socket.handshake.headers.cookie).token
+            : null;
 
-          jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
-            if (err) {
-              socketWrapper.socket.disconnect(true);
-            } else {
-              // add an avatar in game
-              const avatarJSON = avatar(user.name).toJSON();
+          const addUserAvatar = (user) => {
+            // add an avatar in game
+            const avatarJSON = avatar(user.name).toJSON();
 
-              threadParent.apply(THREAD.EVENT.SPAWN, avatarJSON).then(() => {
-                // register in wrapper avatar uuid
-                socketWrapper.userData.avatarUUID = avatarJSON.uuid;
-                socketWrapper.userData.settings = {};
+            threadParent.apply(THREAD.EVENT.SPAWN, avatarJSON).then(() => {
+              // register in wrapper avatar uuid
+              socketWrapper.userData.avatarUUID = avatarJSON.uuid;
+              socketWrapper.userData.settings = {};
 
-                resolve();
-              });
-            }
-          });
+              resolve();
+            });
+          };
+
+          if (token) {
+            // verify token
+            jwt.verify(
+              token,
+              process.env.JSON_WEB_TOKEN_SECRET,
+              (err, user) => {
+                if (err) {
+                  socketWrapper.socket.disconnect(true);
+                  reject();
+                } else {
+                  addUserAvatar(user);
+                }
+              }
+            );
+          } else {
+            // this is a guest
+            addUserAvatar({
+              role: PARSE.VALUE.ROLE_GUEST,
+              name: 'Guest@' + parseInt(Math.random() * 10000),
+            });
+          }
         });
       },
     ],
@@ -145,6 +164,7 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
       fs.readFileSync(gameObjectsFolderPath + '/' + indexWorldsJSON[uuid])
     );
 
+    // TODO: regenerate gameobjects.json
     if (json.version) {
       json = moulinetteWorldJSON(json);
     }
