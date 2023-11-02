@@ -12,7 +12,7 @@ import {
 import * as proj4 from 'proj4';
 import * as itowns from 'itowns';
 import { URL_PARAMETER } from '../../shared/constant';
-import * as externalScript from '../component/externalScript/externalScript';
+import * as externalScript from '../externalScript/externalScript';
 
 const run = async () => {
   const config = await loadJSON('./assets/config/config.json');

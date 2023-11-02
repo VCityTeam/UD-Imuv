@@ -6,7 +6,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { Command } from '@ud-viz/game_shared';
 import { constant } from '@ud-viz/game_shared_template';
 
-import { box3D } from '../../../shared/prefabFactory';
+import { box3D } from '../../shared/prefabFactory';
 import { UI } from './UI';
 import { CameraManager } from './CameraManager';
 import { AvatarController } from './AvatarController';

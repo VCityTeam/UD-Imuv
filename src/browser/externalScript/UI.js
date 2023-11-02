@@ -7,7 +7,7 @@ import {
   USER,
   WEBSOCKET,
   MAP_CLICK_MODE,
-} from '../../../shared/constant';
+} from '../../shared/constant';
 
 import { AvatarController } from './AvatarController';
 
