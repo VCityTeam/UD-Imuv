@@ -6,7 +6,7 @@ import {
 } from '@ud-viz/game_shared';
 import jquery from 'jquery';
 import * as THREE from 'three';
-import { CITY_MAP } from '../../../shared/constant';
+import { CITY_MAP } from '../../shared/constant';
 
 const RADIUS_MAP = 40;
 

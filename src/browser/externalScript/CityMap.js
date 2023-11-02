@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
 import { Command, RenderComponent } from '@ud-viz/game_shared';
 
-import { MAP_CLICK_MODE, CITY_MAP, COMMAND } from '../../../shared/constant';
+import { MAP_CLICK_MODE, CITY_MAP, COMMAND } from '../../shared/constant';
 
 const CITY_MAP_SIZE = 500;
 const CITY_AVATAR_SIZE_MIN = 15;

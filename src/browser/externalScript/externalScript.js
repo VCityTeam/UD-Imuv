@@ -3,7 +3,6 @@ export { AvatarController } from './AvatarController';
 export { Bounce } from './Bounce'; // skip
 export { Box3DTool } from './Box3DTool';
 export { ButterflySpawner } from './ButterflySpawner';
-export { Camera } from './Camera';
 export { CameraManager } from './CameraManager'; // skip
 export { CameraTour } from './CameraTour';
 export { CityAvatar } from './CityAvatar';

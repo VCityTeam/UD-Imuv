@@ -2,7 +2,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { ExternalScriptComponent, Command } from '@ud-viz/game_shared';
 import { constant } from '@ud-viz/game_shared_template';
 import * as THREE from 'three';
-import { postIt } from '../../../shared/prefabFactory';
+import { postIt } from '../../shared/prefabFactory';
 
 import { AvatarController } from './AvatarController';
 import { StaticObject } from './StaticObject';
