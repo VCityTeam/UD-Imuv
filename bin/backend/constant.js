@@ -7,14 +7,14 @@ module.exports = {
   },
   PARSE: {
     KEY: {
-      NAME: 'username',
-      PASSWORD: 'password',
-      ROLE: 'role',
+      NAME: 'parse_key_username',
+      PASSWORD: 'parse_key_password',
+      ROLE: 'parse_key_role',
     },
     VALUE: {
-      ROLE_ADMIN: 'admin',
-      ROLE_DEFAULT: 'default',
-      ROLE_GUEST: 'guest',
+      ROLE_ADMIN: 'parse_role_admin',
+      ROLE_DEFAULT: 'parse_role_default',
+      ROLE_GUEST: 'parse_role_guest',
     },
   },
 };

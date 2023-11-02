@@ -302,6 +302,12 @@
         currentLang = currentLang == 'FR' ? 'EN' : 'FR';
         fillHtml(currentLang);
       };
+
+      // add info ui
+      const infoUI = new utils.InfoUI();
+      infoUI.load('./assets/config/commit_info.json').then(function () {
+        document.body.appendChild(infoUI.html());
+      });
     </script>
   </body>
 </html>

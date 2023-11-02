@@ -41,3 +41,5 @@ export const writeTokenInCookie = (token) => {
   cookie[TOKEN_KEY] = token;
   document.cookie = JSON.stringify(cookie);
 };
+
+export * from './InfoUI';

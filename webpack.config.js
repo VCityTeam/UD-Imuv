@@ -69,6 +69,11 @@ result.module.rules.push({
   ],
 });
 
+result.module.rules.push({
+  test: /\.md$/,
+  use: ['json-loader', 'front-matter-loader'],
+});
+
 // production or development
 if (process.env.NODE_ENV == 'production') {
   result.output.path = path.resolve(
