@@ -115,7 +115,7 @@ export class UI extends ScriptBase {
         // get params event
         const avatarGO = this.context.object3D.getObjectByProperty(
           'uuid',
-          this.context.userData.avatarUUID
+          this.context.userData.avatar.uuid
         );
 
         const position = avatarGO.position.toArray();
@@ -864,6 +864,7 @@ class MenuSettings {
       dirLight.shadow.mapSize.height =
         this.context.userData.settings.shadowMapSize;
       dirLight.shadow.map = null;
+      selectSize.value = this.context.userData.settings.shadowMapSize;
     }
 
     this.shadowMapSelect = selectSize;
@@ -942,10 +943,6 @@ class MenuSettings {
     labelGlobalSound.innerHTML = 'Volume';
     labelGlobalSound.classList.add('label-menu-settings');
     audioSliderDiv.appendChild(labelGlobalSound);
-
-    // Remove me
-    // eslint-disable-next-line no-undef
-    Howler.volume(0);
 
     // check is settings has been saved
     if (!isNaN(this.context.userData.settings.volumeValue)) {

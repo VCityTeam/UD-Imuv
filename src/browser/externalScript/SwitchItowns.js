@@ -41,7 +41,7 @@ export class SwitchItowns extends ScriptBase {
         // check if city avatar
         const avatarGO = this.context.object3D.getObjectByProperty(
           'uuid',
-          this.context.userData.avatarUUID
+          this.context.userData.avatar.uuid
         );
         if (avatarGO.getObjectByProperty('name', 'city_avatar')) {
           resolve(false); // cant itowns while city avatar

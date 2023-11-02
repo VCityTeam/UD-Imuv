@@ -36,7 +36,7 @@ export class JitsiArea extends ScriptBase {
     let name = 'editor';
     const avatarGO = this.context.object3D.getObjectByProperty(
       'uuid',
-      this.context.userData.avatarUUID
+      this.context.userData.avatar.uuid
     );
     if (avatarGO) {
       const externalComp = avatarGO.getComponent(ExternalScriptComponent.TYPE);
