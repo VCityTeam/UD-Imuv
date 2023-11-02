@@ -32,7 +32,7 @@ export class Box3DTool extends ScriptBase {
     );
     const avatarGO = this.context.object3D.getObjectByProperty(
       'uuid',
-      this.context.userData.avatarUUID
+      this.context.userData.avatar.uuid
     );
     const refine = this.context.findExternalScriptWithID(
       ItownsRefine.ID_SCRIPT

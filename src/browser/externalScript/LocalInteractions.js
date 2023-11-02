@@ -77,7 +77,9 @@ export class LocalInteractions extends ScriptBase {
   onOutdated() {
     this.externalScripts.forEach((ls) => {
       if (
-        this.variables.avatarsOnEnter.includes(this.context.userData.avatarUUID)
+        this.variables.avatarsOnEnter.includes(
+          this.context.userData.avatar.uuid
+        )
       ) {
         if (ls.onEnter) {
           ls.onEnter.call(ls);
@@ -88,7 +90,7 @@ export class LocalInteractions extends ScriptBase {
 
       if (
         this.variables.avatarsColliding.includes(
-          this.context.userData.avatarUUID
+          this.context.userData.avatar.uuid
         )
       ) {
         if (ls.onColliding) {
@@ -98,7 +100,9 @@ export class LocalInteractions extends ScriptBase {
       }
 
       if (
-        this.variables.avatarsOnLeave.includes(this.context.userData.avatarUUID)
+        this.variables.avatarsOnLeave.includes(
+          this.context.userData.avatar.uuid
+        )
       ) {
         if (ls.onLeave) {
           ls.onLeave.call(ls);

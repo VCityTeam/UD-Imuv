@@ -10,7 +10,7 @@ export class CameraManager extends BaseCameraManager {
   followAvatar() {
     const avatarGO = this.context.object3D.getObjectByProperty(
       'uuid',
-      this.context.userData.avatarUUID
+      this.context.userData.avatar.uuid
     );
     if (!avatarGO) console.error('no avatar');
     const bbAvatar = new THREE.Box3().setFromObject(avatarGO);
@@ -64,7 +64,7 @@ export class CameraManager extends BaseCameraManager {
   moveToAvatar() {
     const avatarGO = this.context.object3D.getObjectByProperty(
       'uuid',
-      this.context.userData.avatarUUID
+      this.context.userData.avatar.uuid
     );
     if (!avatarGO) throw new Error('no avatar');
     const bbAvatar = new THREE.Box3().setFromObject(avatarGO);

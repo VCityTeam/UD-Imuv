@@ -2,10 +2,10 @@ const path = require('path');
 const fs = require('fs');
 const { SocketService, thread } = require('@ud-viz/game_node');
 const { avatar } = require('../../src/shared/prefabFactory');
-const { THREAD } = require('./constant');
+const { WEBSOCKET } = require('../../src/shared/constant');
+const { THREAD, PARSE } = require('./constant');
 const THREE = require('three');
 const jwt = require('jsonwebtoken');
-const { PARSE } = require('./constant');
 const {
   checkIfSubStringIsVector3,
   checkIfSubStringIsEuler,
@@ -99,7 +99,17 @@ const moulinetteWorldJSON = (oldJSON) => {
   return updateGameObject(newJSON);
 };
 
-const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
+/**
+ *
+ * @param {import('http').HttpServer} httpServer
+ * @param {string} gameObjectsFolderPath
+ * @param {import('parse/node')} Parse
+ */
+const runGameWebsocketService = (
+  httpServer,
+  gameObjectsFolderPath,
+  Parse = null
+) => {
   const gameSocketService = new SocketService(httpServer, {
     socketReadyForGamePromises: [
       (socketWrapper, entryGameObject3DUUID, readyForGameParams) => {
@@ -110,14 +120,16 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
             ? JSON.parse(socketWrapper.socket.handshake.headers.cookie).token
             : null;
 
-          const addUserAvatar = (user) => {
+          const addUserAvatar = (user, settings = {}) => {
             // add an avatar in game
             const avatarObject3D = avatar(user.name);
 
-            // register in wrapper avatar uuid
-            socketWrapper.userData.avatarUUID = avatarObject3D.uuid;
+            const avatarJSON = avatarObject3D.toJSON();
+
+            // register in socketWrapper.userData that will be sent to external context of this scoket client
+            socketWrapper.userData.avatar = avatarJSON;
             socketWrapper.userData.gameObject3DUUID = entryGameObject3DUUID;
-            socketWrapper.userData.settings = {};
+            socketWrapper.userData.settings = settings;
 
             if (
               readyForGameParams.userData &&
@@ -130,15 +142,13 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
               avatarObject3D.rotation.fromArray(
                 readyForGameParams.userData.rotation
               );
-              const avatarJSON = avatarObject3D.toJSON();
               threadParent
                 .apply(thread.MESSAGE_EVENT.ADD_OBJECT3D, {
-                  object3D: avatarJSON,
+                  object3D: avatarObject3D.toJSON(), // send the json with the right transform
                   updateCollisionBuffer: true,
                 })
                 .then(resolve);
             } else {
-              const avatarJSON = avatarObject3D.toJSON();
               threadParent.apply(THREAD.EVENT.SPAWN, avatarJSON).then(resolve);
             }
           };
@@ -153,7 +163,39 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
                   socketWrapper.socket.disconnect(true);
                   reject();
                 } else {
-                  addUserAvatar(user);
+                  // retrieve user in db
+                  const query = new Parse.Query(Parse.User);
+                  query
+                    .get(user.id)
+                    .then(async (parseUser) => {
+                      if (!parseUser)
+                        throw new Error('no parse user for this token'); // not a user registered
+
+                      // retrieve settings
+                      const settingsString = await parseUser.get(
+                        PARSE.KEY.SETTINGS
+                      );
+
+                      // listen settings save event
+                      socketWrapper.socket.on(
+                        WEBSOCKET.MSG_TYPE.SAVE_SETTINGS,
+                        (settings) => {
+                          parseUser.set(
+                            PARSE.KEY.SETTINGS,
+                            JSON.stringify(settings)
+                          );
+                          parseUser.save(null, { useMasterKey: true });
+                        }
+                      );
+
+                      addUserAvatar(
+                        user,
+                        settingsString ? JSON.parse(settingsString) : {}
+                      );
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
                 }
               }
             );
@@ -174,7 +216,7 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
         // remove avatar
         threadParent.post(
           thread.MESSAGE_EVENT.REMOVE_OBJECT3D,
-          socketWrapper.userData.avatarUUID
+          socketWrapper.userData.avatar.uuid
         );
       },
     ],
@@ -206,11 +248,11 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
   for (const threadParentID in gameSocketService.threads) {
     const threadParent = gameSocketService.threads[threadParentID];
     threadParent.on(THREAD.EVENT.PORTAL, (data) => {
-      // find socket wrapper with avatarUUID
+      // find socket wrapper with data.avatarUUID
       let socketWrapper = null;
       for (let index = 0; index < threadParent.socketWrappers.length; index++) {
         const sw = threadParent.socketWrappers[index];
-        if (sw.userData.avatarUUID == data.avatarUUID) {
+        if (sw.userData.avatar.uuid == data.avatarUUID) {
           socketWrapper = sw;
           break;
         }
@@ -236,12 +278,10 @@ const runGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
         );
       }
       // add avatar
-      const avatarJSON = avatar(); // dirty but do the job for now
-      avatarJSON.uuid = data.avatarUUID; // tweak uuid (in future should rebuild the socket avatar avatar color + name)
       socketWrapper.userData.gameObject3DUUID = data.gameObjectDestUUID; // to indicate the client current Gameobject3D
       destThread
         .apply(THREAD.EVENT.PORTAL, {
-          object3D: avatarJSON,
+          object3D: socketWrapper.userData.avatar,
           portalUUID: data.portalUUID,
         })
         .then(() => {
