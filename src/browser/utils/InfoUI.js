@@ -1,6 +1,6 @@
 import { CommitInfo } from './CommitInfo/CommitInfo';
 import { DocPage } from './Doc/DocPage';
-import { loadJSON } from '@ud-viz/browser';
+import { loadJSON } from '@ud-viz/utils_browser';
 
 import './InfoUI.css';
 

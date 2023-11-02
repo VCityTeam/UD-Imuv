@@ -81,6 +81,7 @@ export class AddItownsLayer extends ScriptBase {
         );
       });
 
+      // TODO: external context should extend THREE.EventDispacther
       window.dispatchEvent(new Event(CONSTANT.EVENT.ITOWNS_LAYER_ADDED));
     });
   }
