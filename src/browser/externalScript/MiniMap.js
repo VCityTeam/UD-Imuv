@@ -124,7 +124,7 @@ export class MiniMap extends ScriptBase {
               object3DUUID: this.object3D.uuid,
               mousePosition: { x: x, y: y },
               position: teleportPosition,
-              avatarUUID: this.context.userData.avatarUUID,
+              avatarUUID: this.context.userData.avatar.uuid,
             },
           }),
         ]);
@@ -142,7 +142,7 @@ export class MiniMap extends ScriptBase {
               color: this.fetchAvatarColor(
                 this.context.object3D.getObjectByProperty(
                   'uuid',
-                  this.context.userData.avatarUUID
+                  this.context.userData.avatar.uuid
                 )
               ),
             },
@@ -180,7 +180,7 @@ export class MiniMap extends ScriptBase {
               object3DUUID: this.object3D.uuid,
               mousePosition: { x: x, y: y }, // should be useless since portal have to be in map
               position: child.position,
-              avatarUUID: this.context.userData.avatarUUID,
+              avatarUUID: this.context.userData.avatar.uuid,
             },
           }),
         ]);
@@ -482,7 +482,7 @@ export class MiniMap extends ScriptBase {
     this.context.object3D.traverse((child) => {
       // retrieve avatar base on their name maybe it should be another way
       if (child.userData.isAvatar) {
-        if (child.uuid === this.context.userData.avatarUUID) {
+        if (child.uuid === this.context.userData.avatar.uuid) {
           drawAvatar(child, userAvatarSize);
         } else {
           drawAvatar(child, AVATAR_SIZE_MIN);
@@ -515,7 +515,7 @@ export class MiniMap extends ScriptBase {
    */
   onOutdated() {
     this.variables.mini_map_no_teleport.forEach((data) => {
-      if (data.avatarUUID == this.context.userData.avatarUUID) {
+      if (data.avatarUUID == this.context.userData.avatar.uuid) {
         const a = new AnimatedText({
           text: "You can't teleport here",
           color: 'red',

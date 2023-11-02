@@ -92,7 +92,7 @@ export class AvatarController extends ScriptBase {
 
               return new Command({
                 type: constant.COMMAND.MOVE_FORWARD_START,
-                data: { object3DUUID: this.context.userData.avatarUUID },
+                data: { object3DUUID: this.context.userData.avatar.uuid },
               });
             }
           }
@@ -105,7 +105,7 @@ export class AvatarController extends ScriptBase {
           if (forwardEnd) {
             return new Command({
               type: constant.COMMAND.MOVE_FORWARD_END,
-              data: { object3DUUID: this.context.userData.avatarUUID },
+              data: { object3DUUID: this.context.userData.avatar.uuid },
             });
           }
         }
@@ -126,7 +126,7 @@ export class AvatarController extends ScriptBase {
               this.context.inputManager.setPointerLock(true);
               return new Command({
                 type: constant.COMMAND.MOVE_BACKWARD_START,
-                data: { object3DUUID: this.context.userData.avatarUUID },
+                data: { object3DUUID: this.context.userData.avatar.uuid },
               });
             }
           }
@@ -139,7 +139,7 @@ export class AvatarController extends ScriptBase {
           if (backwardEnd) {
             return new Command({
               type: constant.COMMAND.MOVE_BACKWARD_END,
-              data: { object3DUUID: this.context.userData.avatarUUID },
+              data: { object3DUUID: this.context.userData.avatar.uuid },
             });
           }
         }
@@ -160,7 +160,7 @@ export class AvatarController extends ScriptBase {
               this.context.inputManager.setPointerLock(true);
               return new Command({
                 type: constant.COMMAND.MOVE_LEFT_START,
-                data: { object3DUUID: this.context.userData.avatarUUID },
+                data: { object3DUUID: this.context.userData.avatar.uuid },
               });
             }
           }
@@ -173,7 +173,7 @@ export class AvatarController extends ScriptBase {
           if (leftEnd) {
             return new Command({
               type: constant.COMMAND.MOVE_LEFT_END,
-              data: { object3DUUID: this.context.userData.avatarUUID },
+              data: { object3DUUID: this.context.userData.avatar.uuid },
             });
           }
         }
@@ -194,7 +194,7 @@ export class AvatarController extends ScriptBase {
               this.context.inputManager.setPointerLock(true);
               return new Command({
                 type: constant.COMMAND.MOVE_RIGHT_START,
-                data: { object3DUUID: this.context.userData.avatarUUID },
+                data: { object3DUUID: this.context.userData.avatar.uuid },
               });
             }
           }
@@ -207,7 +207,7 @@ export class AvatarController extends ScriptBase {
           if (rightEnd) {
             return new Command({
               type: constant.COMMAND.MOVE_RIGHT_END,
-              data: { object3DUUID: this.context.userData.avatarUUID },
+              data: { object3DUUID: this.context.userData.avatar.uuid },
             });
           }
         }
@@ -238,7 +238,7 @@ export class AvatarController extends ScriptBase {
               return new Command({
                 type: constant.COMMAND.ROTATE,
                 data: {
-                  object3DUUID: this.context.userData.avatarUUID,
+                  object3DUUID: this.context.userData.avatar.uuid,
                   vector: new THREE.Vector3(pixelY, 0, pixelX),
                 },
               });

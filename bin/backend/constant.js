@@ -10,6 +10,7 @@ module.exports = {
       NAME: 'parse_key_username',
       PASSWORD: 'parse_key_password',
       ROLE: 'parse_key_role',
+      SETTINGS: 'parse_key_settings',
     },
     VALUE: {
       ROLE_ADMIN: 'parse_role_admin',

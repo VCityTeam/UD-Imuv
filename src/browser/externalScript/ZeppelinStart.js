@@ -64,7 +64,7 @@ export class ZeppelinStart extends ScriptBase {
         // check if city avatar
         const avatarGO = this.context.object3D.getObjectByProperty(
           'uuid',
-          this.context.userData.avatarUUID
+          this.context.userData.avatar.uuid
         );
         if (avatarGO.getObjectByProperty('name', 'city_avatar')) {
           resolve(false); // cant itowns while city avatar
@@ -117,7 +117,7 @@ export class ZeppelinStart extends ScriptBase {
 
           if (
             pilot &&
-            this.variables.pilotUUID != this.context.userData.avatarUUID
+            this.variables.pilotUUID != this.context.userData.avatar.uuid
           ) {
             // cant listen to canvas because zIndex is 0 and labelRenderer zIndex is 1
             // cant listen to domElementWebGL because the icon cant be clicked cause of the orbit control
@@ -200,7 +200,7 @@ export class ZeppelinStart extends ScriptBase {
         data: {
           object3DUUID: this.object3D.uuid,
           variableName: 'pilotUUID',
-          variableValue: this.context.userData.avatarUUID,
+          variableValue: this.context.userData.avatar.uuid,
         },
       }),
     ]);
@@ -285,7 +285,7 @@ class MenuZeppelin {
     if (pilot) {
       if (
         this.zeppelinStart.variables.pilotUUID ==
-        this.zeppelinStart.context.userData.avatarUUID
+        this.zeppelinStart.context.userData.avatar.uuid
       ) {
         this.domElement.innerHTML = 'Vous pilotez le Zeppelyon';
       } else {

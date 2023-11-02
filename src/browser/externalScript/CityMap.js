@@ -75,7 +75,7 @@ export class CityMap extends ScriptBase {
 
   fetchUserCityAvatar() {
     return this.context.object3D
-      .getObjectByProperty('uuid', this.context.userData.avatarUUID)
+      .getObjectByProperty('uuid', this.context.userData.avatar.uuid)
       .getObjectByProperty('name', 'city_avatar'); // TODO use isCityAvatar flag in userData
   }
 

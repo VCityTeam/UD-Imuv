@@ -1,6 +1,6 @@
 const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
-const { useParseEndPoint } = require('./parse');
+const { useParseEndPoint, connect } = require('./parse');
 const reload = require('reload');
 const { json } = require('body-parser');
 const { runGameWebsocketService } = require('./gameWebSocketService');
@@ -45,8 +45,8 @@ const httpServer = app.listen(port, (err) => {
   console.log('Http server listening on port', port);
 });
 
-useParseEndPoint(app);
+runGameWebsocketService(httpServer, './public/assets/gameObject3D', connect());
 
-runGameWebsocketService(httpServer, './public/assets/gameObject3D');
+useParseEndPoint(app);
 
 reload(app, { port: 8082 }); // TODO: pass reload port as the http server port
