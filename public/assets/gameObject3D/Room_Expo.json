@@ -26,7 +26,6 @@
         "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
         "idScripts": [
           "avatar_controller_id_ext_script",
-          "camera_id_ext_script",
           "camera_manager_id",
           "static_object_id_ext_script",
           "add_itowns_layer_id_ext_script"

@@ -28,7 +28,6 @@
           "itowns_refine_id_ext_script",
           "switch_itowns_id_ext_script",
           "avatar_controller_id_ext_script",
-          "camera_id_ext_script",
           "camera_manager_id",
           "place_post_it_id_ext_script",
           "static_object_id_ext_script",
