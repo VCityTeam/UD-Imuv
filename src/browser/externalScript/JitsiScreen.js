@@ -7,6 +7,7 @@ import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 
 export class JitsiScreen extends ScriptBase {
   init() {
+    return;
     if (navigator && navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
