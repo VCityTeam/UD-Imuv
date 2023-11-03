@@ -76,6 +76,7 @@
     "@ud-viz/game_shared": "file:../UD-Viz/packages/game_shared",
     "@ud-viz/game_shared_template": "file:../UD-Viz/packages/game_shared_template",
     "@ud-viz/utils_browser": "4.0.0",
+    "@ud-viz/widget_3d_tiles": "^4.0.0",
     "@ud-viz/widget_camera_positioner": "4.0.0",
     "@ud-viz/widget_geocoding": "4.0.0",
     "@ud-viz/widget_layer_choice": "4.0.0",
