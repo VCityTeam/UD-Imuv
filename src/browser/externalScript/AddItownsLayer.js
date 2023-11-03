@@ -2,6 +2,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { loadMultipleJSON } from '@ud-viz/utils_browser';
 import * as itowns from 'itowns';
 import { CONSTANT } from './component/constant';
+import { Box3 } from 'three';
 
 export class AddItownsLayer extends ScriptBase {
   init() {
@@ -59,25 +60,47 @@ export class AddItownsLayer extends ScriptBase {
           color: (feature) => {
             return feature.userData.selectedColor
               ? feature.userData.selectedColor
-              : 'white';
+              : feature.userData.initialColor;
           },
         },
       });
 
       configs['3DTilesLayer'].forEach((layerConfig) => {
+        const layer = new itowns.C3DTilesLayer(
+          layerConfig['id'],
+          {
+            style: this.c3DTilesStyle,
+            name: layerConfig['id'],
+            source: new itowns.C3DTilesSource({
+              url: layerConfig['url'],
+            }),
+          },
+          this.context.frame3D.itownsView
+        );
+
+        function findTileID(object) {
+          let currentObject = object;
+          let result = currentObject.tileId;
+          while (isNaN(result) && currentObject.parent) {
+            currentObject = currentObject.parent;
+            result = currentObject.tileId;
+          }
+
+          return result;
+        }
+
+        layer.addEventListnerer(
+          itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
+          ({ tileContent }) => {
+            const tileID = findTileID(tileContent);
+            for (const [, feature] of layer.tilesC3DTileFeatures.get(tileID)) {
+              feature.userData.initialColor = layer.object3d.material[0];
+            }
+          }
+        );
         itowns.View.prototype.addLayer.call(
           this.context.frame3D.itownsView,
-          new itowns.C3DTilesLayer(
-            layerConfig['id'],
-            {
-              style: this.c3DTilesStyle,
-              name: layerConfig['id'],
-              source: new itowns.C3DTilesSource({
-                url: layerConfig['url'],
-              }),
-            },
-            this.context.frame3D.itownsView
-          )
+          layer
         );
       });
 
