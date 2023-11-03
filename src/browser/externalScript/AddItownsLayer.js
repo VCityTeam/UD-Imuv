@@ -89,13 +89,13 @@ export class AddItownsLayer extends ScriptBase {
           return result;
         }
 
-        layer.addEventListnerer(
+        layer.addEventListener(
           itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
           ({ tileContent }) => {
-            const tileID = findTileID(tileContent);
-            for (const [, feature] of layer.tilesC3DTileFeatures.get(tileID)) {
-              feature.userData.initialColor = layer.object3d.material[0];
-            }
+            // const tileID = findTileID(tileContent);
+            // for (const [, feature] of layer.tilesC3DTileFeatures.get(tileID)) {
+            //   feature.userData.initialColor = layer.object3d.material[0];
+            // }
           }
         );
         itowns.View.prototype.addLayer.call(

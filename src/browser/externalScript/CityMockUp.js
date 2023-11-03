@@ -84,7 +84,7 @@ export class CityMockUp extends ScriptBase {
             ); // refine if it's intersecting area
           }
         );
-        layer.addEventListnerer(
+        layer.addEventListener(
           itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
           ({ tileContent }) => {
             const boundingBox = new THREE.Box3().setFromObject(tileContent);
