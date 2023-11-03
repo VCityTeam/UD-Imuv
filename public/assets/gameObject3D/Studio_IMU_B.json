@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "A371A467-03E0-44FC-9CFD-3915B70B291C",
-        "idScripts": ["spawner_id_script", "my_command_manager_id"],
+        "scriptParams": ["spawner_id_script", "my_command_manager_id"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
@@ -24,7 +24,7 @@
       },
       "LocalScript": {
         "uuid": "E1A19E05-D4A4-4182-8F46-7BCFF7DB85B1",
-        "idScripts": [
+        "scriptParams": [
           "itowns_refine_id_ext_script",
           "switch_itowns_id_ext_script",
           "avatar_controller_id_ext_script",
@@ -56,7 +56,7 @@
           },
           "WorldScript": {
             "uuid": "9C4B4F22-EFF9-4BFE-B81E-E9A0AD5E7D08",
-            "idScripts": ["map_id"],
+            "scriptParams": ["map_id"],
             "conf": {
               "clientFolder": "./public",
               "heightmap_path": "./assets/img/uploaded/AAE1EBE9-3F80-4B11-971E-A29414DEB58F.jpeg",
@@ -227,7 +227,10 @@
               },
               "WorldScript": {
                 "uuid": "39A9CB98-B49B-4CD1-9C38-8407728268EF",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "385DB463-DE88-485B-B6B3-05C3990D9654",
@@ -238,7 +241,7 @@
               },
               "LocalScript": {
                 "uuid": "89D210AC-4766-4D67-986D-364747A1AB5D",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -286,7 +289,7 @@
               },
               "LocalScript": {
                 "uuid": "1936E644-A43B-493E-8EB3-9ADD7AEF625E",
-                "idScripts": ["whiteboard", "clickable"],
+                "scriptParams": ["whiteboard", "clickable"],
                 "conf": {
                   "name": "default_name",
                   "factorWidth": 3,
@@ -329,7 +332,7 @@
               },
               "LocalScript": {
                 "uuid": "D27F1F16-E80E-4509-BB5F-94C18818AE8C",
-                "idScripts": ["whiteboard", "clickable"],
+                "scriptParams": ["whiteboard", "clickable"],
                 "conf": {
                   "name": "default_name (clone)",
                   "factorWidth": 3,
@@ -424,7 +427,7 @@
               },
               "LocalScript": {
                 "uuid": "6891B8AC-29E4-4F0C-A009-9270913BE6B5",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "jitsi_area_id_ext_script"
                 ],
@@ -438,7 +441,7 @@
               },
               "WorldScript": {
                 "uuid": "5C7AB7EB-6C74-4A68-9A52-D0AE194A70CB",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -503,7 +506,7 @@
               },
               "LocalScript": {
                 "uuid": "5269EA5C-6998-4038-B5F0-163E00699D86",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "jitsi_area_id_ext_script"
                 ],
@@ -517,7 +520,7 @@
               },
               "WorldScript": {
                 "uuid": "F7AD7943-47BC-44E1-B595-1E18013BE678",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -544,7 +547,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
-                "idScripts": ["video"],
+                "scriptParams": ["video"],
                 "conf": {
                   "idVideo": "presentation_IMU",
                   "width": 10,
@@ -588,7 +591,7 @@
               },
               "LocalScript": {
                 "uuid": "BC5C5776-CD7B-4B2E-B1E4-6E00FB762253",
-                "idScripts": ["image"],
+                "scriptParams": ["image"],
                 "conf": {
                   "path": "./assets/img/labex_imu.jpeg",
                   "factorWidth": 3,
@@ -634,7 +637,12 @@
               },
               "LocalScript": {
                 "uuid": "4C1A9687-7B1A-4FB6-8FEB-EEB9870BCECB",
-                "idScripts": ["clickable", "rotate", "display_media", "bounce"],
+                "scriptParams": [
+                  "clickable",
+                  "rotate",
+                  "display_media",
+                  "bounce"
+                ],
                 "conf": {
                   "speed": 0.0005,
                   "iframe_src": "https://imu.universite-lyon.fr/",
@@ -677,7 +685,12 @@
               },
               "LocalScript": {
                 "uuid": "C17B0919-B8FC-4DF5-9435-B606FE58498C",
-                "idScripts": ["clickable", "rotate", "display_media", "bounce"],
+                "scriptParams": [
+                  "clickable",
+                  "rotate",
+                  "display_media",
+                  "bounce"
+                ],
                 "conf": {
                   "speed": 0.0005,
                   "iframe_src": "https://imu.universite-lyon.fr/imu-fr/le-projet-imuv-point-d-etape-289181.kjsp?RH=IMU_FR",
@@ -723,13 +736,13 @@
         "components": {
           "LocalScript": {
             "uuid": "6FAF85B5-BA1F-4651-96BC-93AF5A671553",
-            "idScripts": ["ui_id_ext_script"],
+            "scriptParams": ["ui_id_ext_script"],
             "conf": { "gameContextDt": 427 },
             "type": "LocalScript"
           },
           "WorldScript": {
             "uuid": "20A3A96E-0D55-4465-A27E-823ACF6381B7",
-            "idScripts": ["ui_id_script"],
+            "scriptParams": ["ui_id_script"],
             "conf": {},
             "type": "WorldScript"
           }

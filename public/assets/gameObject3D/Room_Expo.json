@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
-        "idScripts": ["spawner_id_script", "my_command_manager_id"],
+        "scriptParams": ["spawner_id_script", "my_command_manager_id"],
         "conf": {
           "speedTranslate": 0.006,
           "cityAvatarAllow": false,
@@ -24,7 +24,7 @@
       },
       "LocalScript": {
         "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-        "idScripts": [
+        "scriptParams": [
           "avatar_controller_id_ext_script",
           "camera_manager_id",
           "static_object_id_ext_script",
@@ -52,7 +52,7 @@
           },
           "WorldScript": {
             "uuid": "B6696B41-3A93-4009-B69E-AD132DFF958C",
-            "idScripts": ["map_id"],
+            "scriptParams": ["map_id"],
             "conf": {
               "clientFolder": "./public",
               "heightmap_path": "./assets/img/uploaded/1696D689-C5BF-400E-904E-91AFF723155A.jpeg",
@@ -323,7 +323,10 @@
               },
               "WorldScript": {
                 "uuid": "75D59547-7E33-4D13-90AE-D83C11461D27",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
                   "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
@@ -334,7 +337,7 @@
               },
               "LocalScript": {
                 "uuid": "AA6956CE-E11D-4519-829B-99564C8AB969",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -382,7 +385,7 @@
               },
               "LocalScript": {
                 "uuid": "30D59DE9-3D15-4650-9482-4EF3E602A9D0",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/671B5C8B-F3BB-46B5-9B5E-62331152738E.jpeg",
                   "factorWidth": 3,
@@ -431,7 +434,7 @@
               },
               "LocalScript": {
                 "uuid": "5616A6C5-B81F-48EE-813F-E1CAE559E4D7",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/F0059545-FAB1-4536-920C-873A934129C6.jpeg",
                   "factorWidth": 3,
@@ -478,7 +481,7 @@
               },
               "LocalScript": {
                 "uuid": "FCF888B4-594C-49CC-8AB5-BEDD852E5B53",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/C678DE9F-7148-4F61-ADC3-3F4834D1E1B3.jpeg",
                   "factorWidth": 3,
@@ -525,7 +528,7 @@
               },
               "LocalScript": {
                 "uuid": "FFC3E56D-AA9F-48E1-8C54-CC8AAD456CBC",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/58F1B857-1509-4E6E-8053-95B99E1AA698.jpeg",
                   "factorWidth": 3,
@@ -572,7 +575,7 @@
               },
               "LocalScript": {
                 "uuid": "D9321027-4D92-4430-A2DF-4186E8A53B42",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/F88E505D-40F9-4865-A103-03E979C08FB0.jpeg",
                   "factorWidth": 3,
@@ -619,7 +622,7 @@
               },
               "LocalScript": {
                 "uuid": "90015BE9-2A79-4987-AA91-6FBB6216A50D",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/CE4F52BE-AC20-4B58-8530-0984D99883B1.jpeg",
                   "factorWidth": 3,
@@ -666,7 +669,7 @@
               },
               "LocalScript": {
                 "uuid": "151A802F-EE27-4E61-88DA-876A34917191",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/43368117-905F-416E-B36D-CF65619022B0.jpeg",
                   "factorWidth": 3,
@@ -713,7 +716,7 @@
               },
               "LocalScript": {
                 "uuid": "3F2CFDC5-0DB5-46E0-B53F-F7FEB50981C5",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/FCB052AB-5FAE-4C34-8CFC-6AD9EE9C179A.jpeg",
                   "factorWidth": 3,
@@ -760,7 +763,7 @@
               },
               "LocalScript": {
                 "uuid": "53A38072-999B-4EF2-AF61-D658B09DD672",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/DDC64A55-672C-4CB4-922E-3EC829DF87E9.jpeg",
                   "factorWidth": 3,
@@ -803,7 +806,7 @@
               },
               "LocalScript": {
                 "uuid": "A6E2C4BF-132E-4CC7-B048-9540B24BAD5E",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/F8D9BDBF-00F7-43A5-A380-3F0BD99AEFC2.jpeg",
                   "factorWidth": 3,
@@ -850,7 +853,7 @@
               },
               "LocalScript": {
                 "uuid": "7B4953B3-78DD-4AB4-955D-34ECD3C03532",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/BB9C2694-3E2E-4F49-B6D2-1EA6F54C6B94.jpeg",
                   "factorWidth": 3,
@@ -897,7 +900,7 @@
               },
               "LocalScript": {
                 "uuid": "CEF79019-105D-4C03-B711-FCA631A3983C",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/3BA0C92F-6360-458A-BA65-D35854D51678.jpeg",
                   "factorWidth": 3,
@@ -944,7 +947,7 @@
               },
               "LocalScript": {
                 "uuid": "690B9725-B4FF-41B6-B2EF-970A2BE11229",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/74C0891A-799F-4CDF-96D5-524E8A21F354.jpeg",
                   "factorWidth": 3,
@@ -991,7 +994,7 @@
               },
               "LocalScript": {
                 "uuid": "03696363-0BBF-4D5C-97AD-CCB3385A91F3",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/12A0CD13-18EC-454B-BC5D-E2C681BEFECC.jpeg",
                   "factorWidth": 3,
@@ -1038,7 +1041,7 @@
               },
               "LocalScript": {
                 "uuid": "6BBF17AA-6771-4FE9-95D0-A5096F0A89D8",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/BC2586D4-40D4-4B38-AF92-D5F40A8E43C9.jpeg",
                   "factorWidth": 3,
@@ -1085,7 +1088,7 @@
               },
               "LocalScript": {
                 "uuid": "C303AAA3-122A-420B-AC99-6E1E257A2E07",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/19387331-44B8-48DA-B881-A417BE4CD592.jpeg",
                   "factorWidth": 3,
@@ -1132,7 +1135,7 @@
               },
               "LocalScript": {
                 "uuid": "7B0F1E83-E332-460A-A4B9-597B15F716FA",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/7CB7FC3B-AFC4-4DF1-B193-2F522DD78435.jpeg",
                   "factorWidth": 3,
@@ -1179,7 +1182,7 @@
               },
               "LocalScript": {
                 "uuid": "42379AA3-F47F-42E5-ADF8-3C10463892D6",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/BAC8CE3A-72E0-4C36-AD5A-245AACBA4B3A.jpeg",
                   "factorWidth": 3,
@@ -1226,7 +1229,7 @@
               },
               "LocalScript": {
                 "uuid": "36A24A71-589A-49D3-8C55-B06494716A7D",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/086B8EE4-6001-476E-A7CA-07B90925BC53.jpeg",
                   "factorWidth": 3,
@@ -1273,7 +1276,7 @@
               },
               "LocalScript": {
                 "uuid": "2A998D6B-787F-45E3-A35C-6F9ACCF50E9F",
-                "idScripts": ["image_id_ext_script"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/uploaded/E92A1255-E621-4D4F-A53F-D1C91AD66F8B.jpeg",
                   "factorWidth": 3,
@@ -1310,7 +1313,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "575E0282-07D5-467B-B7A9-48420E36CD3E",
-                "idScripts": ["camera_tour_id_ext_script"],
+                "scriptParams": ["camera_tour_id_ext_script"],
                 "conf": {
                   "camera_transforms": [
                     {
@@ -1492,13 +1495,13 @@
         "components": {
           "LocalScript": {
             "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
-            "idScripts": ["ui_id_ext_script"],
+            "scriptParams": ["ui_id_ext_script"],
             "conf": { "gameContextDt": 427 },
             "type": "LocalScript"
           },
           "WorldScript": {
             "uuid": "229103D2-2B5E-44B4-A9BE-A15263D6FAD4",
-            "idScripts": ["ui_id_script"],
+            "scriptParams": ["ui_id_script"],
             "conf": {},
             "type": "WorldScript"
           }

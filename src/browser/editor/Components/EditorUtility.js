@@ -7,7 +7,7 @@ export function computeMapGO(g) {
   const world = wCxt.getWorld();
   world.getGameObject().traverse(function (child) {
     const ws = child.getComponent(WorldScriptModule.TYPE);
-    if (ws && ws.idScripts.includes('map')) {
+    if (ws && ws.scriptParams.includes('map')) {
       result = child;
     }
   });

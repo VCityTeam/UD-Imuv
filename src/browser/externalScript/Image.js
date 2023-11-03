@@ -191,8 +191,7 @@ export class Image extends ScriptBase {
             );
             externalCompChild
               .getController()
-              .getScripts()
-              [Image.ID_SCRIPT].displayPopup(false, false); // do not play sound when close and another one is open
+              .scripts[Image.ID_SCRIPT].displayPopup(false, false); // do not play sound when close and another one is open
           });
         } else {
           this.displayPopup(false);

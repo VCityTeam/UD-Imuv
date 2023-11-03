@@ -22,7 +22,7 @@ module.exports = {
           color: [1, 1, 0, 1],
         },
         ExternalScript: {
-          idScripts: ['post_it_id_ext_script'],
+          scriptParams: [{ id: 'post_it_id_ext_script' }],
           type: 'ExternalScript',
         },
       },
@@ -68,14 +68,14 @@ module.exports = {
           idRenderData: 'avatar_moyen',
         },
         GameScript: {
-          idScripts: [Avatar.ID_SCRIPT],
+          scriptParams: [{ id: Avatar.ID_SCRIPT }],
           type: 'GameScript',
         },
         ExternalScript: {
-          idScripts: [
-            'visible_id_ext_script',
-            'sprite_name_id_ext_script',
-            'texture_face_id_ext_script',
+          scriptParams: [
+            { id: 'visible_id_ext_script' },
+            { id: 'sprite_name_id_ext_script' },
+            { id: 'texture_face_id_ext_script' },
           ],
           variables: {
             visible: true,
@@ -110,14 +110,14 @@ module.exports = {
           color: [1, 0, 0, 1],
         },
         ExternalScript: {
-          idScripts: [
-            'local_interactions_id_ext_script',
-            'butterfly_spawner_id_ext_script',
+          scriptParams: [
+            { id: 'local_interactions_id_ext_script' },
+            { id: 'butterfly_spawner_id_ext_script' },
           ],
           type: 'ExternalScript',
         },
         GameScript: {
-          idScripts: [InteractionZone.ID_SCRIPT],
+          scriptParams: [{ id: InteractionZone.ID_SCRIPT }],
           type: 'GameScript',
         },
       },
@@ -136,7 +136,7 @@ module.exports = {
       static: true,
       components: {
         ExternalScript: {
-          idScripts: ['camera_tour_id_ext_script'],
+          scriptParams: [{ id: 'camera_tour_id_ext_script' }],
           variables: {
             camera_transform: [],
           },
@@ -157,7 +157,10 @@ module.exports = {
           color: [1, 1, 1, 1],
         },
         ExternalScript: {
-          idScripts: ['whiteboard_id_ext_script', 'clickable_id_ext_script'],
+          scriptParams: [
+            { id: 'whiteboard_id_ext_script' },
+            { id: 'clickable_id_ext_script' },
+          ],
           variables: {
             name: 'default_name',
             factorWidth: 3,
@@ -180,7 +183,7 @@ module.exports = {
       static: true,
       components: {
         ExternalScript: {
-          idScripts: ['mini_map_id_ext_script'],
+          scriptParams: [{ id: 'mini_map_id_ext_script' }],
           variables: {
             mini_map_no_teleport: [],
             mini_map_ping: [],
@@ -189,7 +192,7 @@ module.exports = {
           type: 'ExternalScript',
         },
         GameScript: {
-          idScripts: ['mini_map_id_script'],
+          scriptParams: [{ id: 'mini_map_id_script' }],
           type: 'GameScript',
         },
       },
@@ -207,7 +210,7 @@ module.exports = {
           color: [1, 1, 1, 1],
         },
         ExternalScript: {
-          idScripts: ['image_id_ext_script'],
+          scriptParams: [{ id: 'image_id_ext_script' }],
           variables: {
             path: './assets/img/labex_imu.jpeg',
             factorWidth: 3,
@@ -252,7 +255,10 @@ module.exports = {
           body: false,
         },
         GameScript: {
-          idScripts: ['portal_id_script', 'interaction_zone_id_script'],
+          scriptParams: [
+            { id: 'portal_id_script' },
+            { id: 'interaction_zone_id_script' },
+          ],
           variables: {
             gameObjectDestUUID: null,
             portalUUID: null,
@@ -266,10 +272,10 @@ module.exports = {
           type: 'GameScript',
         },
         ExternalScript: {
-          idScripts: [
-            'rotate_id_ext_script',
-            'local_interactions_id_ext_script',
-            'portal_sweep_id_ext_script',
+          scriptParams: [
+            { id: 'rotate_id_ext_script' },
+            { id: 'local_interactions_id_ext_script' },
+            { id: 'portal_sweep_id_ext_script' },
           ],
           variables: { speed: 0.001 },
           type: 'ExternalScript',
@@ -305,9 +311,9 @@ module.exports = {
           color: [0, 0.5, 1, 1],
         },
         ExternalScript: {
-          idScripts: [
-            'local_interactions_id_ext_script',
-            'jitsi_area_id_ext_script',
+          scriptParams: [
+            { id: 'local_interactions_id_ext_script' },
+            { id: 'jitsi_area_id_ext_script' },
           ],
           variables: {
             jitsi_room_name: 'default',
@@ -315,7 +321,7 @@ module.exports = {
           type: 'ExternalScript',
         },
         GameScript: {
-          idScripts: ['interaction_zone_id_script'],
+          scriptParams: [{ id: 'interaction_zone_id_script' }],
           type: 'GameScript',
         },
       },
@@ -338,10 +344,10 @@ module.exports = {
           color: [1, 1, 1, 1],
         },
         ExternalScript: {
-          idScripts: [
-            'clickable_id_ext_script',
-            'rotate_id_ext_script',
-            'display_media_id_ext_script',
+          scriptParams: [
+            { id: 'clickable_id_ext_script' },
+            { id: 'rotate_id_ext_script' },
+            { id: 'display_media_id_ext_script' },
           ],
           conf: { speed: 0.0005, iframe_src: null, sound_id: null },
           type: 'ExternalScript',

@@ -126,7 +126,7 @@ class MenuPostIt {
           const externalScriptComp = postitGo.getComponent(
             ExternalScriptComponent.TYPE
           );
-          externalScriptComp.getModel().getVariables().content = message;
+          externalScriptComp.getModel().variables.content = message;
 
           externalContext.sendCommandsToGameContext([
             new Command({
