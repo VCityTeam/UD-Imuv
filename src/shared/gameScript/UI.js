@@ -7,8 +7,7 @@ module.exports = class UI extends ScriptBase {
     );
 
     // change variables of an external script
-    externalScriptComp.getModel().getVariables().gameContextDt =
-      this.context.dt;
+    externalScriptComp.getModel().variables.gameContextDt = this.context.dt;
     this.object3D.setOutdated(true); // notify external onOutdated event
   }
 

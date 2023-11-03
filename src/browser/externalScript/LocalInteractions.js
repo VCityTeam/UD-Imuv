@@ -17,9 +17,7 @@ export class LocalInteractions extends ScriptBase {
     const externalComp = this.object3D.getComponent(
       ExternalScriptComponent.TYPE
     );
-    this.externalScripts = Object.values(
-      externalComp.getController().getScripts()
-    );
+    this.externalScripts = Object.values(externalComp.getController().scripts);
     // console.log(this.externalScripts);
 
     this.initInputs();

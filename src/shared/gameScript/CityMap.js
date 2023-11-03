@@ -10,9 +10,7 @@ module.exports = class CityMap extends ScriptBase {
     );
 
     // clear array
-    externalScriptCompCityMap
-      .getModel()
-      .getVariables().city_map_ping.length = 0;
+    externalScriptCompCityMap.getModel().variables.city_map_ping.length = 0;
 
     // teleport
     for (let i = this.context.commands.length - 1; i >= 0; i--) {
@@ -59,10 +57,7 @@ module.exports = class CityMap extends ScriptBase {
 
     pingCmds.forEach((pingCmd) => {
       const data = pingCmd.getData();
-      externalScriptCompCityMap
-        .getModel()
-        .getVariables()
-        .city_map_ping.push(data);
+      externalScriptCompCityMap.getModel().variables.city_map_ping.push(data);
       this.object3D.setOutdated(true);
     });
   }

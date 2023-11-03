@@ -10,7 +10,7 @@
     "components": {
       "WorldScript": {
         "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
-        "idScripts": ["spawner_id_script", "my_command_manager_id"],
+        "scriptParams": ["spawner_id_script", "my_command_manager_id"],
         "conf": {
           "speedTranslate": 0.008,
           "cityAvatarAllow": false,
@@ -24,7 +24,7 @@
       },
       "LocalScript": {
         "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
-        "idScripts": [
+        "scriptParams": [
           "itowns_refine_id_ext_script",
           "switch_itowns_id_ext_script",
           "avatar_controller_id_ext_script",
@@ -2153,7 +2153,7 @@
           },
           "WorldScript": {
             "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
-            "idScripts": ["map_id"],
+            "scriptParams": ["map_id"],
             "conf": {
               "clientFolder": "./public",
               "heightmap_path": "./assets/img/uploaded/60C20A2E-9277-431D-A873-59E73F4B1F65.jpeg",
@@ -2256,7 +2256,10 @@
               },
               "WorldScript": {
                 "uuid": "80ADD0AF-DB8E-443B-B751-BB68B57BFC88",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
                   "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
@@ -2271,7 +2274,7 @@
               },
               "LocalScript": {
                 "uuid": "5DF3924E-1822-42CA-9CEE-5DAA347322FA",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -2331,7 +2334,10 @@
               },
               "WorldScript": {
                 "uuid": "BED7C964-45AA-4E10-9489-64BED47D8844",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
                   "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
@@ -2346,7 +2352,7 @@
               },
               "LocalScript": {
                 "uuid": "7148E1C3-819F-4247-A7D2-06909149171F",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -2424,7 +2430,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "C6BD0C6B-3026-47E7-9967-0E6017FA278C",
-                "idScripts": ["video_id_ext_script"],
+                "scriptParams": ["video_id_ext_script"],
                 "conf": {
                   "videoPath": "./assets/videos/POC_flying_campus_juin.webm",
                   "width": 8.5,
@@ -2491,7 +2497,10 @@
               },
               "WorldScript": {
                 "uuid": "65415C23-576E-4144-A035-D2B77FCA3ACC",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
                   "portalUUID": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
@@ -2506,7 +2515,7 @@
               },
               "LocalScript": {
                 "uuid": "83241504-AE1E-46EC-B493-997283417F5C",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -2564,7 +2573,10 @@
               },
               "WorldScript": {
                 "uuid": "7CCAE93A-9254-48C9-BAD4-7CAE4937D5C3",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
                   "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
@@ -2579,7 +2591,7 @@
               },
               "LocalScript": {
                 "uuid": "008101ED-9DC7-44E1-8855-78E8414DF6A8",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -2639,7 +2651,10 @@
               },
               "WorldScript": {
                 "uuid": "853ED33F-B457-4AFB-B048-C8DCC9A25042",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "57538540-D500-45DA-BE83-F645EAC480EA",
                   "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
@@ -2650,7 +2665,7 @@
               },
               "LocalScript": {
                 "uuid": "C6B5C77D-C3B6-4F5E-90FF-12CBD7AC2AF9",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -2715,7 +2730,10 @@
               },
               "WorldScript": {
                 "uuid": "45DBEB4E-BF39-4163-958A-2307FCDE811A",
-                "idScripts": ["portal_id_script", "interaction_zone_id_script"],
+                "scriptParams": [
+                  "portal_id_script",
+                  "interaction_zone_id_script"
+                ],
                 "conf": {
                   "gameObjectDestUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
                   "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
@@ -2726,7 +2744,7 @@
               },
               "LocalScript": {
                 "uuid": "329F3D84-3F0B-4B01-AE54-D0F20B2D1276",
-                "idScripts": [
+                "scriptParams": [
                   "rotate_id_ext_script",
                   "local_interactions_id_ext_script",
                   "portal_sweep_id_ext_script"
@@ -2857,7 +2875,7 @@
               },
               "LocalScript": {
                 "uuid": "3E81DF23-E872-4855-A237-E7A75C64EEDC",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "butterfly_spawner_id_ext_script"
                 ],
@@ -2870,7 +2888,7 @@
               },
               "WorldScript": {
                 "uuid": "FF56C704-1139-4D51-863E-C756A2427956",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -2915,7 +2933,7 @@
               },
               "LocalScript": {
                 "uuid": "02AA64CF-0B65-4EE4-BF5C-B6AB7BCC4E71",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "butterfly_spawner_id_ext_script"
                 ],
@@ -2928,7 +2946,7 @@
               },
               "WorldScript": {
                 "uuid": "8836A49E-0B9B-4F6A-920B-C57DB8C8BD4B",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -2973,7 +2991,7 @@
               },
               "LocalScript": {
                 "uuid": "33E4FE6B-3866-41A1-8EDE-49CD11A922E5",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "butterfly_spawner_id_ext_script"
                 ],
@@ -2986,7 +3004,7 @@
               },
               "WorldScript": {
                 "uuid": "01EC6629-B898-4D90-A8E5-490D78256C21",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3031,7 +3049,7 @@
               },
               "LocalScript": {
                 "uuid": "EAA88684-FFA5-44FB-9966-3E73472EA7AB",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "signage_displayer_id_ext_script"
                 ],
@@ -3062,7 +3080,7 @@
               },
               "WorldScript": {
                 "uuid": "ACF25D8E-BB81-46F8-9C40-F958819D3860",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3097,7 +3115,7 @@
               },
               "LocalScript": {
                 "uuid": "3B93E446-29AB-4197-96A2-7E9A3E7F2192",
-                "idScripts": [
+                "scriptParams": [
                   "geo_project_id_ext_script",
                   "clickable_id_ext_script"
                 ],
@@ -3159,7 +3177,7 @@
               },
               "LocalScript": {
                 "uuid": "5482348B-DCFF-4E00-9402-12E1E9779315",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "jitsi_area_id_ext_script"
                 ],
@@ -3173,7 +3191,7 @@
               },
               "WorldScript": {
                 "uuid": "383F0A68-5BFA-4150-9188-94501485588A",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3220,7 +3238,7 @@
               },
               "LocalScript": {
                 "uuid": "D6722B6D-E80B-433F-8CD0-FE144173568A",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "jitsi_area_id_ext_script"
                 ],
@@ -3234,7 +3252,7 @@
               },
               "WorldScript": {
                 "uuid": "A2B1304F-8C06-4983-A910-C0B971BB3F83",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3283,7 +3301,7 @@
               },
               "LocalScript": {
                 "uuid": "38AB6728-3414-4E06-968C-45453C639DDD",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "jitsi_area_id_ext_script"
                 ],
@@ -3297,7 +3315,7 @@
               },
               "WorldScript": {
                 "uuid": "635D7229-F623-470F-A3A3-C2F478FB3F47",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3344,7 +3362,7 @@
               },
               "LocalScript": {
                 "uuid": "C900CBFF-95FE-4105-8AF1-511FB74E2241",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "jitsi_area_id_ext_script"
                 ],
@@ -3358,7 +3376,7 @@
               },
               "WorldScript": {
                 "uuid": "A032450E-6D7A-4379-BC11-7DC98B870375",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3461,7 +3479,7 @@
               },
               "LocalScript": {
                 "uuid": "74545F8B-759E-496C-BB42-F4BA1C8634D8",
-                "idScripts": [
+                "scriptParams": [
                   "local_interactions_id_ext_script",
                   "jitsi_area_id_ext_script"
                 ],
@@ -3475,7 +3493,7 @@
               },
               "WorldScript": {
                 "uuid": "9293B0AB-15F0-4D79-9DB5-245C608A7215",
-                "idScripts": ["interaction_zone_id_script"],
+                "scriptParams": ["interaction_zone_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3609,7 +3627,7 @@
               },
               "WorldScript": {
                 "uuid": "2D3F8DC2-62FB-4D75-983A-A5FB7BF56730",
-                "idScripts": ["avatar_not_allow_id_script"],
+                "scriptParams": ["avatar_not_allow_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3634,7 +3652,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "2F691F24-B764-4916-B64E-F6290C1E7F39",
-                "idScripts": ["mini_map_id_ext_script"],
+                "scriptParams": ["mini_map_id_ext_script"],
                 "conf": {
                   "mini_map_no_teleport": [],
                   "mini_map_ping": [],
@@ -3644,7 +3662,7 @@
               },
               "WorldScript": {
                 "uuid": "65966722-4169-4FBA-A1BB-CF6894563F98",
-                "idScripts": ["mini_map_id_script"],
+                "scriptParams": ["mini_map_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3675,7 +3693,7 @@
               },
               "LocalScript": {
                 "uuid": "79768261-7B74-4166-888D-42C364BA7C97",
-                "idScripts": [
+                "scriptParams": [
                   "clickable_id_ext_script",
                   "signboard_id_ext_script",
                   "display_media_id_ext_script"
@@ -3750,13 +3768,13 @@
             "components": {
               "LocalScript": {
                 "uuid": "6DCEF14A-40DC-40EC-A109-E1370A21B05E",
-                "idScripts": ["city_map_id_ext_script"],
+                "scriptParams": ["city_map_id_ext_script"],
                 "conf": { "city_map_ping": [] },
                 "type": "LocalScript"
               },
               "WorldScript": {
                 "uuid": "5CE40446-A436-493A-9960-F210052D23A8",
-                "idScripts": ["city_map_id_script"],
+                "scriptParams": ["city_map_id_script"],
                 "conf": {},
                 "type": "WorldScript"
               }
@@ -3787,7 +3805,7 @@
               },
               "LocalScript": {
                 "uuid": "C974BCE7-2EB7-4769-930F-5707020BC9EF",
-                "idScripts": [
+                "scriptParams": [
                   "clickable_id_ext_script",
                   "signboard_id_ext_script",
                   "display_media_id_ext_script"
@@ -3863,7 +3881,7 @@
               },
               "LocalScript": {
                 "uuid": "7DE2784E-9AEB-4DA5-BD0D-9D55788D344C",
-                "idScripts": [
+                "scriptParams": [
                   "clickable_id_ext_script",
                   "signboard_id_ext_script",
                   "display_media_id_ext_script"
@@ -3937,7 +3955,7 @@
               },
               "LocalScript": {
                 "uuid": "CCB2CDB8-36C3-4CA3-BB47-8FE53986FE5B",
-                "idScripts": [
+                "scriptParams": [
                   "clickable_id_ext_script",
                   "signboard_id_ext_script",
                   "display_media_id_ext_script"
@@ -4011,7 +4029,7 @@
               },
               "LocalScript": {
                 "uuid": "41DA6516-645C-4B5B-9B63-70A000DE03FB",
-                "idScripts": [
+                "scriptParams": [
                   "clickable_id_ext_script",
                   "signboard_id_ext_script",
                   "display_media_id_ext_script"
@@ -4085,7 +4103,7 @@
               },
               "LocalScript": {
                 "uuid": "503DEBE2-F639-4936-935B-CF1DA890AB7F",
-                "idScripts": [
+                "scriptParams": [
                   "clickable_id_ext_script",
                   "signboard_id_ext_script",
                   "display_media_id_ext_script"
@@ -4159,7 +4177,7 @@
               },
               "LocalScript": {
                 "uuid": "FBF1B5EC-EE72-4AFA-BB3C-ED28ABD2AF84",
-                "idScripts": [
+                "scriptParams": [
                   "clickable_id_ext_script",
                   "signboard_id_ext_script",
                   "display_media_id_ext_script"
@@ -4227,7 +4245,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "99BA8C7D-52B8-4E83-A5A2-66AC7DE17490",
-                "idScripts": ["zeppelin_start_id_ext_script"],
+                "scriptParams": ["zeppelin_start_id_ext_script"],
                 "conf": { "pilotUUID": null },
                 "type": "LocalScript"
               }
@@ -4261,13 +4279,13 @@
         "components": {
           "LocalScript": {
             "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
-            "idScripts": ["ui_id_ext_script"],
+            "scriptParams": ["ui_id_ext_script"],
             "conf": { "gameContextDt": 17 },
             "type": "LocalScript"
           },
           "WorldScript": {
             "uuid": "2D01EB3B-482D-4DCE-994E-F9F8EF7E864E",
-            "idScripts": ["ui_id_script"],
+            "scriptParams": ["ui_id_script"],
             "conf": {},
             "type": "WorldScript"
           }

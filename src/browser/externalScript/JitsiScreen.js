@@ -28,7 +28,7 @@ export class JitsiScreen extends ScriptBase {
     );
     if (avatarGO) {
       const externalComp = avatarGO.getComponent(ExternalScriptComponent.TYPE);
-      name = externalComp.getModel().getVariables().name;
+      name = externalComp.getModel().variables.name;
     }
 
     // create iframe

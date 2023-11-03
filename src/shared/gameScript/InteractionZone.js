@@ -14,7 +14,7 @@ module.exports = class InteractionZone extends ScriptBase {
       );
     }
 
-    const modelVariables = externalScriptComp.getModel().getVariables();
+    const modelVariables = externalScriptComp.getModel().variables;
     modelVariables.avatarsOnEnter = [];
     modelVariables.avatarsColliding = [];
     modelVariables.avatarsOnLeave = [];
@@ -26,7 +26,7 @@ module.exports = class InteractionZone extends ScriptBase {
       const externalScriptComp = this.object3D.getComponent(
         ExternalScriptComponent.TYPE
       );
-      const modelVariables = externalScriptComp.getModel().getVariables();
+      const modelVariables = externalScriptComp.getModel().variables;
 
       let index;
       if (
@@ -63,7 +63,7 @@ module.exports = class InteractionZone extends ScriptBase {
       const externalScriptComp = this.object3D.getComponent(
         ExternalScriptComponent.TYPE
       );
-      const modelVariables = externalScriptComp.getModel().getVariables();
+      const modelVariables = externalScriptComp.getModel().variables;
 
       let index;
       if (
@@ -100,7 +100,7 @@ module.exports = class InteractionZone extends ScriptBase {
       const externalScriptComp = this.object3D.getComponent(
         ExternalScriptComponent.TYPE
       );
-      const modelVariables = externalScriptComp.getModel().getVariables();
+      const modelVariables = externalScriptComp.getModel().variables;
 
       let index;
       if (

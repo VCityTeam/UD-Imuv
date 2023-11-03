@@ -43,37 +43,37 @@ const moulinetteWorldJSON = (oldJSON) => {
     newGOJSON.components = {};
 
     if (goJSON.components.LocalScript) {
-      const newIds = [];
-      goJSON.components.LocalScript.idScripts.forEach((id) => {
-        newIds.push(id);
+      const scriptParams = [];
+      goJSON.components.LocalScript.scriptParams.forEach((id) => {
+        scriptParams.push({ id: id });
       });
 
       newGOJSON.components.ExternalScript = {
         type: 'ExternalScript',
-        idScripts: newIds,
+        scriptParams: scriptParams,
         variables: goJSON.components.LocalScript.conf,
       };
 
-      if (newIds.includes('image_id_ext_script')) {
+      if (scriptParams.includes('image_id_ext_script')) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isImage = true;
       }
 
-      if (newIds.includes('portal_sweep_id_ext_script')) {
+      if (scriptParams.includes('portal_sweep_id_ext_script')) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isPortal = true;
       }
     }
 
     if (goJSON.components.WorldScript) {
-      const newIds = [];
-      goJSON.components.WorldScript.idScripts.forEach((id) => {
-        newIds.push(id);
+      const scriptParams = [];
+      goJSON.components.WorldScript.scriptParams.forEach((id) => {
+        scriptParams.push({ id: id });
       });
 
       newGOJSON.components.GameScript = {
         type: 'GameScript',
-        idScripts: newIds,
+        scriptParams: scriptParams,
         variables: goJSON.components.WorldScript.conf,
       };
     }

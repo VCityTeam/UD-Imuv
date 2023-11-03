@@ -291,8 +291,7 @@ class MenuZeppelin {
       } else {
         const namePilot = pilot
           .getComponent(ExternalScriptComponent.TYPE)
-          .getModel()
-          .getVariables().name;
+          .getModel().variables.name;
         this.domElement.innerHTML = namePilot + ' est le pilote';
       }
 
