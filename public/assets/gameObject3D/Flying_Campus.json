@@ -2429,10 +2429,7 @@
                   "videoPath": "./assets/videos/POC_flying_campus_juin.webm",
                   "width": 8.5,
                   "height": 5.3,
-                  "size": { "width": 1280, "height": 720 },
-                  "map_tick_rate_ms": {
-                    "video_id_ext_script": 60
-                  }
+                  "size": { "width": 1280, "height": 720 }
                 },
                 "type": "LocalScript"
               },
