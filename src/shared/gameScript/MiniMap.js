@@ -9,9 +9,9 @@ module.exports = class MiniMap extends ScriptBase {
     );
 
     /* Clearing the array of text that is displayed when a teleport command is rejected. */
-    extScriptComp.getModel().getVariables().mini_map_no_teleport.length = 0;
+    extScriptComp.getModel().variables.mini_map_no_teleport.length = 0;
     // clear array
-    extScriptComp.getModel().getVariables().mini_map_ping.length = 0;
+    extScriptComp.getModel().variables.mini_map_ping.length = 0;
 
     const scriptMap = this.context.findGameScriptWithID(AbstractMap.ID_SCRIPT);
     if (!scriptMap) throw new Error('no map world script');
@@ -19,10 +19,7 @@ module.exports = class MiniMap extends ScriptBase {
     switch (type) {
       case COMMAND.TELEPORT:
         if (isNaN(scriptMap.getHeightValue(data.position.x, data.position.y))) {
-          extScriptComp
-            .getModel()
-            .getVariables()
-            .mini_map_no_teleport.push(data);
+          extScriptComp.getModel().variables.mini_map_no_teleport.push(data);
           this.object3D.setOutdated(true);
         } else {
           const avatarUUID = data.avatarUUID;
@@ -42,7 +39,7 @@ module.exports = class MiniMap extends ScriptBase {
         }
         break;
       case COMMAND.PING:
-        extScriptComp.getModel().getVariables().mini_map_ping.push(data);
+        extScriptComp.getModel().variables.mini_map_ping.push(data);
         this.object3D.setOutdated(true);
         break;
     }

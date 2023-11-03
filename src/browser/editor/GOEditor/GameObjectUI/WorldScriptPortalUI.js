@@ -92,7 +92,7 @@ export class WorldScriptPortalUI {
       const worldPortal = new World(wjson);
       worldPortal.getGameObject().traverse(function (child) {
         const wS = child.getComponent(WorldScriptModule.TYPE);
-        if (wS && wS.idScripts.includes('portal')) {
+        if (wS && wS.scriptParams.includes('portal')) {
           const optionPortal = document.createElement('option');
           optionPortal.value = child.uuid;
           optionPortal.innerHTML = child.name;

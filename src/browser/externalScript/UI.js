@@ -173,7 +173,7 @@ export class UI extends ScriptBase {
             static: true,
             components: {
               ExternalScript: {
-                idScripts: ['MenuAvatar'],
+                scriptParams: ['MenuAvatar'],
               },
             },
           });
