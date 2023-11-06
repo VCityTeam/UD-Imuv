@@ -1,7 +1,6 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import { loadMultipleJSON } from '@ud-viz/utils_browser';
 import * as itowns from 'itowns';
-import { CONSTANT } from './component/constant';
 import { Box3 } from 'three';
 
 export class AddItownsLayer extends ScriptBase {
@@ -103,9 +102,6 @@ export class AddItownsLayer extends ScriptBase {
           layer
         );
       });
-
-      // TODO: external context should extend THREE.EventDispacther
-      window.dispatchEvent(new Event(CONSTANT.EVENT.ITOWNS_LAYER_ADDED));
     });
   }
 

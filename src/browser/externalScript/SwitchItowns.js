@@ -11,8 +11,6 @@ import { AvatarController } from './AvatarController';
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
 
-import { CONSTANT } from './component/constant';
-
 export class SwitchItowns extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
@@ -152,14 +150,8 @@ class MenuItowns {
       new LayerChoice(externalContext.frame3D.itownsView)
     );
 
-    /* If the ADD_ITOWNS_LAYER event is triggered, we refresh the LayerChoice widget. See AddItownsLayer.js*/
-    // TODO: instead of create a new event we could use itowns one
-    // see https://github.com/iTowns/itowns/blob/b88de8347fdf998e95b691d3e0830d354e858d8e/src/Core/View.js#L30C5-L30C16
-    // could be part of the LayerChoice widget
-    window.addEventListener(CONSTANT.EVENT.ITOWNS_LAYER_ADDED, () => {
-      this.widgets['Layer Choice'].domElement.remove();
-      this.widgets['Layer Choice'].initHtml();
-    });
+    this.widgets['Layer Choice'].domElement.remove();
+    this.widgets['Layer Choice'].initHtml();
 
     // cameraPositionner
     this.addModuleView(
