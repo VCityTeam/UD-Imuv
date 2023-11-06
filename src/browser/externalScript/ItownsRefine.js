@@ -1,7 +1,6 @@
 import * as itowns from 'itowns';
 import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
-import { CONSTANT } from './component/constant';
 
 const AVATAR_SSE = 400;
 const ZEPPELIN_SSE = 100;
@@ -56,17 +55,15 @@ export class ItownsRefine extends ScriptBase {
       return sse > _this.customSSE;
     }
 
-    window.addEventListener(CONSTANT.EVENT.ITOWNS_LAYER_ADDED, () => {
-      this.context.frame3D.itownsView
-        .getLayers()
-        .filter((el) => el.isC3DTilesLayer)
-        .forEach((layer) => {
-          layer.update = itowns.process3dTilesNode(
-            itowns.$3dTilesCulling,
-            $3dTilesSubdivisionControl
-          );
-        });
-    });
+    this.context.frame3D.itownsView
+      .getLayers()
+      .filter((el) => el.isC3DTilesLayer)
+      .forEach((layer) => {
+        layer.update = itowns.process3dTilesNode(
+          itowns.$3dTilesCulling,
+          $3dTilesSubdivisionControl
+        );
+      });
   }
 
   static get ID_SCRIPT() {

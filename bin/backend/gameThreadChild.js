@@ -31,7 +31,8 @@ child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
     const gameScriptCompPortal = portal.getComponent(GameScriptComponent.TYPE);
     gameScriptCompPortal
       .getController()
-      .scripts[gameScript.Portal.ID_SCRIPT].setTransformOf(objectToAdd);
+      .scripts.get(gameScript.Portal.ID_SCRIPT)
+      .setTransformOf(objectToAdd);
 
     return child.gameContext.addObject3D(objectToAdd);
   });
@@ -43,7 +44,7 @@ child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
         .getComponent(GameScriptComponent.TYPE)
         .getController();
 
-      gameScriptController.scripts[gameScript.Avatar.ID_SCRIPT].spawn();
+      gameScriptController.scripts.get(gameScript.Avatar.ID_SCRIPT).spawn();
 
       console.log('spawn avatar in thread');
     });

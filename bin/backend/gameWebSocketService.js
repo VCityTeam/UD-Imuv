@@ -45,7 +45,11 @@ const moulinetteWorldJSON = (oldJSON) => {
     if (goJSON.components.LocalScript) {
       const scriptParams = [];
       goJSON.components.LocalScript.scriptParams.forEach((id) => {
-        scriptParams.push({ id: id });
+        const sp = { id: id };
+        if (id == 'add_itowns_layer_id_ext_script') {
+          sp.priority = 10;
+        }
+        scriptParams.push(sp);
       });
 
       newGOJSON.components.ExternalScript = {
@@ -54,12 +58,20 @@ const moulinetteWorldJSON = (oldJSON) => {
         variables: goJSON.components.LocalScript.conf,
       };
 
-      if (scriptParams.includes('image_id_ext_script')) {
+      if (
+        goJSON.components.LocalScript.scriptParams.includes(
+          'image_id_ext_script'
+        )
+      ) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isImage = true;
       }
 
-      if (scriptParams.includes('portal_sweep_id_ext_script')) {
+      if (
+        goJSON.components.LocalScript.scriptParams.includes(
+          'portal_sweep_id_ext_script'
+        )
+      ) {
         if (!newGOJSON.userData) newGOJSON.userData = {};
         newGOJSON.userData.isPortal = true;
       }

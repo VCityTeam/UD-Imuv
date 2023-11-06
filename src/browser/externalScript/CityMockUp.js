@@ -9,7 +9,6 @@ import { UI } from './UI';
 import { CameraManager } from './CameraManager';
 import { AvatarController } from './AvatarController';
 import { C3DTiles } from '@ud-viz/widget_3d_tiles';
-import { CONSTANT } from './component/constant';
 
 export class CityMockUp extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -50,116 +49,114 @@ export class CityMockUp extends ScriptBase {
     const avatarController = this.context.findExternalScriptWithID(
       AvatarController.ID_SCRIPT
     );
-    window.addEventListener(CONSTANT.EVENT.ITOWNS_LAYER_ADDED, () => {
-      const layers = this.context.frame3D.itownsView
-        .getLayers()
-        .filter((el) => el.isC3DTilesLayer);
-      layers.forEach((layer) => {
-        layer.update = itowns.process3dTilesNode(
-          (layer, camera, node, tileMatrixWorld) => {
-            if (!node.boundingVolume || !node.boundingVolume.box) return true; // do not requet (culling it)
 
-            boundingVolumeBox.copy(node.boundingVolume.box);
-            boundingVolumeBox.applyMatrix4(tileMatrixWorld);
+    const layers = this.context.frame3D.itownsView
+      .getLayers()
+      .filter((el) => el.isC3DTilesLayer);
+    layers.forEach((layer) => {
+      layer.update = itowns.process3dTilesNode(
+        (layer, camera, node, tileMatrixWorld) => {
+          if (!node.boundingVolume || !node.boundingVolume.box) return true; // do not requet (culling it)
 
-            return !this.intersectArea(
-              boundingVolumeBox.min,
-              boundingVolumeBox.max
-            ); // request if it is intersected area
-          },
-          (context, layer, node) => {
-            if (layer.tileset.tiles[node.tileId].children === undefined) {
-              return false; // I guess no object so no refine
-            }
-            if (layer.tileset.tiles[node.tileId].isTileset) {
-              return true; // refine if it's tileset
-            }
+          boundingVolumeBox.copy(node.boundingVolume.box);
+          boundingVolumeBox.applyMatrix4(tileMatrixWorld);
 
-            boundingVolumeBox.copy(node.boundingVolume.box);
-            boundingVolumeBox.applyMatrix4(node.matrixWorld);
-
-            return this.intersectArea(
-              boundingVolumeBox.min,
-              boundingVolumeBox.max
-            ); // refine if it's intersecting area
-          }
-        );
-        layer.addEventListener(
-          itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
-          ({ tileContent }) => {
-            const boundingBox = new THREE.Box3().setFromObject(tileContent);
-
-            // only update if tile intersect the area
-            if (this.intersectArea(boundingBox.min, boundingBox.max)) {
-              this.updateMockUpObject();
-            }
-          }
-        );
-      });
-      const menu = new MenuCityMockUp(this.context, this.object3D);
-
-      scriptUI.addTool(
-        './assets/img/ui/icon_mock_up.png', // TODO: all hardcoded value should in this.variables
-        'Maquette',
-        (resolve, reject, onClose) => {
-          if (cameraManager.currentMovement) {
-            resolve(false); // already moving
-            return;
-          }
-
-          if (onClose) {
-            // record
-            this.itownsCamPos.set(
-              this.context.frame3D.camera.position.x,
-              this.context.frame3D.camera.position.y,
-              this.context.frame3D.camera.position.z
-            );
-            this.itownsCamQuat.setFromEuler(
-              this.context.frame3D.camera.rotation
-            );
-
-            this.context.frame3D.itownsView.controls.enabled = false;
-
-            cameraManager.moveToAvatar().then(() => {
-              avatarController.setAvatarControllerMode(true);
-              resolve(true);
-            });
-          } else {
-            // remove avatar controls
-            avatarController.setAvatarControllerMode(false);
-
-            if (!this.itownsCamPos && !this.itownsCamQuat) {
-              // first time camera in sky
-
-              const currentPosition = new THREE.Vector3().copy(
-                this.context.frame3D.camera.position
-              );
-
-              // 200 meters up
-              const endPosition = new THREE.Vector3(0, 0, 200).add(
-                currentPosition
-              );
-
-              // look down
-              const endQuaternion = new THREE.Quaternion().setFromEuler(
-                new THREE.Euler(0.01, 0, 0)
-              );
-
-              this.itownsCamPos = endPosition;
-              this.itownsCamQuat = endQuaternion;
-            }
-
-            cameraManager
-              .moveToTransform(this.itownsCamPos, this.itownsCamQuat, 2000)
-              .then(() => {
-                menu.enable();
-                resolve(true);
-              });
-          }
+          return !this.intersectArea(
+            boundingVolumeBox.min,
+            boundingVolumeBox.max
+          ); // request if it is intersected area
         },
-        menu
+        (context, layer, node) => {
+          if (layer.tileset.tiles[node.tileId].children === undefined) {
+            return false; // I guess no object so no refine
+          }
+          if (layer.tileset.tiles[node.tileId].isTileset) {
+            return true; // refine if it's tileset
+          }
+
+          boundingVolumeBox.copy(node.boundingVolume.box);
+          boundingVolumeBox.applyMatrix4(node.matrixWorld);
+
+          return this.intersectArea(
+            boundingVolumeBox.min,
+            boundingVolumeBox.max
+          ); // refine if it's intersecting area
+        }
+      );
+      layer.addEventListener(
+        itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
+        ({ tileContent }) => {
+          const boundingBox = new THREE.Box3().setFromObject(tileContent);
+
+          // only update if tile intersect the area
+          if (this.intersectArea(boundingBox.min, boundingBox.max)) {
+            this.updateMockUpObject();
+          }
+        }
       );
     });
+    const menu = new MenuCityMockUp(this.context, this.object3D);
+
+    scriptUI.addTool(
+      './assets/img/ui/icon_mock_up.png', // TODO: all hardcoded value should in this.variables
+      'Maquette',
+      (resolve, reject, onClose) => {
+        if (cameraManager.currentMovement) {
+          resolve(false); // already moving
+          return;
+        }
+
+        if (onClose) {
+          // record
+          this.itownsCamPos.set(
+            this.context.frame3D.camera.position.x,
+            this.context.frame3D.camera.position.y,
+            this.context.frame3D.camera.position.z
+          );
+          this.itownsCamQuat.setFromEuler(this.context.frame3D.camera.rotation);
+
+          this.context.frame3D.itownsView.controls.enabled = false;
+
+          cameraManager.moveToAvatar().then(() => {
+            avatarController.setAvatarControllerMode(true);
+            resolve(true);
+          });
+        } else {
+          // remove avatar controls
+          avatarController.setAvatarControllerMode(false);
+
+          if (!this.itownsCamPos && !this.itownsCamQuat) {
+            // first time camera in sky
+
+            const currentPosition = new THREE.Vector3().copy(
+              this.context.frame3D.camera.position
+            );
+
+            // 200 meters up
+            const endPosition = new THREE.Vector3(0, 0, 200).add(
+              currentPosition
+            );
+
+            // look down
+            const endQuaternion = new THREE.Quaternion().setFromEuler(
+              new THREE.Euler(0.01, 0, 0)
+            );
+
+            this.itownsCamPos = endPosition;
+            this.itownsCamQuat = endQuaternion;
+          }
+
+          cameraManager
+            .moveToTransform(this.itownsCamPos, this.itownsCamQuat, 2000)
+            .then(() => {
+              menu.enable();
+              resolve(true);
+            });
+        }
+      },
+      menu
+    );
+
     // DEBUG
     this.context.inputManager.addKeyInput('a', 'keyup', () => {
       this.updateMockUpObject();
@@ -482,7 +479,7 @@ export class CityMockUp extends ScriptBase {
         new THREE.MeshBasicMaterial({
           color: new THREE.Color().fromArray([0, 1, 0]),
           opacity: 0.5,
-          transparent: true,
+          transparent: true
         })
       );
       this.selectedAreaObject.name = 'Selected Area MockUp';
@@ -522,7 +519,7 @@ class MenuCityMockUp {
     this.domElement.appendChild(buttonSelect);
 
     this.widget3DTiles = new C3DTiles(this.context.frame3D.itownsView, {
-      parentElement: this.domElement,
+      parentElement: this.domElement
     });
     this.listenerWidget3DTiles = (event) => {};
 
@@ -600,7 +597,7 @@ class MenuCityMockUp {
       const material = new THREE.MeshBasicMaterial({
         color: 0x0000ff,
         opacity: 0.3,
-        transparent: true,
+        transparent: true
       });
       const selectAreaObject = new THREE.Mesh(geometry, material);
       selectAreaObject.name = 'Select Area Menu Object';
@@ -691,10 +688,10 @@ class MenuCityMockUp {
               variableName: 'area',
               variableValue: {
                 start: worldCoordStart.toArray(),
-                end: worldCoordCurrent.toArray(),
-              },
-            },
-          }),
+                end: worldCoordCurrent.toArray()
+              }
+            }
+          })
         ]);
       };
       this.context.inputManager.addMouseInput(
