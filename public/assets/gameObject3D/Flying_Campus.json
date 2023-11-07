@@ -2398,7 +2398,12 @@
               "Audio": {
                 "uuid": "168ECC64-550D-4652-8230-EF173C235DDB",
                 "sounds": ["zeppelin_engine"],
-                "conf": { "autoplay": true, "spatialized": true, "loop": true },
+                "conf": {
+                  "autoplay": true,
+                  "spatialized": true,
+                  "loop": true,
+                  "volume": 0.2
+                },
                 "type": "Audio"
               },
               "Render": {

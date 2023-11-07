@@ -1,6 +1,10 @@
-const Avatar = require('./gameScript/Avatar');
+const { ID } = require('./constant');
 const InteractionZone = require('./gameScript/InteractionZone');
-const { Object3D } = require('@ud-viz/game_shared');
+const {
+  Object3D,
+  RenderComponent,
+  ExternalScriptComponent,
+} = require('@ud-viz/game_shared');
 
 // TODO
 const CONSTANT_TYPE_GO = {
@@ -68,7 +72,7 @@ module.exports = {
           idRenderData: 'avatar_moyen',
         },
         GameScript: {
-          scriptParams: [{ id: Avatar.ID_SCRIPT }],
+          scriptParams: [{ id: ID.GAME_SCRIPT.AVATAR }],
           type: 'GameScript',
         },
         ExternalScript: {
@@ -81,6 +85,43 @@ module.exports = {
             visible: true,
             name: name,
             path_face_texture: './assets/img/avatar/default.jpeg',
+          },
+          type: 'ExternalScript',
+        },
+      },
+    });
+  },
+  cityAvatar: (avatar) => {
+    if (!avatar.userData.isAvatar)
+      throw new Error('first param must be an avatar game object3D');
+
+    const renderComp = avatar.getComponent(RenderComponent.TYPE);
+    const externalScriptComp = avatar.getComponent(
+      ExternalScriptComponent.TYPE
+    );
+
+    return new Object3D({
+      name: 'City_avatar',
+      static: false,
+      userData: {
+        isCityAvatar: true,
+      },
+      components: {
+        Render: {
+          type: 'Render',
+          idRenderData: renderComp.model.idRenderData,
+          color: renderComp.model.color,
+        },
+        ExternalScript: {
+          scriptParams: [
+            { id: ID.EXTERNAL_SCRIPT.CITY_AVATAR },
+            { id: 'sprite_name_id_ext_script' },
+            { id: 'texture_face_id_ext_script' },
+          ],
+          variables: {
+            name: externalScriptComp.model.variables.name,
+            path_face_texture:
+              externalScriptComp.model.variables.path_face_texture,
           },
           type: 'ExternalScript',
         },

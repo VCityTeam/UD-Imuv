@@ -1,331 +1,116 @@
-/* eslint-disable */
+import { ScriptBase } from '@ud-viz/game_browser';
+import { Command } from '@ud-viz/game_shared';
+import { constant } from '@ud-viz/game_shared_template';
+import {
+  addNativeCommands,
+  removeNativeCommands,
+  computeRelativeElevationFromGround,
+} from '@ud-viz/game_browser_template';
+import { ID, COMMAND } from '../../shared/constant';
+import { AvatarController } from './AvatarController';
+import { CameraManager } from './CameraManager';
+import { CityMap } from './CityMap';
+import { UI } from './UI';
 
-export class CityAvatar {
-  constructor(conf, udvizBundle) {
-    this.conf = conf;
-    udviz = udvizBundle;
-    Game = udviz.Game;
+const COMMAND_ID_ESCAPE = 'cmd_id_escape';
 
-    this.go = null;
-  }
-
+export class CityAvatar extends ScriptBase {
   init() {
-    this.go = arguments[0];
-    const localCtx = arguments[1];
+    // init
+    this.isUserCityAvatar =
+      this.context.userData.avatar.uuid == this.object3D.parent.uuid;
 
-    if (
-      localCtx.getGameView().getUserData('avatarUUID') !=
-      this.go.getParentUUID()
-    ) {
-      // ignore city avatar other
+    if (!this.isUserCityAvatar) {
+      // ignore other city avatar other
       return;
     }
 
-    // avatar_controller
-    const avatarController =
-      localCtx.findExternalScriptWithID('avatar_controller');
-    if (!avatarController) throw new Error('no avatar controller script');
+    /** @type {AvatarController} */
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
+    );
 
     // remove avatar controls
-    avatarController.setAvatarControllerMode(false, localCtx);
+    avatarController.setAvatarControllerMode(false);
 
-    const _this = this;
-
-    // routine camera
-    const camera = localCtx.getGameView().getCamera();
-    const cameraScript = localCtx.findExternalScriptWithID('camera');
-
-    // buffer
-    const duration = 2000;
-    const startPos = camera.position.clone();
-    const startQuat = camera.quaternion.clone();
-    let currentTime = 0;
-
-    // first travelling
-    cameraScript.addRoutine(
-      new Game.Components.Routine(
-        function (dt) {
-          cameraScript.focusCamera.setTarget(_this.go);
-          const t = cameraScript.focusCamera.computeTransformTarget(
-            cameraScript.getDistanceCameraAvatar()
-          );
-
-          currentTime += dt;
-          const ratio = Math.min(Math.max(0, currentTime / duration), 1);
-
-          const p = t.position.lerp(startPos, 1 - ratio);
-          const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-          camera.position.copy(p);
-          camera.quaternion.copy(q);
-
-          camera.updateProjectionMatrix();
-
-          return ratio >= 1;
-        },
-        function () {
-          _this.setCityAvatarController(true, localCtx);
-        }
-      )
+    /** @type {CameraManager} */
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
     );
+
+    cameraManager.moveToCityAvatar().then(() => {
+      cameraManager.followCityAvatar();
+      this.setCityAvatarController(true);
+    });
   }
 
-  setCityAvatarController(value, localContext) {
-    const avatarUUID = localContext.getGameView().getUserData('avatarUUID');
-    if (this.go.getParent().getUUID() != avatarUUID) return; // only controls its own city avatar
+  setCityAvatarController(value) {
+    if (!this.isUserCityAvatar) return;
 
-    const scriptUI = localContext.findExternalScriptWithID('ui');
-    const goUUID = this.go.getUUID();
-    const parentGoUUID = this.go.getParentUUID();
-
-    const userID = localContext.getGameView().getUserData('userID');
-
-    // Input manager of the game
-    const inputManager = localContext.getGameView().getInputManager();
-
-    const commandIdForward = 'cmd_forward';
-    const commandIdBackward = 'cmd_backward';
-    const commandIdLeft = 'cmd_left';
-    const commandIdRight = 'cmd_right';
-    const commandIdEscape = 'cmd_escape';
-    const commandIdRotate = 'cmd_rotate';
-
+    /** @type {UI} */
+    const ui = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
     if (value) {
-      console.warn('add city avatar control');
-
-      const cityMapScript = localContext.findExternalScriptWithID('city_map');
-      if (!cityMapScript) console.error('no city map script');
-      // add citymap
-      scriptUI.addToMapUI(
-        cityMapScript,
-        localContext.getGameView().getLocalScriptModules()['ImuvConstants']
-      );
-
-      scriptUI.getLabelInfo().writeLabel(goUUID, 'E');
-
-      // FORWARD
-      inputManager.addKeyCommand(
-        commandIdForward,
-        ['z', 'ArrowUp'],
-        function () {
-          inputManager.setPointerLock(true);
-          return new Game.Command({
-            gameObjectUUID: goUUID,
-            userID: userID,
-            type: Game.Command.TYPE.MOVE_FORWARD,
-          });
-        }
-      );
-
-      // BACKWARD
-      inputManager.addKeyCommand(
-        commandIdBackward,
-        ['s', 'ArrowDown'],
-        function () {
-          inputManager.setPointerLock(true);
-          return new Game.Command({
-            gameObjectUUID: goUUID,
-            userID: userID,
-            type: Game.Command.TYPE.MOVE_BACKWARD,
-          });
-        }
-      );
-
-      // LEFT
-      inputManager.addKeyCommand(
-        commandIdLeft,
-        ['q', 'ArrowLeft'],
-        function () {
-          inputManager.setPointerLock(true);
-          return new Game.Command({
-            gameObjectUUID: goUUID,
-            userID: userID,
-            type: Game.Command.TYPE.MOVE_LEFT,
-          });
-        }
-      );
-
-      // RIGHT
-      inputManager.addKeyCommand(
-        commandIdRight,
-        ['d', 'ArrowRight'],
-        function () {
-          inputManager.setPointerLock(true);
-          return new Game.Command({
-            gameObjectUUID: goUUID,
-            userID: userID,
-            type: Game.Command.TYPE.MOVE_RIGHT,
-          });
-        }
-      );
-
-      // ROTATE
-
-      inputManager.addMouseCommand(commandIdRotate, 'mousemove', function () {
-        if (
-          inputManager.getPointerLock() ||
-          (this.isDragging() && !inputManager.getPointerLock())
-        ) {
-          const event = this.event('mousemove');
-          if (event.movementX != 0 || event.movementY != 0) {
-            let pixelX = -event.movementX;
-            let pixelY = -event.movementY;
-
-            const dragRatio = scriptUI
-              .getMenuSettings()
-              .getMouseSensitivityValue();
-
-            pixelX *= dragRatio;
-            pixelY *= dragRatio;
-
-            return new Game.Command({
-              type: Game.Command.TYPE.ROTATE,
-              data: {
-                vector: new Game.THREE.Vector3(pixelY, 0, pixelX),
-              },
-              userID: userID,
-              gameObjectUUID: goUUID,
-            });
-          }
-        }
-        return null;
-      });
-
+      // ui.addToMapUI(this.context.findExternalScriptWithID(CityMap.ID_SCRIPT));
+      ui.getLabelInfo().writeLabel(this.object3D.uuid, 'E');
       // Esc city avatar mode
-      inputManager.addKeyCommand(commandIdEscape, ['e'], function () {
-        return new Game.Command({
-          gameObjectUUID: parentGoUUID,
-          userID: userID,
-          type: Game.Command.TYPE.ESCAPE,
+      this.context.inputManager.addKeyCommand(COMMAND_ID_ESCAPE, ['e'], () => {
+        return new Command({
+          data: {
+            object3DUUID: this.object3D.parent.uuid,
+          },
+          type: COMMAND.ESCAPE_CITY_AVATAR,
         });
       });
+
+      addNativeCommands(this.context.inputManager, this.object3D.uuid, false);
     } else {
-      console.warn('remove city avatar command');
-
-      inputManager.removeKeyCommand(commandIdForward, ['z', 'ArrowUp']);
-      inputManager.removeKeyCommand(commandIdBackward, ['s', 'ArrowDown']);
-      inputManager.removeKeyCommand(commandIdRight, ['d', 'ArrowRight']);
-      inputManager.removeKeyCommand(commandIdLeft, ['q', 'ArrowLeft']);
-      inputManager.removeMouseCommand(commandIdRotate, 'mousemove');
-      inputManager.removeKeyCommand(commandIdEscape, ['e']);
-      inputManager.setPointerLock(false);
-
-      scriptUI.clearMapUI();
-      scriptUI.getLabelInfo().clear(goUUID);
+      removeNativeCommands(this.context.inputManager);
+      this.context.inputManager.removeKeyCommand(COMMAND_ID_ESCAPE, ['e']);
+      // ui.clearMapUI();
+      ui.getLabelInfo().clear(this.object3D.uuid);
     }
   }
 
   onRemove() {
-    const localCtx = arguments[1];
+    if (!this.isUserCityAvatar) return;
 
-    if (
-      localCtx.getGameView().getUserData('avatarUUID') !=
-      this.go.getParentUUID()
-    ) {
-      // ignore city avatar other
-      return;
-    }
+    this.setCityAvatarController(false);
 
-    this.setCityAvatarController(false, localCtx);
-
-    // routine camera
-    const camera = localCtx.getGameView().getCamera();
-    const cameraScript = localCtx.findExternalScriptWithID('camera');
-
-    // buffer
-    const duration = 2000;
-    const startPos = camera.position.clone();
-    const startQuat = camera.quaternion.clone();
-    let currentTime = 0;
-
-    // first travelling
-    cameraScript.addRoutine(
-      new Game.Components.Routine(
-        function (dt) {
-          cameraScript.focusCamera.setTarget(cameraScript.getAvatarGO());
-          const t = cameraScript.focusCamera.computeTransformTarget(
-            cameraScript.getDistanceCameraAvatar()
-          );
-
-          currentTime += dt;
-          const ratio = Math.min(Math.max(0, currentTime / duration), 1);
-
-          const p = t.position.lerp(startPos, 1 - ratio);
-          const q = t.quaternion.slerp(startQuat, 1 - ratio);
-
-          camera.position.copy(p);
-          camera.quaternion.copy(q);
-
-          camera.updateProjectionMatrix();
-
-          return ratio >= 1;
-        },
-        function () {
-          // avatar_controller
-          const avatarController =
-            localCtx.findExternalScriptWithID('avatar_controller');
-          if (!avatarController) throw new Error('no avatar controller script');
-          // restore avatar controls
-          avatarController.setAvatarControllerMode(true, localCtx);
-        }
-      )
+    /** @type {AvatarController} */
+    const avatarController = this.context.findExternalScriptWithID(
+      AvatarController.ID_SCRIPT
     );
+
+    /** @type {CameraManager} */
+    const cameraManager = this.context.findExternalScriptWithID(
+      CameraManager.ID_SCRIPT
+    );
+
+    cameraManager.stopFollowObject3D();
+
+    cameraManager.moveToAvatar().then(() => {
+      avatarController.setAvatarControllerMode(true);
+    });
   }
 
   tick() {
-    // the gameobject parent of this script
-    const go = arguments[0];
-
-    // a context containing all data to script clientside script
-    const localContext = arguments[1];
-
-    const wT = go.computeWorldTransform();
-    const pos = wT.position;
-    const ref = localContext.getGameView().getObject3D().position;
-    const zParent = go.parent.getPosition().z + ref.z;
-
-    const worldPos = new udviz.THREE.Vector3(pos.x, pos.y, 0).add(ref);
-
-    const editorMode = localContext.getGameView().getUserData('editorMode');
-
-    const gameView = localContext.getGameView();
-
-    const elevation =
-      udviz.itowns.DEMUtils.getElevationValueAt(
-        gameView.getItownsView().tileLayer,
-        new udviz.itowns.Coordinates(gameView.projection, worldPos),
-        1 // PRECISE_READ_Z
-      ) - zParent;
-
-    if (editorMode) {
-      // add commands to the computer directly because not produce by the inputmanager
-      const computer = localContext
-        .getGameView()
-        .getInterpolator()
-        .getLocalComputer();
-
-      computer.onCommands([
-        new Game.Command({
-          type: Game.Command.TYPE.Z_UPDATE,
-          gameObjectUUID: go.getUUID(),
-          data: elevation,
-        }),
-      ]);
-    } else {
-      const userID = localContext.getGameView().getUserData('userID');
-      const websocketService = localContext.getWebSocketService();
-      const ImuvConstants = localContext.getGameView().getLocalScriptModules()[
-        'ImuvConstants'
-      ];
-
-      websocketService.emit(ImuvConstants.WEBSOCKET.MSG_TYPE.COMMANDS, [
-        {
-          type: Game.Command.TYPE.Z_UPDATE,
-          gameObjectUUID: go.getUUID(),
-          userID: userID,
-          data: elevation,
+    this.context.sendCommandsToGameContext([
+      new Command({
+        type: constant.COMMAND.UPDATE_TRANSFORM,
+        data: {
+          object3DUUID: this.object3D.uuid,
+          position: {
+            z: computeRelativeElevationFromGround(
+              this.object3D,
+              this.context.frame3D.itownsView.tileLayer
+            ),
+          },
         },
-      ]);
-    }
+      }),
+    ]);
+  }
+
+  static get ID_SCRIPT() {
+    return ID.EXTERNAL_SCRIPT.CITY_AVATAR;
   }
 }

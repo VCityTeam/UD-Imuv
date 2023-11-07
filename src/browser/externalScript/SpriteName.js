@@ -8,7 +8,7 @@ export class SpriteName extends ScriptBase {
 
     this.sprite = null;
 
-    this.oldObject = null;
+    // this.oldObject = null;
   }
 
   init() {
@@ -69,18 +69,18 @@ export class SpriteName extends ScriptBase {
     const bbSprite = new THREE.Box3().setFromObject(sprite);
     sprite.position.z = bb.max.z + 0.5 * (bbSprite.max.y - bbSprite.min.y);
     sprite.position.z -= bb.min.z;
-    renderComp.getController().object3D.add(sprite);
+    renderComp.getController().renderData.object3D.add(sprite);
 
     this.sprite = sprite;
 
-    this.oldObject = renderComp.getController().object3D;
+    // this.oldObject = renderComp.getController().object3D;
   }
 
   onComponentUpdate() {
-    const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
+    // const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
 
-    if (renderComp.getController().object3D != this.oldObject)
-      this.updateSprite();
+    // if (renderComp.getController().object3D != this.oldObject)
+    //   this.updateSprite();
   }
 
   static get ID_SCRIPT() {

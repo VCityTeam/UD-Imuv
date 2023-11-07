@@ -1,4 +1,5 @@
 import { ScriptBase } from '@ud-viz/game_browser';
+import { RenderComponent } from '@ud-viz/game_shared';
 
 export class Visible extends ScriptBase {
   init() {
@@ -6,7 +7,10 @@ export class Visible extends ScriptBase {
   }
 
   updateVisible() {
-    this.object3D.visible = this.variables.visible;
+    const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
+
+    renderComp.getController().renderData.object3D.visible =
+      this.variables.visible;
   }
 
   onOutdated() {

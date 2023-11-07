@@ -1,4 +1,5 @@
 const { ScriptBase } = require('@ud-viz/game_shared');
+const { ID } = require('../constant');
 
 module.exports = class Spawner extends ScriptBase {
   initializeSpawnTransform(object) {
@@ -11,6 +12,6 @@ module.exports = class Spawner extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'spawner_id_script';
+    return ID.GAME_SCRIPT.SPAWNER;
   }
 };
