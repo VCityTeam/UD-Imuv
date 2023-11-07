@@ -1,107 +1,114 @@
 import { ScriptBase } from '@ud-viz/game_browser';
-import { loadMultipleJSON } from '@ud-viz/utils_browser';
+import { FEATURE_USER_DATA_KEY } from './component/constant';
 import * as itowns from 'itowns';
-import { Box3 } from 'three';
+
+const elevationConfig = {
+  url: 'https://imagerie.data.grandlyon.com/wms/grandlyon',
+  name: 'MNT2018_Altitude_2m',
+  format: 'image/jpeg',
+  layer_name: 'wms_elevation_test',
+  colorTextureElevationMinZ: 149,
+  colorTextureElevationMaxZ: 622,
+};
+
+const baseMapConfig = {
+  url: 'https://wxs.ign.fr/choisirgeoportail/geoportail/r/wms',
+  name: 'GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2',
+  version: '1.3.0',
+  format: 'image/jpeg',
+  layer_name: 'Base_Map',
+  maxSubdivisionLevel: 5,
+};
+
+const c3DTilesConfig = [
+  {
+    id: '3d-tiles-layer-building',
+    url: './assets/3DTiles/buildings/tileset.json',
+  },
+];
 
 export class AddItownsLayer extends ScriptBase {
   init() {
-    // TODO path should be in variables
-    loadMultipleJSON([
-      './assets/config/3DTilesLayer.json',
-      './assets/config/elevationLayer.json',
-      './assets/config/baseMapLayer.json',
-    ]).then((configs) => {
-      console.log(configs);
-
-      this.context.frame3D.itownsView.addLayer(
-        new itowns.ColorLayer(configs.baseMapLayer, {
-          updateStrategy: {
-            type: itowns.STRATEGY_DICHOTOMY,
-            options: {},
-          },
-          source: new itowns.WMSSource({
-            extent: this.context.userData.extent,
-            name: configs.baseMapLayer.name,
-            url: configs.baseMapLayer.url,
-            version: configs.baseMapLayer.version,
-            crs: this.context.userData.extent.crs,
-            format: configs.baseMapLayer.format,
-          }),
-          transparent: true,
-        })
-      );
-
-      const isTextureFormat =
-        configs.elevationLayer.format == 'image/jpeg' ||
-        configs.elevationLayer.format == 'image/png';
-      this.context.frame3D.itownsView.addLayer(
-        new itowns.ElevationLayer(configs.elevationLayer.layer_name, {
-          useColorTextureElevation: isTextureFormat,
-          colorTextureElevationMinZ: isTextureFormat
-            ? configs.elevationLayer.colorTextureElevationMinZ
-            : null,
-          colorTextureElevationMaxZ: isTextureFormat
-            ? configs.elevationLayer.colorTextureElevationMaxZ
-            : null,
-          source: new itowns.WMSSource({
-            extent: this.context.userData.extent,
-            url: configs.elevationLayer.url,
-            name: configs.elevationLayer.name,
-            crs: this.context.userData.extent.crs,
-            heightMapWidth: 256,
-            format: configs.elevationLayer.format,
-          }),
-        })
-      );
-
-      this.c3DTilesStyle = new itowns.Style({
-        fill: {
-          color: (feature) => {
-            return feature.userData.selectedColor
-              ? feature.userData.selectedColor
-              : feature.userData.initialColor;
-          },
+    this.context.frame3D.itownsView.addLayer(
+      new itowns.ColorLayer(baseMapConfig, {
+        updateStrategy: {
+          type: itowns.STRATEGY_DICHOTOMY,
+          options: {},
         },
-      });
+        source: new itowns.WMSSource({
+          extent: this.context.userData.extent,
+          name: baseMapConfig.name,
+          url: baseMapConfig.url,
+          version: baseMapConfig.version,
+          crs: this.context.userData.extent.crs,
+          format: baseMapConfig.format,
+        }),
+        transparent: true,
+      })
+    );
 
-      configs['3DTilesLayer'].forEach((layerConfig) => {
-        const layer = new itowns.C3DTilesLayer(
-          layerConfig['id'],
-          {
-            style: this.c3DTilesStyle,
-            name: layerConfig['id'],
-            source: new itowns.C3DTilesSource({
-              url: layerConfig['url'],
-            }),
-          },
-          this.context.frame3D.itownsView
-        );
+    const isTextureFormat =
+      elevationConfig.format == 'image/jpeg' ||
+      elevationConfig.format == 'image/png';
+    this.context.frame3D.itownsView.addLayer(
+      new itowns.ElevationLayer(elevationConfig.layer_name, {
+        useColorTextureElevation: isTextureFormat,
+        colorTextureElevationMinZ: isTextureFormat
+          ? elevationConfig.colorTextureElevationMinZ
+          : null,
+        colorTextureElevationMaxZ: isTextureFormat
+          ? elevationConfig.colorTextureElevationMaxZ
+          : null,
+        source: new itowns.WMSSource({
+          extent: this.context.userData.extent,
+          url: elevationConfig.url,
+          name: elevationConfig.name,
+          crs: this.context.userData.extent.crs,
+          heightMapWidth: 256,
+          format: elevationConfig.format,
+        }),
+      })
+    );
 
-        function findTileID(object) {
-          let currentObject = object;
-          let result = currentObject.tileId;
-          while (isNaN(result) && currentObject.parent) {
-            currentObject = currentObject.parent;
-            result = currentObject.tileId;
+    c3DTilesConfig.forEach((layerConfig) => {
+      const layer = new itowns.C3DTilesLayer(
+        layerConfig['id'],
+        {
+          style: new itowns.Style({
+            fill: {
+              color: (feature) => {
+                return feature.userData[FEATURE_USER_DATA_KEY.SELECTED_COLOR]
+                  ? feature.userData[FEATURE_USER_DATA_KEY.SELECTED_COLOR]
+                  : feature.userData[FEATURE_USER_DATA_KEY.INITIAL_COLOR];
+              },
+            },
+          }),
+          name: layerConfig['id'],
+          source: new itowns.C3DTilesSource({
+            url: layerConfig['url'],
+          }),
+        },
+        this.context.frame3D.itownsView
+      );
+
+      layer.addEventListener(
+        itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
+        ({ tileContent }) => {
+          console.log(tileContent.tileId);
+
+          for (const [, feature] of layer.tilesC3DTileFeatures.get(
+            tileContent.tileId
+          )) {
+            feature.userData[FEATURE_USER_DATA_KEY.INITIAL_COLOR] =
+              feature.object3d.material.color.getHex();
           }
-
-          return result;
         }
+      );
 
-        layer.addEventListener(
-          itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
-          ({ tileContent }) => {
-            // const tileID = findTileID(tileContent);
-            // for (const [, feature] of layer.tilesC3DTileFeatures.get(tileID)) {
-            //   feature.userData.initialColor = layer.object3d.material[0];
-            // }
-          }
-        );
-        itowns.View.prototype.addLayer.call(
-          this.context.frame3D.itownsView,
-          layer
-        );
-      });
+      itowns.View.prototype.addLayer.call(
+        this.context.frame3D.itownsView,
+        layer
+      );
     });
   }
 
