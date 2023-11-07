@@ -40,11 +40,10 @@ child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
   child.on(THREAD.EVENT.SPAWN, (avatarJSON) => {
     const avatar = new Object3D(avatarJSON);
     return child.gameContext.addObject3D(avatar).then(() => {
-      const gameScriptController = avatar
-        .getComponent(GameScriptComponent.TYPE)
-        .getController();
-
-      gameScriptController.scripts.get(gameScript.Avatar.ID_SCRIPT).spawn();
+      const spawner = child.gameContext.findGameScriptWithID(
+        constant.ID.GAME_SCRIPT.SPAWNER
+      );
+      spawner.initializeSpawnTransform(avatar);
 
       console.log('spawn avatar in thread');
     });

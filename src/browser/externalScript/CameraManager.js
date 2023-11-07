@@ -22,6 +22,24 @@ export class CameraManager extends BaseCameraManager {
     );
   }
 
+  followCityAvatar() {
+    const avatarGO = this.context.object3D.getObjectByProperty(
+      'uuid',
+      this.context.userData.avatar.uuid
+    );
+
+    const cityAvatar = avatarGO.children.filter((el) => el.userData.isCityAvatar)[0];
+    if (!cityAvatar) throw new Error('no city avatar in user avatar');
+
+    const bbCityAvatar = new THREE.Box3().setFromObject(cityAvatar);
+    this.followObject3D(
+      cityAvatar,
+      DISTANCE_AVATAR,
+      new THREE.Vector3(0, 0, bbCityAvatar.max.z - bbCityAvatar.min.z),
+      CAMERA_ANGLE
+    );
+  }
+
   followZeppelin() {
     let z = null;
     this.context.object3D.traverse((child) => {
@@ -73,6 +91,25 @@ export class CameraManager extends BaseCameraManager {
       2000,
       DISTANCE_AVATAR,
       new THREE.Vector3(0, 0, bbAvatar.max.z - bbAvatar.min.z),
+      CAMERA_ANGLE
+    );
+  }
+
+  moveToCityAvatar() {
+    const avatarGO = this.context.object3D.getObjectByProperty(
+      'uuid',
+      this.context.userData.avatar.uuid
+    );
+
+    const cityAvatar = avatarGO.children.filter((el) => el.userData.isCityAvatar)[0];
+    if (!cityAvatar) throw new Error('no city avatar in user avatar');
+
+    const bbCityAvatar = new THREE.Box3().setFromObject(cityAvatar);
+    return this.moveToObject3D(
+      cityAvatar,
+      2000,
+      DISTANCE_AVATAR,
+      new THREE.Vector3(0, 0, bbCityAvatar.max.z - bbCityAvatar.min.z),
       CAMERA_ANGLE
     );
   }

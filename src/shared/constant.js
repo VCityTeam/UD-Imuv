@@ -2,6 +2,7 @@ module.exports = {
   // specific imuv command
   COMMAND: {
     TELEPORT: 'teleport',
+    ESCAPE_CITY_AVATAR: 'escape_city_avatar',
     PING: 'ping',
   },
   // imuv url event
@@ -78,6 +79,15 @@ module.exports = {
       ROLE: 'role', // role of the user
       AVATAR: 'avatar', // json string of the user gameobject avatar
       SETTINGS: 'settings', // json string of the user settings
+    },
+  },
+  ID: {
+    GAME_SCRIPT: {
+      SPAWNER: 'spawner_id_script',
+      AVATAR: 'avatar_id_script',
+    },
+    EXTERNAL_SCRIPT: {
+      CITY_AVATAR: 'city_avatar_id_script',
     },
   },
 };

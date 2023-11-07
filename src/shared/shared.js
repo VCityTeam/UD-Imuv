@@ -3,7 +3,6 @@ module.exports = {
   constant: require('./constant'),
   gameScript: {
     Avatar: require('./gameScript/Avatar'),
-    CityAvatar: require('./gameScript/CityAvatar'),
     CityAvatarNotAllowArea: require('./gameScript/CityAvatarNotAllowArea'),
     CityMap: require('./gameScript/CityMap'),
     InteractionZone: require('./gameScript/InteractionZone'),
