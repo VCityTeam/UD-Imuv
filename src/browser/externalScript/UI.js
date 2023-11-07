@@ -1187,7 +1187,7 @@ class MapUI {
     this.currentMapScript = scriptMap;
 
     // Map interface
-    this.domElement.appendChild(scriptMap.html());
+    this.domElement.appendChild(scriptMap.domElement);
     scriptMap.setDisplayMap(true);
 
     const buttonsDiv = document.createElement('div');

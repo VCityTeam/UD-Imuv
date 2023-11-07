@@ -4,6 +4,8 @@ const { objectOverWrite } = require('@ud-viz/utils_shared');
 const defaultVariables = {
   avatarSpeedTranslate: 0.008,
   avatarSpeedRotate: 0.00001,
+  cityAvatarSpeedTranslate: 0.08,
+  cityAvatarSpeedRotate: 0.001,
   zeppelinSpeedTranslate: 0.1,
   zeppelinSpeedRotate: 0.001,
   angleMin: -Math.PI / 5,
@@ -24,6 +26,9 @@ module.exports = class ImuvCommandManager extends NativeCommandManager {
     if (object.userData.isZeppelin) {
       return this.variables.zeppelinSpeedTranslate;
     }
+    if (object.userData.isCityAvatar) {
+      return this.variables.cityAvatarSpeedTranslate;
+    }
   }
   computeObjectSpeedRotate(object) {
     if (object.userData.isAvatar) {
@@ -31,6 +36,9 @@ module.exports = class ImuvCommandManager extends NativeCommandManager {
     }
     if (object.userData.isZeppelin) {
       return this.variables.zeppelinSpeedRotate;
+    }
+    if (object.userData.isCityAvatar) {
+      return this.variables.cityAvatarSpeedRotate;
     }
   }
 
