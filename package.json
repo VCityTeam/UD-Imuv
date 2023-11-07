@@ -81,7 +81,7 @@
     "@ud-viz/widget_geocoding": "4.0.0",
     "@ud-viz/widget_layer_choice": "4.0.0",
     "buffer": "^6.0.3",
-    "itowns": "file:../Itowns",
+    "itowns": "2.41.0",
     "jitsi-iframe-api": "^1.0.0",
     "jquery": "^3.7.1",
     "proj4": "^2.8.0",
