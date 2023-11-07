@@ -2,7 +2,7 @@ import * as itowns from 'itowns';
 import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
 
-const AVATAR_SSE = 400;
+const AVATAR_SSE = 10000; // in avatar mode none tiles are being subdivided
 const ZEPPELIN_SSE = 100;
 const ITOWNS_CONTROLS_SSE = 16;
 
@@ -45,7 +45,7 @@ export class ItownsRefine extends ScriptBase {
     }
 
     function $3dTilesSubdivisionControl(context, layer, node) {
-      if (layer.tileset.tiles[node.tileId].children === undefined) {
+      if (!layer.tileset.tiles[node.tileId].children) {
         return false;
       }
       if (layer.tileset.tiles[node.tileId].isTileset) {

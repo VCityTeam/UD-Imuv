@@ -94,8 +94,6 @@ export class AddItownsLayer extends ScriptBase {
       layer.addEventListener(
         itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
         ({ tileContent }) => {
-          console.log(tileContent.tileId);
-
           for (const [, feature] of layer.tilesC3DTileFeatures.get(
             tileContent.tileId
           )) {
