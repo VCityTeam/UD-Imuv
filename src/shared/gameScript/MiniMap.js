@@ -3,7 +3,7 @@ const { COMMAND } = require('../constant');
 const { AbstractMap } = require('@ud-viz/game_shared_template');
 
 module.exports = class MiniMap extends ScriptBase {
-  onCommand(type, data) {
+  tick() {
     const extScriptComp = this.object3D.getComponent(
       ExternalScriptComponent.TYPE
     );
@@ -16,33 +16,39 @@ module.exports = class MiniMap extends ScriptBase {
     const scriptMap = this.context.findGameScriptWithID(AbstractMap.ID_SCRIPT);
     if (!scriptMap) throw new Error('no map world script');
 
-    switch (type) {
-      case COMMAND.TELEPORT:
-        if (isNaN(scriptMap.getHeightValue(data.position.x, data.position.y))) {
-          extScriptComp.getModel().variables.mini_map_no_teleport.push(data);
-          this.object3D.setOutdated(true);
-        } else {
-          const avatarUUID = data.avatarUUID;
-          const newPosition = data.position;
+    this.applyCommandCallbackOf(COMMAND.TELEPORT, (data) => {
+      if (data.object3DUUID != this.object3D.uuid) return false;
 
-          const avatar = this.context.object3D.getObjectByProperty(
-            'uuid',
-            avatarUUID
-          );
-
-          if (!avatar) {
-            console.warn('no avatar with UUID', avatarUUID);
-          }
-
-          avatar.position.copy(newPosition);
-          avatar.setOutdated(true);
-        }
-        break;
-      case COMMAND.PING:
-        extScriptComp.getModel().variables.mini_map_ping.push(data);
+      if (isNaN(scriptMap.getHeightValue(data.position.x, data.position.y))) {
+        extScriptComp.getModel().variables.mini_map_no_teleport.push(data);
         this.object3D.setOutdated(true);
-        break;
-    }
+      } else {
+        const avatarUUID = data.avatarUUID;
+        const newPosition = data.position;
+
+        const avatar = this.context.object3D.getObjectByProperty(
+          'uuid',
+          avatarUUID
+        );
+
+        if (!avatar) {
+          console.warn('no avatar with UUID', avatarUUID);
+        }
+
+        avatar.position.copy(newPosition);
+        avatar.setOutdated(true);
+      }
+
+      return true;
+    });
+    this.applyCommandCallbackOf(COMMAND.PING, (data) => {
+      if (data.object3DUUID != this.object3D.uuid) return false;
+
+      extScriptComp.getModel().variables.mini_map_ping.push(data);
+      this.object3D.setOutdated(true);
+
+      return true;
+    });
   }
 
   static get ID_SCRIPT() {

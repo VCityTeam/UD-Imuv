@@ -50,7 +50,7 @@ export class CityAvatar extends ScriptBase {
     /** @type {UI} */
     const ui = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
     if (value) {
-      // ui.addToMapUI(this.context.findExternalScriptWithID(CityMap.ID_SCRIPT));
+      ui.addToMapUI(this.context.findExternalScriptWithID(CityMap.ID_SCRIPT));
       ui.getLabelInfo().writeLabel(this.object3D.uuid, 'E');
       // Esc city avatar mode
       this.context.inputManager.addKeyCommand(COMMAND_ID_ESCAPE, ['e'], () => {
@@ -66,7 +66,7 @@ export class CityAvatar extends ScriptBase {
     } else {
       removeNativeCommands(this.context.inputManager);
       this.context.inputManager.removeKeyCommand(COMMAND_ID_ESCAPE, ['e']);
-      // ui.clearMapUI();
+      ui.clearMapUI();
       ui.getLabelInfo().clear(this.object3D.uuid);
     }
   }
@@ -94,6 +94,7 @@ export class CityAvatar extends ScriptBase {
   }
 
   tick() {
+    if (!this.isUserCityAvatar) return;
     this.context.sendCommandsToGameContext([
       new Command({
         type: constant.COMMAND.UPDATE_TRANSFORM,
