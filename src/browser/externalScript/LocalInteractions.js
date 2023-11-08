@@ -10,37 +10,23 @@ export class LocalInteractions extends ScriptBase {
     // /attr
     this.tickIsColliding = null;
     this.isCollidingLocalAvatar = false;
-    this.externalScripts = null;
   }
 
   init() {
-    const externalComp = this.object3D.getComponent(
-      ExternalScriptComponent.TYPE
-    );
-    this.externalScripts = Object.values(externalComp.getController().scripts);
-    // console.log(this.externalScripts);
-
     this.initInputs();
   }
 
   tick() {
-    // console.log('enter', this.variables.avatarsOnEnter);
-    // console.log('colliding', this.variables.avatarsColliding);
-    // console.log('leave', this.variables.avatarsOnLeave);
-
-    // const model = this.object3D.getComponent('ExternalScript').getModel();
-    // console.log('m enter', model.variables.avatarsOnEnter);
-    // console.log('m colliding', model.variables.avatarsColliding);
-    // console.log('m leave', model.variables.avatarsOnLeave);
-
     if (this.tickIsColliding) {
       this.tickIsColliding();
     }
 
     let canInteract = false;
-    for (let index = 0; index < this.externalScripts.length; index++) {
-      const ls = this.externalScripts[index];
-      if (this.canInteract(ls)) {
+    const extScriptComp = this.object3D.getComponent(
+      ExternalScriptComponent.TYPE
+    );
+    for (const [, script] of extScriptComp.getController().scripts) {
+      if (this.canInteract(script)) {
         canInteract = true;
         break;
       }
@@ -60,11 +46,14 @@ export class LocalInteractions extends ScriptBase {
 
   initInputs() {
     this.context.inputManager.addKeyInput('e', 'keydown', () => {
-      this.externalScripts.forEach((ls) => {
-        if (this.canInteract(ls)) {
-          ls.interaction.call(ls);
+      const extScriptComp = this.object3D.getComponent(
+        ExternalScriptComponent.TYPE
+      );
+      for (const [, script] of extScriptComp.getController().scripts) {
+        if (this.canInteract(script)) {
+          script.interaction.call(script);
         }
-      });
+      }
     });
   }
 
@@ -73,14 +62,17 @@ export class LocalInteractions extends ScriptBase {
   }
 
   onOutdated() {
-    this.externalScripts.forEach((ls) => {
+    const extScriptComp = this.object3D.getComponent(
+      ExternalScriptComponent.TYPE
+    );
+    for (const [, script] of extScriptComp.getController().scripts) {
       if (
         this.variables.avatarsOnEnter.includes(
           this.context.userData.avatar.uuid
         )
       ) {
-        if (ls.onEnter) {
-          ls.onEnter.call(ls);
+        if (script.onEnter) {
+          script.onEnter.call(script);
         }
         this.tickIsColliding = null;
         this.isCollidingLocalAvatar = true;
@@ -91,8 +83,8 @@ export class LocalInteractions extends ScriptBase {
           this.context.userData.avatar.uuid
         )
       ) {
-        if (ls.onColliding) {
-          this.tickIsColliding = ls.onColliding.bind(ls);
+        if (script.onColliding) {
+          this.tickIsColliding = script.onColliding.bind(script);
         }
         this.isCollidingLocalAvatar = true;
       }
@@ -102,13 +94,13 @@ export class LocalInteractions extends ScriptBase {
           this.context.userData.avatar.uuid
         )
       ) {
-        if (ls.onLeave) {
-          ls.onLeave.call(ls);
+        if (script.onLeave) {
+          script.onLeave.call(script);
         }
         this.tickIsColliding = null;
         this.isCollidingLocalAvatar = false;
       }
-    });
+    }
   }
 
   static get ID_SCRIPT() {
