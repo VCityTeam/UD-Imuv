@@ -52,42 +52,51 @@ const moulinetteWorldJSON = (oldJSON) => {
         scriptParams.push(sp);
       });
 
-      newGOJSON.components.ExternalScript = {
-        type: 'ExternalScript',
-        scriptParams: scriptParams,
-        variables: goJSON.components.LocalScript.conf,
-      };
+      if (scriptParams.length) {
+        newGOJSON.components.ExternalScript = {
+          type: 'ExternalScript',
+          scriptParams: scriptParams,
+          variables: goJSON.components.LocalScript.conf,
+        };
 
-      if (
-        goJSON.components.LocalScript.scriptParams.includes(
-          'image_id_ext_script'
-        )
-      ) {
-        if (!newGOJSON.userData) newGOJSON.userData = {};
-        newGOJSON.userData.isImage = true;
-      }
+        if (
+          goJSON.components.LocalScript.scriptParams.includes(
+            'image_id_ext_script'
+          )
+        ) {
+          if (!newGOJSON.userData) newGOJSON.userData = {};
+          newGOJSON.userData.isImage = true;
+        }
 
-      if (
-        goJSON.components.LocalScript.scriptParams.includes(
-          'portal_sweep_id_ext_script'
-        )
-      ) {
-        if (!newGOJSON.userData) newGOJSON.userData = {};
-        newGOJSON.userData.isPortal = true;
+        if (
+          goJSON.components.LocalScript.scriptParams.includes(
+            'portal_sweep_id_ext_script'
+          )
+        ) {
+          if (!newGOJSON.userData) newGOJSON.userData = {};
+          newGOJSON.userData.isPortal = true;
+        }
       }
     }
 
     if (goJSON.components.WorldScript) {
       const scriptParams = [];
       goJSON.components.WorldScript.scriptParams.forEach((id) => {
+        if (id == 'avatar_not_allow_id_script') {
+          newGOJSON.userData = newGOJSON.userData ? newGOJSON.userData : {};
+          newGOJSON.userData.isCityNotAllowArea = true; // replace empty script by a userdata
+          return;
+        }
         scriptParams.push({ id: id });
       });
 
-      newGOJSON.components.GameScript = {
-        type: 'GameScript',
-        scriptParams: scriptParams,
-        variables: goJSON.components.WorldScript.conf,
-      };
+      if (scriptParams.length) {
+        newGOJSON.components.GameScript = {
+          type: 'GameScript',
+          scriptParams: scriptParams,
+          variables: goJSON.components.WorldScript.conf,
+        };
+      }
     }
 
     if (goJSON.components.Collider) {

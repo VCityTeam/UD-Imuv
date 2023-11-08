@@ -12,6 +12,7 @@ const Spawner = require('./Spawner');
 module.exports = class Avatar extends ScriptBase {
   init() {
     this.cityAvatar = null;
+    this.canCityAvatar = true;
 
     /** @type {ImuvCommandManager} */
     const commandManager = this.context.findGameScriptWithID(
@@ -20,7 +21,13 @@ module.exports = class Avatar extends ScriptBase {
     commandManager.addEventListener(
       ImuvCommandManager.EVENT.OBJECT_3D_LEAVE_MAP,
       ({ object3D }) => {
-        if (this.object3D.uuid != object3D.uuid || this.cityAvatar) return; //not him || cityAvatar already created
+        if (
+          !this.canCityAvatar || // inside a cityNotAllowArea
+          !commandManager.variables.cityAvatarAllow || // not allow on this game
+          this.object3D.uuid != object3D.uuid || // not him
+          this.cityAvatar // cityAvatar already created
+        )
+          return;
         commandManager.stop(this.object3D); // stop movement of the this.object3D
         commandManager.freeze(this.object3D, true); // freeze it
         this.object3D.rotation.set(0, 0, 0); // so city avatar referential is neutral
@@ -61,6 +68,14 @@ module.exports = class Avatar extends ScriptBase {
 
       return true;
     });
+  }
+
+  onEnterCollision(object3D) {
+    if (object3D.userData.isCityNotAllowArea) this.canCityAvatar = false;
+  }
+
+  onLeaveCollision(object3D) {
+    if (object3D.userData.isCityNotAllowArea) this.canCityAvatar = true;
   }
 
   static get ID_SCRIPT() {
