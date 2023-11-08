@@ -2,6 +2,7 @@ import * as proj4 from 'proj4';
 import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
 import { Command, RenderComponent } from '@ud-viz/game_shared';
+import { computeUserCityAvatar } from './component/utils';
 
 import { MAP_CLICK_MODE, CITY_MAP, COMMAND } from '../../shared/constant';
 
@@ -65,20 +66,6 @@ export class CityMap extends ScriptBase {
     this.displayMap = value;
   }
 
-  /**
-   * Map interface TODO create an abstract class
-   * @returns
-   */
-  getDomElement() {
-    return this.domElement;
-  }
-
-  fetchUserCityAvatar() {
-    return this.context.object3D
-      .getObjectByProperty('uuid', this.context.userData.avatar.uuid)
-      .getObjectByProperty('name', 'city_avatar'); // TODO use isCityAvatar flag in userData
-  }
-
   init() {
     // init src
     this.imageCityMap.src = CITY_MAP.PATH;
@@ -97,7 +84,7 @@ export class CityMap extends ScriptBase {
 
         const coord = this.pixelToCoord(ratioX, ratioY);
 
-        const userCityAvatar = this.fetchUserCityAvatar();
+        const userCityAvatar = computeUserCityAvatar(this.context);
 
         if (this.clickMode === MAP_CLICK_MODE.DEFAULT) {
           // nothing
@@ -130,7 +117,7 @@ export class CityMap extends ScriptBase {
   }
 
   onOutdated() {
-    this.variables.city_map_ping.forEach(function (data) {
+    this.variables.city_map_ping.forEach((data) => {
       const ping = new Ping({
         coord: data.coord,
         color: data.color,
@@ -191,19 +178,24 @@ export class CityMap extends ScriptBase {
 
   coordToLocalPosition(coord) {
     // project
-    const [x, y] = proj4
-      .default(this.context.userData.extent.crs)
-      .forward(coord);
+    let [x, y] = proj4.default(this.context.userData.extent.crs).forward(coord);
 
     // compute local
-    const parent = this.fetchUserCityAvatar().parent;
+    const parent = computeUserCityAvatar(this.context).parent;
     const gamePositionParent = new THREE.Vector3();
-    parent.matrixWorld.decompose(gamePositionParent);
-    gamePositionParent.sub(this.context.object3D.position);
+    parent.matrixWorld.decompose(
+      gamePositionParent,
+      new THREE.Quaternion(),
+      new THREE.Vector3()
+    );
 
-    console.log('not sure if well reimplemented');
+    // transform in game referential
+    gamePositionParent.sub(this.context.object3D.position);
+    x -= this.context.object3D.position.x;
+    y -= this.context.object3D.position.y;
 
     return {
+      // in parent referential
       x: x - gamePositionParent.x,
       y: y - gamePositionParent.y,
     };
@@ -233,8 +225,12 @@ export class CityMap extends ScriptBase {
 
   cityAvatarToGeoData(cityAvatarGO) {
     const worldPosition = new THREE.Vector3();
-    const worldQuaternion = new THREE.Vector3();
-    cityAvatarGO.matrixWorld.decompose(worldPosition, worldQuaternion);
+    const worldQuaternion = new THREE.Quaternion();
+    cityAvatarGO.matrixWorld.decompose(
+      worldPosition,
+      worldQuaternion,
+      new THREE.Vector3()
+    );
 
     const [lng, lat] = proj4
       .default(this.context.userData.extent.crs)
@@ -251,7 +247,7 @@ export class CityMap extends ScriptBase {
       this.currentZoom;
 
     // compute lng lat of user city avatar
-    const userCityAvatar = this.fetchUserCityAvatar();
+    const userCityAvatar = computeUserCityAvatar(this.context);
     const [lng, lat] = this.cityAvatarToGeoData(userCityAvatar);
 
     const pixelSrcX =
@@ -296,7 +292,7 @@ export class CityMap extends ScriptBase {
       (CITY_AVATAR_SIZE_MAX - CITY_AVATAR_SIZE_MIN) *
         Math.abs(Math.cos(this.currentDt));
 
-    const drawCityAvatar = function (cityAvatarGO, size) {
+    const drawCityAvatar = (cityAvatarGO, size) => {
       const [lngCityAvatar, latCityAvatar, rotationAvatar] =
         this.cityAvatarToGeoData(cityAvatarGO);
 
@@ -338,7 +334,7 @@ export class CityMap extends ScriptBase {
 
     // draw all city avatar
     this.context.object3D.traverse((child) => {
-      if (!child.isCityAvatar) return;
+      if (!child.userData.isCityAvatar) return;
       if (child == userCityAvatar) {
         drawCityAvatar(child, userAvatarSize);
       } else {
