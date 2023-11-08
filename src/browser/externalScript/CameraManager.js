@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 import { CameraManager as BaseCameraManager } from '@ud-viz/game_browser_template';
 
+import { computeUserCityAvatar } from './component/utils';
+
 const DISTANCE_AVATAR = 5;
 const DISTANCE_ZEPPELIN = 40;
 const CAMERA_ANGLE = Math.PI / 20;
@@ -23,13 +25,7 @@ export class CameraManager extends BaseCameraManager {
   }
 
   followCityAvatar() {
-    const avatarGO = this.context.object3D.getObjectByProperty(
-      'uuid',
-      this.context.userData.avatar.uuid
-    );
-
-    const cityAvatar = avatarGO.children.filter((el) => el.userData.isCityAvatar)[0];
-    if (!cityAvatar) throw new Error('no city avatar in user avatar');
+    const cityAvatar = computeUserCityAvatar(this.context);
 
     const bbCityAvatar = new THREE.Box3().setFromObject(cityAvatar);
     this.followObject3D(
@@ -96,13 +92,7 @@ export class CameraManager extends BaseCameraManager {
   }
 
   moveToCityAvatar() {
-    const avatarGO = this.context.object3D.getObjectByProperty(
-      'uuid',
-      this.context.userData.avatar.uuid
-    );
-
-    const cityAvatar = avatarGO.children.filter((el) => el.userData.isCityAvatar)[0];
-    if (!cityAvatar) throw new Error('no city avatar in user avatar');
+    const cityAvatar = computeUserCityAvatar(this.context);
 
     const bbCityAvatar = new THREE.Box3().setFromObject(cityAvatar);
     return this.moveToObject3D(

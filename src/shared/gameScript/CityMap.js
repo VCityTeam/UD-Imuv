@@ -3,8 +3,6 @@ const { COMMAND } = require('../constant');
 
 module.exports = class CityMap extends ScriptBase {
   tick() {
-    const teleportCmds = [];
-    const pingCmds = [];
     const externalScriptCompCityMap = this.object3D.getComponent(
       ExternalScriptComponent.TYPE
     );
@@ -12,32 +10,8 @@ module.exports = class CityMap extends ScriptBase {
     // clear array
     externalScriptCompCityMap.getModel().variables.city_map_ping.length = 0;
 
-    // teleport
-    for (let i = this.context.commands.length - 1; i >= 0; i--) {
-      const cmd = this.context.commands[i];
-      if (
-        cmd.type == COMMAND.TELEPORT &&
-        cmd.data.object3DUUID == this.object3D.uuid
-      ) {
-        teleportCmds.push(cmd);
-        this.context.commands.splice(i, 1);
-      }
-    }
-
-    // ping
-    for (let i = this.context.commands.length - 1; i >= 0; i--) {
-      const cmd = this.context.commands[i];
-      if (
-        cmd.type == COMMAND.PING &&
-        cmd.data.object3DUUID == this.object3D.uuid
-      ) {
-        pingCmds.push(cmd);
-        this.context.commands.splice(i, 1);
-      }
-    }
-
-    teleportCmds.forEach((tpCmd) => {
-      const data = tpCmd.getData();
+    this.applyCommandCallbackOf(COMMAND.TELEPORT, (data) => {
+      if (data.object3DUUID != this.object3D.uuid) return false;
 
       const cityAvatarUUID = data.cityAvatarUUID;
       const newPosition = data.position;
@@ -53,12 +27,17 @@ module.exports = class CityMap extends ScriptBase {
 
       cityAvatar.position.copy(newPosition);
       cityAvatar.setOutdated(true);
+
+      return true;
     });
 
-    pingCmds.forEach((pingCmd) => {
-      const data = pingCmd.getData();
+    this.applyCommandCallbackOf(COMMAND.PING, (data) => {
+      if (data.object3DUUID != this.object3D.uuid) return false;
+
       externalScriptCompCityMap.getModel().variables.city_map_ping.push(data);
       this.object3D.setOutdated(true);
+
+      return true;
     });
   }
 
