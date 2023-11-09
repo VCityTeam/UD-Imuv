@@ -13,7 +13,7 @@
         "scriptParams": ["spawner_id_script", "my_command_manager_id"],
         "conf": {
           "speedTranslate": 0.008,
-          "cityAvatarAllow": false,
+          "cityAvatarAllow": true,
           "spawnTransform": {
             "position": [-45.7, -53.5, 0.2],
             "rotation": [0.15136780318774076, 0, -0.8919030509227979],
@@ -2156,7 +2156,7 @@
             "scriptParams": ["map_id"],
             "conf": {
               "clientFolder": "./public",
-              "heightmap_path": "./assets/img/uploaded/60C20A2E-9277-431D-A873-59E73F4B1F65.jpeg",
+              "heightmap_path": "./assets/img/gameObject3D/60C20A2E-9277-431D-A873-59E73F4B1F65.jpeg",
               "heightmap_geometry": { "max": 27, "min": -29, "size": 216 }
             },
             "type": "WorldScript"
@@ -3128,7 +3128,7 @@
                   "image_width": 200,
                   "image_height": 150,
                   "href": "https://imu.universite-lyon.fr/studios/galeri3/",
-                  "image_icon_path": "./assets/img/uploaded/A7B0B640-046F-4B98-8CF1-B85E0B360AC0.jpeg"
+                  "image_icon_path": "./assets/img/gameObject3D/A7B0B640-046F-4B98-8CF1-B85E0B360AC0.jpeg"
                 },
                 "type": "LocalScript"
               }
@@ -3707,7 +3707,7 @@
                   "heightFrame": 5.0625,
                   "widthFrame": 9,
                   "sizeFactor": 9,
-                  "imageURL": "./assets/img/uploaded/EA34A0B4-A102-411B-AA5D-F97AB5BDD1BA.jpeg",
+                  "imageURL": "./assets/img/gameObject3D/EA34A0B4-A102-411B-AA5D-F97AB5BDD1BA.jpeg",
                   "iframe_src": "https://www.imuvirtuel.fr/",
                   "sound_id": null
                 },
@@ -3821,7 +3821,7 @@
                   "heightFrame": null,
                   "widthFrame": null,
                   "sizeFactor": 1,
-                  "imageURL": "./assets/img/uploaded/700D60F4-229D-40F0-A6EC-CC571347072E.jpeg"
+                  "imageURL": "./assets/img/gameObject3D/700D60F4-229D-40F0-A6EC-CC571347072E.jpeg"
                 },
                 "type": "LocalScript"
               },
@@ -3897,7 +3897,7 @@
                   "heightFrame": null,
                   "widthFrame": null,
                   "sizeFactor": 4,
-                  "imageURL": "./assets/img/uploaded/9F439000-A086-431E-B706-FE05679B7BAF.jpeg"
+                  "imageURL": "./assets/img/gameObject3D/9F439000-A086-431E-B706-FE05679B7BAF.jpeg"
                 },
                 "type": "LocalScript"
               },
@@ -3971,7 +3971,7 @@
                   "heightFrame": null,
                   "widthFrame": null,
                   "sizeFactor": 4,
-                  "imageURL": "./assets/img/uploaded/A5AC9BF9-D17B-42BF-8FA3-77CEA1A81121.jpeg"
+                  "imageURL": "./assets/img/gameObject3D/A5AC9BF9-D17B-42BF-8FA3-77CEA1A81121.jpeg"
                 },
                 "type": "LocalScript"
               },
@@ -4045,7 +4045,7 @@
                   "heightFrame": null,
                   "widthFrame": null,
                   "sizeFactor": 4,
-                  "imageURL": "./assets/img/uploaded/675436DB-AF90-42A2-860B-779A469C0D1B.jpeg"
+                  "imageURL": "./assets/img/gameObject3D/675436DB-AF90-42A2-860B-779A469C0D1B.jpeg"
                 },
                 "type": "LocalScript"
               },
@@ -4119,7 +4119,7 @@
                   "heightFrame": null,
                   "widthFrame": null,
                   "sizeFactor": 4,
-                  "imageURL": "./assets/img/uploaded/C34276E3-F5C5-4302-8D41-4CBB004BB475.jpeg"
+                  "imageURL": "./assets/img/gameObject3D/C34276E3-F5C5-4302-8D41-4CBB004BB475.jpeg"
                 },
                 "type": "LocalScript"
               },
@@ -4193,7 +4193,7 @@
                   "heightFrame": null,
                   "widthFrame": null,
                   "sizeFactor": 4,
-                  "imageURL": "./assets/img/uploaded/A8D7901A-609D-43DF-B74C-63B96B2E1553.jpeg"
+                  "imageURL": "./assets/img/gameObject3D/A8D7901A-609D-43DF-B74C-63B96B2E1553.jpeg"
                 },
                 "type": "LocalScript"
               },

@@ -55,7 +55,7 @@
             "scriptParams": ["map_id"],
             "conf": {
               "clientFolder": "./public",
-              "heightmap_path": "./assets/img/uploaded/1696D689-C5BF-400E-904E-91AFF723155A.jpeg",
+              "heightmap_path": "./assets/img/gameObject3D/1696D689-C5BF-400E-904E-91AFF723155A.jpeg",
               "heightmap_geometry": { "max": 10, "min": -2, "size": 63 }
             },
             "type": "WorldScript"
@@ -387,7 +387,7 @@
                 "uuid": "30D59DE9-3D15-4650-9482-4EF3E602A9D0",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/671B5C8B-F3BB-46B5-9B5E-62331152738E.jpeg",
+                  "path": "./assets/img/gameObject3D/671B5C8B-F3BB-46B5-9B5E-62331152738E.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -436,7 +436,7 @@
                 "uuid": "5616A6C5-B81F-48EE-813F-E1CAE559E4D7",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/F0059545-FAB1-4536-920C-873A934129C6.jpeg",
+                  "path": "./assets/img/gameObject3D/F0059545-FAB1-4536-920C-873A934129C6.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -483,7 +483,7 @@
                 "uuid": "FCF888B4-594C-49CC-8AB5-BEDD852E5B53",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/C678DE9F-7148-4F61-ADC3-3F4834D1E1B3.jpeg",
+                  "path": "./assets/img/gameObject3D/C678DE9F-7148-4F61-ADC3-3F4834D1E1B3.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -530,7 +530,7 @@
                 "uuid": "FFC3E56D-AA9F-48E1-8C54-CC8AAD456CBC",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/58F1B857-1509-4E6E-8053-95B99E1AA698.jpeg",
+                  "path": "./assets/img/gameObject3D/58F1B857-1509-4E6E-8053-95B99E1AA698.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -577,7 +577,7 @@
                 "uuid": "D9321027-4D92-4430-A2DF-4186E8A53B42",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/F88E505D-40F9-4865-A103-03E979C08FB0.jpeg",
+                  "path": "./assets/img/gameObject3D/F88E505D-40F9-4865-A103-03E979C08FB0.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -624,7 +624,7 @@
                 "uuid": "90015BE9-2A79-4987-AA91-6FBB6216A50D",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/CE4F52BE-AC20-4B58-8530-0984D99883B1.jpeg",
+                  "path": "./assets/img/gameObject3D/CE4F52BE-AC20-4B58-8530-0984D99883B1.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -671,7 +671,7 @@
                 "uuid": "151A802F-EE27-4E61-88DA-876A34917191",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/43368117-905F-416E-B36D-CF65619022B0.jpeg",
+                  "path": "./assets/img/gameObject3D/43368117-905F-416E-B36D-CF65619022B0.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -718,7 +718,7 @@
                 "uuid": "3F2CFDC5-0DB5-46E0-B53F-F7FEB50981C5",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/FCB052AB-5FAE-4C34-8CFC-6AD9EE9C179A.jpeg",
+                  "path": "./assets/img/gameObject3D/FCB052AB-5FAE-4C34-8CFC-6AD9EE9C179A.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -765,7 +765,7 @@
                 "uuid": "53A38072-999B-4EF2-AF61-D658B09DD672",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/DDC64A55-672C-4CB4-922E-3EC829DF87E9.jpeg",
+                  "path": "./assets/img/gameObject3D/DDC64A55-672C-4CB4-922E-3EC829DF87E9.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": { "lng": null, "lat": null, "checked": false },
@@ -808,7 +808,7 @@
                 "uuid": "A6E2C4BF-132E-4CC7-B048-9540B24BAD5E",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/F8D9BDBF-00F7-43A5-A380-3F0BD99AEFC2.jpeg",
+                  "path": "./assets/img/gameObject3D/F8D9BDBF-00F7-43A5-A380-3F0BD99AEFC2.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -855,7 +855,7 @@
                 "uuid": "7B4953B3-78DD-4AB4-955D-34ECD3C03532",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/BB9C2694-3E2E-4F49-B6D2-1EA6F54C6B94.jpeg",
+                  "path": "./assets/img/gameObject3D/BB9C2694-3E2E-4F49-B6D2-1EA6F54C6B94.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -902,7 +902,7 @@
                 "uuid": "CEF79019-105D-4C03-B711-FCA631A3983C",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/3BA0C92F-6360-458A-BA65-D35854D51678.jpeg",
+                  "path": "./assets/img/gameObject3D/3BA0C92F-6360-458A-BA65-D35854D51678.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -949,7 +949,7 @@
                 "uuid": "690B9725-B4FF-41B6-B2EF-970A2BE11229",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/74C0891A-799F-4CDF-96D5-524E8A21F354.jpeg",
+                  "path": "./assets/img/gameObject3D/74C0891A-799F-4CDF-96D5-524E8A21F354.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -996,7 +996,7 @@
                 "uuid": "03696363-0BBF-4D5C-97AD-CCB3385A91F3",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/12A0CD13-18EC-454B-BC5D-E2C681BEFECC.jpeg",
+                  "path": "./assets/img/gameObject3D/12A0CD13-18EC-454B-BC5D-E2C681BEFECC.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -1043,7 +1043,7 @@
                 "uuid": "6BBF17AA-6771-4FE9-95D0-A5096F0A89D8",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/BC2586D4-40D4-4B38-AF92-D5F40A8E43C9.jpeg",
+                  "path": "./assets/img/gameObject3D/BC2586D4-40D4-4B38-AF92-D5F40A8E43C9.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -1090,7 +1090,7 @@
                 "uuid": "C303AAA3-122A-420B-AC99-6E1E257A2E07",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/19387331-44B8-48DA-B881-A417BE4CD592.jpeg",
+                  "path": "./assets/img/gameObject3D/19387331-44B8-48DA-B881-A417BE4CD592.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -1137,7 +1137,7 @@
                 "uuid": "7B0F1E83-E332-460A-A4B9-597B15F716FA",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/7CB7FC3B-AFC4-4DF1-B193-2F522DD78435.jpeg",
+                  "path": "./assets/img/gameObject3D/7CB7FC3B-AFC4-4DF1-B193-2F522DD78435.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -1184,7 +1184,7 @@
                 "uuid": "42379AA3-F47F-42E5-ADF8-3C10463892D6",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/BAC8CE3A-72E0-4C36-AD5A-245AACBA4B3A.jpeg",
+                  "path": "./assets/img/gameObject3D/BAC8CE3A-72E0-4C36-AD5A-245AACBA4B3A.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -1231,7 +1231,7 @@
                 "uuid": "36A24A71-589A-49D3-8C55-B06494716A7D",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/086B8EE4-6001-476E-A7CA-07B90925BC53.jpeg",
+                  "path": "./assets/img/gameObject3D/086B8EE4-6001-476E-A7CA-07B90925BC53.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": {
@@ -1278,7 +1278,7 @@
                 "uuid": "2A998D6B-787F-45E3-A35C-6F9ACCF50E9F",
                 "scriptParams": ["image_id_ext_script"],
                 "conf": {
-                  "path": "./assets/img/uploaded/E92A1255-E621-4D4F-A53F-D1C91AD66F8B.jpeg",
+                  "path": "./assets/img/gameObject3D/E92A1255-E621-4D4F-A53F-D1C91AD66F8B.jpeg",
                   "factorWidth": 3,
                   "factorHeight": 3,
                   "gpsCoord": { "lng": null, "lat": null, "checked": false },

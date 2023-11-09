@@ -2,6 +2,7 @@
 module.exports = {
   constant: require('./constant'),
   gameScript: {
+    MenuAvatar: require('./gameScript/MenuAvatar'),
     Avatar: require('./gameScript/Avatar'),
     CityMap: require('./gameScript/CityMap'),
     InteractionZone: require('./gameScript/InteractionZone'),

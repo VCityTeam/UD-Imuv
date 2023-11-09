@@ -1,6 +1,9 @@
-import { ScriptBase, SinglePlanarProcess } from '@ud-viz/game_browser';
+import {
+  InputManager,
+  ScriptBase,
+  SingleBaseProcess,
+} from '@ud-viz/game_browser';
 import { Object3D } from '@ud-viz/game_shared';
-import { loadJSON } from '@ud-viz/utils_browser';
 import * as THREE from 'three';
 import {
   URL_PARAMETER,
@@ -9,11 +12,16 @@ import {
   MAP_CLICK_MODE,
 } from '../../shared/constant';
 
-import { MenuAvatar } from './MenuAvatar';
+import { MenuAvatar } from './MenuAvatar/MenuAvatar';
+import * as MenuAvatarGameScript from '../../shared/gameScript/MenuAvatar';
+import { SpriteName } from './SpriteName';
+import { Visible } from './Visible';
+import { TextureFace } from './TextureFace';
 
 import { writeTokenInCookie } from '../utils/index';
 
 import { AvatarController } from './AvatarController';
+import { Base } from '@ud-viz/frame3d';
 
 export class UI extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -174,11 +182,67 @@ export class UI extends ScriptBase {
           this.context.inputManager.setPause(true);
 
           // register
-          // eslint-disable-next-line no-unused-vars
           const parentHtml = this.context.frame3D.domElement.parentNode;
 
           // remove html
           this.context.frame3D.domElement.remove();
+
+          // deep copy
+          const externalScriptCompJSON = JSON.parse(
+            JSON.stringify(
+              this.context.userData.avatar.components.ExternalScript
+            )
+          );
+
+          // add menu avatar external script
+          externalScriptCompJSON.scriptParams.push({
+            id: MenuAvatar.ID_SCRIPT,
+          });
+
+          const menuAvatarProcess = new SingleBaseProcess(
+            new Object3D({
+              uuid: this.context.userData.avatar.uuid,
+              static: true,
+              components: {
+                GameScript: {
+                  scriptParams: [{ id: MenuAvatarGameScript.ID_SCRIPT }],
+                },
+                ExternalScript: externalScriptCompJSON,
+                Render: JSON.parse(
+                  JSON.stringify(this.context.userData.avatar.components.Render)
+                ),
+              },
+            }),
+            new Base({
+              parentDomElement: parentHtml,
+              domElementClass: 'full_screen',
+            }),
+            this.context.assetManager,
+            new InputManager(),
+            {
+              externalGameScriptClass: {
+                MenuAvatar: MenuAvatar,
+                SpriteName: SpriteName,
+                Visible: Visible,
+                TextureFace: TextureFace,
+              },
+              gameScriptClass: { MenuAvatarGameScript: MenuAvatarGameScript },
+            }
+          );
+
+          // tell how to close menu
+          menuAvatarProcess.externalGameContext.userData.closeMenuCallback =
+            () => {
+              menuAvatarProcess.dispose();
+              // unpause game
+              this.context.frame3D.isRendering = true;
+              this.context.inputManager.setPause(false);
+
+              // add html
+              parentHtml.appendChild(this.context.frame3D.domElement);
+            };
+
+          menuAvatarProcess.start();
         }
       );
     }
