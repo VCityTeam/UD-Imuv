@@ -1,4 +1,4 @@
-const { PARSE } = require('./constant');
+const { PARSE } = require('../../src/shared/constant');
 const { createUser } = require('./parse');
 
 const name = process.argv[2];

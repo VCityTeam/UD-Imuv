@@ -20,12 +20,12 @@ module.exports = {
       },
     },
   },
-  // different imuv role (doublon ?)
-  USER: {
-    ROLE: {
-      ADMIN: 'admin',
-      GUEST: 'guest',
-      DEFAULT: 'default',
+  // different imuv role
+  PARSE: {
+    VALUE: {
+      ROLE_ADMIN: 'parse_role_admin',
+      ROLE_DEFAULT: 'parse_role_default',
+      ROLE_GUEST: 'parse_role_guest',
     },
   },
   // game context event

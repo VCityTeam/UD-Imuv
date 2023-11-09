@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export class MenuAvatar {
   constructor(conf, udvizBundle) {
     this.conf = conf;
@@ -250,5 +248,9 @@ export class MenuAvatar {
     if (this.orbitCtrl) {
       this.orbitCtrl.update();
     }
+  }
+
+  static get ID_SCRIPT() {
+    return 'menu_avatar_ext_script_id';
   }
 }
