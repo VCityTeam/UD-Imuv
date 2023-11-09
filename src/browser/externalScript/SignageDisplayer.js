@@ -1,6 +1,7 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import * as THREE from 'three';
 import { DomElement3D } from '@ud-viz/frame3d';
+import { ID } from '../../shared/constant';
 
 // TODO refacto this class
 
@@ -47,7 +48,7 @@ export class SignageDisplayer extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'signage_displayer_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.SIGNAGE_DISPLAYER;
   }
 }
 

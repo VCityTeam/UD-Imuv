@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { checkParentChild } from '@ud-viz/utils_browser';
 import { ScriptBase } from '@ud-viz/game_browser';
 import { Object3D, ExternalScriptComponent } from '@ud-viz/game_shared';
+import { ID } from '../../shared/constant';
 
 export class Clickable extends ScriptBase {
   init() {
@@ -50,6 +51,6 @@ export class Clickable extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'clickable_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.CLICKABLE;
   }
 }

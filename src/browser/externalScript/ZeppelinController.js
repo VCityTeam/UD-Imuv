@@ -6,6 +6,7 @@ import {
 
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
+import { ID } from '../../shared/constant';
 
 export class ZeppelinController extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -60,6 +61,6 @@ export class ZeppelinController extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'zeppelin_controller_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.ZEPPELIN_CONTROLLER;
   }
 }

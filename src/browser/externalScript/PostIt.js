@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
 import { Command } from '@ud-viz/game_shared';
 import { constant } from '@ud-viz/game_shared_template';
+import { ID } from '../../shared/constant';
 
 export class PostIt extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -57,7 +58,7 @@ export class PostIt extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'post_it_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.POST_IT;
   }
 }
 

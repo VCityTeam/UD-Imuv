@@ -6,7 +6,7 @@ import {
 } from '@ud-viz/game_shared';
 import jquery from 'jquery';
 import * as THREE from 'three';
-import { CITY_MAP } from '../../shared/constant';
+import { CITY_MAP, ID } from '../../shared/constant';
 
 const RADIUS_MAP = 40;
 
@@ -156,7 +156,7 @@ export class Image extends ScriptBase {
     if (!playSound || !value) return;
 
     const audioComp = this.object3D.getComponent(AudioComponent.TYPE);
-    audioComp.getController().play('open_popup');
+    audioComp.getController().play(ID.SOUND.OPEN_POPUP);
   }
 
   initRaycaster() {
@@ -249,6 +249,6 @@ export class Image extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'image_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.IMAGE;
   }
 }

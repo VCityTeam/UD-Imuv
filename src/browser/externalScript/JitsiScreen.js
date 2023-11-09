@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { DomElement3D } from '@ud-viz/frame3d';
 
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
+import { ID } from '../../shared/constant';
 
 export class JitsiScreen extends ScriptBase {
   init() {
@@ -107,6 +108,6 @@ export class JitsiScreen extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'jitsi_screen_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.JITSI_SCREEN;
   }
 }

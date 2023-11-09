@@ -10,6 +10,7 @@ import {
   PARSE,
   WEBSOCKET,
   MAP_CLICK_MODE,
+  ID,
 } from '../../shared/constant';
 
 import { MenuAvatar } from './MenuAvatar/MenuAvatar';
@@ -410,7 +411,7 @@ export class UI extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'ui_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.UI;
   }
 }
 

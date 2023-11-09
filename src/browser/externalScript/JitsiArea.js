@@ -7,6 +7,7 @@ import {
 } from '@ud-viz/game_shared';
 import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { UI } from './UI';
+import { ID } from '../../shared/constant';
 
 export class JitsiArea extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -185,6 +186,6 @@ export class JitsiArea extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'jitsi_area_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.JITSI_AREA;
   }
 }

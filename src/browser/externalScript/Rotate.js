@@ -1,4 +1,5 @@
 import { ScriptBase } from '@ud-viz/game_browser';
+import { ID } from '../../shared/constant';
 
 export class Rotate extends ScriptBase {
   tick() {
@@ -9,6 +10,6 @@ export class Rotate extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'rotate_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.ROTATE;
   }
 }

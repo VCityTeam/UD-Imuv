@@ -1,4 +1,5 @@
 const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
+const { ID } = require('../constant');
 
 module.exports = class UI extends ScriptBase {
   tick() {
@@ -12,6 +13,6 @@ module.exports = class UI extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'ui_id_script';
+    return ID.GAME_SCRIPT.UI;
   }
 };

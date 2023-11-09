@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
 import { RenderComponent } from '@ud-viz/game_shared';
+import { ID } from '../../shared/constant';
 
 export class Video extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -59,6 +60,6 @@ export class Video extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'video_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.VIDEO;
   }
 }

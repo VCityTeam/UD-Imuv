@@ -1,4 +1,5 @@
 const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
+const { ID } = require('../constant');
 
 module.exports = class InteractionZone extends ScriptBase {
   init() {
@@ -131,6 +132,6 @@ module.exports = class InteractionZone extends ScriptBase {
     }
   }
   static get ID_SCRIPT() {
-    return 'interaction_zone_id_script';
+    return ID.GAME_SCRIPT.INTERACTION_ZONE;
   }
 };

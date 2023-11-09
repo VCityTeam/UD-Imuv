@@ -4,6 +4,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { AvatarController } from './AvatarController';
 import { CameraManager } from './CameraManager';
 import { UI } from './UI';
+import { ID } from '../../shared/constant';
 
 const TRAVELING_DURATION = 1500;
 
@@ -43,7 +44,7 @@ export class CameraTour extends ScriptBase {
     );
   }
   static get ID_SCRIPT() {
-    return 'camera_tour_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.CAMERA_TOUR;
   }
 }
 

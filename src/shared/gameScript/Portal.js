@@ -1,5 +1,5 @@
 const { ScriptBase } = require('@ud-viz/game_shared');
-const { CONTEXT } = require('../constant');
+const { CONTEXT, ID } = require('../constant');
 const ImuvCommandManager = require('./ImuvCommandManager');
 
 module.exports = class Portal extends ScriptBase {
@@ -26,7 +26,7 @@ module.exports = class Portal extends ScriptBase {
   onEnterCollision(object3DCollided) {
     if (object3DCollided.userData.isAvatar) {
       // wait 1 sec to let the fade out on the client side
-      this.commandManager.freeze(object3DCollided, true);// avatar cant move
+      this.commandManager.freeze(object3DCollided, true); // avatar cant move
       setTimeout(() => {
         this.context.dispatch(CONTEXT.EVENT.PORTAL, {
           avatarUUID: object3DCollided.uuid,
@@ -38,6 +38,6 @@ module.exports = class Portal extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'portal_id_script';
+    return ID.GAME_SCRIPT.PORTAL;
   }
 };
