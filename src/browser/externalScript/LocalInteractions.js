@@ -2,6 +2,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { ExternalScriptComponent } from '@ud-viz/game_shared';
 
 import { UI } from './UI';
+import { ID } from '../../shared/constant';
 
 export class LocalInteractions extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -104,6 +105,6 @@ export class LocalInteractions extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'local_interactions_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.LOCAL_INTERACTIONS;
   }
 }

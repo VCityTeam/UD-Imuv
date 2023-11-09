@@ -3,6 +3,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { RenderComponent } from '@ud-viz/game_shared';
 
 import { CameraManager } from './CameraManager';
+import { ID } from '../../shared/constant';
 
 export class StaticObject extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -43,6 +44,6 @@ export class StaticObject extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'static_object_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.STATIC_OBJECT;
   }
 }

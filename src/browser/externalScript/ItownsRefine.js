@@ -1,6 +1,7 @@
 import * as itowns from 'itowns';
 import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
+import { ID } from '../../shared/constant';
 
 const AVATAR_SSE = 10000; // in avatar mode none tiles are being subdivided
 const ZEPPELIN_SSE = 100;
@@ -67,6 +68,6 @@ export class ItownsRefine extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'itowns_refine_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.ITOWNS_REFINE;
   }
 }

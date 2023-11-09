@@ -4,7 +4,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { Command, RenderComponent } from '@ud-viz/game_shared';
 import { computeUserCityAvatar } from './component/utils';
 
-import { MAP_CLICK_MODE, CITY_MAP, COMMAND } from '../../shared/constant';
+import { MAP_CLICK_MODE, CITY_MAP, COMMAND, ID } from '../../shared/constant';
 
 const CITY_MAP_SIZE = 500;
 const CITY_AVATAR_SIZE_MIN = 15;
@@ -367,7 +367,7 @@ export class CityMap extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'city_map_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.CITY_MAP;
   }
 }
 

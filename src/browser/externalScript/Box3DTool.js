@@ -11,6 +11,7 @@ import { UI } from './UI';
 import { CameraManager } from './CameraManager';
 import { AvatarController } from './AvatarController';
 import { ItownsRefine } from './ItownsRefine';
+import { ID } from '../../shared/constant';
 
 export class Box3DTool extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -123,7 +124,7 @@ export class Box3DTool extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'box3D_tool_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.BOX_3D_TOOL;
   }
 }
 

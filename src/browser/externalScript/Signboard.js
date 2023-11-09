@@ -1,6 +1,7 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import { RenderComponent } from '@ud-viz/game_shared';
 import * as THREE from 'three';
+import { ID } from '../../shared/constant';
 
 export class Signboard extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -208,6 +209,6 @@ export class Signboard extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'signboard_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.SIGNBOARD;
   }
 }

@@ -1,4 +1,5 @@
 const { ScriptBase } = require('@ud-viz/game_shared');
+const { ID } = require('../constant');
 
 module.exports = class Teleporter extends ScriptBase {
   onAvatar(avatarGO) {
@@ -6,6 +7,6 @@ module.exports = class Teleporter extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'teleporter_id_script';
+    return ID.GAME_SCRIPT.TELEPORTER;
   }
 };

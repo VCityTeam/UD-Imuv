@@ -2,7 +2,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { addLights } from '@ud-viz/utils_browser';
 import { Command, RenderComponent } from '@ud-viz/game_shared';
 import * as THREE from 'three';
-import { MAP_CLICK_MODE, COMMAND } from '../../shared/constant';
+import { MAP_CLICK_MODE, COMMAND, ID } from '../../shared/constant';
 
 import { AnimatedText } from './component/animatedText/AnimatedText';
 
@@ -534,7 +534,7 @@ export class MiniMap extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'mini_map_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.MINI_MAP;
   }
 }
 

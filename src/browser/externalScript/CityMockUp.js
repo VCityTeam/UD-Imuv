@@ -10,6 +10,7 @@ import { CameraManager } from './CameraManager';
 import { AvatarController } from './AvatarController';
 import { C3DTiles } from '@ud-viz/widget_3d_tiles';
 import { FEATURE_USER_DATA_KEY } from './component/constant';
+import { ID } from '../../shared/constant';
 
 export class CityMockUp extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -421,7 +422,7 @@ export class CityMockUp extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'city_mock_up_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.CITY_MOCK_UP;
   }
 }
 
