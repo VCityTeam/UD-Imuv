@@ -3,15 +3,8 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { RenderComponent } from '@ud-viz/game_shared';
 
 export class SpriteName extends ScriptBase {
-  constructor(context, object3D, variables) {
-    super(context, object3D, variables);
-
-    this.sprite = null;
-
-    // this.oldObject = null;
-  }
-
   init() {
+    this.sprite = null;
     this.updateSprite();
   }
 
@@ -72,15 +65,10 @@ export class SpriteName extends ScriptBase {
     renderComp.getController().renderData.object3D.add(sprite);
 
     this.sprite = sprite;
-
-    // this.oldObject = renderComp.getController().object3D;
   }
 
-  onComponentUpdate() {
-    // const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
-
-    // if (renderComp.getController().object3D != this.oldObject)
-    //   this.updateSprite();
+  onRenderComponentChanged() {
+    this.updateSprite();
   }
 
   static get ID_SCRIPT() {

@@ -27,6 +27,37 @@ const connect = () => {
   );
   return Parse;
 };
+/**
+ * know how to read cookie to return token
+ *
+ * @param {Request} req
+ * @returns {string} - token
+ */
+const readTokenFromRequest = (req) => {
+  const cookie = req.headers.cookie;
+  if (!cookie || cookie == '') return null;
+
+  let result = null;
+  try {
+    result = JSON.parse(cookie).token;
+  } catch (error) {
+    console.log('cookie = ', cookie);
+    console.info('Error reading cookie ', error);
+  }
+
+  return result;
+};
+
+const computeUserMiddleware = (req, res, next) => {
+  const token = readTokenFromRequest(req);
+  if (!token) next();
+
+  jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(401);
+    req.user = user;
+    next();
+  });
+};
 
 /**
  *
@@ -34,27 +65,6 @@ const connect = () => {
  */
 const useParseEndPoint = (app) => {
   const Parse = connect();
-
-  /**
-   * know how to read cookie to return token
-   *
-   * @param {Request} req
-   * @returns {string} - token
-   */
-  const readTokenFromRequest = (req) => {
-    const cookie = req.headers.cookie;
-    if (!cookie || cookie == '') return null;
-
-    let result = null;
-    try {
-      result = JSON.parse(cookie).token;
-    } catch (error) {
-      console.log('cookie = ', cookie);
-      console.info('Error reading cookie ', error);
-    }
-
-    return result;
-  };
 
   app.use('/sign_in', async (req, res) => {
     try {
@@ -98,14 +108,8 @@ const useParseEndPoint = (app) => {
     }
   });
 
-  app.use('/verify_token', (req, res) => {
-    const token = readTokenFromRequest(req);
-    if (!token) res.send();
-
-    jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
-      if (err) return res.send();
-      res.send(user);
-    });
+  app.use('/verify_token', computeUserMiddleware, (req, res) => {
+    res.send(req.user);
   });
 };
 
@@ -129,4 +133,5 @@ module.exports = {
   useParseEndPoint: useParseEndPoint,
   connect: connect,
   createUser: createUser,
+  computeUserMiddleware: computeUserMiddleware,
 };

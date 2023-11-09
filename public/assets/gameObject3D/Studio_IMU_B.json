@@ -59,7 +59,7 @@
             "scriptParams": ["map_id"],
             "conf": {
               "clientFolder": "./public",
-              "heightmap_path": "./assets/img/uploaded/AAE1EBE9-3F80-4B11-971E-A29414DEB58F.jpeg",
+              "heightmap_path": "./assets/img/gameObject3D/AAE1EBE9-3F80-4B11-971E-A29414DEB58F.jpeg",
               "heightmap_geometry": { "max": 4, "min": -1, "size": 20 }
             },
             "type": "WorldScript"

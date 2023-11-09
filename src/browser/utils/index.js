@@ -1,3 +1,10 @@
+/**
+ *
+ * @param {string} url - url to send request
+ * @param {object} data - data to send
+ * @param {string} [responseType=json] - can be json or text
+ * @returns {Promise} - promise resolving
+ */
 export const request = async (url = '', data = {}, responseType = 'json') => {
   const xhr = new XMLHttpRequest();
   xhr.open('POST', url);

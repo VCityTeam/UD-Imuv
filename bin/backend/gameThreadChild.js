@@ -5,6 +5,7 @@ const { thread } = require('@ud-viz/game_node');
 const { Map } = require('@ud-viz/game_node_template');
 const { THREAD } = require('./constant');
 const worker_threads = require('worker_threads');
+const { COMMAND } = require('../../src/shared/constant');
 
 const child = new thread.Child();
 child.start({ ...gameScript, Map: Map });
@@ -46,6 +47,20 @@ child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
       spawner.initializeSpawnTransform(avatar);
 
       console.log('spawn avatar in thread');
+    });
+  });
+
+  child.on(THREAD.EVENT.EDIT_AVATAR, (newAvatar) => {
+    const avatarGO = child.gameContext.object3D.getObjectByProperty(
+      'uuid',
+      newAvatar.uuid
+    );
+
+    gameScript.MenuAvatar.editAvatar(avatarGO, {
+      idRenderData: newAvatar.components.Render.idRenderData,
+      color: newAvatar.components.Render.color,
+      textureFacePath:
+        newAvatar.components.ExternalScript.variables.path_face_texture,
     });
   });
 

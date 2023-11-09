@@ -55,7 +55,7 @@
             "scriptParams": ["map_id"],
             "conf": {
               "clientFolder": "./public",
-              "heightmap_path": "./assets/img/uploaded/2349A367-8505-47FE-9E88-7ED6242119BA.jpeg",
+              "heightmap_path": "./assets/img/gameObject3D/2349A367-8505-47FE-9E88-7ED6242119BA.jpeg",
               "heightmap_geometry": { "max": 5, "min": -6, "size": 31 }
             },
             "type": "WorldScript"

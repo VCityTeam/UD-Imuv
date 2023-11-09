@@ -17,7 +17,7 @@ export { ItownsRefine } from './ItownsRefine';
 export { JitsiArea } from './JitsiArea';
 export { JitsiScreen } from './JitsiScreen';
 export { LocalInteractions } from './LocalInteractions';
-export { MenuAvatar } from './MenuAvatar'; // skip
+export { MenuAvatar } from './MenuAvatar/MenuAvatar';
 export { MiniMap } from './MiniMap';
 export { PlacePostIt } from './PlacePostIt';
 export { PortalSweep } from './PortalSweep';
@@ -45,7 +45,6 @@ import './css/display_post_it.css';
 import './css/gadget_ui.css';
 import './css/label_info.css';
 import './css/map_ui.css';
-import './css/menu_avatar.css';
 import './css/menu_settings.css';
 import './css/popup.css';
 import './css/social_ui.css';
