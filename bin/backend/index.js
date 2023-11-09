@@ -17,9 +17,9 @@ const { constant } = require('@ud-viz/game_shared');
 const FOLDER_PATH_PUBLIC = path.resolve(__dirname, '../../public');
 const PATH_GAME_OBJECT_3D = '/assets/gameObject3D';
 const PATH_GAME_OBJECT_3D_IMAGES = '/assets/img/gameObject3D';
-const PATH_AVATAR_IMAGES = '/assets/img/gameObject3D';
+const PATH_AVATAR_IMAGES = '/assets/img/avatar';
 const absolutePath = (path) => FOLDER_PATH_PUBLIC + path;
-const browserPath = (path) => './' + path;
+const browserPath = (path) => '.' + path;
 
 // launch an express app
 const app = express();
@@ -67,7 +67,7 @@ const gameSocketService = createGameWebsocketService(
 );
 
 const bufferToImagePath = (buffer, path) => {
-  const filename = MathUtils.generateUUID() + '.jpeg';
+  const filename = '/' + MathUtils.generateUUID() + '.jpeg';
   fs.writeFileSync(absolutePath(path + filename), buffer);
   return browserPath(path + filename);
 };
@@ -125,7 +125,8 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
       const userSocketWrappers = gameSocketService.threads[
         uuid
       ].socketWrappers.filter((sW) => {
-        if (!sW.userData.avatar) console.error(sW);
+        if (!sW.userData.avatar) console.error(sW.userData);
+        if (!sW.userData.avatar.uuid) console.error(sW.userData);
         return sW.userData.avatar.uuid == newAvatarJSON.uuid;
       });
       if (userSocketWrappers.length) {
