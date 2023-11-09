@@ -3,6 +3,7 @@ const Parse = require('parse/node');
 const { application } = require('express');
 const jwt = require('jsonwebtoken');
 const { PARSE } = require('./constant');
+const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
 
 // TODO: check if Parse record if it's initialized or not
 let initialized = false;
@@ -59,16 +60,15 @@ const useParseEndPoint = (app) => {
     try {
       const user = await Parse.User.logIn(req.body.name, req.body.password);
 
-      res.send(
-        jwt.sign(
-          {
-            name: await user.get(PARSE.KEY.NAME),
-            id: await user.id,
-            role: await user.get(PARSE.KEY.ROLE),
-          },
-          process.env.JSON_WEB_TOKEN_SECRET
-        )
-      );
+      const tokenContent = {
+        name: await user.get(PARSE.KEY.NAME),
+        id: await user.id,
+        role: await user.get(PARSE.KEY.ROLE),
+      };
+
+      console.log(tokenContent);
+
+      res.send(jwt.sign(tokenContent, process.env.JSON_WEB_TOKEN_SECRET));
     } catch (error) {
       res.status(401).send(error);
     }
@@ -79,7 +79,7 @@ const useParseEndPoint = (app) => {
       const user = await createUser(
         req.body.name,
         req.body.password,
-        PARSE.VALUE.ROLE_DEFAULT
+        PARSE_VALUE.ROLE_DEFAULT
       );
 
       res.send(
@@ -117,6 +117,8 @@ const createUser = async (name, password, role) => {
   user.set(PARSE.KEY.PASSWORD, password);
 
   user.set(PARSE.KEY.ROLE, role);
+
+  console.log('creating user ', name, role);
 
   await user.signUp();
 

@@ -4,6 +4,7 @@ const { SocketService, thread } = require('@ud-viz/game_node');
 const { avatar } = require('../../src/shared/prefabFactory');
 const { WEBSOCKET } = require('../../src/shared/constant');
 const { THREAD, PARSE } = require('./constant');
+const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
 const THREE = require('three');
 const jwt = require('jsonwebtoken');
 const {
@@ -151,6 +152,7 @@ const runGameWebsocketService = (
             socketWrapper.userData.avatar = avatarJSON;
             socketWrapper.userData.gameObject3DUUID = entryGameObject3DUUID;
             socketWrapper.userData.settings = settings;
+            socketWrapper.userData.user = user;
 
             if (
               readyForGameParams.userData &&
@@ -223,7 +225,7 @@ const runGameWebsocketService = (
           } else {
             // this is a guest
             addUserAvatar({
-              role: PARSE.VALUE.ROLE_GUEST,
+              role: PARSE_VALUE.ROLE_GUEST,
               name: 'Guest@' + parseInt(Math.random() * 10000),
             });
           }
