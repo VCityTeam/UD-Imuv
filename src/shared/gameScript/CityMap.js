@@ -1,5 +1,5 @@
 const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
-const { COMMAND } = require('../constant');
+const { COMMAND, ID } = require('../constant');
 
 module.exports = class CityMap extends ScriptBase {
   tick() {
@@ -42,6 +42,6 @@ module.exports = class CityMap extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'city_map_id_script';
+    return ID.GAME_SCRIPT.CITY_MAP;
   }
 };

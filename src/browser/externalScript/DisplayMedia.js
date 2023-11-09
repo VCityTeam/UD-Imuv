@@ -2,6 +2,7 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { AudioComponent } from '@ud-viz/game_shared';
 
 import { UI } from './UI';
+import { ID } from '../../shared/constant';
 export class DisplayMedia extends ScriptBase {
   onClick() {
     if (this.variables.iframe_src) {
@@ -23,6 +24,6 @@ export class DisplayMedia extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'display_media_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.DISPLAY_MEDIA;
   }
 }

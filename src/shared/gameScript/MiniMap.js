@@ -1,5 +1,5 @@
 const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
-const { COMMAND } = require('../constant');
+const { COMMAND, ID } = require('../constant');
 const { AbstractMap } = require('@ud-viz/game_shared_template');
 
 module.exports = class MiniMap extends ScriptBase {
@@ -52,6 +52,6 @@ module.exports = class MiniMap extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'mini_map_id_script';
+    return ID.GAME_SCRIPT.MINI_MAP;
   }
 };

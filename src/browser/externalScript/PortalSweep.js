@@ -1,5 +1,6 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import { AudioComponent } from '@ud-viz/game_shared';
+import { ID } from '../../shared/constant';
 
 export class PortalSweep extends ScriptBase {
   onEnter() {
@@ -10,7 +11,7 @@ export class PortalSweep extends ScriptBase {
 
     const audioComp = this.object3D.getComponent(AudioComponent.TYPE);
 
-    audioComp.getController().play('portal_in');
+    audioComp.getController().play(ID.SOUND.PORTAL_IN);
 
     const fadeInHtmlEl = document.createElement('div');
     fadeInHtmlEl.classList.add('fadeIn_GameView');
@@ -20,6 +21,6 @@ export class PortalSweep extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'portal_sweep_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.PORTAL_SWEEP;
   }
 }

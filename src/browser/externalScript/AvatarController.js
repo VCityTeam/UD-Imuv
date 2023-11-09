@@ -7,6 +7,7 @@ import { CameraManager } from './CameraManager';
 import { MiniMap } from './MiniMap';
 import { ItownsRefine } from './ItownsRefine';
 import { UI } from './UI';
+import { ID } from '../../shared/constant';
 
 export class AvatarController extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -285,6 +286,6 @@ export class AvatarController extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'avatar_controller_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.AVATAR_CONTROLLER;
   }
 }

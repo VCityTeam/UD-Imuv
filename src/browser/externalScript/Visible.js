@@ -1,5 +1,6 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import { RenderComponent } from '@ud-viz/game_shared';
+import { ID } from '../../shared/constant';
 
 export class Visible extends ScriptBase {
   init() {
@@ -18,6 +19,6 @@ export class Visible extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'visible_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.VISIBLE;
   }
 }

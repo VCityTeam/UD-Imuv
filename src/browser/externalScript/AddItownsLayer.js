@@ -1,6 +1,7 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import { FEATURE_USER_DATA_KEY } from './component/constant';
 import * as itowns from 'itowns';
+import { ID } from '../../shared/constant';
 
 const elevationConfig = {
   url: 'https://imagerie.data.grandlyon.com/wms/grandlyon',
@@ -111,6 +112,6 @@ export class AddItownsLayer extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'add_itowns_layer_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.ADD_ITOWNS_LAYER;
   }
 }

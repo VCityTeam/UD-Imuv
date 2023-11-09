@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
 import { RenderComponent } from '@ud-viz/game_shared';
+import { ID } from '../../shared/constant';
 
 export class SpriteName extends ScriptBase {
   init() {
@@ -72,6 +73,6 @@ export class SpriteName extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'sprite_name_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.SPRITE_NAME;
   }
 }

@@ -7,6 +7,7 @@ import { postIt } from '../../shared/prefabFactory';
 import { AvatarController } from './AvatarController';
 import { StaticObject } from './StaticObject';
 import { UI } from './UI';
+import { ID } from '../../shared/constant';
 
 export class PlacePostIt extends ScriptBase {
   init() {
@@ -39,7 +40,7 @@ export class PlacePostIt extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'place_post_it_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.PLACE_POST_IT;
   }
 }
 

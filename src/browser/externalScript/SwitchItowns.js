@@ -10,6 +10,7 @@ import { UI } from './UI';
 import { AvatarController } from './AvatarController';
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
+import { ID } from '../../shared/constant';
 
 export class SwitchItowns extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -121,7 +122,7 @@ export class SwitchItowns extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'switch_itowns_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.SWITCH_ITOWNS;
   }
 }
 

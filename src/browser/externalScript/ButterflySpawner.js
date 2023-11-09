@@ -1,6 +1,7 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import { RenderComponent } from '@ud-viz/game_shared';
 import * as THREE from 'three';
+import { ID } from '../../shared/constant';
 
 export class ButterflySpawner extends ScriptBase {
   init() {
@@ -106,7 +107,7 @@ export class ButterflySpawner extends ScriptBase {
   }
 
   static get ID_SCRIPT() {
-    return 'butterfly_spawner_id_ext_script';
+    return ID.EXTERNAL_SCRIPT.BUTTERFLY_SPAWNER;
   }
 }
 

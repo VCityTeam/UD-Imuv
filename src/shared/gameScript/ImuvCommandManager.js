@@ -1,5 +1,6 @@
 const { NativeCommandManager } = require('@ud-viz/game_shared_template');
 const { objectOverWrite } = require('@ud-viz/utils_shared');
+const { ID } = require('../constant');
 
 const defaultVariables = {
   avatarSpeedTranslate: 0.008,
@@ -43,6 +44,6 @@ module.exports = class ImuvCommandManager extends NativeCommandManager {
   }
 
   static get ID_SCRIPT() {
-    return 'my_command_manager_id';
+    return ID.GAME_SCRIPT.IMUV_COMMAND_MANAGER;
   }
 };
