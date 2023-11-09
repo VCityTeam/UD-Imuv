@@ -1,13 +1,17 @@
-import { ScriptBase } from '@ud-viz/game_browser';
+import { ScriptBase, SinglePlanarProcess } from '@ud-viz/game_browser';
 import { Object3D } from '@ud-viz/game_shared';
 import { loadJSON } from '@ud-viz/utils_browser';
 import * as THREE from 'three';
 import {
   URL_PARAMETER,
-  USER,
+  PARSE,
   WEBSOCKET,
   MAP_CLICK_MODE,
 } from '../../shared/constant';
+
+import { MenuAvatar } from './MenuAvatar';
+
+import { writeTokenInCookie } from '../utils/index';
 
 import { AvatarController } from './AvatarController';
 
@@ -76,6 +80,16 @@ export class UI extends ScriptBase {
     // Gadget Menu Settings
     const menuSettings = new MenuSettings(this.context);
     this.menuSettings = menuSettings; // ref to be access from other scripts
+
+    // log out
+    this.gadgetUI.addGadget(
+      'assets/img/ui/icon_close.png',
+      'Deconnexion',
+      () => {
+        writeTokenInCookie(''); // delete cookie
+        window.location.href = window.origin; // redirect to home
+      }
+    );
 
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_settings.png',
@@ -148,80 +162,23 @@ export class UI extends ScriptBase {
 
     // Gadget menu avatar
     if (
-      this.context.userData.role == USER.ROLE.ADMIN ||
-      this.context.userData.role == USER.ROLE.DEFAULT
+      this.context.userData.user.role == PARSE.VALUE.ROLE_ADMIN ||
+      this.context.userData.user.role == PARSE.VALUE.ROLE_DEFAULT
     ) {
       this.gadgetUI.addGadget(
         './assets/img/ui/icon_menu_avatar.png',
         'Menu Avatar',
         () => {
-          // pause gameview
+          // pause game
           this.context.frame3D.isRendering = false;
           this.context.inputManager.setPause(true);
 
           // register
           // eslint-disable-next-line no-unused-vars
-          const parentHtml = this.context.frame3D.html().parentNode;
+          const parentHtml = this.context.frame3D.domElement.parentNode;
 
           // remove html
-          this.context.frame3D.html().remove();
-
-          // create world
-          // eslint-disable-next-line no-unused-vars
-          const menuAvatar = new Object3D({
-            name: 'MenuAvatar',
-            static: true,
-            components: {
-              ExternalScript: {
-                scriptParams: ['MenuAvatar'],
-              },
-            },
-          });
-
-          // launch menu avatar
-          // eslint-disable-next-line no-unused-vars
-          loadJSON('./assets/config/config.json').then((config) => {
-            console.error('no reimplemented yet');
-            // const app = new udviz.Templates.LocalGame();
-            // app
-            //   .startWithAssetsLoaded(
-            //     menuAvatarWorld,
-            //     gameView.getAssetsManager(),
-            //     config,
-            //     {
-            //       htmlParent: parentHtml,
-            //       localScriptModules: { Constant: Constant },
-            //     }
-            //   )
-            //   .then(function () {
-            //     const menuAvatarGameView = app.getGameView();
-
-            //     //tweak websocketservice
-            //     menuAvatarGameView
-            //       .getLocalContext()
-            //       .setWebSocketService(externalContext.getWebSocketService());
-
-            //     const closeButton = document.createElement('button');
-            //     closeButton.classList.add('button-imuv');
-            //     closeButton.title = 'Fermer';
-            //     const closeCross = document.createElement('div');
-            //     closeCross.classList.add('mask_icon', 'close_cross');
-            //     closeButton.appendChild(closeCross);
-            //     closeButton.onclick = function () {
-            //       menuAvatarGameView.dispose(); //remove menu avatar
-
-            //       //unpause gameview
-            //       gameView.isRendering = (true);
-            //       gameView.getInputManager().setPause(false);
-
-            //       //add html
-            //       parentHtml.appendChild(gameView.html());
-            //     };
-
-            //     //make it accessible in menuavatar localscript
-            //     menuAvatarGameView.writeUserData('close_button', closeButton);
-            //   });
-          });
+          this.context.frame3D.domElement.remove();
         }
       );
     }
