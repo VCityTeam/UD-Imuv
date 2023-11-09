@@ -11,6 +11,7 @@ const {
   checkIfSubStringIsVector3,
   checkIfSubStringIsEuler,
 } = require('@ud-viz/utils_shared');
+const { connect } = require('./parse');
 
 const moulinetteWorldJSON = (oldJSON) => {
   const newJSON = oldJSON.gameObject;
@@ -121,17 +122,37 @@ const moulinetteWorldJSON = (oldJSON) => {
   return updateGameObject(newJSON);
 };
 
+const readGameObjects3DAsJSON = (gameObjectsFolderPath) => {
+  const indexWorldsJSON = JSON.parse(
+    fs.readFileSync(gameObjectsFolderPath + '/index.json')
+  );
+
+  const gameObjects3D = [];
+  for (const uuid in indexWorldsJSON) {
+    let json = JSON.parse(
+      fs.readFileSync(gameObjectsFolderPath + '/' + indexWorldsJSON[uuid])
+    );
+
+    // TODO: regenerate gameobjects.json
+    if (json.version) {
+      json = moulinetteWorldJSON(json);
+    }
+    gameObjects3D.push(json);
+  }
+
+  return gameObjects3D;
+};
+
 /**
  *
  * @param {import('http').HttpServer} httpServer
  * @param {string} gameObjectsFolderPath
  * @param {import('parse/node')} Parse
+ * @returns {import("@ud-viz/game_node").SocketService} game socket service
  */
-const runGameWebsocketService = (
-  httpServer,
-  gameObjectsFolderPath,
-  Parse = null
-) => {
+const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
+  const Parse = connect();
+
   const gameSocketService = new SocketService(httpServer, {
     socketReadyForGamePromises: [
       (socketWrapper, entryGameObject3DUUID, readyForGameParams) => {
@@ -142,16 +163,27 @@ const runGameWebsocketService = (
             ? JSON.parse(socketWrapper.socket.handshake.headers.cookie).token
             : null;
 
-          const addUserAvatar = (user, settings = {}) => {
+          const addUserAvatar = (
+            user,
+            settings,
+            avatarColor,
+            avatarTextureFacePath,
+            avatarIdRenderData
+          ) => {
             // add an avatar in game
-            const avatarObject3D = avatar(user.name);
+            const avatarObject3D = avatar(
+              user.name,
+              avatarColor,
+              avatarTextureFacePath,
+              avatarIdRenderData
+            );
 
             const avatarJSON = avatarObject3D.toJSON();
 
             // register in socketWrapper.userData that will be sent to external context of this scoket client
             socketWrapper.userData.avatar = avatarJSON;
             socketWrapper.userData.gameObject3DUUID = entryGameObject3DUUID;
-            socketWrapper.userData.settings = settings;
+            socketWrapper.userData.settings = settings || {};
             socketWrapper.userData.user = user;
 
             if (
@@ -199,6 +231,21 @@ const runGameWebsocketService = (
                         PARSE.KEY.SETTINGS
                       );
 
+                      // retrieve color
+                      const avatarColorString = await parseUser.get(
+                        PARSE.KEY.AVATAR_COLOR
+                      );
+
+                      // texture face
+                      const avatarTextureFacePath = await parseUser.get(
+                        PARSE.KEY.AVATAR_TEXTURE_FACE_PATH
+                      );
+
+                      // id render data
+                      const avatarIdRenderData = await parseUser.get(
+                        PARSE.KEY.AVATAR_ID_RENDER_DATA
+                      );
+
                       // listen settings save event
                       socketWrapper.socket.on(
                         WEBSOCKET.MSG_TYPE.SAVE_SETTINGS,
@@ -211,13 +258,22 @@ const runGameWebsocketService = (
                         }
                       );
 
+                      console.log(avatarTextureFacePath);
+
                       addUserAvatar(
                         user,
-                        settingsString ? JSON.parse(settingsString) : {}
+                        settingsString ? JSON.parse(settingsString) : {},
+                        avatarColorString
+                          ? JSON.parse(avatarColorString)
+                          : null,
+                        avatarTextureFacePath,
+                        avatarIdRenderData
                       );
                     })
                     .catch((error) => {
-                      console.error(error);
+                      console.log(error);
+                      socketWrapper.socket.disconnect(true);
+                      resolve();
                     });
                 }
               }
@@ -245,25 +301,8 @@ const runGameWebsocketService = (
     ],
   });
 
-  const indexWorldsJSON = JSON.parse(
-    fs.readFileSync(gameObjectsFolderPath + '/index.json')
-  );
-
-  const gameObjects3D = [];
-  for (const uuid in indexWorldsJSON) {
-    let json = JSON.parse(
-      fs.readFileSync(gameObjectsFolderPath + '/' + indexWorldsJSON[uuid])
-    );
-
-    // TODO: regenerate gameobjects.json
-    if (json.version) {
-      json = moulinetteWorldJSON(json);
-    }
-    gameObjects3D.push(json);
-  }
-
   gameSocketService.loadGameThreads(
-    gameObjects3D,
+    readGameObjects3DAsJSON(gameObjectsFolderPath),
     path.join(__dirname, 'gameThreadChild.js')
   );
 
@@ -313,8 +352,11 @@ const runGameWebsocketService = (
         });
     });
   }
+
+  return gameSocketService;
 };
 
 module.exports = {
-  runGameWebsocketService: runGameWebsocketService,
+  readGameObjects3DAsJSON: readGameObjects3DAsJSON,
+  createGameWebsocketService: createGameWebsocketService,
 };

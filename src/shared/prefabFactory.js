@@ -49,7 +49,11 @@ module.exports = {
       },
     });
   },
-  avatar: (name = 'default_name') => {
+  avatar: (name, color, textureFacePath, idRenderData) => {
+    idRenderData = idRenderData || 'avatar_petit';
+    textureFacePath = textureFacePath || './assets/img/avatar/default.jpeg';
+    color = color || [Math.random(), Math.random(), Math.random(), 1];
+
     return new Object3D({
       name: 'Avatar',
       userData: {
@@ -69,7 +73,8 @@ module.exports = {
         },
         Render: {
           type: 'Render',
-          idRenderData: 'avatar_moyen',
+          idRenderData: idRenderData,
+          color: color,
         },
         GameScript: {
           scriptParams: [{ id: ID.GAME_SCRIPT.AVATAR }],
@@ -84,7 +89,7 @@ module.exports = {
           variables: {
             visible: true,
             name: name,
-            path_face_texture: './assets/img/avatar/default.jpeg',
+            path_face_texture: textureFacePath,
           },
           type: 'ExternalScript',
         },

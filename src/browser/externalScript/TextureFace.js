@@ -6,16 +6,15 @@ export class TextureFace extends ScriptBase {
   constructor(context, object3D, variables) {
     super(context, object3D, variables);
 
-    this.lastPath = null;
-    this.lastMaterial = null;
+    this.currentTextureFacePath = null;
   }
 
   init() {
-    this.setFaceTexture();
+    this.createTextureFace();
   }
 
-  setFaceTexture() {
-    this.lastPath = this.variables.path_face_texture;
+  createTextureFace() {
+    this.currentTextureFacePath = this.variables.path_face_texture;
 
     const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
     const renderObject = renderComp.getController().object3D;
@@ -34,27 +33,12 @@ export class TextureFace extends ScriptBase {
   }
 
   onOutdated() {
-    if (this.lastPath != this.variables.path_face_texture)
-      this.setFaceTexture();
+    if (this.currentTextureFacePath != this.variables.path_face_texture)
+      this.createTextureFace();
   }
 
-  onComponentUpdate() {
-    // retreve current material
-    let currentMaterial;
-    const renderComp = this.object3D.getComponent(RenderComponent.TYPE);
-    const renderObject = renderComp.getController().object3D;
-    renderObject.traverse(function (o) {
-      if (o.name == 'Face') {
-        currentMaterial = o.material;
-        return o;
-      }
-    });
-
-    if (this.lastMaterial != currentMaterial) {
-      this.setFaceTexture();
-    } else {
-      console.log('nothing');
-    }
+  onRenderComponentChanged() {
+    this.createTextureFace();
   }
 
   static get ID_SCRIPT() {
