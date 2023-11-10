@@ -231,16 +231,22 @@ export class UI extends ScriptBase {
           );
 
           // tell how to close menu
-          menuAvatarProcess.externalGameContext.userData.closeMenuCallback =
-            () => {
-              menuAvatarProcess.dispose();
-              // unpause game
-              this.context.frame3D.isRendering = true;
-              this.context.inputManager.setPause(false);
+          menuAvatarProcess.externalGameContext.userData.closeMenuCallback = (
+            newAvatarJSON
+          ) => {
+            if (newAvatarJSON) {
+              // meaning a new avatar has been saved on the backendside
+              this.context.userData.avatar = newAvatarJSON;
+            }
 
-              // add html
-              parentHtml.appendChild(this.context.frame3D.domElement);
-            };
+            menuAvatarProcess.dispose();
+            // unpause game
+            this.context.frame3D.isRendering = true;
+            this.context.inputManager.setPause(false);
+
+            // add html
+            parentHtml.appendChild(this.context.frame3D.domElement);
+          };
 
           menuAvatarProcess.start();
         }
