@@ -3,11 +3,12 @@ const { stringReplace } = require('string-replace-middleware');
 const { useParseEndPoint, connect, computeUserMiddleware } = require('./parse');
 const reload = require('reload');
 const { json } = require('body-parser');
+const { createGameWebsocketService } = require('./gameWebSocketService');
 const {
-  createGameWebsocketService,
-  readGameObjects3DAsJSON,
-} = require('./gameWebSocketService');
-const { dataUriToBuffer } = require('@ud-viz/utils_shared');
+  dataUriToBuffer,
+  arrayPushOnce,
+  computeFilenameFromPath,
+} = require('@ud-viz/utils_shared');
 const { MathUtils } = require('three');
 const path = require('path');
 const fs = require('fs');
@@ -15,9 +16,9 @@ const { THREAD, PARSE } = require('./constant');
 const { constant } = require('@ud-viz/game_shared');
 
 const FOLDER_PATH_PUBLIC = path.resolve(__dirname, '../../public');
-const PATH_GAME_OBJECT_3D = '/assets/gameObject3D';
-const PATH_GAME_OBJECT_3D_IMAGES = '/assets/img/gameObject3D';
-const PATH_AVATAR_IMAGES = '/assets/img/avatar';
+const PATH_GAME_OBJECT_3D = '/assets/gameObject3D/';
+const PATH_GAME_OBJECT_3D_IMAGES = '/assets/img/gameObject3D/';
+const PATH_AVATAR_IMAGES = '/assets/img/avatar/';
 const absolutePath = (path) => FOLDER_PATH_PUBLIC + path;
 const browserPath = (path) => '.' + path;
 
@@ -67,39 +68,38 @@ const gameSocketService = createGameWebsocketService(
 );
 
 const bufferToImagePath = (buffer, path) => {
-  const filename = '/' + MathUtils.generateUUID() + '.jpeg';
+  const filename = MathUtils.generateUUID() + '.jpeg';
   fs.writeFileSync(absolutePath(path + filename), buffer);
   return browserPath(path + filename);
 };
 
-const cleanUnusedImages = () => {
-  const folderPath = path.resolve(
-    __dirname,
-    '../../public/assets/img/uploaded'
-  ); // absolute path on this computer
+const deleteUnusedAvatarImages = async () => {
+  const Parse = connect();
 
-  const gameObjects3DString = JSON.stringify(
-    readGameObjects3DAsJSON(
-      path.resolve(__dirname, '../../public/assets/gameObject3D')
-    )
-  );
+  const query = new Parse.Query(Parse.User);
+  try {
+    let results = await query.distinct(PARSE.KEY.AVATAR_TEXTURE_FACE_PATH);
+    arrayPushOnce(results, absolutePath(PATH_AVATAR_IMAGES + 'default.jpeg')); // do not remove the deafault image
+    results = results.map((el) => computeFilenameFromPath(el));
 
-  fs.readdir(folderPath, (err, files) => {
-    files.forEach((file) => {
-      // check if ref by something in worlds
-      if (!gameObjects3DString.includes(file)) {
-        // delete it
-        // delete a file
-        fs.unlink(folderPath + file, (err) => {
-          if (err) {
-            throw err;
-          }
+    console.log(results);
 
-          console.log(folderPath + file + ' deleted.');
-        });
-      }
+    const folderPath = absolutePath(PATH_AVATAR_IMAGES);
+    fs.readdir(folderPath, (err, files) => {
+      files.forEach((filename) => {
+        if (!results.includes(filename)) {
+          fs.unlink(folderPath + filename, (err) => {
+            if (err) {
+              throw err;
+            }
+            console.log(folderPath + filename + ' deleted.');
+          });
+        }
+      });
     });
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 app.use('/save_avatar', computeUserMiddleware, (req, res) => {
@@ -182,6 +182,7 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
             constant.WEBSOCKET.MSG_TYPE.USER_DATA_UPDATE,
             userSocketWrapper.userData
           );
+          deleteUnusedAvatarImages(); // clean images not used anymore
         });
       })
       .catch((error) => {
