@@ -74,7 +74,7 @@ const run = async () => {
     switch (id) {
       case URL_PARAMETER.EVENT.TELEPORT_AVATAR_GAMEOBJECT3D.ID_VALUE:
         event = URL_PARAMETER.EVENT.TELEPORT_AVATAR_GAMEOBJECT3D;
-        //get params
+        // get params
         for (const key in event.PARAMS_KEY) {
           const paramsKey = encodeURI(event.PARAMS_KEY[key]);
           if (!paramsUrl.has(paramsKey)) {

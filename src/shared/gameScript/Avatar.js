@@ -1,9 +1,4 @@
-const {
-  ScriptBase,
-  ExternalScriptComponent,
-  RenderComponent,
-} = require('@ud-viz/game_shared');
-const THREE = require('three');
+const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
 const { cityAvatar } = require('../prefabFactory');
 const ImuvCommandManager = require('./ImuvCommandManager');
 const { ID, COMMAND } = require('../constant');
