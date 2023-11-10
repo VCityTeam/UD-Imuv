@@ -176,12 +176,7 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
         userSocketWrapper.userData.avatar = newAvatarJSON;
 
         thread.apply(THREAD.EVENT.EDIT_AVATAR, newAvatarJSON).then(() => {
-          res.send(); // indicate to client that avatar has been successfully edited
-          // update userdata of the client context
-          userSocketWrapper.socket.emit(
-            constant.WEBSOCKET.MSG_TYPE.USER_DATA_UPDATE,
-            userSocketWrapper.userData
-          );
+          res.send(newAvatarJSON); // indicate to client that avatar has been successfully edited
           deleteUnusedAvatarImages(); // clean images not used anymore
         });
       })

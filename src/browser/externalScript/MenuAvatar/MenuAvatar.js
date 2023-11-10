@@ -99,17 +99,18 @@ export class MenuAvatar extends ScriptBase {
     saveButton.src = './assets/img/ui/icon_save.png';
     domElement.appendChild(saveButton);
     saveButton.onclick = () => {
-      request(
-        window.origin + '/save_avatar',
-        this.object3D.toJSON(),
-        'text'
-      ).then(this.context.userData.closeMenuCallback);
+      request(window.origin + '/save_avatar', this.object3D.toJSON()).then(
+        (newAvatarJSON) =>
+          this.context.userData.closeMenuCallback(newAvatarJSON)
+      );
     };
 
     const closeButton = document.createElement('img');
     closeButton.src = './assets/img/ui/icon_close.png';
     domElement.appendChild(closeButton);
-    closeButton.onclick = this.context.userData.closeMenuCallback;
+    closeButton.onclick = () => {
+      this.context.userData.closeMenuCallback();
+    };
   }
 
   static get ID_SCRIPT() {
