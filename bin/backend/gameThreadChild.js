@@ -56,6 +56,19 @@ child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
       newAvatar.uuid
     );
 
+    const cityAvatar = child.gameContext.findGameScriptWithID(
+      gameScript.Avatar.ID_SCRIPT,
+      avatarGO
+    ).cityAvatar;
+    if (cityAvatar) {
+      gameScript.MenuAvatar.editAvatar(cityAvatar, {
+        idRenderData: newAvatar.components.Render.idRenderData,
+        color: newAvatar.components.Render.color,
+        textureFacePath:
+          newAvatar.components.ExternalScript.variables.path_face_texture,
+      });
+    }
+
     gameScript.MenuAvatar.editAvatar(avatarGO, {
       idRenderData: newAvatar.components.Render.idRenderData,
       color: newAvatar.components.Render.color,

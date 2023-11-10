@@ -53,9 +53,12 @@ const computeUserMiddleware = (req, res, next) => {
   if (!token) next();
 
   jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(401);
-    req.user = user;
-    next();
+    if (err) {
+      res.sendStatus(401);
+    } else {
+      req.user = user;
+      next();
+    }
   });
 };
 
