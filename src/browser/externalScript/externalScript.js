@@ -27,7 +27,7 @@ export { SignageDisplayer } from './SignageDisplayer';
 export { Signboard } from './Signboard';
 export { SpriteName } from './SpriteName';
 export { StaticObject } from './StaticObject';
-export { SwitchItowns } from './SwitchItowns';
+export { SwitchItowns } from './SwitchItowns/SwitchItowns';
 export { TextureFace } from './TextureFace';
 export { UI } from './UI';
 export { Video } from './Video';

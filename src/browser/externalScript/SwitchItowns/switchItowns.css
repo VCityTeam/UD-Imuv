@@ -1,0 +1,18 @@
+#itowns-scale {
+  user-select: none;
+  z-index: 10;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-image: initial;
+  border-radius: 7px;
+  border-top: none;
+  background-color: var(--imuv-color-one);
+  color: rgb(255, 255, 255);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+}
