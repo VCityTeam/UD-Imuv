@@ -11,16 +11,16 @@ export class ButterflySpawner extends ScriptBase {
 
     // TODO in UserData add attribute "editorMode" ?
     const render = this.object3D.getComponent(RenderComponent.TYPE);
-    const editorMode = this.context.userData.editorMode;
+    const editorMode = false;
 
-    if (editorMode === false) {
-      const renderGO = render.getController().getObject3D();
-      renderGO.traverse(function (c) {
-        if (c.material) {
-          c.removeFromParent();
-        }
-      });
-    }
+    if (editorMode === true) return;
+
+    const renderGO = render.getController().getObject3D();
+    renderGO.traverse(function (c) {
+      if (c.material) {
+        c.removeFromParent();
+      }
+    });
   }
 
   onEnter() {
@@ -35,7 +35,7 @@ export class ButterflySpawner extends ScriptBase {
     const time = this.clock.getElapsedTime();
     this.particleGroup.getParticles().forEach((particle) => {
       particle.animate(time);
-      if (time > particle.getLifeTime()) {
+      if (time > particle.lifeTime) {
         this.particleGroup.removeParticle(particle);
       }
     });
@@ -49,47 +49,10 @@ export class ButterflySpawner extends ScriptBase {
   createParticuleGroup() {
     if (this.particleGroup) return;
     this.clock = new THREE.Clock();
-    const butterflyAttributes = {
-      startPosition: function () {
-        return new THREE.Vector3(
-          Math.random() - 0.5,
-          Math.random() - 0.5,
-          Math.random()
-        );
-      },
-      startSize: function () {
-        return new THREE.Vector3(1, 1, 1);
-      },
-      material: function () {
-        return new THREE.SpriteMaterial({
-          map: new THREE.TextureLoader().load(
-            './assets/img/butterflySprite.png'
-          ),
-          color: 0xffffff,
-        });
-      },
-      material2: function () {
-        return new THREE.SpriteMaterial({
-          map: new THREE.TextureLoader().load(
-            './assets/img/butterflySprite2.png' // should be in variables TODO
-          ),
-          color: 0xffffff,
-        });
-      },
-      color: function () {
-        return new THREE.Color().setHSL(Math.random(), 0.9, 0.7);
-      },
-      length: function () {
-        return 10 * Math.random();
-      },
-      minLife: 5,
-      startOpacity: 0.8,
-    };
 
-    this.particleGroup = new ParticleGroup({
+    this.particleGroup = new ButterlyParticleGroup({
       nParticles: 10,
       radiusRange: 10,
-      attributes: butterflyAttributes,
     });
 
     this.object3D
@@ -111,28 +74,48 @@ export class ButterflySpawner extends ScriptBase {
   }
 }
 
-class ParticleGroup {
+class ButterlyParticleGroup {
   constructor(params) {
     this.object3D = new THREE.Object3D();
     this.particles = [];
     this.nParticles = params.nParticles;
     this.radiusRange = params.radiusRange;
 
-    this.initParticles(params.attributes);
+    this.spriteMaterials = {
+      butterflyOpen: new THREE.SpriteMaterial({
+        map: new THREE.TextureLoader().load('./assets/img/butterflySprite.png'),
+        color: 0xffffff,
+      }),
+      butterflyClose: new THREE.SpriteMaterial({
+        map: new THREE.TextureLoader().load(
+          './assets/img/butterflySprite2.png'
+        ),
+        color: 0xffffff,
+      }),
+    };
+
+    this.initParticles();
   }
 
-  initParticles(spriteAttributes) {
+  initParticles() {
     for (let p = 0; p < this.nParticles; p++) {
-      const newSpriteParticle = new SpriteParticle(spriteAttributes);
-      this.object3D.add(newSpriteParticle.getSprite());
-      this.particles.push(newSpriteParticle);
+      const randColor = new THREE.Color().setHSL(Math.random(), 0.9, 0.7);
+      const mat1 = this.spriteMaterials.butterflyOpen.clone();
+      mat1.color.copy(randColor);
+
+      const mat2 = this.spriteMaterials.butterflyClose.clone();
+      mat2.color.copy(randColor);
+
+      const newButterflyParticle = new ButterflyParticle([mat1, mat2]);
+      this.object3D.add(newButterflyParticle.sprite);
+      this.particles.push(newButterflyParticle);
     }
   }
 
   removeParticle(particle) {
     const index = this.particles.indexOf(particle);
     if (index >= 0) this.particles.splice(index, 1);
-    this.getObject3D().remove(particle.getSprite());
+    this.getObject3D().remove(particle.sprite);
   }
 
   getParticles() {
@@ -144,75 +127,37 @@ class ParticleGroup {
   }
 }
 
-class AbstractParticle {
-  constructor(params) {
-    if (this.constructor === AbstractParticle) {
-      throw new TypeError(
-        'Abstract class "AbstractParticle" cannot be instantiated directly'
-      );
-    }
-    this.startPosition = params.startPosition();
-    this.startPosition.setLength(params.length());
-    this.startSize = params.startSize();
+class ButterflyParticle {
+  constructor(
+    materials,
+    opacity = 0.8,
+    position = new THREE.Vector3(
+      Math.random() - 0.5,
+      Math.random() - 0.5,
+      Math.random()
+    ),
+    scale = new THREE.Vector3(1, 1, 1),
+    minLife = 5,
+    maxLife = 10
+  ) {
+    this.materials = materials;
+    this.opacity = opacity;
+
+    this.position = position;
+    this.position.setLength(10 * Math.random());
+    this.scale = scale;
+
     this.randomness = Math.random();
-    const maxLife = params.maxLife || 10,
-      minLife = params.minLife || maxLife;
-    if (minLife > maxLife) console.error('params life time error');
-
     this.lifeTime = this.randomness * (maxLife - minLife) + minLife;
-    this.material = params.material();
-    this.material2 = params.material2();
-    this.material.color.copy(params.color());
-    this.material2.color.copy(this.material.color);
-    this.startOpacity = params.startOpacity || 1;
-    this.material.opacity = this.startOpacity;
-    this.material2.opacity = this.startOpacity;
-  }
 
-  getStartPosition() {
-    return this.startPosition;
-  }
-
-  getStartSize() {
-    return this.startSize;
-  }
-
-  getStartOpacity() {
-    return this.startOpacity;
-  }
-
-  getRandomness() {
-    return this.randomness;
-  }
-
-  getMaterial() {
-    return this.material;
-  }
-
-  getMaterial2() {
-    return this.material2;
-  }
-
-  getLifeTime() {
-    return this.lifeTime;
-  }
-}
-
-class SpriteParticle extends AbstractParticle {
-  constructor(params) {
-    super(params);
     this.sprite = null;
     this.initSprite();
   }
 
   initSprite() {
-    this.sprite = new THREE.Sprite(super.getMaterial());
-    this.sprite.scale.copy(super.getStartSize());
-    this.sprite.position.copy(super.getStartPosition());
-  }
-
-  getSprite() {
-    return this.sprite;
+    this.sprite = new THREE.Sprite(this.materials[0].clone());
+    this.sprite.scale.copy(this.scale);
+    this.sprite.position.copy(this.position);
   }
 
   animate(time) {
@@ -220,20 +165,20 @@ class SpriteParticle extends AbstractParticle {
     const pulseFactor = Math.sin(a * time) * 0.1 + 0.9;
 
     this.sprite.position.copy(
-      super.getStartPosition().clone().multiplyScalar(pulseFactor)
+      this.position.clone().multiplyScalar(pulseFactor)
     );
 
     this.sprite.material =
       Math.floor(time + this.randomness) % 2 == 0
-        ? super.getMaterial()
-        : super.getMaterial2();
+        ? this.materials[0].clone()
+        : this.materials[1].clone();
 
-    this.fade(super.getLifeTime() * 0.2, super.getLifeTime() * 0.8, time);
+    this.fade(this.lifeTime * 0.2, this.lifeTime * 0.8, time);
   }
 
   fade(inTime, outTime, time) {
-    const startOpacity = super.getStartOpacity();
-    const lifeTime = super.getLifeTime();
+    const startOpacity = this.opacity;
+    const lifeTime = this.lifeTime;
     let spriteOpacity = this.sprite.material.opacity;
 
     if (time <= inTime && spriteOpacity <= startOpacity)
