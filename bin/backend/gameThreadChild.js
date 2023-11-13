@@ -1,16 +1,16 @@
-const { gameScript, constant } = require('../../src/shared/shared');
+const { gameScript } = require('../../src/shared/shared');
 const { objectToInt32Array } = require('@ud-viz/utils_shared');
 const { Object3D, GameScriptComponent } = require('@ud-viz/game_shared');
 const { thread } = require('@ud-viz/game_node');
 const { Map } = require('@ud-viz/game_node_template');
 const { THREAD } = require('./constant');
 const worker_threads = require('worker_threads');
-const { COMMAND } = require('../../src/shared/constant');
+const { CONTEXT, ID } = require('../../src/shared/constant');
 
 const child = new thread.Child();
 child.start({ ...gameScript, Map: Map });
 child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
-  child.gameContext.on(constant.CONTEXT.EVENT.PORTAL, (data) => {
+  child.gameContext.on(CONTEXT.EVENT.PORTAL, (data) => {
     // post portal event to main thread
     const message = {};
     message[thread.MESSAGE_KEY.TYPE] = THREAD.EVENT.PORTAL;
@@ -42,7 +42,7 @@ child.on(thread.CHILD_EVENT.ON_GAME_CONTEXT_LOADED, () => {
     const avatar = new Object3D(avatarJSON);
     return child.gameContext.addObject3D(avatar).then(() => {
       const spawner = child.gameContext.findGameScriptWithID(
-        constant.ID.GAME_SCRIPT.SPAWNER
+        ID.GAME_SCRIPT.SPAWNER
       );
       spawner.initializeSpawnTransform(avatar);
 
