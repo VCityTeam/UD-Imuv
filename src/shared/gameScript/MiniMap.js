@@ -27,10 +27,6 @@ module.exports = class MiniMap extends ScriptBase {
         data.position.z = height;
         const newPosition = data.position;
 
-        console.log(
-          data,
-          scriptMap.getHeightValue(data.position.x, data.position.y)
-        );
         const avatar = this.context.object3D.getObjectByProperty(
           'uuid',
           avatarUUID
