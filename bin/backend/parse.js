@@ -50,16 +50,19 @@ const readTokenFromRequest = (req) => {
 
 const computeUserMiddleware = (req, res, next) => {
   const token = readTokenFromRequest(req);
-  if (!token) next();
 
-  jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      res.sendStatus(401);
-    } else {
-      req.user = user;
-      next();
-    }
-  });
+  if (!token) {
+    next();
+  } else {
+    jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        req.user = user;
+        next();
+      }
+    });
+  }
 };
 
 /**
