@@ -18,14 +18,19 @@ module.exports = class MiniMap extends ScriptBase {
 
     this.applyCommandCallbackOf(COMMAND.TELEPORT, (data) => {
       if (data.object3DUUID != this.object3D.uuid) return false;
-
-      if (isNaN(scriptMap.getHeightValue(data.position.x, data.position.y))) {
+      const height = scriptMap.getHeightValue(data.position.x, data.position.y);
+      if (isNaN(height)) {
         extScriptComp.getModel().variables.mini_map_no_teleport.push(data);
         this.object3D.setOutdated(true);
       } else {
         const avatarUUID = data.avatarUUID;
+        data.position.z = height;
         const newPosition = data.position;
 
+        console.log(
+          data,
+          scriptMap.getHeightValue(data.position.x, data.position.y)
+        );
         const avatar = this.context.object3D.getObjectByProperty(
           'uuid',
           avatarUUID
