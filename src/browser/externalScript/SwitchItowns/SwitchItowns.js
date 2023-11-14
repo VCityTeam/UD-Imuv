@@ -6,13 +6,13 @@ import { CameraPositioner } from '@ud-viz/widget_camera_positioner';
 import { GeocodingView, GeocodingService } from '@ud-viz/widget_geocoding';
 import { RequestService } from '@ud-viz/utils_browser';
 import { Scale } from 'itowns/widgets';
+import { C3DTiles } from '@ud-viz/widget_3d_tiles';
 
 import { ID } from '../../shared/constant';
 import { UI } from '../UI';
 import { AvatarController } from '../AvatarController';
 import { CameraManager } from '../CameraManager';
 import { ItownsRefine } from '../ItownsRefine';
-import { C3DTiles } from '@ud-viz/widget_3d_tiles';
 
 export class SwitchItowns extends ScriptBase {
   constructor(context, object3D, variables) {
