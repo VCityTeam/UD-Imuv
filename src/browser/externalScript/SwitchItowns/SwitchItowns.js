@@ -1,10 +1,6 @@
 import * as THREE from 'three';
 // eslint-disable-next-line no-unused-vars
 import { ScriptBase, Context } from '@ud-viz/game_browser';
-import { LayerChoice } from '@ud-viz/widget_layer_choice';
-import { CameraPositioner } from '@ud-viz/widget_camera_positioner';
-import { GeocodingView, GeocodingService } from '@ud-viz/widget_geocoding';
-import { RequestService } from '@ud-viz/utils_browser';
 import { Scale } from 'itowns/widgets';
 import { C3DTiles } from '@ud-viz/widget_3d_tiles';
 
@@ -198,6 +194,9 @@ class MenuItowns {
       );
       context.frame3D.itownsView.notifyChange(); // need a redraw of the context.frame3D.itownsView
     };
+
+    // layer choice
+    const widgetLayerChoice = new LayerChoice
 
     // ADD ITOWNS WIDGETS
     const itownsScale = new Scale(context.frame3D.itownsView, {
