@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 import { ScriptBase } from '@ud-viz/game_browser';
+import { C3DTiles } from '@ud-viz/widget_3d_tiles';
 import { LayerChoice } from '@ud-viz/widget_layer_choice';
 import { CameraPositioner } from '@ud-viz/widget_camera_positioner';
 import { GeocodingView, GeocodingService } from '@ud-viz/widget_geocoding';
 import { RequestService } from '@ud-viz/utils_browser';
 import { Scale } from 'itowns/widgets';
+import { Style } from 'itowns';
 
 import { UI } from './UI';
 import { AvatarController } from './AvatarController';
@@ -137,7 +139,7 @@ class MenuItowns {
     this.domElement.classList.add('contextual_menu');
 
     const title = document.createElement('h1');
-    title.innerHTML = 'Widgets';
+    title.innerText = 'Widgets';
     this.domElement.appendChild(title);
 
     // //ADD UD-VIZ WIDGETS
@@ -197,6 +199,104 @@ class MenuItowns {
       new GeocodingView(geocodingService, externalContext.frame3D.itownsView)
     );
 
+    //3d tiles
+    this.addModuleView(
+      '3D Tiles',
+      new C3DTiles(externalContext.frame3D.itownsView, {
+        overrideStyle: new Style({
+          fill: {
+            color: function (feature) {
+              return feature.userData.selectedColor
+                ? feature.userData.selectedColor
+                : 'white';
+            },
+          },
+        }),
+        parentElement: this.domElement,
+        layerContainerClassName: 'widgets-3dtiles-layer-container',
+        c3DTFeatureInfoContainerClassName: 'widgets-3dtiles-feature-container',
+        urlContainerClassName: 'widgets-3dtiles-url-container',
+      })
+    );
+
+    this.widgets['3D Tiles'].domElement.setAttribute('id', 'widgets-3dtiles');
+    this.widgets['3D Tiles'].domElement.remove();
+
+    // add on click behavior
+    const contextSelection = {
+      feature: null,
+      layer: null,
+    };
+
+    const resetContext = () => {
+      if (contextSelection.feature) {
+        // reset feature userData
+        contextSelection.feature.userData.selectedColor = null;
+        // and update style of its layer
+        contextSelection.layer.updateStyle();
+        // reset context selection
+        contextSelection.feature = null;
+        contextSelection.layer = null;
+      }
+    };
+
+    const listener3Dtiles = (event) => {
+      resetContext();
+      const view = externalContext.frame3D.itownsView;
+      // get intersects based on the click event
+      const intersects = view.pickObjectsAt(
+        event,
+        0,
+        view.getLayers().filter((el) => el.isC3DTilesLayer)
+      );
+
+      if (intersects.length) {
+        // get featureClicked
+        const featureClicked =
+          intersects[0].layer.getC3DTileFeatureFromIntersectsArray(intersects);
+        if (featureClicked) {
+          // write in userData the selectedColor
+          featureClicked.userData.selectedColor = 'red';
+          // and update its style layer
+          intersects[0].layer.updateStyle();
+
+          // set contextSelection
+          contextSelection.feature = featureClicked;
+          contextSelection.layer = intersects[0].layer;
+        }
+      }
+
+      // update widget displayed info
+      this.widgets['3D Tiles'].displayC3DTFeatureInfo(
+        contextSelection.feature,
+        contextSelection.layer
+      );
+
+      view.notifyChange(); // need a redraw of the view
+    };
+
+    this.widgets['3D Tiles'].domElement.addEventListener(
+      'MODULE_CLASS_UI_REMOVED',
+      () => {
+        this.widgets['3D Tiles'].displayedBBFeature.visible = false;
+        resetContext();
+        externalContext.frame3D.domElementWebGL.removeEventListener(
+          'click',
+          listener3Dtiles
+        );
+      }
+    );
+
+    this.widgets['3D Tiles'].domElement.addEventListener(
+      'MODULE_CLASS_UI_APPENDED',
+      () => {
+        externalContext.frame3D.domElementWebGL.addEventListener(
+          'click',
+          listener3Dtiles
+        );
+      }
+    );
+
     // //ADD ITOWNS WIDGETS
     const itownsScale = new Scale(externalContext.frame3D.itownsView, {
       parentElement: this.domElement,
@@ -214,7 +314,7 @@ class MenuItowns {
     const button = document.createElement('button');
     button.classList.add('button-imuv');
 
-    button.innerHTML = moduleId;
+    button.innerText = moduleId;
     this.domElement.appendChild(button);
 
     this.widgets[moduleId] = moduleClass;
@@ -229,9 +329,15 @@ class MenuItowns {
         if (moduleClass.dispose) {
           moduleClass.dispose();
         } else {
+          moduleClass.domElement.dispatchEvent(
+            new Event('MODULE_CLASS_UI_REMOVED')
+          );
           this.domElement.removeChild(moduleClass.domElement);
         }
       } else {
+        moduleClass.domElement.dispatchEvent(
+          new Event('MODULE_CLASS_UI_APPENDED')
+        );
         this.domElement.appendChild(moduleClass.domElement);
       }
     };
