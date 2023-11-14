@@ -80,7 +80,7 @@
     "@ud-viz/widget_3d_tiles": "^4.0.0",
     "@ud-viz/widget_camera_positioner": "4.0.0",
     "@ud-viz/widget_geocoding": "4.0.0",
-    "@ud-viz/widget_layer_choice": "4.0.0",
+    "@ud-viz/widget_layer_choice": "file:../UD-Viz/packages/widget_layer_choice",
     "buffer": "^6.0.3",
     "itowns": "^2.41.1-next.8",
     "jitsi-iframe-api": "^1.0.0",
