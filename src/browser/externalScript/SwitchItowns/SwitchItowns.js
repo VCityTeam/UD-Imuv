@@ -141,10 +141,6 @@ class MenuItowns {
     this.domElement.classList.add('root_menu_itowns');
     this.domElement.classList.add('contextual_menu');
 
-    const title = document.createElement('h1');
-    title.innerHTML = 'Widgets';
-    this.domElement.appendChild(title);
-
     // ADD UD-VIZ WIDGETS
     const widget3DTiles = new C3DTiles(context.frame3D.itownsView, {
       parentElement: this.domElement,
@@ -194,9 +190,6 @@ class MenuItowns {
       );
       context.frame3D.itownsView.notifyChange(); // need a redraw of the context.frame3D.itownsView
     };
-
-    // layer choice
-    const widgetLayerChoice = new LayerChoice
 
     // ADD ITOWNS WIDGETS
     const itownsScale = new Scale(context.frame3D.itownsView, {
