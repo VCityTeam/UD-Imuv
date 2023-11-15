@@ -246,20 +246,6 @@ const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
                         PARSE.KEY.AVATAR_ID_RENDER_DATA
                       );
 
-                      // listen settings save event
-                      socketWrapper.socket.on(
-                        WEBSOCKET.MSG_TYPE.SAVE_SETTINGS,
-                        (settings) => {
-                          parseUser.set(
-                            PARSE.KEY.SETTINGS,
-                            JSON.stringify(settings)
-                          );
-                          parseUser.save(null, { useMasterKey: true });
-                        }
-                      );
-
-                      console.log(avatarTextureFacePath);
-
                       addUserAvatar(
                         user,
                         settingsString ? JSON.parse(settingsString) : {},

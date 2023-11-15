@@ -1,6 +1,7 @@
 const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
-const { useParseEndPoint, connect, computeUserMiddleware } = require('./parse');
+const { connect, computeUserMiddleware, createUser } = require('./parse');
+const jwt = require('jsonwebtoken');
 const reload = require('reload');
 const { json } = require('body-parser');
 const { createGameWebsocketService } = require('./gameWebSocketService');
@@ -13,6 +14,7 @@ const { MathUtils } = require('three');
 const path = require('path');
 const fs = require('fs');
 const { THREAD, PARSE } = require('./constant');
+const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
 
 const FOLDER_PATH_PUBLIC = path.resolve(__dirname, '../../public');
 const PATH_GAME_OBJECT_3D = '/assets/gameObject3D/';
@@ -23,6 +25,8 @@ const browserPath = (path) => '.' + path;
 
 // launch an express app
 const app = express();
+
+const Parse = connect();
 
 const port = process.env.PORT;
 
@@ -144,7 +148,6 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
     }
 
     // write in user database
-    const Parse = connect();
     // retrieve user in db
     const query = new Parse.Query(Parse.User);
     query
@@ -185,6 +188,62 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
   }
 });
 
-useParseEndPoint(app);
+app.use('/save_settings', computeUserMiddleware, (req, res) => {
+  if (req.user) {
+    const query = new Parse.Query(Parse.User);
+    query.get(req.user.id).then((parseUser) => {
+      parseUser.set(PARSE.KEY.SETTINGS, JSON.stringify(req.body));
+      parseUser.save(null, { useMasterKey: true });
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+app.use('/sign_in', async (req, res) => {
+  try {
+    const user = await Parse.User.logIn(req.body.name, req.body.password);
+
+    const tokenContent = {
+      name: await user.get(PARSE.KEY.NAME),
+      id: await user.id,
+      role: await user.get(PARSE.KEY.ROLE),
+    };
+
+    console.log(tokenContent);
+
+    res.send(jwt.sign(tokenContent, process.env.JSON_WEB_TOKEN_SECRET));
+  } catch (error) {
+    res.status(401).send(error);
+  }
+});
+
+app.use('/sign_up', async (req, res) => {
+  try {
+    const user = await createUser(
+      req.body.name,
+      req.body.password,
+      PARSE_VALUE.ROLE_DEFAULT
+    );
+
+    res.send(
+      jwt.sign(
+        {
+          name: await user.get(PARSE.KEY.NAME),
+          id: await user.id,
+          role: await user.get(PARSE.KEY.ROLE),
+        },
+        process.env.JSON_WEB_TOKEN_SECRET
+      )
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
+});
+
+app.use('/verify_token', computeUserMiddleware, (req, res) => {
+  res.send(req.user);
+});
 
 reload(app, { port: 8082 }); // TODO: pass reload port as the http server port

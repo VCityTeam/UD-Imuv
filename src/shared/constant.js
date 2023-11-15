@@ -35,28 +35,6 @@ module.exports = {
       PORTAL: 'portal',
     },
   },
-  /**
-   * Define the type of message of a websocket communication between client and imuv server
-   */
-  WEBSOCKET: {
-    MSG_TYPE: {
-      // client => server
-      SAVE_SETTINGS: 'save_settings', // save client settings on server
-      SAVE_AVATAR: 'save_avatar', // save client avatar on server
-      QUERY_AVATAR: 'query_avatar', // ask server to send avatar json
-      ADD_GAMEOBJECT: 'add_gameobject', // add a go in world
-      REMOVE_GAMEOBJECT: 'remove_gameobject', // remove a go in world
-      SIGN_UP: 'sign_up', // sign up
-      SIGN_IN: 'sign_in', // sign in
-      SAVE_WORLDS: 'save_worlds', // save new worlds on server
-      EDIT_CONF_COMPONENT: 'edit_conf_comp', // modify conf of a go component
-      // server => client
-      INFO: 'info', // info client with a message
-      SIGN_UP_SUCCESS: 'sign_up_success', // sign up
-      SIGNED: 'signed', // client is signed in imuv server
-      ON_AVATAR: 'on_avatar', // return avatar json
-    },
-  },
   // city map data
   CITY_MAP: {
     PATH: './assets/img/citymap.png',
