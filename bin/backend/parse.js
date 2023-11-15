@@ -1,6 +1,7 @@
 const Parse = require('parse/node');
 const jwt = require('jsonwebtoken');
 const { PARSE } = require('./constant');
+const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
 
 // TODO: check if Parse record if it's initialized or not
 let initialized = false;
@@ -12,6 +13,13 @@ let initialized = false;
 const connect = () => {
   if (initialized) return Parse;
   initialized = true;
+
+  if (!process.env.PARSE_SERVER_URL)
+    throw new Error('need process.env.PARSE_SERVER_URL');
+  if (!process.env.PARSE_APP_ID)
+    throw new Error('need process.env.PARSE_APP_ID');
+  if (!process.env.PARSE_MASTER_KEY)
+    throw new Error('need process.env.PARSE_MASTER_KEY');
 
   // eslint-disable-next-line no-undef
   Parse.serverURL = process.env.PARSE_SERVER_URL; // This is your Server URL
@@ -62,6 +70,26 @@ const computeUserMiddleware = (req, res, next) => {
   }
 };
 
+const isAdminMiddleware = (req, res, next) => {
+  const token = readTokenFromRequest(req);
+  if (!token) {
+    res.sendStatus(401);
+  } else {
+    jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        res.sendStatus(401);
+      } else {
+        if (user.role != PARSE_VALUE.ROLE_ADMIN) {
+          res.sendStatus(401);
+        } else {
+          req.user = user;
+          next();
+        }
+      }
+    });
+  }
+};
+
 const createUser = async (name, password, role) => {
   const Parse = connect();
   const user = new Parse.User();
@@ -82,4 +110,5 @@ module.exports = {
   connect: connect,
   createUser: createUser,
   computeUserMiddleware: computeUserMiddleware,
+  isAdminMiddleware: isAdminMiddleware,
 };

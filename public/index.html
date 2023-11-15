@@ -46,7 +46,7 @@
       </div>
       <header id="top" class="header_Home"></header>
       <div id="button_Join" class="joinButton_Home">
-        <div  id="label_Join"></div>
+        <div id="label_Join"></div>
       </div>
       <div class="feedbacksDiv_Home">
         <h2 id="feedbacksLabel"></h2>
@@ -102,7 +102,7 @@
     <script>
       const texts = {
         FR: {
-          editorButton: 'Editeur ',
+          editorButton: "Ouvrir l'éditeur ",
           button_Home: 'Accueil',
           button_About: 'A propos',
           button_News: 'Actualités',
@@ -138,7 +138,7 @@
           logOut: 'Déconnexion'
         },
         EN: {
-          editorButton: 'Editor ',
+          editorButton: 'Open editor ',
           button_Home: 'Home',
           button_About: 'About',
           button_News: 'News',
@@ -268,7 +268,13 @@
           document.getElementById('user_role').innerText = user.role;
           document.getElementById('logOut').classList.remove('hidden');
           document.getElementById('signIn').classList.add('hidden');
+          if (user.role == utils.PARSE.VALUE.ROLE_ADMIN) {
+            document.getElementById('editorButton').classList.remove('hidden');
+          } else {
+            document.getElementById('editorButton').classList.add('hidden');
+          }
         } else {
+          document.getElementById('editorButton').classList.add('hidden');
           document.getElementById('user_name').innerText = '';
           document.getElementById('user_role').innerText = '';
           document.getElementById('logOut').classList.add('hidden');
@@ -294,6 +300,10 @@
       document.getElementById('logOut').onclick = () => {
         utils.writeTokenInCookie('');
         updateUser(null);
+      };
+
+      document.getElementById('editorButton').onclick = () => {
+        window.location.href = './editor.html';
       };
 
       let currentLang = 'FR';
