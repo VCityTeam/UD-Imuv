@@ -1,10 +1,18 @@
 const express = require('express');
 const { stringReplace } = require('string-replace-middleware');
-const { connect, computeUserMiddleware, createUser } = require('./parse');
+const {
+  connect,
+  computeUserMiddleware,
+  createUser,
+  isAdminMiddleware,
+} = require('./parse');
 const jwt = require('jsonwebtoken');
 const reload = require('reload');
 const { json } = require('body-parser');
-const { createGameWebsocketService } = require('./gameWebSocketService');
+const {
+  createGameWebsocketService,
+  readGameObjects3DAsJSON,
+} = require('./gameWebSocketService');
 const {
   dataUriToBuffer,
   arrayPushOnce,
@@ -244,6 +252,14 @@ app.use('/sign_up', async (req, res) => {
 
 app.use('/verify_token', computeUserMiddleware, (req, res) => {
   res.send(req.user);
+});
+
+app.use('/verify_admin_token', isAdminMiddleware, (req, res) => {
+  res.send(req.user);
+});
+
+app.use('/pull_gameobjects3D', isAdminMiddleware, (req, res) => {
+  res.send(readGameObjects3DAsJSON(absolutePath(PATH_GAME_OBJECT_3D)));
 });
 
 reload(app, { port: 8082 }); // TODO: pass reload port as the http server port

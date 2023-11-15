@@ -10,6 +10,6 @@ if (!password) {
   throw new Error('no password');
 }
 
-createUser(name, password, PARSE.VALUE.ROLE_ADMIN);
-
-console.log('create admin', name, password);
+createUser(name, password, PARSE.VALUE.ROLE_ADMIN).then(() => {
+  console.log('create admin', name, password);
+});
