@@ -1,14 +1,25 @@
 import * as THREE from 'three';
 // eslint-disable-next-line no-unused-vars
 import { ScriptBase, Context } from '@ud-viz/game_browser';
+
+// widgets
 import { Scale } from 'itowns/widgets';
 import { C3DTiles } from '@ud-viz/widget_3d_tiles';
+import { LayerChoice } from '@ud-viz/widget_layer_choice';
+import { GeocodingView, GeocodingService } from '@ud-viz/widget_geocoding';
+import { Bookmark } from '@ud-viz/widget_bookmark';
 
 import { ID } from '../../../shared/constant';
 import { UI } from '../UI';
 import { AvatarController } from '../AvatarController';
 import { CameraManager } from '../CameraManager';
 import { ItownsRefine } from '../ItownsRefine';
+import {
+  RequestService,
+  createLocalStorageDetails,
+} from '@ud-viz/utils_browser';
+
+import './style.css';
 
 export class SwitchItowns extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -142,9 +153,15 @@ class MenuItowns {
     this.domElement.classList.add('contextual_menu');
 
     // ADD UD-VIZ WIDGETS
+    const details3DTiles = createLocalStorageDetails(
+      'detail_widget_3d_tiles',
+      '3DTiles',
+      this.domElement
+    );
     const widget3DTiles = new C3DTiles(context.frame3D.itownsView, {
-      parentElement: this.domElement,
+      parentElement: details3DTiles,
     });
+
     const contextSelection = {
       feature: null,
       layer: null,
@@ -190,6 +207,62 @@ class MenuItowns {
       );
       context.frame3D.itownsView.notifyChange(); // need a redraw of the context.frame3D.itownsView
     };
+
+    // layer choice
+    const widgetLayerChoice = new LayerChoice(this.context.frame3D.itownsView);
+    const detailsLayerChoice = createLocalStorageDetails(
+      'key_widget_layer_choice',
+      'LayerChoice',
+      this.domElement
+    );
+    detailsLayerChoice.appendChild(widgetLayerChoice.domElement);
+
+    // geocoding
+    const widgetGeocoding = new GeocodingView(
+      new GeocodingService(new RequestService(), this.context.userData.extent, {
+        url: 'https://nominatim.openstreetmap.org/search',
+        credit:
+          '© OpenStreetMap contributors under <a href="https://www.openstreetmap.org/copyright">ODbL</a>',
+        requestTimeIntervalMs: '1000',
+        result: {
+          format: 'json',
+          basePath: '',
+          lng: 'lon',
+          lat: 'lat',
+        },
+        parameters: {
+          q: {
+            fill: 'query',
+          },
+          format: {
+            fill: 'value',
+            value: 'json',
+          },
+          viewbox: {
+            fill: 'extent',
+            format: 'WEST,SOUTH,EAST,NORTH',
+          },
+        },
+      }),
+      this.context.frame3D.itownsView
+    );
+    const detailsGeocoding = createLocalStorageDetails(
+      'key_widget_geocoding',
+      'Geocoding',
+      this.domElement
+    );
+    detailsGeocoding.appendChild(widgetGeocoding.domElement);
+
+    // bookmark
+    const detailsBookMark = createLocalStorageDetails(
+      'key_widget_bookmark',
+      'Bookmark',
+      this.domElement
+    );
+    // eslint-disable-next-line no-unused-vars
+    const widgetBookMark = new Bookmark(this.context.frame3D.itownsView, {
+      parentElement: detailsBookMark,
+    });
 
     // ADD ITOWNS WIDGETS
     const itownsScale = new Scale(context.frame3D.itownsView, {
