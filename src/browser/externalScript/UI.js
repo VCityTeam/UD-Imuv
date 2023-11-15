@@ -8,7 +8,6 @@ import * as THREE from 'three';
 import {
   URL_PARAMETER,
   PARSE,
-  WEBSOCKET,
   MAP_CLICK_MODE,
   ID,
 } from '../../shared/constant';
@@ -19,7 +18,7 @@ import { SpriteName } from './SpriteName';
 import { Visible } from './Visible';
 import { TextureFace } from './TextureFace';
 
-import { writeTokenInCookie } from '../utils/index';
+import { request, writeTokenInCookie } from '../utils/index';
 
 import { AvatarController } from './AvatarController';
 import { Base } from '@ud-viz/frame3d';
@@ -746,7 +745,7 @@ class MenuSettings {
     saveButton.appendChild(saveIcon);
 
     saveButton.onclick = () => {
-      this.context.socketIOWrapper.emit(WEBSOCKET.MSG_TYPE.SAVE_SETTINGS, {
+      request(window.origin + '/save_settings', {
         // SETTINGS MODEL IS DESCRIBE HERE
         fogValue: this.fogSlider.value,
         zoomFactor: this.zoomFactorSlider.value,
