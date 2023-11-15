@@ -50,3 +50,5 @@ export const writeTokenInCookie = (token) => {
 };
 
 export * from './InfoUI';
+
+export { PARSE } from '../../shared/constant';
