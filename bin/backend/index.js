@@ -13,7 +13,6 @@ const { MathUtils } = require('three');
 const path = require('path');
 const fs = require('fs');
 const { THREAD, PARSE } = require('./constant');
-const { constant } = require('@ud-viz/game_shared');
 
 const FOLDER_PATH_PUBLIC = path.resolve(__dirname, '../../public');
 const PATH_GAME_OBJECT_3D = '/assets/gameObject3D/';
@@ -25,10 +24,7 @@ const browserPath = (path) => '.' + path;
 // launch an express app
 const app = express();
 
-if (process.argv[2] && isNaN(process.argv[2])) {
-  throw new Error('INVALID PORT');
-}
-const port = process.argv[2];
+const port = process.env.PORT;
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 console.log('backend running in mode ', NODE_ENV);
