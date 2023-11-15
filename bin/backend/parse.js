@@ -1,9 +1,6 @@
 const Parse = require('parse/node');
-// eslint-disable-next-line no-unused-vars
-const { application } = require('express');
 const jwt = require('jsonwebtoken');
 const { PARSE } = require('./constant');
-const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
 
 // TODO: check if Parse record if it's initialized or not
 let initialized = false;
@@ -65,60 +62,6 @@ const computeUserMiddleware = (req, res, next) => {
   }
 };
 
-/**
- *
- * @param {application} app
- */
-const useParseEndPoint = (app) => {
-  const Parse = connect();
-
-  app.use('/sign_in', async (req, res) => {
-    try {
-      const user = await Parse.User.logIn(req.body.name, req.body.password);
-
-      const tokenContent = {
-        name: await user.get(PARSE.KEY.NAME),
-        id: await user.id,
-        role: await user.get(PARSE.KEY.ROLE),
-      };
-
-      console.log(tokenContent);
-
-      res.send(jwt.sign(tokenContent, process.env.JSON_WEB_TOKEN_SECRET));
-    } catch (error) {
-      res.status(401).send(error);
-    }
-  });
-
-  app.use('/sign_up', async (req, res) => {
-    try {
-      const user = await createUser(
-        req.body.name,
-        req.body.password,
-        PARSE_VALUE.ROLE_DEFAULT
-      );
-
-      res.send(
-        jwt.sign(
-          {
-            name: await user.get(PARSE.KEY.NAME),
-            id: await user.id,
-            role: await user.get(PARSE.KEY.ROLE),
-          },
-          process.env.JSON_WEB_TOKEN_SECRET
-        )
-      );
-    } catch (error) {
-      console.error(error);
-      res.status(400).send(error);
-    }
-  });
-
-  app.use('/verify_token', computeUserMiddleware, (req, res) => {
-    res.send(req.user);
-  });
-};
-
 const createUser = async (name, password, role) => {
   const Parse = connect();
   const user = new Parse.User();
@@ -136,7 +79,6 @@ const createUser = async (name, password, role) => {
 };
 
 module.exports = {
-  useParseEndPoint: useParseEndPoint,
   connect: connect,
   createUser: createUser,
   computeUserMiddleware: computeUserMiddleware,
