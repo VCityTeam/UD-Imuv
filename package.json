@@ -16,7 +16,10 @@
     "eslint-fix": "npm run eslint -- --fix",
     "local-ci": "npm run eslint && npm run assert-code && npm audit --audit-level=low && npm run validate-links",
     "build-dev": "dotenv -e .env -- cross-env NODE_ENV=development webpack --config ./webpack.config.js",
-    "dev": "dotenv -e .env -- cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./src --watch ./bin/backend --delay 2500ms ./bin/dev.js -e js,css,html",
+    "dev-utils": "dotenv -e .env -- cross-env NODE_ENV=development NAME=utils ENTRY=./src/browser/utils/index.js nodemon --trace-warnings --verbose --watch ./src/browser/utils --delay 2500ms ./bin/dev.js -e js,css",
+    "dev-game": "dotenv -e .env -- cross-env NODE_ENV=development NAME=game ENTRY=./src/browser/game/index.js nodemon --trace-warnings --verbose --watch ./src --delay 2500ms ./bin/dev.js -e js,css",
+    "dev-editor": "dotenv -e .env -- cross-env NODE_ENV=development NAME=editor ENTRY=./src/browser/editor/index.js nodemon --trace-warnings --verbose --watch ./src --delay 2500ms ./bin/dev.js -e js,css",
+    "dev-backend": "dotenv -e .env -- cross-env NODE_ENV=development nodemon --trace-warnings --verbose --watch ./bin/backend --watch ./src/shared --delay 2500ms ./bin/backend/index.js -e js",
     "host": "dotenv -e .env -- node ./bin/host.js",
     "analyze-bundle-game": "cross-env ANALYZE=analyze NAME=game ENTRY=./src/browser/game/index.js npm run build-dev",
     "create-admin": "dotenv -e .env node ./bin/backend/createAdmin.js"
