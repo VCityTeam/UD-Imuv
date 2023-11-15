@@ -81,6 +81,7 @@
     "@ud-viz/widget_camera_positioner": "file:../UD-Viz/packages/widget_camera_positioner",
     "@ud-viz/widget_geocoding": "file:../UD-Viz/packages/widget_geocoding",
     "@ud-viz/widget_layer_choice": "file:../UD-Viz/packages/widget_layer_choice",
+    "@ud-viz/widget_bookmark": "file:../UD-Viz/packages/widget_bookmark",
     "buffer": "^6.0.3",
     "itowns": "2.41.1-next.9",
     "jitsi-iframe-api": "^1.0.0",

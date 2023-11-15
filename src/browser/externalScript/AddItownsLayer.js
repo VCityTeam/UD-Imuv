@@ -31,7 +31,7 @@ const c3DTilesConfig = [
 export class AddItownsLayer extends ScriptBase {
   init() {
     this.context.frame3D.itownsView.addLayer(
-      new itowns.ColorLayer(baseMapConfig, {
+      new itowns.ColorLayer(baseMapConfig.name, {
         updateStrategy: {
           type: itowns.STRATEGY_DICHOTOMY,
           options: {},
