@@ -4,7 +4,7 @@ import { ScriptBase, Context } from '@ud-viz/game_browser';
 import { Scale } from 'itowns/widgets';
 import { C3DTiles } from '@ud-viz/widget_3d_tiles';
 
-import { ID } from '../../shared/constant';
+import { ID } from '../../../shared/constant';
 import { UI } from '../UI';
 import { AvatarController } from '../AvatarController';
 import { CameraManager } from '../CameraManager';
