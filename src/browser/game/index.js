@@ -58,7 +58,6 @@ const run = async () => {
 
   // TODO : external scripts depend of this value that should not be the case
   // set global variables for external scripts
-  game.externalGameContext.userData.firstGameObject = false;
   game.externalGameContext.userData.extent = extent;
 
   // Compute readyForGameSocketServiceParams

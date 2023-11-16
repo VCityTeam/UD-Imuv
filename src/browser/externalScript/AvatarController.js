@@ -31,10 +31,7 @@ export class AvatarController extends ScriptBase {
       }
     );
 
-    if (!this.context.userData.firstGameObject) {
-      // work with camera localscript
-      this.setAvatarControllerMode(true);
-    }
+    this.setAvatarControllerMode(true);
   }
 
   setAvatarControllerMode(value) {
