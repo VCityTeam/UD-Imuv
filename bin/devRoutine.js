@@ -1,11 +1,6 @@
 /** @file Running dev routine */
 const { exec } = require('child-process-promise');
 
-const print = function (result) {
-  if (result.stdout) console.log('stdout: \n', result.stdout);
-  if (result.stderr) console.error('stderr: \n', result.stderr);
-};
-
 const createCommitJSON = () => {
   const gitlog = require('gitlog').default;
   const fs = require('fs');
