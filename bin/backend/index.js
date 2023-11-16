@@ -48,7 +48,6 @@ const options = {
 // TODO: the limit should be in config
 app.use(json({ limit: '100mb' }));
 
-// TODO: see how to modify html title + bundle import procedurally
 app.use(
   stringReplace(
     {
@@ -87,7 +86,7 @@ const deleteUnusedAvatarImages = async () => {
   const query = new Parse.Query(Parse.User);
   try {
     let results = await query.distinct(PARSE.KEY.AVATAR_TEXTURE_FACE_PATH);
-    arrayPushOnce(results, absolutePath(PATH_AVATAR_IMAGES + 'default.jpeg')); // do not remove the deafault image
+    arrayPushOnce(results, absolutePath(PATH_AVATAR_IMAGES + 'default.jpeg')); // do not remove the default image
     results = results.map((el) => computeFilenameFromPath(el));
 
     console.log(results);

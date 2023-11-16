@@ -1,3 +1,11 @@
-.ui {
-  background-color: blue;
+.top_right {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+}
+
+.readable {
+  background-color: var(--imuv-color-one);
+  color: var(--imuv-color-two);
 }
