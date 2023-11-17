@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const { SocketService, thread } = require('@ud-viz/game_node');
 const { avatar } = require('../../src/shared/prefabFactory');
-const { WEBSOCKET } = require('../../src/shared/constant');
 const { THREAD, PARSE } = require('./constant');
 const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
 const THREE = require('three');
@@ -15,6 +14,21 @@ const { connect } = require('./parse');
 
 const moulinetteWorldJSON = (oldJSON) => {
   const newJSON = oldJSON.gameObject;
+
+  const extent = {
+    crs: 'EPSG:3946',
+    west: 1837860,
+    east: 1851647,
+    south: 5169347,
+    north: 5180575,
+  };
+
+  // georeference at the center of the extent
+  oldJSON.gameObject.transform.position = [
+    (extent.west + extent.east) * 0.5,
+    (extent.south + extent.north) * 0.5,
+    300,
+  ];
 
   const updateGameObject = (goJSON) => {
     const newGOJSON = {};

@@ -628,8 +628,10 @@ class DebugInfo {
     this.pingChart.draw();
 
     // bandwidth
-    this.bandWidthChart.add(context.interpolator.bandWidthStateValue);
-    this.bandWidthChart.draw();
+    if (context.interpolator.bandWidthStateValue) {
+      this.bandWidthChart.add(context.interpolator.bandWidthStateValue);
+      this.bandWidthChart.draw();
+    }
 
     let avatarCount = 0;
     let vertexCount = 0;
