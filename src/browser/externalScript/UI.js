@@ -31,7 +31,8 @@ export class UI extends ScriptBase {
     this.menuSettings = null;
 
     // display debug info
-    this.debugInfo = new DebugInfo();
+    this.debugInfo = null;
+    if (DEBUG) this.debugInfo = new DebugInfo();
 
     // toolsbar ui
     this.toolsBar = new ToolsBar();
@@ -80,7 +81,6 @@ export class UI extends ScriptBase {
     this.context.frame3D.domElementUI.appendChild(this.labelInfo.html());
 
     // DEBUG variable is going to be replace by webpack
-    // eslint-disable-next-line no-undef
     if (DEBUG) {
       this.context.frame3D.domElementUI.appendChild(this.debugInfo.html());
     }
@@ -90,14 +90,16 @@ export class UI extends ScriptBase {
     this.menuSettings = menuSettings; // ref to be access from other scripts
 
     // log out
-    this.gadgetUI.addGadget(
-      'assets/img/ui/icon_close.png',
-      'Deconnexion',
-      () => {
-        writeTokenInCookie(''); // delete cookie
-        window.location.href = window.origin; // redirect to home
-      }
-    );
+    if (this.context.userData.user.role != PARSE.VALUE.ROLE_GUEST) {
+      this.gadgetUI.addGadget(
+        'assets/img/ui/icon_close.png',
+        'Deconnexion',
+        () => {
+          writeTokenInCookie(''); // delete cookie
+          window.location.href = window.origin; // redirect to home
+        }
+      );
+    }
 
     this.gadgetUI.addGadget(
       './assets/img/ui/icon_settings.png',
