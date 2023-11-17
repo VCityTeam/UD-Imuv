@@ -103,6 +103,8 @@ const moulinetteWorldJSON = (oldJSON) => {
           newGOJSON.userData.isCityNotAllowArea = true; // replace empty script by a userdata
           return;
         }
+        if (!newGOJSON.userData) newGOJSON.userData = {};
+        if (id == 'map_id') newGOJSON.userData.isMap = true;
         scriptParams.push({ id: id });
       });
 
