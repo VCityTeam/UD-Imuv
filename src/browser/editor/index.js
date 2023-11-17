@@ -1,5 +1,7 @@
 import { Editor } from '@ud-viz/game_editor';
 
+import { addAllImuvLayers } from '../externalScript/component/imuvLayers';
+
 import * as externalScript from '../externalScript/externalScript';
 import { Map } from '@ud-viz/game_browser_template';
 
@@ -14,14 +16,14 @@ import * as proj4 from 'proj4';
 import { Extent } from 'itowns';
 
 import './style.css';
-import { AssetManager } from '@ud-viz/game_browser/src';
+import {
+  AssetManager,
+  InputManager,
+  SinglePlanarProcess,
+} from '@ud-viz/game_browser/src';
 import { Object3D } from '@ud-viz/game_shared/src';
-
-const assetManager = new AssetManager();
-const editor = new Editor({ ...gameScript, Map }, externalScript, assetManager); // load scripts needed to make works gameobject3D
-editor.leftPan.classList.add('readable');
-document.body.appendChild(editor.domElement);
-editor.resizeListener(); // update its dimension
+import { Planar } from '@ud-viz/frame3d';
+import { avatar } from '../../shared/prefabFactory';
 
 const runEditor = async () => {
   const user = await request(window.origin + '/verify_admin_token');
@@ -32,8 +34,6 @@ const runEditor = async () => {
     console.log('pull_gameobjects3D ', gameObjects3D);
 
     const config = await loadJSON('./assets/config/config.json');
-
-    await assetManager.loadFromConfig(config.assetManager);
 
     proj4.default.defs(
       config['extent'].crs,
@@ -48,6 +48,58 @@ const runEditor = async () => {
       parseInt(config['extent'].south),
       parseInt(config['extent'].north)
     );
+
+    /** @type {Planar} */
+    const frame3D = new Planar(extent, {
+      hasItownsControls: false,
+      domElementClass: 'full_screen',
+    });
+
+    // add layers
+    addAllImuvLayers(frame3D.itownsView, extent);
+
+    const assetManager = new AssetManager();
+    const editor = new Editor(frame3D, assetManager); // load scripts needed to make works gameobject3D
+    editor.leftPan.classList.add('readable');
+
+    const buttonRunningGame = document.createElement('button');
+    buttonRunningGame.innerText = 'Run';
+    editor.toolsDomElement.appendChild(buttonRunningGame);
+    buttonRunningGame.onclick = () => {
+      editor.process.pause = true;
+      editor.frame3D.domElement.remove();
+
+      const avatarGO = avatar('editor_avatar');
+      const gameObject3D = editor.currentGameObject3D.clone();
+      gameObject3D.add(avatarGO);
+
+      const singlePlanarProcess = new SinglePlanarProcess(
+        gameObject3D,
+        new Planar(extent, {
+          hasItownsControls: false,
+          domElementClass: 'full_screen',
+          sceneConfig: config.scene,
+        }),
+        assetManager,
+        new InputManager(),
+        {
+          gameScriptClass: { gameScript: gameScript, Map: Map },
+          externalGameScriptClass: externalScript,
+        }
+      );
+
+      singlePlanarProcess.externalGameContext.userData.avatar =
+        avatarGO.toJSON();
+      singlePlanarProcess.externalGameContext.userData.extent = extent;
+      singlePlanarProcess.externalGameContext.userData.settings = {};
+      singlePlanarProcess.externalGameContext.userData.user = {
+        role: 'editor',
+      };
+
+      singlePlanarProcess.start();
+    };
+
+    await assetManager.loadFromConfig(config.assetManager);
 
     const selectGameObject3D = document.createElement('select');
     selectGameObject3D.classList.add('top_right');

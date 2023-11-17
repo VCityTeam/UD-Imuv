@@ -43,11 +43,6 @@ const run = async () => {
     {
       sceneConfig: config.scene,
       externalGameScriptClass: externalScript,
-      gameOrigin: {
-        x: extent.center().x,
-        y: extent.center().y,
-        z: 300,
-      },
       frame3DPlanarOptions: {
         domElementClass: 'full_screen',
         hasItownsControls: false,
