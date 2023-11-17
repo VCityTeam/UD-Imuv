@@ -342,7 +342,17 @@ export class MiniMap extends ScriptBase {
       0.001,
       1000
     );
-    camera.position.z = 100; // to be sure to not cull something
+
+    const map = this.context.currentGameObject3D.getFirst(
+      (child) => child.userData.isMap
+    );
+    const mapWorldPosition = new THREE.Vector3();
+    map.matrixWorld.decompose(
+      mapWorldPosition,
+      new THREE.Quaternion(),
+      new THREE.Vector3()
+    );
+    camera.position.set(mapWorldPosition.x, mapWorldPosition.y, 1000);
     camera.updateProjectionMatrix();
 
     /* Rendering the scene to a background image. */
