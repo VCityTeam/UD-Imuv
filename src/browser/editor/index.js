@@ -58,6 +58,7 @@ export const app = async () => {
       hasItownsControls: false,
       domElementClass: 'full_screen',
     });
+    frame3D.enableItownsViewRendering(false);
 
     // add layers
     addAllImuvLayers(frame3D.itownsView, extent);
