@@ -11,9 +11,11 @@ const {
   checkIfSubStringIsEuler,
 } = require('@ud-viz/utils_shared');
 const { connect } = require('./parse');
+const { Object3D } = require('@ud-viz/game_shared');
 
 const moulinetteWorldJSON = (oldJSON) => {
   const newJSON = oldJSON.gameObject;
+  newJSON.uuid = oldJSON.uuid;
 
   const extent = {
     crs: 'EPSG:3946',
@@ -135,7 +137,8 @@ const moulinetteWorldJSON = (oldJSON) => {
     return newGOJSON;
   };
 
-  return updateGameObject(newJSON);
+  let result = updateGameObject(newJSON);
+  return new Object3D(result).toJSON(true, true);
 };
 
 const readGameObjects3DAsJSON = (gameObjectsFolderPath) => {

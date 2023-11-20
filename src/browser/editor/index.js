@@ -25,14 +25,14 @@ import { Object3D } from '@ud-viz/game_shared/src';
 import { Planar } from '@ud-viz/frame3d';
 import { avatar } from '../../shared/prefabFactory';
 
-const SESSION_STORAGE_GAMEOBJECTS3D_KEY = 'session_storage_gameobjects3D_key';
+const SESSION_STORAGE_GAMEOBJECT3D_KEY = 'session_storage_gameobjects3D_key';
 
 export const app = async () => {
   const user = await request(window.origin + '/verify_admin_token');
   if (!user) {
     alert('only admin can access editor');
   } else {
-    const gameObjects3D = await request(window.origin + '/pull_gameobjects3D');
+    let gameObjects3D = await request(window.origin + '/pull_gameobjects3D');
     console.log('pull_gameobjects3D ', gameObjects3D);
 
     const config = await loadJSON('./assets/config/config.json');
@@ -76,42 +76,70 @@ export const app = async () => {
     buttonRunningGame.onclick = () => {
       // sessionStorage is used to send current gameobjects3D to editor_play.html
       sessionStorage.setItem(
-        SESSION_STORAGE_GAMEOBJECTS3D_KEY,
-        JSON.stringify(
-          gameObjects3D.map((g) => {
-            if (g.uuid == editor.currentGameObject3D.uuid) {
-              return editor.currentGameObject3D.toJSON();
-            } else {
-              return g;
-            }
-          })
-        )
+        SESSION_STORAGE_GAMEOBJECT3D_KEY,
+        JSON.stringify(editor.currentGameObject3D.toJSON())
       );
       window.open(window.origin + '/editor_play.html', '_blank').focus();
     };
 
+    const ui = document.createElement('div');
+    ui.classList.add('top_right');
+    ui.classList.add('readable');
+    document.body.appendChild(ui);
+
+    // select a gameObject3D
     const selectGameObject3D = document.createElement('select');
-    selectGameObject3D.classList.add('top_right');
-    selectGameObject3D.classList.add('readable');
+    ui.appendChild(selectGameObject3D);
 
     gameObjects3D.forEach((g) => {
       const option = document.createElement('option');
-      option.innerText = g.name;
-      option.value = g.uuid;
+      option.innerText = g.object.name;
+      option.value = g.object.uuid;
       selectGameObject3D.appendChild(option);
     });
 
-    document.body.appendChild(selectGameObject3D);
-
-    const updateSelectedGameObject3D = async () => {
+    const updateSelectedGameObject3D = () => {
       const uuidSelected = selectGameObject3D.selectedOptions[0].value;
       editor.setCurrentGameObject3D(
-        new Object3D(gameObjects3D.filter((el) => el.uuid == uuidSelected)[0])
+        new Object3D(
+          gameObjects3D.filter((el) => el.object.uuid == uuidSelected)[0]
+        )
       );
     };
 
-    selectGameObject3D.onchange = updateSelectedGameObject3D;
+    selectGameObject3D.onchange = () => {
+      if (
+        editor.currentGameObject3D &&
+        confirm(
+          'Sauvegarder en local ' + editor.currentGameObject3D.name + ' ?'
+        )
+      ) {
+        gameObjects3D = gameObjects3D.map((el) => {
+          if (el.object.uuid == editor.currentGameObject3D.uuid) {
+            return editor.currentGameObject3D.toJSON(true, true);
+          } else {
+            return el;
+          }
+        });
+      }
+      updateSelectedGameObject3D();
+    };
     updateSelectedGameObject3D();
+
+    // save gameobject3D
+    const saveButton = document.createElement('button');
+    saveButton.innerText = 'Sauvegarder';
+    ui.appendChild(saveButton);
+
+    saveButton.onclick = async () => {
+      if (confirm('Sauvegarder sur le serveur ?')) {
+        await request(
+          window.origin + '/save_gameObject3D',
+          editor.currentGameObject3D.toJSON(true, true) // with metadata
+        );
+        alert('done');
+      }
+    };
   }
 };
 
@@ -120,10 +148,10 @@ export const play = async () => {
   if (!user) {
     alert('Only admin can access editor play');
   } else {
-    let gameObjects3DJSON = null;
+    let gameObject3DJSON = null;
     try {
-      gameObjects3DJSON = JSON.parse(
-        sessionStorage.getItem(SESSION_STORAGE_GAMEOBJECTS3D_KEY)
+      gameObject3DJSON = JSON.parse(
+        sessionStorage.getItem(SESSION_STORAGE_GAMEOBJECT3D_KEY)
       );
     } catch {
       throw new Error('no gameobjects in sessionStorage');
@@ -147,7 +175,7 @@ export const play = async () => {
       parseInt(config['extent'].north)
     );
 
-    const gameObject3D = new Object3D(gameObjects3DJSON[0]);
+    const gameObject3D = new Object3D(gameObject3DJSON);
 
     const avatarGO = avatar('editor_avatar');
     gameObject3D.add(avatarGO);

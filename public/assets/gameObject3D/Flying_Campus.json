@@ -1,58 +1,1950 @@
 {
-  "gameObject": {
-    "name": "Flying Campus",
-    "type": "GameObject",
-    "static": true,
-    "outdated": false,
-    "uuid": "C9E1F773-4249-4BE5-A744-438207962D64",
-    "parentUUID": null,
-    "forceSerializeComponents": [],
-    "components": {
-      "WorldScript": {
-        "uuid": "8789DBE9-B9BF-4F13-8E5D-617DED3EB218",
-        "scriptParams": ["spawner_id_script", "my_command_manager_id"],
-        "conf": {
-          "speedTranslate": 0.008,
-          "cityAvatarAllow": true,
-          "spawnTransform": {
-            "position": [-45.7, -53.5, 0.2],
-            "rotation": [0.15136780318774076, 0, -0.8919030509227979],
-            "scale": [1, 1, 1]
-          }
-        },
-        "type": "WorldScript"
-      },
-      "LocalScript": {
-        "uuid": "4C2E2FEF-0AD0-4EAA-BB4C-CB385AA19B3F",
-        "scriptParams": [
-          "itowns_refine_id_ext_script",
-          "switch_itowns_id_ext_script",
-          "avatar_controller_id_ext_script",
-          "camera_manager_id",
-          "zeppelin_controller_id_ext_script",
-          "box3D_tool_id_ext_script",
-          "static_object_id_ext_script",
-          "add_itowns_layer_id_ext_script"
-        ],
-        "conf": {
-          "traveling_time": 3000
-        },
-        "type": "LocalScript"
-      }
-    },
+  "metadata": {
+    "type": "Object3D",
+    "method": "toJSON",
+    "version": "4.0.1",
+    "packageName": "@ud-viz/game_shared"
+  },
+  "object": {
     "children": [
       {
+        "children": [
+          {
+            "children": [],
+            "matrix": [
+              0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0.1, 0, 20.86221952480264,
+              61.350304623134434, -2.967018976222789, 1
+            ],
+            "uuid": "3E115628-AC54-4E47-A8B8-FD3B2441C3EE",
+            "name": "audio birds",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "Audio": {
+                "uuid": "FC6F575C-31AA-4A4A-9740-EB7DCCD4F751",
+                "sounds": ["birds"],
+                "conf": { "autoplay": true, "spatialized": true, "loop": true }
+              },
+              "Render": {
+                "uuid": "239318BE-BADA-45B2-B270-8F157E021674",
+                "type": "Render",
+                "idRenderData": "cube",
+                "color": [1, 1, 0, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0.1, 0, 0, 0,
+              0.7223426946215454, 1
+            ],
+            "uuid": "A38912AB-3E84-4B1B-A638-8983CA6473FD",
+            "name": "audio_fontain",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "Audio": {
+                "uuid": "ECC6C5E3-A0E8-4564-8776-A0E3C563E964",
+                "sounds": ["fontain"],
+                "conf": { "autoplay": true, "spatialized": true, "loop": true }
+              },
+              "Render": {
+                "uuid": "01F3E607-ACF4-4335-B274-3A6B0360FF84",
+                "type": "Render",
+                "idRenderData": "cube",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.12195445642705932, -0.5874751999510962, 0, 0,
+              0.5874751999510962, -0.12195445642705932, 0, 0, 0, 0, 1, 0,
+              30.111797388177365, 46.484672989696264, -2.799337193664371, 1
+            ],
+            "uuid": "7EE2EBC0-7323-4715-91B3-371D4118D428",
+            "name": "Portal_Conf_Stairs",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isPortal": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "bba46ec8-feec-4e85-91a4-80450cda0ec6",
+                "scriptParams": [
+                  { "id": "rotate_id_ext_script" },
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "portal_sweep_id_ext_script" }
+                ],
+                "variables": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "4a26daa6-c7e2-4403-bbe1-3e580cc25c5d",
+                "scriptParams": [
+                  { "id": "portal_id_script" },
+                  { "id": "interaction_zone_id_script" }
+                ],
+                "variables": {
+                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+                  "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
+                  "spawnRotation": {
+                    "x": -0.11522197265624445,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "delay": 1000
+                },
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "AFAC82B4-B224-4363-82FA-399617E078F9",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
+                  }
+                ],
+                "body": false
+              },
+              "Audio": {
+                "uuid": "04792998-315C-4028-91B7-93588952E035",
+                "sounds": ["portal_in"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "146C6F3F-2BA2-4502-BE06-5F62DCD7FE8E",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.12195445642705932, -0.5874751999510962, 0, 0,
+              0.5874751999510962, -0.12195445642705932, 0, 0, 0, 0, 1, 0,
+              18.5993127070833, -49.274458384141326, 0.037513740578333454, 1
+            ],
+            "uuid": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
+            "name": "Portal_Expo_Ouside",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isPortal": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "79ee20a3-287c-448f-9d00-2c2298d232e1",
+                "scriptParams": [
+                  { "id": "rotate_id_ext_script" },
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "portal_sweep_id_ext_script" }
+                ],
+                "variables": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "e2992732-357c-43c8-abfe-3ecc1c3a610a",
+                "scriptParams": [
+                  { "id": "portal_id_script" },
+                  { "id": "interaction_zone_id_script" }
+                ],
+                "variables": {
+                  "gameObjectDestUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
+                  "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
+                  "spawnRotation": {
+                    "x": -0.11522197265624445,
+                    "y": 0,
+                    "z": 3.14
+                  },
+                  "delay": 1000
+                },
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "3F36190D-098B-41A7-8D48-8FED381AF656",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
+                  }
+                ],
+                "body": false
+              },
+              "Audio": {
+                "uuid": "AC255376-2015-4AB1-A5EB-0C159C407CEA",
+                "sounds": ["portal_in"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "769C8A89-A5F6-44B9-8F68-F458AEF20BB6",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.14148981549381223, -0.9899397113519222, 0, 0,
+              0.9899397113519222, 0.14148981549381223, 0, 0, 0, 0, 1, 0,
+              -42.9279729914831, 38.797821399391225, 27.179337435998605, 1
+            ],
+            "uuid": "7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B",
+            "name": "Zeppelin",
+            "static": false,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isZeppelin": true },
+            "components": {
+              "Audio": {
+                "uuid": "168ECC64-550D-4652-8230-EF173C235DDB",
+                "sounds": ["zeppelin_engine"],
+                "conf": {
+                  "autoplay": true,
+                  "spatialized": true,
+                  "loop": true,
+                  "volume": 0.2
+                }
+              },
+              "Render": {
+                "uuid": "AE118224-36E8-44A4-BEED-697F0FD69BD3",
+                "type": "Render",
+                "idRenderData": "zeppelin",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679474735895, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679474735895, 0,
+              -27.065533498302102, -42.21518998593092, 7.223115794814788, 1
+            ],
+            "uuid": "470B029B-81FA-476B-9869-401CC6EF1E94",
+            "name": "Video Intro",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "46866a63-de5f-4074-8d64-d25198736ee9",
+                "scriptParams": [{ "id": "video_id_ext_script" }],
+                "variables": {
+                  "videoPath": "./assets/videos/POC_flying_campus_juin.webm",
+                  "width": 8.5,
+                  "height": 5.3,
+                  "size": { "width": 1280, "height": 720 }
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "15930333-026E-4D2C-A248-234E663202B2",
+                "sounds": ["video_happy_song"],
+                "conf": {
+                  "autoplay": true,
+                  "spatialized": true,
+                  "loop": true,
+                  "volume": 0.5
+                }
+              },
+              "Render": {
+                "uuid": "9FE823BC-652A-4F02-82BF-D47F3A6B21E0",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.12195445642705932, -0.5874751999510962, 0, 0,
+              0.5874751999510962, -0.12195445642705932, 0, 0, 0, 0, 1, 0,
+              12.36441638157703, 28.440718629397452, 0, 1
+            ],
+            "uuid": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
+            "name": "Portal_Conf_Patio",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isPortal": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "023f483b-12c1-44b2-8a7c-44ecd49982b4",
+                "scriptParams": [
+                  { "id": "rotate_id_ext_script" },
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "portal_sweep_id_ext_script" }
+                ],
+                "variables": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "57c397f4-602d-47f0-811f-5285808d33b5",
+                "scriptParams": [
+                  { "id": "portal_id_script" },
+                  { "id": "interaction_zone_id_script" }
+                ],
+                "variables": {
+                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+                  "portalUUID": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
+                  "spawnRotation": {
+                    "x": -0.11522197265624445,
+                    "y": 0,
+                    "z": 3.14
+                  },
+                  "delay": 1000
+                },
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "5E98CCE6-3F0C-4348-A4F4-CBDCB011934C",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
+                  }
+                ],
+                "body": false
+              },
+              "Audio": {
+                "uuid": "BC00CB7F-8163-49B2-8B44-F2C8A528A728",
+                "sounds": ["portal_in"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "85BC157C-DC5F-4123-8F4A-9678D36DD6B1",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.12195445642705932, -0.5874751999510962, 0, 0,
+              0.5874751999510962, -0.12195445642705932, 0, 0, 0, 0, 1, 0,
+              36.88026909297332, 32.29033400025219, -2.920996962569461, 1
+            ],
+            "uuid": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
+            "name": "Portal_Conf_Stairs balcon",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isPortal": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "b009475c-70cc-4cac-bef5-ae0f4507b601",
+                "scriptParams": [
+                  { "id": "rotate_id_ext_script" },
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "portal_sweep_id_ext_script" }
+                ],
+                "variables": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "893f05cb-2e36-49dd-a1ac-756704419538",
+                "scriptParams": [
+                  { "id": "portal_id_script" },
+                  { "id": "interaction_zone_id_script" }
+                ],
+                "variables": {
+                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
+                  "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
+                  "spawnRotation": {
+                    "x": -0.11522197265624445,
+                    "y": 0,
+                    "z": -1.6
+                  },
+                  "delay": 1000
+                },
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "CDEA6258-6CA3-4291-AFAE-41BE2A5738BA",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
+                  }
+                ],
+                "body": false
+              },
+              "Audio": {
+                "uuid": "C646056A-DC02-46F8-95D6-A5D9C5366E42",
+                "sounds": ["portal_in"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "C61203C3-092C-463F-B9EF-634000F81F7F",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.10181490241976658, -0.5912946718730074, 0.0020824648486415776,
+              0, 0.5912123916499903, -0.10183549943928438, -0.00987112017198841,
+              0, 0.01680224891955856, 0.0006281996850212005, 0.9998586349061553,
+              0, 27.629728958709165, -8.571165604516864, 0.9133055604198148, 1
+            ],
+            "uuid": "9A86811A-7AE7-4B1D-A3D7-44F51A9F4B65",
+            "name": "Portal studio A",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isPortal": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "4aba4780-4e21-4a1f-ae94-19e8e675b604",
+                "scriptParams": [
+                  { "id": "rotate_id_ext_script" },
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "portal_sweep_id_ext_script" }
+                ],
+                "variables": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "9c75c322-a6f6-4a75-9249-e2beb4741191",
+                "scriptParams": [
+                  { "id": "portal_id_script" },
+                  { "id": "interaction_zone_id_script" }
+                ],
+                "variables": {
+                  "gameObjectDestUUID": "57538540-D500-45DA-BE83-F645EAC480EA",
+                  "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
+                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                  "delay": 1000
+                },
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "B08EA790-8C54-4985-AE78-F562F399241E",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
+                  }
+                ],
+                "body": false
+              },
+              "Audio": {
+                "uuid": "C88D704A-8664-4719-A1F1-12C2CDDFE63D",
+                "sounds": ["portal_in"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "0A652315-AB58-4425-95A7-FC9BDB5DEE53",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.12371770149855332, -0.5871013014197536, 0.0024478985163646568,
+              0, 0.5870198435582591, -0.12374134233427263,
+              -0.009786902786341674, 0, 0.01680224891956346,
+              0.0006281996850191536, 0.9998586349061552, 0, 27.653164114337415,
+              -11.20519773196429, 0.9079655714667751, 1
+            ],
+            "uuid": "385DB463-DE88-485B-B6B3-05C3990D9654",
+            "name": "Portal studio B",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isPortal": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "00f8f89e-a653-4e01-a0b9-ae4f1454c944",
+                "scriptParams": [
+                  { "id": "rotate_id_ext_script" },
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "portal_sweep_id_ext_script" }
+                ],
+                "variables": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "8f036fc3-06df-4a04-8f5d-0d406534a577",
+                "scriptParams": [
+                  { "id": "portal_id_script" },
+                  { "id": "interaction_zone_id_script" }
+                ],
+                "variables": {
+                  "gameObjectDestUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
+                  "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
+                  "spawnRotation": { "x": 0, "y": 0, "z": 3.14 },
+                  "delay": 1000
+                },
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "D9C23E5C-1776-4DC3-BC49-ED215ED6DACD",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0 },
+                    "radius": 0.7
+                  }
+                ],
+                "body": false
+              },
+              "Audio": {
+                "uuid": "88DE6DDE-28D2-46F3-8FC3-5FC5A34FC6E7",
+                "sounds": ["portal_in"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "77D8D7AB-CEDC-4298-9F5B-59A34F839E93",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0.1, 0, 5.080751614179462,
+              -70.74564842693508, 4.3000414315607145, 1
+            ],
+            "uuid": "78A72F87-E84E-4E41-9F51-E169BE18A877",
+            "name": "audio birds",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "Audio": {
+                "uuid": "73FB01A4-6796-4CE0-867D-E9E799D9E0CA",
+                "sounds": ["birds"],
+                "conf": { "autoplay": true, "spatialized": true, "loop": true }
+              },
+              "Render": {
+                "uuid": "ABF0D078-7DD0-428D-B7E5-164E0EB39544",
+                "type": "Render",
+                "idRenderData": "cube",
+                "color": [1, 1, 0, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0.1, 0, -79.7744876013603,
+              -102.4414828363806, -27.147228363506883, 1
+            ],
+            "uuid": "8F3E58ED-2F47-4053-AE4C-C4898814819E",
+            "name": "audio city",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "Audio": {
+                "uuid": "3B314089-16E5-4F9C-AD6F-72E2CFF3F699",
+                "sounds": ["city"],
+                "conf": { "autoplay": true, "spatialized": true, "loop": true }
+              },
+              "Render": {
+                "uuid": "99F968B7-6DD1-4A98-B3A1-24F538540C71",
+                "type": "Render",
+                "idRenderData": "cube",
+                "color": [0.5, 0, 0, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.5, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.5, 0, -64.27197855524719,
+              -12.621256566606462, -11.86296368256933, 1
+            ],
+            "uuid": "66ECAE57-3495-428F-BD2B-46262DD3603E",
+            "name": "ButterflyArea",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "806925ca-bf5c-43f5-a49b-deed47d6073b",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "butterfly_spawner_id_ext_script" }
+                ],
+                "variables": {
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "6fd0e4ee-0322-45d7-9404-9753b5d9685f",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "E2DA8C69-45A6-4374-BB2B-00A363C28CE5",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0, "z": 0 },
+                    "radius": "5"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "1E36A149-CCC3-464A-BABB-41BEEC3B1802",
+                "type": "Render",
+                "idRenderData": "torus",
+                "color": [1, 0, 0, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.5, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.5, 0, -36.85867241444066,
+              76.27439526468515, -13.78722257744397, 1
+            ],
+            "uuid": "753DC33F-5E6B-421E-8EAA-6006261ECD0B",
+            "name": "ButterflyArea2",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "e66d85b5-1d06-405f-8420-09c8f93be36b",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "butterfly_spawner_id_ext_script" }
+                ],
+                "variables": {
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "15514c29-99e0-4e0e-a20b-dad6dcc33536",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "F04133F5-EF4D-4909-A58D-E20EDE374AE8",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0, "z": 0 },
+                    "radius": "5"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "49D17642-8163-406A-9646-2F63470197AD",
+                "type": "Render",
+                "idRenderData": "torus",
+                "color": [1, 0, 0, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.5, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.5, 0, 38.10314799984917,
+              -61.913111416622996, -1.409841681112539, 1
+            ],
+            "uuid": "F35C510C-6824-4E92-B8CE-E8A2DABD82DD",
+            "name": "ButterflyArea3",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "2d886d38-9d5e-4c65-9a5c-837054c2933f",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "butterfly_spawner_id_ext_script" }
+                ],
+                "variables": {
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "d80d94a3-8197-4f5c-b00b-3107310d30c3",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "9CE517B1-8F7C-4A2B-AF65-C62D8A56BC43",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0, "z": 0 },
+                    "radius": "5"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "47C17FCA-D7A6-42E5-950F-C5A42F3DC1D6",
+                "type": "Render",
+                "idRenderData": "torus",
+                "color": [1, 0, 0, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.2926460686026723, 0, 0, 0, 0, 0.2926460686026723, 0, 0, 0, 0,
+              0.2926460686026723, 0, -23.36723827314563, 89.3910238975659,
+              -13.788799189490987, 1
+            ],
+            "uuid": "6064BC69-9FB5-4054-A35A-3D2C50A5B8D0",
+            "name": "SignageArea",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "8a74df73-8d5d-4d30-bb99-a29d649cf79f",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "signage_displayer_id_ext_script" }
+                ],
+                "variables": {
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": [],
+                  "projects": [
+                    {
+                      "title": "Nouveau Projet",
+                      "url": "https:/example.com",
+                      "position": [
+                        1843575.1910103103, 5174379.1578006, 297.7920694283085
+                      ],
+                      "uuid": "A8FBF405-F65E-4FCC-9796-F3A501B5D3E8"
+                    },
+                    {
+                      "title": "Projet numero 2",
+                      "url": "https://example.com/",
+                      "position": [
+                        1843518.2509959326, 5174362.820450245, 297.7920694283085
+                      ],
+                      "uuid": "BBD6FA7B-6552-4F22-BBD8-2C2413388F0F"
+                    }
+                  ]
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "e7dd67f6-0147-4ee9-b063-5f87717961d7",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "79B77840-3D5A-4E8E-AAE0-F4DB81912195",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0, "z": 0 },
+                    "radius": "3"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "2BC022EC-0E1E-4B83-8269-148EE4C8EB7F",
+                "type": "Render",
+                "idRenderData": "torus",
+                "color": [0, 1, 0, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.06914684515336322, -0.9976064924635047, -6.938893903907228e-18,
+              0, 0.9936272749764781, -0.06887103466346998, 0.08922790486838252,
+              0, -0.08901433720561439, 0.006169828121293068, 0.9960112353747818,
+              0, -1273.635703081265, 1778.979537917301, 78.20083793488465, 1
+            ],
+            "uuid": "6EF2CB39-2254-4992-89DE-E08EB9322240",
+            "name": "Galeri3 Link",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "b11dcaed-e2d3-4bee-bbb7-a8fd6862e927",
+                "scriptParams": [
+                  { "id": "geo_project_id_ext_script" },
+                  { "id": "clickable_id_ext_script" }
+                ],
+                "variables": {
+                  "image_width": 200,
+                  "image_height": 150,
+                  "href": "https://imu.universite-lyon.fr/studios/galeri3/",
+                  "image_icon_path": "./assets/img/gameObject3D/A7B0B640-046F-4B98-8CF1-B85E0B360AC0.jpeg"
+                },
+                "type": "ExternalScript"
+              },
+              "Render": {
+                "uuid": "3636BED5-879E-42D1-AFB3-2F9C1264D844",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 6.606209757737815,
+              8.278683129698038, 0, 1
+            ],
+            "uuid": "417C0C39-C52D-4310-ABA2-577F663F9ADC",
+            "name": "JitsiArea parasol jaune",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "baa8fb5d-1c3b-4299-b289-cf7d33118f7d",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "jitsi_area_id_ext_script" }
+                ],
+                "variables": {
+                  "jitsi_room_name": "Parasol Jaune",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "03cca101-6856-4e48-83f6-0b28a8739cb4",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "5EEDE70C-5A20-4FFD-B903-876DA832DBC4",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 0.06637203204445541,
+                      "y": 0.14066184777766466,
+                      "z": 0.06657110369729935
+                    },
+                    "radius": "1.8"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "E5AF555A-4D73-4038-A12D-85B2F46F6365",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1, 0.2]
+              }
+            },
+            "forceToJSONComponent": ["Collider"]
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -9.05178421200253,
+              7.511407577432692, -1.6644471664831144, 1
+            ],
+            "uuid": "7438F5ED-1108-4F7B-A846-63C2991003F4",
+            "name": "JitsiArea Parasol orange",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "bfd4f457-0fa5-47d2-9ab1-6b68a2c233eb",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "jitsi_area_id_ext_script" }
+                ],
+                "variables": {
+                  "jitsi_room_name": "Parasol orange",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "8f7849cb-514b-4289-bc89-76bcacf5a0e3",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "949FBCFC-7213-4EB1-B4FC-3957E825B812",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 0.0752445817925036,
+                      "y": -0.9179148953408003,
+                      "z": 1.7244132155448142
+                    },
+                    "radius": "2.5"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "35567E5F-66C1-41FE-A955-0BA05B0C85A6",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1, 0.2]
+              }
+            },
+            "forceToJSONComponent": ["Collider"]
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 8.773562412476167,
+              -6.498936024494469, 0, 1
+            ],
+            "uuid": "89FFF9FD-9527-4F32-9642-7EA4F823A86A",
+            "name": "JitsiArea parasol rouge",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "e707ea71-b0dc-4705-b036-ba4c02716fc8",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "jitsi_area_id_ext_script" }
+                ],
+                "variables": {
+                  "jitsi_room_name": "Parasol rouge",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "cadff6ac-aa8e-4987-a49e-4f596e8694e9",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "36D9981C-7C3B-4E25-BC9A-EB27BF60F55D",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 0.08988043642602861,
+                      "y": -0.1870624627918005,
+                      "z": 0.05769698114892208
+                    },
+                    "radius": "2.7"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "0B2911FC-808D-4561-B96A-6B80AA695934",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1, 0.2]
+              }
+            },
+            "forceToJSONComponent": ["Collider"]
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -6.927874164422974,
+              -8.983854912221432, 0, 1
+            ],
+            "uuid": "53DFCFD2-ABF5-4F9B-B530-13524AC7666C",
+            "name": "JitsiArea parasol violet",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "e9b11507-8805-472e-b0b4-2b31c3c6127d",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "jitsi_area_id_ext_script" }
+                ],
+                "variables": {
+                  "jitsi_room_name": "Parasol violet",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "e15d63bd-25ed-4c52-820c-94ae9a238c31",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "D83FABD2-B801-4B62-8531-1252F60A474B",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 0.001923099858686328,
+                      "y": 0.01402589213103056,
+                      "z": 0.07648773374864959
+                    },
+                    "radius": "2.2"
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "4D411ABE-08A3-4A71-89C3-0C2AD691D6B0",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1, 0.2]
+              }
+            },
+            "forceToJSONComponent": ["Collider"]
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -5.213301999494433,
+              63.314065707847476, -14.630947611784336, 1
+            ],
+            "uuid": "64040633-3868-4DF6-A886-B8B1414FFAE6",
+            "name": "JitsiArea amphitheatre",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "478bee17-b868-41a3-aa9e-5dc1465c0441",
+                "scriptParams": [
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "jitsi_area_id_ext_script" }
+                ],
+                "variables": {
+                  "jitsi_room_name": "Amphithéâtre IMUV",
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "0c112406-9052-400f-9ea1-a8e6ac21c23f",
+                "scriptParams": [{ "id": "interaction_zone_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "7DAD73E8-400D-4FAE-A7D1-DBF2B1F3F884",
+                "shapes": [
+                  {
+                    "type": "Polygon",
+                    "points": [
+                      {
+                        "x": -11.238815797958523,
+                        "y": 11.674453540705144,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": -11.058310141786933,
+                        "y": 8.353614849969745,
+                        "z": 2.4929511057707145
+                      },
+                      {
+                        "x": -9.595970449736342,
+                        "y": 4.75425532553345,
+                        "z": 2.574949205046323
+                      },
+                      {
+                        "x": -8.319529935950413,
+                        "y": 2.91552940197289,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": -6.463091822573915,
+                        "y": 1.1009411355480552,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": -4.245201088255271,
+                        "y": -0.2009400576353073,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": -1.3333726285491139,
+                        "y": -1.053894879296422,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 2.845774671761319,
+                        "y": -1.07586351595819,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 6.927839296404272,
+                        "y": 0.43252596631646156,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 10.544387216679752,
+                        "y": 3.6945536499843,
+                        "z": 2.296327399635743
+                      },
+                      {
+                        "x": 12.362755647161976,
+                        "y": 7.419243338517845,
+                        "z": 2.3741164613027195
+                      },
+                      {
+                        "x": -10.975984474178404,
+                        "y": 13.533617644570768,
+                        "z": 2.3486256466181317
+                      }
+                    ]
+                  }
+                ],
+                "body": false
+              },
+              "Render": {
+                "uuid": "7AEE124B-CEDA-4CA8-9C41-306D318C0ADC",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [0, 0.5, 1, 0.2]
+              }
+            },
+            "forceToJSONComponent": ["Collider"]
+          },
+          {
+            "children": [],
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            "uuid": "93BDB82D-998F-4D22-9448-3E059737BDEB",
+            "name": "CityAvatarNotAllowArea",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": { "isCityNotAllowArea": true },
+            "components": {
+              "Collider": {
+                "uuid": "9D0D2720-C728-49AF-B895-C153F4EB1006",
+                "shapes": [
+                  {
+                    "type": "Polygon",
+                    "points": [
+                      {
+                        "x": -66.22285074857064,
+                        "y": 73.15984776243567,
+                        "z": -7.28875014830362
+                      },
+                      {
+                        "x": -61.79280780116096,
+                        "y": -57.007590018212795,
+                        "z": 1.9406863015515796
+                      },
+                      {
+                        "x": 42.17132739000954,
+                        "y": -62.50226192548871,
+                        "z": 1.5984739181963619
+                      },
+                      {
+                        "x": 45.487798704532906,
+                        "y": -62.54211811069399,
+                        "z": -2.807243175128974
+                      },
+                      {
+                        "x": 45.200728804804385,
+                        "y": 59.5722035150975,
+                        "z": -10.068771723717532
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": -73.82719483412802,
+                      "y": -10.074649346061051,
+                      "z": -13.084895380350872
+                    },
+                    "radius": 5
+                  },
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": -36.551334076793864,
+                      "y": -71.98488134332001,
+                      "z": -2.51744938692741
+                    },
+                    "radius": 5
+                  },
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 74.4215834827628,
+                      "y": -68.6231684545055,
+                      "z": -20.426502474161907
+                    },
+                    "radius": 5
+                  },
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": 47.01648797933012,
+                      "y": 68.44308864977211,
+                      "z": -15.526579149576946
+                    },
+                    "radius": 5
+                  },
+                  {
+                    "type": "Circle",
+                    "center": {
+                      "x": -23.480801306199282,
+                      "y": 89.56414032634348,
+                      "z": -14.554450281473919
+                    },
+                    "radius": 5
+                  },
+                  {
+                    "type": "Polygon",
+                    "points": [
+                      {
+                        "x": -72.0765960754361,
+                        "y": -61.92333133239299,
+                        "z": -25.790978877857356
+                      },
+                      {
+                        "x": -68.20011992868967,
+                        "y": -70.84864234738052,
+                        "z": -25.907005723035923
+                      },
+                      {
+                        "x": -56.74145167903043,
+                        "y": -62.86271249502897,
+                        "z": -1.8213404574141805
+                      },
+                      {
+                        "x": -62.350267017725855,
+                        "y": -57.55733594298363,
+                        "z": -2.2826361600815517
+                      }
+                    ]
+                  }
+                ],
+                "body": false
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            "uuid": "76916370-0604-4DB5-AF9E-7CDD0DD8A06E",
+            "name": "MiniMap",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "719ba033-3fe3-4315-af22-c9312eba9133",
+                "scriptParams": [{ "id": "mini_map_id_ext_script" }],
+                "variables": {
+                  "mini_map_no_teleport": [],
+                  "mini_map_ping": [],
+                  "mini_map_size": 232
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "34861018-74f8-4c11-8945-c3cced43fd2b",
+                "scriptParams": [{ "id": "mini_map_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [
+              {
+                "children": [],
+                "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "uuid": "BA84CA03-DA5A-4C75-8EE3-53D1D069604C",
+                "name": "Frame",
+                "static": true,
+                "outdated": false,
+                "gameContextUpdate": true,
+                "parentUUID": "0F3AE559-1CC4-4A20-AB68-6D2CF2838BF5",
+                "userData": {},
+                "components": {
+                  "Render": {
+                    "uuid": "4B48D4B8-0C67-4F72-8C59-F80CF299A187",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12, 1]
+                  }
+                },
+                "forceToJSONComponent": []
+              }
+            ],
+            "matrix": [
+              0.947153205161882, 0.320781554880535, -2.775557561562891e-17, 0,
+              -0.00025544692042100975, 0.0007542433963063646,
+              0.9999996829318349, 0, 0.32078145317091605, -0.9471529048497533,
+              0.0007963267106059215, 0, -46.16243469645269, -43.754215396009386,
+              4.475014557655015, 1
+            ],
+            "uuid": "0F3AE559-1CC4-4A20-AB68-6D2CF2838BF5",
+            "name": "SignboardIMUV",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "d35f5be1-6fe7-4350-a522-35e2393dca2e",
+                "scriptParams": [
+                  { "id": "clickable_id_ext_script" },
+                  { "id": "signboard_id_ext_script" },
+                  { "id": "display_media_id_ext_script" }
+                ],
+                "variables": {
+                  "heightFrame": 5.0625,
+                  "widthFrame": 9,
+                  "sizeFactor": 9,
+                  "imageURL": "./assets/img/gameObject3D/EA34A0B4-A102-411B-AA5D-F97AB5BDD1BA.jpeg",
+                  "iframe_src": "https://www.imuvirtuel.fr/",
+                  "sound_id": null
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "4B615A8C-0C34-4281-A6F0-3A7E4935275A",
+                "sounds": [],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "6BD1D16F-5030-4DB2-B529-3567DE316B3A",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            "uuid": "2A0ABF15-2458-4BFC-A4CE-C1FB01E13186",
+            "name": "CityMap",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "6365b727-c8e9-4dbb-8daf-3e1a72776518",
+                "scriptParams": [{ "id": "city_map_id_ext_script" }],
+                "variables": { "city_map_ping": [] },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "df717f5f-4b98-43a6-b03b-4d011a5d5a2a",
+                "scriptParams": [{ "id": "city_map_id_script" }],
+                "variables": {},
+                "type": "GameScript"
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [
+              {
+                "children": [],
+                "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "uuid": "A479F976-5400-4FB4-A438-45D0A8753CB0",
+                "name": "Frame",
+                "static": true,
+                "outdated": false,
+                "gameContextUpdate": true,
+                "parentUUID": "055664FB-0833-4EF5-9087-CC863EE39CEC",
+                "userData": {},
+                "components": {
+                  "Render": {
+                    "uuid": "2B0B7DF6-EF13-4BBE-A8DA-6F7C49D876E7",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12, 1]
+                  }
+                },
+                "forceToJSONComponent": []
+              }
+            ],
+            "matrix": [
+              -0.7955741253449107, -0.6058562627238246, 1.1102230246251562e-16,
+              0, 0.00048245952487963034, -0.0006335369263903433,
+              0.9999996829318346, 0, -0.605856070626091, 0.7955738730936821,
+              0.0007963267107455871, 0, -25.200516723562032, -56.10542578995228,
+              0.9134593161734301, 1
+            ],
+            "uuid": "055664FB-0833-4EF5-9087-CC863EE39CEC",
+            "name": "SignboardStep",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "b2ff587e-a818-4791-b845-eb13cafd4d67",
+                "scriptParams": [
+                  { "id": "clickable_id_ext_script" },
+                  { "id": "signboard_id_ext_script" },
+                  { "id": "display_media_id_ext_script" }
+                ],
+                "variables": {
+                  "iframe_src": null,
+                  "sound_id": "step",
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 1,
+                  "imageURL": "./assets/img/gameObject3D/700D60F4-229D-40F0-A6EC-CC571347072E.jpeg"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "A847C83C-0557-4751-8346-F12C9DC68DA9",
+                "sounds": ["step"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "958985A0-17E8-4D47-BBDE-AB9A8855EE19",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [
+              {
+                "children": [],
+                "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "uuid": "D93CFBD5-F5D5-4F29-B897-6260E90768BD",
+                "name": "Frame",
+                "static": true,
+                "outdated": false,
+                "gameContextUpdate": true,
+                "parentUUID": "20ED0AC3-5D51-4F90-822F-CCB2EF27D6DA",
+                "userData": {},
+                "components": {
+                  "Render": {
+                    "uuid": "ABC19208-C6B5-4E56-B242-0A27854CA732",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12, 1]
+                  }
+                },
+                "forceToJSONComponent": []
+              }
+            ],
+            "matrix": [
+              0.000796326710731044, 0.9999993658637715, -0.0007963264582422363,
+              0, 1.443289932012704e-15, 0.0007963267107310438,
+              0.999999682931836, 0, 0.999999682931836, -0.0007963264582422361,
+              6.341362277506593e-7, 0, 16, -12.281919957138598, 2.3, 1
+            ],
+            "uuid": "20ED0AC3-5D51-4F90-822F-CCB2EF27D6DA",
+            "name": "SignboardBaignades",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "cceaa174-fc8a-4cd1-a788-aad15aa92fad",
+                "scriptParams": [
+                  { "id": "clickable_id_ext_script" },
+                  { "id": "signboard_id_ext_script" },
+                  { "id": "display_media_id_ext_script" }
+                ],
+                "variables": {
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-baignades-urbaines-vf_1668639850940-pdf?ID_FICHE=118648",
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/gameObject3D/9F439000-A086-431E-B706-FE05679B7BAF.jpeg"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "708F0CA1-3CDA-4EF3-BE0C-A24D8F5DAB79",
+                "sounds": [],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "78CFB76C-BBAC-4765-BC76-5B5729900526",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [
+              {
+                "children": [],
+                "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "uuid": "63B88B7B-B2BA-4CF1-BB71-8A575F6C7096",
+                "name": "Frame",
+                "static": true,
+                "outdated": false,
+                "gameContextUpdate": true,
+                "parentUUID": "982466D7-D67A-41FF-9AB0-D72581A6CF9B",
+                "userData": {},
+                "components": {
+                  "Render": {
+                    "uuid": "76F273FA-4067-4DCC-957C-203CCE522897",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12, 1]
+                  }
+                },
+                "forceToJSONComponent": []
+              }
+            ],
+            "matrix": [
+              0.000796326710731044, 0.9999993658637715, -0.0007963264582422363,
+              0, 1.443289932012704e-15, 0.0007963267107310438,
+              0.999999682931836, 0, 0.999999682931836, -0.0007963264582422361,
+              6.341362277506593e-7, 0, 16, -6, 2.3, 1
+            ],
+            "uuid": "982466D7-D67A-41FF-9AB0-D72581A6CF9B",
+            "name": "SignboardGaleri3",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "d98c1dcc-84c5-478e-9129-7dcac8cedf20",
+                "scriptParams": [
+                  { "id": "clickable_id_ext_script" },
+                  { "id": "signboard_id_ext_script" },
+                  { "id": "display_media_id_ext_script" }
+                ],
+                "variables": {
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-galeri3-vf_1668641194661-pdf?ID_FICHE=119648",
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/gameObject3D/A5AC9BF9-D17B-42BF-8FA3-77CEA1A81121.jpeg"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "7CEEFD80-A150-478A-B696-7B31DBCA28D5",
+                "sounds": [],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "F5AA12C5-E09E-472E-AA95-505EE0790280",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [
+              {
+                "children": [],
+                "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "uuid": "FF59315B-D548-44FC-B212-1C9E2125F8F3",
+                "name": "Frame",
+                "static": true,
+                "outdated": false,
+                "gameContextUpdate": true,
+                "parentUUID": "70196D1C-9E95-4EE1-B968-E8E0F2DD8DF8",
+                "userData": {},
+                "components": {
+                  "Render": {
+                    "uuid": "B27C7134-1330-44CD-BAD0-13A48D5D1FAF",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12, 1]
+                  }
+                },
+                "forceToJSONComponent": []
+              }
+            ],
+            "matrix": [
+              0.000796326710731044, 0.9999993658637715, -0.0007963264582422363,
+              0, 1.443289932012704e-15, 0.0007963267107310438,
+              0.999999682931836, 0, 0.999999682931836, -0.0007963264582422361,
+              6.341362277506593e-7, 0, 16, 6.29874512180686, 2.3, 1
+            ],
+            "uuid": "70196D1C-9E95-4EE1-B968-E8E0F2DD8DF8",
+            "name": "SignboardPortsRomains",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "fa989aa4-fd78-40ea-9a1e-0f039371be23",
+                "scriptParams": [
+                  { "id": "clickable_id_ext_script" },
+                  { "id": "signboard_id_ext_script" },
+                  { "id": "display_media_id_ext_script" }
+                ],
+                "variables": {
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-ports-romains-vf_1668639588861-pdf?ID_FICHE=119916",
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/gameObject3D/675436DB-AF90-42A2-860B-779A469C0D1B.jpeg"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "97235F97-C964-4208-AFFD-566857B3BECC",
+                "sounds": [],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "F449CFE2-1267-4D93-B0E6-72494A37D57F",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [
+              {
+                "children": [],
+                "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "uuid": "D5B2132C-9A5E-423D-8E4D-BC96992DD667",
+                "name": "Frame",
+                "static": true,
+                "outdated": false,
+                "gameContextUpdate": true,
+                "parentUUID": "173E5FB1-C7ED-4B56-BE87-C858D506D064",
+                "userData": {},
+                "components": {
+                  "Render": {
+                    "uuid": "65D1CC43-62AE-4415-B0D1-7AAED7BC39D7",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12, 1]
+                  }
+                },
+                "forceToJSONComponent": []
+              }
+            ],
+            "matrix": [
+              0.000796326710731044, 0.9999993658637715, -0.0007963264582422363,
+              0, 1.443289932012704e-15, 0.0007963267107310438,
+              0.999999682931836, 0, 0.999999682931836, -0.0007963264582422361,
+              6.341362277506593e-7, 0, 16, 12.590549303218722, 2.3, 1
+            ],
+            "uuid": "173E5FB1-C7ED-4B56-BE87-C858D506D064",
+            "name": "SignboardSaintGermain",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "a0f40277-e2c6-470f-9f65-118865858035",
+                "scriptParams": [
+                  { "id": "clickable_id_ext_script" },
+                  { "id": "signboard_id_ext_script" },
+                  { "id": "display_media_id_ext_script" }
+                ],
+                "variables": {
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-saint-germain-en-transition-vf_1668640587812-pdf?ID_FICHE=119589",
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/gameObject3D/C34276E3-F5C5-4302-8D41-4CBB004BB475.jpeg"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "A75FBEB1-312B-4156-BACF-0F1A1FDEEB5C",
+                "sounds": [],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "F7FCD147-DD30-424D-AEFD-849D842E0592",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [
+              {
+                "children": [],
+                "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "uuid": "42C3AE37-76DF-4D56-A77E-8B72937B06EE",
+                "name": "Frame",
+                "static": true,
+                "outdated": false,
+                "gameContextUpdate": true,
+                "parentUUID": "E660A06F-B283-4097-AC02-04EE275E056D",
+                "userData": {},
+                "components": {
+                  "Render": {
+                    "uuid": "6C2DB02A-0DF5-4743-8BCB-3FEF23EAA5BE",
+                    "type": "Render",
+                    "idRenderData": null,
+                    "color": [0.24, 0.17, 0.12, 1]
+                  }
+                },
+                "forceToJSONComponent": []
+              }
+            ],
+            "matrix": [
+              0.000796326710731044, 0.9999993658637715, -0.0007963264582422363,
+              0, 1.443289932012704e-15, 0.0007963267107310438,
+              0.999999682931836, 0, 0.999999682931836, -0.0007963264582422361,
+              6.341362277506593e-7, 0, 16, 0.04644567333161831, 2.3, 1
+            ],
+            "uuid": "E660A06F-B283-4097-AC02-04EE275E056D",
+            "name": "SignboardSurchauffes",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "583be72b-03f8-48cf-b043-fa7ceb6a96c5",
+                "scriptParams": [
+                  { "id": "clickable_id_ext_script" },
+                  { "id": "signboard_id_ext_script" },
+                  { "id": "display_media_id_ext_script" }
+                ],
+                "variables": {
+                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-surchauffes-vf_1668640847118-pdf?ID_FICHE=120154",
+                  "sound_id": null,
+                  "heightFrame": null,
+                  "widthFrame": null,
+                  "sizeFactor": 4,
+                  "imageURL": "./assets/img/gameObject3D/A8D7901A-609D-43DF-B74C-63B96B2E1553.jpeg"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "DCF7CD42-E796-43B5-BA9B-6A0A86EA7DFC",
+                "sounds": [],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "F92FC57F-A867-42C6-9491-DA73A9930461",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            "uuid": "ED752022-7995-4C65-BF17-B4E7A92A34D7",
+            "name": "ZeppelinStart",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "dc6e8a10-4e3a-426b-8fbc-951c8b308b32",
+                "scriptParams": [{ "id": "zeppelin_start_id_ext_script" }],
+                "variables": { "pilotUUID": null },
+                "type": "ExternalScript"
+              }
+            },
+            "forceToJSONComponent": []
+          }
+        ],
+        "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+        "uuid": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
         "name": "Flying_Campus_Map",
-        "type": "GameObject",
         "static": true,
         "outdated": false,
-        "uuid": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-        "parentUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
-        "forceSerializeComponents": [],
+        "gameContextUpdate": true,
+        "parentUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+        "userData": { "isMap": true },
         "components": {
+          "GameScript": {
+            "uuid": "217c97f1-8637-4004-af93-8a2264259b94",
+            "scriptParams": [{ "id": "map_id" }],
+            "variables": {
+              "clientFolder": "./public",
+              "heightmap_path": "./assets/img/gameObject3D/60C20A2E-9277-431D-A873-59E73F4B1F65.jpeg",
+              "heightmap_geometry": { "max": 27, "min": -29, "size": 216 }
+            },
+            "type": "GameScript"
+          },
           "Collider": {
             "uuid": "F3A702FE-185F-4341-8E57-4E78E276E248",
-            "type": "Collider",
             "shapes": [
               {
                 "type": "Polygon",
@@ -2149,2173 +4041,80 @@
             "uuid": "5DAC9A92-E4B0-4EB1-8181-79A326E70D81",
             "type": "Render",
             "idRenderData": "flying_campus",
-            "color": [1, 1, 1]
-          },
-          "WorldScript": {
-            "uuid": "0157ABA2-FC43-4FDD-90CF-00F797FB50E6",
-            "scriptParams": ["map_id"],
-            "conf": {
-              "clientFolder": "./public",
-              "heightmap_path": "./assets/img/gameObject3D/60C20A2E-9277-431D-A873-59E73F4B1F65.jpeg",
-              "heightmap_geometry": { "max": 27, "min": -29, "size": 216 }
-            },
-            "type": "WorldScript"
+            "color": [1, 1, 1, 1]
           }
         },
-        "children": [
-          {
-            "name": "audio birds",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "3E115628-AC54-4E47-A8B8-FD3B2441C3EE",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Audio": {
-                "uuid": "FC6F575C-31AA-4A4A-9740-EB7DCCD4F751",
-                "sounds": ["birds"],
-                "conf": { "autoplay": true, "spatialized": true, "loop": true },
-                "type": "Audio"
-              },
-              "Render": {
-                "uuid": "239318BE-BADA-45B2-B270-8F157E021674",
-                "type": "Render",
-                "idRenderData": "cube",
-                "color": [1, 1, 0]
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                20.86221952480264, 61.350304623134434, -2.967018976222789
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.1, 0.1, 0.1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "audio_fontain",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "A38912AB-3E84-4B1B-A638-8983CA6473FD",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Audio": {
-                "uuid": "ECC6C5E3-A0E8-4564-8776-A0E3C563E964",
-                "sounds": ["fontain"],
-                "conf": { "autoplay": true, "spatialized": true, "loop": true },
-                "type": "Audio"
-              },
-              "Render": {
-                "uuid": "01F3E607-ACF4-4335-B274-3A6B0360FF84",
-                "type": "Render",
-                "idRenderData": "cube",
-                "color": [1, 1, 1]
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0.7223426946215454],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.1, 0.1, 0.1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Portal_Conf_Stairs",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "7EE2EBC0-7323-4715-91B3-371D4118D428",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "146C6F3F-2BA2-4502-BE06-5F62DCD7FE8E",
-                "type": "Render",
-                "idRenderData": "spiral_spawn",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "AFAC82B4-B224-4363-82FA-399617E078F9",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0 },
-                    "radius": 0.7
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "80ADD0AF-DB8E-443B-B751-BB68B57BFC88",
-                "scriptParams": [
-                  "portal_id_script",
-                  "interaction_zone_id_script"
-                ],
-                "conf": {
-                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
-                  "portalUUID": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
-                  "spawnRotation": {
-                    "x": -0.11522197265624445,
-                    "y": 0,
-                    "z": 0
-                  },
-                  "delay": 1000
-                },
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "5DF3924E-1822-42CA-9CEE-5DAA347322FA",
-                "scriptParams": [
-                  "rotate_id_ext_script",
-                  "local_interactions_id_ext_script",
-                  "portal_sweep_id_ext_script"
-                ],
-                "conf": {
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "04792998-315C-4028-91B7-93588952E035",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                30.111797388177365, 46.484672989696264, -2.799337193664371
-              ],
-              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
-              "scale": [0.6, 0.6, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Portal_Expo_Ouside",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "769C8A89-A5F6-44B9-8F68-F458AEF20BB6",
-                "type": "Render",
-                "idRenderData": "spiral_spawn",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "3F36190D-098B-41A7-8D48-8FED381AF656",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0 },
-                    "radius": 0.7
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "BED7C964-45AA-4E10-9489-64BED47D8844",
-                "scriptParams": [
-                  "portal_id_script",
-                  "interaction_zone_id_script"
-                ],
-                "conf": {
-                  "gameObjectDestUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
-                  "portalUUID": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
-                  "spawnRotation": {
-                    "x": -0.11522197265624445,
-                    "y": 0,
-                    "z": 3.14
-                  },
-                  "delay": 1000
-                },
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "7148E1C3-819F-4247-A7D2-06909149171F",
-                "scriptParams": [
-                  "rotate_id_ext_script",
-                  "local_interactions_id_ext_script",
-                  "portal_sweep_id_ext_script"
-                ],
-                "conf": {
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "AC255376-2015-4AB1-A5EB-0C159C407CEA",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                18.5993127070833, -49.274458384141326, 0.037513740578333454
-              ],
-              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
-              "scale": [0.6, 0.6, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Zeppelin",
-            "type": "GameObject",
-            "static": false,
-            "outdated": false,
-            "uuid": "7B0B1E83-4D2F-4A0D-8D2F-8D68FD3D549B",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "userData": {
-              "isZeppelin": true
-            },
-            "components": {
-              "Audio": {
-                "uuid": "168ECC64-550D-4652-8230-EF173C235DDB",
-                "sounds": ["zeppelin_engine"],
-                "conf": {
-                  "autoplay": true,
-                  "spatialized": true,
-                  "loop": true,
-                  "volume": 0.2
-                },
-                "type": "Audio"
-              },
-              "Render": {
-                "uuid": "AE118224-36E8-44A4-BEED-697F0FD69BD3",
-                "type": "Render",
-                "idRenderData": "zeppelin",
-                "color": [1, 1, 1]
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -42.9279729914831, 38.797821399391225, 27.179337435998605
-              ],
-              "rotation": [0, 0, 4.854355189622661, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Video Intro",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "470B029B-81FA-476B-9869-401CC6EF1E94",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "C6BD0C6B-3026-47E7-9967-0E6017FA278C",
-                "scriptParams": ["video_id_ext_script"],
-                "conf": {
-                  "videoPath": "./assets/videos/POC_flying_campus_juin.webm",
-                  "width": 8.5,
-                  "height": 5.3,
-                  "size": { "width": 1280, "height": 720 }
-                },
-                "type": "LocalScript"
-              },
-              "Render": {
-                "uuid": "9FE823BC-652A-4F02-82BF-D47F3A6B21E0",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "Audio": {
-                "uuid": "15930333-026E-4D2C-A248-234E663202B2",
-                "sounds": ["video_happy_song"],
-                "conf": {
-                  "autoplay": true,
-                  "spatialized": true,
-                  "loop": true,
-                  "volume": 0.5
-                },
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -27.065533498302102, -42.21518998593092, 7.223115794814788
-              ],
-              "rotation": [1.5707, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Portal_Conf_Patio",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "E1622182-EDE3-48EE-B189-EEF5AA94644E",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "85BC157C-DC5F-4123-8F4A-9678D36DD6B1",
-                "type": "Render",
-                "idRenderData": "spiral_spawn",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "5E98CCE6-3F0C-4348-A4F4-CBDCB011934C",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0 },
-                    "radius": 0.7
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "65415C23-576E-4144-A035-D2B77FCA3ACC",
-                "scriptParams": [
-                  "portal_id_script",
-                  "interaction_zone_id_script"
-                ],
-                "conf": {
-                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
-                  "portalUUID": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
-                  "spawnRotation": {
-                    "x": -0.11522197265624445,
-                    "y": 0,
-                    "z": 3.14
-                  },
-                  "delay": 1000
-                },
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "83241504-AE1E-46EC-B493-997283417F5C",
-                "scriptParams": [
-                  "rotate_id_ext_script",
-                  "local_interactions_id_ext_script",
-                  "portal_sweep_id_ext_script"
-                ],
-                "conf": {
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "BC00CB7F-8163-49B2-8B44-F2C8A528A728",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [12.36441638157703, 28.440718629397452, 0],
-              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
-              "scale": [0.6, 0.6, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Portal_Conf_Stairs balcon",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "AB4C6BF5-C2C3-4F19-ABE1-0B59715BD5F9",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "C61203C3-092C-463F-B9EF-634000F81F7F",
-                "type": "Render",
-                "idRenderData": "spiral_spawn",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "CDEA6258-6CA3-4291-AFAE-41BE2A5738BA",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0 },
-                    "radius": 0.7
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "7CCAE93A-9254-48C9-BAD4-7CAE4937D5C3",
-                "scriptParams": [
-                  "portal_id_script",
-                  "interaction_zone_id_script"
-                ],
-                "conf": {
-                  "gameObjectDestUUID": "29CC79CE-CB06-42E4-9FEA-B05AAA7ADBEB",
-                  "portalUUID": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
-                  "spawnRotation": {
-                    "x": -0.11522197265624445,
-                    "y": 0,
-                    "z": -1.6
-                  },
-                  "delay": 1000
-                },
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "008101ED-9DC7-44E1-8855-78E8414DF6A8",
-                "scriptParams": [
-                  "rotate_id_ext_script",
-                  "local_interactions_id_ext_script",
-                  "portal_sweep_id_ext_script"
-                ],
-                "conf": {
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "C646056A-DC02-46F8-95D6-A5D9C5366E42",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                36.88026909297332, 32.29033400025219, -2.920996962569461
-              ],
-              "rotation": [0, 0, 4.5077053267108305, "ZXY"],
-              "scale": [0.6, 0.6, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Portal studio A",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "9A86811A-7AE7-4B1D-A3D7-44F51A9F4B65",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "0A652315-AB58-4425-95A7-FC9BDB5DEE53",
-                "type": "Render",
-                "idRenderData": "spiral_spawn",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "B08EA790-8C54-4985-AE78-F562F399241E",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0 },
-                    "radius": 0.7
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "853ED33F-B457-4AFB-B048-C8DCC9A25042",
-                "scriptParams": [
-                  "portal_id_script",
-                  "interaction_zone_id_script"
-                ],
-                "conf": {
-                  "gameObjectDestUUID": "57538540-D500-45DA-BE83-F645EAC480EA",
-                  "portalUUID": "B4E03693-2431-466A-9B9B-22777E047422",
-                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
-                  "delay": 1000
-                },
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "C6B5C77D-C3B6-4F5E-90FF-12CBD7AC2AF9",
-                "scriptParams": [
-                  "rotate_id_ext_script",
-                  "local_interactions_id_ext_script",
-                  "portal_sweep_id_ext_script"
-                ],
-                "conf": {
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "C88D704A-8664-4719-A1F1-12C2CDDFE63D",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                27.629728958709165, -8.571165604516864, 0.9133055604198148
-              ],
-              "rotation": [
-                6.26673269798138,
-                6.279714055658532,
-                4.541814209627722,
-                "ZXY"
-              ],
-              "scale": [0.6, 0.6, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Portal studio B",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "385DB463-DE88-485B-B6B3-05C3990D9654",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "77D8D7AB-CEDC-4298-9F5B-59A34F839E93",
-                "type": "Render",
-                "idRenderData": "spiral_spawn",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "D9C23E5C-1776-4DC3-BC49-ED215ED6DACD",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0 },
-                    "radius": 0.7
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "45DBEB4E-BF39-4163-958A-2307FCDE811A",
-                "scriptParams": [
-                  "portal_id_script",
-                  "interaction_zone_id_script"
-                ],
-                "conf": {
-                  "gameObjectDestUUID": "0A748D9D-D16B-4507-ACB5-C42C655D5299",
-                  "portalUUID": "3266ECA0-571E-45A7-B63D-44BC303FE783",
-                  "spawnRotation": { "x": 0, "y": 0, "z": 3.14 },
-                  "delay": 1000
-                },
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "329F3D84-3F0B-4B01-AE54-D0F20B2D1276",
-                "scriptParams": [
-                  "rotate_id_ext_script",
-                  "local_interactions_id_ext_script",
-                  "portal_sweep_id_ext_script"
-                ],
-                "conf": {
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "88DE6DDE-28D2-46F3-8FC3-5FC5A34FC6E7",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                27.653164114337415, -11.20519773196429, 0.9079655714667751
-              ],
-              "rotation": [
-                6.266873079128487,
-                6.279104922137428,
-                4.5046346803155775,
-                "ZXY"
-              ],
-              "scale": [0.6, 0.6, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "audio birds",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "78A72F87-E84E-4E41-9F51-E169BE18A877",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Audio": {
-                "uuid": "73FB01A4-6796-4CE0-867D-E9E799D9E0CA",
-                "sounds": ["birds"],
-                "conf": { "autoplay": true, "spatialized": true, "loop": true },
-                "type": "Audio"
-              },
-              "Render": {
-                "uuid": "ABF0D078-7DD0-428D-B7E5-164E0EB39544",
-                "type": "Render",
-                "idRenderData": "cube",
-                "color": [1, 1, 0]
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                5.080751614179462, -70.74564842693508, 4.3000414315607145
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.1, 0.1, 0.1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "audio city",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "8F3E58ED-2F47-4053-AE4C-C4898814819E",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Audio": {
-                "uuid": "3B314089-16E5-4F9C-AD6F-72E2CFF3F699",
-                "sounds": ["city"],
-                "conf": { "autoplay": true, "spatialized": true, "loop": true },
-                "type": "Audio"
-              },
-              "Render": {
-                "uuid": "99F968B7-6DD1-4A98-B3A1-24F538540C71",
-                "type": "Render",
-                "idRenderData": "cube",
-                "color": [0.5, 0, 0]
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -79.7744876013603, -102.4414828363806, -27.147228363506883
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.1, 0.1, 0.1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "ButterflyArea",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "66ECAE57-3495-428F-BD2B-46262DD3603E",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Collider": {
-                "uuid": "E2DA8C69-45A6-4374-BB2B-00A363C28CE5",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0, "z": 0 },
-                    "radius": "5"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "1E36A149-CCC3-464A-BABB-41BEEC3B1802",
-                "type": "Render",
-                "idRenderData": "torus",
-                "color": [1, 0, 0]
-              },
-              "LocalScript": {
-                "uuid": "3E81DF23-E872-4855-A237-E7A75C64EEDC",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "butterfly_spawner_id_ext_script"
-                ],
-                "conf": {
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "FF56C704-1139-4D51-863E-C756A2427956",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -64.27197855524719, -12.621256566606462, -11.86296368256933
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.5, 0.5, 0.5]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "ButterflyArea2",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "753DC33F-5E6B-421E-8EAA-6006261ECD0B",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Collider": {
-                "uuid": "F04133F5-EF4D-4909-A58D-E20EDE374AE8",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0, "z": 0 },
-                    "radius": "5"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "49D17642-8163-406A-9646-2F63470197AD",
-                "type": "Render",
-                "idRenderData": "torus",
-                "color": [1, 0, 0]
-              },
-              "LocalScript": {
-                "uuid": "02AA64CF-0B65-4EE4-BF5C-B6AB7BCC4E71",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "butterfly_spawner_id_ext_script"
-                ],
-                "conf": {
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "8836A49E-0B9B-4F6A-920B-C57DB8C8BD4B",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -36.85867241444066, 76.27439526468515, -13.78722257744397
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.5, 0.5, 0.5]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "ButterflyArea3",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "F35C510C-6824-4E92-B8CE-E8A2DABD82DD",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Collider": {
-                "uuid": "9CE517B1-8F7C-4A2B-AF65-C62D8A56BC43",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0, "z": 0 },
-                    "radius": "5"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "47C17FCA-D7A6-42E5-950F-C5A42F3DC1D6",
-                "type": "Render",
-                "idRenderData": "torus",
-                "color": [1, 0, 0]
-              },
-              "LocalScript": {
-                "uuid": "33E4FE6B-3866-41A1-8EDE-49CD11A922E5",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "butterfly_spawner_id_ext_script"
-                ],
-                "conf": {
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "01EC6629-B898-4D90-A8E5-490D78256C21",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                38.10314799984917, -61.913111416622996, -1.409841681112539
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.5, 0.5, 0.5]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignageArea",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "6064BC69-9FB5-4054-A35A-3D2C50A5B8D0",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Collider": {
-                "uuid": "79B77840-3D5A-4E8E-AAE0-F4DB81912195",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0, "z": 0 },
-                    "radius": "3"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "2BC022EC-0E1E-4B83-8269-148EE4C8EB7F",
-                "type": "Render",
-                "idRenderData": "torus",
-                "color": [0, 1, 0]
-              },
-              "LocalScript": {
-                "uuid": "EAA88684-FFA5-44FB-9966-3E73472EA7AB",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "signage_displayer_id_ext_script"
-                ],
-                "conf": {
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": [],
-                  "projects": [
-                    {
-                      "title": "Nouveau Projet",
-                      "url": "https:/example.com",
-                      "position": [
-                        1843575.1910103103, 5174379.1578006, 297.7920694283085
-                      ],
-                      "uuid": "A8FBF405-F65E-4FCC-9796-F3A501B5D3E8"
-                    },
-                    {
-                      "title": "Projet numero 2",
-                      "url": "https://example.com/",
-                      "position": [
-                        1843518.2509959326, 5174362.820450245, 297.7920694283085
-                      ],
-                      "uuid": "BBD6FA7B-6552-4F22-BBD8-2C2413388F0F"
-                    }
-                  ]
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "ACF25D8E-BB81-46F8-9C40-F958819D3860",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -23.36723827314563, 89.3910238975659, -13.788799189490987
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [
-                0.2926460686026723, 0.2926460686026723, 0.2926460686026723
-              ]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Galeri3 Link",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "6EF2CB39-2254-4992-89DE-E08EB9322240",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "3636BED5-879E-42D1-AFB3-2F9C1264D844",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "3B93E446-29AB-4197-96A2-7E9A3E7F2192",
-                "scriptParams": [
-                  "geo_project_id_ext_script",
-                  "clickable_id_ext_script"
-                ],
-                "conf": {
-                  "image_width": 200,
-                  "image_height": 150,
-                  "href": "https://imu.universite-lyon.fr/studios/galeri3/",
-                  "image_icon_path": "./assets/img/gameObject3D/A7B0B640-046F-4B98-8CF1-B85E0B360AC0.jpeg"
-                },
-                "type": "LocalScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -1273.635703081265, 1778.979537917301, 78.20083793488465
-              ],
-              "rotation": [
-                0.08934673084773079,
-                -1.3933364720120336e-17,
-                -1.639998392652012,
-                "ZXY"
-              ],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "JitsiArea parasol jaune",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "417C0C39-C52D-4310-ABA2-577F663F9ADC",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": ["Collider"],
-            "components": {
-              "Collider": {
-                "uuid": "5EEDE70C-5A20-4FFD-B903-876DA832DBC4",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": 0.06637203204445541,
-                      "y": 0.14066184777766466,
-                      "z": 0.06657110369729935
-                    },
-                    "radius": "1.8"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "E5AF555A-4D73-4038-A12D-85B2F46F6365",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [0, 0.5, 1, 0.2]
-              },
-              "LocalScript": {
-                "uuid": "5482348B-DCFF-4E00-9402-12E1E9779315",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "jitsi_area_id_ext_script"
-                ],
-                "conf": {
-                  "jitsi_room_name": "Parasol Jaune",
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "383F0A68-5BFA-4150-9188-94501485588A",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [6.606209757737815, 8.278683129698038, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "JitsiArea Parasol orange",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "7438F5ED-1108-4F7B-A846-63C2991003F4",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": ["Collider"],
-            "components": {
-              "Collider": {
-                "uuid": "949FBCFC-7213-4EB1-B4FC-3957E825B812",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": 0.0752445817925036,
-                      "y": -0.9179148953408003,
-                      "z": 1.7244132155448142
-                    },
-                    "radius": "2.5"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "35567E5F-66C1-41FE-A955-0BA05B0C85A6",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [0, 0.5, 1, 0.2]
-              },
-              "LocalScript": {
-                "uuid": "D6722B6D-E80B-433F-8CD0-FE144173568A",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "jitsi_area_id_ext_script"
-                ],
-                "conf": {
-                  "jitsi_room_name": "Parasol orange",
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "A2B1304F-8C06-4983-A910-C0B971BB3F83",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -9.05178421200253, 7.511407577432692, -1.6644471664831144
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "JitsiArea parasol rouge",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "89FFF9FD-9527-4F32-9642-7EA4F823A86A",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": ["Collider"],
-            "components": {
-              "Collider": {
-                "uuid": "36D9981C-7C3B-4E25-BC9A-EB27BF60F55D",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": 0.08988043642602861,
-                      "y": -0.1870624627918005,
-                      "z": 0.05769698114892208
-                    },
-                    "radius": "2.7"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "0B2911FC-808D-4561-B96A-6B80AA695934",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [0, 0.5, 1, 0.2]
-              },
-              "LocalScript": {
-                "uuid": "38AB6728-3414-4E06-968C-45453C639DDD",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "jitsi_area_id_ext_script"
-                ],
-                "conf": {
-                  "jitsi_room_name": "Parasol rouge",
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "635D7229-F623-470F-A3A3-C2F478FB3F47",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [8.773562412476167, -6.498936024494469, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "JitsiArea parasol violet",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "53DFCFD2-ABF5-4F9B-B530-13524AC7666C",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": ["Collider"],
-            "components": {
-              "Collider": {
-                "uuid": "D83FABD2-B801-4B62-8531-1252F60A474B",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": 0.001923099858686328,
-                      "y": 0.01402589213103056,
-                      "z": 0.07648773374864959
-                    },
-                    "radius": "2.2"
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "4D411ABE-08A3-4A71-89C3-0C2AD691D6B0",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [0, 0.5, 1, 0.2]
-              },
-              "LocalScript": {
-                "uuid": "C900CBFF-95FE-4105-8AF1-511FB74E2241",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "jitsi_area_id_ext_script"
-                ],
-                "conf": {
-                  "jitsi_room_name": "Parasol violet",
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "A032450E-6D7A-4379-BC11-7DC98B870375",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-6.927874164422974, -8.983854912221432, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "JitsiArea amphitheatre",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "64040633-3868-4DF6-A886-B8B1414FFAE6",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": ["Collider"],
-            "components": {
-              "Collider": {
-                "uuid": "7DAD73E8-400D-4FAE-A7D1-DBF2B1F3F884",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Polygon",
-                    "points": [
-                      {
-                        "x": -11.238815797958523,
-                        "y": 11.674453540705144,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": -11.058310141786933,
-                        "y": 8.353614849969745,
-                        "z": 2.4929511057707145
-                      },
-                      {
-                        "x": -9.595970449736342,
-                        "y": 4.75425532553345,
-                        "z": 2.574949205046323
-                      },
-                      {
-                        "x": -8.319529935950413,
-                        "y": 2.91552940197289,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": -6.463091822573915,
-                        "y": 1.1009411355480552,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": -4.245201088255271,
-                        "y": -0.2009400576353073,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": -1.3333726285491139,
-                        "y": -1.053894879296422,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": 2.845774671761319,
-                        "y": -1.07586351595819,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": 6.927839296404272,
-                        "y": 0.43252596631646156,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": 10.544387216679752,
-                        "y": 3.6945536499843,
-                        "z": 2.296327399635743
-                      },
-                      {
-                        "x": 12.362755647161976,
-                        "y": 7.419243338517845,
-                        "z": 2.3741164613027195
-                      },
-                      {
-                        "x": -10.975984474178404,
-                        "y": 13.533617644570768,
-                        "z": 2.3486256466181317
-                      }
-                    ]
-                  }
-                ],
-                "body": false
-              },
-              "Render": {
-                "uuid": "7AEE124B-CEDA-4CA8-9C41-306D318C0ADC",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [0, 0.5, 1, 0.2]
-              },
-              "LocalScript": {
-                "uuid": "74545F8B-759E-496C-BB42-F4BA1C8634D8",
-                "scriptParams": [
-                  "local_interactions_id_ext_script",
-                  "jitsi_area_id_ext_script"
-                ],
-                "conf": {
-                  "jitsi_room_name": "Amphithéâtre IMUV",
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "9293B0AB-15F0-4D79-9DB5-245C608A7215",
-                "scriptParams": ["interaction_zone_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -5.213301999494433, 63.314065707847476, -14.630947611784336
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "CityAvatarNotAllowArea",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "93BDB82D-998F-4D22-9448-3E059737BDEB",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Collider": {
-                "uuid": "9D0D2720-C728-49AF-B895-C153F4EB1006",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Polygon",
-                    "points": [
-                      {
-                        "x": -66.22285074857064,
-                        "y": 73.15984776243567,
-                        "z": -7.28875014830362
-                      },
-                      {
-                        "x": -61.79280780116096,
-                        "y": -57.007590018212795,
-                        "z": 1.9406863015515796
-                      },
-                      {
-                        "x": 42.17132739000954,
-                        "y": -62.50226192548871,
-                        "z": 1.5984739181963619
-                      },
-                      {
-                        "x": 45.487798704532906,
-                        "y": -62.54211811069399,
-                        "z": -2.807243175128974
-                      },
-                      {
-                        "x": 45.200728804804385,
-                        "y": 59.5722035150975,
-                        "z": -10.068771723717532
-                      }
-                    ]
-                  },
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": -73.82719483412802,
-                      "y": -10.074649346061051,
-                      "z": -13.084895380350872
-                    },
-                    "radius": 5
-                  },
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": -36.551334076793864,
-                      "y": -71.98488134332001,
-                      "z": -2.51744938692741
-                    },
-                    "radius": 5
-                  },
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": 74.4215834827628,
-                      "y": -68.6231684545055,
-                      "z": -20.426502474161907
-                    },
-                    "radius": 5
-                  },
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": 47.01648797933012,
-                      "y": 68.44308864977211,
-                      "z": -15.526579149576946
-                    },
-                    "radius": 5
-                  },
-                  {
-                    "type": "Circle",
-                    "center": {
-                      "x": -23.480801306199282,
-                      "y": 89.56414032634348,
-                      "z": -14.554450281473919
-                    },
-                    "radius": 5
-                  },
-                  {
-                    "type": "Polygon",
-                    "points": [
-                      {
-                        "x": -72.0765960754361,
-                        "y": -61.92333133239299,
-                        "z": -25.790978877857356
-                      },
-                      {
-                        "x": -68.20011992868967,
-                        "y": -70.84864234738052,
-                        "z": -25.907005723035923
-                      },
-                      {
-                        "x": -56.74145167903043,
-                        "y": -62.86271249502897,
-                        "z": -1.8213404574141805
-                      },
-                      {
-                        "x": -62.350267017725855,
-                        "y": -57.55733594298363,
-                        "z": -2.2826361600815517
-                      }
-                    ]
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "2D3F8DC2-62FB-4D75-983A-A5FB7BF56730",
-                "scriptParams": ["avatar_not_allow_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "MiniMap",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "76916370-0604-4DB5-AF9E-7CDD0DD8A06E",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "2F691F24-B764-4916-B64E-F6290C1E7F39",
-                "scriptParams": ["mini_map_id_ext_script"],
-                "conf": {
-                  "mini_map_no_teleport": [],
-                  "mini_map_ping": [],
-                  "mini_map_size": 232
-                },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "65966722-4169-4FBA-A1BB-CF6894563F98",
-                "scriptParams": ["mini_map_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignboardIMUV",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "0F3AE559-1CC4-4A20-AB68-6D2CF2838BF5",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "6BD1D16F-5030-4DB2-B529-3567DE316B3A",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "79768261-7B74-4166-888D-42C364BA7C97",
-                "scriptParams": [
-                  "clickable_id_ext_script",
-                  "signboard_id_ext_script",
-                  "display_media_id_ext_script"
-                ],
-                "conf": {
-                  "heightFrame": 5.0625,
-                  "widthFrame": 9,
-                  "sizeFactor": 9,
-                  "imageURL": "./assets/img/gameObject3D/EA34A0B4-A102-411B-AA5D-F97AB5BDD1BA.jpeg",
-                  "iframe_src": "https://www.imuvirtuel.fr/",
-                  "sound_id": null
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "4B615A8C-0C34-4281-A6F0-3A7E4935275A",
-                "sounds": [],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "BA84CA03-DA5A-4C75-8EE3-53D1D069604C",
-                "parentUUID": "0F3AE559-1CC4-4A20-AB68-6D2CF2838BF5",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "4B48D4B8-0C67-4F72-8C59-F80CF299A187",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [
-                -46.16243469645269, -43.754215396009386, 4.475014557655015
-              ],
-              "rotation": [
-                1.570000000000127,
-                1.7427253943607108e-13,
-                0.3265545341681397,
-                "ZXY"
-              ],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "CityMap",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "2A0ABF15-2458-4BFC-A4CE-C1FB01E13186",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "6DCEF14A-40DC-40EC-A109-E1370A21B05E",
-                "scriptParams": ["city_map_id_ext_script"],
-                "conf": { "city_map_ping": [] },
-                "type": "LocalScript"
-              },
-              "WorldScript": {
-                "uuid": "5CE40446-A436-493A-9960-F210052D23A8",
-                "scriptParams": ["city_map_id_script"],
-                "conf": {},
-                "type": "WorldScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignboardStep",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "055664FB-0833-4EF5-9087-CC863EE39CEC",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "958985A0-17E8-4D47-BBDE-AB9A8855EE19",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "C974BCE7-2EB7-4769-930F-5707020BC9EF",
-                "scriptParams": [
-                  "clickable_id_ext_script",
-                  "signboard_id_ext_script",
-                  "display_media_id_ext_script"
-                ],
-                "conf": {
-                  "iframe_src": null,
-                  "sound_id": "step",
-                  "heightFrame": null,
-                  "widthFrame": null,
-                  "sizeFactor": 1,
-                  "imageURL": "./assets/img/gameObject3D/700D60F4-229D-40F0-A6EC-CC571347072E.jpeg"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "A847C83C-0557-4751-8346-F12C9DC68DA9",
-                "sounds": ["step"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "A479F976-5400-4FB4-A438-45D0A8753CB0",
-                "parentUUID": "055664FB-0833-4EF5-9087-CC863EE39CEC",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "2B0B7DF6-EF13-4BBE-A8DA-6F7C49D876E7",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [
-                -25.200516723562032, -56.10542578995228, 0.9134593161734301
-              ],
-              "rotation": [1.5699999999999876, 0, -2.4907509439005677, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignboardBaignades",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "20ED0AC3-5D51-4F90-822F-CCB2EF27D6DA",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "78CFB76C-BBAC-4765-BC76-5B5729900526",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "7DE2784E-9AEB-4DA5-BD0D-9D55788D344C",
-                "scriptParams": [
-                  "clickable_id_ext_script",
-                  "signboard_id_ext_script",
-                  "display_media_id_ext_script"
-                ],
-                "conf": {
-                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-baignades-urbaines-vf_1668639850940-pdf?ID_FICHE=118648",
-                  "sound_id": null,
-                  "heightFrame": null,
-                  "widthFrame": null,
-                  "sizeFactor": 4,
-                  "imageURL": "./assets/img/gameObject3D/9F439000-A086-431E-B706-FE05679B7BAF.jpeg"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "708F0CA1-3CDA-4EF3-BE0C-A24D8F5DAB79",
-                "sounds": [],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "D93CFBD5-F5D5-4F29-B897-6260E90768BD",
-                "parentUUID": "20ED0AC3-5D51-4F90-822F-CCB2EF27D6DA",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "ABC19208-C6B5-4E56-B242-0A27854CA732",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [16, -12.281919957138598, 2.3],
-              "rotation": [1.57, 1.57, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignboardGaleri3",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "982466D7-D67A-41FF-9AB0-D72581A6CF9B",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "F5AA12C5-E09E-472E-AA95-505EE0790280",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "CCB2CDB8-36C3-4CA3-BB47-8FE53986FE5B",
-                "scriptParams": [
-                  "clickable_id_ext_script",
-                  "signboard_id_ext_script",
-                  "display_media_id_ext_script"
-                ],
-                "conf": {
-                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-galeri3-vf_1668641194661-pdf?ID_FICHE=119648",
-                  "sound_id": null,
-                  "heightFrame": null,
-                  "widthFrame": null,
-                  "sizeFactor": 4,
-                  "imageURL": "./assets/img/gameObject3D/A5AC9BF9-D17B-42BF-8FA3-77CEA1A81121.jpeg"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "7CEEFD80-A150-478A-B696-7B31DBCA28D5",
-                "sounds": [],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "63B88B7B-B2BA-4CF1-BB71-8A575F6C7096",
-                "parentUUID": "982466D7-D67A-41FF-9AB0-D72581A6CF9B",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "76F273FA-4067-4DCC-957C-203CCE522897",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [16, -6, 2.3],
-              "rotation": [1.57, 1.57, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignboardPortsRomains",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "70196D1C-9E95-4EE1-B968-E8E0F2DD8DF8",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "F449CFE2-1267-4D93-B0E6-72494A37D57F",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "41DA6516-645C-4B5B-9B63-70A000DE03FB",
-                "scriptParams": [
-                  "clickable_id_ext_script",
-                  "signboard_id_ext_script",
-                  "display_media_id_ext_script"
-                ],
-                "conf": {
-                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-ports-romains-vf_1668639588861-pdf?ID_FICHE=119916",
-                  "sound_id": null,
-                  "heightFrame": null,
-                  "widthFrame": null,
-                  "sizeFactor": 4,
-                  "imageURL": "./assets/img/gameObject3D/675436DB-AF90-42A2-860B-779A469C0D1B.jpeg"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "97235F97-C964-4208-AFFD-566857B3BECC",
-                "sounds": [],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "FF59315B-D548-44FC-B212-1C9E2125F8F3",
-                "parentUUID": "70196D1C-9E95-4EE1-B968-E8E0F2DD8DF8",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "B27C7134-1330-44CD-BAD0-13A48D5D1FAF",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [16, 6.29874512180686, 2.3],
-              "rotation": [1.57, 1.57, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignboardSaintGermain",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "173E5FB1-C7ED-4B56-BE87-C858D506D064",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "F7FCD147-DD30-424D-AEFD-849D842E0592",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "503DEBE2-F639-4936-935B-CF1DA890AB7F",
-                "scriptParams": [
-                  "clickable_id_ext_script",
-                  "signboard_id_ext_script",
-                  "display_media_id_ext_script"
-                ],
-                "conf": {
-                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-saint-germain-en-transition-vf_1668640587812-pdf?ID_FICHE=119589",
-                  "sound_id": null,
-                  "heightFrame": null,
-                  "widthFrame": null,
-                  "sizeFactor": 4,
-                  "imageURL": "./assets/img/gameObject3D/C34276E3-F5C5-4302-8D41-4CBB004BB475.jpeg"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "A75FBEB1-312B-4156-BACF-0F1A1FDEEB5C",
-                "sounds": [],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "D5B2132C-9A5E-423D-8E4D-BC96992DD667",
-                "parentUUID": "173E5FB1-C7ED-4B56-BE87-C858D506D064",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "65D1CC43-62AE-4415-B0D1-7AAED7BC39D7",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [16, 12.590549303218722, 2.3],
-              "rotation": [1.57, 1.57, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "SignboardSurchauffes",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "E660A06F-B283-4097-AC02-04EE275E056D",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "F92FC57F-A867-42C6-9491-DA73A9930461",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "FBF1B5EC-EE72-4AFA-BB3C-ED28ABD2AF84",
-                "scriptParams": [
-                  "clickable_id_ext_script",
-                  "signboard_id_ext_script",
-                  "display_media_id_ext_script"
-                ],
-                "conf": {
-                  "iframe_src": "https://imu.universite-lyon.fr/medias/fichier/poster-surchauffes-vf_1668640847118-pdf?ID_FICHE=120154",
-                  "sound_id": null,
-                  "heightFrame": null,
-                  "widthFrame": null,
-                  "sizeFactor": 4,
-                  "imageURL": "./assets/img/gameObject3D/A8D7901A-609D-43DF-B74C-63B96B2E1553.jpeg"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "DCF7CD42-E796-43B5-BA9B-6A0A86EA7DFC",
-                "sounds": [],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [
-              {
-                "name": "Frame",
-                "type": "GameObject",
-                "static": true,
-                "outdated": false,
-                "uuid": "42C3AE37-76DF-4D56-A77E-8B72937B06EE",
-                "parentUUID": "E660A06F-B283-4097-AC02-04EE275E056D",
-                "forceSerializeComponents": [],
-                "components": {
-                  "Render": {
-                    "uuid": "6C2DB02A-0DF5-4743-8BCB-3FEF23EAA5BE",
-                    "type": "Render",
-                    "idRenderData": null,
-                    "color": [0.24, 0.17, 0.12]
-                  }
-                },
-                "children": [],
-                "transform": {
-                  "position": [0, 0, 0],
-                  "rotation": [0, 0, 0, "ZXY"],
-                  "scale": [1, 1, 1]
-                },
-                "noLocalUpdate": false,
-                "freeze": false
-              }
-            ],
-            "transform": {
-              "position": [16, 0.04644567333161831, 2.3],
-              "rotation": [1.57, 1.57, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "ZeppelinStart",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "ED752022-7995-4C65-BF17-B4E7A92A34D7",
-            "parentUUID": "91114CBF-8AF6-4B34-8E80-E4EC13614451",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "99BA8C7D-52B8-4E83-A5A2-66AC7DE17490",
-                "scriptParams": ["zeppelin_start_id_ext_script"],
-                "conf": { "pilotUUID": null },
-                "type": "LocalScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          }
-        ],
-        "transform": {
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0, "ZXY"],
-          "scale": [1, 1, 1]
-        },
-        "noLocalUpdate": false,
-        "freeze": false
+        "forceToJSONComponent": []
       },
       {
-        "name": "UI_GO",
-        "type": "GameObject",
-        "static": false,
-        "outdated": true,
+        "children": [],
+        "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
         "uuid": "8EE2385E-E924-436F-8F94-D816B62979A2",
-        "parentUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
-        "forceSerializeComponents": [],
+        "name": "UI_GO",
+        "static": false,
+        "outdated": false,
+        "gameContextUpdate": true,
+        "parentUUID": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+        "userData": {},
         "components": {
-          "LocalScript": {
-            "uuid": "CF207A54-D1E7-45FE-93B8-FCA0DC8D55B0",
-            "scriptParams": ["ui_id_ext_script"],
-            "conf": { "gameContextDt": 17 },
-            "type": "LocalScript"
+          "ExternalScript": {
+            "uuid": "14957df5-5490-42b6-99b6-cc6e137444d2",
+            "scriptParams": [{ "id": "ui_id_ext_script" }],
+            "variables": { "gameContextDt": 17 },
+            "type": "ExternalScript"
           },
-          "WorldScript": {
-            "uuid": "2D01EB3B-482D-4DCE-994E-F9F8EF7E864E",
-            "scriptParams": ["ui_id_script"],
-            "conf": {},
-            "type": "WorldScript"
+          "GameScript": {
+            "uuid": "f7319a40-883d-4156-a73c-010547c44677",
+            "scriptParams": [{ "id": "ui_id_script" }],
+            "variables": {},
+            "type": "GameScript"
           }
         },
-        "children": [],
-        "transform": {
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0, "ZXY"],
-          "scale": [1, 1, 1]
-        },
-        "noLocalUpdate": false,
-        "freeze": false
+        "forceToJSONComponent": []
       }
     ],
-    "transform": {
-      "position": [0, 0, 0],
-      "rotation": [0, 0, 0, "ZXY"],
-      "scale": [1, 1, 1]
+    "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1844753.5, 5174961, 300, 1],
+    "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
+    "name": "Flying Campus",
+    "static": true,
+    "outdated": false,
+    "gameContextUpdate": true,
+    "parentUUID": "f023f059-fd90-4f1f-8f5e-aa0efd023a6f",
+    "userData": {},
+    "components": {
+      "ExternalScript": {
+        "uuid": "29b55c00-f71c-44d8-83e1-cb397fda5cde",
+        "scriptParams": [
+          { "id": "itowns_refine_id_ext_script" },
+          { "id": "switch_itowns_id_ext_script" },
+          { "id": "avatar_controller_id_ext_script" },
+          { "id": "camera_manager_id" },
+          { "id": "zeppelin_controller_id_ext_script" },
+          { "id": "box3D_tool_id_ext_script" },
+          { "id": "static_object_id_ext_script" },
+          { "id": "add_itowns_layer_id_ext_script", "priority": 10 }
+        ],
+        "variables": { "traveling_time": 3000 },
+        "type": "ExternalScript"
+      },
+      "GameScript": {
+        "uuid": "a5b085b4-e460-4f18-ba73-12716e8edd5e",
+        "scriptParams": [
+          { "id": "spawner_id_script" },
+          { "id": "my_command_manager_id" }
+        ],
+        "variables": {
+          "speedTranslate": 0.008,
+          "cityAvatarAllow": true,
+          "spawnTransform": {
+            "position": [-45.7, -53.5, 0.2],
+            "rotation": [0.15136780318774076, 0, -0.8919030509227979],
+            "scale": [1, 1, 1]
+          }
+        },
+        "type": "GameScript"
+      }
     },
-    "noLocalUpdate": false,
-    "freeze": false
-  },
-  "name": "Flying Campus World",
-  "origin": { "lat": 45.7530993, "lng": 4.8452654, "alt": 300 },
-  "type": "World",
-  "uuid": "6FEFCA55-9075-4FF3-85E1-CA2410CCB8DF",
-  "version": "2.39.3"
+    "forceToJSONComponent": []
+  }
 }
