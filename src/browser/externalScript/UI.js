@@ -383,6 +383,8 @@ export class UI extends ScriptBase {
         openMenu();
       }
     };
+
+    return icon;
   }
 
   addToMapUI(scriptMap) {
