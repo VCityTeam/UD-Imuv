@@ -5,6 +5,8 @@
   position: fixed;
   transition: 1s;
   z-index: 2;
+  max-height: 80vh;
+  overflow: auto;
 }
 
 .root_menu_itowns {
@@ -42,4 +44,26 @@
 
 .mock_up_label_mode {
   margin: auto;
+}
+
+.tools_contextual_menu details {
+  max-width: 500px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+
+.tools_contextual_menu summary {
+  border: 2px solid var(--imuv-color-one);
+  padding: 10px;
+  cursor: pointer;
+}
+
+.tools_contextual_menu details[open] > summary {
+  border-bottom: 1px dashed var(--imuv-color-one);
+}
+
+.tools_contextual_menu details > :not(summary) {
+  padding: 10px;
+  border: none;
+  border-left: 1px solid var(--imuv-color-one);
 }

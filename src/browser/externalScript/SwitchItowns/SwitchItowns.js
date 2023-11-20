@@ -152,13 +152,25 @@ class MenuItowns {
     this.domElement.classList.add('root_menu_itowns');
     this.domElement.classList.add('contextual_menu');
 
-    // ADD UD-VIZ WIDGETS
+    this.initWidgets();
+  }
+
+  initWidgets() {
+    this.initWidget3DTiles();
+    this.initWidgetLayerChoice();
+    this.initWidgetGeocoding();
+    this.initWidgetBookmark();
+    this.initWidgetScale();
+  }
+
+  initWidget3DTiles() {
     const details3DTiles = createLocalStorageDetails(
       'detail_widget_3d_tiles',
       '3DTiles',
       this.domElement
     );
-    const widget3DTiles = new C3DTiles(context.frame3D.itownsView, {
+
+    const widget3DTiles = new C3DTiles(this.context.frame3D.itownsView, {
       parentElement: details3DTiles,
     });
 
@@ -177,37 +189,45 @@ class MenuItowns {
         contextSelection.layer = null;
       }
 
-      // get intersects based on the click event
-      const intersects = context.frame3D.itownsView.pickObjectsAt(
-        event,
-        0,
-        context.frame3D.itownsView
-          .getLayers()
-          .filter((el) => el.isC3DTilesLayer)
-      );
+      const c3DTilesLayers = this.context.frame3D.itownsView
+        .getLayers()
+        .filter((el) => el.isC3DTilesLayer);
 
-      if (intersects.length) {
-        // get featureClicked
-        const featureClicked =
-          intersects[0].layer.getC3DTileFeatureFromIntersectsArray(intersects);
-        if (featureClicked) {
-          // write in userData the selectedColor
-          featureClicked.userData.selectedColor = 'blue';
-          // and update its style layer
-          intersects[0].layer.updateStyle();
+      if (c3DTilesLayers.length) {
+        // get intersects based on the click event
+        const intersects = this.context.frame3D.itownsView.pickObjectsAt(
+          event,
+          0,
+          c3DTilesLayers
+        );
 
-          // set contextSelection
-          contextSelection.feature = featureClicked;
-          contextSelection.layer = intersects[0].layer;
+        if (intersects.length) {
+          // get featureClicked
+          const featureClicked =
+            intersects[0].layer.getC3DTileFeatureFromIntersectsArray(
+              intersects
+            );
+          if (featureClicked) {
+            // write in userData the selectedColor
+            featureClicked.userData.selectedColor = 'blue';
+            // and update its style layer
+            intersects[0].layer.updateStyle();
+
+            // set contextSelection
+            contextSelection.feature = featureClicked;
+            contextSelection.layer = intersects[0].layer;
+          }
         }
       }
       widget3DTiles.displayC3DTFeatureInfo(
         contextSelection.feature,
         contextSelection.layer
       );
-      context.frame3D.itownsView.notifyChange(); // need a redraw of the context.frame3D.itownsView
+      this.context.frame3D.itownsView.notifyChange(); // need a redraw of the context.frame3D.itownsView
     };
+  }
 
+  initWidgetLayerChoice() {
     // layer choice
     const widgetLayerChoice = new LayerChoice(this.context.frame3D.itownsView);
     const detailsLayerChoice = createLocalStorageDetails(
@@ -216,8 +236,9 @@ class MenuItowns {
       this.domElement
     );
     detailsLayerChoice.appendChild(widgetLayerChoice.domElement);
+  }
 
-    // geocoding
+  initWidgetGeocoding() {
     const widgetGeocoding = new GeocodingView(
       new GeocodingService(new RequestService(), this.context.userData.extent, {
         url: 'https://nominatim.openstreetmap.org/search',
@@ -252,8 +273,9 @@ class MenuItowns {
       this.domElement
     );
     detailsGeocoding.appendChild(widgetGeocoding.domElement);
+  }
 
-    // bookmark
+  initWidgetBookmark() {
     const detailsBookMark = createLocalStorageDetails(
       'key_widget_bookmark',
       'Bookmark',
@@ -263,9 +285,10 @@ class MenuItowns {
     const widgetBookMark = new Bookmark(this.context.frame3D.itownsView, {
       parentElement: detailsBookMark,
     });
+  }
 
-    // ADD ITOWNS WIDGETS
-    const itownsScale = new Scale(context.frame3D.itownsView, {
+  initWidgetScale() {
+    const itownsScale = new Scale(this.context.frame3D.itownsView, {
       parentElement: this.domElement,
     });
 
