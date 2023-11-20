@@ -156,10 +156,26 @@ const readGameObjects3DAsJSON = (gameObjectsFolderPath) => {
     if (json.version) {
       json = moulinetteWorldJSON(json);
     }
+
+    addColliderCenter(json.object);
+
     gameObjects3D.push(json);
   }
 
   return gameObjects3D;
+};
+
+const addColliderCenter = (json) => {
+  if (json.components && json.components.Collider) {
+    json.components.Collider.shapes.forEach((shape) => {
+      if (shape.center) {
+        shape.center.z = shape.center.z || 0;
+      }
+    });
+  }
+  if (json.children) {
+    json.children.forEach((child) => addColliderCenter(child));
+  }
 };
 
 /**
