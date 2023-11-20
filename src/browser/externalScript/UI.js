@@ -11,6 +11,7 @@ import {
   MAP_CLICK_MODE,
   ID,
 } from '../../shared/constant';
+import { round } from '@ud-viz/utils_shared';
 
 import { MenuAvatar } from './MenuAvatar/MenuAvatar';
 import * as MenuAvatarGameScript from '../../shared/gameScript/MenuAvatar';
@@ -459,6 +460,8 @@ class Chart {
 
     this.maxNumber = -Infinity;
 
+    this.averageNumber = 0;
+
     this.values.forEach((v) => {
       this.maxNumber = Math.max(this.maxNumber, v.number);
       this.averageNumber += v.number;
@@ -491,18 +494,34 @@ class Chart {
 
     ctx.beginPath();
 
-    ctx.moveTo(
-      now - this.values[0].timestamp,
+    const thickness = 15;
+
+    ctx.moveTo(now - this.values[0].timestamp - thickness, worldHeight);
+    ctx.lineTo(
+      now - this.values[0].timestamp - thickness,
       worldHeight - this.values[0].number
     );
+    ctx.lineTo(
+      now - this.values[0].timestamp + thickness,
+      worldHeight - this.values[0].number
+    );
+    ctx.lineTo(now - this.values[0].timestamp + thickness, worldHeight);
     for (let index = 1; index < this.values.length; index++) {
-      const value = this.values[index];
-      ctx.lineTo(now - value.timestamp, worldHeight - value.number);
+      ctx.lineTo(now - this.values[index].timestamp - thickness, worldHeight);
+      ctx.lineTo(
+        now - this.values[index].timestamp - thickness,
+        worldHeight - this.values[index].number
+      );
+      ctx.lineTo(
+        now - this.values[index].timestamp + thickness,
+        worldHeight - this.values[index].number
+      );
+      ctx.lineTo(now - this.values[index].timestamp + thickness, worldHeight);
     }
 
     const lastValue = this.values[this.values.length - 1];
-    ctx.lineTo(now - lastValue.timestamp, worldHeight);
-    ctx.lineTo(now - this.values[0].timestamp, worldHeight);
+    ctx.lineTo(now - lastValue.timestamp + thickness, worldHeight);
+    ctx.lineTo(now - this.values[0].timestamp - thickness, worldHeight);
 
     ctx.closePath();
 
@@ -511,15 +530,6 @@ class Chart {
     ctx.restore();
 
     const sizeLine = 10;
-
-    // draw max number
-    // const y = (this.offsetY * this.canvas.height) / worldHeight;
-    // ctx.beginPath();
-    // ctx.moveTo(0, y);
-    // ctx.lineTo(sizeLine, y);
-    // ctx.closePath();
-    // ctx.stroke();
-    // ctx.strokeText(this.maxNumber + this.labelMaxNumber, 2 * sizeLine, y);
 
     // draw average number
     const yAverage =
@@ -531,7 +541,7 @@ class Chart {
     ctx.closePath();
     ctx.stroke();
     ctx.strokeText(
-      this.averageNumber + this.labelMaxNumber,
+      round(this.averageNumber) + this.labelMaxNumber,
       2 * sizeLine,
       yAverage
     );
@@ -982,6 +992,8 @@ class MenuSettings {
       // eslint-disable-next-line no-undef
       Howler.volume(this.context.userData.settings.volumeValue); // Howler is global
     }
+
+    Howler.volume(0);
 
     const globalVolumeSlider = document.createElement('input');
     globalVolumeSlider.type = 'range';

@@ -22,6 +22,7 @@ const { MathUtils } = require('three');
 const path = require('path');
 const fs = require('fs');
 const { THREAD, PARSE } = require('./constant');
+const { exec } = require('child-process-promise');
 const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
 
 const FOLDER_PATH_PUBLIC = path.resolve(__dirname, '../../public');
@@ -259,6 +260,17 @@ app.use('/verify_admin_token', isAdminMiddleware, (req, res) => {
 
 app.use('/pull_gameobjects3D', isAdminMiddleware, (req, res) => {
   res.send(readGameObjects3DAsJSON(absolutePath(PATH_GAME_OBJECT_3D)));
+});
+
+app.use('/save_gameObject3D', isAdminMiddleware, (req, res) => {
+  const object3DJSON = req.body;
+  const contentIndexJSON = JSON.parse(
+    fs.readFileSync(absolutePath(PATH_GAME_OBJECT_3D) + 'index.json')
+  );
+  const pathFile =
+  absolutePath(PATH_GAME_OBJECT_3D) + contentIndexJSON[object3DJSON.object.uuid];
+  fs.writeFileSync(pathFile, JSON.stringify(object3DJSON));
+  exec('npx prettier ' + pathFile + ' -w').then(() => res.send());
 });
 
 reload(app, { port: 8082 }); // TODO: pass reload port as the http server port

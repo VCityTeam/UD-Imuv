@@ -97,14 +97,8 @@ export class JitsiScreen extends ScriptBase {
       scaleDomElement3D
     );
 
-    const domElement3D = new DomElement3D(
-      divJitsi,
-      positionDomElement3D,
-      new THREE.Euler().setFromQuaternion(quaternionDomElement3D),
-      scaleDomElement3D,
-      200
-    );
-    this.context.frame3D.appendDomElement3D(domElement3D);
+    const domElement3D = new DomElement3D(divJitsi, 200);
+    this.context.frame3D.appendDomElement3D(domElement3D, this.object3D);
   }
 
   static get ID_SCRIPT() {
