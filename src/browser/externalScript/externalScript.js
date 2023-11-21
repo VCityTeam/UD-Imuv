@@ -1,6 +1,6 @@
 export { AddItownsLayer } from './AddItownsLayer';
 export { AvatarController } from './AvatarController';
-export { Bounce } from './Bounce'; // skip
+export { Bounce } from './Bounce';
 export { Box3DTool } from './Box3DTool';
 export { ButterflySpawner } from './ButterflySpawner';
 export { CameraManager } from './CameraManager'; // skip
