@@ -1,68 +1,1187 @@
 {
-  "gameObject": {
-    "name": "Room_Expo",
-    "type": "GameObject",
-    "static": true,
-    "outdated": false,
-    "uuid": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
-    "parentUUID": null,
-    "forceSerializeComponents": [],
-    "components": {
-      "WorldScript": {
-        "uuid": "204E8B0D-10C2-4737-833D-5F9BC07D464C",
-        "scriptParams": ["spawner_id_script", "my_command_manager_id"],
-        "conf": {
-          "speedTranslate": 0.006,
-          "cityAvatarAllow": false,
-          "spawnTransform": {
-            "position": [12, 0, 0],
-            "rotation": [0.14, 0, 1.57],
-            "scale": [1, 1, 1]
-          }
-        },
-        "type": "WorldScript"
-      },
-      "LocalScript": {
-        "uuid": "517F03AE-63E7-4220-90A9-7C26979A9E4D",
-        "scriptParams": [
-          "avatar_controller_id_ext_script",
-          "camera_manager_id",
-          "static_object_id_ext_script",
-          "add_itowns_layer_id_ext_script"
-        ],
-        "conf": {},
-        "type": "LocalScript"
-      }
-    },
+  "metadata": {
+    "type": "Object3D",
+    "method": "toJSON",
+    "version": "4.0.1",
+    "packageName": "@ud-viz/game_shared"
+  },
+  "object": {
     "children": [
       {
+        "children": [
+          {
+            "children": [],
+            "matrix": [
+              0.6, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 1, 0, -13.258817735419782,
+              -3.4290934974237675, -0.001287135188931643, 1
+            ],
+            "uuid": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
+            "name": "Portal_Campus",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isPortal": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "d55d45b6-f5b4-48eb-87e4-451e5e13cd5a",
+                "scriptParams": [
+                  { "id": "rotate_id_ext_script" },
+                  { "id": "local_interactions_id_ext_script" },
+                  { "id": "portal_sweep_id_ext_script" }
+                ],
+                "variables": {
+                  "speed": 0.001,
+                  "avatarsOnEnter": [],
+                  "avatarsColliding": [],
+                  "avatarsOnLeave": []
+                },
+                "type": "ExternalScript"
+              },
+              "GameScript": {
+                "uuid": "a70f6497-305a-44d5-bca7-96dc39645515",
+                "scriptParams": [
+                  { "id": "portal_id_script" },
+                  { "id": "interaction_zone_id_script" }
+                ],
+                "variables": {
+                  "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
+                  "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
+                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
+                  "delay": 1000
+                },
+                "type": "GameScript"
+              },
+              "Collider": {
+                "uuid": "79F67F9B-74D1-42CC-9B3A-4F79ED819643",
+                "shapes": [
+                  {
+                    "type": "Circle",
+                    "center": { "x": 0, "y": 0, "z": 0.11430640907229983 },
+                    "radius": 0.7
+                  }
+                ],
+                "body": false
+              },
+              "Audio": {
+                "uuid": "7F72DCA2-CD57-4319-86BB-80584A58F664",
+                "sounds": ["portal_in"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "540A28B2-4AEE-425B-85B1-934BF95DD2ED",
+                "type": "Render",
+                "idRenderData": "spiral_spawn",
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679389071086, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679389071086, 0,
+              -2.487976643256843, 6.803802199661732, 2.674915539370695, 1
+            ],
+            "uuid": "EA6303DB-3F27-4152-AC42-FCFF3429CE37",
+            "name": "Image7",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "3bc01043-75e0-4d28-b443-9691b81af0e5",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/671B5C8B-F3BB-46B5-9B5E-62331152738E.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.840056,
+                    "lat": 45.78075,
+                    "checked": true
+                  },
+                  "descriptionText": "Montée de la Boucle, Caluire-et-Cuire"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "3BE79B39-5B63-4C33-B94F-7BB7C7DED1FF",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "3A615855-9115-4DAA-91E9-3656B6AB6527",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679389071086, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679389071086, 0,
+              -9.865009346278384, 15.137116045691073, 2.7, 1
+            ],
+            "uuid": "A3414589-3105-4095-93BE-66555A3014BB",
+            "name": "Image4",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "e549bd38-5d27-4ff1-8491-1a0b947030b0",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/F0059545-FAB1-4536-920C-873A934129C6.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.815,
+                    "lat": 45.730306,
+                    "checked": true
+                  },
+                  "descriptionText": "Pont de la Mulatière, La Mulatière"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "52BBA6DC-9242-4B62-8E3D-39190648DA78",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "79030A47-3230-48E5-B613-451916323EF7",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679389071086, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679389071086, 0,
+              -16.37363406876102, 15.2, 2.7, 1
+            ],
+            "uuid": "C6DFC197-3C19-47B2-A434-EB57763CA1DE",
+            "name": "Image3",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "6756cafc-e7fb-43c9-a07f-eb8547369b68",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/C678DE9F-7148-4F61-ADC3-3F4834D1E1B3.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.817083,
+                    "lat": 45.736028,
+                    "checked": true
+                  },
+                  "descriptionText": "Cours Charlemagne"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "328717FA-2206-4F64-B80F-1C429E1349E9",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "00A8D589-4136-4977-82B2-2E9F7AC5D155",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, 0.9999199340523499, -1.1102230246251563e-16,
+              0, -0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, 0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, -20.324149628635496,
+              11.954995192587376, 2.7, 1
+            ],
+            "uuid": "7A64ED51-FEFC-4404-A353-5AC782A7A643",
+            "name": "Image2",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "0397b179-1521-4f2c-8952-e21151e6b815",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/58F1B857-1509-4E6E-8053-95B99E1AA698.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.839917,
+                    "lat": 45.756389,
+                    "checked": true
+                  },
+                  "descriptionText": "Berges du Rhône – Guillotière, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "132AE5BC-3FBF-4A3C-8DE3-4F268AF2F05F",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "D410B63A-9F98-4536-B0CC-1E34B53CCB59",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679273896548, 0.9999999953605744, 0, 0,
+              -0.9999999953605744, 0.00009632679273896548, 0, 3.897221867227927,
+              6.815741938538849, 2.7, 1
+            ],
+            "uuid": "E90FCFB4-FEDD-4EB7-8B7F-27A6B8666B4D",
+            "name": "Image8",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "9f3a1f95-90ee-4c89-9db8-07522d33224d",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/F88E505D-40F9-4865-A103-03E979C08FB0.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.813333,
+                    "lat": 45.774583,
+                    "checked": true
+                  },
+                  "descriptionText": "Tunnel de la Croix Rousse, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "B9D36191-4BBF-486A-8395-5079EEC42364",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "38B1F877-4178-4F1A-AF9A-3A7AA0C82430",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, 0.9999199340523499, -1.1102230246251563e-16,
+              0, -0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, 0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, -20.324149628635496, 7, 2.7, 1
+            ],
+            "uuid": "BCB2714E-5FBE-4EE5-AC7C-979D62F720C9",
+            "name": "Image1",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "6195419c-fd3b-4820-ae43-224b1daa2d65",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/CE4F52BE-AC20-4B58-8530-0984D99883B1.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.838167,
+                    "lat": 45.753472,
+                    "checked": true
+                  },
+                  "descriptionText": "Quai Claude Bernard, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "8D2B6C8D-A3CA-4A7C-87A7-A33255A984E5",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "764A1C6F-2F01-4C31-8829-7ADA1F8E9EFB",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, -0.9999199340523499, 1.1102230246251563e-16,
+              0, 0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, -0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, -6.490888266125694, 6.755357597023249,
+              2.7, 1
+            ],
+            "uuid": "B102A817-A891-4385-BA37-D56F4116A7CB",
+            "name": "Image6",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "7124ac5f-05cd-45f7-bc64-5db61fd0864e",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/43368117-905F-416E-B36D-CF65619022B0.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.906056,
+                    "lat": 45.766889,
+                    "checked": true
+                  },
+                  "descriptionText": "Vue depuis le périphérique, Cusset, Villeurbanne"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "084B88A6-045C-444A-89CF-BF28D4C1DE88",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "7FD59E1B-E61B-4B23-885F-B69C0BB6DDB9",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, -0.9999199340523499, 1.1102230246251563e-16,
+              0, 0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, -0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, -6.490888266125694, 11.746453309431672,
+              2.7, 1
+            ],
+            "uuid": "E5FAAECE-FFF0-43BB-9784-A63E1B8479F7",
+            "name": "Image5",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "2845f8b6-5262-49df-8a88-194cd11d707b",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/FCB052AB-5FAE-4C34-8CFC-6AD9EE9C179A.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.819667,
+                    "lat": 45.752167,
+                    "checked": true
+                  },
+                  "descriptionText": "Echangeur routier, Perrache"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "3D986F2B-9586-4C66-8B5F-95C874C41094",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "00DC69F3-64B7-45B6-83B2-0A47A68CC5A2",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, -0.9999199340523499, 1.1102230246251563e-16,
+              0, 0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, -0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, 23.250901921419427, 9.180381101556122,
+              10, 1
+            ],
+            "uuid": "5EAC9D00-7965-49FC-BDCF-FD621CAE2490",
+            "name": "Panneau2",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "d17ae839-8edd-4a15-8bbc-584990713a94",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/DDC64A55-672C-4CB4-922E-3EC829DF87E9.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": { "lng": null, "lat": null, "checked": false },
+                  "descriptionHtml": "./assets/html/room_expo_panel2.html"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "53986ED9-8F6C-49D9-843A-8322377214BB",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "816498B3-433B-4581-8DC5-4495B29EE84D",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, -0.9999199340523499, 1.1102230246251563e-16,
+              0, 0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, -0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, 23.250901921419427, -8.227311057969928,
+              10, 1
+            ],
+            "uuid": "5E3BBA5F-8361-4ADE-8082-51C149A18DBB",
+            "name": "Image18",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "a5088d0c-95ca-42ec-b769-a03bfe06eca8",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/F8D9BDBF-00F7-43A5-A380-3F0BD99AEFC2.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.828889,
+                    "lat": 45.759472,
+                    "checked": true
+                  },
+                  "descriptionText": "Pont Bonaparte, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "F31A52D0-330E-41C8-8A72-4D5DBEC08ACA",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "E31DC288-3562-4C29-BFF6-E29E8B37A472",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, 0.9999199340523499, -1.1102230246251563e-16,
+              0, -0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, 0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, -25.275346181821078,
+              -5.010049852542579, 10, 1
+            ],
+            "uuid": "1D3C9DB1-FE7E-4432-89A8-A8C6B14D002C",
+            "name": "Image14",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "e3006b7e-5f2a-4b5c-b556-74588cf319c2",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/BB9C2694-3E2E-4F49-B6D2-1EA6F54C6B94.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.829111,
+                    "lat": 45.764972,
+                    "checked": true
+                  },
+                  "descriptionText": "Quais de Bondy, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "465BC352-EF3A-4CB1-931C-B2E9FC08E026",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "C5CA8789-6DF2-4493-9E6F-67B53B9FC3BB",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, 0.9999199340523499, -1.1102230246251563e-16,
+              0, -0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, 0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, -25.275346181821078,
+              11.253361359238625, 10, 1
+            ],
+            "uuid": "D1AC2F91-907F-4996-AA42-79725BAC05CA",
+            "name": "Image13",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "01585c0a-fb8f-40b2-bdd2-02a7bc7c284b",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/3BA0C92F-6360-458A-BA65-D35854D51678.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.852278,
+                    "lat": 45.760667,
+                    "checked": true
+                  },
+                  "descriptionText": "Part-Dieu, intersection Servient – Garibaldi, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "3BB4A1A4-506B-425D-9E25-5816BBA70896",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "8D9802FF-D8EF-47D9-95F0-3F6C4D46CE92",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679389071086, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679389071086, 0,
+              -18.55301780300215, 20.962517756037414, 10, 1
+            ],
+            "uuid": "D8746E7B-69E9-44BF-AF1A-DBBC2F8FD094",
+            "name": "Image12",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "65d24bb2-8c73-45e6-ae41-cce3c6148566",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/74C0891A-799F-4CDF-96D5-524E8A21F354.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.852722,
+                    "lat": 45.757056,
+                    "checked": true
+                  },
+                  "descriptionText": "Avenue Garibaldi, Part-Dieu, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "4EEEB147-6086-45C2-BC0E-84DB86162A5A",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "D43760C2-B2FA-450F-A76C-C0D93D3F5E49",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679389071086, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679389071086, 0,
+              -7.057493497850373, 20.962517756037414, 10, 1
+            ],
+            "uuid": "FD0591AA-FB07-4C5A-833E-5DB2FF8D7317",
+            "name": "Image11",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "a7c3b837-011f-4112-9629-5dae834869fe",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/12A0CD13-18EC-454B-BC5D-E2C681BEFECC.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.83375,
+                    "lat": 45.760556,
+                    "checked": true
+                  },
+                  "descriptionText": "Place des Jacobins, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "6060ACC4-144C-4AB9-A73A-7F6E30E495CF",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "51AEC18D-5421-4130-8DCB-3E5BA15355BA",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679389071086, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679389071086, 0, 4.370733732590452,
+              20.962517756037414, 10, 1
+            ],
+            "uuid": "933483AF-0F6B-48DB-A6B5-27E751A76B95",
+            "name": "Image10",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "16ae2472-0cae-4992-a0b6-b990ac9755d4",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/BC2586D4-40D4-4B38-AF92-D5F40A8E43C9.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.860278,
+                    "lat": 45.785972,
+                    "checked": true
+                  },
+                  "descriptionText": "Depuis le pont Raymond Poincarré, vue sur quai Charles de Gaulle, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "A38D8FE7-5381-4435-8CF7-F254536A044B",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "A735A9A1-89F8-4E70-B42E-0DEBD75605F7",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              1, 0, 0, 0, 0, 0.00009632679389071086, 0.9999999953605745, 0, 0,
+              -0.9999999953605745, 0.00009632679389071086, 0,
+              15.973096884321421, 20.962517756037414, 10, 1
+            ],
+            "uuid": "32A04124-AF70-4F99-8389-517CAFC55A32",
+            "name": "Image9",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "aee5e6d5-2344-4cf0-967c-f10edfc14511",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/19387331-44B8-48DA-B881-A417BE4CD592.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.797167,
+                    "lat": 45.782444,
+                    "checked": true
+                  },
+                  "descriptionText": "Boulevard de la Duchère, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "3FA9005B-348A-46E5-9FB9-B97146007BB7",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "618DFF2F-F909-46E1-9BDC-53E345B92CA1",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.9999987317275403, 0.001592652916486829,
+              -2.1684043449710093e-19, 0, -1.5341514922621784e-7,
+              -0.00009632667172243539, 0.9999999953605748, 0,
+              0.0015926529090978339, 0.99999872708812, 0.00009632679389059984,
+              0, 18.201377030927688, -12.933364816009998, 10, 1
+            ],
+            "uuid": "FACBD92D-6B37-41E8-802D-3B457299B243",
+            "name": "Image17",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "f0df9a76-80c9-4758-b93b-abd3d95e22e7",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/7CB7FC3B-AFC4-4DF1-B193-2F522DD78435.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.825083,
+                    "lat": 45.766111,
+                    "checked": true
+                  },
+                  "descriptionText": "Montée des Carmes Déchaussés, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "08A550C7-42F0-4D2B-B876-CEB06369BC1A",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "3212901A-79D0-4F65-B157-67C6B5DA90F8",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.9999987317275403, 0.0015926529164868289, 4.336808689942019e-19,
+              0, -1.5341514739033828e-7, -0.00009632667057024591,
+              0.9999999953605747, 0, 0.0015926529090978336, 0.99999872708812,
+              0.00009632679273818832, 0, -8.096792634343728,
+              -12.586669554933906, 10, 1
+            ],
+            "uuid": "4B052D44-031F-4710-83EE-0576E27D7797",
+            "name": "Image16",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "23cae81f-7983-4417-8200-f56919263e72",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/BAC8CE3A-72E0-4C36-AD5A-245AACBA4B3A.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.832167,
+                    "lat": 45.772028,
+                    "checked": true
+                  },
+                  "descriptionText": "Montée de la Grand Côte, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "653087B5-37BA-453A-A3C6-F29DCDD2C3C0",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "A4A32233-22BF-4235-AF9B-22BE6D3838BC",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              -0.9999987317275403, 0.0015926529164868289, 4.336808689942019e-19,
+              0, -1.5341514739033828e-7, -0.00009632667057024591,
+              0.9999999953605747, 0, 0.0015926529090978336, 0.99999872708812,
+              0.00009632679273818832, 0, -18.887739738449454,
+              -12.586669554933906, 10, 1
+            ],
+            "uuid": "C5A09EAF-8ECA-4721-96DD-0365CFDAD023",
+            "name": "Image15",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "fd918647-b919-482a-b375-dc9789bb4579",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/086B8EE4-6001-476E-A7CA-07B90925BC53.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": {
+                    "lng": 4.840389,
+                    "lat": 45.757139,
+                    "checked": true
+                  },
+                  "descriptionText": "Berges du Rhône – Guillotière, Lyon"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "3F287C69-38ED-43A6-91E1-7E076421A713",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "08BE9C42-222A-4D70-AC95-7DE43304728E",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [
+              0.012654069888540894, 0.9999199340523499, -1.1102230246251563e-16,
+              0, -0.00009631908024271273, 0.000001218925967272355,
+              0.9999999953605746, 0, 0.9999199294132958, -0.01265406982983341,
+              0.00009632679273841036, 0, -20.324149628635496,
+              0.35783779062330723, 2.7, 1
+            ],
+            "uuid": "EA0D6E46-B94E-4961-AA0E-4612D9CEC91F",
+            "name": "Panneau1",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": { "isImage": true },
+            "components": {
+              "ExternalScript": {
+                "uuid": "a9e9c435-9085-47fa-bafb-4852fa771455",
+                "scriptParams": [{ "id": "image_id_ext_script" }],
+                "variables": {
+                  "path": "./assets/img/gameObject3D/E92A1255-E621-4D4F-A53F-D1C91AD66F8B.jpeg",
+                  "factorWidth": 3,
+                  "factorHeight": 3,
+                  "gpsCoord": { "lng": null, "lat": null, "checked": false },
+                  "descriptionHtml": "./assets/html/room_expo_panel1.html"
+                },
+                "type": "ExternalScript"
+              },
+              "Audio": {
+                "uuid": "7BC5BA26-37CC-45FD-8783-1318D8422889",
+                "sounds": ["open_popup"],
+                "conf": {}
+              },
+              "Render": {
+                "uuid": "450A652F-4D76-4616-A52D-35CAD15D8734",
+                "type": "Render",
+                "idRenderData": null,
+                "color": [1, 1, 1, 1]
+              }
+            },
+            "forceToJSONComponent": []
+          },
+          {
+            "children": [],
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            "uuid": "65ABDECF-2AD3-435E-899C-7FD4E04D437A",
+            "name": "Tour Images",
+            "static": true,
+            "outdated": false,
+            "gameContextUpdate": true,
+            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
+            "userData": {},
+            "components": {
+              "ExternalScript": {
+                "uuid": "3a800529-e913-45fb-9e58-52ddc2a23447",
+                "scriptParams": [{ "id": "camera_tour_id_ext_script" }],
+                "variables": {
+                  "camera_transforms": [
+                    {
+                      "position": [
+                        -14.944135807354147, 6.948700326391823,
+                        2.434540043922088
+                      ],
+                      "quaternion": [0.5, 0.5, 0.5, 0.5]
+                    },
+                    {
+                      "position": [
+                        -14.944135807354426, 12.136924691067593,
+                        2.3307755566285744
+                      ],
+                      "quaternion": [0.5, 0.5, 0.5, 0.5]
+                    },
+                    {
+                      "position": [
+                        -16.21881138900469, 9.67019358589247, 2.3625615292262583
+                      ],
+                      "quaternion": [
+                        0.7071067811865475, 0, 0, 0.7071067811865476
+                      ]
+                    },
+                    {
+                      "position": [
+                        -9.948266368618603, 9.67019358589247, 2.2694197488563628
+                      ],
+                      "quaternion": [
+                        0.7071067811865475, 0, 0, 0.7071067811865476
+                      ]
+                    },
+                    {
+                      "position": [
+                        -12.414997473793608, 11.65018377429593,
+                        2.5218039279231608
+                      ],
+                      "quaternion": [-0.5, 0.5, 0.5, -0.5]
+                    },
+                    {
+                      "position": [
+                        -12.414997473793608, 6.933003284595114,
+                        2.5157947808025227
+                      ],
+                      "quaternion": [-0.5, 0.5, 0.5, -0.5]
+                    },
+                    {
+                      "position": [
+                        -2.2701669631848254, 1.5216906525664213,
+                        2.372298392975239
+                      ],
+                      "quaternion": [
+                        0.7071067811865475, 0, 0, 0.7071067811865476
+                      ]
+                    },
+                    {
+                      "position": [
+                        3.8567619614260575, 1.521690652566753,
+                        2.4540452765591003
+                      ],
+                      "quaternion": [
+                        0.7071067811865474, 0, 0, 0.7071067811865476
+                      ]
+                    },
+                    {
+                      "position": [
+                        15.918907152609155, 15.694094553278834,
+                        9.841912636220085
+                      ],
+                      "quaternion": [
+                        0.7071067811865469, 0, 0, 0.7071067811865481
+                      ]
+                    },
+                    {
+                      "position": [
+                        4.484217066638982, 15.953432034975462, 9.809932897094892
+                      ],
+                      "quaternion": [
+                        0.7071067811865475, 0, 0, 0.7071067811865476
+                      ]
+                    },
+                    {
+                      "position": [
+                        -6.903236277061943, 15.953432034975876,
+                        9.577103925383508
+                      ],
+                      "quaternion": [
+                        0.7071067811865475, 0, 0, 0.7071067811865476
+                      ]
+                    },
+                    {
+                      "position": [
+                        -18.380646268923, 15.953432034976215, 9.540062952611251
+                      ],
+                      "quaternion": [
+                        0.7071067811865475, 0, 0, 0.7071067811865476
+                      ]
+                    },
+                    {
+                      "position": [
+                        -19.96286685751617, 11.349726381675097,
+                        9.719976248933657
+                      ],
+                      "quaternion": [0.5, 0.5, 0.5, 0.5]
+                    },
+                    {
+                      "position": [
+                        -19.96286685751617, -4.863636557494692,
+                        9.661769006005827
+                      ],
+                      "quaternion": [0.5, 0.5, 0.5, 0.5]
+                    },
+                    {
+                      "position": [
+                        -18.94708537207297, -6.279988521882312,
+                        10.032096100883956
+                      ],
+                      "quaternion": [
+                        0, 0.7071067811865475, 0.7071067811865476, 0
+                      ]
+                    },
+                    {
+                      "position": [
+                        -8.242244240893037, -6.279988521882728,
+                        9.862765939639374
+                      ],
+                      "quaternion": [
+                        0, 0.7071067811865475, 0.7071067811865476, 0
+                      ]
+                    },
+                    {
+                      "position": [
+                        18.09917896771149, -6.279988521883447, 9.672269508239266
+                      ],
+                      "quaternion": [
+                        0, 0.7071067811865475, 0.7071067811865476, 0
+                      ]
+                    },
+                    {
+                      "position": [
+                        16.734841914583818, -8.328134627103537,
+                        9.694384961813332
+                      ],
+                      "quaternion": [
+                        -0.49999999999999994, 0.49999999999999994, 0.5, -0.5
+                      ]
+                    }
+                  ]
+                },
+                "type": "ExternalScript"
+              }
+            },
+            "forceToJSONComponent": []
+          }
+        ],
+        "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+        "uuid": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
         "name": "Room Expo Map",
-        "type": "GameObject",
         "static": true,
         "outdated": false,
-        "uuid": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-        "parentUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
-        "forceSerializeComponents": [],
+        "gameContextUpdate": true,
+        "parentUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+        "userData": { "isMap": true },
         "components": {
-          "Render": {
-            "uuid": "AE767B21-FFE1-483C-A4F4-EE4F4BD70FD5",
-            "type": "Render",
-            "idRenderData": "room_expo",
-            "color": [1, 1, 1]
-          },
-          "WorldScript": {
-            "uuid": "B6696B41-3A93-4009-B69E-AD132DFF958C",
-            "scriptParams": ["map_id"],
-            "conf": {
+          "GameScript": {
+            "uuid": "df8acd3f-ad11-4b17-ab5c-261dd2127863",
+            "scriptParams": [{ "id": "map_id" }],
+            "variables": {
               "clientFolder": "./public",
               "heightmap_path": "./assets/img/gameObject3D/1696D689-C5BF-400E-904E-91AFF723155A.jpeg",
               "heightmap_geometry": { "max": 10, "min": -2, "size": 63 }
             },
-            "type": "WorldScript"
+            "type": "GameScript"
           },
           "Collider": {
             "uuid": "3F66B1C6-5B90-4CF4-816A-B052CE5298C1",
-            "type": "Collider",
             "shapes": [
               {
                 "type": "Polygon",
@@ -291,1242 +1410,81 @@
               }
             ],
             "body": true
+          },
+          "Render": {
+            "uuid": "AE767B21-FFE1-483C-A4F4-EE4F4BD70FD5",
+            "type": "Render",
+            "idRenderData": "room_expo",
+            "color": [1, 1, 1, 1]
           }
         },
-        "children": [
-          {
-            "name": "Portal_Campus",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "8181C246-16B9-4A09-B68E-8B5422DB18CC",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "540A28B2-4AEE-425B-85B1-934BF95DD2ED",
-                "type": "Render",
-                "idRenderData": "spiral_spawn",
-                "color": [1, 1, 1]
-              },
-              "Collider": {
-                "uuid": "79F67F9B-74D1-42CC-9B3A-4F79ED819643",
-                "type": "Collider",
-                "shapes": [
-                  {
-                    "type": "Circle",
-                    "center": { "x": 0, "y": 0, "z": 0.11430640907229983 },
-                    "radius": 0.7
-                  }
-                ],
-                "body": false
-              },
-              "WorldScript": {
-                "uuid": "75D59547-7E33-4D13-90AE-D83C11461D27",
-                "scriptParams": [
-                  "portal_id_script",
-                  "interaction_zone_id_script"
-                ],
-                "conf": {
-                  "gameObjectDestUUID": "C9E1F773-4249-4BE5-A744-438207962D64",
-                  "portalUUID": "ADFDDF30-BEDE-41FF-BDBA-00D19B38D663",
-                  "spawnRotation": { "x": 0, "y": 0, "z": 0 },
-                  "delay": 1000
-                },
-                "type": "WorldScript"
-              },
-              "LocalScript": {
-                "uuid": "AA6956CE-E11D-4519-829B-99564C8AB969",
-                "scriptParams": [
-                  "rotate_id_ext_script",
-                  "local_interactions_id_ext_script",
-                  "portal_sweep_id_ext_script"
-                ],
-                "conf": {
-                  "speed": 0.001,
-                  "avatarsOnEnter": [],
-                  "avatarsColliding": [],
-                  "avatarsOnLeave": []
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "7F72DCA2-CD57-4319-86BB-80584A58F664",
-                "sounds": ["portal_in"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -13.258817735419782, -3.4290934974237675, -0.001287135188931643
-              ],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [0.6, 0.6, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image7",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "EA6303DB-3F27-4152-AC42-FCFF3429CE37",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "3A615855-9115-4DAA-91E9-3656B6AB6527",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "30D59DE9-3D15-4650-9482-4EF3E602A9D0",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/671B5C8B-F3BB-46B5-9B5E-62331152738E.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.840056,
-                    "lat": 45.78075,
-                    "checked": true
-                  },
-                  "descriptionText": "Montée de la Boucle, Caluire-et-Cuire"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "3BE79B39-5B63-4C33-B94F-7BB7C7DED1FF",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [
-                -2.487976643256843, 6.803802199661732, 2.674915539370695
-              ],
-              "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image4",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "A3414589-3105-4095-93BE-66555A3014BB",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "79030A47-3230-48E5-B613-451916323EF7",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "5616A6C5-B81F-48EE-813F-E1CAE559E4D7",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/F0059545-FAB1-4536-920C-873A934129C6.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.815,
-                    "lat": 45.730306,
-                    "checked": true
-                  },
-                  "descriptionText": "Pont de la Mulatière, La Mulatière"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "52BBA6DC-9242-4B62-8E3D-39190648DA78",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-9.865009346278384, 15.137116045691073, 2.7],
-              "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image3",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "C6DFC197-3C19-47B2-A434-EB57763CA1DE",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "00A8D589-4136-4977-82B2-2E9F7AC5D155",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "FCF888B4-594C-49CC-8AB5-BEDD852E5B53",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/C678DE9F-7148-4F61-ADC3-3F4834D1E1B3.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.817083,
-                    "lat": 45.736028,
-                    "checked": true
-                  },
-                  "descriptionText": "Cours Charlemagne"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "328717FA-2206-4F64-B80F-1C429E1349E9",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-16.37363406876102, 15.2, 2.7],
-              "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image2",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "7A64ED51-FEFC-4404-A353-5AC782A7A643",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "D410B63A-9F98-4536-B0CC-1E34B53CCB59",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "FFC3E56D-AA9F-48E1-8C54-CC8AAD456CBC",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/58F1B857-1509-4E6E-8053-95B99E1AA698.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.839917,
-                    "lat": 45.756389,
-                    "checked": true
-                  },
-                  "descriptionText": "Berges du Rhône – Guillotière, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "132AE5BC-3FBF-4A3C-8DE3-4F268AF2F05F",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-20.324149628635496, 11.954995192587376, 2.7],
-              "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image8",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "E90FCFB4-FEDD-4EB7-8B7F-27A6B8666B4D",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "38B1F877-4178-4F1A-AF9A-3A7AA0C82430",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "D9321027-4D92-4430-A2DF-4186E8A53B42",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/F88E505D-40F9-4865-A103-03E979C08FB0.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.813333,
-                    "lat": 45.774583,
-                    "checked": true
-                  },
-                  "descriptionText": "Tunnel de la Croix Rousse, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "B9D36191-4BBF-486A-8395-5079EEC42364",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [3.897221867227927, 6.815741938538849, 2.7],
-              "rotation": [1.5707000000020088, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image1",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "BCB2714E-5FBE-4EE5-AC7C-979D62F720C9",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "764A1C6F-2F01-4C31-8829-7ADA1F8E9EFB",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "90015BE9-2A79-4987-AA91-6FBB6216A50D",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/CE4F52BE-AC20-4B58-8530-0984D99883B1.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.838167,
-                    "lat": 45.753472,
-                    "checked": true
-                  },
-                  "descriptionText": "Quai Claude Bernard, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "8D2B6C8D-A3CA-4A7C-87A7-A33255A984E5",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-20.324149628635496, 7, 2.7],
-              "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image6",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "B102A817-A891-4385-BA37-D56F4116A7CB",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "7FD59E1B-E61B-4B23-885F-B69C0BB6DDB9",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "151A802F-EE27-4E61-88DA-876A34917191",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/43368117-905F-416E-B36D-CF65619022B0.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.906056,
-                    "lat": 45.766889,
-                    "checked": true
-                  },
-                  "descriptionText": "Vue depuis le périphérique, Cusset, Villeurbanne"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "084B88A6-045C-444A-89CF-BF28D4C1DE88",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-6.490888266125694, 6.755357597023249, 2.7],
-              "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image5",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "E5FAAECE-FFF0-43BB-9784-A63E1B8479F7",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "00DC69F3-64B7-45B6-83B2-0A47A68CC5A2",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "3F2CFDC5-0DB5-46E0-B53F-F7FEB50981C5",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/FCB052AB-5FAE-4C34-8CFC-6AD9EE9C179A.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.819667,
-                    "lat": 45.752167,
-                    "checked": true
-                  },
-                  "descriptionText": "Echangeur routier, Perrache"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "3D986F2B-9586-4C66-8B5F-95C874C41094",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-6.490888266125694, 11.746453309431672, 2.7],
-              "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Panneau2",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "5EAC9D00-7965-49FC-BDCF-FD621CAE2490",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "816498B3-433B-4581-8DC5-4495B29EE84D",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "53A38072-999B-4EF2-AF61-D658B09DD672",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/DDC64A55-672C-4CB4-922E-3EC829DF87E9.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": { "lng": null, "lat": null, "checked": false },
-                  "descriptionHtml": "./assets/html/room_expo_panel2.html"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "53986ED9-8F6C-49D9-843A-8322377214BB",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [23.250901921419427, 9.180381101556122, 10],
-              "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image18",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "5E3BBA5F-8361-4ADE-8082-51C149A18DBB",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "E31DC288-3562-4C29-BFF6-E29E8B37A472",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "A6E2C4BF-132E-4CC7-B048-9540B24BAD5E",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/F8D9BDBF-00F7-43A5-A380-3F0BD99AEFC2.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.828889,
-                    "lat": 45.759472,
-                    "checked": true
-                  },
-                  "descriptionText": "Pont Bonaparte, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "F31A52D0-330E-41C8-8A72-4D5DBEC08ACA",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [23.250901921419427, -8.227311057969928, 10],
-              "rotation": [1.5707000000020088, 0, -1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image14",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "1D3C9DB1-FE7E-4432-89A8-A8C6B14D002C",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "C5CA8789-6DF2-4493-9E6F-67B53B9FC3BB",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "7B4953B3-78DD-4AB4-955D-34ECD3C03532",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/BB9C2694-3E2E-4F49-B6D2-1EA6F54C6B94.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.829111,
-                    "lat": 45.764972,
-                    "checked": true
-                  },
-                  "descriptionText": "Quais de Bondy, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "465BC352-EF3A-4CB1-931C-B2E9FC08E026",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-25.275346181821078, -5.010049852542579, 10],
-              "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image13",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "D1AC2F91-907F-4996-AA42-79725BAC05CA",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "8D9802FF-D8EF-47D9-95F0-3F6C4D46CE92",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "CEF79019-105D-4C03-B711-FCA631A3983C",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/3BA0C92F-6360-458A-BA65-D35854D51678.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.852278,
-                    "lat": 45.760667,
-                    "checked": true
-                  },
-                  "descriptionText": "Part-Dieu, intersection Servient – Garibaldi, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "3BB4A1A4-506B-425D-9E25-5816BBA70896",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-25.275346181821078, 11.253361359238625, 10],
-              "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image12",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "D8746E7B-69E9-44BF-AF1A-DBBC2F8FD094",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "D43760C2-B2FA-450F-A76C-C0D93D3F5E49",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "690B9725-B4FF-41B6-B2EF-970A2BE11229",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/74C0891A-799F-4CDF-96D5-524E8A21F354.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.852722,
-                    "lat": 45.757056,
-                    "checked": true
-                  },
-                  "descriptionText": "Avenue Garibaldi, Part-Dieu, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "4EEEB147-6086-45C2-BC0E-84DB86162A5A",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-18.55301780300215, 20.962517756037414, 10],
-              "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image11",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "FD0591AA-FB07-4C5A-833E-5DB2FF8D7317",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "51AEC18D-5421-4130-8DCB-3E5BA15355BA",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "03696363-0BBF-4D5C-97AD-CCB3385A91F3",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/12A0CD13-18EC-454B-BC5D-E2C681BEFECC.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.83375,
-                    "lat": 45.760556,
-                    "checked": true
-                  },
-                  "descriptionText": "Place des Jacobins, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "6060ACC4-144C-4AB9-A73A-7F6E30E495CF",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-7.057493497850373, 20.962517756037414, 10],
-              "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image10",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "933483AF-0F6B-48DB-A6B5-27E751A76B95",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "A735A9A1-89F8-4E70-B42E-0DEBD75605F7",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "6BBF17AA-6771-4FE9-95D0-A5096F0A89D8",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/BC2586D4-40D4-4B38-AF92-D5F40A8E43C9.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.860278,
-                    "lat": 45.785972,
-                    "checked": true
-                  },
-                  "descriptionText": "Depuis le pont Raymond Poincarré, vue sur quai Charles de Gaulle, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "A38D8FE7-5381-4435-8CF7-F254536A044B",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [4.370733732590452, 20.962517756037414, 10],
-              "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image9",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "32A04124-AF70-4F99-8389-517CAFC55A32",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "618DFF2F-F909-46E1-9BDC-53E345B92CA1",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "C303AAA3-122A-420B-AC99-6E1E257A2E07",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/19387331-44B8-48DA-B881-A417BE4CD592.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.797167,
-                    "lat": 45.782444,
-                    "checked": true
-                  },
-                  "descriptionText": "Boulevard de la Duchère, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "3FA9005B-348A-46E5-9FB9-B97146007BB7",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [15.973096884321421, 20.962517756037414, 10],
-              "rotation": [1.5707000000008564, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image17",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "FACBD92D-6B37-41E8-802D-3B457299B243",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "3212901A-79D0-4F65-B157-67C6B5DA90F8",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "7B0F1E83-E332-460A-A4B9-597B15F716FA",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/7CB7FC3B-AFC4-4DF1-B193-2F522DD78435.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.825083,
-                    "lat": 45.766111,
-                    "checked": true
-                  },
-                  "descriptionText": "Montée des Carmes Déchaussés, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "08A550C7-42F0-4D2B-B876-CEB06369BC1A",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [18.201377030927688, -12.933364816009998, 10],
-              "rotation": [1.5707000000008564, 0, 3.14, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image16",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "4B052D44-031F-4710-83EE-0576E27D7797",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "A4A32233-22BF-4235-AF9B-22BE6D3838BC",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "42379AA3-F47F-42E5-ADF8-3C10463892D6",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/BAC8CE3A-72E0-4C36-AD5A-245AACBA4B3A.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.832167,
-                    "lat": 45.772028,
-                    "checked": true
-                  },
-                  "descriptionText": "Montée de la Grand Côte, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "653087B5-37BA-453A-A3C6-F29DCDD2C3C0",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-8.096792634343728, -12.586669554933906, 10],
-              "rotation": [1.5707000000020088, 0, 3.14, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Image15",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "C5A09EAF-8ECA-4721-96DD-0365CFDAD023",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "08BE9C42-222A-4D70-AC95-7DE43304728E",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "36A24A71-589A-49D3-8C55-B06494716A7D",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/086B8EE4-6001-476E-A7CA-07B90925BC53.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": {
-                    "lng": 4.840389,
-                    "lat": 45.757139,
-                    "checked": true
-                  },
-                  "descriptionText": "Berges du Rhône – Guillotière, Lyon"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "3F287C69-38ED-43A6-91E1-7E076421A713",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-18.887739738449454, -12.586669554933906, 10],
-              "rotation": [1.5707000000020088, 0, 3.14, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Panneau1",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "EA0D6E46-B94E-4961-AA0E-4612D9CEC91F",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "Render": {
-                "uuid": "450A652F-4D76-4616-A52D-35CAD15D8734",
-                "type": "Render",
-                "idRenderData": null,
-                "color": [1, 1, 1]
-              },
-              "LocalScript": {
-                "uuid": "2A998D6B-787F-45E3-A35C-6F9ACCF50E9F",
-                "scriptParams": ["image_id_ext_script"],
-                "conf": {
-                  "path": "./assets/img/gameObject3D/E92A1255-E621-4D4F-A53F-D1C91AD66F8B.jpeg",
-                  "factorWidth": 3,
-                  "factorHeight": 3,
-                  "gpsCoord": { "lng": null, "lat": null, "checked": false },
-                  "descriptionHtml": "./assets/html/room_expo_panel1.html"
-                },
-                "type": "LocalScript"
-              },
-              "Audio": {
-                "uuid": "7BC5BA26-37CC-45FD-8783-1318D8422889",
-                "sounds": ["open_popup"],
-                "conf": {},
-                "type": "Audio"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [-20.324149628635496, 0.35783779062330723, 2.7],
-              "rotation": [1.5707000000020088, 0, 1.5581419191755068, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          },
-          {
-            "name": "Tour Images",
-            "type": "GameObject",
-            "static": true,
-            "outdated": false,
-            "uuid": "65ABDECF-2AD3-435E-899C-7FD4E04D437A",
-            "parentUUID": "18D77F3C-02AB-4F72-B429-2194070A1AE2",
-            "forceSerializeComponents": [],
-            "components": {
-              "LocalScript": {
-                "uuid": "575E0282-07D5-467B-B7A9-48420E36CD3E",
-                "scriptParams": ["camera_tour_id_ext_script"],
-                "conf": {
-                  "camera_transforms": [
-                    {
-                      "position": [
-                        -14.944135807354147, 6.948700326391823,
-                        2.434540043922088
-                      ],
-                      "quaternion": [0.5, 0.5, 0.5, 0.5]
-                    },
-                    {
-                      "position": [
-                        -14.944135807354426, 12.136924691067593,
-                        2.3307755566285744
-                      ],
-                      "quaternion": [0.5, 0.5, 0.5, 0.5]
-                    },
-                    {
-                      "position": [
-                        -16.21881138900469, 9.67019358589247, 2.3625615292262583
-                      ],
-                      "quaternion": [
-                        0.7071067811865475, 0, 0, 0.7071067811865476
-                      ]
-                    },
-                    {
-                      "position": [
-                        -9.948266368618603, 9.67019358589247, 2.2694197488563628
-                      ],
-                      "quaternion": [
-                        0.7071067811865475, 0, 0, 0.7071067811865476
-                      ]
-                    },
-                    {
-                      "position": [
-                        -12.414997473793608, 11.65018377429593,
-                        2.5218039279231608
-                      ],
-                      "quaternion": [-0.5, 0.5, 0.5, -0.5]
-                    },
-                    {
-                      "position": [
-                        -12.414997473793608, 6.933003284595114,
-                        2.5157947808025227
-                      ],
-                      "quaternion": [-0.5, 0.5, 0.5, -0.5]
-                    },
-                    {
-                      "position": [
-                        -2.2701669631848254, 1.5216906525664213,
-                        2.372298392975239
-                      ],
-                      "quaternion": [
-                        0.7071067811865475, 0, 0, 0.7071067811865476
-                      ]
-                    },
-                    {
-                      "position": [
-                        3.8567619614260575, 1.521690652566753,
-                        2.4540452765591003
-                      ],
-                      "quaternion": [
-                        0.7071067811865474, 0, 0, 0.7071067811865476
-                      ]
-                    },
-                    {
-                      "position": [
-                        15.918907152609155, 15.694094553278834,
-                        9.841912636220085
-                      ],
-                      "quaternion": [
-                        0.7071067811865469, 0, 0, 0.7071067811865481
-                      ]
-                    },
-                    {
-                      "position": [
-                        4.484217066638982, 15.953432034975462, 9.809932897094892
-                      ],
-                      "quaternion": [
-                        0.7071067811865475, 0, 0, 0.7071067811865476
-                      ]
-                    },
-                    {
-                      "position": [
-                        -6.903236277061943, 15.953432034975876,
-                        9.577103925383508
-                      ],
-                      "quaternion": [
-                        0.7071067811865475, 0, 0, 0.7071067811865476
-                      ]
-                    },
-                    {
-                      "position": [
-                        -18.380646268923, 15.953432034976215, 9.540062952611251
-                      ],
-                      "quaternion": [
-                        0.7071067811865475, 0, 0, 0.7071067811865476
-                      ]
-                    },
-                    {
-                      "position": [
-                        -19.96286685751617, 11.349726381675097,
-                        9.719976248933657
-                      ],
-                      "quaternion": [0.5, 0.5, 0.5, 0.5]
-                    },
-                    {
-                      "position": [
-                        -19.96286685751617, -4.863636557494692,
-                        9.661769006005827
-                      ],
-                      "quaternion": [0.5, 0.5, 0.5, 0.5]
-                    },
-                    {
-                      "position": [
-                        -18.94708537207297, -6.279988521882312,
-                        10.032096100883956
-                      ],
-                      "quaternion": [
-                        0, 0.7071067811865475, 0.7071067811865476, 0
-                      ]
-                    },
-                    {
-                      "position": [
-                        -8.242244240893037, -6.279988521882728,
-                        9.862765939639374
-                      ],
-                      "quaternion": [
-                        0, 0.7071067811865475, 0.7071067811865476, 0
-                      ]
-                    },
-                    {
-                      "position": [
-                        18.09917896771149, -6.279988521883447, 9.672269508239266
-                      ],
-                      "quaternion": [
-                        0, 0.7071067811865475, 0.7071067811865476, 0
-                      ]
-                    },
-                    {
-                      "position": [
-                        16.734841914583818, -8.328134627103537,
-                        9.694384961813332
-                      ],
-                      "quaternion": [
-                        -0.49999999999999994, 0.49999999999999994, 0.5, -0.5
-                      ]
-                    }
-                  ]
-                },
-                "type": "LocalScript"
-              }
-            },
-            "children": [],
-            "transform": {
-              "position": [0, 0, 0],
-              "rotation": [0, 0, 0, "ZXY"],
-              "scale": [1, 1, 1]
-            },
-            "noLocalUpdate": false,
-            "freeze": false
-          }
-        ],
-        "transform": {
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0, "ZXY"],
-          "scale": [1, 1, 1]
-        },
-        "noLocalUpdate": false,
-        "freeze": false
+        "forceToJSONComponent": []
       },
       {
-        "name": "UI_GO",
-        "type": "GameObject",
-        "static": false,
-        "outdated": true,
+        "children": [],
+        "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
         "uuid": "F22A0B50-E633-464C-B2B4-A665986EEE65",
-        "parentUUID": "FFDABFAB-E9C0-4B65-82DF-A12FF1DC3332",
-        "forceSerializeComponents": [],
+        "name": "UI_GO",
+        "static": false,
+        "outdated": false,
+        "gameContextUpdate": true,
+        "parentUUID": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+        "userData": {},
         "components": {
-          "LocalScript": {
-            "uuid": "EDCC8EEF-1391-42D8-B928-F26AFF7AA832",
-            "scriptParams": ["ui_id_ext_script"],
-            "conf": { "gameContextDt": 427 },
-            "type": "LocalScript"
+          "ExternalScript": {
+            "uuid": "6fad1d1e-3eaf-48da-8b62-16e22d1ce92e",
+            "scriptParams": [{ "id": "ui_id_ext_script" }],
+            "variables": { "gameContextDt": 427 },
+            "type": "ExternalScript"
           },
-          "WorldScript": {
-            "uuid": "229103D2-2B5E-44B4-A9BE-A15263D6FAD4",
-            "scriptParams": ["ui_id_script"],
-            "conf": {},
-            "type": "WorldScript"
+          "GameScript": {
+            "uuid": "47b37046-1db9-43db-a209-486c960203fc",
+            "scriptParams": [{ "id": "ui_id_script" }],
+            "variables": {},
+            "type": "GameScript"
           }
         },
-        "children": [],
-        "transform": {
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0, "ZXY"],
-          "scale": [1, 1, 1]
-        },
-        "noLocalUpdate": false,
-        "freeze": false
+        "forceToJSONComponent": []
       }
     ],
-    "transform": {
-      "position": [0, 0, 0],
-      "rotation": [0, 0, 0, "ZXY"],
-      "scale": [1, 1, 1]
+    "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1844753.5, 5174961, 300, 1],
+    "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
+    "name": "Room_Expo",
+    "static": true,
+    "outdated": false,
+    "gameContextUpdate": true,
+    "parentUUID": "54a47f24-0399-449e-a6f6-cfe9a65ea124",
+    "userData": {},
+    "components": {
+      "ExternalScript": {
+        "uuid": "1b0b71d5-4d1a-4da9-b0aa-be44589f5041",
+        "scriptParams": [
+          { "id": "avatar_controller_id_ext_script" },
+          { "id": "camera_manager_id" },
+          { "id": "static_object_id_ext_script" },
+          { "id": "add_itowns_layer_id_ext_script", "priority": 10 }
+        ],
+        "variables": {},
+        "type": "ExternalScript"
+      },
+      "GameScript": {
+        "uuid": "7e4b40ba-e765-4508-acdf-a964a4884f3e",
+        "scriptParams": [
+          { "id": "spawner_id_script" },
+          { "id": "my_command_manager_id" }
+        ],
+        "variables": {
+          "speedTranslate": 0.006,
+          "cityAvatarAllow": false,
+          "spawnTransform": {
+            "position": [12, 0, 0],
+            "rotation": [0.14, 0, 1.57],
+            "scale": [1, 1, 1]
+          }
+        },
+        "type": "GameScript"
+      }
     },
-    "noLocalUpdate": false,
-    "freeze": false
-  },
-  "name": "Room Expo World",
-  "origin": null,
-  "type": "World",
-  "uuid": "9C632D7E-C466-426F-AC31-8FC74AB11D0D",
-  "version": "2.39.3"
+    "forceToJSONComponent": []
+  }
 }
