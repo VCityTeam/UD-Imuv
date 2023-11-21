@@ -16,6 +16,7 @@ const { Object3D } = require('@ud-viz/game_shared');
 const moulinetteWorldJSON = (oldJSON) => {
   const newJSON = oldJSON.gameObject;
   newJSON.uuid = oldJSON.uuid;
+  if (!oldJSON.uuid) throw new Error('no uuid');
 
   const extent = {
     crs: 'EPSG:3946',
@@ -137,7 +138,7 @@ const moulinetteWorldJSON = (oldJSON) => {
     return newGOJSON;
   };
 
-  let result = updateGameObject(newJSON);
+  const result = updateGameObject(newJSON);
   return new Object3D(result).toJSON(true, true);
 };
 
