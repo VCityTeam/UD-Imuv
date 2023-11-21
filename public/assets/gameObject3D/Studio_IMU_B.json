@@ -289,7 +289,10 @@
               },
               "LocalScript": {
                 "uuid": "1936E644-A43B-493E-8EB3-9ADD7AEF625E",
-                "scriptParams": ["whiteboard", "clickable"],
+                "scriptParams": [
+                  "whiteboard_id_ext_script",
+                  "clickable_id_ext_script"
+                ],
                 "conf": {
                   "name": "default_name",
                   "factorWidth": 3,
@@ -332,7 +335,10 @@
               },
               "LocalScript": {
                 "uuid": "D27F1F16-E80E-4509-BB5F-94C18818AE8C",
-                "scriptParams": ["whiteboard", "clickable"],
+                "scriptParams": [
+                  "whiteboard_id_ext_script",
+                  "clickable_id_ext_script"
+                ],
                 "conf": {
                   "name": "default_name (clone)",
                   "factorWidth": 3,
@@ -547,7 +553,7 @@
             "components": {
               "LocalScript": {
                 "uuid": "2A81D699-E6C2-4A75-8D5E-E3AB956D0B14",
-                "scriptParams": ["video"],
+                "scriptParams": ["video_id_ext_script"],
                 "conf": {
                   "idVideo": "presentation_IMU",
                   "width": 10,
@@ -591,7 +597,7 @@
               },
               "LocalScript": {
                 "uuid": "BC5C5776-CD7B-4B2E-B1E4-6E00FB762253",
-                "scriptParams": ["image"],
+                "scriptParams": ["image_id_ext_script"],
                 "conf": {
                   "path": "./assets/img/labex_imu.jpeg",
                   "factorWidth": 3,
@@ -638,10 +644,10 @@
               "LocalScript": {
                 "uuid": "4C1A9687-7B1A-4FB6-8FEB-EEB9870BCECB",
                 "scriptParams": [
-                  "clickable",
-                  "rotate",
-                  "display_media",
-                  "bounce"
+                  "clickable_id_ext_script",
+                  "rotate_id_ext_script",
+                  "display_media_id_ext_script",
+                  "bounce_id_ext_script"
                 ],
                 "conf": {
                   "speed": 0.0005,
@@ -686,10 +692,10 @@
               "LocalScript": {
                 "uuid": "C17B0919-B8FC-4DF5-9435-B606FE58498C",
                 "scriptParams": [
-                  "clickable",
-                  "rotate",
-                  "display_media",
-                  "bounce"
+                  "clickable_id_ext_script",
+                  "rotate_id_ext_script",
+                  "display_media_id_ext_script",
+                  "bounce_id_ext_script"
                 ],
                 "conf": {
                   "speed": 0.0005,
