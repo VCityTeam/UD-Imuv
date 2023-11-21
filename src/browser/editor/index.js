@@ -117,9 +117,8 @@ export const app = async () => {
         gameObjects3D = gameObjects3D.map((el) => {
           if (el.object.uuid == editor.currentGameObject3D.uuid) {
             return editor.currentGameObject3D.toJSON(true, true);
-          } else {
-            return el;
           }
+          return el;
         });
       }
       updateSelectedGameObject3D();
