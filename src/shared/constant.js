@@ -76,6 +76,7 @@ module.exports = {
       ADD_ITOWNS_LAYER: 'add_itowns_layer_id_ext_script',
       AVATAR_CONTROLLER: 'avatar_controller_id_ext_script',
       BUTTERFLY_SPAWNER: 'butterfly_spawner_id_ext_script',
+      BOUNCE: 'bounce_id_ext_script',
       BOX_3D_TOOL: 'box3D_tool_id_ext_script',
       CAMERA_TOUR: 'camera_tour_id_ext_script',
       CITY_AVATAR: 'city_avatar_id_script',
