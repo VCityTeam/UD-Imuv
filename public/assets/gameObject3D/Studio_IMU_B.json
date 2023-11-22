@@ -389,7 +389,7 @@
                   { "id": "clickable_id_ext_script" },
                   { "id": "rotate_id_ext_script" },
                   { "id": "display_media_id_ext_script" },
-                  { "id": "bounce" }
+                  { "id": "bounce_id_ext_script" }
                 ],
                 "variables": {
                   "speed": 0.0005,
@@ -433,7 +433,7 @@
                   { "id": "clickable_id_ext_script" },
                   { "id": "rotate_id_ext_script" },
                   { "id": "display_media_id_ext_script" },
-                  { "id": "bounce" }
+                  { "id": "bounce_id_ext_script" }
                 ],
                 "variables": {
                   "speed": 0.0005,
