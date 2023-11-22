@@ -3,6 +3,11 @@ import { Editor } from '@ud-viz/game_editor';
 import { addAllImuvLayers } from '../externalScript/component/imuvLayers';
 
 import * as externalScript from '../externalScript/externalScript';
+
+// script input
+import * as scriptInputGame from './scriptInput/game/index';
+import * as scriptInputExternal from './scriptInput/external/index';
+
 import { Map } from '@ud-viz/game_browser_template';
 
 import { gameScript } from '../../shared/shared';
@@ -20,8 +25,8 @@ import {
   AssetManager,
   InputManager,
   SinglePlanarProcess,
-} from '@ud-viz/game_browser/src';
-import { Object3D } from '@ud-viz/game_shared/src';
+} from '@ud-viz/game_browser';
+import { Object3D } from '@ud-viz/game_shared';
 import { Planar } from '@ud-viz/frame3d';
 import { avatar } from '../../shared/prefabFactory';
 
@@ -33,6 +38,7 @@ export const app = async () => {
     alert('only admin can access editor');
   } else {
     let gameObjects3D = await request(window.origin + '/pull_gameobjects3D');
+    gameObjects3D = gameObjects3D.map((el) => Object3D.parseJSON(el));
     console.log('pull_gameobjects3D ', gameObjects3D);
 
     const config = await loadJSON('./assets/config/config.json');
@@ -63,7 +69,15 @@ export const app = async () => {
     // add layers
     addAllImuvLayers(frame3D.itownsView, extent);
 
-    const editor = new Editor(frame3D, assetManager);
+    const editor = new Editor(
+      frame3D,
+      assetManager,
+      scriptInputExternal, // complete with custom script input external
+      scriptInputGame, // complete with custom script input game
+      {
+        gameObjects3D: gameObjects3D, // portal script input needs this to know other uuid of portal
+      }
+    );
     editor.leftPan.classList.add('readable');
 
     window.addEventListener('keydown', (event) => {
@@ -93,17 +107,15 @@ export const app = async () => {
 
     gameObjects3D.forEach((g) => {
       const option = document.createElement('option');
-      option.innerText = g.object.name;
-      option.value = g.object.uuid;
+      option.innerText = g.name;
+      option.value = g.uuid;
       selectGameObject3D.appendChild(option);
     });
 
     const updateSelectedGameObject3D = () => {
       const uuidSelected = selectGameObject3D.selectedOptions[0].value;
-      editor.setCurrentGameObject3D(
-        new Object3D(
-          gameObjects3D.filter((el) => el.object.uuid == uuidSelected)[0]
-        )
+      editor.setCurrentGameObject3DJSON(
+        gameObjects3D.filter((el) => el.uuid == uuidSelected)[0]
       );
     };
 
@@ -115,7 +127,7 @@ export const app = async () => {
         )
       ) {
         gameObjects3D = gameObjects3D.map((el) => {
-          if (el.object.uuid == editor.currentGameObject3D.uuid) {
+          if (el.uuid == editor.currentGameObject3D.uuid) {
             return editor.currentGameObject3D.toJSON(true, true);
           }
           return el;
