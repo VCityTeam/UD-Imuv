@@ -8,6 +8,7 @@ module.exports = {
     DEBUG: true,
     WBO_PUBLIC_URL: true,
     JITSI_PUBLIC_URL: true,
+    Howler: true,
   },
   extends: ['eslint:recommended', 'prettier'],
   plugins: ['prettier', 'jsdoc'],

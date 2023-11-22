@@ -11,6 +11,7 @@ node_js:
 
 install:
   - npm install
+  -  sudo apt-get install -y imagemagick graphicsmagick
 
 jobs:
   include:
@@ -18,10 +19,11 @@ jobs:
         - npm run eslint
       name: 'Lint code sources'
     - script:
-        - npm run assert-code
-      name: 'Build and test code'
-    - script:
         - npm audit --audit-level=high
       name: 'Lightweight dependencies security audit'
     - script:
         - npm run validate-links
+      name: 'Check link validity'
+    - script:
+        - npm run test-functional
+    name: 'Check if the web app can start'

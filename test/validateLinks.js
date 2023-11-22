@@ -1,8 +1,8 @@
 const exec = require('child-process-promise').exec;
 const fs = require('fs');
-const { Data } = require('@ud-viz/shared');
+const { computeFileFormat } = require('@ud-viz/utils_shared');
 
-const FAILURE_THRESHOLD = 38; // WIP temporal extension documentation
+const FAILURE_THRESHOLD = 21; // WIP FIX mE !
 
 exec('npx remark -u validate-links .').then((result) => {
   console.log(result.stderr);
@@ -67,7 +67,7 @@ exec('npx remark -u validate-links .').then((result) => {
   const parseDirectory = (directoryPath) => {
     const dirents = fs.readdirSync(directoryPath, { withFileTypes: true });
     dirents.forEach((dirent) => {
-      if (dirent.isFile() && Data.computeFileFormat(dirent.name) == 'md') {
+      if (dirent.isFile() && computeFileFormat(dirent.name) == 'md') {
         const filePath = directoryPath + '/' + dirent.name;
         let logInfo = null;
         const contentMd = fs.readFileSync(filePath, {
