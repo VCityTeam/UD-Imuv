@@ -993,8 +993,6 @@ class MenuSettings {
       Howler.volume(this.context.userData.settings.volumeValue); // Howler is global
     }
 
-    Howler.volume(0);
-
     const globalVolumeSlider = document.createElement('input');
     globalVolumeSlider.type = 'range';
     globalVolumeSlider.step = 0.05;
