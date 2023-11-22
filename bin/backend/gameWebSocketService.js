@@ -4,143 +4,12 @@ const { SocketService, thread } = require('@ud-viz/game_node');
 const { avatar } = require('../../src/shared/prefabFactory');
 const { THREAD, PARSE } = require('./constant');
 const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
-const THREE = require('three');
 const jwt = require('jsonwebtoken');
 const {
   checkIfSubStringIsVector3,
   checkIfSubStringIsEuler,
 } = require('@ud-viz/utils_shared');
 const { connect } = require('./parse');
-const { Object3D } = require('@ud-viz/game_shared');
-
-const moulinetteWorldJSON = (oldJSON) => {
-  const newJSON = oldJSON.gameObject;
-  newJSON.uuid = oldJSON.uuid;
-  if (!oldJSON.uuid) throw new Error('no uuid');
-
-  const extent = {
-    crs: 'EPSG:3946',
-    west: 1837860,
-    east: 1851647,
-    south: 5169347,
-    north: 5180575,
-  };
-
-  // georeference at the center of the extent
-  oldJSON.gameObject.transform.position = [
-    (extent.west + extent.east) * 0.5,
-    (extent.south + extent.north) * 0.5,
-    300,
-  ];
-
-  const updateGameObject = (goJSON) => {
-    const newGOJSON = {};
-    newGOJSON.name = goJSON.name;
-    newGOJSON.uuid = goJSON.uuid;
-    newGOJSON.static = goJSON.static;
-    newGOJSON.userData = goJSON.userData;
-    newGOJSON.forceToJSONComponent = goJSON.forceSerializeComponents;
-    newGOJSON.gameContextUpdate = !goJSON.noLocalUpdate;
-
-    const position = new THREE.Vector3().fromArray(goJSON.transform.position);
-    const scale = new THREE.Vector3().fromArray(goJSON.transform.scale);
-    const euler = new THREE.Euler().fromArray(goJSON.transform.rotation);
-    const o = new THREE.Object3D();
-    o.setRotationFromEuler(euler);
-    o.position.copy(position);
-    o.scale.copy(scale);
-    o.updateMatrix();
-    newGOJSON.matrix = o.matrix.toArray();
-
-    if (goJSON.children) {
-      newGOJSON.children = [];
-      goJSON.children.forEach((c) => {
-        newGOJSON.children.push(updateGameObject(c));
-      });
-    }
-
-    newGOJSON.components = {};
-
-    if (goJSON.components.LocalScript) {
-      const scriptParams = [];
-      goJSON.components.LocalScript.scriptParams.forEach((id) => {
-        const sp = { id: id };
-        if (id == 'add_itowns_layer_id_ext_script') {
-          sp.priority = 10;
-        }
-        scriptParams.push(sp);
-      });
-
-      if (scriptParams.length) {
-        newGOJSON.components.ExternalScript = {
-          type: 'ExternalScript',
-          scriptParams: scriptParams,
-          variables: goJSON.components.LocalScript.conf,
-        };
-
-        if (
-          goJSON.components.LocalScript.scriptParams.includes(
-            'image_id_ext_script'
-          )
-        ) {
-          if (!newGOJSON.userData) newGOJSON.userData = {};
-          newGOJSON.userData.isImage = true;
-        }
-
-        if (
-          goJSON.components.LocalScript.scriptParams.includes(
-            'portal_sweep_id_ext_script'
-          )
-        ) {
-          if (!newGOJSON.userData) newGOJSON.userData = {};
-          newGOJSON.userData.isPortal = true;
-        }
-      }
-    }
-
-    if (goJSON.components.WorldScript) {
-      const scriptParams = [];
-      goJSON.components.WorldScript.scriptParams.forEach((id) => {
-        if (id == 'avatar_not_allow_id_script') {
-          newGOJSON.userData = newGOJSON.userData ? newGOJSON.userData : {};
-          newGOJSON.userData.isCityNotAllowArea = true; // replace empty script by a userdata
-          return;
-        }
-        if (!newGOJSON.userData) newGOJSON.userData = {};
-        if (id == 'map_id') newGOJSON.userData.isMap = true;
-        scriptParams.push({ id: id });
-      });
-
-      if (scriptParams.length) {
-        newGOJSON.components.GameScript = {
-          type: 'GameScript',
-          scriptParams: scriptParams,
-          variables: goJSON.components.WorldScript.conf,
-        };
-      }
-    }
-
-    if (goJSON.components.Collider) {
-      newGOJSON.components.Collider = goJSON.components.Collider;
-    }
-
-    if (goJSON.components.Audio) {
-      newGOJSON.components.Audio = goJSON.components.Audio;
-    }
-
-    if (goJSON.components.Render) {
-      newGOJSON.components.Render = goJSON.components.Render;
-      if (newGOJSON.components.Render.color.length === 3) {
-        newGOJSON.components.Render.color.push(1); // add alpha
-      }
-    }
-
-    return newGOJSON;
-  };
-
-  const result = updateGameObject(newJSON);
-  return new Object3D(result).toJSON(true, true);
-};
 
 const readGameObjects3DAsJSON = (gameObjectsFolderPath) => {
   const indexWorldsJSON = JSON.parse(
@@ -149,34 +18,14 @@ const readGameObjects3DAsJSON = (gameObjectsFolderPath) => {
 
   const gameObjects3D = [];
   for (const uuid in indexWorldsJSON) {
-    let json = JSON.parse(
+    const json = JSON.parse(
       fs.readFileSync(gameObjectsFolderPath + '/' + indexWorldsJSON[uuid])
     );
-
-    // TODO: regenerate gameobjects.json
-    if (json.version) {
-      json = moulinetteWorldJSON(json);
-    }
-
-    addColliderCenter(json.object);
 
     gameObjects3D.push(json);
   }
 
   return gameObjects3D;
-};
-
-const addColliderCenter = (json) => {
-  if (json.components && json.components.Collider) {
-    json.components.Collider.shapes.forEach((shape) => {
-      if (shape.center) {
-        shape.center.z = shape.center.z || 0;
-      }
-    });
-  }
-  if (json.children) {
-    json.children.forEach((child) => addColliderCenter(child));
-  }
 };
 
 /**
