@@ -32,6 +32,8 @@ const start = async () => {
   child.stderr.on('data', (data) => {
     console.error('\x1b[31m', ` ERROR :\n${data}`);
   });
+
+  if (process.send) process.send('ready');
 };
 
 start();
