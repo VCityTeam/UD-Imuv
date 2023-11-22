@@ -262,13 +262,15 @@ app.use('/pull_gameobjects3D', isAdminMiddleware, (req, res) => {
   res.send(readGameObjects3DAsJSON(absolutePath(PATH_GAME_OBJECT_3D)));
 });
 
+// TODO: need to save images and to reload socketservice
 app.use('/save_gameObject3D', isAdminMiddleware, (req, res) => {
   const object3DJSON = req.body;
   const contentIndexJSON = JSON.parse(
     fs.readFileSync(absolutePath(PATH_GAME_OBJECT_3D) + 'index.json')
   );
   const pathFile =
-  absolutePath(PATH_GAME_OBJECT_3D) + contentIndexJSON[object3DJSON.object.uuid];
+    absolutePath(PATH_GAME_OBJECT_3D) +
+    contentIndexJSON[object3DJSON.object.uuid];
   fs.writeFileSync(pathFile, JSON.stringify(object3DJSON));
   exec('npx prettier ' + pathFile + ' -w').then(() => res.send());
 });
