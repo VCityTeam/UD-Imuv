@@ -1,6 +1,7 @@
 # IMUV - Flying Campus
 
-![IMUV-Homepage](./img/IMUV_Homepage.png)
+![IMUV-Homepage](./Pictures/IMUV_Homepage.png)
+Online demo : https://www.imuvirtuel.fr/.
 
 IMUV is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
@@ -129,11 +130,6 @@ npm install ud-viz
 Note that when you make a change in UD-Viz library watchers of UD-Viz-demo will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
 
 ### Workflow
-
-In VS Code you can open terminal here is the possible layout:
-
-Imuv:
-![layout_demo_full](./docs/Devel/Pictures/imuv_layout.png)
 
 Before to push your modifications, check check if your code respect eslint rules and if your application build correctly. For that you can use the following command:
 
