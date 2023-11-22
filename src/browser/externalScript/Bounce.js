@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { ScriptBase } from '@ud-viz/game_browser';
 import { ID } from '../../shared/constant';
 
