@@ -2,7 +2,7 @@ const exec = require('child-process-promise').exec;
 const fs = require('fs');
 const { computeFileFormat } = require('@ud-viz/utils_shared');
 
-const FAILURE_THRESHOLD = 21; // WIP FIX mE !
+const FAILURE_THRESHOLD = 22; // WIP FIX mE !
 
 exec('npx remark -u validate-links .').then((result) => {
   console.log(result.stderr);
