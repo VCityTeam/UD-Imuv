@@ -4,3 +4,4 @@ PARSE_MASTER_KEY=your_master_key
 JITSI_PUBLIC_URL=https://meet.jit.si #dev
 WBO_PUBLIC_URL=https://wbo.ophir.dev/boards #dev
 PORT=8000
+JSON_WEB_TOKEN_SECRET=my_token
