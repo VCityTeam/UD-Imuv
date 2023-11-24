@@ -1,6 +1,6 @@
 # IMUV - Flying Campus
 
-![IMUV-Homepage](./Pictures/IMUV_Homepage.png)
+![IMUV-Homepage](./img/IMUV_Homepage.png)
 Online demo : https://www.imuvirtuel.fr/.
 
 IMUV is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
