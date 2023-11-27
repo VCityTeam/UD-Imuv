@@ -5,9 +5,8 @@ Online demo : https://www.imuvirtuel.fr/.
 
 IMUV is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
-It's composed of two parts: the server and the client.
-`client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`
-its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections).
+## A client-server application
+`client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`. Its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections).
 
 ## REPOSITORIES GITHUB
 
@@ -25,8 +24,8 @@ For the npm installation refer [here](https://github.com/VCityTeam/UD-SV/blob/ma
 
 UD-Imuv has been reported to work with versions:
 
-- node version 16 (16.15.0)
-- npm version: 6.X, 7.X. and 8.X
+- node version 18 
+- npm version: 9
 
 ### Install ImageMagick and GraphicsMagick
 
@@ -68,50 +67,46 @@ You can set the environment variables in a `.env` file:
 - `cp env-default .env`
 - edit the `.env` file. (Make sure to set the correct value for the `PARSE_APP_ID` and `PARSE_MASTER_KEY` variables)
 
-| VARIABLES        | DESCRIPTION                                                                                                                                                                               |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PARSE_SERVER_URL | URL of your parse-server (ex: http://localhost:1337/parse ; cf https://github.com/VCityTeam/UD-Imuv#install-parse-server-and-mongodb-optionnal                                            |
-| PARSE_APP_ID     | Application ID of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                                                              |
-| PARSE_MASTER_KEY | Master key of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                                                                  |
-| JITSI_PUBLIC_URL | URL of the jitsi server. You can use the dev serv https://meet.jit.si or install your own jitsi server with [docker-compose](https://github.com/VCityTeam/UD-Demo-IMU-Imuv)               |
-| WBO_PUBLIC_URL   | URL of the whitebophir server. You can use the dev serv https://wbo.ophir.dev or install your own whitebophir server with [docker-compose](https://github.com/VCityTeam/UD-Demo-IMU-Imuv) |
+| VARIABLES             | DESCRIPTION                                                                                                                                                                               |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PARSE_SERVER_URL      | URL of your parse-server (ex: http://localhost:1337/parse ; cf https://github.com/VCityTeam/UD-Imuv#install-parse-server-and-mongodb-optionnal)                                           |
+| PARSE_APP_ID          | Application ID of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                                                              |
+| PARSE_MASTER_KEY      | Master key of your parse-server. This will be used by imuv server to authenticate with the parse-server.                                                                                  |
+| JITSI_PUBLIC_URL      | URL of the jitsi server. You can use the dev serv https://meet.jit.si or install your own jitsi server with [docker-compose](https://github.com/VCityTeam/UD-Demo-IMU-Imuv)               |
+| WBO_PUBLIC_URL        | URL of the whitebophir server. You can use the dev serv https://wbo.ophir.dev or install your own whitebophir server with [docker-compose](https://github.com/VCityTeam/UD-Demo-IMU-Imuv) |
+| PORT                  | Server port number                                                                                                                                                                        |
+| JSON_WEB_TOKEN_SECRET | Token for authentication features (sign in / sign up). cf  https://fr.wikipedia.org/wiki/JSON_Web_Token                                                                                   |
 
-## Debugging Imuv applications
+## Launch Imuv applications
 
 Imuv can be locally (on your desktop) started in the following way:
 
-First install the client:
-
 ```
-cd ./client
 npm install
-npm run debug
+npm run `start`
 ```
-
-Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
-
-- launches a watcher (surveying changes in sources)
-- in case of change runs this [node.js routine](./bin/debug.js) that will repack an updated bundle
-
-Then install the server:
-
-```
-cd ./server
-npm install
-npm run debug
-```
-
-Note that technically the `npm run debug` command will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
-
-- launches a watcher (surveying changes in sources)
-- in case of change runs this [node.js routine](./bin/debug.js) that will repack an updated bundle then launches the node.js server application on your desktop
 
 and then use your favorite (web) browser to open
-`http://localhost:8000/`.
+`http://localhost:8000/` (8000 or PORT which is specified in .env).
+
 
 ## Setup of the coding environment
 
-Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, in order to use the plugin formatter [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode). Once installed you should setup Prettier with single quote coding style (Preferences => Settings => Type in search bar : Single quote => Toggle single quote of Prettier extension)
+Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, to use the plugin format [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+
+## Dev in Imuv
+
+There are main 4 commands to dev in Imuv.
+
+Bundles commands: `dev-game`, `dev-utils`, `dev-editor`.
+Server command: `dev-backend`.
+
+
+> Note that technically all the `npm run dev-xxx` commands will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
+> - launches a watcher (surveying changes in sources)
+> - in case of change runs this node.js routine that will repack an updated bundle
+
+
 
 ### Debugging with UDV library
 
