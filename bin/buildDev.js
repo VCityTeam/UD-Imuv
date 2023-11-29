@@ -51,7 +51,7 @@ const createCommitJSON = () => {
 
 const routine = async () => {
   // build bundle according env variables
-  const result = await exec('npm run build-dev');
+  const result = await exec('npx webpack --config ./webpack.config.js');
   print(result);
 };
 
