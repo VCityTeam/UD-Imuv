@@ -51,6 +51,7 @@
     "html-loader": "2.1.2",
     "json-loader": "0.5.7",
     "nodemon": "3.0.1",
+    "parse": "4.3.1",
     "prettier": "2.7.1",
     "raw-loader": "4.0.2",
     "reload": "3.2.1",
