@@ -1,12 +1,12 @@
 # IMUV - Flying Campus
 
 ![IMUV-Homepage](./img/IMUV_Homepage.png)
-Online demo : https://www.imuvirtuel.fr/.
+Online demo: https://www.imuvirtuel.fr/.
 
 IMUV is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
 ## A client-server application
-`client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`. Its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application providing an http server and a websocket communication layer (expecting Imuv client connections).
+`client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`. Its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application provides an HTTP server and a websocket communication layer (expecting Imuv client connections).
 
 ## REPOSITORIES GITHUB
 
@@ -38,12 +38,12 @@ For the install [imagemagick](https://imagemagick.org/index.php) and [graphicsma
 ```
 
 - **Windows**
-  - It seems not necessary to install imagemagick on windows.
+  - It seems not necessary to install imagemagick on Windows.
   - Download and install graphicsmagick from [graphicmagick-binaries](https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick-binaries/) (IMUV has been reported to work with version 1.3.34-Q8)
 
 > ⚠️ TIP : allias `gm` doesn't work in powershell because it conflicts with the command Get-Member !!!!
 
-If at runtime the imuv server displayed images errors then you should check the installation of thoses binary dependencies.
+If at runtime the Imuv server displayed image errors then you should check the installation of those binary dependencies.
 
 ### Install Parse-Server and MongoDB (optionnal)
 
@@ -51,10 +51,9 @@ For certain features (**authentification**, **editor**, **menu avatar**...), Imu
 
 Self-hosting :
 
-- You can clone the repo of the docker-compose [UD-Demo-IMU-Imuv
-  ](https://github.com/VCityTeam/UD-Demo-IMU-Imuv) and follow the instructions to install the parse-server and the mongoDB database:
-  - Set-up environment variables in **UD-Demo-IMU-Imuv** : `cp env-default .env` and edit the `.env` file. (Put default proposed values in PARSE_SERVER_URL and MONGO_HOST).
-  - Run `docker-compose up -d parse-server mongodb` to start the parse-server and the mongoDB database.
+- You can clone the repo of the docker-compose [UD-Demo-IMU-Imuv](https://github.com/VCityTeam/UD-Demo-IMU-Imuv) and follow the instructions to install the parse-server and the MongoDB database:
+Set up environment variables in **UD-Demo-IMU-Imuv** : `cp env-default .env` and edit the `.env` file. (Put default proposed values in PARSE_SERVER_URL and MONGO_HOST).
+  - Run `docker-compose up -d parse-server mongodb` to start the parse-server and the MongoDB database.
 
 OR
 
@@ -83,7 +82,7 @@ Imuv can be locally (on your desktop) started in the following way:
 
 ```
 npm install
-npm run `start`
+npm run start
 ```
 
 and then use your favorite (web) browser to open
@@ -94,9 +93,9 @@ and then use your favorite (web) browser to open
 
 Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, to use the plugin format [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
 
-## Dev in Imuv
+## Developers 
 
-There are main 4 commands to dev in Imuv.
+There are 4 commands to dev in Imuv.
 
 Bundles commands: `dev-game`, `dev-utils`, `dev-editor`.
 Server command: `dev-backend`.
@@ -110,24 +109,24 @@ Server command: `dev-backend`.
 
 ### Debugging with UDV library
 
-If you need to code in [UD-Viz-demo](https://github.com/VCityTeam/UD-Viz-demo) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of the demo you want to link with UD-Viz library :
-
-```
-"ud-viz": "^2.31.9" => "ud-viz": "file:../../../UD-Viz" //where the path is a relative path to your UD-Viz directory
-```
-
-then reinstall the ud-viz npm package
-
-```
-npm install ud-viz
+If you need to code in [Imuv](https://github.com/VCityTeam/UD-Imuv) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of Imuv you have to link with UD-Viz library (for all fields in the package.json like `@ud-viz/*`):
+```json
+"@ud-viz/*": "x.x.x" => "@ud-viz/*": "file:../../../UD-Viz/packages/*" //where the path is a relative path to your UD-Viz directory
 ```
 
-Note that when you make a change in UD-Viz library watchers of UD-Viz-demo will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
+Then reinstall ud-viz npm packages
+
+```
+npm run reset
+```
+
+Note that when you make a change in UD-Viz library watchers (nodemon) of Imuv will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
 
 ### Workflow
 
-Before to push your modifications, check check if your code respect eslint rules and if your application build correctly. For that you can use the following command:
+
+Before pushing your modifications, check check if your code respects eslint rules and if your application is built correctly. For that, you can use the following command:
 
 ```
-npm run travis
+npm run local-ci
 ```
