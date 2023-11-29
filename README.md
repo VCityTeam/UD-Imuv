@@ -89,38 +89,8 @@ and then use your favorite (web) browser to open
 `http://localhost:8000/` (8000 or PORT which is specified in .env).
 
 
-## Setup of the coding environment
-
-Installing [Visual Studio Code](https://code.visualstudio.com/) is recommended, to use the plugin format [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
-
 ## Developers 
 
-There are 4 commands to dev in Imuv.
-
-Bundles commands: `dev-game`, `dev-utils`, `dev-editor`.
-Server command: `dev-backend`.
-
-
-> Note that technically all the `npm run dev-xxx` commands will use the [nodemon](https://www.npmjs.com/package/nodemon) npm package that
-> - launches a watcher (surveying changes in sources)
-> - in case of change runs this node.js routine that will repack an updated bundle
-
-
-
-### Debugging with UDV library
-
-If you need to code in [Imuv](https://github.com/VCityTeam/UD-Imuv) and [UD-Viz](https://github.com/VCityTeam/UD-Viz) library you should clone the two repositories side by side on your disk. Then in the package.json of Imuv you have to link with UD-Viz library (for all fields in the package.json like `@ud-viz/*`):
-```json
-"@ud-viz/*": "x.x.x" => "@ud-viz/*": "file:../../../UD-Viz/packages/*" //where the path is a relative path to your UD-Viz directory
-```
-
-Then reinstall ud-viz npm packages
-
-```
-npm run reset
-```
-
-Note that when you make a change in UD-Viz library watchers (nodemon) of Imuv will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
 
 ### Workflow
 
