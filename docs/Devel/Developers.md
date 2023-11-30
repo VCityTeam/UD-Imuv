@@ -27,7 +27,7 @@ To download and install follow this link: https://github.com/nvm-sh/nvm#installi
 
 When using [Visual Studio Code](https://code.visualstudio.com/), you can install the following extentions to make your life easier:
 
-- [eslint](https://www.digitalocean.com/community/tutorials/linting-and-formatting-with-eslint-in-vs-code) - allows you e.g. to automatically fix the coding style e.g. [when saving a file](https://www.digitalocean.com/community/tutorials/linting-and-formatting-with-eslint-in-vs-code).
+- [Eslint](https://www.digitalocean.com/community/tutorials/linting-and-formatting-with-eslint-in-vs-code) - allows you e.g. to automatically fix the coding style e.g. [when saving a file](https://www.digitalocean.com/community/tutorials/linting-and-formatting-with-eslint-in-vs-code).
 - [Prettier ESLint](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint) - JS, JSON, CSS, and HTML formatter.
 - [Mintlify](https://marketplace.visualstudio.com/items?itemName=mintlify.document) - AI-powered documentation generator. (may require rewriting by a human)
 
@@ -47,12 +47,12 @@ consists in
 
 ### Debugging Imuv
 
-| Script                     | Description                                                                                                                                                  |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `npm run build-dev-utils`  | Run a watched routine [dev.js](../../bin/dev.js) with [nodemon](https://www.npmjs.com/package/nodemon).                                                      |
-| `npm run build-dev-game`   | Run a watched routine [dev.js](../../bin/dev.js) with [nodemon](https://www.npmjs.com/package/nodemon).                                                      |
-| `npm run build-dev-editor` | Run a watched routine [dev.js](../../bin/dev.js) with [nodemon](https://www.npmjs.com/package/nodemon).                                                      |
-| `npm run dev-backend`      | Run an http server (with some [string-replace](https://www.npmjs.com/package/string-replace-middleware))  + a game socket service. <br>http://locahost:8000/ |
+| Script                     | Description                                                                                                                                                                                                                                                                                                  |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run build-dev-utils`  | Run a watched routine [buildDev.js](../../bin/buildDev.js) with [nodemon](https://www.npmjs.com/package/nodemon) to create the `utils` bundle.                                                                                                                                                               |
+| `npm run build-dev-game`   | Run a watched routine [buildDev.js](../../bin/buildDev.js) with [nodemon](https://www.npmjs.com/package/nodemon) to create the `game` bundle.                                                                                                                                                                |
+| `npm run build-dev-editor` | Run a watched routine [buildDev.js](../../bin/buildDev.js) with [nodemon](https://www.npmjs.com/package/nodemon) to create the `editor` bundle.                                                                                                                                                              |
+| `npm run dev-backend`      | Run a watched routine [backend/index.js](../../bin/backend/index.js) with [nodemon](https://www.npmjs.com/package/nodemon) to run an http server (express server with some [string-replace](https://www.npmjs.com/package/string-replace-middleware))  + a game socket service. <br>http://locahost:${PORT}/ |
 
 
 ### Continuous Integration (Travis CI)
@@ -60,13 +60,13 @@ consists in
 
 Each time origin/master branch is impacted by changes, Travis CI is triggered. It does a set of jobs describe in [travis.yml](../../.travis.yml).
 
-| Script                        | Description                                                                                                                                                  |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `npm run validate-links`      | Launch script which detect links and check if they are valid                                                                                                 |
-| `npm run test-functional`     | Build examples bundle if needed and run each *.html in ./examples folder. Also ran by CI. See [here](#continuous-integration-travis-ci) for more information |
-| `npm run eslint`              | Run the linter. See [here](./Contributing.md#coding-style-linter) for more information                                                                       |
-| `npm audit --audit-level=low` | Npm native command ([npm-audit](https://docs.npmjs.com/cli/v6/commands/npm-audit)) which check packages dependencies vulnerabilities.                        |
-| `npm run local-ci`            | Run CI on your local computer.                                                                                                                               |
+| Script                        | Description                                                                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run validate-links`      | Launch script which detect links and check if they are valid. See [validateLinks.js](../../test/validateLinks.js)                     |
+| `npm run test-functional`     | Run [functional.js](../../test/functional.js).Fork [`start.js`](../../bin/start.js) and check builds and server launches              |
+| `npm run eslint`              | Run the linter. See [.eslintrc.js](../../.eslintrc.js)                                                                                |
+| `npm audit --audit-level=low` | Npm native command ([npm-audit](https://docs.npmjs.com/cli/v6/commands/npm-audit)) which check packages dependencies vulnerabilities. |
+| `npm run local-ci`            | Run CI on your local computer.                                                                                                        |
 
 
 
@@ -99,15 +99,11 @@ Note that when you make a change in UD-Viz library watchers (nodemon) of Imuv wi
 
 
 
-## Contributing
+### Workflow
 
-For information on the accepted coding style, submitting Issues, and submitting Pull Requests see [Contributing.md](./Contributing.md)
 
-## Publishing
+Before pushing your modifications, check check if your code respects eslint rules and if your application is built correctly. For that, you can use the following command:
 
-For creating a new release see [ReleasePublish.md](./ReleasePublish.md)
-
-## Generating the documentation
-
-The [Online documentation](https://vcityteam.github.io/UD-Viz/html/index.html)
-can be re-generated by [following these instructions](../../Readme.md).
+```
+npm run local-ci
+```

@@ -91,12 +91,5 @@ and then use your favorite (web) browser to open
 
 ## Developers 
 
+Go to [docs/Devel/Developers.md](./docs/Devel/Developers.md).
 
-### Workflow
-
-
-Before pushing your modifications, check check if your code respects eslint rules and if your application is built correctly. For that, you can use the following command:
-
-```
-npm run local-ci
-```
