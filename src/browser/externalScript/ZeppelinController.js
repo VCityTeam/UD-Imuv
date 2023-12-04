@@ -1,7 +1,8 @@
 import { ScriptBase } from '@ud-viz/game_browser';
 import {
-  addNativeCommands,
-  removeNativeCommands,
+  ControllerNativeCommandManager,
+  addNativeCommandsController,
+  removeNativeCommandsController,
 } from '@ud-viz/game_browser_template';
 
 import { CameraManager } from './CameraManager';
@@ -44,17 +45,28 @@ export class ZeppelinController extends ScriptBase {
       CameraManager.ID_SCRIPT
     );
 
+    /** @type {ControllerNativeCommandManager} */
+    const controllerManager = this.context.findExternalScriptWithID(
+      ControllerNativeCommandManager.ID_SCRIPT
+    );
+
     if (value) {
       cameraManager.followZeppelin();
       const refine = this.context.findExternalScriptWithID(
         ItownsRefine.ID_SCRIPT
       );
       if (refine) refine.zeppelin();
-      addNativeCommands(this.context.inputManager, zeppelinGO.uuid, false);
+
+      controllerManager.controls(
+        zeppelinGO.uuid,
+        ControllerNativeCommandManager.MODE[1].TYPE,
+        { withMap: false }
+      );
+
       this.context.inputManager.setPointerLock(false);
     } else {
       cameraManager.stopFollowObject3D();
-      removeNativeCommands(this.context.inputManager);
+      controllerManager.removeControls();
     }
 
     return true;

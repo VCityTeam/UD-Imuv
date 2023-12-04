@@ -701,6 +701,7 @@
           { "id": "itowns_refine_id_ext_script" },
           { "id": "switch_itowns_id_ext_script" },
           { "id": "avatar_controller_id_ext_script" },
+          { "id": "controller_native_command_manager_id" },
           { "id": "camera_manager_id" },
           { "id": "place_post_it_id_ext_script" },
           { "id": "static_object_id_ext_script" },

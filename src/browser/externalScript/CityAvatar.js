@@ -2,9 +2,8 @@ import { ScriptBase } from '@ud-viz/game_browser';
 import { Command } from '@ud-viz/game_shared';
 import { constant } from '@ud-viz/game_shared_template';
 import {
-  addNativeCommands,
-  removeNativeCommands,
   computeRelativeElevationFromGround,
+  ControllerNativeCommandManager,
 } from '@ud-viz/game_browser_template';
 import { ID, COMMAND } from '../../shared/constant';
 import { AvatarController } from './AvatarController';
@@ -46,6 +45,12 @@ export class CityAvatar extends ScriptBase {
 
   setCityAvatarController(value) {
     if (!this.isUserCityAvatar) return;
+    console.trace('setCityAvatarController', value);
+
+    /** @type {ControllerNativeCommandManager} */
+    const controllerManager = this.context.findExternalScriptWithID(
+      ControllerNativeCommandManager.ID_SCRIPT
+    );
 
     /** @type {UI} */
     const ui = this.context.findExternalScriptWithID(UI.ID_SCRIPT);
@@ -62,9 +67,13 @@ export class CityAvatar extends ScriptBase {
         });
       });
 
-      addNativeCommands(this.context.inputManager, this.object3D.uuid, false);
+      controllerManager.controls(
+        this.object3D.uuid,
+        ControllerNativeCommandManager.MODE[2].TYPE,
+        { withMap: false }
+      );
     } else {
-      removeNativeCommands(this.context.inputManager);
+      controllerManager.removeControls();
       this.context.inputManager.removeKeyCommand(COMMAND_ID_ESCAPE, ['e']);
       ui.clearMapUI();
       ui.getLabelInfo().clear(this.object3D.uuid);
@@ -95,6 +104,7 @@ export class CityAvatar extends ScriptBase {
 
   tick() {
     if (!this.isUserCityAvatar) return;
+
     this.context.sendCommandsToGameContext([
       new Command({
         type: constant.COMMAND.UPDATE_TRANSFORM,
