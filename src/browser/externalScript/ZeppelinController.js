@@ -1,9 +1,5 @@
 import { ScriptBase } from '@ud-viz/game_browser';
-import {
-  ControllerNativeCommandManager,
-  addNativeCommandsController,
-  removeNativeCommandsController,
-} from '@ud-viz/game_browser_template';
+import { ControllerNativeCommandManager } from '@ud-viz/game_browser_template';
 
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
