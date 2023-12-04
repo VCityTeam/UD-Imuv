@@ -1,5 +1,6 @@
 const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
 const { COMMAND, ID } = require('../constant');
+const { Vector2, Vector3, Quaternion } = require('three');
 
 module.exports = class CityMap extends ScriptBase {
   tick() {
@@ -14,8 +15,6 @@ module.exports = class CityMap extends ScriptBase {
       if (data.object3DUUID != this.object3D.uuid) return false;
 
       const cityAvatarUUID = data.cityAvatarUUID;
-      const newPosition = data.position;
-
       const cityAvatar = this.context.object3D.getObjectByProperty(
         'uuid',
         cityAvatarUUID
@@ -25,7 +24,16 @@ module.exports = class CityMap extends ScriptBase {
         console.warn('no cityAvatar with UUID', cityAvatarUUID);
       }
 
-      cityAvatar.position.copy(newPosition);
+      const parentWorldPosition = new Vector3();
+      cityAvatar.parent.matrixWorld.decompose(
+        parentWorldPosition,
+        new Quaternion(),
+        new Vector3()
+      );
+
+      cityAvatar.position
+        .set(data.position[0], data.position[1], cityAvatar.position.z)
+        .sub(parentWorldPosition);
       cityAvatar.setOutdated(true);
 
       return true;

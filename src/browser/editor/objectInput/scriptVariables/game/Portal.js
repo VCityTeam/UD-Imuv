@@ -1,21 +1,21 @@
-import { ScriptInput } from '@ud-viz/game_editor';
-import { ID } from '../../../../shared/constant';
+import { ObjectInput } from '@ud-viz/game_editor';
+import { ID } from '../../../../../shared/constant';
 import { Vector3Input } from '@ud-viz/utils_browser';
 import { Object3D } from '@ud-viz/game_shared';
 
-export class Portal extends ScriptInput {
+export class Portal extends ObjectInput {
   init() {
     const spawnRotation = new Vector3Input('Spawn rotation: ', 'any');
     this.domElement.appendChild(spawnRotation);
 
-    spawnRotation.x.input.value = this.variables.spawnRotation.x;
-    spawnRotation.y.input.value = this.variables.spawnRotation.y;
-    spawnRotation.z.input.value = this.variables.spawnRotation.z;
+    spawnRotation.x.input.value = this.object.spawnRotation.x;
+    spawnRotation.y.input.value = this.object.spawnRotation.y;
+    spawnRotation.z.input.value = this.object.spawnRotation.z;
 
     spawnRotation.addEventListener('change', () => {
-      this.variables.spawnRotation.x = spawnRotation.x.input.value;
-      this.variables.spawnRotation.y = spawnRotation.y.input.value;
-      this.variables.spawnRotation.z = spawnRotation.z.input.value;
+      this.object.spawnRotation.x = spawnRotation.x.input.value;
+      this.object.spawnRotation.y = spawnRotation.y.input.value;
+      this.object.spawnRotation.z = spawnRotation.z.input.value;
     });
 
     // destination uuid + portail uuid
@@ -36,11 +36,11 @@ export class Portal extends ScriptInput {
       optionDestUUID.value = g.uuid;
       selectGameObjectDestUUID.appendChild(optionDestUUID);
     });
-    selectGameObjectDestUUID.value = this.variables.gameObjectDestUUID;
+    selectGameObjectDestUUID.value = this.object.gameObjectDestUUID;
     if (selectGameObjectDestUUID.value == '') {
       selectGameObjectDestUUID.value =
         selectGameObjectDestUUID.options[0].value;
-      this.variables.gameObjectDestUUID = selectGameObjectDestUUID.value;
+      this.object.gameObjectDestUUID = selectGameObjectDestUUID.value;
     }
 
     const labelPortalUUID = document.createElement('label');
@@ -66,29 +66,25 @@ export class Portal extends ScriptInput {
           selectPortalUUID.appendChild(optionPortal);
         });
 
-      selectPortalUUID.value = this.variables.portalUUID;
+      selectPortalUUID.value = this.object.portalUUID;
       if (selectPortalUUID.value == '') {
         selectPortalUUID.value = selectPortalUUID.options[0].value;
-        this.variables.portalUUID = selectPortalUUID.options[0].value;
+        this.object.portalUUID = selectPortalUUID.options[0].value;
       }
     };
     updatePortalSelectOption();
 
     selectGameObjectDestUUID.oninput = () => {
-      this.variables.gameObjectDestUUID = selectGameObjectDestUUID.value;
+      this.object.gameObjectDestUUID = selectGameObjectDestUUID.value;
       updatePortalSelectOption();
     };
 
     selectPortalUUID.oninput = () => {
-      this.variables.portalUUID = selectPortalUUID.value;
+      this.object.portalUUID = selectPortalUUID.value;
     };
   }
 
-  get ID_EDIT_SCRIPT() {
-    return Portal.ID_EDIT_SCRIPT;
-  }
-
-  static get ID_EDIT_SCRIPT() {
-    return ID.GAME_SCRIPT.PORTAL;
+  static condition(id) {
+    return id == ID.GAME_SCRIPT.PORTAL;
   }
 }

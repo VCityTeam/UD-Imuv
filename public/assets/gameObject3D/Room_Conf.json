@@ -501,6 +501,7 @@
         "scriptParams": [
           { "id": "avatar_controller_id_ext_script" },
           { "id": "camera_manager_id" },
+          { "id": "controller_native_command_manager_id" },
           { "id": "static_object_id_ext_script" },
           { "id": "add_itowns_layer_id_ext_script", "priority": 10 }
         ],

@@ -71,9 +71,6 @@ const computeUserMiddleware = (req, res, next) => {
 };
 
 const isAdminMiddleware = (req, res, next) => {
-  req.user = {};
-  next();
-  return;
   const token = readTokenFromRequest(req);
   if (!token) {
     res.sendStatus(401);

@@ -4,9 +4,10 @@ import { addAllImuvLayers } from '../externalScript/component/imuvLayers';
 
 import * as externalScript from '../externalScript/externalScript';
 
-// script input
-import * as scriptInputGame from './scriptInput/game/index';
-import * as scriptInputExternal from './scriptInput/external/index';
+// object input
+import { objectInputsExternalScriptVariables } from './objectInput/scriptVariables/game/index';
+import { objectInputsGameScriptVariables } from './objectInput/scriptVariables/external/index';
+import { objectInputsUserData } from './objectInput/userData/index';
 
 import { Map } from '@ud-viz/game_browser_template';
 
@@ -28,7 +29,15 @@ import {
 } from '@ud-viz/game_browser';
 import { Object3D } from '@ud-viz/game_shared';
 import { Planar } from '@ud-viz/frame3d';
-import { avatar } from '../../shared/prefabFactory';
+import {
+  avatar,
+  butterflyArea,
+  image,
+  jitsiArea,
+  mouseIcon,
+  portal,
+  whiteboardPlane,
+} from '../../shared/prefabFactory';
 
 const SESSION_STORAGE_GAMEOBJECT3D_KEY = 'session_storage_gameobjects3D_key';
 
@@ -69,15 +78,24 @@ export const app = async () => {
     // add layers
     addAllImuvLayers(frame3D.itownsView, extent);
 
-    const editor = new Editor(
-      frame3D,
-      assetManager,
-      scriptInputExternal, // complete with custom script input external
-      scriptInputGame, // complete with custom script input game
-      {
+    const editor = new Editor(frame3D, assetManager, {
+      externalScriptVariablesInputs: objectInputsExternalScriptVariables, // complete with custom script input external
+      gameScriptVariablesInputs: objectInputsGameScriptVariables, // complete with custom script input game
+      userDataInputs: objectInputsUserData,
+      userData: {
         gameObjects3D: gameObjects3D, // portal script input needs this to know other uuid of portal
-      }
-    );
+      },
+      object3DModels: [
+        butterflyArea,
+        image,
+        jitsiArea,
+        mouseIcon,
+        portal,
+        whiteboardPlane,
+      ].map((factory) => factory().toJSON()),
+      possibleExternalScriptIds: [],
+      possibleGameScriptIds: [],
+    });
     editor.leftPan.classList.add('readable');
 
     window.addEventListener('keydown', (event) => {
@@ -117,6 +135,7 @@ export const app = async () => {
       editor.setCurrentGameObject3DJSON(
         gameObjects3D.filter((el) => el.uuid == uuidSelected)[0]
       );
+      editor.focusCurrentGameObject3D();
     };
 
     selectGameObject3D.onchange = () => {

@@ -23,6 +23,7 @@ import { request, writeTokenInCookie } from '../utils/index';
 
 import { AvatarController } from './AvatarController';
 import { Base } from '@ud-viz/frame3d';
+import { ControllerNativeCommandManager } from '@ud-viz/game_browser_template';
 
 export class UI extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -691,10 +692,6 @@ class MenuSettings {
     this.closeButton.onclick = f;
   }
 
-  getMouseSensitivityValue() {
-    return this.mouseSensitivitySlider.value;
-  }
-
   getZoomFactorValue() {
     return this.zoomFactorSlider.value;
   }
@@ -761,16 +758,20 @@ class MenuSettings {
     saveButton.appendChild(saveIcon);
 
     saveButton.onclick = () => {
-      request(window.origin + '/save_settings', {
-        // SETTINGS MODEL IS DESCRIBE HERE
-        fogValue: this.fogSlider.value,
-        zoomFactor: this.zoomFactorSlider.value,
-        mouseSensitivitySlider: this.mouseSensitivitySlider.value,
-        volumeValue: this.volumeSlider.value,
-        sunValue: this.sunCheckBox.checked,
-        shadowValue: this.shadowChecBox.checked,
-        shadowMapSize: this.shadowMapSelect.value,
-      });
+      request(
+        window.origin + '/save_settings',
+        {
+          // SETTINGS MODEL IS DESCRIBE HERE
+          fogValue: this.fogSlider.value,
+          zoomFactor: this.zoomFactorSlider.value,
+          mouseSensitivitySlider: this.mouseSensitivitySlider.value,
+          volumeValue: this.volumeSlider.value,
+          sunValue: this.sunCheckBox.checked,
+          shadowValue: this.shadowChecBox.checked,
+          shadowMapSize: this.shadowMapSelect.value,
+        },
+        'text'
+      );
     };
 
     return saveButton;
@@ -1037,7 +1038,7 @@ class MenuSettings {
   createMouseSensitivitysDiv() {
     // init fog according extent
     const max = 40;
-    const min = 3;
+    const min = 1;
 
     // check is settings has been saved
     let init = (min + max) / 2;
@@ -1061,6 +1062,11 @@ class MenuSettings {
     mouseSensitivityDiv.appendChild(slider);
 
     this.mouseSensitivitySlider = slider;
+
+    // write in ControllerNativeCommandManager
+    ControllerNativeCommandManager.MOUSE_SENSITIVITY = init;
+    slider.onchange = () =>
+      (ControllerNativeCommandManager.MOUSE_SENSITIVITY = slider.valueAsNumber);
 
     return mouseSensitivityDiv;
   }

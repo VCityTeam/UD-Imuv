@@ -96,7 +96,9 @@ export class CityMap extends ScriptBase {
             type: COMMAND.TELEPORT,
             data: {
               object3DUUID: this.object3D.uuid,
-              position: this.coordToLocalPosition(coord),
+              position: proj4
+                .default(this.context.userData.extent.crs)
+                .forward(coord),
               cityAvatarUUID: userCityAvatar.uuid,
             },
           });
@@ -174,31 +176,6 @@ export class CityMap extends ScriptBase {
     const ratioY = (pixelSrcY - this.clampY) / sizeSrc;
 
     return [ratioX * CITY_MAP_SIZE, ratioY * CITY_MAP_SIZE];
-  }
-
-  coordToLocalPosition(coord) {
-    // project
-    let [x, y] = proj4.default(this.context.userData.extent.crs).forward(coord);
-
-    // compute local
-    const parent = computeUserCityAvatar(this.context).parent;
-    const gamePositionParent = new THREE.Vector3();
-    parent.matrixWorld.decompose(
-      gamePositionParent,
-      new THREE.Quaternion(),
-      new THREE.Vector3()
-    );
-
-    // transform in game referential
-    gamePositionParent.sub(this.context.object3D.position);
-    x -= this.context.object3D.position.x;
-    y -= this.context.object3D.position.y;
-
-    return {
-      // in parent referential
-      x: x - gamePositionParent.x,
-      y: y - gamePositionParent.y,
-    };
   }
 
   tick() {

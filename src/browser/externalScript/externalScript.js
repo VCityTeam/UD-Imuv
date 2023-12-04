@@ -35,6 +35,7 @@ export { Visible } from './Visible';
 export { Whiteboard } from './Whiteboard';
 export { ZeppelinController } from './ZeppelinController';
 export { ZeppelinStart } from './ZeppelinStart';
+export { ControllerNativeCommandManager } from '@ud-viz/game_browser_template';
 
 // TODO : global css import todo each externalscript should import the css its needed
 // remove image link in css as well
