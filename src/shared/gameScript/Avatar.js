@@ -34,7 +34,6 @@ module.exports = class Avatar extends ScriptBase {
         this.object3D.setOutdated(true);
 
         this.cityAvatar = cityAvatar(this.object3D);
-        console.log('create city avatar');
         this.context.addObject3D(this.cityAvatar, this.object3D.uuid); // add it to this to know which one belong to who
       }
     );
