@@ -1,6 +1,6 @@
 const { ScriptBase, ExternalScriptComponent } = require('@ud-viz/game_shared');
 const { COMMAND, ID } = require('../constant');
-const { Vector2, Vector3, Quaternion } = require('three');
+const { Vector3, Quaternion } = require('three');
 
 module.exports = class CityMap extends ScriptBase {
   tick() {
