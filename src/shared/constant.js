@@ -5,6 +5,8 @@ module.exports = {
     ESCAPE_CITY_AVATAR: 'escape_city_avatar',
     PING: 'ping',
     EDIT_AVATAR: 'edit_avatar',
+    MOVE_UP: 'move_up',
+    MOVE_DOWN: 'move_down',
   },
   // imuv url event
   URL_PARAMETER: {
