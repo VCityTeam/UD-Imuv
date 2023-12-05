@@ -3,6 +3,8 @@ import { ControllerNativeCommandManager } from '@ud-viz/game_browser_template';
 
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
+
+import { Vector3 } from 'three';
 import { ID } from '../../shared/constant';
 
 export class ZeppelinController extends ScriptBase {
@@ -35,6 +37,9 @@ export class ZeppelinController extends ScriptBase {
     }
 
     this.zeppelinControllerMode = value;
+
+    const commandIdUp = 'cmd_up';
+    const commandIdDown = 'cmd_down';
 
     /** @type {CameraManager} */
     const cameraManager = this.context.findExternalScriptWithID(
