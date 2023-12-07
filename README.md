@@ -5,8 +5,8 @@ Online demo: https://www.imuvirtuel.fr/.
 
 IMUV is a game application built on the [UD-Viz](https://github.com/VCityTeam/UD-Viz) framework.
 
-## A client-server application
-`client` is a [front-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) application requiring `server`. Its [back-end](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application provides an HTTP server and a websocket communication layer (expecting Imuv client connections).
+## A web application
+Composed of a backend and a frontend. Its [backend](https://en.wikipedia.org/wiki/Front_end_and_back_end) node application provides an HTTP server and a websocket communication layer (expecting Imuv client connections), code can be found in `./bin/backend/` and in `./src/shared`. Frontend code can be found in `./src/browser` and also `./src/shared`. 
 
 ## REPOSITORIES GITHUB
 
@@ -43,7 +43,7 @@ For the install [imagemagick](https://imagemagick.org/index.php) and [graphicsma
 
 > ⚠️ TIP : allias `gm` doesn't work in powershell because it conflicts with the command Get-Member !!!!
 
-If at runtime the Imuv server displayed image errors then you should check the installation of those binary dependencies.
+If at runtime the Imuv backend displayed image errors then you should check the installation of those binary dependencies.
 
 ### Install Parse-Server and MongoDB (optionnal)
 
@@ -76,7 +76,7 @@ You can set the environment variables in a `.env` file:
 | PORT                  | Server port number                                                                                                                                                                        |
 | JSON_WEB_TOKEN_SECRET | Token for authentication features (sign in / sign up). cf  https://fr.wikipedia.org/wiki/JSON_Web_Token                                                                                   |
 
-## Launch Imuv applications
+## Start Imuv applications
 
 Imuv can be locally (on your desktop) started in the following way:
 
@@ -91,5 +91,5 @@ and then use your favorite (web) browser to open
 
 ## Developers 
 
-Go to [docs/Devel/Developers.md](./docs/Devel/Developers.md).
+Go to [docs/Devel/Developers.md](./docs/Devel/developers.md).
 

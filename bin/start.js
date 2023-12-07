@@ -1,6 +1,15 @@
+const build = require('./build');
 const spawn = require('child_process').spawn;
 
+const buildProduction = async () => {
+  await build('utils', 'production');
+  await build('game', 'production');
+  await build('editor', 'production');
+};
+
 const start = async () => {
+  await buildProduction();
+
   // run backend
   const child = spawn(
     'dotenv -e .env -- cross-env NODE_ENV=production node',
