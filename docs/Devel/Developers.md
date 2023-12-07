@@ -95,6 +95,17 @@ Then reinstall ud-viz npm packages
 npm run reset
 ```
 
+Finally you have to modify the `webpack.config.js`. Add in the first position of the array which tell webpack what directories should be searched when resolving modules the UD-Viz's 'node_modules' folder: 
+
+```js
+module.exports = {
+  //...
+  resolve: {
+    modules: ['../UD-Viz/node_modules', './node_modules'],
+  },
+};
+```
+
 Note that when you make a change in UD-Viz library watchers (nodemon) of Imuv will not notice it, you have to restart it yourself by typing "rs" in the watcher console.
 
 

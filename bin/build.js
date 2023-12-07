@@ -7,10 +7,4 @@ const build = async (name, mode) => {
   console.log(name, 'builded');
 };
 
-const buildProduction = async () => {
-  await build('utils', 'production');
-  await build('game', 'production');
-  await build('editor', 'production');
-};
-
-buildProduction();
+module.exports = build;
