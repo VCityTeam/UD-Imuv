@@ -4,8 +4,9 @@ import { ControllerNativeCommandManager } from '@ud-viz/game_browser_template';
 import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
 
-import { Vector3 } from 'three';
 import { ID } from '../../shared/constant';
+import { Command } from '@ud-viz/game_shared';
+import { COMMAND } from '@ud-viz/game_shared_template/src/constant';
 
 export class ZeppelinController extends ScriptBase {
   constructor(context, object3D, variables) {
@@ -38,8 +39,10 @@ export class ZeppelinController extends ScriptBase {
 
     this.zeppelinControllerMode = value;
 
-    const commandIdUp = 'cmd_up';
-    const commandIdDown = 'cmd_down';
+    const commandUpID = 'move_up_zeppelin';
+    const commandUpKeys = ['Shift'];
+    const commandDownId = 'move_down_zeppelin';
+    const commandDownKeys = ['Control'];
 
     /** @type {CameraManager} */
     const cameraManager = this.context.findExternalScriptWithID(
@@ -63,11 +66,37 @@ export class ZeppelinController extends ScriptBase {
         ControllerNativeCommandManager.MODE[1].TYPE,
         { withMap: false }
       );
+      this.context.inputManager.addKeyCommand(
+        commandUpID,
+        commandUpKeys,
+        () => {
+          return new Command({
+            type: COMMAND.MOVE_UP,
+            data: { object3DUUID: zeppelinGO.uuid, withMap: null },
+          });
+        }
+      );
+
+      this.context.inputManager.addKeyCommand(
+        commandDownId,
+        commandDownKeys,
+        () => {
+          return new Command({
+            type: COMMAND.MOVE_DOWN,
+            data: { object3DUUID: zeppelinGO.uuid, withMap: null },
+          });
+        }
+      );
 
       this.context.inputManager.setPointerLock(false);
     } else {
       cameraManager.stopFollowObject3D();
       controllerManager.removeControls();
+      this.context.inputManager.removeKeyCommand(commandUpID, commandUpKeys);
+      this.context.inputManager.removeKeyCommand(
+        commandDownId,
+        commandDownKeys
+      );
     }
 
     return true;
