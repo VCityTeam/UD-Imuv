@@ -69,7 +69,7 @@ export class CityAvatar extends ScriptBase {
 
       controllerManager.controls(
         this.object3D.uuid,
-        ControllerNativeCommandManager.MODE[2].TYPE,
+        ControllerNativeCommandManager.MODE[2],
         { withMap: false }
       );
     } else {

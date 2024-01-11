@@ -22,6 +22,7 @@ export class ZeppelinController extends ScriptBase {
 
   setZeppelinControllerMode(value) {
     let zeppelinGO = null;
+
     this.context.object3D.traverse((child) => {
       if (child.userData.isZeppelin) {
         zeppelinGO = child;
@@ -38,11 +39,6 @@ export class ZeppelinController extends ScriptBase {
     }
 
     this.zeppelinControllerMode = value;
-
-    const commandUpID = 'move_up_zeppelin';
-    const commandUpKeys = ['Shift'];
-    const commandDownId = 'move_down_zeppelin';
-    const commandDownKeys = ['Control'];
 
     /** @type {CameraManager} */
     const cameraManager = this.context.findExternalScriptWithID(
@@ -63,40 +59,14 @@ export class ZeppelinController extends ScriptBase {
 
       controllerManager.controls(
         zeppelinGO.uuid,
-        ControllerNativeCommandManager.MODE[1].TYPE,
+        ControllerNativeCommandManager.MODE[3],
         { withMap: false }
-      );
-      this.context.inputManager.addKeyCommand(
-        commandUpID,
-        commandUpKeys,
-        () => {
-          return new Command({
-            type: COMMAND.MOVE_UP,
-            data: { object3DUUID: zeppelinGO.uuid, withMap: null },
-          });
-        }
-      );
-
-      this.context.inputManager.addKeyCommand(
-        commandDownId,
-        commandDownKeys,
-        () => {
-          return new Command({
-            type: COMMAND.MOVE_DOWN,
-            data: { object3DUUID: zeppelinGO.uuid, withMap: null },
-          });
-        }
       );
 
       this.context.inputManager.setPointerLock(false);
     } else {
       cameraManager.stopFollowObject3D();
       controllerManager.removeControls();
-      this.context.inputManager.removeKeyCommand(commandUpID, commandUpKeys);
-      this.context.inputManager.removeKeyCommand(
-        commandDownId,
-        commandDownKeys
-      );
     }
 
     return true;

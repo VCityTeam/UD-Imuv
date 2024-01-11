@@ -1,5 +1,6 @@
 const { NativeCommandManager } = require('@ud-viz/game_shared_template');
 const { ID } = require('../constant');
+const { objectOverWrite } = require('@ud-viz/utils_shared');
 
 module.exports = class ImuvCommandManager extends NativeCommandManager {
   computeObjectSpeedTranslate(object) {
@@ -26,16 +27,19 @@ module.exports = class ImuvCommandManager extends NativeCommandManager {
   }
 
   static get DEFAULT_VARIABLES() {
-    return {
-      avatarSpeedTranslate: 0.008,
-      avatarSpeedRotate: 0.00001,
-      cityAvatarSpeedTranslate: 0.08,
-      cityAvatarSpeedRotate: 0.00001,
-      zeppelinSpeedTranslate: 0.1,
-      zeppelinSpeedRotate: 0.001,
-      angleMin: -Math.PI / 5,
-      angleMax: Math.PI / 5,
-    };
+    return objectOverWrite(
+      JSON.parse(JSON.stringify(super.DEFAULT_VARIABLES)),
+      {
+        avatarSpeedTranslate: 0.008,
+        avatarSpeedRotate: 0.00001,
+        cityAvatarSpeedTranslate: 0.08,
+        cityAvatarSpeedRotate: 0.00001,
+        zeppelinSpeedTranslate: 0.1,
+        zeppelinSpeedRotate: 0.001,
+        angleMin: -Math.PI / 5,
+        angleMax: Math.PI / 5,
+      }
+    );
   }
 
   static get ID_SCRIPT() {

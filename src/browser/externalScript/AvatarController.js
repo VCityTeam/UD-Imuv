@@ -68,7 +68,7 @@ export class AvatarController extends ScriptBase {
 
       controllerManager.controls(
         this.context.userData.avatar.uuid,
-        ControllerNativeCommandManager.MODE[2].TYPE,
+        ControllerNativeCommandManager.MODE[2],
         { withMap: true }
       );
     } else {
