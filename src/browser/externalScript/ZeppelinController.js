@@ -5,8 +5,6 @@ import { CameraManager } from './CameraManager';
 import { ItownsRefine } from './ItownsRefine';
 
 import { ID } from '../../shared/constant';
-import { Command } from '@ud-viz/game_shared';
-import { COMMAND } from '@ud-viz/game_shared_template/src/constant';
 
 export class ZeppelinController extends ScriptBase {
   constructor(context, object3D, variables) {
