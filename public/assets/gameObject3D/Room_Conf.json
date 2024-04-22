@@ -2,7 +2,7 @@
   "metadata": {
     "type": "Object3D",
     "method": "toJSON",
-    "version": "4.0.1",
+    "version": "4.1.0",
     "packageName": "@ud-viz/game_shared"
   },
   "object": {
@@ -14,6 +14,7 @@
         "name": "UI_GO",
         "static": false,
         "outdated": false,
+        "visible": true,
         "gameContextUpdate": true,
         "parentUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
         "userData": {},
@@ -38,16 +39,17 @@
           {
             "children": [],
             "matrix": [
-              0.013438462011777943, -9.902328693352517, 0.0037084594844725917,
-              0, -0.0023234916690926294, 0.004374905813851558,
-              5.501294770635098, 0, -0.10002355672032867,
-              -0.00009363378606174073, -8.617031914981882e-8, 0, 10.5, 0.4, 3.7,
-              1
+              0.0010201178073563938, -9.909203072937052, 0.007890965591032842,
+              0, 3.0538332978361312e-15, 0.0005667318917104673,
+              5.505112392920472, 0, -0.10009297132391053,
+              -0.00007970670662194454, -0.0000693390411540343, 0, 10.4,
+              0.366451473534107, 3.7, 1
             ],
             "uuid": "2D4636F4-6D2E-4354-9B8D-6B4D497FC4BC",
             "name": "Jitsi_Screen",
             "static": true,
             "outdated": false,
+            "visible": true,
             "gameContextUpdate": true,
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
             "userData": {},
@@ -71,6 +73,7 @@
             "name": "CityMockUp",
             "static": true,
             "outdated": false,
+            "visible": true,
             "gameContextUpdate": true,
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
             "userData": {},
@@ -93,14 +96,15 @@
           {
             "children": [],
             "matrix": [
-              0.5996082521429382, -0.0216781909321502, 0, 0, 0.0216781909321502,
-              0.5996082521429382, 0, 0, 0, 0, 1, 0, 10.144322818318292,
-              -5.833714681897462, -2.961944912403169, 1
+              0.5996082521429382, -0.021678190932150204, 0, 0,
+              0.021678190932150204, 0.5996082521429382, 0, 0, 0, 0, 1, 0,
+              10.144322818318292, -5.833714681897462, -2.961944912403169, 1
             ],
             "uuid": "0B5A7494-B6A5-4E27-98EA-79BF2601AB0B",
             "name": "Portal_Patio_balcon",
             "static": true,
             "outdated": false,
+            "visible": true,
             "gameContextUpdate": true,
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
             "userData": { "isPortal": true },
@@ -162,14 +166,15 @@
           {
             "children": [],
             "matrix": [
-              0.5996082521429382, -0.0216781909321502, 0, 0, 0.0216781909321502,
-              0.5996082521429382, 0, 0, 0, 0, 1, 0, 4.995601602293629,
-              7.334343828586859, -2.8981110548207134, 1
+              0.5996082521429382, -0.021678190932150204, 0, 0,
+              0.021678190932150204, 0.5996082521429382, 0, 0, 0, 0, 1, 0,
+              4.995601602293629, 7.334343828586859, -2.8981110548207134, 1
             ],
             "uuid": "79F3FDBB-E348-47D8-BBD8-7A1E817A3887",
             "name": "Portal_Campus_Outside",
             "static": true,
             "outdated": false,
+            "visible": true,
             "gameContextUpdate": true,
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
             "userData": { "isPortal": true },
@@ -235,14 +240,15 @@
           {
             "children": [],
             "matrix": [
-              0.5996082521429382, -0.0216781909321502, 0, 0, 0.0216781909321502,
-              0.5996082521429382, 0, 0, 0, 0, 1, 0, -12.153046078763943,
-              -7.3250380028283955, 0.023115764832311925, 1
+              0.5996082521429382, -0.021678190932150204, 0, 0,
+              0.021678190932150204, 0.5996082521429382, 0, 0, 0, 0, 1, 0,
+              -12.153046078763943, -7.3250380028283955, 0.023115764832311925, 1
             ],
             "uuid": "3C06A4D9-6F20-44BB-9FA7-59CDB2DAC22F",
             "name": "Portal_Patio_Campus",
             "static": true,
             "outdated": false,
+            "visible": true,
             "gameContextUpdate": true,
             "parentUUID": "CCC809A1-C645-44CF-9B57-C4E0E9EA685A",
             "userData": { "isPortal": true },
@@ -307,6 +313,7 @@
         "name": "Room_Conf_Modulable",
         "static": true,
         "outdated": false,
+        "visible": true,
         "gameContextUpdate": true,
         "parentUUID": "7027C0BF-BC84-48B6-BCFD-FA97DAE8874C",
         "userData": { "isMap": true },
@@ -492,8 +499,9 @@
     "name": "Room Conf",
     "static": true,
     "outdated": false,
+    "visible": true,
     "gameContextUpdate": true,
-    "parentUUID": "25057cce-a04d-4653-a874-74e9ad03fb6d",
+    "parentUUID": "227d1974-5ed2-47f4-bba1-9dcfdb9cb88b",
     "userData": {},
     "components": {
       "ExternalScript": {

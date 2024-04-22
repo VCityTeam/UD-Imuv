@@ -198,11 +198,61 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
 
 app.use('/save_settings', computeUserMiddleware, (req, res) => {
   if (req.user) {
-    const query = new Parse.Query(Parse.User);
-    query.get(req.user.id).then((parseUser) => {
-      parseUser.set(PARSE.KEY.SETTINGS, JSON.stringify(req.body));
-      parseUser.save(null, { useMasterKey: true });
-    });
+    const queryUser = new Parse.Query(Parse.User);
+    queryUser
+      .get(req.user.id)
+      .then(async (userResult) => {
+        const settingsID = userResult.get(PARSE.KEY.SETTINGS.ID);
+        console.log(settingsID);
+
+        const Settings = Parse.Object.extend(PARSE.CLASS.SETTINGS);
+        const querySettings = new Parse.Query(Settings);
+        let newSettings = new Settings();
+        if (settingsID) {
+          newSettings = await querySettings.get(settingsID);
+        }
+
+        newSettings.set(
+          PARSE.KEY.SETTINGS.FOG,
+          req.body[PARSE.KEY.SETTINGS.FOG]
+        );
+        newSettings.set(
+          PARSE.KEY.SETTINGS.MOUSE_SENSITIVITY,
+          req.body[PARSE.KEY.SETTINGS.MOUSE_SENSITIVITY]
+        );
+        newSettings.set(
+          PARSE.KEY.SETTINGS.SHADOW_CHECK,
+          req.body[PARSE.KEY.SETTINGS.SHADOW_CHECK]
+        );
+        newSettings.set(
+          PARSE.KEY.SETTINGS.SHADOW_MAP_SIZE,
+          req.body[PARSE.KEY.SETTINGS.SHADOW_MAP_SIZE]
+        );
+        newSettings.set(
+          PARSE.KEY.SETTINGS.SUN_CHECK,
+          req.body[PARSE.KEY.SETTINGS.SUN_CHECK]
+        );
+        newSettings.set(
+          PARSE.KEY.SETTINGS.VOLUME,
+          req.body[PARSE.KEY.SETTINGS.VOLUME]
+        );
+        newSettings.set(
+          PARSE.KEY.SETTINGS.ZOOM_FACTOR,
+          req.body[PARSE.KEY.SETTINGS.ZOOM_FACTOR]
+        );
+
+        newSettings.save().then(() => {
+          console.log('Save settings');
+          console.log('User ID:', userResult.id);
+          console.log('New Settings ID:', newSettings.id);
+          userResult.set(PARSE.KEY.SETTINGS.ID, newSettings.id);
+          userResult.save(null, { useMasterKey: true });
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
+        res.send(500);
+      });
   } else {
     res.sendStatus(401);
   }
@@ -250,7 +300,7 @@ app.use('/sign_up', async (req, res) => {
   }
 });
 
-app.use('/verify_token', computeUserMiddleware, (req, res) => {
+app.use('/verify_token', computeUserMiddleware, async (req, res) => {
   res.send(req.user);
 });
 

@@ -44,9 +44,10 @@ export const request = async (url = '', data = {}, responseType = 'json') => {
 const TOKEN_KEY = 'token';
 
 export const writeTokenInCookie = (token) => {
-  const cookie = document.cookie === '' ? {} : JSON.parse(document.cookie);
+  const cookie = {};
   cookie[TOKEN_KEY] = token;
-  document.cookie = JSON.stringify(cookie);
+  document.cookie =
+    'imuv=' + JSON.stringify(cookie) + '; path=/; samesite=strict';
 };
 
 export * from './InfoUI';

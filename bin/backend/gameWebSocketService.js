@@ -10,6 +10,7 @@ const {
   checkIfSubStringIsEuler,
 } = require('@ud-viz/utils_shared');
 const { connect } = require('./parse');
+const cookie = require('cookie');
 
 const readGameObjects3DAsJSON = (gameObjectsFolderPath) => {
   const indexWorldsJSON = JSON.parse(
@@ -44,9 +45,11 @@ const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
         return new Promise((resolve, reject) => {
           const threadParent = gameSocketService.threads[entryGameObject3DUUID];
 
-          const token = socketWrapper.socket.handshake.headers.cookie
-            ? JSON.parse(socketWrapper.socket.handshake.headers.cookie).token
-            : null;
+          const imuvCookie = cookie.parse(
+            socketWrapper.socket.handshake.headers.cookie || ''
+          ).imuv;
+
+          const token = imuvCookie ? JSON.parse(imuvCookie).token : null;
 
           const addUserAvatar = (
             user,
@@ -65,7 +68,7 @@ const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
 
             const avatarJSON = avatarObject3D.toJSON();
 
-            // register in socketWrapper.userData that will be sent to external context of this scoket client
+            // register in socketWrapper.userData that will be sent to external context of this socket client
             socketWrapper.userData.avatar = avatarJSON;
             socketWrapper.userData.gameObject3DUUID = entryGameObject3DUUID;
             socketWrapper.userData.settings = settings || {};
@@ -103,43 +106,36 @@ const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
                   socketWrapper.socket.disconnect(true);
                   reject();
                 } else {
-                  // retrieve user in db
-                  const query = new Parse.Query(Parse.User);
-                  query
+                  const queryUser = new Parse.Query(Parse.User);
+                  queryUser
                     .get(user.id)
-                    .then(async (parseUser) => {
-                      if (!parseUser)
-                        throw new Error('no parse user for this token'); // not a user registered
+                    .then(async (userResult) => {
+                      const settings = {};
+                      const settingsID = userResult.get(PARSE.KEY.SETTINGS.ID);
 
-                      // retrieve settings
-                      const settingsString = await parseUser.get(
-                        PARSE.KEY.SETTINGS
-                      );
+                      if (settingsID) {
+                        const Settings = Parse.Object.extend(
+                          PARSE.CLASS.SETTINGS
+                        );
+                        const querySettings = new Parse.Query(Settings);
 
-                      // retrieve color
-                      const avatarColorString = await parseUser.get(
-                        PARSE.KEY.AVATAR_COLOR
-                      );
+                        await querySettings
+                          .get(settingsID)
+                          .then((settingResult) => {
+                            for (const key in PARSE.KEY.SETTINGS) {
+                              settings[PARSE.KEY.SETTINGS[key]] =
+                                settingResult.get(PARSE.KEY.SETTINGS[key]);
+                            }
+                          })
+                          .catch(() => {
+                            console.error('no setting matches ID');
+                            userResult.set(PARSE.KEY.SETTINGS.ID, null);
+                            userResult.save(null, { useMasterKey: true });
+                            resolve();
+                          });
+                      }
 
-                      // texture face
-                      const avatarTextureFacePath = await parseUser.get(
-                        PARSE.KEY.AVATAR_TEXTURE_FACE_PATH
-                      );
-
-                      // id render data
-                      const avatarIdRenderData = await parseUser.get(
-                        PARSE.KEY.AVATAR_ID_RENDER_DATA
-                      );
-
-                      addUserAvatar(
-                        user,
-                        settingsString ? JSON.parse(settingsString) : {},
-                        avatarColorString
-                          ? JSON.parse(avatarColorString)
-                          : null,
-                        avatarTextureFacePath,
-                        avatarIdRenderData
-                      );
+                      addUserAvatar(user, settings);
                     })
                     .catch((error) => {
                       console.log(error);

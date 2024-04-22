@@ -13,6 +13,7 @@ import * as proj4 from 'proj4';
 import * as itowns from 'itowns';
 import { URL_PARAMETER } from '../../shared/constant';
 import * as externalScript from '../externalScript/externalScript';
+import { writeTokenInCookie } from '../utils';
 
 const run = async () => {
   const config = await loadJSON('./assets/config/config.json');
@@ -100,6 +101,16 @@ const run = async () => {
   }
 
   game.start(readyForGameSocketServiceParams);
+
+  game.socketIOWrapper.socket.on('disconnect', (reason) => {
+    if (reason == 'io server disconnect') {
+      writeTokenInCookie(''); // delete cookie
+      window.location.href = window.origin; // redirect to home
+    }
+    if (!alert('Disconnected refresh page!')) {
+      window.location.reload();
+    }
+  });
 
   if (DEBUG) {
     window.addEventListener('keydown', (event) => {

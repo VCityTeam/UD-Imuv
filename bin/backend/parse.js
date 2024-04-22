@@ -2,16 +2,19 @@ const Parse = require('parse/node');
 const jwt = require('jsonwebtoken');
 const { PARSE } = require('./constant');
 const PARSE_VALUE = require('../../src/shared/constant').PARSE.VALUE;
+const cookie = require('cookie');
 
 // TODO: check if Parse record if it's initialized or not
 let initialized = false;
-
+Parse.User.enableUnsafeCurrentUser();
 /**
  *
  * @returns {Parse} - Parse API
  */
 const connect = () => {
-  if (initialized) return Parse;
+  if (initialized) {
+    return Parse;
+  }
   initialized = true;
 
   if (!process.env.PARSE_SERVER_URL)
@@ -39,14 +42,14 @@ const connect = () => {
  * @returns {string} - token
  */
 const readTokenFromRequest = (req) => {
-  const cookie = req.headers.cookie;
-  if (!cookie || cookie == '') return null;
+  const imuvCookie = cookie.parse(req.headers.cookie || '').imuv;
+  if (!imuvCookie || imuvCookie == '') return null;
 
   let result = null;
   try {
-    result = JSON.parse(cookie).token;
+    result = JSON.parse(imuvCookie).token;
   } catch (error) {
-    console.log('cookie = ', cookie);
+    console.log('cookie = ', imuvCookie);
     console.info('Error reading cookie ', error);
   }
 
@@ -92,6 +95,7 @@ const isAdminMiddleware = (req, res, next) => {
 
 const createUser = async (name, password, role) => {
   const Parse = connect();
+
   const user = new Parse.User();
   user.set(PARSE.KEY.NAME, name);
 
