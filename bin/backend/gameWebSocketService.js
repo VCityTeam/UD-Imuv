@@ -220,7 +220,9 @@ const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
       let socketWrapper = null;
       for (let index = 0; index < threadParent.socketWrappers.length; index++) {
         const sw = threadParent.socketWrappers[index];
-        if (sw.userData.avatar && sw.userData.avatar.uuid == data.avatarUUID) {
+        if (!sw.userData.avatar) {
+          sw.socket.disconnect();
+        } else if (sw.userData.avatar.uuid == data.avatarUUID) {
           socketWrapper = sw;
           break;
         }
