@@ -134,8 +134,10 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
       const userSocketWrappers = gameSocketService.threads[
         uuid
       ].socketWrappers.filter((sW) => {
-        if (!sW.userData.avatar) return false;
-        if (!sW.userData.avatar.uuid) return false;
+        if (!sW.userData.avatar) {
+          sW.socket.disconnect();
+          return false;
+        }
         return sW.userData.avatar.uuid == newAvatarJSON.uuid;
       });
       if (userSocketWrappers.length) {
