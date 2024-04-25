@@ -12,7 +12,7 @@ const start = async () => {
 
   // run backend
   const child = spawn(
-    'dotenv -e .env -- cross-env NODE_ENV=production node',
+    'npx dotenv -e .env -- cross-env NODE_ENV=production node',
     ['./bin/backend/index.js'],
     {
       shell: true,
