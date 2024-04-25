@@ -84,12 +84,11 @@
     "dotenv": "16.0.1",
     "express": "4.18.2",
     "itowns": "2.41.1-next.9",
-    "jitsi-iframe-api": "1.0.0",
     "jquery": "3.7.1",
     "jsonwebtoken": "9.0.2",
     "parse": "4.3.1",
     "proj4": "2.8.0",
-    "showdown": "^2.1.0",
+    "showdown": "2.1.0",
     "string-replace-middleware": "1.0.2",
     "three": "0.154.0"
   }

@@ -5,7 +5,6 @@ import {
   RenderComponent,
   ColliderComponent,
 } from '@ud-viz/game_shared';
-import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { UI } from './UI';
 import { ID } from '../../shared/constant';
 

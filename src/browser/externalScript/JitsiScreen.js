@@ -3,7 +3,6 @@ import { ExternalScriptComponent } from '@ud-viz/game_shared';
 import * as THREE from 'three';
 import { DomElement3D } from '@ud-viz/frame3d';
 
-import * as JitsiMeetExternalAPI from 'jitsi-iframe-api';
 import { ID } from '../../shared/constant';
 
 export class JitsiScreen extends ScriptBase {

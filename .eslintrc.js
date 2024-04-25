@@ -9,6 +9,7 @@ module.exports = {
     WBO_PUBLIC_URL: true,
     JITSI_PUBLIC_URL: true,
     Howler: true,
+    JitsiMeetExternalAPI: true,
   },
   extends: ['eslint:recommended', 'prettier'],
   plugins: ['prettier', 'jsdoc'],
