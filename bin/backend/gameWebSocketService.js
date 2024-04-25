@@ -38,7 +38,6 @@ const readGameObjects3DAsJSON = (gameObjectsFolderPath) => {
  */
 const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
   const Parse = connect();
-
   const gameSocketService = new SocketService(httpServer, {
     socketReadyForGamePromises: [
       (socketWrapper, entryGameObject3DUUID, readyForGameParams) => {
@@ -119,23 +118,63 @@ const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
                         );
                         const querySettings = new Parse.Query(Settings);
 
+                        const snakeToCamel = (snakeCase) => {
+                          return snakeCase.replace(/_([a-z])/g, (_, letter) =>
+                            letter.toUpperCase()
+                          );
+                        };
                         await querySettings
                           .get(settingsID)
                           .then((settingResult) => {
                             for (const key in PARSE.KEY.SETTINGS) {
-                              settings[PARSE.KEY.SETTINGS[key]] =
+                              settings[snakeToCamel(PARSE.KEY.SETTINGS[key])] =
                                 settingResult.get(PARSE.KEY.SETTINGS[key]);
                             }
                           })
                           .catch(() => {
                             console.error('no setting matches ID');
                             userResult.set(PARSE.KEY.SETTINGS.ID, null);
-                            userResult.save(null, { useMasterKey: true });
+                            userResult.save();
                             resolve();
                           });
                       }
 
-                      addUserAvatar(user, settings);
+                      let avatarColor = null;
+                      let avatarTextureFacePath = null;
+                      let avatarIdRenderData = null;
+                      const avatarID = userResult.get(PARSE.KEY.AVATAR.ID);
+                      if (avatarID) {
+                        const Avatar = Parse.Object.extend(PARSE.CLASS.AVATAR);
+                        const queryAvatar = new Parse.Query(Avatar);
+
+                        await queryAvatar
+                          .get(avatarID)
+                          .then((avatarResult) => {
+                            avatarColor = avatarResult.get(
+                              PARSE.KEY.AVATAR.COLOR
+                            );
+                            avatarTextureFacePath = avatarResult.get(
+                              PARSE.KEY.AVATAR.TEXTURE_FACE_PATH
+                            );
+                            avatarIdRenderData = avatarResult.get(
+                              PARSE.KEY.AVATAR.ID_RENDER_DATA
+                            );
+                          })
+                          .catch(() => {
+                            console.error('no avatar matches ID');
+                            userResult.set(PARSE.KEY.AVATAR.ID, null);
+                            userResult.save();
+                            resolve();
+                          });
+                      }
+
+                      addUserAvatar(
+                        user,
+                        settings,
+                        avatarColor,
+                        avatarTextureFacePath,
+                        avatarIdRenderData
+                      );
                     })
                     .catch((error) => {
                       console.log(error);
@@ -157,7 +196,7 @@ const createGameWebsocketService = (httpServer, gameObjectsFolderPath) => {
     ],
     socketDisconnectionCallbacks: [
       (socketWrapper, threadParent) => {
-        console.log(socketWrapper.userData);
+        console.log('socket disconnection', socketWrapper.userData);
 
         // remove avatar
         threadParent.post(

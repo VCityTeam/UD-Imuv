@@ -82,17 +82,18 @@ const bufferToImagePath = (buffer, path) => {
 };
 
 const deleteUnusedAvatarImages = async () => {
-  const Parse = connect();
+  const Avatar = Parse.Object.extend(PARSE.CLASS.AVATAR);
+  const queryAvatar = new Parse.Query(Avatar);
 
-  const query = new Parse.Query(Parse.User);
   try {
-    let results = await query.distinct(PARSE.KEY.AVATAR_TEXTURE_FACE_PATH);
+    let results = await queryAvatar.distinct(
+      PARSE.KEY.AVATAR.TEXTURE_FACE_PATH
+    );
     arrayPushOnce(results, absolutePath(PATH_AVATAR_IMAGES + 'default.jpeg')); // do not remove the default image
     results = results.map((el) => computeFilenameFromPath(el));
-
     console.log(results);
-
     const folderPath = absolutePath(PATH_AVATAR_IMAGES);
+
     fs.readdir(folderPath, (err, files) => {
       files.forEach((filename) => {
         if (!results.includes(filename)) {
@@ -133,8 +134,8 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
       const userSocketWrappers = gameSocketService.threads[
         uuid
       ].socketWrappers.filter((sW) => {
-        if (!sW.userData.avatar) console.error(sW.userData);
-        if (!sW.userData.avatar.uuid) console.error(sW.userData);
+        if (!sW.userData.avatar) return false;
+        if (!sW.userData.avatar.uuid) return false;
         return sW.userData.avatar.uuid == newAvatarJSON.uuid;
       });
       if (userSocketWrappers.length) {
@@ -158,33 +159,48 @@ app.use('/save_avatar', computeUserMiddleware, (req, res) => {
     // write in user database
     // retrieve user in db
     const query = new Parse.Query(Parse.User);
+
     query
       .get(req.user.id)
-      .then(async (parseUser) => {
-        if (!parseUser) throw new Error('no parse user for this token'); // not a user registered
-        parseUser.set(
-          PARSE.KEY.AVATAR_COLOR,
-          JSON.stringify(newAvatarJSON.components.Render.color)
+      .then(async (userResult) => {
+        if (!userResult) throw new Error('no parse user for this token'); // not a user registered
+        const avatarID = userResult.get(PARSE.KEY.AVATAR.ID);
+        console.log('avatarID', avatarID);
+
+        const Avatar = Parse.Object.extend(PARSE.CLASS.AVATAR);
+        const queryAvatar = new Parse.Query(Avatar);
+        let newAvatar = new Avatar();
+        if (avatarID) {
+          newAvatar = await queryAvatar.get(avatarID);
+        }
+
+        newAvatar.set(
+          PARSE.KEY.AVATAR.COLOR,
+          newAvatarJSON.components.Render.color
         );
-        parseUser.set(
-          PARSE.KEY.AVATAR_ID_RENDER_DATA,
+
+        newAvatar.set(
+          PARSE.KEY.AVATAR.ID_RENDER_DATA,
           newAvatarJSON.components.Render.idRenderData
         );
-        console.log(
+
+        newAvatar.set(
+          PARSE.KEY.AVATAR.TEXTURE_FACE_PATH,
           newAvatarJSON.components.ExternalScript.variables.path_face_texture
         );
-        parseUser.set(
-          PARSE.KEY.AVATAR_TEXTURE_FACE_PATH,
-          newAvatarJSON.components.ExternalScript.variables.path_face_texture
-        );
-        await parseUser.save(null, { useMasterKey: true });
+        newAvatar.save(null, { useMasterKey: true }).then(async () => {
+          console.log('Save avatar');
+          console.log('User ID:', userResult.id);
+          console.log('New Avatar ID:', newAvatar.id);
+          userResult.set(PARSE.KEY.AVATAR.ID, newAvatar.id);
+          userResult.save();
+          // replace avatar json in socket wrapper
+          userSocketWrapper.userData.avatar = newAvatarJSON;
 
-        // replace avatar json in socket wrapper
-        userSocketWrapper.userData.avatar = newAvatarJSON;
-
-        thread.apply(THREAD.EVENT.EDIT_AVATAR, newAvatarJSON).then(() => {
-          res.send(newAvatarJSON); // indicate to client that avatar has been successfully edited
-          deleteUnusedAvatarImages(); // clean images not used anymore
+          thread.apply(THREAD.EVENT.EDIT_AVATAR, newAvatarJSON).then(() => {
+            res.send(newAvatarJSON); // indicate to client that avatar has been successfully edited
+            deleteUnusedAvatarImages(); // clean images not used anymore
+          });
         });
       })
       .catch((error) => {
@@ -212,41 +228,47 @@ app.use('/save_settings', computeUserMiddleware, (req, res) => {
           newSettings = await querySettings.get(settingsID);
         }
 
+        const snakeToCamel = (snakeCase) => {
+          return snakeCase.replace(/_([a-z])/g, (_, letter) =>
+            letter.toUpperCase()
+          );
+        };
+
         newSettings.set(
           PARSE.KEY.SETTINGS.FOG,
-          req.body[PARSE.KEY.SETTINGS.FOG]
+          req.body[snakeToCamel(PARSE.KEY.SETTINGS.FOG)]
         );
         newSettings.set(
           PARSE.KEY.SETTINGS.MOUSE_SENSITIVITY,
-          req.body[PARSE.KEY.SETTINGS.MOUSE_SENSITIVITY]
+          req.body[snakeToCamel(PARSE.KEY.SETTINGS.MOUSE_SENSITIVITY)]
         );
         newSettings.set(
           PARSE.KEY.SETTINGS.SHADOW_CHECK,
-          req.body[PARSE.KEY.SETTINGS.SHADOW_CHECK]
+          req.body[snakeToCamel(PARSE.KEY.SETTINGS.SHADOW_CHECK)]
         );
         newSettings.set(
           PARSE.KEY.SETTINGS.SHADOW_MAP_SIZE,
-          req.body[PARSE.KEY.SETTINGS.SHADOW_MAP_SIZE]
+          req.body[snakeToCamel(PARSE.KEY.SETTINGS.SHADOW_MAP_SIZE)]
         );
         newSettings.set(
           PARSE.KEY.SETTINGS.SUN_CHECK,
-          req.body[PARSE.KEY.SETTINGS.SUN_CHECK]
+          req.body[snakeToCamel(PARSE.KEY.SETTINGS.SUN_CHECK)]
         );
         newSettings.set(
           PARSE.KEY.SETTINGS.VOLUME,
-          req.body[PARSE.KEY.SETTINGS.VOLUME]
+          req.body[snakeToCamel(PARSE.KEY.SETTINGS.VOLUME)]
         );
         newSettings.set(
           PARSE.KEY.SETTINGS.ZOOM_FACTOR,
-          req.body[PARSE.KEY.SETTINGS.ZOOM_FACTOR]
+          req.body[snakeToCamel(PARSE.KEY.SETTINGS.ZOOM_FACTOR)]
         );
 
-        newSettings.save().then(() => {
+        newSettings.save(null, { useMasterKey: true }).then(() => {
           console.log('Save settings');
           console.log('User ID:', userResult.id);
           console.log('New Settings ID:', newSettings.id);
           userResult.set(PARSE.KEY.SETTINGS.ID, newSettings.id);
-          userResult.save(null, { useMasterKey: true });
+          userResult.save();
         });
       })
       .catch((error) => {
