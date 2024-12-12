@@ -11,7 +11,7 @@ export const elevationConfig = {
 };
 
 export const baseMapConfig = {
-  url: 'https://wxs.ign.fr/choisirgeoportail/geoportail/r/wms',
+  url: 'https://data.geopf.fr/wms-r',
   name: 'GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2',
   version: '1.3.0',
   format: 'image/jpeg',
